@@ -1,0 +1,48 @@
+[
+  {
+    "id": "standard",
+    "name": "Tiếng gọi Prisma",
+    "description": "Những đồng đội mới đang chờ trên hành trình phía bắc.",
+    "gearWeight": 95,
+    "characterWeight": 5,
+    "pity": { "characterAt": 50 },
+    "characterPool": [
+      "dain",
+      "rowan",
+      "freya",
+      "arden",
+      "rhett",
+      "galliard",
+      "armie",
+      "fran",
+      "aurora",
+      "benard",
+      "lanceveil",
+      "gahallad",
+      "gawain",
+      "lucien",
+      "seraphine",
+      "lyon",
+      "cedric",
+      "lisbeth"
+    ],
+    "gearRates": [
+      {
+        "typeId": "t1",
+        "weight": 30
+      },
+      {
+        "typeId": "t2",
+        "weight": 50
+      },
+      {
+        "typeId": "t3_focused",
+        "weight": 12
+      },
+      {
+        "typeId": "t3_dual",
+        "weight": 3
+      }
+    ]
+  }
+]

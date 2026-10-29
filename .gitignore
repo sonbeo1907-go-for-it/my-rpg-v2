@@ -1,0 +1,22 @@
+node_modules/
+.next/
+out/
+test-results/
+playwright-report/
+*.tsbuildinfo
+.env*.local
+
+.env
+.env.*
+!.env.example
+
+# Tauri / native build output
+src-tauri/target/
+src-tauri/gen/schemas/
+.desktop-env.json
+savedata*.json
+test-results/
+playwright-report/
+coverage/
+*.tsbuildinfo
+*.log

@@ -1,0 +1,315 @@
+[
+  {
+    "id": "goblin_forest_ambush",
+    "name": "Quỷ lùn tập kích trong rừng",
+    "description": "Hai quỷ lùn nhỏ phục kích trên đường làng. Cả hai yếu mọi hệ. Thắng lần đầu để Kai gia nhập và nhận một bản trùng của Arthur cùng Garrek.",
+    "enemies": [
+      "small_goblin",
+      "small_goblin"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "character",
+        "characterId": "kai"
+      },
+      {
+        "type": "duplicate",
+        "characterId": "arthur"
+      },
+      {
+        "type": "duplicate",
+        "characterId": "garrek"
+      }
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "forest_patrol",
+    "name": "Tuần tra rừng biên giới",
+    "description": "Hai quỷ lùn và một ếch già. Thử thay đổi đội hình để so sánh vai trò.",
+    "enemies": [
+      "goblin",
+      "goblin",
+      "elder_frog"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "boar_field",
+    "name": "Lợn rừng phá ruộng",
+    "description": "Một lợn rừng và hai chuột rừng đang phá ruộng ngoài làng. Quái ít máu, chủ yếu đánh đơn mục tiêu. Phong hoặc Hỏa khắc chế lợn; Thổ hoặc Hỏa xử lí chuột.",
+    "enemies": [
+      "wild_boar",
+      "forest_rat",
+      "forest_rat"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "granary_rats",
+    "name": "Kho thóc náo loạn",
+    "description": "Ba chuột rừng lẻn vào kho thóc. Chúng ra đòn nhanh nhưng rất ít máu, yếu Hỏa và Thổ. Dọn từng con để giảm số lượt địch.",
+    "enemies": [
+      "forest_rat",
+      "forest_rat",
+      "forest_rat"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "beetle_orchard",
+    "name": "Bọ phá vườn rau",
+    "description": "Hai bọ cánh cứng đang gặm vườn rau. Vỏ có DEF cao nhưng RES rất thấp; chúng chỉ tạo 20 khiên. Phép thuật, Hỏa hoặc Lôi giúp phá vỏ nhanh.",
+    "enemies": [
+      "giant_beetle",
+      "giant_beetle"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "bat_roost",
+    "name": "Dơi quấy hang đá",
+    "description": "Ba dơi hang quấy nhiễu lối qua hang đá. Chúng cắn hai nhịp nhẹ, ít máu và yếu Quang hoặc Lôi. Arthur có thể khai thác điểm yếu ngay từ đội hình khởi đầu.",
+    "enemies": [
+      "cave_bat",
+      "cave_bat",
+      "cave_bat"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "riverbank_pests",
+    "name": "Bờ suối xôn xao",
+    "description": "Hai cua đồng và một nhầy rêu chặn lối xuống suối. Cua yếu Thổ hoặc Lôi; nhầy rêu yếu Hỏa và mọi đòn vật lí. Tận dụng phép đánh cua, đòn vật lí đánh nhầy.",
+    "enemies": [
+      "pond_crab",
+      "pond_crab",
+      "moss_slime"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "marsh_trail",
+    "name": "Lối mòn đầm lầy",
+    "description": "Một rắn đầm lầy và một nhện rừng ẩn trong cỏ. Rắn có độc nhẹ tồn tại 2 lượt; ưu tiên nó nếu đội thiếu hồi phục. Nhện yếu Quang hoặc Hỏa.",
+    "enemies": [
+      "marsh_snake",
+      "forest_spider"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "mushroom_grove",
+    "name": "Bụi nấm bên đường",
+    "description": "Hai nấm độc và một chuột rừng chắn đường hái thuốc. Phấn nấm gây phép Thổ nhẹ diện rộng, không gắn độc kéo dài; Màn nước của Elaine hữu ích. Nấm yếu Hỏa hoặc Phong.",
+    "enemies": [
+      "wild_mushroom",
+      "wild_mushroom",
+      "forest_rat"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "flickering_woods",
+    "name": "Đốm lửa lạc trong rừng",
+    "description": "Hai đốm lửa và một nhầy rêu xuất hiện ở bìa rừng. Đốm lửa yếu Thủy, nhầy rêu yếu đòn vật lí. Elaine có thể vừa bảo vệ đội vừa khai thác điểm yếu bằng phép cơ bản.",
+    "enemies": [
+      "ember_wisp",
+      "ember_wisp",
+      "moss_slime"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "ogre_trial",
+    "name": "Thử thách tay sai vua chằn",
+    "description": "Địch có đòn diện rộng; đỡ đòn thay và né tránh không giải quyết mọi tình huống. Thắng lần đầu để Arthur kiểm soát Ogre’s Bane và mở Giải phóng một phần.",
+    "enemies": [
+      "ogre_underling",
+      "goblin"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "arthur.control_training"
+      }
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "goblin_cave",
+    "name": "Hang quỷ lùn",
+    "description": "Hai quỷ lùn thường canh cửa cùng một thầy mo biết dùng bùa chú. Quỷ lùn thường yếu mọi hệ; thầy mo yếu Quang.",
+    "enemies": [
+      "goblin",
+      "goblin",
+      "goblin_shaman"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal"
+  },
+  {
+    "id": "wyvern_trial_1",
+    "name": "Vô Sắc Long — Bá Chủ Hoang Nguyên",
+    "description": "Không mang sắc màu nguyên tố, con rồng hoang nguyên để lộ điểm yếu trước hệ Thường. Dùng đòn hệ Thường để gây thêm 50% sát thương.",
+    "enemies": [
+      "wyvern_plain"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_2",
+    "name": "Băng Long — Chúa Tể Vĩnh Đông",
+    "description": "Băng giá phủ kín lãnh địa của phi long. Dùng hệ Hỏa phá lớp băng: địch nhận thêm 50% sát thương Hỏa.",
+    "enemies": [
+      "wyvern_fire"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_3",
+    "name": "Hỏa Long — Nộ Diễm Phần Thiên",
+    "description": "Lửa dữ thiêu rụi lối vào hang rồng. Dùng hệ Thủy dập tắt cơn thịnh nộ: địch nhận thêm 50% sát thương Thủy.",
+    "enemies": [
+      "wyvern_water"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_4",
+    "name": "Lôi Long — Thiên Lôi Giáng Thế",
+    "description": "Sấm sét xé rách trời cao. Dùng hệ Thổ tiếp đất luồng điện: địch nhận thêm 50% sát thương Thổ.",
+    "enemies": [
+      "wyvern_earth"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_5",
+    "name": "Sa Long — Bạo Chúa Biển Cát",
+    "description": "Cát bụi cuồn cuộn che kín bóng rồng. Dùng hệ Phong cuốn tan màn cát: địch nhận thêm 50% sát thương Phong.",
+    "enemies": [
+      "wyvern_wind"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_6",
+    "name": "Thủy Long — Hung Thần Biển Sâu",
+    "description": "Hơi nước bao phủ vực sâu nơi phi long trú ngụ. Dùng hệ Lôi dẫn điện qua màn nước: địch nhận thêm 50% sát thương Lôi.",
+    "enemies": [
+      "wyvern_thunder"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_7",
+    "name": "Hắc Long — Bóng Đêm Tận Thế",
+    "description": "Bóng tối nuốt chửng đường vào hang rồng. Dùng hệ Quang xua tan màn đêm: địch nhận thêm 50% sát thương Quang.",
+    "enemies": [
+      "wyvern_light"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_8",
+    "name": "Thánh Long — Phán Quyết Thiên Giới",
+    "description": "Ánh sáng chói lòa trùm lên thánh địa. Dùng hệ Ám phá thế áp đảo: địch nhận thêm 50% sát thương Ám.",
+    "enemies": [
+      "wyvern_dark"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_9",
+    "name": "Thiết Giáp Long — Pháo Đài Thép",
+    "description": "Vảy thép che giấu điểm yếu trước bùa phép. Phi long yếu với mọi đòn phép, không phân biệt hệ: nhận thêm 50% sát thương ma pháp.",
+    "enemies": [
+      "wyvern_magical"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wyvern_trial_10",
+    "name": "Kết Giới Long — Cấm Vực Ma Pháp",
+    "description": "Kết giới gợi lời giải bằng gươm giáo. Phi long yếu với mọi đòn vật lí, không phân biệt hệ: nhận thêm 50% sát thương vật lí.",
+    "enemies": [
+      "wyvern_physical"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "wolf_pack",
+    "name": "Bầy sói rừng sâu",
+    "description": "Một sói đầu đàn và ba sói săn mồi. Cả bầy ra đòn nhanh, đều yếu Hỏa; đòn đánh nhiều mục tiêu giúp khống chế số lượng.",
+    "enemies": [
+      "wolf_leader",
+      "wolf",
+      "wolf",
+      "wolf"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "giant_pangolin_lair",
+    "name": "Hang tê tê khổng lồ",
+    "description": "Một tê tê khổng lồ có 75 phòng thủ vật lí, yếu Thổ. Điểm yếu tăng sát thương đúng hệ nhưng không bỏ qua lớp giáp; có thể dùng phép, xuyên giáp hoặc làm yếu phòng thủ.",
+    "enemies": [
+      "giant_pangolin"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss"
+  },
+  {
+    "id": "alice_superboss",
+    "name": "Siêu trùm — Alice, Hắc Thánh Kiếm",
+    "description": "Dark Holy Blade Alice: 2.400 HP, 90 kháng phép, yếu Quang (+50% sát thương). Kiếm chú diện rộng làm yếu ATK/MAG, giảm tốc độ và phá DEF/RES. Chuẩn bị giải bất lợi, hồi phục và đòn Quang vật lí; có thể giảm RES để dùng phép. Thử thách dành cho đội hình đã được trang bị.",
+    "enemies": [
+      "dark_holy_blade_alice"
+    ],
+    "bgm": "alice",
+    "rewardTier": "super", "requires": { "storyFlag": "illusion.sinister_unlocked" }
+  },
+  {
+    "id": "miraebolis_superboss",
+    "name": "Siêu trùm — Miraebolis, Hắc Long Thiêu Thành",
+    "description": "3.600 HP, yếu Thủy / Quang / Lôi, kháng Hỏa 30%. Ba giai đoạn tại 65% và 35% HP; mỗi lần chuyển hồi đầy MP cho đồng đội còn sống rồi tiếp tục chiến đấu theo thứ tự lượt bình thường. Đánh đúng điểm yếu tích Kìm hãm, tối đa 2, tồn tại 3 lượt boss (2 lượt ở giai đoạn 3). Giai đoạn 3 boss dùng hai hành động mỗi lượt; Kìm hãm hạ sức mạnh lửa từ 160% xuống 130% / 100%. Các mốc HP chặn sát thương vượt ngưỡng để bảo đảm chuyển giai đoạn.",
+    "enemies": [
+      "miraebolis"
+    ],
+    "bgm": "miraebolis",
+    "rewardTier": "super", "requires": { "storyFlag": "illusion.sinister_unlocked" }
+  },
+  {
+    "id": "giant_spider_lair",
+    "name": "Ổ nhện khổng lồ",
+    "description": "Boss thường: Nhện khổng lồ 1.100 HP, yếu Ám. Ưu tiên dựng 140 khiên bằng Kén tơ sắt. Khi khiên bị đánh vỡ, nhện bị choáng mất một lượt và nhận thêm 100% sát thương cho đến khi dựng lại khiên. Đòn phá khiên chưa hưởng Vỡ kén; các đòn sau tận dụng thời cơ. Dùng Gahallad hoặc sát thương Ám để phá kén nhanh.",
+    "enemies": [
+      "giant_spider"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss"
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Local game window. Save commands only accept numeric slot IDs, never arbitrary paths.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

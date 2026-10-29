@@ -1,0 +1,26 @@
+[
+  {
+    "id": "t1",
+    "name": "Trang b? c?p th?p",
+    "points": 1,
+    "statCount": 1
+  },
+  {
+    "id": "t2",
+    "name": "Trang b? c?p trung",
+    "points": 3,
+    "statCount": 1
+  },
+  {
+    "id": "t3_focused",
+    "name": "Trang b? c?p cao chuy?n bi?t",
+    "points": 5,
+    "statCount": 1
+  },
+  {
+    "id": "t3_dual",
+    "name": "Trang b? c?p cao ?a d?ng",
+    "points": 2,
+    "statCount": 2
+  }
+]

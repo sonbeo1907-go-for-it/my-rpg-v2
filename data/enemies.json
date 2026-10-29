@@ -1,0 +1,817 @@
+[
+  {
+    "id": "goblin",
+    "name": "Quỷ lùn do thám",
+    "element": "plain",
+    "stats": {
+      "maxHp": 120,
+      "maxMp": 40,
+      "attack": 24,
+      "magic": 8,
+      "defense": 12,
+      "resistance": 12,
+      "speed": 14
+    },
+    "weaknesses": [
+      "plain",
+      "fire",
+      "water",
+      "earth",
+      "wind",
+      "thunder",
+      "light",
+      "dark"
+    ],
+    "abilities": [
+      "enemy.slash"
+    ]
+  },
+  {
+    "id": "elder_frog",
+    "name": "Ếch già",
+    "element": "water",
+    "stats": {
+      "maxHp": 250,
+      "maxMp": 70,
+      "attack": 30,
+      "magic": 25,
+      "defense": 23,
+      "resistance": 20,
+      "speed": 12
+    },
+    "weaknesses": [
+      "fire"
+    ],
+    "abilities": [
+      "enemy.splash",
+      "enemy.double_hit"
+    ]
+  },
+  {
+    "id": "ogre_underling",
+    "name": "Tay sai vua chằn",
+    "element": "earth",
+    "stats": {
+      "maxHp": 600,
+      "maxMp": 100,
+      "attack": 43,
+      "magic": 20,
+      "defense": 27,
+      "resistance": 22,
+      "speed": 15
+    },
+    "weaknesses": [
+      "light",
+      "dark"
+    ],
+    "abilities": [
+      "enemy.smash",
+      "enemy.quake"
+    ]
+  },
+  {
+    "id": "goblin_shaman",
+    "name": "Thầy mo quỷ lùn",
+    "element": "dark",
+    "stats": {
+      "maxHp": 210,
+      "maxMp": 90,
+      "attack": 10,
+      "magic": 28,
+      "defense": 10,
+      "resistance": 20,
+      "speed": 13
+    },
+    "weaknesses": [
+      "light"
+    ],
+    "abilities": [
+      "enemy.shaman_ember",
+      "enemy.shaman_hex"
+    ]
+  },
+  {
+    "id": "wyvern_plain",
+    "name": "Phi long vảy mỏng",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "plain"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_fire",
+    "name": "Phi long sợ lửa",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "fire"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_water",
+    "name": "Phi long khô hạn",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "water"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_earth",
+    "name": "Phi long vảy nứt",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "earth"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_wind",
+    "name": "Phi long cánh rách",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "wind"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_thunder",
+    "name": "Phi long vảy ướt",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "thunder"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_light",
+    "name": "Phi long bóng đêm",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "light"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_dark",
+    "name": "Phi long ánh ngày",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [
+      "dark"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_magical",
+    "name": "Phi long vảy cứng",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [],
+    "damageTypeWeaknesses": [
+      "magical"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wyvern_physical",
+    "name": "Phi long vảy mềm",
+    "element": "wind",
+    "stats": {
+      "maxHp": 750,
+      "maxMp": 140,
+      "attack": 38,
+      "magic": 30,
+      "defense": 25,
+      "resistance": 25,
+      "speed": 17
+    },
+    "weaknesses": [],
+    "damageTypeWeaknesses": [
+      "physical"
+    ],
+    "abilities": [
+      "enemy.wyvern_bite",
+      "enemy.wyvern_wings",
+      "enemy.wyvern_breath"
+    ]
+  },
+  {
+    "id": "wolf_leader",
+    "name": "Sói đầu đàn",
+    "element": "wind",
+    "stats": {
+      "maxHp": 330,
+      "maxMp": 70,
+      "attack": 34,
+      "magic": 8,
+      "defense": 17,
+      "resistance": 14,
+      "speed": 21
+    },
+    "weaknesses": [
+      "fire"
+    ],
+    "abilities": [
+      "enemy.wolf_pounce",
+      "enemy.wolf_rend"
+    ]
+  },
+  {
+    "id": "wolf",
+    "name": "Sói săn mồi",
+    "element": "wind",
+    "stats": {
+      "maxHp": 105,
+      "maxMp": 30,
+      "attack": 22,
+      "magic": 5,
+      "defense": 10,
+      "resistance": 8,
+      "speed": 18
+    },
+    "weaknesses": [
+      "fire"
+    ],
+    "abilities": [
+      "enemy.wolf_bite"
+    ]
+  },
+  {
+    "id": "giant_pangolin",
+    "name": "Tê tê khổng lồ",
+    "element": "earth",
+    "stats": {
+      "maxHp": 800,
+      "maxMp": 100,
+      "attack": 40,
+      "magic": 8,
+      "defense": 75,
+      "resistance": 18,
+      "speed": 8
+    },
+    "weaknesses": [
+      "earth"
+    ],
+    "abilities": [
+      "enemy.pangolin_roll",
+      "enemy.pangolin_tail"
+    ]
+  },
+  {
+    "id": "small_goblin",
+    "name": "Quỷ lùn nhỏ",
+    "element": "plain",
+    "stats": {
+      "maxHp": 65,
+      "maxMp": 20,
+      "attack": 16,
+      "magic": 4,
+      "defense": 7,
+      "resistance": 7,
+      "speed": 12
+    },
+    "weaknesses": [
+      "plain",
+      "fire",
+      "water",
+      "earth",
+      "wind",
+      "thunder",
+      "light",
+      "dark"
+    ],
+    "abilities": [
+      "enemy.slash"
+    ]
+  },
+  {
+    "id": "dark_holy_blade_alice",
+    "name": "Dark Holy Blade Alice",
+    "title": "Alice · Hắc Thánh Kiếm",
+    "element": "dark",
+    "stats": {
+      "maxHp": 2400,
+      "maxMp": 800,
+      "attack": 46,
+      "magic": 42,
+      "defense": 32,
+      "resistance": 90,
+      "speed": 18
+    },
+    "weaknesses": [
+      "light"
+    ],
+    "abilities": [
+      "enemy.alice_curse",
+      "enemy.alice_grasp",
+      "enemy.alice_judgment",
+      "enemy.alice_blade"
+    ]
+  },
+  {
+    "id": "miraebolis",
+    "name": "Miraebolis · Hắc Long Thiêu Thành",
+    "role": "Siêu trùm ba giai đoạn",
+    "element": "fire",
+    "stats": {
+      "maxHp": 3600,
+      "maxMp": 600,
+      "attack": 48,
+      "magic": 42,
+      "defense": 32,
+      "resistance": 35,
+      "speed": 18
+    },
+    "weaknesses": [
+      "water",
+      "light",
+      "thunder"
+    ],
+    "resistances": {
+      "fire": 0.7
+    },
+    "abilities": [
+      "enemy.miraebolis_fang",
+      "enemy.miraebolis_tail",
+      "enemy.miraebolis_fireball",
+      "enemy.miraebolis_breath",
+      "enemy.miraebolis_sweep",
+      "enemy.miraebolis_crush",
+      "enemy.miraebolis_blast",
+      "enemy.miraebolis_whitefire",
+      "enemy.miraebolis_doom"
+    ],
+    "boss": {
+      "type": "three_phase_dragon",
+      "suppression": {
+        "statusId": "dragon_suppressed",
+        "maxStacks": 2,
+        "durations": [
+          3,
+          3,
+          2
+        ],
+        "fireMultipliers": [
+          1.6,
+          1.3,
+          1
+        ]
+      },
+      "phases": [
+        {
+          "name": "Bóng đen trên thành cổ",
+          "atHpRatio": 1,
+          "actionsPerTurn": 1,
+          "rotation": [
+            [
+              "enemy.miraebolis_fang"
+            ],
+            [
+              "enemy.miraebolis_fireball"
+            ],
+            [
+              "enemy.miraebolis_tail"
+            ],
+            [
+              "enemy.miraebolis_breath"
+            ]
+          ]
+        },
+        {
+          "name": "Thành trì cháy đỏ",
+          "atHpRatio": 0.65,
+          "actionsPerTurn": 1,
+          "rotation": [
+            [
+              "enemy.miraebolis_sweep"
+            ],
+            [
+              "enemy.miraebolis_fang"
+            ],
+            [
+              "enemy.miraebolis_crush"
+            ],
+            [
+              "enemy.miraebolis_blast"
+            ]
+          ]
+        },
+        {
+          "name": "Bạch hỏa diệt thành",
+          "atHpRatio": 0.35,
+          "actionsPerTurn": 2,
+          "rotation": [
+            [
+              "enemy.miraebolis_fang",
+              "enemy.miraebolis_fireball"
+            ],
+            [
+              "enemy.miraebolis_tail",
+              "enemy.miraebolis_whitefire"
+            ],
+            [
+              "enemy.miraebolis_crush",
+              "enemy.miraebolis_fireball"
+            ],
+            [
+              "enemy.miraebolis_doom",
+              "enemy.miraebolis_fang"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "giant_spider",
+    "name": "Nhện khổng lồ",
+    "role": "Thủ lĩnh dựng khiên",
+    "element": "earth",
+    "stats": {
+      "maxHp": 1100,
+      "maxMp": 100,
+      "attack": 32,
+      "magic": 22,
+      "defense": 26,
+      "resistance": 22,
+      "speed": 15
+    },
+    "weaknesses": [
+      "dark"
+    ],
+    "abilities": [
+      "enemy.spider_cocoon",
+      "enemy.spider_bite",
+      "enemy.spider_web"
+    ],
+    "passive": {
+      "type": "shield_break_status",
+      "name": "Kén vỡ lộ thân",
+      "statuses": [
+        {
+          "id": "stunned",
+          "duration": 1
+        },
+        {
+          "id": "shell_exposed"
+        }
+      ]
+    },
+    "ai": {
+      "priorities": [
+        {
+          "abilityId": "enemy.spider_cocoon",
+          "when": "unshielded"
+        }
+      ]
+    }
+  },
+  {
+    "id": "wild_boar",
+    "name": "Lợn rừng",
+    "role": "Thú rừng · Húc mạnh",
+    "element": "earth",
+    "stats": {
+      "maxHp": 135,
+      "maxMp": 24,
+      "attack": 23,
+      "magic": 4,
+      "defense": 14,
+      "resistance": 7,
+      "speed": 10
+    },
+    "weaknesses": [
+      "wind",
+      "fire"
+    ],
+    "abilities": [
+      "enemy.boar_charge"
+    ]
+  },
+  {
+    "id": "forest_rat",
+    "name": "Chuột rừng",
+    "role": "Thú nhỏ · Nhanh và yếu máu",
+    "element": "plain",
+    "stats": {
+      "maxHp": 65,
+      "maxMp": 18,
+      "attack": 15,
+      "magic": 3,
+      "defense": 5,
+      "resistance": 5,
+      "speed": 17
+    },
+    "weaknesses": [
+      "fire",
+      "earth"
+    ],
+    "abilities": [
+      "enemy.rat_gnaw"
+    ]
+  },
+  {
+    "id": "giant_beetle",
+    "name": "Bọ cánh cứng",
+    "role": "Côn trùng · Giáp dày, yếu phép",
+    "element": "earth",
+    "stats": {
+      "maxHp": 115,
+      "maxMp": 20,
+      "attack": 18,
+      "magic": 4,
+      "defense": 24,
+      "resistance": 5,
+      "speed": 8
+    },
+    "weaknesses": [
+      "fire",
+      "thunder"
+    ],
+    "abilities": [
+      "enemy.beetle_shell",
+      "enemy.beetle_bite"
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "abilityId": "enemy.beetle_shell",
+          "when": "unshielded"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cave_bat",
+    "name": "Dơi hang",
+    "role": "Thú bay · Cắn hai nhịp",
+    "element": "wind",
+    "stats": {
+      "maxHp": 80,
+      "maxMp": 20,
+      "attack": 17,
+      "magic": 6,
+      "defense": 6,
+      "resistance": 8,
+      "speed": 20
+    },
+    "weaknesses": [
+      "light",
+      "thunder"
+    ],
+    "abilities": [
+      "enemy.bat_flurry"
+    ]
+  },
+  {
+    "id": "marsh_snake",
+    "name": "Rắn đầm lầy",
+    "role": "Bò sát · Nọc độc nhẹ",
+    "element": "earth",
+    "stats": {
+      "maxHp": 95,
+      "maxMp": 24,
+      "attack": 17,
+      "magic": 7,
+      "defense": 8,
+      "resistance": 8,
+      "speed": 15
+    },
+    "weaknesses": [
+      "fire",
+      "wind"
+    ],
+    "abilities": [
+      "enemy.snake_fang"
+    ]
+  },
+  {
+    "id": "pond_crab",
+    "name": "Cua đồng",
+    "role": "Thủy sinh · Mai cứng",
+    "element": "water",
+    "stats": {
+      "maxHp": 110,
+      "maxMp": 18,
+      "attack": 18,
+      "magic": 4,
+      "defense": 20,
+      "resistance": 6,
+      "speed": 7
+    },
+    "weaknesses": [
+      "thunder",
+      "earth"
+    ],
+    "abilities": [
+      "enemy.crab_pinch"
+    ]
+  },
+  {
+    "id": "forest_spider",
+    "name": "Nhện rừng",
+    "role": "Côn trùng · Nanh đôi",
+    "element": "dark",
+    "stats": {
+      "maxHp": 75,
+      "maxMp": 20,
+      "attack": 16,
+      "magic": 6,
+      "defense": 6,
+      "resistance": 8,
+      "speed": 16
+    },
+    "weaknesses": [
+      "light",
+      "fire"
+    ],
+    "abilities": [
+      "enemy.spider_nip"
+    ]
+  },
+  {
+    "id": "wild_mushroom",
+    "name": "Nấm độc",
+    "role": "Sinh vật rừng · Phấn phép diện rộng",
+    "element": "earth",
+    "stats": {
+      "maxHp": 105,
+      "maxMp": 24,
+      "attack": 8,
+      "magic": 17,
+      "defense": 9,
+      "resistance": 14,
+      "speed": 6
+    },
+    "weaknesses": [
+      "fire",
+      "wind"
+    ],
+    "abilities": [
+      "enemy.mushroom_spores"
+    ]
+  },
+  {
+    "id": "ember_wisp",
+    "name": "Đốm lửa",
+    "role": "Tinh linh nhỏ · Phép Hỏa",
+    "element": "fire",
+    "basicDamageType": "magical",
+    "stats": {
+      "maxHp": 85,
+      "maxMp": 28,
+      "attack": 7,
+      "magic": 19,
+      "defense": 5,
+      "resistance": 16,
+      "speed": 13
+    },
+    "weaknesses": [
+      "water"
+    ],
+    "abilities": [
+      "enemy.wisp_flare"
+    ]
+  },
+  {
+    "id": "moss_slime",
+    "name": "Nhầy rêu",
+    "role": "Sinh vật mềm · Yếu đòn vật lí",
+    "element": "earth",
+    "stats": {
+      "maxHp": 125,
+      "maxMp": 20,
+      "attack": 14,
+      "magic": 12,
+      "defense": 5,
+      "resistance": 18,
+      "speed": 7
+    },
+    "weaknesses": [
+      "fire"
+    ],
+    "damageTypeWeaknesses": [
+      "physical"
+    ],
+    "abilities": [
+      "enemy.slime_bump"
+    ]
+  }
+]

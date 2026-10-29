@@ -1,0 +1,125 @@
+[
+  {
+    "id": "gold_mine",
+    "name": "Mỏ vàng",
+    "description": "Vượt những đợt quái liên tiếp, mang vàng trở về.",
+    "art": "/art/dungeon-gold.svg",
+    "icon": "coin",
+    "dailyLimit": 3,
+    "difficulties": [
+      {
+        "id": "easy",
+        "name": "Dễ",
+        "enabled": true,
+        "waves": 3,
+        "enemyScale": {
+          "maxHp": 1.1,
+          "maxMp": 1.5,
+          "attack": 1,
+          "magic": 1
+        },
+        "reward": {
+          "coins": 1000
+        }
+      },
+      {
+        "id": "medium",
+        "name": "Trung bình",
+        "enabled": true,
+        "waves": 4,
+        "enemyScale": {
+          "maxHp": 1.75,
+          "maxMp": 2.25,
+          "attack": 1.25,
+          "magic": 1.25
+        },
+        "reward": {
+          "coins": 2000
+        }
+      },
+      {
+        "id": "hard",
+        "name": "Khó",
+        "enabled": true,
+        "reward": {
+          "coins": 3000
+        },
+        "waves": 4,
+        "enemyScale": {
+          "maxHp": 1.9,
+          "maxMp": 2.25,
+          "attack": 1.6,
+          "magic": 1.6
+        }
+      }
+    ],
+    "encounterTier": "normal"
+  },
+  {
+    "id": "dangerous",
+    "name": "Hầm ngục hiểm trở",
+    "description": "Đối mặt hiểm nguy, tìm những mảnh sáng thuần khiết.",
+    "art": "/art/dungeon-danger.svg",
+    "icon": "skull",
+    "dailyLimit": 1,
+    "difficulties": [
+      {
+        "id": "easy",
+        "name": "Dễ",
+        "enabled": true,
+        "reward": {
+          "recruitmentShards": 1
+        },
+        "waves": 1,
+        "enemyScale": {
+          "maxHp": 1.2,
+          "maxMp": 1.2,
+          "attack": 1,
+          "magic": 1
+        }
+      },
+      {
+        "id": "medium",
+        "name": "Trung bình",
+        "enabled": true,
+        "reward": {
+          "recruitmentShards": 3
+        },
+        "waves": 2,
+        "enemyScale": {
+          "maxHp": 1.6,
+          "maxMp": 1.6,
+          "attack": 1.25,
+          "magic": 1.25
+        }
+      },
+      {
+        "id": "hard",
+        "name": "Khó",
+        "enabled": true,
+        "reward": {
+          "recruitmentShards": 5
+        },
+        "waves": 2,
+        "enemyScale": {
+          "maxHp": 2,
+          "maxMp": 2,
+          "attack": 1.5,
+          "magic": 1.5
+        }
+      }
+    ],
+    "encounterTier": "boss",
+    "revealRooms": true,
+    "stageLabel": "Phòng"
+  },
+  {
+    "id": "illusion",
+    "name": "Hầm ngục ảo ảnh",
+    "description": "Những lối đi không lặp lại, nơi Prisma nguyên sơ chờ thức giấc.",
+    "art": "/art/dungeon-illusion.svg",
+    "icon": "prism",
+    "closed": true,
+    "difficulties": []
+  }
+]

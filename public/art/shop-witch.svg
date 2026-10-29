@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" fill="none">
+  <title>Tiệm Prisma sau giờ đóng cửa</title>
+  <desc>Tiệm thuốc cũ trong ánh sáng xanh xám, những kệ chai lọ, sổ sách và một cô phù thủy tóc bạc đang chống má sau quầy.</desc>
+  <defs>
+    <linearGradient id="wall" x2="1920" y2="1080" gradientUnits="userSpaceOnUse"><stop stop-color="#394444"/><stop offset=".54" stop-color="#222f31"/><stop offset="1" stop-color="#121b21"/></linearGradient>
+    <linearGradient id="timber" x2="0" y2="1"><stop stop-color="#716656"/><stop offset=".35" stop-color="#3c3932"/><stop offset="1" stop-color="#211f1e"/></linearGradient>
+    <linearGradient id="shelf" x2="0" y2="1"><stop stop-color="#5e5849"/><stop offset=".3" stop-color="#35382f"/><stop offset="1" stop-color="#171e1d"/></linearGradient>
+    <linearGradient id="glass" x2="1" y2=".2"><stop stop-color="#adc2aa" stop-opacity=".13"/><stop offset=".26" stop-color="#d3e6cb" stop-opacity=".4"/><stop offset=".5" stop-color="#a7c5bd" stop-opacity=".09"/><stop offset="1" stop-color="#b0c7be" stop-opacity=".25"/></linearGradient>
+    <linearGradient id="light" x2="1" y2=".6"><stop stop-color="#c9d5b5" stop-opacity=".45"/><stop offset="1" stop-color="#b7cebb" stop-opacity="0"/></linearGradient>
+    <linearGradient id="hair" x1="1330" y1="300" x2="1580" y2="710" gradientUnits="userSpaceOnUse"><stop stop-color="#c1c4bd"/><stop offset=".4" stop-color="#9caaa8"/><stop offset=".7" stop-color="#758887"/><stop offset="1" stop-color="#506569"/></linearGradient>
+    <linearGradient id="hairLight" x1="1340" y1="320" x2="1510" y2="600" gradientUnits="userSpaceOnUse"><stop stop-color="#d5d3c6"/><stop offset="1" stop-color="#829496"/></linearGradient>
+    <linearGradient id="skin" x1="1390" y1="380" x2="1510" y2="560" gradientUnits="userSpaceOnUse"><stop stop-color="#e1d2bd"/><stop offset="1" stop-color="#b7a69b"/></linearGradient>
+    <linearGradient id="dress" x1="1430" y1="560" x2="1630" y2="960" gradientUnits="userSpaceOnUse"><stop stop-color="#26363d"/><stop offset=".55" stop-color="#141e2a"/><stop offset="1" stop-color="#0e1820"/></linearGradient>
+    <linearGradient id="hat" x1="1330" y1="140" x2="1570" y2="380" gradientUnits="userSpaceOnUse"><stop stop-color="#101b20"/><stop offset=".5" stop-color="#253039"/><stop offset="1" stop-color="#101a20"/></linearGradient>
+    <radialGradient id="lamp"><stop stop-color="#dfc999" stop-opacity=".45"/><stop offset="1" stop-color="#d3c39d" stop-opacity="0"/></radialGradient>
+    <radialGradient id="prisma"><stop stop-color="#c6b9ee" stop-opacity=".7"/><stop offset="1" stop-color="#9c8cd0" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vignette"><stop offset=".45" stop-color="#07111b" stop-opacity="0"/><stop offset="1" stop-color="#07111b" stop-opacity=".55"/></radialGradient>
+    <pattern id="plaster" width="190" height="145" patternUnits="userSpaceOnUse"><path d="M0 36h95l12 9h83M54 0l-3 36 7 27-5 18 5 64M0 100h54m55-55 7 55h74" stroke="#b0b69a" stroke-opacity=".055" stroke-width="2"/></pattern>
+    <pattern id="grain" width="130" height="24" patternUnits="userSpaceOnUse"><path d="M0 5q40 5 87-1t43 3M18 15q32-3 78 1t34-2" stroke="#c7ae83" stroke-opacity=".08"/></pattern>
+    <pattern id="shelfBottles" width="250" height="170" patternUnits="userSpaceOnUse">
+      <use href="#bottle" x="12" y="41" width="50" height="114"/>
+      <use href="#bottle" x="75" y="20" width="38" height="135"/>
+      <use href="#jar" x="132" y="66" width="54" height="89"/>
+      <use href="#bottle" x="199" y="48" width="35" height="107"/>
+      <path d="M0 157h250v13H0z" fill="url(#shelf)"/><path d="M0 157h250" stroke="#a3926f" stroke-opacity=".3"/>
+    </pattern>
+    <symbol id="bottle" viewBox="0 0 56 130"><path d="M20 12h16v27l12 13q4 4 4 14v53q0 7-7 7H11q-7 0-7-7V66q0-10 4-14l12-13z" fill="url(#glass)" stroke="#9aa99b" stroke-opacity=".4"/><path d="M7 79q22-7 42 0v38q0 6-7 6H14q-7 0-7-6z" fill="#61795d" fill-opacity=".6"/><path d="M17 5h22v13H17z" fill="#5e5141"/><path d="M12 88h32v22H12z" fill="#b9b19b" fill-opacity=".65"/><path d="M18 95h20m-17 7h15" stroke="#595d4e" stroke-width="2"/><path d="M13 60v24M24 22v17" stroke="#e1e0c9" stroke-opacity=".35" stroke-width="2"/></symbol>
+    <symbol id="jar" viewBox="0 0 65 100"><path d="M10 19h45l5 12v57q0 7-8 7H13q-8 0-8-7V31z" fill="url(#glass)" stroke="#87958a" stroke-opacity=".4"/><path d="M9 8h47v14H9z" fill="#6b6853"/><path d="M10 53q21-9 45 0v36H10z" fill="#777250" fill-opacity=".6"/><path d="M10 41h45v28H10z" fill="#b9b5a1" fill-opacity=".6"/><path d="M18 49h28m-22 10h19" stroke="#626353" stroke-width="2"/></symbol>
+    <symbol id="book" viewBox="0 0 50 150"><path d="M4 5h42v140H4z" fill="#47443e" stroke="#b3a079" stroke-opacity=".35"/><path d="M10 8v134M4 25h42M4 124h42" stroke="#a59978" stroke-opacity=".5" stroke-width="2"/><path d="M19 47h15v48H19z" stroke="#ae9d73" stroke-opacity=".45"/><path d="m22 73 5-12 5 12-5 12z" fill="#9b906d"/></symbol>
+    <filter id="soft"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.6"><feDropShadow dx="8" dy="12" stdDeviation="13" flood-color="#030a11" flood-opacity=".65"/></filter>
+  </defs>
+  <!-- Quiet, dusty apothecary; the left side is intentionally less busy behind the UI. -->
+  <path d="M0 0h1920v1080H0z" fill="url(#wall)"/>
+  <path d="M0 0h1920v1080H0z" fill="url(#plaster)"/>
+  <path d="M0 0h470v760H0z" fill="#667272"/>
+  <path d="M30 0h400v665H30z" fill="#aab8a9"/>
+  <path d="M50 0h353v640H50z" fill="#788c86"/>
+  <g opacity=".45" fill="#364e49"><path d="m70 570 25-300 33 300zm55 0 60-445 45 445zm130 0 65-400 28 400zm93 0 25-260 40 260z"/></g>
+  <path d="M40 7h365v630H40zM213 0v650M40 265h365M40 477h365" stroke="#d2d6c2" stroke-width="17"/>
+  <path d="M12 0q90 260-12 580v100h80q60-230 9-680zM433 0h-65q-7 320 65 570" fill="#b9b8a0"/>
+  <g stroke="#7c8980" stroke-width="3" opacity=".6"><path d="M35 0q58 320-12 600M60 0q49 310 0 552M393 0q0 300 32 474"/></g>
+  <path d="M0 655h474v23H0z" fill="url(#timber)"/>
+  <path d="m70 338 290-22 965 764H330z" fill="url(#light)"/>
+  <ellipse cx="1350" cy="420" rx="650" ry="580" fill="url(#lamp)"/>
+  <!-- Recessed cabinet and repeated glassware. -->
+  <path d="M476 0h802v792H476z" fill="#151e20" stroke="#5d5d4d" stroke-width="17"/>
+  <path d="M496 4h761v744H496z" fill="url(#shelfBottles)"/>
+  <path d="M473 0h30v803h-30zM1234 0h40v803h-40zM864 0h22v780h-22z" fill="url(#timber)"/>
+  <path d="M1284 0h636v770h-636z" fill="#1c292b"/>
+  <g opacity=".8"><path d="M1320 64h560v19h-560zM1320 246h560v20h-560zM1320 628h560v20h-560z" fill="url(#timber)"/>
+    <use href="#book" x="1339" y="100" width="40" height="145"/><use href="#book" x="1387" y="115" width="34" height="130"/><use href="#book" x="1430" y="87" width="38" height="159"/>
+    <use href="#bottle" x="1707" y="107" width="49" height="137"/><use href="#jar" x="1780" y="139" width="59" height="107"/>
+    <use href="#bottle" x="1740" y="478" width="46" height="148"/><use href="#bottle" x="1800" y="489" width="55" height="137"/>
+  </g>
+  <path d="m1628 0 6 191m151-191-3 96" stroke="#727e6d" stroke-width="3"/>
+  <g stroke="#6b7e64" stroke-width="3"><path d="m1633 146-31 91m31-81 29 63m-25-76 10 120m-14-79-21 99m171-123-19 91m19-94 18 65"/></g>
+  <g fill="#68785a"><ellipse cx="1610" cy="201" rx="8" ry="22" transform="rotate(24 1610 201)"/><ellipse cx="1652" cy="203" rx="7" ry="23" transform="rotate(-28 1652 203)"/><ellipse cx="1638" cy="238" rx="7" ry="22"/><ellipse cx="1770" cy="155" rx="6" ry="17"/><ellipse cx="1791" cy="149" rx="6" ry="19"/></g>
+  <!-- Wall notes and a clock: another late shift. -->
+  <g transform="rotate(-5 1110 400)"><path d="M1045 338h108v151h-108z" fill="#b0aa8e"/><path d="M1059 361h77m-77 15h70m-70 15h75m-75 15h52m-52 28h73m-73 15h67" stroke="#696c5c" stroke-width="3"/><circle cx="1098" cy="344" r="4" fill="#373d35"/></g>
+  <circle cx="1824" cy="356" r="69" fill="#222b2a" stroke="#787665" stroke-width="8"/><circle cx="1824" cy="356" r="59" fill="#a9a78e"/>
+  <path d="M1824 305v9m0 84v9m-51-51h9m84 0h9m-51 0-20-28m20 28 25-8" stroke="#3b493f" stroke-width="4" stroke-linecap="round"/>
+  <!-- Books, dried flowers and a stack of invoices on the worktop. -->
+  <path d="M0 797 1413 738l507 73v269H0z" fill="#292f2d"/>
+  <path d="m0 798 1409-46 511 65v57L0 876z" fill="url(#timber)"/>
+  <path d="m0 798 1409-46 511 65v57L0 876z" fill="url(#grain)"/>
+  <path d="M0 870h1920v210H0z" fill="#1d2728"/><path d="M0 870h1920v210H0z" fill="url(#grain)"/>
+  <g transform="translate(790 662) rotate(-6)"><path d="M0 22h236v47H0z" fill="#4e5a50" stroke="#888a71"/><path d="M9 30h218v30H9z" fill="#b5b09b"/><path d="M-14 73h256v41H-14z" fill="#625649"/><path d="M-4 80h235v26H-4z" fill="#bdb49d"/><path d="M14 40h183m-174 8h159m-172 41h208m-191 9h194" stroke="#858674"/></g>
+  <use href="#bottle" x="941" y="578" width="58" height="182"/><use href="#jar" x="1031" y="638" width="67" height="123"/>
+  <path d="M1155 685h45l10 90h-66z" fill="#9f9d88"/><path d="m1178 685-42-100m42 100 10-112m-10 112 50-84" stroke="#7f8c6b" stroke-width="3"/>
+  <g fill="#8a9775"><ellipse cx="1149" cy="613" rx="8" ry="19" transform="rotate(-36 1149 613)"/><ellipse cx="1186" cy="614" rx="8" ry="21"/><ellipse cx="1206" cy="634" rx="8" ry="22" transform="rotate(30 1206 634)"/></g>
+  <!-- Witch, entirely vector drawn; silver layers, drooping eyes, a borrowed minute of rest. -->
+  <g filter="url(#shadow)">
+    <!-- Back hair and shoulders. -->
+    <path d="M1350 322q92-83 185-2 71 59 83 181l23 128-19-17 31 77-30-15 18 73-42-17 15 50-67-21-51-99-79 1-64-69-39 13 19-52-26 10q-3-156 43-231z" fill="url(#hair)" stroke="#394c53" stroke-width="3"/>
+    <path d="M1382 560q-70 15-103 106l-35 187 60 160h330l-10-258q-10-144-109-195z" fill="url(#dress)" stroke="#43535a" stroke-width="3"/>
+    <path d="M1405 548h90l14 54-52 50-61-57z" fill="url(#skin)"/>
+    <!-- Face, with a small chin and soft cheek. -->
+    <path d="M1358 389q12-72 96-69 87 8 93 89l-16 93q-16 50-72 67-49-9-75-48l-27-76z" fill="url(#skin)" stroke="#697473" stroke-width="2"/>
+    <path d="m1382 480 25 13m86-3 28-6" stroke="#aa8b85" stroke-opacity=".45" stroke-width="7" stroke-linecap="round"/>
+    <!-- Half-lidded eyes, no oversized smile. -->
+    <path d="M1389 446q20-8 40 3M1474 450q18-7 36-1" stroke="#474d4c" stroke-width="4" stroke-linecap="round"/>
+    <path d="M1393 447q17 20 33 3M1478 450q14 17 28 0" fill="#d3cfb8" stroke="#71736a" stroke-width="1.5"/>
+    <path d="M1406 448v10m85-7v9" stroke="#8c9079" stroke-width="8"/><path d="M1409 450v6m84-3v5" stroke="#3a514b" stroke-width="3"/>
+    <path d="m1392 467 31 5m57 0 25-3" stroke="#998d84" stroke-opacity=".6" stroke-width="2"/>
+    <path d="m1455 468-5 21 7 2m-18 29q12-5 25-1" stroke="#947f78" stroke-width="2" stroke-linecap="round"/>
+    <path d="M1390 425q18-7 33 0m55 1 26 1" stroke="#7f8580" stroke-width="2"/>
+    <!-- Fringe and long sidelocks. -->
+    <path d="M1341 390q-2-87 99-94 95-9 117 88l-8 104-24-72-24-42-2 70-28-59-15 71-38-73-4 55-34-45-17 70-22-31z" fill="url(#hairLight)" stroke="#77898a" stroke-width="2"/>
+    <path d="M1365 365q-35 93 10 187l-28-6 24 59-24-5 35 76q-58-28-70-91-18-100 22-181z" fill="url(#hairLight)" stroke="#5e767a" stroke-width="2"/>
+    <path d="M1516 355q56 65 25 161-12 38-8 66l34-25-20 70 34-23-21 69q65-47 54-130-3-82-47-154z" fill="url(#hair)" stroke="#597076" stroke-width="2"/>
+    <g stroke="#d7dbcd" stroke-opacity=".3" stroke-width="2"><path d="M1353 398q-18 95 7 150m16-205 26 58m17-76 33 85m36-83 7 53m33 17q40 62 22 132m17-87q32 69 13 130"/></g>
+    <path d="m1536 449 24 4-7 15-16-2z" fill="#a6a389" stroke="#d0c9ab"/><path d="m1541 454 9 3" stroke="#556969" stroke-width="2"/>
+    <!-- Folded pointed hat and broad asymmetric brim. -->
+    <path d="M1309 339q5-116 82-178 64-57 188-84l-48 56q-39 46-7 105l54 102z" fill="url(#hat)" stroke="#4f5e60" stroke-width="3"/>
+    <path d="m1390 163 62 139 70 39M1405 175q66-64 142-76" stroke="#536067" stroke-opacity=".6" stroke-width="2"/>
+    <path d="M1327 286q107-44 203-13l29 64q-116-20-254 12z" fill="#526264" stroke="#6a7773" stroke-width="2"/>
+    <path d="m1431 280 42-5 6 40-43 6z" fill="#9d9273" stroke="#d2c197" stroke-width="3"/><path d="m1442 286 21-2 4 22-23 3z" fill="#293a40"/><path d="m1454 282 2 29" stroke="#c9b88e" stroke-width="3"/>
+    <path d="M1211 376q41-60 126-66 108-24 216 9 65 21 113 88-100-17-166-41-140-32-289 10z" fill="#152229" stroke="#57676a" stroke-width="3"/>
+    <path d="M1214 376q151-30 280-12l167 41q-126-12-199-23-113-24-248-6z" fill="#0c171f"/>
+    <path d="M1244 353q132-37 243-8" stroke="#82908a" stroke-opacity=".3" stroke-width="2"/>
+    <!-- Collar, scarf and moon brooch. -->
+    <path d="m1387 562 65 56-44 47-44-78zm118 2-53 54 36 53 47-79z" fill="#8d9c99" stroke="#b2bab0" stroke-opacity=".6" stroke-width="2"/>
+    <path d="m1452 617-38 10-17 47 52-24 44 30-7-53z" fill="#192632" stroke="#657577" stroke-width="2"/>
+    <ellipse cx="1453" cy="635" rx="16" ry="20" fill="#897f62"/><path d="M1460 623a13 13 0 1 0 0 24 14 14 0 0 1 0-24z" fill="#d5c79e"/>
+    <path d="m1440 654-15 115 29-15 20 16-11-115" fill="#1c2e38" stroke="#4e646b" stroke-width="2"/>
+    <!-- Propped-up sleeve and hand under her cheek. -->
+    <path d="M1349 625q-63 0-72 71l-16 120q34 48 104 20l34-145z" fill="#23333e" stroke="#506269" stroke-width="3"/>
+    <path d="m1326 633 6-88q-17-22-10-39l24-19q9-13 17-8l-5 34 23-18q10-7 13 1l-20 31-11 22 3 86z" fill="url(#skin)" stroke="#7f8985" stroke-width="2"/>
+    <path d="m1327 626 42 2 5 37-51-2z" fill="#95a29e"/><path d="m1335 636 27 2" stroke="#d1d1bb" stroke-width="2"/>
+    <path d="M1291 767q28-45 77-49m-77 67q26-22 64-24m-53 50q27-22 52-19" stroke="#647577" stroke-opacity=".5" stroke-width="3"/>
+    <!-- Writing arm on the counter. -->
+    <path d="M1551 651q46 23 47 85l30 48q-17 52-70 46l-58-65-16-72z" fill="#253742" stroke="#52636b" stroke-width="3"/>
+    <path d="m1540 775 33-27 27 31-36 32z" fill="#99a6a0"/>
+    <path d="m1571 783 38-8 24 15 10 17-11 10-25-13-28 7-17-13z" fill="url(#skin)" stroke="#71817e" stroke-width="2"/>
+    <path d="m1606 787 13 7m-19 2 14 7" stroke="#a99a8a" stroke-width="2"/>
+    <path d="M1510 871q23-20 29-61m-102 8 5 92m-79-40-21 63" stroke="#45565e" stroke-width="3"/>
+  </g>
+  <!-- Foreground shop counter, ledgers, cold tea and a tiny glowing Prisma. -->
+  <path d="m1120 854 600-31 200 67v190h-800z" fill="#242b2c"/>
+  <path d="m1120 854 600-31 200 67v27l-800-29z" fill="#5d5d50"/><path d="m1120 854 600-31 200 67v27l-800-29z" fill="url(#grain)"/>
+  <path d="m1120 895 800 26v159h-800z" fill="#20292b"/>
+  <path d="m1160 942 720 20v118h-720z" stroke="#56605a" stroke-width="4"/>
+  <path d="m1451 833 122-17 111 44-128 10z" fill="#b4b19a" stroke="#565d55" stroke-width="2"/>
+  <path d="m1458 828 113-18 99 42-114 11z" fill="#c5bea4"/><path d="m1484 832 49-7m-35 15 49-7m-34 15 48-7" stroke="#6e796b" stroke-width="2"/>
+  <path d="m1615 809 23-86" stroke="#a5ad9b" stroke-width="3"/><path d="m1630 756 24-78q-27 8-24 43z" fill="#798f88"/><path d="m1633 747 19-58" stroke="#b1bca8"/>
+  <ellipse cx="1735" cy="841" rx="50" ry="9" fill="#99a08c"/><path d="M1707 794h48l-7 42h-33z" fill="#84968c" stroke="#b1b8a1" stroke-width="2"/><path d="M1756 800q26-1 15 22l-18 3" stroke="#a8b29b" stroke-width="5"/><ellipse cx="1731" cy="794" rx="24" ry="5" fill="#3d4f47"/>
+  <ellipse cx="1197" cy="810" rx="105" ry="100" fill="url(#prisma)"/><path d="m1197 748 28 36-28 60-28-60z" fill="#b4a3d5" fill-opacity=".65" stroke="#c8c0e7"/><path d="m1197 748-8 36 8 60 8-60zM1169 784h56" stroke="#dad2f3" stroke-opacity=".7"/>
+  <path d="M0 0h1920v1080H0z" fill="url(#vignette)"/>
+  <g fill="#d4d7ba" opacity=".25"><circle cx="407" cy="421" r="2"/><circle cx="1095" cy="177" r="1.5"/><circle cx="1277" cy="451" r="1.7"/><circle cx="1151" cy="325" r="2"/><circle cx="1710" cy="514" r="1.5"/><circle cx="1233" cy="630" r="2"/><circle cx="1693" cy="252" r="1.5"/></g>
+</svg>

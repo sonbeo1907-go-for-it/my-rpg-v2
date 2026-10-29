@@ -1,0 +1,805 @@
+.centered-summon-background {
+  position: absolute;
+  inset: 0;
+  background: url("/art/summon-centered.svg") center/cover no-repeat;
+  pointer-events: none;
+  opacity: 0.75;
+}
+.pity-panel {
+  margin: 1.1rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #514b66;
+  border-bottom: 1px solid #514b66;
+}
+.pity-panel > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  color: #dfc9ff;
+  font-size: 0.8rem;
+}
+.pity-panel strong {
+  color: #e6d4aa;
+}
+.pity-panel progress {
+  margin: 0.9rem 0 0.4rem;
+}
+.pity-panel progress::-webkit-progress-value {
+  background: #ac8ed3;
+}
+.pity-panel p {
+  font-size: 0.73rem;
+  margin: 0.3rem 0;
+  color: #c8c0d5;
+}
+.pity-panel small {
+  font-size: 0.64rem;
+  color: #a8a3b3;
+}
+.recent-summon {
+  width: 100%;
+  font-size: 0.76rem;
+  margin: 0.8rem 0;
+}
+.summon-hub .summon-stage-content > small {
+  line-height: 1.8;
+  font-size: 0.65rem;
+}
+.stone-awakening {
+  position: relative;
+  min-height: 640px;
+  height: calc(100svh - 230px);
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid #6c6688;
+  border-radius: 6px;
+  background: #090f24;
+}
+.stone-awakening .centered-summon-background {
+  opacity: 0.8;
+}
+.stone-awakening:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 10%,
+    #060d1b55 55%,
+    #050b17bf 100%
+  );
+}
+.stone-aura {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(55vw, 650px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--rarity-color) 70%, transparent),
+    color-mix(in srgb, var(--rarity-color) 25%, transparent) 35%,
+    transparent 68%
+  );
+  filter: blur(18px);
+  animation: prisma-awaken 2.6s ease-in-out both;
+  mix-blend-mode: screen;
+}
+.awakening-crystal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  filter: drop-shadow(0 0 17px var(--rarity-color))
+    drop-shadow(0 0 45px var(--rarity-color));
+  animation: crystal-pulse 2.6s ease-in-out both;
+}
+.awakening-crystal polygon {
+  fill: var(--rarity-color);
+  fill-opacity: 0.7;
+  stroke: color-mix(in srgb, var(--rarity-color) 40%, white);
+  stroke-width: 2;
+}
+.awakening-crystal path {
+  fill: none;
+  stroke: #fff9;
+  stroke-width: 2;
+}
+.awakening-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid var(--rarity-color);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--rarity-color) 30%, transparent);
+  border-radius: 50%;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.orbit-one {
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%) rotateX(65deg) rotate(-25deg);
+  animation: orbit-pulse 2.6s both;
+}
+.orbit-two {
+  width: 440px;
+  height: 440px;
+  transform: translate(-50%, -50%) rotateX(68deg) rotate(30deg);
+  animation: orbit-pulse 2.6s 0.1s both;
+}
+.awakening-copy {
+  position: absolute;
+  top: 2.5rem;
+  left: 1rem;
+  right: 1rem;
+  text-align: center;
+  z-index: 2;
+}
+.awakening-copy h2 {
+  font-size: 2.1rem;
+  color: #e9e5f6;
+  margin: 0.7rem 0;
+}
+.awakening-copy p {
+  font-size: 0.83rem;
+  color: #bdb7d1;
+}
+.summon-skip {
+  font-size: 0.75rem !important;
+  white-space: nowrap;
+}
+.stone-awakening > .summon-skip {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 3;
+  background: #142434cf;
+  border-color: #b2a17b;
+}
+.summon-saved-note {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.9rem;
+  z-index: 2;
+  font-size: 0.65rem;
+  color: #aba7b8;
+}
+.summon-reveal-page,
+.summon-results-page {
+  max-width: 1700px;
+  margin: auto;
+  padding: 2rem clamp(1rem, 3vw, 3rem) 4rem;
+}
+.reveal-scene {
+  position: relative;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 2.5rem;
+  background: #0d1227;
+  isolation: isolate;
+  border: 1px solid #69617b;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.reveal-scene .centered-summon-background {
+  opacity: 0.24;
+}
+.reveal-halo {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    color-mix(in srgb, var(--rarity-color) 23%, transparent),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+.reveal-progress {
+  display: flex;
+  gap: 0.55rem;
+  position: relative;
+  margin: 0 0 1.8rem;
+}
+.reveal-progress > i {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  border: 1px solid #7f7896;
+  background: #1b2540;
+}
+.reveal-progress > i.seen {
+  background: var(--rarity-color);
+  border-color: var(--rarity-color);
+  box-shadow: 0 0 8px var(--rarity-color);
+}
+.reveal-card {
+  width: min(320px, 70vw);
+  aspect-ratio: 320/520;
+  padding: 0;
+  position: relative;
+  display: block;
+  border: 1px solid var(--rarity-color);
+  border-radius: 10px;
+  background: #0c1328;
+  box-shadow:
+    0 0 0 4px #171c2c,
+    0 0 0 5px #817762,
+    0 15px 70px #0009;
+  overflow: hidden;
+  transform: none !important;
+  isolation: isolate;
+}
+.reveal-card:hover {
+  background: #0c1328 !important;
+}
+.summon-card-back,
+.summon-card-front {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    color-mix(in srgb, var(--rarity-color) 20%, #122235),
+    #091322 80%
+  );
+}
+.summon-card-back {
+  color: var(--rarity-color);
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    color-mix(in srgb, var(--rarity-color) 18%, #152435),
+    #09121f
+  );
+}
+.cardback-ornament {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+.cardback-center {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  width: 120px;
+  height: 160px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(
+    0 0 14px color-mix(in srgb, var(--rarity-color) 35%, transparent)
+  );
+}
+.cardback-center > .role-icon {
+  width: 110px;
+  height: 110px;
+  stroke-width: 1.1;
+}
+.gear-emblem {
+  width: 100%;
+  height: 100%;
+}
+.cardback-inscription {
+  position: absolute;
+  bottom: 14%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: "Noto Serif Variable", Georgia, serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.27em;
+}
+.cardback-marks {
+  position: absolute;
+  bottom: 9%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  font-size: 0.6rem;
+}
+.card-front-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  clip-path: inset(100% 0 0 0);
+  border-radius: inherit;
+}
+.revealing .card-front-reveal {
+  animation: card-rise-reveal 0.9s linear both;
+}
+.front .card-front-reveal {
+  clip-path: inset(0);
+}
+.card-reveal-edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  bottom: 0;
+  background: #fff;
+  box-shadow: 0 0 15px 8px var(--rarity-color);
+  z-index: 4;
+  pointer-events: none;
+  animation: card-reveal-edge 0.9s linear both;
+}
+.reveal-instructions {
+  text-align: center;
+  position: relative;
+  margin-top: 2rem;
+}
+.reveal-instructions > span {
+  font-size: 0.57rem;
+  color: #cdc0a2;
+  letter-spacing: 0.16em;
+}
+.reveal-instructions > p {
+  font-size: 0.78rem;
+  color: #a9b2bd;
+  margin: 0.7rem 0 1rem;
+}
+.reveal-instructions > button {
+  min-width: 235px;
+}
+.summon-card-rays {
+  position: absolute;
+  inset: 0;
+  opacity: 0.45;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 35%,
+    transparent 0deg 14deg,
+    color-mix(in srgb, var(--rarity-color) 30%, transparent) 14deg 15deg,
+    transparent 15deg 30deg
+  );
+  mask-image: radial-gradient(ellipse at 50% 35%, black, transparent 75%);
+}
+.summon-silhouette {
+  position: absolute;
+  inset: 3% 0 0;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(
+    0 0 12px color-mix(in srgb, var(--rarity-color) 60%, transparent)
+  );
+}
+.summon-gear-art {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55%;
+  height: 40%;
+  color: color-mix(in srgb, var(--rarity-color) 60%, white);
+  filter: drop-shadow(0 0 13px var(--rarity-color));
+}
+.summon-card-top {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  top: 0.8rem;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  justify-content: space-between;
+  font-size: 0.57rem;
+  color: var(--rarity-color);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.summon-new {
+  font-family: "Noto Serif Variable", Georgia, serif;
+  font-size: 0.8rem;
+  color: #fff1ca;
+  text-shadow: 0 0 10px #ffc05d;
+}
+.pity-badge {
+  padding: 0.15rem 0.3rem;
+  border: 1px solid #eec379;
+  color: #ffe1a8;
+  font-size: 0.52rem;
+}
+.summon-card-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 2.5rem 1.2rem 1.15rem;
+  text-align: center;
+  background: linear-gradient(transparent, #08121fe8 27%, #08121f);
+}
+.summon-card-copy > .element-badge {
+  font-size: 0.66rem;
+  margin-bottom: 0.6rem;
+}
+.summon-card-copy h3 {
+  font-size: 1.5rem;
+  line-height: 1.35;
+  color: #f2e9d3;
+  text-shadow: 0 2px 5px #000;
+  margin: 0 0 0.5rem;
+}
+.summon-card-copy > p {
+  font-size: 0.76rem;
+  color: #c4c6d2;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+.summon-role-seal,
+.summon-tier-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.8rem;
+  color: var(--rarity-color);
+}
+.summon-role-seal > .role-icon,
+.summon-tier-seal > .icon {
+  width: 35px;
+  height: 35px;
+}
+.summon-card-reward {
+  padding-top: 0.7rem;
+  border-top: 1px solid color-mix(in srgb, var(--rarity-color) 35%, transparent);
+  color: var(--rarity-color);
+  font-size: 0.75rem;
+}
+.summon-card-reward > small {
+  display: block;
+  font-size: 0.65rem;
+  color: #aeb8c7;
+  margin-top: 0.4rem;
+}
+.results-intro {
+  text-align: center;
+  margin: 1rem 0 1.5rem;
+}
+.results-intro p {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.summon-result-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 10px 4px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #9d835f #14232e;
+}
+.summon-result-scroll.single {
+  max-width: 330px;
+  margin: auto;
+}
+.summon-result-grid {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.summon-result-panel.summon-result {
+  display: block;
+  position: relative;
+  padding: 0;
+  height: 480px;
+  min-height: 0;
+  border: 1px solid #8b816a;
+  border-radius: 2px;
+  background: #102130;
+  overflow: hidden;
+  box-shadow: 0 10px 22px #0007;
+  animation: result-arrive 0.5s both;
+  transform: none;
+}
+.summon-result-panel.summon-result:hover {
+  border-color: #edcf96;
+  box-shadow: 0 0 0 1px #edcf96;
+}
+.summon-result-scroll.single .summon-result-panel {
+  height: 540px;
+}
+.summon-card-front.compact .summon-card-top {
+  left: 0.35rem;
+  right: 0.35rem;
+  top: 0.65rem;
+  font-size: 0.45rem;
+  letter-spacing: 0;
+}
+.summon-card-front.compact .summon-new {
+  font-size: 0.64rem;
+}
+.summon-card-front.compact .pity-badge {
+  font-size: 0.42rem;
+}
+.summon-card-front.compact .summon-silhouette {
+  width: 145%;
+  left: -22.5%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  opacity: 0.95;
+}
+.summon-card-front.compact .summon-gear-art {
+  top: 20%;
+  width: 78%;
+  height: 30%;
+}
+.summon-card-front.compact .summon-card-copy {
+  padding: 2.5rem 0.45rem 0.75rem;
+  min-height: 215px;
+}
+.summon-card-front.compact .summon-card-copy h3 {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  margin-bottom: 0.5rem;
+}
+.summon-card-front.compact .summon-card-copy > p {
+  font-size: 0.56rem;
+  line-height: 1.6;
+  min-height: 2.7em;
+  margin-bottom: 0.65rem;
+}
+.summon-card-front.compact .element-badge {
+  font-size: 0.5rem;
+}
+.summon-card-front.compact .summon-role-seal > .role-icon,
+.summon-card-front.compact .summon-tier-seal > .icon {
+  width: 25px;
+  height: 25px;
+}
+.summon-card-front.compact .summon-card-reward {
+  font-size: 0.56rem;
+}
+.summon-card-front.compact .summon-card-reward > small {
+  font-size: 0.5rem;
+}
+.summon-result-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2rem;
+  flex-wrap: wrap;
+  border-top: 1px solid #64563d;
+  border-bottom: 1px solid #64563d;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  color: #d2c19b;
+  font-size: 0.78rem;
+}
+.summon-result-summary strong {
+  color: #ffcd83;
+  font-size: 0.75rem;
+}
+.summon-result-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.summon-result-actions > span {
+  font-size: 0.7rem;
+  color: #9fadb4;
+}
+.result-detail {
+  padding: 0.5rem;
+}
+.result-detail > .role-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--gold);
+  display: block;
+  margin: 0 auto 1.5rem;
+}
+.result-detail p {
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+@keyframes prisma-awaken {
+  0% {
+    opacity: 0;
+    scale: 0.5;
+  }
+  35% {
+    opacity: 0.65;
+  }
+  70% {
+    opacity: 1;
+    scale: 1.15;
+  }
+  100% {
+    opacity: 0.9;
+    scale: 1.3;
+  }
+}
+@keyframes crystal-pulse {
+  0% {
+    opacity: 0.15;
+  }
+  35% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 1;
+    filter: drop-shadow(0 0 30px var(--rarity-color))
+      drop-shadow(0 0 70px var(--rarity-color)) brightness(1.7);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes orbit-pulse {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.2;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+@keyframes card-rise-reveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes card-reveal-edge {
+  0% {
+    bottom: 0;
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    bottom: 100%;
+    opacity: 0;
+  }
+}
+@keyframes result-arrive {
+  from {
+    opacity: 0;
+    translate: 0 15px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@media (max-width: 1000px) {
+  .summon-result-scroll:not(.single) .summon-result-grid {
+    min-width: 1050px;
+  }
+  .summon-result-panel.summon-result {
+    height: 450px;
+  }
+  .awakening-copy h2 {
+    font-size: 1.9rem;
+  }
+  .reveal-scene {
+    min-height: 780px;
+  }
+}
+@media (max-width: 600px) {
+  .summon-reveal-page,
+  .summon-results-page {
+    padding: 1.3rem 1rem 4rem;
+  }
+  .summon-reveal-page .page-header,
+  .summon-results-page .page-header {
+    flex-wrap: wrap;
+  }
+  .summon-reveal-page .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .stone-awakening {
+    min-height: 590px;
+    height: calc(100svh - 190px);
+  }
+  .stone-aura {
+    width: 95vw;
+  }
+  .awakening-copy {
+    top: 1.8rem;
+  }
+  .awakening-copy h2 {
+    font-size: 1.55rem;
+  }
+  .awakening-copy p {
+    font-size: 0.73rem;
+  }
+  .stone-awakening > .summon-skip {
+    bottom: 3.5rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  .summon-saved-note {
+    bottom: 1.2rem;
+    left: 1rem;
+    right: 1rem;
+    text-align: center;
+    font-size: 0.55rem;
+  }
+  .orbit-one {
+    width: 220px;
+    height: 220px;
+  }
+  .orbit-two {
+    width: 290px;
+    height: 290px;
+  }
+  .reveal-scene {
+    min-height: 720px;
+    padding: 1.3rem 0.7rem 2rem;
+  }
+  .reveal-card {
+    width: min(295px, 76vw);
+  }
+  .reveal-progress {
+    gap: 0.4rem;
+  }
+  .reveal-instructions > span {
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+  .summon-result-summary {
+    font-size: 0.7rem;
+    gap: 0.6rem 1rem;
+  }
+  .summon-result-actions {
+    justify-content: center;
+  }
+  .summon-result-actions > span {
+    width: 100%;
+    text-align: center;
+    order: 3;
+  }
+  .results-intro .eyebrow {
+    font-size: 0.5rem;
+    letter-spacing: 0.13em;
+  }
+  .results-intro p {
+    font-size: 0.72rem;
+  }
+  .summon-hub .summon-stage-content > small {
+    font-size: 0.58rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stone-aura,
+  .awakening-crystal {
+    animation: none;
+    opacity: 1;
+  }
+  .awakening-orbit {
+    animation: none;
+  }
+  .revealing .card-front-reveal {
+    animation-duration: 0.01ms;
+  }
+  .card-reveal-edge {
+    display: none;
+  }
+  .summon-result-panel.summon-result {
+    animation: none;
+  }
+}

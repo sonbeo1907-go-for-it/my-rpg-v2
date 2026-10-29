@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" fill="none">
+<title>Những nẻo đường phương Bắc</title><desc>Đồng cỏ xanh, cây cổ thụ và đường mòn dẫn tới tháp đá giữa nắng và sương núi.</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#a4d4cf"/><stop offset="1" stop-color="#e6e8c8"/></linearGradient>
+ <linearGradient id="field" x2=".3" y2="1"><stop stop-color="#c4d58b"/><stop offset=".55" stop-color="#87b66b"/><stop offset="1" stop-color="#4e8862"/></linearGradient>
+ <linearGradient id="stone" x2="1" y2=".1"><stop stop-color="#a5bc9a"/><stop offset=".4" stop-color="#8fae91"/><stop offset="1" stop-color="#b8c8a0"/></linearGradient>
+ <linearGradient id="tree" x2="1" y2="1"><stop stop-color="#b8c16c"/><stop offset=".5" stop-color="#6f9860"/><stop offset="1" stop-color="#436c57"/></linearGradient>
+ <pattern id="grass" width="108" height="95" patternUnits="userSpaceOnUse"><path d="m8 80 4-17 4 16m46-48 6-15 2 18m18 51 4-10" stroke="#d8dfa0" stroke-width="3" opacity=".3"/></pattern>
+ <filter id="haze"><feGaussianBlur stdDeviation="4"/></filter>
+ <symbol id="leaf" viewBox="0 0 50 60"><path d="m20 2 22 12 8 26-21 20L3 45 0 23z" fill="url(#tree)"/><path d="m9 35 10-19 17 3-5 23z" fill="#a9bc6c" opacity=".3"/></symbol>
+</defs>
+<path d="M0 0h1200v1200H0z" fill="url(#sky)"/>
+<g fill="#f0f2de" opacity=".5" filter="url(#haze)"><path d="M120 215q68-58 143-7 56-86 134-20 48-10 81 32H120zM683 105q51-50 97-6 40-70 91-16 45-12 74 33H683zM798 335q58-68 140-13 71-90 143-12 61-18 111 34z"/></g>
+<path d="m0 492 185-91 162 60 181-87 171 72 205-72 296 72v196H0z" fill="#adc7b5"/>
+<path d="m0 552 220-70 192 56 172-45 209 49 242-65 165 47v180H0z" fill="#a2bd9b"/>
+<!-- A broken monolith and the far-off stone marker. -->
+<path d="m671 495-34-252 14-81 29-67 61 122 14 97 48 157z" fill="url(#stone)"/>
+<path d="m680 95 17 130 31 270-57 0-34-252 14-81z" fill="#92af9e" opacity=".5"/>
+<path d="m701 311 37 12m-33 7 39 11m-33 11 35 8" stroke="#d2d9b1" stroke-width="3" opacity=".5"/>
+<path d="m546 537 35-117 35-35 9 133z" fill="#a0b68c"/><path d="m581 420 7 109-42 8z" fill="#7f9f7b"/>
+<path d="M0 626q254-156 526-71 212-106 674-13v658H0z" fill="url(#field)"/>
+<path d="M0 733q227-184 480-116 389 6 720-121v176q-290 13-517 103-365 131-683 3z" fill="#bfd18b"/>
+<path d="m0 851 314-149 304 24 232-96 350 82v488H0z" fill="#85ad6e"/>
+<path d="M1200 603q-118 29-244 9-107-9-217 40-176 73-261 100-167 55-192 140-33 117-286 253v55h190q218-168 194-265-24-111 197-177 117-33 177-77 119-87 230-45 107 20 212-1z" fill="#dfd9a0"/>
+<path d="M0 894q104-54 280-62l-97 95-83 11-100 26zM751 717l101-23 78 13-93 19zM574 636l62-14 51 5-84 15z" fill="#476f50"/>
+<path d="M0 0h1200v1200H0z" fill="url(#grass)"/>
+<!-- Large left tree, soft polygonal foliage and a small path shrine. -->
+<path d="m85 0 107 29 38 161-13 167 63 171-19 121 98 76-171-24-20-139-52-106 10-184-33-167z" fill="#625c4b"/>
+<path d="m173 162 8 254 55 114-14 140m-43-255 68-119" stroke="#8a8262" stroke-width="15"/>
+<path d="m202 389 98-114 56-20-78 87-50 100M153 189l-91-64 4 48 93 88" fill="#665f49"/>
+<g><use href="#leaf" x="-116" y="-64" width="320" height="370"/><use href="#leaf" x="63" y="-102" width="356" height="381"/><use href="#leaf" x="-36" y="172" width="251" height="291"/><use href="#leaf" x="142" y="199" width="219" height="252"/><use href="#leaf" x="197" y="-37" width="232" height="260"/></g>
+<path d="m251 665 31-132 44-31 50 159z" fill="#7e846a"/><path d="m282 533 44-31 22 158-97 5z" fill="#9da582"/><path d="m284 569 29-12 7 37-31 8zm6 48 36-10" stroke="#cfcca0" stroke-width="4" opacity=".6"/>
+<path d="m1031 518 18-124 19-51 11 178z" fill="#6e8160"/>
+<use href="#leaf" x="923" y="276" width="240" height="229"/><use href="#leaf" x="1061" y="324" width="190" height="194"/>
+<!-- Tiny travelers give scale without becoming character art. -->
+<g transform="translate(815 778)"><ellipse cx="3" cy="53" rx="17" ry="5" fill="#5e805c" opacity=".5"/><path d="m-6 25-4 25m15-24 8 21" stroke="#4f6658" stroke-width="4"/><path d="m-9 6 18 1 7 25-27 1z" fill="#e0c76f"/><circle cx="1" cy="1" r="7" fill="#5d5f4c"/><path d="m-9-1 11-11 8 15z" fill="#6e7753"/><path d="m13 11 18-5 5 18-16 4z" fill="#8c7a54"/></g>
+<g transform="translate(963 695)"><ellipse cx="6" cy="80" rx="42" ry="10" fill="#526e55" opacity=".45"/><path d="m-28 15 57-7 17 62-77 7z" fill="#7b7864"/><path d="m-28 15 57-7 12 24-66 10z" fill="#bdb18b"/><path d="m-19 43 60-7 5 34-57 6z" fill="#8c7c7d"/><path d="m-10 6 7-30 18-3 10 35z" fill="#776d54"/><path d="m-5-24 22-1 9 10-32 4z" fill="#c0b595"/><path d="m-37 22-26 25 5 23 25-9" fill="#797e68"/><path d="M-9-7 15-9m-28 27 47-4m-43 3 6 54m23-57 3 53" stroke="#d0ba91" stroke-opacity=".55" stroke-width="3"/></g>
+<!-- Foreground grasses and stones frame the valley. -->
+<path d="M0 1007q153-56 310 78l157 115H0z" fill="#4d785b"/><path d="m1200 873-205 97-87 143-147 87h439z" fill="#527c6c"/>
+<path d="m1200 873-132 160-73-63zM908 1113l119-12 173 99H761z" fill="#6c9480"/>
+<g fill="#91b376"><path d="m20 1106 8-130 27 128 44-81-13 138 35-47-12 86H0zm164 94-21-111 40 63 19-122 16 111 32-54-5 113zm816 0 12-103 20 53 35-120-7 121 40-34-12 83z"/></g>
+<g fill="#707f70"><path d="m888 204 10 8 14-13-13 19zm33 13 8 6 11-8-10 15z"/></g>
+</svg>

@@ -1,0 +1,37 @@
+.quest-illustration-top {
+  position: absolute;
+  z-index: 2;
+  top: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+}
+.quest-category-tabs { display: inline-flex; gap: .5rem; padding: .35rem; background: #0c222b80; border: 1px solid #d5dfc755; border-radius: 5px; backdrop-filter: blur(8px); }
+.quest-category-tabs button { background: #0a202c99; color: #ebedde; border-color: transparent; font-size: .85rem; padding: .8rem 1rem; white-space: nowrap; }
+.quest-category-tabs button.active { background: #d6c18be8; color: #28322c; border-color: #f0deb0; }
+.quest-category-tabs .icon { width: 21px; height: 21px; }
+.quest-categories .quest-illustration-content { padding-top: 7rem; min-height: 650px; }
+.quest-category-extermination .quest-illustration:after { background: linear-gradient(0deg, #102c2bf7 2%, #12312ed9 21%, #19352e38 53%, #18362d00 80%); }
+.quest-category-extermination .quest-background { background-position: center 35%; }
+.quest-category-sinister .quest-illustration { border-color: #5b626c; }
+.quest-category-sinister .quest-illustration:after { background: linear-gradient(0deg, #0a1019f5, #0c14224d 65%, #0a0e1833); }
+.quest-category-sinister .quest-board { border-color: #596674; background: linear-gradient(145deg, #202733, #101924); }
+.quest-category-sinister .quest-category-tabs { background: #0b1320b3; border-color: #a1afbc55; }
+.quest-category-sinister .quest-category-tabs button.active { background: #455265e8; border-color: #b2c1cf; color: #e9e5d9; }
+.quest-category-sinister .quest-board .filter-bar { background: #101d29; border-color: #586773; }
+.quest-category-sinister .quest-card:not(.selected) { background: linear-gradient(120deg, #273341, #1b2533); border-color: #5e6a74; }
+.quest-category-sinister .quest-list { scrollbar-color: #82919d #18232e; }
+.quest-category-sinister .quest-illustration .eyebrow { color: #adbdca; }
+.quest-locked { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem; padding: 3rem 1.5rem; }
+.quest-locked-seal { width: 86px; height: 86px; display: grid; place-items: center; border: 1px solid #6f8090; background: #152232; border-radius: 50%; box-shadow: 0 0 45px #94b3cc12, inset 0 0 20px #6b7d8e22; margin-bottom: 1rem; }
+.quest-locked-seal .icon { width: 40px; height: 40px; color: #a4b7c6; }
+.quest-locked h2 { font-size: clamp(1.4rem, 2vw, 2rem); color: #dbdcd4; margin: 0; }
+.quest-locked p { max-width: 340px; color: #acbac5; font-size: .9rem; line-height: 1.9; margin: 0 0 .5rem; }
+.quest-locked .button { font-size: .8rem; }
+@media(max-width:700px) {
+  .quest-illustration-top { top: 1rem; left: 1rem; right: 1rem; }
+  .quest-category-tabs { display: flex; }
+  .quest-category-tabs button { flex: 1; font-size: .78rem; padding: .7rem .6rem; }
+  .quest-categories .quest-illustration-content { min-height: 450px; padding-top: 7rem; }
+  .quest-categories .quest-illustration h2, .quest-categories .quest-illustration p { max-width: 100%; }
+  .quest-locked { min-height: 350px; padding: 2rem 1rem; }
+}

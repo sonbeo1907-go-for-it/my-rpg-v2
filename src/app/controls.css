@@ -1,0 +1,359 @@
+.settings-trigger {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 0.45rem;
+  border: 1px solid #7c755d;
+  background: #142630;
+  color: #efd69f;
+  width: 39px;
+  height: 39px;
+}
+.settings-trigger .icon {
+  width: 24px;
+  height: 24px;
+}
+.title-settings {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  z-index: 25;
+}
+.settings-tabs {
+  display: flex;
+  gap: 0.6rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+.settings-tabs button {
+  flex: 1;
+  gap: 0.7rem;
+}
+.settings-tabs [aria-selected="true"],
+.control-modes [aria-pressed="true"] {
+  border-color: var(--gold);
+  background: #3b4240;
+  color: var(--gold-light);
+}
+.settings-panel h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+.settings-panel p {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+.settings-row .audio-toggle {
+  border: 1px solid var(--gold);
+  white-space: nowrap;
+  padding: 0.65rem 1rem;
+}
+.settings-volume {
+  display: block;
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+  font-size: 0.9rem;
+}
+.settings-volume strong {
+  float: right;
+  color: var(--gold-light);
+}
+.settings-volume .volume {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 1.3rem 0;
+  accent-color: var(--gold);
+}
+.settings-panel fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.settings-panel legend {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.control-modes {
+  display: flex;
+  gap: 1rem;
+}
+.control-modes button {
+  flex: 1;
+}
+.controller-status {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: #0c1b25;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: #d4c3a0;
+}
+.controller-status.connected {
+  border-color: #6c9e83;
+  color: #9bd4af;
+}
+.controller-status small {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 0.7rem;
+  margin-top: 0.5rem;
+}
+.settings-check {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.82rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+.settings-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+}
+.settings-check small {
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+.controller-diagram {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  border-block: 1px solid var(--line);
+  padding: 1.25rem 0;
+}
+.controller-diagram > div {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.76rem;
+}
+.controller-diagram kbd {
+  min-width: 70px;
+  text-align: center;
+  border: 1px solid #bba579;
+  color: var(--gold-light);
+  padding: 0.35rem;
+  background: #10212d;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.65rem;
+}
+.settings-notice {
+  font-size: 0.75rem !important;
+  color: #afbfc8;
+}
+.gamepad-guide {
+  position: fixed;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  right: max(20px, env(safe-area-inset-right));
+  z-index: 1001;
+  max-width: calc(100vw - 40px);
+  padding: 0.65rem 1rem 0.8rem;
+  background: #0a1624f2;
+  border: 1px solid #80765b;
+  border-radius: 5px;
+  box-shadow: 0 7px 25px #0009;
+  color: #e3e8e9;
+  pointer-events: none;
+  line-height: 1.2;
+}
+.gamepad-guide-status {
+  display: block;
+  font-size: 0.5rem;
+  letter-spacing: 0.13em;
+  color: #b2c7cb;
+  margin-bottom: 0.55rem;
+}
+.gamepad-guide > div {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.gamepad-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.69rem;
+  white-space: nowrap;
+}
+.xbox-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 23px;
+  min-height: 23px;
+  border-radius: 4px;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid #a8b8bc;
+  background: #24313b;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.62rem;
+  color: #f2f3ef;
+}
+.xbox-key.key-a {
+  border-radius: 50%;
+  color: #b3f8c1;
+  border-color: #6ac581;
+  background: #1c4229;
+}
+.xbox-key.key-b {
+  border-radius: 50%;
+  color: #ffc2bf;
+  border-color: #dc837e;
+  background: #4f2429;
+}
+.xbox-key.key-x {
+  border-radius: 50%;
+  color: #b6dcff;
+  border-color: #6aaee6;
+  background: #203753;
+}
+.xbox-key.key-y {
+  border-radius: 50%;
+  color: #ffeb9e;
+  border-color: #d9bc66;
+  background: #443c20;
+}
+:root[data-controls="gamepad"] .app-frame {
+  padding-bottom: 100px;
+}
+:root[data-controls="gamepad"] :is(button, a, input, select, summary) {
+  scroll-margin-block: 110px;
+}
+:root[data-controls="gamepad"] :is(button, a, input, select, summary):focus {
+  outline: 3px solid #e4f5ff !important;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 7px #092438cc !important;
+}
+:root[data-controls="gamepad"] .target-hitbox:focus {
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 2px #091c25 !important;
+}
+:root[data-controls="gamepad"] .modal {
+  padding-bottom: 3.5rem;
+}
+.gamepad-text-preview {
+  display: block;
+  min-height: 3.5rem;
+  padding: 1rem;
+  background: #0b1b26;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.gamepad-keyboard {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.5rem;
+}
+.gamepad-keyboard button {
+  padding: 0.6rem;
+  min-height: 42px;
+}
+.gamepad-keyboard-tools {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.gamepad-keyboard-tools button {
+  font-size: 0.75rem;
+}
+.gamepad-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+.gamepad-options [aria-pressed="true"] {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+@media (max-width: 600px) {
+  .settings-trigger {
+    width: 34px;
+    height: 34px;
+    padding: 0.35rem;
+  }
+  .settings-trigger .icon {
+    width: 22px;
+    height: 22px;
+  }
+  .settings-tabs button {
+    font-size: 0.8rem;
+    padding: 0.75rem 0.6rem;
+  }
+  .control-modes {
+    gap: 0.7rem;
+  }
+  .control-modes button {
+    font-size: 0.75rem;
+    padding: 0.8rem 0.5rem;
+  }
+  .controller-diagram {
+    grid-template-columns: 1fr;
+  }
+  .controller-diagram > div {
+    font-size: 0.75rem;
+  }
+  .gamepad-guide {
+    right: 10px;
+    left: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    max-width: none;
+    padding: 0.6rem 0.75rem;
+  }
+  .gamepad-guide > div {
+    gap: 0.6rem 0.9rem;
+  }
+  .gamepad-hint {
+    font-size: 0.6rem;
+  }
+  .gamepad-guide-status {
+    font-size: 0.45rem;
+  }
+  .xbox-key {
+    min-width: 21px;
+    min-height: 21px;
+    font-size: 0.55rem;
+  }
+  .gamepad-keyboard {
+    gap: 0.4rem;
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .gamepad-keyboard button {
+    padding: 0.5rem;
+  }
+  .gamepad-options {
+    grid-template-columns: 1fr;
+  }
+  :root[data-controls="gamepad"] .app-frame {
+    padding-bottom: 125px;
+  }
+}
+
+.settings-panel .settings-check {
+  flex-direction: row;
+  justify-content: flex-start;
+  text-align: left;
+}
+.settings-panel .settings-check input {
+  flex-shrink: 0;
+  margin: 0;
+}

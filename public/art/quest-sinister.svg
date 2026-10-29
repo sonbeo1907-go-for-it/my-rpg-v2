@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" fill="none">
+<title>Ngục sâu không ánh sáng</title><desc>Vòm đá bó hẹp, song sắt, xiềng xích và lửa tàn trong một hành lang ngục lạnh lẽo.</desc>
+<defs>
+ <linearGradient id="stone" x2="1" y2=".5"><stop stop-color="#111925"/><stop offset=".45" stop-color="#34404b"/><stop offset="1" stop-color="#0b1421"/></linearGradient>
+ <radialGradient id="depth"><stop stop-color="#314657"/><stop offset=".45" stop-color="#152333"/><stop offset="1" stop-color="#050b14"/></radialGradient>
+ <radialGradient id="flame"><stop stop-color="#e2bf77" stop-opacity=".32"/><stop offset="1" stop-color="#caa969" stop-opacity="0"/></radialGradient>
+ <linearGradient id="mist" x2="0" y2="1"><stop stop-color="#a4bdc9" stop-opacity="0"/><stop offset=".5" stop-color="#87a3af" stop-opacity=".15"/><stop offset="1" stop-color="#63798d" stop-opacity="0"/></linearGradient>
+ <pattern id="blocks" width="180" height="130" patternUnits="userSpaceOnUse"><path d="M0 1h180M0 129h180M90 0v65M0 65h180M0 65v65m180-65v65" stroke="#8c9ca5" stroke-opacity=".11" stroke-width="3"/><path d="m12 18 46 1m43 65 55 3m-143 23 22-2" stroke="#c5caca" stroke-opacity=".045" stroke-width="2"/></pattern>
+ <pattern id="bars" width="36" height="120" patternUnits="userSpaceOnUse"><path d="M10 0v120m8-120v120" stroke="#080e16" stroke-width="6"/><path d="M8 18h28M8 99h28" stroke="#627480" stroke-opacity=".22" stroke-width="3"/></pattern>
+ <filter id="fog"><feGaussianBlur stdDeviation="16"/></filter>
+ <symbol id="link" viewBox="0 0 24 48"><rect x="5" y="3" width="14" height="40" rx="7" stroke="#7b878a" stroke-opacity=".6" stroke-width="4"/><path d="M9 11v20" stroke="#a9b2ac" stroke-opacity=".18"/></symbol>
+</defs>
+<path d="M0 0h1200v1200H0z" fill="url(#depth)"/>
+<!-- Stonework narrows towards a gate in the cold depth. -->
+<path d="m0 0 470 287v537L0 1200zM1200 0 730 287v537l470 376z" fill="url(#stone)"/>
+<path d="m0 0 470 287v537L0 1200zM1200 0 730 287v537l470 376z" fill="url(#blocks)"/>
+<path d="m0 1200 470-376h260l470 376z" fill="#24313e"/>
+<path d="m600 824-42 376m19-376-325 376m373-376 325 376M390 895h420M272 993h656M104 1121h992" stroke="#86939a" stroke-opacity=".2" stroke-width="3"/>
+<!-- Repeating pointed vaults, heavy piers crowding the walkway. -->
+<g stroke-linejoin="round">
+ <path d="M425 893V422q0-151 175-226 175 75 175 226v471" stroke="#070e18" stroke-width="64"/><path d="M425 893V422q0-151 175-226 175 75 175 226v471" stroke="#46525a" stroke-opacity=".6" stroke-width="9"/>
+ <path d="M315 985V352q0-192 285-315 285 123 285 315v633" stroke="#111d29" stroke-width="75"/><path d="M315 985V352q0-192 285-315 285 123 285 315v633" stroke="#56636c" stroke-opacity=".5" stroke-width="12"/>
+ <path d="M155 1113V261Q155 43 600-120q445 163 445 381v852" stroke="#18222c" stroke-width="90"/><path d="M155 1113V261Q155 43 600-120q445 163 445 381v852" stroke="#63717a" stroke-opacity=".45" stroke-width="14"/>
+</g>
+<path d="m153 287 161 99m-161 166 161 51m-161 194 161-12m733-498-161 99m161 166-161 51m161 194-161-12" stroke="#80919c" stroke-opacity=".18" stroke-width="4"/>
+<!-- Cells disappear into the walls. -->
+<path d="m0 319 111 66v481L0 951zM339 440l49 27v358l-49 22zM1200 319l-111 66v481l111 85zM861 440l-49 27v358l49 22z" fill="#050b12" stroke="#46535d" stroke-width="7"/>
+<path d="m0 319 111 66v481L0 951zM339 440l49 27v358l-49 22zM1200 319l-111 66v481l111 85zM861 440l-49 27v358l49 22z" fill="url(#bars)"/>
+<path d="M513 824V542q0-97 87-154 87 57 87 154v282z" fill="#080f1a" stroke="#65717a" stroke-opacity=".45" stroke-width="9"/>
+<path d="M529 819V550q0-82 71-133 71 51 71 133v269z" fill="url(#bars)"/>
+<path d="M600 448v372m-65-220h132m-132 145h132" stroke="#46515c" stroke-width="6"/><path d="M584 695h32v37h-32z" fill="#171e27" stroke="#5d6770"/><circle cx="600" cy="712" r="4" fill="#060c14"/>
+<!-- Lantern light barely reaches the path. -->
+<ellipse cx="943" cy="506" rx="240" ry="270" fill="url(#flame)"/>
+<path d="m923 475 41 12v80l-41-8z" fill="#111a23" stroke="#655f50" stroke-width="4"/><path d="m931 490 23 6v49l-23-5z" fill="#c1a371" fill-opacity=".6"/><path d="m942 538-4-17 9-18 5 24z" fill="#e2c28b"/><path d="m944 480-5-53m-16 131 10 19 31-8m-24-119 28-14" stroke="#4d514b" stroke-width="5"/>
+<ellipse cx="381" cy="512" rx="86" ry="130" fill="url(#flame)" opacity=".5"/><path d="m375 495 13 4v37l-13-3z" fill="#a99365" opacity=".6"/>
+<!-- Hanging chains and empty shackles in the near foreground. -->
+<g><use href="#link" x="222" y="-17" width="24" height="48"/><use href="#link" x="225" y="17" width="24" height="48"/><use href="#link" x="222" y="51" width="24" height="48"/><use href="#link" x="225" y="85" width="24" height="48"/><use href="#link" x="222" y="119" width="24" height="48"/><use href="#link" x="225" y="153" width="24" height="48"/><use href="#link" x="222" y="187" width="24" height="48"/><use href="#link" x="225" y="221" width="24" height="48"/><use href="#link" x="222" y="255" width="24" height="48"/><use href="#link" x="225" y="289" width="24" height="48"/>
+<path d="m234 327-9 24m-15 8q-20 21 1 42 24 18 40-7" stroke="#65727a" stroke-width="7"/><path d="m982 0 2 53-9 72 5 99-11 67 7 81-11 57" stroke="#738084" stroke-opacity=".6" stroke-width="6" stroke-dasharray="15 7"/></g>
+<!-- Moisture, slivers of mist and scattered rubble. -->
+<g stroke="#92a5ab" stroke-opacity=".13" stroke-width="2"><path d="m173 546 8 85-4 42m129-482 6 78m575 151 4 79-6 35m-441-83 4 58m585 178 6 99-5 36"/></g>
+<path d="M300 853q239-66 506-24l183 74q-349-49-689 16zM87 1032q429-87 841-25l249 114q-679-70-1090-7z" fill="url(#mist)" filter="url(#fog)"/>
+<path d="m364 1025 35-26 41 27-53 9zm395-67 23-18 32 21-19 17zM67 1130l35-29 43 32-50 10zm1009-5 47-33 23 46-64 2z" fill="#46535d" opacity=".65"/>
+<path d="M0 0h46v1200H0zM1157 0h43v1200h-43z" fill="#060d16"/>
+</svg>
