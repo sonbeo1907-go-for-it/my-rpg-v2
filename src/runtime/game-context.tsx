@@ -150,7 +150,7 @@ export function GameProvider({
   const publish = () => {
     const current = runtime.current;
     const turn = current
-      ? `${battleSerial.current}-${current.round}-${current.cursor}-${activeActor(current)?.id}`
+      ? `${battleSerial.current}-${current.round}-${current.phase}-${current.cursor}-${activeActor(current)?.id}`
       : "";
     if (turn !== lastTurn.current) {
       lastTurn.current = turn;
@@ -168,6 +168,8 @@ export function GameProvider({
             queue: [...current.queue],
             cursor: current.cursor,
             round: current.round,
+            phase: current.phase,
+            extraTurnGrants: [...current.extraTurnGrants],
             outcome: current.outcome,
             rewardClaimed: current.rewardClaimed,
             log: [...current.log],

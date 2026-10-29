@@ -813,5 +813,27 @@
     "abilities": [
       "enemy.slime_bump"
     ]
+  },
+  {
+    "id": "giant_boar",
+    "name": "Lợn rừng khổng lồ",
+    "element": "earth",
+    "stats": {
+      "maxHp": 780,
+      "maxMp": 100,
+      "attack": 43,
+      "magic": 8,
+      "defense": 24,
+      "resistance": 18,
+      "speed": 14
+    },
+    "weaknesses": [
+      "fire",
+      "wind"
+    ],
+    "abilities": [
+      "giant_boar.gore",
+      "giant_boar.stampede"
+    ]
   }
 ]

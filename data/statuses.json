@@ -7,7 +7,7 @@
   {"id":"evasive","name":"Thế né","kind":"buff","modifiers":{"evasion":0.7},"taunt":true},
   {"id":"prisma","name":"Mảnh Prisma","kind":"debuff","maxStacks":3},
   {"id":"water_veil","name":"Màn nước","kind":"buff","modifiers":{"resistance":0.5}},
-  {"id":"cover","name":"Được Garrek bảo vệ","kind":"buff","cover":true},
+  {"id":"cover","name":"Được che chắn","kind":"buff","cover":true},
   {"id":"fortress","name":"Thủ thành","kind":"buff","modifiers":{"damageReduction":0.6}},
   {"id":"steadfast","name":"Ý chí người gác làng","kind":"buff","modifiers":{"damageReduction":0.3}},
   {"id":"braced","name":"Gồng mình","kind":"buff","modifiers":{"damageReduction":0.25},"onDamagedResource":"resolve","onAttackResource":{"resource":"resolve","chance":0.5,"amount":1}},
@@ -39,5 +39,16 @@
   {"id":"valmont_heir","name":"Ý chí người thừa kế","kind":"buff","modifiers":{"attack":0.3,"magic":0.3}},
   {"id":"valmont_defense","name":"Hàng khiên bất khuất","kind":"buff","modifiers":{"defense":0.25}},
   {"id":"valmont_rally","name":"Hiệu lệnh gia tộc","kind":"buff","modifiers":{"attack":0.25,"magic":0.25}},
-  {"id":"effect_ward","name":"Hộ ấn","kind":"buff","persistent":true,"effectImmunity":{"charges":1,"hostileOnly":true}}
+  {"id":"effect_ward","name":"Hộ ấn","kind":"buff","persistent":true,"effectImmunity":{"charges":1,"hostileOnly":true}},
+  {"id":"elder_resolve","name":"Lời hứa người anh cả","kind":"buff","modifiers":{"resistance":0.3}},
+  {"id":"ranoc_home","name":"Mái nhà Ranoc","kind":"buff","modifiers":{"resistance":0.25}},
+  {"id":"mischief","name":"Trò quậy","kind":"debuff","modifiers":{"resistance":-0.12},"modifiersPerStack":true,"maxStacks":3,"magicRefresh":{"duration":3,"oncePerRound":true}},
+  {"id":"young_oath","name":"Lời thề của kị sĩ trẻ","kind":"buff","modifiers":{"attack":0.25}},
+  {"id":"tidal_stillness","name":"Bất động giữa dòng xiết","kind":"buff","modifiers":{"damageReduction":0.1},"regen":0.1},
+  {"id":"lion_roar","name":"Cuồng sư trấn trận","kind":"buff","modifiers":{"attack":0.2,"damageReduction":0.15}},
+  {"id":"guiding_oath","name":"Lời thề người dẫn đường","kind":"buff","modifiers":{"attack":0.25,"magic":0.25}},
+  {"id":"exclusive_afterglow","name":"Kiếm quang hộ thân","kind":"buff","modifiers":{"damageReduction":0.2}},
+  {"id":"exclusive_calibration","name":"Tính toán tiên phong","kind":"buff","modifiers":{"speed":0.1}},
+  {"id":"undertow_slow","name":"Sóng ngầm","kind":"debuff","modifiers":{"speed":-0.15},"modifierGroup":"tidal_slow"},
+  {"id":"sea_slow","name":"Trấn hải","kind":"debuff","modifiers":{"speed":-0.25},"modifierGroup":"tidal_slow"}
 ]

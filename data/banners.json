@@ -5,7 +5,9 @@
     "description": "Những đồng đội mới đang chờ trên hành trình phía bắc.",
     "gearWeight": 95,
     "characterWeight": 5,
-    "pity": { "characterAt": 50 },
+    "pity": {
+      "characterAt": 50
+    },
     "characterPool": [
       "dain",
       "rowan",
@@ -24,7 +26,14 @@
       "seraphine",
       "lyon",
       "cedric",
-      "lisbeth"
+      "lisbeth",
+      "helena",
+      "leonardo",
+      "kyle",
+      "iwayn",
+      "percival",
+      "mandred",
+      "lionel"
     ],
     "gearRates": [
       {

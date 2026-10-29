@@ -7,6 +7,7 @@ import { equippedGear, assertValidEquipment } from "./equipment.js";
 import { grantEligibleUpgrades } from "./story-events.js";
 import { normalizeGachaState } from "./gacha-state.js";
 import { normalizeDungeonDaily } from "./dungeon-rules.js";
+import { emptyBlacksmithState, normalizeBlacksmithState, equippedExclusive } from "./blacksmith-state.js";
 export { grantEligibleUpgrades, completeStoryEvent } from "./story-events.js";
 
 export const SAVE_VERSION = 3;
@@ -33,6 +34,7 @@ export function createCampaign(content) {
     extraGearSlots: {},
     gacha: { totalPulls: 0, pity: {}, lastSummon: null },
     dungeonDaily: { day: null, clears: {} },
+    ...emptyBlacksmithState(),
   };
 }
 
@@ -74,14 +76,21 @@ export function resolveCharacter(content, campaign, characterId) {
     for (const [key, amount] of Object.entries(character.gearBonuses))
       character.stats[key] += amount;
   }
+  const exclusive = equippedExclusive(campaign, content, characterId);
+  if (exclusive) {
+    character.exclusiveGear = structuredClone(exclusive);
+    character.exclusiveBonuses = { [exclusive.statKey]: exclusive.statValue };
+    character.stats[exclusive.statKey] += exclusive.statValue;
+    if (exclusive.template.passive.type === "stat_boost") character.exclusiveModifiers = { ...exclusive.template.passive.modifiers };
+  }
   const team = teamBonusesFor(content, campaign, characterId);
   character.teamBonuses = team.bonuses;
   character.teamBonusSources = team.sources;
   for (const [key, amount] of Object.entries(team.bonuses))
     character.stats[key] += amount;
-  if (character.passive?.type === "stat_boost") {
+  if (["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers) {
     character.baseStats = structuredClone(character.stats);
-    for (const key of Object.keys(character.passive.modifiers))
+    for (const key of new Set([...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
       character.stats[key] = effectiveStat(character, key);
   }
   return character;
@@ -121,6 +130,12 @@ export function serializeCampaign(campaign) {
     extraGearSlots,
     claimedFirstClearRewards,
     dungeonDaily: campaign.dungeonDaily ?? { day: null, clears: {} },
+    prismaFragments: campaign.prismaFragments ?? 0,
+    originalPrisma: campaign.originalPrisma ?? 0,
+    exclusiveGear: campaign.exclusiveGear ?? [],
+    equippedExclusiveGear: campaign.equippedExclusiveGear ?? {},
+    pendingReforge: campaign.pendingReforge ?? null,
+    blacksmithRevision: campaign.blacksmithRevision ?? 0,
   });
 }
 
@@ -276,10 +291,13 @@ export function deserializeCampaign(raw, content) {
           )
         )
           throw new Error("Thưởng lần đầu không khớp nâng cấp đã nhận.");
+      } else if (reward.type === "exclusive") {
+        if (!input.exclusiveGear?.some(item => item.templateId === reward.templateId)) throw new Error("Thưởng lần đầu không khớp Trấn Phái đã nhận.");
       } else if (!result.unlockedCharacterIds.includes(reward.characterId))
         throw new Error("Thưởng lần đầu không khớp nhân vật đã sở hữu.");
     }
   if (input.version !== 1)
     result.gacha = normalizeGachaState(input.gacha, result, content);
+  Object.assign(result, normalizeBlacksmithState(input, content, result));
   return result;
 }

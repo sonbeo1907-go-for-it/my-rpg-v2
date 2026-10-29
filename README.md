@@ -18,7 +18,7 @@ Bản xem trước trình duyệt: `npm run dev` ở http://localhost:3001; ho�
 
 ## Hồ sơ và tiến trình
 
-Khởi động tự quét `%LOCALAPPDATA%\NorthernPrisma\saves\savedata<N>.json`, chọn hành trình hoặc tạo mới. Save giữ nguyên JSON v4, gồm tiền, nhân vật, gear, nâng cấp Arthur, thưởng lần đầu, lịch hầm ngục và năm đội hình. Tên người chơi nằm trong `profiles.json`; bấm khung người chơi ở quán trọ để đổi tên. Có nút Mở thư mục lưu dữ liệu game thay cho Import/Export.
+Khởi động tự quét `%LOCALAPPDATA%\NorthernPrisma\saves\savedata<N>.json`, chọn hành trình hoặc tạo mới. Save dùng JSON v5, tự chuyển từ v4, gồm tiền, nhân vật, gear, nâng cấp Arthur, thưởng lần đầu, lịch hầm ngục và năm đội hình. Tên người chơi nằm trong `profiles.json`; bấm khung người chơi ở quán trọ để đổi tên. Có nút Mở thư mục lưu dữ liệu game thay cho Import/Export.
 
 Chờ ghi file thành công trước khi công bố tiến trình. Tự giữ backup, phát hiện file thay đổi bên ngoài, phục hồi có xác nhận và không tự reset save hỏng. Trận đang diễn ra chỉ ở RAM, không được lưu trong JSON. Đổi hồ sơ kết thúc trận dở dang sau xác nhận.
 
@@ -34,7 +34,7 @@ Trong cùng trình duyệt/WebView, save localStorage cũ được chuyển tự
 | `/characters`                | Grid nhân vật, tìm kiếm và các bộ lọc                    |
 | `/characters/[id]`           | Hồ sơ, nội tại, kỹ năng và hệ số                         |
 | `/characters/[id]/equipment` | Lắp/tháo/chuyển đồ, so sánh chỉ số, lọc và sort asc/desc |
-| `/inventory`                 | Tra cứu gear, lọc và sort asc/desc                       |
+| `/inventory`                 | Trang bị / Vật phẩm, lọc và sắp xếp                       |
 | `/recruitment`               | Quay 1/10 bằng Prisma, thông tin quay phía dưới banner   |
 | `/shop`                      | Chuyển Coin thành Prisma, chiêu mộ bằng Pure Prisma       |
 | `/recruitment/reveal`        | Mặt sau thẻ, mở từ dưới lên; bỏ qua đến kết quả          |
@@ -48,7 +48,7 @@ Hồ sơ/Trang bị không có nút trực tiếp trên đại sảnh. Route h�
 
 ## Cấu trúc mã
 
-- `src/core`: engine JS độc lập DOM; giữ nguyên các luật gameplay. `game-save.js` thêm envelope v4/presets, dùng lại validator/migration v1-v3 đã kiểm thử; version nội bộ của engine vẫn là 3, file save dùng version 4.
+- `src/core`: engine JS độc lập DOM; giữ nguyên các luật gameplay. `game-save.js` thêm envelope v5/presets và dữ liệu Thợ Rèn, dùng lại validator/migration v1-v3 đã kiểm thử; version nội bộ của engine vẫn là 3, file save dùng version 5.
 - `src/components`: React TSX cho các màn và component dùng chung: card, stats, filter, sort, modal, kỹ năng, trang bị, combatant và icon SVG.
 - `src-tauri`: ứng dụng Windows và lớp quản lý file save Rust.
 - `src/runtime`: profile-store, nội dung JSON, GameProvider, adapter runtime→snapshot React. Engine giữ RNG riêng, React nhận snapshot mới sau mỗi hành động.
@@ -119,3 +119,15 @@ Sau mỗi lần dọn hết quái, tự sang wave mới. Giữ snapshot đội h
 Vượt trọn chuỗi nhận 1.000/2.000/3.000 Coin và tính một chiến thắng. Ba lượt Mỏ vàng dùng chung các độ khó, chỉ trừ khi hoàn thành và ghi thưởng thành công. Ngày đặt lại lúc 00:00 Asia/Ho_Chi_Minh; tính theo ngày nhận thưởng. Quota và Coin ghi cùng một giao dịch, lỗi ghi có thể thử lại. Ledger `dungeonDaily` được giữ trong save JSON v4, save cũ thiếu được khởi tạo rỗng. Không cấp bù hoặc trừ lại những trận cũ.
 
 Trận/chuyến đang chạy vẫn chỉ nằm trong phiên như hệ thống combat trước đây. Đổi route có thể tiếp tục, nhưng tải lại trang kết thúc chuyến dở dang; không mất lượt nhận thưởng. Thay đội/gear giữa chuyến chỉ áp dụng khi bắt đầu chuyến mới. `data/dungeons.json` chứa cấu hình và phần thưởng; `src/core/dungeon.js` xử lý chuỗi, `dungeon-rules.js` xử lý ngày/quota/validation.
+
+## Thợ Rèn và Trấn Phái
+
+Route /blacksmith có hai thẻ Phân rã / Trấn Phái, nền SVG Tobin và bố cục dùng chung Tiệm Prisma. Phân rã 1–99 đồ thường chưa dùng để lấy Vụn Prisma. Túi đồ có lưới 5 tài nguyên. Đã mở 13 mẫu Trấn Phái cho sáu nhân vật đầu, gồm một mẫu thưởng quest ATK +5 và 12 mẫu chế tạo; tái rèn hai bước và ô Trấn Phái riêng hoạt động đầy đủ. Ảo Ảnh vẫn tạm đóng. Chi tiết: [docs/BLACKSMITH.md](docs/BLACKSMITH.md).
+
+## Vòng Phụ và đợt nhân vật 29/10/2026
+
+Thêm Helena, Leonardo, Kyle, Iwayn, Percival, Mandred, Lionel; 13 Trấn Phái cho sáu nhân vật đầu; quest boss Lợn rừng khổng lồ thưởng Trấn Arthur ATK +5 và bản trùng Arthur/Iris/Takeshi. Các effect và nội tại khai báo qua dữ liệu, có kiểm tra schema. Quy tắc Vòng Phụ, lựa chọn mặc định và hướng kiểm thử: [đặc tả triển khai](docs/EXTRA_TURNS_AND_RECRUITS.md).
+
+## Chuẩn mô tả nhân vật và kỹ năng
+
+Đã rà soát 32 nhân vật, 144 kỹ năng và 13 Trấn Phái. UI chia tác dụng ngắn / thông số / chi tiết cơ chế; bối cảnh nhân vật tách khỏi giới thiệu cách chơi. Chuẩn biên soạn, đánh giá từ hai góc nhìn và danh mục câu chữ nằm trong [đặc tả mô tả kỹ năng](docs/SKILL_COPY_AND_UX_SPEC.md).

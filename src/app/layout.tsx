@@ -13,7 +13,10 @@ import "./shop.css";
 import "./controls.css";
 import "./dungeon.css";
 import "./quests.css";
+import "./blacksmith.css";
 import "./profiles.css";
+import "./skill-copy.css";
+import "./equipment-ui.css";
 export const metadata: Metadata = {
   title: "Northern Prisma · Hành trình phương Bắc",
   description:

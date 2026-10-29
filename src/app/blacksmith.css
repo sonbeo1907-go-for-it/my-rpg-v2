@@ -1,0 +1,89 @@
+.currency-fragments { color: #cbabf8; }
+.currency-fragments > .icon { fill: #b38be333; }
+.currency-original { color: #e2d9f5; }
+.original-prisma-icon { filter: drop-shadow(0 0 4px #d4ade544); }
+.stat-exclusive-bonus { display: block; color: #d8b7ed; font-size: .68rem; }
+.inventory-tabs, .blacksmith-tabs { flex-wrap: wrap; }
+.inventory-tabs button.active, .blacksmith-tabs button.active { background: #615441bb; color: #ffe2a8; border-color: #d7b678; }
+.inventory-forge-link { margin-left: auto; }
+.resource-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1rem; }
+.resource-card { display:flex; flex-direction:column; gap: .8rem; min-height: 260px; }
+.resource-card > .icon { width: 60px; height: 60px; margin: .7rem 0; }
+.resource-card h2 { font-size: 1.5rem; margin: 0; }
+.resource-card > .currency-amount { font-size: 1.4rem; }
+.resource-card p { color: var(--muted); font-size: .85rem; line-height: 1.8; margin: 0; }
+.blacksmith-page { --line: #c5ad873d; }
+.blacksmith-page .shop-scene::after { background: linear-gradient(90deg,#1b1714e8,#221b15b5 45%,#23181322 70%,transparent); }
+.blacksmith-page .panel { background: linear-gradient(140deg,#393129bb,#1c2425bb); border-color: #ae97785c; }
+.blacksmith-page .shop-tabs { margin-bottom: 1rem; }
+.blacksmith-page .shop-tabs button.active { background: #6b4b2ccc; border-color: #d7ae73; color: #ffe3b9; }
+.blacksmith-page .witch-dialogue { background: #281f1966; border-color: #d6b48666; }
+.blacksmith-page .witch-dialogue::before { background: #43312799; }
+.blacksmith-page .filter-bar { display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); padding: 1rem; background: #211f1ab8; border-color: #aa96714d; backdrop-filter: blur(6px); }
+.forge-wallet { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.3rem; padding: 1rem !important; margin-bottom: 1.2rem; }
+.forge-wallet .currency-amount { font-size: .85rem; }
+.forge-selection { position: sticky; top: .5rem; z-index: 3; padding: 1rem !important; margin-bottom: .8rem; }
+.forge-selection > div:first-child { display:flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .7rem; font-size: .85rem; }
+.forge-selection > div:first-child > span { color: var(--muted); }
+.forge-actions { display:flex; flex-wrap:wrap; gap: .6rem; margin-top: 1rem; }
+.forge-actions > button { padding: .7rem .8rem; font-size: .75rem; }
+.forge-note { font-size: .75rem; color: var(--muted); line-height: 1.8; }
+.forge-gear-grid { grid-template-columns: repeat(auto-fill,minmax(175px,1fr)); gap: .8rem; }
+.blacksmith-page .gear-card { background: linear-gradient(145deg,#303331b3,#202725bb); padding: .9rem; }
+.blacksmith-page .gear-card h3 { font-size: 1.05rem; }
+.blacksmith-page .gear-symbol { margin: .7rem auto 1rem; }
+.blacksmith-page .gear-card.selected { outline: 2px solid #f2c278; outline-offset: -3px; background: #59432dcc; }
+.forge-yield { border-top: 1px solid #a1936c55; padding-top: .6rem; margin-top: .8rem; display:block; }
+.forge-cost { width:100%; border-collapse: collapse; font-size:.8rem; margin:1rem 0; }
+.forge-cost th, .forge-cost td { padding:.6rem .4rem; text-align:right; border-bottom:1px solid var(--line); }
+.forge-cost th:first-child { text-align:left; }
+.forge-cost th { font-weight:600; }
+.forge-roll-ranges { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0; }
+.forge-roll-ranges > span { border:1px solid #b5a98255; padding:.4rem .5rem; font-size:.7rem; color:#e9d2a7; background:#242a2c55; }
+.forge-policy { margin-bottom:1.2rem; font-size:.8rem; color:var(--muted); }
+.forge-policy summary, .exclusive-card summary { cursor:pointer; color:var(--gold-light); }
+.forge-policy p { margin:.8rem 0; }
+.exclusive-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
+.exclusive-card h2 { font-size:1.4rem; }
+.exclusive-card p { font-size:.85rem; color:var(--muted); }
+.exclusive-card.equipped { border-color:#e9c58a; }
+.exclusive-card .eyebrow { font-size:.6rem; }
+.exclusive-stat { display:block; margin:1rem 0; color:#e2b8ef; }
+.forge-cost-summary { display:flex; flex-wrap:wrap; gap:.7rem; margin:1rem 0; font-size:.8rem; }
+.reforge-comparison { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; }
+.reforge-comparison > div { border:1px solid #927b63; background:#233239; padding:1.3rem; display:flex; flex-direction:column; gap:1rem; }
+.reforge-comparison strong { color:#e6c39b; font-size:1.3rem; }
+.exclusive-slot { margin:1rem 0; padding:1rem; border-color:#7f6a8c; }
+.exclusive-slot h3 { margin:0; font-size:1.1rem; }
+.exclusive-slot .eyebrow { font-size:.55rem; color:#d4b3e0; margin-bottom:.4rem; }
+.exclusive-slot-heading { display:flex; align-items:center; gap:.8rem; }
+.exclusive-slot-heading > .icon { width:34px; height:34px; color:#d0aee0; }
+.exclusive-slot p { font-size:.75rem; color:var(--muted); margin:.8rem 0; }
+.exclusive-slot > strong { color:#e3c3ef; }
+.exclusive-slot-options { display:flex; flex-direction:column; gap:.5rem; margin:.7rem 0; }
+.exclusive-slot-options button { font-size:.75rem; text-align:left; }
+.exclusive-slot .stack-actions { flex-wrap:wrap; gap:.5rem; }
+.exclusive-slot .stack-actions .button, .exclusive-slot .stack-actions button { font-size:.75rem; padding:.7rem; }
+.pending-reforge-link { position:fixed; z-index:28; left:1rem; bottom:6.5rem; max-width:calc(100vw - 2rem); padding:.8rem 1rem; color:#f2dcff; background:#34253ce8; border:1px solid #bc9ac9; border-radius:4px; font-size:.8rem; box-shadow:0 8px 30px #0006; }
+@media(max-width:900px) {
+ .blacksmith-page .shop-keeper { background:linear-gradient(0deg,#1d191955,transparent 75%),url('/art/blacksmith.svg') right 38% / cover; }
+ .blacksmith-page .shop-scene::after { background:#1c1918e0; }
+ .forge-selection { top:.3rem; }
+}
+@media(max-width:600px) {
+ .resource-grid { grid-template-columns:1fr 1fr; gap:.7rem; }
+ .resource-card { padding:1rem; min-height:270px; }
+ .resource-card h2 { font-size:1.1rem; }
+ .resource-card > .currency-amount { font-size:.95rem; flex-wrap:wrap; }
+ .resource-card > .currency-amount small { font-size:.55rem; }
+ .resource-card p { font-size:.75rem; }
+ .forge-gear-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.6rem; }
+ .blacksmith-page .gear-card { padding:.65rem; }
+ .blacksmith-page .gear-card h3 { font-size:.95rem; }
+ .forge-cost { font-size:.66rem; }
+ .forge-cost th, .forge-cost td { padding:.5rem .2rem; }
+ .forge-wallet { gap:.7rem; }
+ .forge-wallet .currency-amount { font-size:.75rem; }
+ .reforge-comparison { grid-template-columns:1fr; }
+ .inventory-forge-link { font-size:.75rem; padding:.75rem; }
+}

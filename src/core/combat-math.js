@@ -6,14 +6,15 @@ export function mpRestoreAmount(effect, maxMp) {
 }
 
 export function effectiveStat(actor, key, temporaryModifier = 0) {
-  const base = actor.baseStats?.[key] ?? actor.stats[key];
+  let base = actor.baseStats?.[key] ?? actor.stats[key];
+  if (actor.passive?.type === 'stat_conversion' && actor.passive.toStat === key) base += (actor.baseStats?.[actor.passive.fromStat] ?? actor.stats[actor.passive.fromStat]) * actor.passive.ratio;
   const permanent = actor.passive?.type === 'stat_boost' ? actor.passive.modifiers[key] ?? 0 : 0;
   const resourceBonus = actor.passive?.type === 'resource_stat_boost' && actor.passive.stat === key
     ? (actor.resourceValues?.[actor.passive.resource] ?? 0) * actor.passive.ratio : 0;
   const field = actor.passive?.type === 'field_growth' && actor.passive.stat === key
     ? actor.statuses?.find(status => status.id === actor.passive.statusId) : null;
   const fieldBonus = field ? Math.min(actor.passive.maxStacks, field.growth ?? 0) * actor.passive.ratio : 0;
-  return base * Math.max(0.1, 1 + permanent + resourceBonus + fieldBonus + temporaryModifier);
+  return base * Math.max(0.1, 1 + permanent + (actor.exclusiveModifiers?.[key] ?? 0) + resourceBonus + fieldBonus + temporaryModifier);
 }
 
 export function damageMultiplier(effect, { spent = 0, stacks = 0, hpRatio = 1 } = {}) {

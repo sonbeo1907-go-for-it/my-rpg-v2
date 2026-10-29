@@ -290,7 +290,10 @@
       "dark_holy_blade_alice"
     ],
     "bgm": "alice",
-    "rewardTier": "super", "requires": { "storyFlag": "illusion.sinister_unlocked" }
+    "rewardTier": "super",
+    "requires": {
+      "storyFlag": "illusion.sinister_unlocked"
+    }
   },
   {
     "id": "miraebolis_superboss",
@@ -300,7 +303,10 @@
       "miraebolis"
     ],
     "bgm": "miraebolis",
-    "rewardTier": "super", "requires": { "storyFlag": "illusion.sinister_unlocked" }
+    "rewardTier": "super",
+    "requires": {
+      "storyFlag": "illusion.sinister_unlocked"
+    }
   },
   {
     "id": "giant_spider_lair",
@@ -311,5 +317,33 @@
     ],
     "bgm": "boss",
     "rewardTier": "boss"
+  },
+  {
+    "id": "giant_boar_trial",
+    "name": "Lợn rừng khổng lồ — Dấu rèn đầu tiên",
+    "description": "Tobin nhờ nhóm đẩy lùi con lợn khổng lồ phá ruộng phía bắc. Thắng lần đầu nhận Dấu rèn khởi hành của Arthur (ATK +5) cùng một bản trùng Arthur, Iris và Takeshi. Trấn Phái có ô riêng; có thể tái rèn chỉ số, nội tại luôn giữ nguyên.",
+    "enemies": [
+      "giant_boar"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "firstClearRewards": [
+      {
+        "type": "exclusive",
+        "templateId": "arthur.intro"
+      },
+      {
+        "type": "duplicate",
+        "characterId": "arthur"
+      },
+      {
+        "type": "duplicate",
+        "characterId": "iris"
+      },
+      {
+        "type": "duplicate",
+        "characterId": "takeshi"
+      }
+    ]
   }
 ]

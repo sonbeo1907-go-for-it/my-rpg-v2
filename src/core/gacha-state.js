@@ -1,3 +1,4 @@
+import { validateGear } from './economy.js';
 // Pity belongs to each banner. Presentation history is saved with the rewards, never grants them again.
 export function normalizeGachaState(input, campaign, content) {
   if (!input || !Number.isSafeInteger(input.totalPulls) || input.totalPulls < 0) throw new Error('Số lượt quay không hợp lệ.');
@@ -14,8 +15,11 @@ export function normalizeGachaState(input, campaign, content) {
     const results = batch.results.map((result, index) => {
       if (result?.kind === 'gear') {
         const gear = campaign.gear.find(item => item.id === result.gear?.id);
-        if (!gear || gear.id !== `gear_${input.totalPulls - batch.results.length + index + 1}` || gear.typeId !== result.gear.typeId || !result.gear.stats || Object.keys(gear.stats).length !== Object.keys(result.gear.stats).length || Object.entries(gear.stats).some(([key, value]) => result.gear.stats[key] !== value)) throw new Error('Gear trong kết quả chiêu mộ không hợp lệ.');
-        return { kind: 'gear', gear: structuredClone(gear) };
+        const historical = !gear && result.dismantled === true;
+        const snapshot = historical ? result.gear : gear;
+        if (!snapshot || !validateGear(snapshot, content) || (result.dismantled !== undefined && result.dismantled !== historical)
+          || snapshot.id !== `gear_${input.totalPulls - batch.results.length + index + 1}` || snapshot.typeId !== result.gear.typeId || !result.gear.stats || Object.keys(snapshot.stats).length !== Object.keys(result.gear.stats).length || Object.entries(snapshot.stats).some(([key, value]) => result.gear.stats[key] !== value)) throw new Error('Gear trong kết quả chiêu mộ không hợp lệ.');
+        return { kind: 'gear', gear: structuredClone(snapshot), ...(historical ? {dismantled:true} : {}) };
       }
       if (result?.kind === 'character') {
         if (!banner.characterPool.includes(result.characterId) || !campaign.unlockedCharacterIds.includes(result.characterId) || typeof result.duplicate !== 'boolean' || typeof result.slotUnlocked !== 'boolean' || typeof result.guaranteed !== 'boolean'

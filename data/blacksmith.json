@@ -1,0 +1,14 @@
+[
+  {
+    "id": "default",
+    "maxDismantle": 99,
+    "dismantleYield": {"t1": 5, "t2": 15, "t3_focused": 40, "t3_dual": 40},
+    "craftCost": {"coins": 10000, "prismaFragments": 120, "recruitmentShards": 3, "originalPrisma": 1},
+    "reforgeCost": 1,
+    "rollMinPoints": 5,
+    "rollMaxPoints": 10,
+    "rollPolicy": "uniform_stat_then_integer",
+    "allowIdenticalReforge": true,
+    "requireOwnedCharacter": true
+  }
+]

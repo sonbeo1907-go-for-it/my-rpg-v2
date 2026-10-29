@@ -1,0 +1,21 @@
+.skill-summary { line-height: 1.6; margin-block: .75rem; color: #c6d9df; }
+.skill-facts { list-style: none; margin: .8rem 0 0; padding: 0; display: grid; gap: .45rem; }
+.skill-facts li { line-height: 1.6; color: #c0dce2; overflow-wrap: anywhere; }
+.skill-facts.scaling { border-top: 1px solid #91bbc526; padding-top: .85rem; }
+.skill-rules { margin-top: 1rem; border-top: 1px solid #91bbc526; padding-top: .7rem; }
+.skill-rules > summary { cursor: pointer; color: #dfc58e; line-height: 1.6; }
+.skill-rules > summary:focus-visible { outline: 2px solid #f2d29b; outline-offset: 4px; }
+.skill-rules ul, .skill-quick-rules { padding-left: 1.25rem; line-height: 1.65; color: #a9c0c8; }
+.skill-rules li + li, .skill-quick-rules li + li { margin-top: .4rem; }
+.skill-quick-rules { margin-block: .8rem 0; font-size: .88rem; }
+.skill-rules .skill-assumption { margin-top: .8rem; }
+.passive-copy { margin-top: 1.25rem; border-top: 1px solid #91bbc526; padding-top: .75rem; }
+.passive-copy h3 { display: flex; gap: .65rem; flex-wrap: wrap; align-items: baseline; margin-block: .5rem; }
+.passive-copy h3 > span { font: .75rem var(--font-sans, sans-serif); color: #85c9c8; }
+.character-copy-guide { margin-top: 1.2rem; max-width: 76ch; }
+.character-copy-guide p { line-height: 1.7; }
+.combat-popover .skill-facts { font-size: .9rem; }
+.combat-popover .skill-summary { margin-block: .65rem; }
+
+.room-enemy details .skill-facts { padding-left: 0; }
+.room-enemy .skill-facts li { font-size: .82rem; }

@@ -183,7 +183,7 @@ export function SummonCardFront({
                 .join(" · ")}
             </p>
             <div className="summon-card-reward">
-              Đã vào túi đồ<small>#{result.gear.id.slice(5)}</small>
+              {result.dismantled ? 'Đã phân rã' : 'Đã vào túi đồ'}<small>#{result.gear.id.slice(5)}</small>
             </div>
           </>
         )}

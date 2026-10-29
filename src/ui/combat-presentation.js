@@ -1,6 +1,7 @@
 import { targetsFor } from '../core/battle.js';
 import { damageMultiplier, supportAmount, speedDamageRatio } from '../core/combat-math.js';
 import { battleStat } from '../core/stat-values.js';
+import { skillPresentation } from './skill-copy.js';
 import { skillScaling } from './skill-presentation.js';
 
 export const compactNumber = value => new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 2 }).format(value);
@@ -45,16 +46,18 @@ export function compactSkillScaling(skill, actor, target, content) {
       parts.push(`${formula || '0'} → ${amount} ${effect.type === 'shield' ? 'khiên' : 'HP'}`);
     } else if (effect.type === 'status' || effect.type === 'toggle_status') {
       const status = content.statuses[effect.status];
-      const modifiers = Object.entries(status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `+${percent(value)} ST lên khiên` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? key}`);
+      const modifiers = Object.entries(status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `Địch có khiên: ST ×${compactNumber(1+Number(value))}` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? key}`);
       parts.push(...modifiers);
+      for (const id of effect.linkedStatuses??[]) parts.push(content.statuses[id].name);
       if (status.taunt) parts.push('Khiêu khích');
       if (status.cover) parts.push('Đỡ đòn thay');
-      if (status.effectImmunity) parts.push(`Chặn ${status.effectImmunity.charges} debuff`);
+      if (status.effectImmunity) parts.push(`Chặn ${status.effectImmunity.charges} hiệu ứng`);
       if (status.regen) parts.push(`Hồi ${percent(status.regen)} HP/lượt`);
       if (status.turnStartAbility) parts.push(`Tạo ${status.name}`);
       if (status.damageOverTime) parts.push(`${status.name} · ${effect.duration} lượt`);
       if (!modifiers.length && !status.taunt && !status.cover && !status.effectImmunity && !status.regen && !status.turnStartAbility && !status.damageOverTime) parts.push(status.name);
     } else if (effect.type === 'resource') parts.push(effect.maxMpRatio ? `Hồi ${percent(effect.maxMpRatio)} MP` : `+${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources?.[effect.resource]?.name ?? effect.resource}`);
+    else if (effect.type === 'grant_extra_turn') parts.push('+1 Lượt Thêm');
     else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
   }
   const damageCount = skill.effects.filter(effect => effect.type === 'damage').length;
@@ -66,7 +69,8 @@ export function combatSkillDetails(skill, actor, target, content) {
 export function statusDetails(status, actor, battle, content) {
   const definition = content.statuses[status.id];
   const source = battle.actors.find(item => item.id === status.sourceId) ?? battle.sourceActors?.find(item => item.id === status.sourceId) ?? actor;
-  const lines = skillScaling({ target: 'self', effects: [{ type: 'status', status: status.id, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true });
+  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
+  const lines = [...presentation.facts, ...presentation.rules];
   if (status.potency !== undefined) {
     const index = lines.findIndex(line => line.startsWith('Độc:'));
     if (index >= 0) lines[index] = `Độc đã ghi nhận: ${status.potency} HP mỗi đầu lượt · còn ${status.remaining} lần.`;

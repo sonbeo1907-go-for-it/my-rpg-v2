@@ -29,8 +29,8 @@ test('Lisbeth has Light magic, Ranoc background, low HP, and 42 base MAG', () =>
   assert.equal(actor.stats.magic, 42);
   assert.equal(actor.stats.maxHp, 110);
   assert.ok(actor.stats.maxHp < content.characters.fiona.stats.maxHp);
-  assert.match(actor.description, /tổ tiên lập khế ước với quỷ/);
-  assert.match(actor.description, /tsundere/);
+  assert.match(actor.biography, /tổ tiên lập khế ước với quỷ/);
+  assert.match(actor.biography, /tsundere/);
 });
 
 test('the permanent 20% MAG applies exactly once in resolution, saves and new battles', () => {

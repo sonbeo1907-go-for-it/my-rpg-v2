@@ -5,7 +5,7 @@
     "title": "Người hùng được chọn",
     "element": "light",
     "role": "DPS vật lí",
-    "description": "Tích Cộng hưởng rồi giải phóng Ogre’s Bane. Mốc truyện thay đổi cách điều khiển sức mạnh.",
+    "description": "Tích Cộng hưởng qua Kiếm quang rồi giải phóng sức mạnh Ogre’s Bane.",
     "stats": {
       "maxHp": 190,
       "maxMp": 40,
@@ -35,7 +35,7 @@
     "element": "plain",
     "role": "Hỗ trợ tấn công",
     "basicDamageType": "magical",
-    "description": "Cường hóa đồng đội, chuẩn bị cửa sổ dồn sát thương. Không hồi máu hoặc giảm giáp địch.",
+    "description": "Cường hóa đòn đánh, tích Dữ liệu rồi mở đợt tổng công kích.",
     "stats": {
       "maxHp": 135,
       "maxMp": 90,
@@ -64,7 +64,7 @@
     "title": "Kẻ thách đấu",
     "element": "wind",
     "role": "DPS né / phản công",
-    "description": "Chủ động vào thế né, phản công tối đa một lần mỗi vòng. Không né được phép thuật.",
+    "description": "Thu hút đòn vật lí để né, phản công và tích Sơ hở cho Hoàn kiếm.",
     "stats": {
       "maxHp": 165,
       "maxMp": 45,
@@ -98,7 +98,7 @@
     "element": "dark",
     "role": "DPS ma pháp",
     "basicDamageType": "magical",
-    "description": "Gieo mảnh Prisma trên địch, rồi kích nổ. Mỗi mục tiêu giữ mảnh riêng.",
+    "description": "Gắn Mảnh Prisma lên từng kẻ địch rồi kích nổ cả chiến trường.",
     "stats": {
       "maxHp": 130,
       "maxMp": 100,
@@ -122,7 +122,7 @@
     "element": "water",
     "role": "Hỗ trợ phòng thủ",
     "basicDamageType": "magical",
-    "description": "Phòng ngừa bằng khiên và kháng phép. Khiên bị phá hồi một lượng HP nhỏ nếu Elaine còn đứng vững.",
+    "description": "Bảo vệ đội bằng khiên và kháng phép; hồi HP khi khiên vỡ.",
     "stats": {
       "maxHp": 145,
       "maxMp": 100,
@@ -149,7 +149,7 @@
     "title": "Lá chắn của làng",
     "element": "earth",
     "role": "Thủ Hộ bảo vệ cá nhân",
-    "description": "Nhận đòn đơn mục tiêu thay một đồng đội. Không thể nhận thay đòn diện rộng.",
+    "description": "Nhận đòn đơn mục tiêu thay đồng đội và tự giảm sát thương.",
     "stats": {
       "maxHp": 300,
       "maxMp": 45,
@@ -176,7 +176,7 @@
     "title": "Đấu sĩ đại kiếm",
     "element": "plain",
     "role": "Đấu sĩ",
-    "description": "Gồng mình tích Quyết tâm khi chịu đòn hoặc chủ động tấn công, giữ nhịp ngay cả khi có Thủ Hộ bảo vệ. Mỗi Quyết tâm tăng 15% ATK; dồn sức tung Trọng kích rồi tiêu số điểm đã dùng.",
+    "description": "Tích Quyết tâm để tăng ATK, rồi dồn toàn bộ vào Trọng kích.",
     "stats": {
       "maxHp": 235,
       "maxMp": 35,
@@ -212,7 +212,7 @@
     "title": "Cung thủ",
     "element": "wind",
     "role": "DPS vật lí tầm xa",
-    "description": "Dành lượt ngắm, sau đó bắn xuyên giáp. Có liên xạ để xử lí nhóm địch.",
+    "description": "Tích Điểm ngắm để bắn xuyên giáp, hoặc dùng Liên xạ đánh nhiều địch.",
     "stats": {
       "maxHp": 160,
       "maxMp": 45,
@@ -242,7 +242,7 @@
     "element": "fire",
     "role": "DPS ma pháp diện rộng",
     "basicDamageType": "magical",
-    "description": "Tích Nhiệt bằng Hỏa cầu, xả Nhiệt thành Biển lửa hoặc điều hòa để hồi MP.",
+    "description": "Tích Nhiệt bằng Hỏa cầu; đổi Nhiệt lấy sát thương diện rộng hoặc MP.",
     "stats": {
       "maxHp": 140,
       "maxMp": 95,
@@ -272,7 +272,7 @@
     "element": "earth",
     "role": "Hỗ trợ duy trì",
     "basicDamageType": "magical",
-    "description": "Dược liệu hồi phục theo lượt, tăng phòng thủ. Cứu nguy tức thời kém hơn Armie.",
+    "description": "Duy trì hồi phục theo lượt và tăng phòng thủ cho đồng đội.",
     "stats": {
       "maxHp": 165,
       "maxMp": 80,
@@ -295,7 +295,7 @@
     "title": "Ka-Boom!",
     "element": "thunder",
     "role": "DPS vật lí thiết bị",
-    "description": "Nạp Điện tích rồi xả qua vũ khí. Sát thương Thunder vẫn tính theo ATK và DEF vật lí.",
+    "description": "Nạp Điện tích rồi xả qua đạn Lôi hoặc vụ nổ diện rộng.",
     "stats": {
       "maxHp": 160,
       "maxMp": 45,
@@ -324,7 +324,7 @@
     "title": "Khiên sắt",
     "element": "water",
     "role": "Thủ Hộ giữ đội hình",
-    "description": "Thu hút đòn đơn mục tiêu và giảm sát thương cả đội. Không nhận đòn thay như Garrek.",
+    "description": "Khiêu khích địch và củng cố khả năng chịu đòn của toàn đội.",
     "stats": {
       "maxHp": 280,
       "maxMp": 60,
@@ -348,7 +348,7 @@
     "element": "water",
     "role": "Hỗ trợ cứu chữa",
     "basicDamageType": "magical",
-    "description": "Hồi HP tức thời, giải hiệu ứng bất lợi, cấp cứu người bị thương nặng.",
+    "description": "Hồi HP tức thời, thanh tẩy và cấp cứu đồng đội bị thương nặng.",
     "stats": {
       "maxHp": 150,
       "maxMp": 100,
@@ -372,7 +372,7 @@
     "element": "dark",
     "role": "Hỗ trợ phá phòng thủ",
     "basicDamageType": "magical",
-    "description": "Giảm phòng thủ vật lí hoặc ma pháp của địch. Không tăng sức tấn công đồng đội.",
+    "description": "Giảm DEF và RES để đồng đội dễ xuyên thủng phòng tuyến.",
     "stats": {
       "maxHp": 135,
       "maxMp": 95,
@@ -401,7 +401,7 @@
       "magical_dps"
     ],
     "basicDamageType": "magical",
-    "description": "Pháp sư vừa tốt nghiệp Magic Academy, hỗ trợ đội phép bằng tăng MAG, liên kích và phục hồi MP. Tích Lôi ấn khi đồng đội khác gây sát thương phép đơn mục tiêu để tiếp sức cả đội ở đầu lượt.",
+    "description": "Tăng MAG, liên kích theo phép đơn mục tiêu của đồng đội và tiếp MP cho cả đội.",
     "stats": {
       "maxHp": 140,
       "maxMp": 100,
@@ -429,7 +429,8 @@
       "aurora.spark",
       "aurora.amplify",
       "aurora.storm"
-    ]
+    ],
+    "biography": "Pháp sư vừa tốt nghiệp Học Viện Ma Pháp, mang sức mạnh Lôi."
   },
   {
     "id": "lisbeth",
@@ -440,7 +441,7 @@
     "role": "DPS ma pháp đơn mục tiêu",
     "roleGroup": "magical_dps",
     "basicDamageType": "magical",
-    "description": "Tiểu thư nhà Ranoc, dòng quý tộc có tổ tiên lập khế ước với quỷ để có ma pháp vượt trội. Kiêu ngạo và tsundere, cô luôn phủ nhận sự quan tâm dành cho người khác. Tự cường hóa rồi dồn phép Light đơn mục tiêu, đổi lại HP thấp và hao nhiều MP.",
+    "description": "Tự tăng MAG rồi dồn phép Quang đơn mục tiêu; sát thương cao, hao MP và ít HP.",
     "stats": {
       "maxHp": 110,
       "maxMp": 90,
@@ -461,7 +462,8 @@
       "lisbeth.pride",
       "lisbeth.lance",
       "lisbeth.judgment"
-    ]
+    ],
+    "biography": "Tiểu thư nhà Ranoc, dòng quý tộc có tổ tiên lập khế ước với quỷ. Kiêu ngạo và tsundere, cô luôn phủ nhận sự quan tâm dành cho người khác."
   },
   {
     "id": "kai",
@@ -474,7 +476,7 @@
     "secondaryRoleGroups": [
       "defensive_support"
     ],
-    "description": "Cậu bé làng phía Bắc luôn ngưỡng mộ Garrek và tập dùng khiên gỗ để bảo vệ mọi người. Rắc độc làm hao mòn kẻ địch, dựng khiên nhỏ và giữ hàng; sức công phá lẫn khả năng bảo vệ đều ở mức vừa phải.",
+    "description": "Bào mòn địch bằng độc, hỗ trợ đội bằng khiên nhỏ và phòng thủ.",
     "stats": {
       "maxHp": 185,
       "maxMp": 65,
@@ -493,7 +495,8 @@
       "kai.poison",
       "kai.shield",
       "kai.formation"
-    ]
+    ],
+    "biography": "Cậu bé làng phía Bắc luôn ngưỡng mộ Garrek và tập dùng khiên gỗ để bảo vệ mọi người."
   },
   {
     "id": "benard",
@@ -503,7 +506,7 @@
     "element": "wind",
     "role": "Sát thương vật lí đơn mục tiêu",
     "roleGroup": "physical_dps",
-    "description": "Kị sĩ thủ đô sử dụng song kiếm, lấy tốc độ áp đảo một đối thủ. Tốc độ càng cao, mỗi nhát kiếm càng mạnh; có thể tự tăng tốc nhưng không gây sát thương diện rộng.",
+    "description": "Tự tăng SPD để tung những nhát song kiếm mạnh hơn vào một mục tiêu.",
     "stats": {
       "maxHp": 160,
       "maxMp": 65,
@@ -522,7 +525,8 @@
       "benard.twin_blades",
       "benard.flash",
       "benard.gale"
-    ]
+    ],
+    "biography": "Kị sĩ thủ đô sử dụng song kiếm, lấy tốc độ áp đảo đối thủ."
   },
   {
     "id": "lanceveil",
@@ -535,7 +539,7 @@
     "secondaryRoleGroups": [
       "defensive_support"
     ],
-    "description": "Kị sĩ thủ đô cầm thương và khiên, mang ý chí bảo vệ người khác. Dùng thương Hỏa dồn sát thương vào một đối thủ và dựng hàng khiên khi đồng đội gặp nguy hiểm.",
+    "description": "Dồn thương Hỏa vào một đối thủ, dựng hàng khiên khi đội cần bảo vệ.",
     "stats": {
       "maxHp": 225,
       "maxMp": 60,
@@ -554,7 +558,8 @@
       "lanceveil.thrust",
       "lanceveil.breakthrough",
       "lanceveil.bulwark"
-    ]
+    ],
+    "biography": "Kị sĩ thủ đô cầm thương và khiên, mang ý chí bảo vệ người khác."
   },
   {
     "id": "gahallad",
@@ -564,7 +569,7 @@
     "element": "dark",
     "role": "DPS vật lí đơn mục tiêu / Phá khiên",
     "roleGroup": "physical_dps",
-    "description": "Đoàn trưởng kị binh thủ đô. Hắc kỳ phủ kín chân trời, vó sắt lao tới khiến cả chiến tuyến tán loạn. Cưỡi chiến mã để tăng ATK và nhân đôi sát thương khi đánh vào mục tiêu đang có khiên; dồn toàn lực xuyên thủng một đối thủ.",
+    "description": "Lên ngựa để phá khiên; tận dụng đà phá vỡ cho đòn đánh kế tiếp.",
     "stats": {
       "maxHp": 180,
       "maxMp": 65,
@@ -583,7 +588,8 @@
       "gahallad.mount",
       "gahallad.trample",
       "gahallad.charge"
-    ]
+    ],
+    "biography": "Đoàn trưởng kị binh thủ đô. Hắc kỳ phủ kín chân trời, vó sắt lao tới khiến cả chiến tuyến tán loạn."
   },
   {
     "id": "gawain",
@@ -593,7 +599,7 @@
     "element": "thunder",
     "role": "DPS vật lí đa mục tiêu",
     "roleGroup": "physical_dps",
-    "description": "Kĩ sĩ đoàn trưởng dùng đại kiếm xé chiến tuyến trong tiếng sấm. Gọi mây giông đánh toàn bộ địch vào đầu lượt của bản thân; mây càng tồn tại, sức mạnh càng tăng, rồi mất toàn bộ Uy lôi khi mây tan.",
+    "description": "Gọi mây Lôi đánh đầu lượt, tích Uy lôi rồi quét đại kiếm qua toàn địch.",
     "stats": {
       "maxHp": 185,
       "maxMp": 80,
@@ -615,7 +621,8 @@
       "gawain.cloud",
       "gawain.sweep",
       "gawain.judgment"
-    ]
+    ],
+    "biography": "Kị sĩ đoàn trưởng dùng đại kiếm xé chiến tuyến trong tiếng sấm."
   },
   {
     "id": "lucien",
@@ -629,7 +636,7 @@
     "role": "DPS phép đa mục tiêu",
     "roleGroup": "magical_dps",
     "basicDamageType": "magical",
-    "description": "Pháp sư nhà Valmont giăng trận pháp đánh nhiều mục tiêu và dựng kết giới kháng phép. Mỗi đồng đội Valmont khác trong đội tăng 2 MAG căn bản.",
+    "description": "Gây phép diện rộng, tăng RES cho đội và nhận thêm MAG từ đồng đội Valmont.",
     "stats": {
       "maxHp": 140,
       "maxMp": 100,
@@ -683,7 +690,7 @@
       "physical_dps",
       "magical_dps"
     ],
-    "description": "Người thừa kế nhà Valmont kết hợp kiếm thuật và ma pháp trong mỗi đòn đánh. Phần vật lí tính DEF, phần ma pháp tính RES riêng. Mỗi đồng đội Valmont khác tăng 1 ATK và 1 MAG căn bản.",
+    "description": "Kết hợp kiếm và phép trong từng đòn; mạnh hơn khi sát cánh cùng Valmont.",
     "stats": {
       "maxHp": 200,
       "maxMp": 85,
@@ -720,7 +727,7 @@
     "element": "earth",
     "role": "Thủ Hộ vật lí / Bảo vệ toàn đội",
     "roleGroup": "tank",
-    "description": "Hộ vệ được tính là thành viên Valmont. Tạo khiên theo DEF, tăng DEF toàn đội và cấp Hộ ấn chặn một hiệu ứng bất lợi. Mỗi thành viên Valmont trong đội, gồm bản thân, tăng 1 DEF và 1 RES căn bản cho mọi thành viên Valmont.",
+    "description": "Tạo khiên theo DEF, củng cố phòng tuyến và chặn hiệu ứng bất lợi bằng Hộ ấn.",
     "stats": {
       "maxHp": 290,
       "maxMp": 70,
@@ -760,7 +767,7 @@
     "secondaryRoleGroups": [
       "offensive_support"
     ],
-    "description": "Thành viên Valmont dùng hiệu lệnh tăng ATK/MAG cả đội và tiếp viện hồi HP theo ATK. Cuối lượt bản thân hồi 2% MP tối đa cho toàn đội còn sống, tăng thành 4% với thành viên Valmont, gồm chính Cedric.",
+    "description": "Tăng sức tấn công, hồi HP và duy trì MP; tiếp sức tốt hơn cho Valmont.",
     "stats": {
       "maxHp": 165,
       "maxMp": 100,
@@ -782,5 +789,238 @@
       "cedric.aid",
       "cedric.strike"
     ]
+  },
+  {
+    "id": "helena",
+    "name": "Helena Ranoc",
+    "title": "Tiểu thư mong manh",
+    "element": "water",
+    "role": "DPS phép diện rộng",
+    "roleGroup": "magical_dps",
+    "stats": {
+      "maxHp": 120,
+      "maxMp": 180,
+      "attack": 8,
+      "magic": 35,
+      "defense": 10,
+      "resistance": 27,
+      "speed": 13
+    },
+    "abilities": [
+      "helena.rain",
+      "helena.parasol",
+      "helena.ball"
+    ],
+    "passive": {
+      "type": "extra_mp_damage",
+      "name": "Cái giá của sự kiêu hãnh",
+      "description": "Kỹ năng chủ động gây sát thương tiêu thêm tối đa 50% MP gốc, tăng tối đa 50% sát thương theo MP thực tiêu. Tính một lần cho cả chiêu; không áp dụng đánh thường hoặc tạo khiên.",
+      "extraCostRatio": 0.5,
+      "maxDamageBonus": 0.5
+    },
+    "description": "Đổi thêm MP lấy những đợt phép Thủy diện rộng mạnh hơn.",
+    "tags": [
+      "ranoc"
+    ],
+    "basicDamageType": "magical"
+  },
+  {
+    "id": "leonardo",
+    "name": "Leonardo Ranoc",
+    "title": "Người anh cả",
+    "element": "earth",
+    "role": "Thủ Hộ chống phép",
+    "roleGroup": "tank",
+    "stats": {
+      "maxHp": 290,
+      "maxMp": 105,
+      "attack": 18,
+      "magic": 12,
+      "defense": 23,
+      "resistance": 38,
+      "speed": 12
+    },
+    "abilities": [
+      "leonardo.cover",
+      "leonardo.home",
+      "leonardo.cleanse"
+    ],
+    "passive": {
+      "type": "stat_boost",
+      "name": "Trách nhiệm người anh cả",
+      "description": "Tăng vĩnh viễn 20% RES.",
+      "modifiers": {
+        "resistance": 0.2
+      }
+    },
+    "description": "Bảo vệ đồng đội bằng kháng phép, nhận đòn thay và thanh tẩy.",
+    "tags": [
+      "ranoc"
+    ]
+  },
+  {
+    "id": "kyle",
+    "name": "Kyle Ranoc",
+    "title": "Cậu út ranh mãnh",
+    "element": "wind",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 95,
+      "attack": 9,
+      "magic": 26,
+      "defense": 13,
+      "resistance": 24,
+      "speed": 23
+    },
+    "abilities": [
+      "kyle.mischief",
+      "kyle.wind",
+      "kyle.escape"
+    ],
+    "passive": {
+      "type": "marked_ally_magic",
+      "name": "Ai bảo em không biết gì?",
+      "description": "Đồng đội khác tăng 15% MAG đối với từng hit vào địch có Trò quậy. Không buff bản thân hoặc mục tiêu chưa có dấu.",
+      "statusId": "mischief",
+      "ratio": 0.15
+    },
+    "description": "Gắn Trò quậy để giảm RES và tăng sức mạnh phép của đồng đội khác.",
+    "tags": [
+      "ranoc"
+    ],
+    "basicDamageType": "magical"
+  },
+  {
+    "id": "iwayn",
+    "name": "Iwayn",
+    "title": "Kị sĩ trẻ của thủ đô",
+    "element": "light",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 80,
+      "attack": 35,
+      "magic": 10,
+      "defense": 19,
+      "resistance": 18,
+      "speed": 16
+    },
+    "abilities": [
+      "iwayn.advance",
+      "iwayn.oath",
+      "iwayn.victory"
+    ],
+    "passive": {
+      "type": "hp_difference_damage",
+      "name": "Ý chí không lùi bước",
+      "description": "Tăng sát thương bằng chênh lệch tuyệt đối tỷ lệ HP giữa bản thân và mục tiêu, tối đa 30%. Tính riêng trước mỗi hit.",
+      "cap": 0.3
+    },
+    "description": "Xuyên DEF bằng quang thương; tăng sát thương theo chênh lệch tỷ lệ HP.",
+    "tags": [
+      "capital_knights"
+    ]
+  },
+  {
+    "id": "percival",
+    "name": "Percival",
+    "title": "Kị sĩ thủy triều",
+    "element": "water",
+    "role": "Đấu sĩ tự duy trì",
+    "roleGroup": "fighter",
+    "stats": {
+      "maxHp": 210,
+      "maxMp": 70,
+      "attack": 30,
+      "magic": 11,
+      "defense": 27,
+      "resistance": 25,
+      "speed": 13
+    },
+    "abilities": [
+      "percival.undertow",
+      "percival.stillness",
+      "percival.sea"
+    ],
+    "passive": {
+      "type": "ally_heal_mp",
+      "name": "Thân thể như dòng nước",
+      "description": "Mỗi vòng một lần, khi thực nhận HP từ đồng đội khác, hồi 8% MP tối đa (làm tròn lên). Hồi phục theo lượt từ đồng đội được tính, tự hồi và hồi 0 HP không tính.",
+      "ratio": 0.08
+    },
+    "description": "Làm chậm địch, tự hồi HP và nhận thêm MP khi được đồng đội hồi phục.",
+    "tags": [
+      "capital_knights"
+    ]
+  },
+  {
+    "id": "mandred",
+    "name": "Mandred",
+    "title": "Sư tử địa chấn",
+    "element": "earth",
+    "role": "Đấu sĩ",
+    "roleGroup": "fighter",
+    "stats": {
+      "maxHp": 240,
+      "maxMp": 55,
+      "attack": 29,
+      "magic": 8,
+      "defense": 24,
+      "resistance": 17,
+      "speed": 13
+    },
+    "abilities": [
+      "mandred.axe",
+      "mandred.sweep",
+      "mandred.roar"
+    ],
+    "passive": {
+      "type": "stat_conversion",
+      "name": "Huyết lực cuồng sư",
+      "description": "Cộng ATK nền bằng 8% HP tối đa, gồm trang bị, trước buff ATK%. Không phụ thuộc HP hiện tại.",
+      "fromStat": "maxHp",
+      "toStat": "attack",
+      "ratio": 0.08
+    },
+    "description": "Chuyển HP tối đa thành ATK, dùng chiến phủ đánh một hoặc nhiều địch.",
+    "tags": [
+      "capital_knights"
+    ]
+  },
+  {
+    "id": "lionel",
+    "name": "Lionel",
+    "title": "Người dẫn lối",
+    "element": "water",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 105,
+      "attack": 10,
+      "magic": 28,
+      "defense": 16,
+      "resistance": 25,
+      "speed": 21
+    },
+    "abilities": [
+      "lionel.oath",
+      "lionel.encore",
+      "lionel.light"
+    ],
+    "passive": {
+      "type": "end_round_lowest_mp",
+      "name": "Người dẫn lối không mỏi mệt",
+      "description": "Cuối Vòng, sau toàn bộ Vòng Phụ, hồi 10% MP tối đa cho đồng minh còn sống có tỷ lệ MP thấp nhất, gồm bản thân. Hòa chọn theo vị trí đội hình; làm tròn lên, chỉ một lần mỗi vòng.",
+      "ratio": 0.1
+    },
+    "description": "Cường hóa đồng đội, cấp Lượt Thêm và tiếp MP cho người cần nhất cuối vòng.",
+    "tags": [
+      "capital_knights"
+    ],
+    "basicDamageType": "magical"
   }
 ]

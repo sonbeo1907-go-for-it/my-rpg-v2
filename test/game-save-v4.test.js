@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadContent } from '../scripts/load-content.mjs';
 import { createCampaign, serializeCampaign } from '../src/core/progression.js';
-import { createGameSave, encodeGameSave, decodeGameSave, selectPreset, changePresetSlot, renamePreset } from '../src/core/game-save.js';
+import { createGameSave, encodeGameSave, decodeGameSave, selectPreset, changePresetSlot, renamePreset, GAME_SAVE_VERSION } from '../src/core/game-save.js';
 import { characterCatalog, gearCatalog } from '../src/core/catalog.js';
 const content = await loadContent();
 test('v1-v3 saves migrate to five presets and keep currencies and progression', () => {
@@ -20,7 +20,7 @@ test('v4 round trips all five teams independently without storing battle or temp
   let save = createGameSave(content);
   save = selectPreset(save, 'party-2'); save = changePresetSlot(save, 0, 'fiona'); save = renamePreset(save, 'Đội Prisma');
   const text = encodeGameSave({ ...save, battle: { hp: 7 }, filters: { sort: 'attack' } }, content);
-  assert.equal(JSON.parse(text).version, 4); assert.equal(text.includes('"battle"'), false); assert.equal(text.includes('"filters"'), false);
+  assert.equal(JSON.parse(text).version, GAME_SAVE_VERSION); assert.equal(text.includes('"battle"'), false); assert.equal(text.includes('"filters"'), false);
   const restored = decodeGameSave('\uFEFF' + text, content);
   assert.equal(restored.partyPresets[1].name, 'Đội Prisma'); assert.equal(restored.party[0], 'fiona');
   assert.equal(selectPreset(restored, 'party-1').party[0], 'arthur');

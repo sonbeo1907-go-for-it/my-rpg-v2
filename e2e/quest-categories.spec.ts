@@ -18,11 +18,11 @@ const rewards=(page:Page)=>page.locator('.quest-card').evaluateAll(nodes=>nodes.
 
 test('Thảo phạt defaults to 50 then 150 Coin, preserves tab selection/filter and places switch inside the illustration',async({page,request})=>{
  await seed(page);await page.goto('/quests');
- const coins=await rewards(page);expect(coins.length).toBe(25);expect([...new Set(coins)]).toEqual([50,150]);expect(coins).toEqual([...coins].sort((a,b)=>a-b));
+ const coins=await rewards(page);expect(coins.length).toBe(26);expect([...new Set(coins)]).toEqual([50,150]);expect(coins).toEqual([...coins].sort((a,b)=>a-b));
  await expect(page.locator('.quest-card').first()).toContainText('Quỷ lùn tập kích trong rừng');
  const art=await page.locator('.quest-illustration').boundingBox(),tabs=await page.locator('.quest-category-tabs').boundingBox();expect(tabs!.x).toBeGreaterThan(art!.x);expect(tabs!.y-art!.y).toBeLessThan(80);
  for(const name of ['quest-extermination.svg','quest-sinister.svg']){const response=await request.get(`/art/${name}`);expect(response.ok()).toBe(true);expect(await response.text()).toContain('<svg');}
- await page.getByRole('combobox',{name:'Loại nhiệm vụ',exact:true}).selectOption('boss');await expect(page.locator('.quest-card')).toHaveCount(14);expect(new Set(await rewards(page))).toEqual(new Set([150]));
+ await page.getByRole('combobox',{name:'Loại nhiệm vụ',exact:true}).selectOption('boss');await expect(page.locator('.quest-card')).toHaveCount(15);expect(new Set(await rewards(page))).toEqual(new Set([150]));
  await page.getByRole('combobox',{name:'Loại nhiệm vụ',exact:true}).selectOption('normal');await page.locator('[data-encounter-id=boar_field]').click();
  await page.getByRole('button',{name:'Hiểm Ác',exact:true}).click();await expect(page.locator('.quest-locked')).toBeVisible();
  await page.getByRole('button',{name:'Thảo phạt',exact:true}).click();await expect(page.getByRole('combobox',{name:'Loại nhiệm vụ',exact:true})).toHaveValue('normal');await expect(page.locator('.quest-card.selected')).toContainText('Lợn rừng phá ruộng');
@@ -48,8 +48,8 @@ test('persisted illusion flag reveals 1000 Coin quests, supports scoped search a
  await page.reload();await expect(page.locator('.quest-card')).toHaveCount(1);await page.getByRole('button',{name:/Xuất chiến/}).click();await expect(page).toHaveURL(/battle$/);await expect(page.locator('[data-actor-id=enemy_0]')).toContainText('Miraebolis');
 });
 test('Xbox LB/RB switches quest categories while locked, without revealing hidden quests',async({page})=>{
- await seed(page,false,true);await page.goto('/quests');await expect(page.locator('.quest-card')).toHaveCount(25);
+ await seed(page,false,true);await page.goto('/quests');await expect(page.locator('.quest-card')).toHaveCount(26);
  const press=async(index:number)=>{await page.waitForTimeout(100);await page.evaluate(i=>(window as any).__pad.buttons[i].pressed=true,index);await page.waitForTimeout(120);await page.evaluate(i=>(window as any).__pad.buttons[i].pressed=false,index);await page.waitForTimeout(120);};
  await press(5);await expect(page.getByRole('button',{name:'Hiểm Ác',exact:true})).toHaveAttribute('aria-current','page');await expect(page.locator('.quest-locked')).toBeVisible();await expect(page.locator('.quest-card')).toHaveCount(0);
- await press(4);await expect(page.getByRole('button',{name:'Thảo phạt',exact:true})).toHaveAttribute('aria-current','page');await expect(page.locator('.quest-card')).toHaveCount(25);
+ await press(4);await expect(page.getByRole('button',{name:'Thảo phạt',exact:true})).toHaveAttribute('aria-current','page');await expect(page.locator('.quest-card')).toHaveCount(26);
 });

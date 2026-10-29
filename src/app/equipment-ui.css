@@ -1,0 +1,78 @@
+/* Quality colors belong to the icon. Selection/focus and Equipped keep independent visuals. */
+.equipment-icon[data-rarity=low] { --equipment-color: #78de9b; --equipment-tint: #78de9b18; }
+.equipment-icon[data-rarity=mid] { --equipment-color: #7bbcff; --equipment-tint: #7bbcff18; }
+.equipment-icon[data-rarity=high] { --equipment-color: #c6a0ff; --equipment-tint: #c6a0ff18; }
+.equipment-icon[data-rarity=exclusive] { --equipment-color: #ffbf69; --equipment-tint: #ffbf691c; }
+.equipment-icon { color: var(--equipment-color); flex-shrink: 0; }
+.gear-symbol.equipment-icon { border-color: var(--equipment-color); background: var(--equipment-tint); }
+.gear-symbol.equipment-icon > .icon, .gear-symbol.equipment-icon > .equipment-icon-rank { color: var(--equipment-color); }
+.equipment-icon-compact { position: relative; display: inline-grid; place-items: center; width: 42px; height: 46px; border: 1px solid var(--equipment-color); border-radius: 8px; background: var(--equipment-tint); }
+.equipment-icon-compact > .icon { width: 25px; height: 25px; margin-bottom: 7px; color: var(--equipment-color); }
+.equipment-icon-compact > .equipment-icon-rank { position: absolute; bottom: 2px; font: 700 .6rem Georgia, serif; line-height: 1; }
+.equipment-slots .equipment-icon-compact { width: 36px; height: 40px; margin: 0 auto .35rem; }
+.equipment-slots .equipment-icon-compact > .icon { width: 23px; height: 23px; }
+.equipment-slots .equipment-icon-rank { color: var(--equipment-color); }
+.exclusive-slot.panel { border: 1px solid #c9924a85; background: linear-gradient(135deg,#49351d45,#14252dbd); padding: 1rem; }
+.exclusive-slot.has-exclusive { border-color: #d5a362; }
+.exclusive-slot-heading { position: relative; align-items: flex-start; gap: .7rem; }
+.exclusive-slot-heading > div { flex: 1; min-width: 0; }
+.exclusive-slot-heading h3 { overflow-wrap: anywhere; padding-right: .3rem; line-height: 1.45; }
+.exclusive-slot-heading .eyebrow { color: #f3bf7b; font-size: .62rem; letter-spacing: .1em; line-height: 1.5; }
+.exclusive-slot-heading > .equipped-badge { width: 25px; height: 25px; font-size: .8rem; border-width: 2px; }
+.exclusive-slot .exclusive-stat-pill, .exclusive-stat-pill { display: inline-block; color: #ffd69e; background: #ffba5915; border: 1px solid #a67c4888; border-radius: 4px; padding: .4rem .6rem; font-size: .9rem; margin: .8rem 0; line-height: 1.4; }
+.exclusive-slot .exclusive-passive, .exclusive-passive { border-left: 2px solid #d6a465; padding-left: .7rem; margin-block: .2rem .8rem; }
+.exclusive-passive > span { color: #e6c292; font-size: .75rem; line-height: 1.6; }
+.exclusive-slot .exclusive-passive p, .exclusive-passive p { color: #c6d8df; font-size: .85rem; line-height: 1.7; margin: .35rem 0 0; }
+.exclusive-slot p.exclusive-slot-note { font-size: .7rem; color: #9eb5c0; }
+.exclusive-slot-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .9rem; }
+.exclusive-slot-actions > button, .exclusive-slot-actions > .button { min-height: 44px; padding: .65rem .5rem; font-size: .75rem; text-align: center; justify-content: center; }
+.exclusive-slot-actions > .gold { grid-column: 1 / -1; }
+.exclusive-slot-actions > .exclusive-forge-link:only-child { grid-column: 1 / -1; }
+.exclusive-picker.modal { width: min(920px,calc(100vw - 1.5rem)); max-width: 920px; }
+.exclusive-picker .modal-body { padding: 1.2rem; }
+.exclusive-picker-hint { color: #afc5ce; font-size: .85rem; margin: 0 0 1rem; line-height: 1.6; }
+.exclusive-picker-layout { display: grid; grid-template-columns: minmax(240px,.85fr) minmax(0,1.15fr); gap: 1.1rem; align-items: start; }
+.exclusive-choices { display: grid; gap: .65rem; }
+.exclusive-choice { display: flex; align-items: flex-start; gap: .7rem; text-align: left; padding: .9rem; min-height: 100px; background: #162a33; border-color: #6b604a; }
+.exclusive-choice[aria-pressed=true] { border-color: #f2ca8b; outline: 1px solid #f2ca8b; background: #4c3d27a6; }
+.exclusive-choice:focus-visible { outline: 3px solid #9acfff; outline-offset: 3px; }
+.exclusive-choice-copy { display: grid; gap: .35rem; flex: 1; min-width: 0; }
+.exclusive-choice-copy strong { font-family: "Noto Serif Variable",Georgia,serif; font-size: .95rem; line-height: 1.5; }
+.exclusive-choice-copy > span { color: #f7c784; font-size: .85rem; }
+.exclusive-choice-copy small { color: #adc4cf; font-size: .7rem; }
+.exclusive-choice > .equipped-badge { width: 25px; height: 25px; font-size: .8rem; }
+.exclusive-preview { border: 1px solid #b1844b88; border-radius: 5px; padding: 1.1rem; background: #182a33; min-width: 0; }
+.exclusive-preview-heading { display: flex; gap: .7rem; align-items: flex-start; }
+.exclusive-preview-heading > div { min-width: 0; }
+.exclusive-preview-heading h3 { font-size: 1.2rem; margin: .2rem 0 0; line-height: 1.5; overflow-wrap: anywhere; }
+.exclusive-preview-heading .eyebrow { color: #b7c8cc; font-size: .6rem; }
+.exclusive-preview h4 { margin-bottom: .5rem; font-size: .95rem; }
+.exclusive-comparison { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: .8rem; }
+.exclusive-comparison th, .exclusive-comparison td { padding: .6rem .2rem; text-align: right; border-bottom: 1px solid #8ba9b32e; }
+.exclusive-comparison th:first-child { text-align: left; }
+.exclusive-comparison thead { color: #a8bec8; font-size: .7rem; }
+.exclusive-apply-note { font-size: .75rem; color: #9fb4bd; line-height: 1.7; }
+.exclusive-inventory-filters { display: grid; grid-template-columns: minmax(0,1fr) minmax(180px,.5fr); gap: 1rem; }
+.exclusive-inventory-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1rem; }
+.exclusive-inventory-card { position: relative; display: flex; align-items: flex-start; flex-direction: column; min-width: 0; border-color: #b4874e88; background: linear-gradient(145deg,#3b302456,#172b35); transition: border-color .15s; }
+.exclusive-inventory-card:hover { border-color: #f3c58b; }
+.exclusive-inventory-card > .equipped-badge { position: absolute; right: .8rem; top: .8rem; }
+.exclusive-inventory-card .gear-symbol { margin-bottom: 1.5rem; }
+.exclusive-inventory-card .eyebrow { color: #f4c27d; font-size: .65rem; }
+.exclusive-inventory-card h3 { margin-block: .7rem .2rem; font-size: 1.2rem; line-height: 1.5; }
+.exclusive-inventory-card p { color: #b7ccd5; font-size: .85rem; line-height: 1.7; margin-block: .3rem .8rem; }
+.exclusive-inventory-state { font-size: .75rem; color: #bad0d5; margin-top: auto; }
+.exclusive-manage { color: #f5ca92; font-size: .8rem; margin-top: .8rem; padding-top: .6rem; border-top: 1px solid #b3864e44; width: 100%; }
+.exclusive-card > .equipment-icon { margin-bottom: .8rem; }
+.exclusive-stat, .stat-exclusive-bonus { color: #f3bf7b; }
+@media(max-width:680px) {
+  .exclusive-picker-layout { grid-template-columns: 1fr; }
+  .exclusive-picker .modal-body { padding: 1rem; }
+  .exclusive-choices { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; min-width: 0; padding: .2rem; }
+  .exclusive-choice { flex: 0 0 min(250px,78vw); min-height: 100px; padding: .75rem; scroll-snap-align: start; }
+  .exclusive-preview { padding: .9rem; }
+  .exclusive-picker > footer { flex-wrap: wrap; }
+  .exclusive-picker > footer > button { flex: 1; min-height: 44px; }
+  .exclusive-inventory-filters { grid-template-columns: 1fr; }
+  .exclusive-inventory-grid { grid-template-columns: 1fr; }
+}

@@ -12,6 +12,7 @@ import {
 } from "../core/equipment.js";
 import { gearSlotCapacity } from "../core/gear-slots.js";
 import {
+  EquipmentIcon,
   EmptyState,
   GearCard,
   GearFilters,
@@ -21,19 +22,25 @@ import {
   Icon,
 } from "./ui";
 import { useRouteFilters } from "./characters";
+import Link from "next/link";
+import { CurrencyAmount, ResourceIcon } from "./ui";
+import { ExclusiveSlot, ExclusiveInventory } from "./exclusive-equipment";
 
 export function InventoryPage() {
   const { content, campaign } = useGame();
   const [filters, setFilters] = useRouteFilters();
   const [selected, setSelected] = useState<string | null>(null);
+  const tab=filters.tab==='items'?'items':filters.tab==='exclusive'?'exclusive':'equipment';
   const gear = gearCatalog(content, campaign, filters);
   const chosen = gear.find((item: any) => item.id === selected) ?? gear[0];
   return (
-    <main className="page">
+    <main className="page inventory-page">
       <PageHeader
         title="Túi đồ"
-        subtitle={`${campaign.gear.length} món trang bị trong hành trang`}
-      />
+        subtitle={`${campaign.gear.length} trang bị thường · ${campaign.exclusiveGear.length} Trấn Phái`}
+      ><Link className="button inventory-forge-link" href="/blacksmith">Thợ Rèn →</Link></PageHeader>
+      <nav className="inventory-tabs shop-tabs" aria-label="Các mục Túi đồ"><button className={tab==='equipment'?'active':''} aria-current={tab==='equipment'?'page':undefined} onClick={()=>setFilters({...filters,tab:'equipment'})}>Trang bị</button><button className={tab==='exclusive'?'active':''} aria-current={tab==='exclusive'?'page':undefined} onClick={()=>setFilters({...filters,tab:'exclusive'})}>Trấn Phái</button><button className={tab==='items'?'active':''} aria-current={tab==='items'?'page':undefined} onClick={()=>setFilters({...filters,tab:'items'})}>Vật phẩm</button></nav>
+      {tab==='exclusive'? <ExclusiveInventory filters={filters} onChange={setFilters}/>:tab==='items'? <section className="resource-grid" aria-label="Vật phẩm trong túi">{Object.values(content.items).map((item:any)=><article className={`panel resource-card currency-${item.kind}`} key={item.id} data-item={item.id}><ResourceIcon kind={item.kind}/><h2>{item.name}</h2><CurrencyAmount kind={item.kind} amount={campaign[item.field]}/><p>{item.description}</p></article>)}</section>: <>
       <GearFilters filters={filters} onChange={setFilters} />
       <div className="inventory-layout">
         <section>
@@ -62,7 +69,7 @@ export function InventoryPage() {
         <aside className="panel inventory-inspector">
           {chosen ? (
             <>
-              <Icon name="shield" />
+              <EquipmentIcon typeId={chosen.typeId}/>
               <span className="eyebrow">VẬT PHẨM TRONG HÀNH TRANG</span>
               <h2>{(GEAR_NAMES as any)[chosen.typeId]}</h2>
               <dl className="gear-values">
@@ -88,6 +95,7 @@ export function InventoryPage() {
           )}
         </aside>
       </div>
+      </>}
     </main>
   );
 }
@@ -152,6 +160,7 @@ export function EquipmentPage({ id }: { id: string }) {
           {!gear.length && <EmptyState>Không có trang bị phù hợp.</EmptyState>}
         </section>
         <aside className="panel equipment-inspector">
+          <ExclusiveSlot characterId={id}/>
           <span className="eyebrow">TRANG BỊ CỦA NHÂN VẬT</span>
           <h2>{actor.name}</h2>
           <div className="equipment-slots">
@@ -173,15 +182,7 @@ export function EquipmentPage({ id }: { id: string }) {
                   onClick={() => setSlot(index)}
                 >
                   {piece && <Equipped ownerName={actor.name} />}
-                  <Icon
-                    name={
-                      index >= capacity
-                        ? "door"
-                        : slots[index]
-                          ? "shield"
-                          : "plus"
-                    }
-                  />
+                  {piece ? <EquipmentIcon typeId={piece.typeId} compact/> : <Icon name={index >= capacity ? "door" : "plus"}/>}
                   <strong className={piece ? "equipment-slot-stats" : ""}>
                     {piece
                       ? statLines.map((line) => <span key={line}>{line}</span>)

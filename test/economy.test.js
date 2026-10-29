@@ -112,7 +112,7 @@ test('95/5 boundary and uniform character pool unlock the first and last charact
   assert.equal(duplicate.campaign.unlockedCharacterIds.length, 7);
   assert.equal(duplicate.results[0].duplicate, true);
   const last = pullGacha(original, content, 'standard', 1, sequence([.999, .999]));
-  assert.equal(last.results[0].characterId, 'lisbeth');
+  assert.equal(last.results[0].characterId, content.banners.standard.characterPool.at(-1));
   assert.deepEqual(restore(duplicate.campaign), duplicate.campaign);
   assert.equal(pullGacha(original, content, 'standard', 1, sequence([.949999, 0, 0])).results[0].kind, 'gear');
 });

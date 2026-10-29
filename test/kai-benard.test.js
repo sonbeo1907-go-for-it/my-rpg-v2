@@ -26,9 +26,9 @@ test('ambush is two small goblins; Kai is a village poison defender and Benard a
   assert.deepEqual(content.encounters[quest].enemies, ['small_goblin', 'small_goblin']);
   assert.ok(content.enemies.small_goblin.stats.maxHp < content.enemies.goblin.stats.maxHp);
   assert.equal(content.characters.kai.element, 'earth');
-  assert.match(content.characters.kai.description, /Garrek/);
+  assert.match(content.characters.kai.biography, /Garrek/);
   assert.equal(content.characters.benard.element, 'wind');
-  assert.match(content.characters.benard.description, /song kiếm/);
+  assert.match(content.characters.benard.biography, /song kiếm/);
   assert.ok(content.banners.standard.characterPool.includes('benard'));
   assert.equal(content.banners.standard.characterPool.includes('kai'), false);
   assert.equal(content.characters.benard.abilities.every(id => ['enemy', 'self'].includes(content.abilities[id].target)), true);

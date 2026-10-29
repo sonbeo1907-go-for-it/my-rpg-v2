@@ -224,5 +224,5 @@ test('healing feedback covers next-turn regeneration but skips full-HP heals', (
   getActor(battle, 'armie').hp -= 50;
   use(battle, 'arden', 'arden.poultice', 'armie');
   use(battle, 'enemy_2', '$defend'); // Last actor ends the round; Armie regenerates at next turn start.
-  assert.deepEqual(battle.events, [{ type: 'heal', targetId: 'armie', sourceId: 'arden', amount: 18 }]);
+  assert.deepEqual(battle.events.filter(event=>event.type==='heal'), [{ type: 'heal', targetId: 'armie', sourceId: 'arden', amount: 18 }]);
 });

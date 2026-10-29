@@ -13,13 +13,18 @@ export function skillDescription(skill) {
 
 export function skillCost(skill, actor) {
   const costs = [];
-  if (skill.cost?.mp) costs.push(`${skill.cost.mp} MP`);
+  if (skill.cost?.mp) {
+    const base=skill.cost.mp;
+    const cap=actor.passive?.type==='extra_mp_damage' && skill.effects.some(effect=>effect.type==='damage') ? Math.ceil(base*actor.passive.extraCostRatio) : 0;
+    const extra=actor.mp===undefined?cap:Math.min(cap,Math.max(0,actor.mp-base));
+    costs.push((extra ? base+'–'+(base+extra) : base)+' MP');
+  }
   if (skill.cost?.resource) {
     const cost = skill.cost.resource;
     const name = actor.resources[cost.id].name;
     costs.push(`${cost.all ? `Toàn bộ ${name} (ít nhất ${cost.min})` : `${cost.amount} ${name}`}${cost.consumeAt === 'after' ? ' · Tiêu sau khi thi triển' : ''}`);
   }
-  if (skill.cooldown) costs.push(`Hồi ${skill.cooldown} vòng`);
+  if (skill.cooldown) costs.push(`Hồi chiêu: ${skill.cooldown} vòng`);
   return costs.join(' · ') || 'Không tốn MP';
 }
 
@@ -31,6 +36,7 @@ export const TARGET_NAMES = {
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
+  if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
   if (['team_flat_self', 'team_flat_aura'].includes(passive.type)) {
     const names = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD' };
     const group = passive.tag === 'valmont' ? 'Valmont' : passive.tag;
@@ -143,10 +149,18 @@ export function skillScaling(skill, actor, content, choices = {}) {
         lines.push(`Hồi ${formula}${amount}; phần theo tỷ lệ làm tròn lên, không vượt MP tối đa.`);
       } else lines.push(`${effect.resource === 'mp' ? 'Hồi' : 'Tạo'} ${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources[effect.resource]?.name ?? effect.resource}${recipient}.`);
     }
+    if (effect.type === 'grant_extra_turn') lines.push('Cấp 1 Lượt Thêm trong Vòng Phụ hiện tại; tối đa 1/người/vòng. Không chen lượt chính. Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
+    if (effect.onHitStatus) {
+      const mark=content.statuses[effect.onHitStatus.status];
+      lines.push('Mỗi hit trúng gắn 1 ' + mark.name + ', tối đa ' + mark.maxStacks + ' tầng, trong ' + effect.onHitStatus.duration + ' lượt mục tiêu.');
+      if (mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>percent(n)+' '+(key==='resistance'?'RES':key)+' mỗi tầng').join(', '));
+    }
     if (effect.type === 'cleanse') lines.push('Giải toàn bộ hiệu ứng bất lợi trên người nhận.');
     if (['status', 'toggle_status'].includes(effect.type)) {
       const status = content.statuses[effect.status];
-      const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effect.duration} lượt của người nhận`;
+      const extension=actor.exclusiveGear?.template?.passive;
+      const effectiveDuration=effect.duration + (extension?.type==='skill_status_duration' && extension.statusId===effect.status && extension.abilityIds.includes(skill.id) ? extension.extraDuration : 0);
+      const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effectiveDuration} lượt của người nhận`;
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);
       if (effect.type === 'toggle_status') lines.push(`Bật/tắt ${status.name}; dùng lại để xuống ngựa, không cộng dồn.`);
       const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', evasion: 'khả năng né đòn vật lí' };
@@ -179,6 +193,14 @@ export function skillScaling(skill, actor, content, choices = {}) {
         lines.push(...skillScaling({ target: skill.target, effects: [{ type: 'status', status: statusId }] }, actor, content, choices));
       }
     }
+  }
+  const exclusive=actor.exclusiveGear?.template?.passive;
+  if (exclusive && (!exclusive.abilityIds || exclusive.abilityIds.includes(skill.id))) lines.push('Trấn Phái · ' + exclusive.name + ': ' + exclusive.description);
+  if (actor.passive?.type==='extra_mp_damage' && skill.cost?.mp > 0 && skill.effects.some(effect=>effect.type==='damage')) {
+    const cap=Math.ceil(skill.cost.mp*actor.passive.extraCostRatio);
+    const available=choices.live ? Math.max(0,actor.mp-skill.cost.mp) : cap;
+    const spent=Math.min(cap,available);
+    lines.push('Nội tại: tiêu thêm '+spent+'/'+cap+' MP một lần cho cả chiêu → sát thương ×'+number(1+actor.passive.maxDamageBonus*spent/cap)+'; không tính riêng mỗi mục tiêu/hit.');
   }
   return lines;
 }

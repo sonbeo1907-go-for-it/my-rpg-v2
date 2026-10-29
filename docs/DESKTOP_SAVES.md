@@ -34,7 +34,7 @@ Bản xem trước trong trình duyệt: `npm run dev`, hoặc `npm run build` r
 
 Mỗi lần mở game hoặc bấm Làm mới: liệt kê `savedata<N>.json`, đọc JSON qua validator/migration hiện tại, hiện hồ sơ. File được đặt thủ công vào thư mục cũng được phát hiện; thiếu metadata sẽ có tên mặc định và có thể đổi tên trong game. File backup không xuất hiện thành hồ sơ. Save mới dùng ID lớn hơn ID hiện có; đổi tên không đổi file.
 
-`savedata<N>.json` giữ nguyên cấu trúc save v4: campaign, tiền, nhân vật, gear, lịch nhận thưởng và năm đội hình. Tên người chơi lưu riêng trong `profiles.json`. Đổi tên không sửa tên nhân vật Arthur. Âm thanh/tay cầm dùng chung trong localStorage của WebView.
+`savedata<N>.json` dùng save v5, tự chuyển từ v4: campaign, tiền, nhân vật, gear, lịch nhận thưởng, năm đội hình và dữ liệu Thợ Rèn/Trấn Phái. Tên người chơi lưu riêng trong `profiles.json`. Đổi tên không sửa tên nhân vật Arthur. Âm thanh/tay cầm dùng chung trong localStorage của WebView.
 
 ## Ghi dữ liệu và phục hồi
 
@@ -47,7 +47,7 @@ Mỗi lần mở game hoặc bấm Làm mới: liệt kê `savedata<N>.json`, đ
 
 ## Chuyển từ bản cũ
 
-Trong cùng trình duyệt/WebView, khi chưa có hồ sơ, adapter tự chuyển key campaign v1–v4 đang có thành hồ sơ đầu tiên. Chỉ đánh dấu bằng hồ sơ đã ghi thành công; giữ nguyên key cũ để có thể phục hồi. Nếu key cũ lỗi, hiện lỗi thay vì tạo save đè.
+Trong cùng trình duyệt/WebView, khi chưa có hồ sơ, adapter tự chuyển key campaign v1–v5 đang có thành hồ sơ đầu tiên. Chỉ đánh dấu bằng hồ sơ đã ghi thành công; giữ nguyên key cũ để có thể phục hồi. Nếu key cũ lỗi, hiện lỗi thay vì tạo save đè.
 
 Tauri không truy cập localStorage của Chrome/Edge khác. Để chuyển một JSON cũ đã có, đóng game, sao chép vào thư mục `saves` với tên `savedata<N>.json` chưa tồn tại rồi mở game. Chọn Tiếp tục sẽ chuyển schema cũ và giữ bản trước chuyển đổi trong backups. Không ghi đè slot khác.
 

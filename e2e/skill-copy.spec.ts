@@ -1,0 +1,28 @@
+import {test,expect,type Page} from '@playwright/test';
+import {loadContent} from '../scripts/load-content.mjs';
+import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
+const content:any=await loadContent();
+async function seed(page:Page){const save=createGameSave(content);save.unlockedCharacterIds=Object.keys(content.characters);await page.addInitScript(raw=>{if(!localStorage.getItem('northern-prisma.campaign.v4'))localStorage.setItem('northern-prisma.campaign.v4',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.combat.speed','fast');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({controlMode:'mouse',musicEnabled:false,musicVolume:.35}));},encodeGameSave(save,content));await page.emulateMedia({reducedMotion:'reduce'});}
+test('Lyon ward is compact by default and its three exceptions expand by keyboard without duplicate prose',async({page})=>{
+ await seed(page);await page.goto('/characters/lyon');const card=page.locator('.skill-card').filter({has:page.getByRole('heading',{name:'Hộ ấn bất xâm',exact:true})});
+ await expect(card.locator('.skill-summary')).toHaveText('Bảo vệ một đồng đội khỏi hiệu ứng bất lợi kế tiếp.');await expect(card.locator('.skill-facts li')).toHaveCount(1);await expect(card.locator('.skill-facts')).toContainText('Hộ ấn: 1 lần chặn');await expect(card.locator('.skill-rules')).not.toHaveAttribute('open','');expect((await card.boundingBox())!.height).toBeLessThan(360);
+ await expect(card.getByText('Không giải hiệu ứng đã có hoặc chặn hình phạt tự gây.',{exact:true})).not.toBeVisible();await card.screenshot({path:'test-results/lyon-ward-compact.png'});
+ await card.locator('summary').focus();await page.keyboard.press('Enter');await expect(card.locator('.skill-rules li')).toHaveCount(3);await expect(card.getByText('Không giải hiệu ứng đã có hoặc chặn hình phạt tự gây.',{exact:true})).toBeVisible();await card.screenshot({path:'test-results/lyon-ward-expanded.png'});
+ await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'test-results/lyon-copy-phone.png',fullPage:true});
+});
+test('all character pages show concise identities, native passives and skill facts without leaked fields or horizontal overflow',async({page})=>{
+ await seed(page);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ for(const actor of Object.values(content.characters) as any[]){await page.goto('/characters/'+actor.id);await expect(page.locator('.character-overview')).toBeVisible();expect((await page.locator('.character-overview').innerText())).not.toMatch(/undefined|NaN/);expect(await page.locator('.passive-copy').count()).toBe(actor.passive?1:0);for(const summary of await page.locator('.skill-summary').allTextContents())expect(summary.length).toBeLessThanOrEqual(180);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);}
+ expect(errors).toEqual([]);
+});
+test('Aurora preserves core triggers, Lionel preserves end-round timing, and assumptions begin at minimum rather than maximum stacks',async({page})=>{
+ await seed(page);await page.goto('/characters/aurora');await expect(page.locator('.passive-copy .skill-summary')).toContainText('đơn mục tiêu của đồng đội khác');await expect(page.locator('.passive-copy .skill-facts')).toContainText('1 lần/vòng');
+ await page.goto('/characters/lionel');await expect(page.locator('.passive-copy .skill-summary')).toContainText('Cuối vòng');await expect(page.locator('.passive-copy .skill-facts')).toContainText('tính cả bản thân');await page.locator('.passive-copy summary').click();await expect(page.locator('.passive-copy')).toContainText('sau toàn bộ Vòng Phụ');
+ await page.goto('/characters/takeshi');const riposte=page.locator('.skill-card').filter({has:page.getByRole('heading',{name:'Hoàn kiếm',exact:true})});await expect(riposte.locator('.skill-facts')).toContainText('Giả định: 200% ATK');await expect(riposte.locator('input')).not.toBeVisible();await riposte.locator('summary').click();await expect(riposte.locator('input')).toHaveValue('1');await riposte.locator('input').focus();await page.keyboard.press('End');await expect(riposte.locator('.skill-facts')).toContainText('Giả định: 360% ATK');
+});
+test('combat help uses the same short intent and facts while keeping live resource state and useful exceptions',async({page})=>{
+ await seed(page);await page.goto('/party');
+ // A direct page fixture with a single Dain gives a stable first command without changing account progress.
+ await page.evaluate(raw=>{localStorage.clear();localStorage.setItem('northern-prisma.campaign.v4',raw);sessionStorage.setItem('northern-prisma.entered','1');},(()=>{const s=createGameSave(content);s.unlockedCharacterIds.push('dain');s.party=['dain',null,null,null];s.partyPresets[0].slots=[...s.party];return encodeGameSave(s,content);})());
+ await page.goto('/quests?selected=forest_patrol');await page.getByRole('button',{name:/Xuất chiến/}).click();await expect(page.locator('.execute')).toBeEnabled();const command=page.locator('.skill-command').filter({hasText:'Trọng kích'});await command.hover();const tooltip=page.getByRole('tooltip',{name:'Kỹ năng Trọng kích'});await expect(tooltip.locator('.skill-summary')).toHaveText('Dồn toàn bộ Quyết tâm vào một đòn xuyên giáp.');await expect(tooltip).toContainText('Quyết tâm: 0/3');await expect(tooltip).toContainText('chỉ tiêu sau khi gây sát thương');await expect(tooltip.locator('button,input,summary')).toHaveCount(0);await page.screenshot({path:'test-results/combat-copy-dain.png',fullPage:true});
+});

@@ -9,19 +9,18 @@ import { bossPhase, bossFireMultiplier } from "../core/boss-mechanics.js";
 import { battleStat } from "../core/stat-values.js";
 import { FOLLOW_UP_LABEL } from "../core/follow-up.js";
 import {
-  skillDescription,
   skillCost,
   TARGET_NAMES,
 } from "../ui/skill-presentation.js";
 import {
   resolveCombatTargets,
   compactSkillScaling,
-  combatSkillDetails,
   statusDetails,
   liveSkillChoices,
   compactNumber,
 } from "../ui/combat-presentation.js";
 import { ElementBadge, EmptyState, Icon, PageHeader } from "./ui";
+import { SkillBody } from "./skill-details";
 import { CombatPopover } from "./combat-popover";
 import { victoryCoinReward } from "../core/economy.js";
 import { useSettings } from "../runtime/settings-context";
@@ -248,9 +247,6 @@ function SkillInfo({
   reason: string;
 }) {
   const { content } = useGame();
-  const damage = skill.effects.filter(
-    (effect: any) => effect.type === "damage",
-  );
   const choices = liveSkillChoices(skill, actor, target);
   const cost = skill.cost?.resource;
   return (
@@ -262,35 +258,7 @@ function SkillInfo({
         <span>{(TARGET_NAMES as any)[skill.target]}</span>
       </div>
       {reason && <p className="unavailable-reason">{reason}</p>}
-      <p>{skillDescription(skill)}</p>
-      {damage.length > 0 && (
-        <p className="popover-meta">
-          {[
-            ...new Set(
-              damage.map(
-                (effect: any) =>
-                  `${(DAMAGE_TYPE_NAMES as any)[effect.damageType]} · ${(ELEMENT_NAMES as any)[effect.element]}`,
-              ),
-            ),
-          ].join(" / ")}
-        </p>
-      )}
-      <div className="popover-scaling">
-        {combatSkillDetails(skill, actor, target, content).map(
-          (line: string, index: number) => (
-            <p key={index}>{line}</p>
-          ),
-        )}
-      </div>
-      {damage.length > 0 && (
-        <p className="live-stats">
-          Chỉ số hiện tại: ATK{" "}
-          {compactNumber(battleStat(content, actor, "attack"))} · MAG{" "}
-          {compactNumber(battleStat(content, actor, "magic"))} · SPD{" "}
-          {compactNumber(battleStat(content, actor, "speed"))}. Vật lí tính DEF,
-          ma pháp tính RES; số trên nút là hệ số trước phòng thủ.
-        </p>
-      )}
+      <SkillBody skill={skill} actor={actor} content={content} choices={choices} combat/>
       {cost && (
         <p>
           {actor.resources[cost.id].name}: {actor.resourceValues[cost.id] ?? 0}/
@@ -313,9 +281,7 @@ function SkillInfo({
           ? (TARGET_NAMES as any)[skill.target]
           : `Mục tiêu: ${target?.name ?? actor.name}`}
       </p>
-      {actor.passive?.type === "magic_followup_mp" && (
-        <p>{FOLLOW_UP_LABEL} chỉ kích hoạt từ đòn của đồng đội khác.</p>
-      )}
+
     </>
   );
 }
@@ -411,7 +377,7 @@ function TurnOrder({ onHover }: { onHover: (id: string) => void }) {
         "Cuộc chạm trán đã khép lại."
       ) : (
         <>
-          <span className="turn-order-label">THỨ TỰ LƯỢT</span>
+          <span className="turn-order-label">{battle.phase === "extra" ? "VÒNG PHỤ · LƯỢT THÊM" : "THỨ TỰ LƯỢT CHÍNH"}</span>
           <div className="turn-chips">
             {battle.queue
               .slice(battle.cursor)
@@ -824,8 +790,8 @@ export function BattlePage() {
         }
         subtitle={
           battle.dungeon
-            ? `${battle.dungeon.stageLabel ?? "Đợt"} ${battle.dungeon.waveIndex + 1}/${battle.dungeon.totalWaves}${battle.dungeon.revealRooms ? "" : ` · ${content.encounters[battle.encounterId].name}`} · Vòng ${battle.round}`
-            : `Vòng ${battle.round}`
+            ? `${battle.dungeon.stageLabel ?? "Đợt"} ${battle.dungeon.waveIndex + 1}/${battle.dungeon.totalWaves}${battle.dungeon.revealRooms ? "" : ` · ${content.encounters[battle.encounterId].name}`} · Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}`
+            : `Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}`
         }
         back={
           battle.dungeon
@@ -972,6 +938,7 @@ export function BattlePage() {
                   <div className="target-summary" aria-live="polite">
                     <span>MỤC TIÊU THỰC THI</span>
                     <strong>{targetLabel}</strong>
+                    {skill.effects.some((effect:any)=>effect.type==="grant_extra_turn") && <small>{battle.phase==="extra" ? "Vòng Phụ: hiệu ứng cấp Lượt Thêm bị bỏ qua; vẫn tiêu MP và hồi chiêu." : battle.extraTurnGrants?.includes(targets.targetId) ? "Mục tiêu đã có Lượt Thêm trong vòng này; không cộng thêm lượt." : "Lượt Thêm sẽ thực hiện sau lượt chính, theo SPD ở đầu Vòng Phụ."}</small>}
                     {skill.target.startsWith("all_") && (
                       <small>
                         {targets.affectedIds.length} mục tiêu · không cần chọn

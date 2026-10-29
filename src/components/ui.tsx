@@ -7,11 +7,14 @@ import { ELEMENT_NAMES, ROLE_GROUPS } from "../core/content.js";
 import { STAT_LABELS, GEAR_NAMES } from "../core/catalog.js";
 import { gearOwner } from "../core/equipment.js";
 import { useSettings } from "../runtime/settings-context";
+import { gearRarity, EQUIPMENT_RARITIES } from "../ui/equipment-presentation.js";
 import { Equipped } from "./equipped";
 
 export const fmt = (value: number) =>
   new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(value);
 const paths: Record<string, ReactNode> = {
+  anvil: <><path d="M2 7h20l-4 5h-5v4l5 3v2H6v-2l4-3v-4H6L2 9Zm5-3h7v3" /></>,
+  fragments: <><path d="m7 3 5 5-4 4-5-5zM16 4l5 5-6 3-2-5zM10 15l5-2 5 5-7 4-5-4zM3 16l3-2 1 5-4 1z"/></>,
   folder: <path d="M3 6h6l2 2h10v12H3V6Zm0 3V4h6l2 2h8v2" />,
   settings: (
     <>
@@ -212,17 +215,22 @@ export function ElementBadge({ element }: { element: string }) {
     </span>
   );
 }
+export function ResourceIcon({kind}:{kind:string}) {
+  const id=useId().replace(/:/g,'');
+  if(kind!=='original')return <Icon name={kind==='coin'?'coin':kind==='fragments'?'fragments':'prism'}/>;
+  return <svg className="icon original-prisma-icon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id={`rainbow-${id}`} x2="1" y2="1"><stop stopColor="#ff9eac"/><stop offset=".2" stopColor="#ffe195"/><stop offset=".4" stopColor="#a4e5ad"/><stop offset=".6" stopColor="#8bd8ed"/><stop offset=".8" stopColor="#aca5f2"/><stop offset="1" stopColor="#eda7e7"/></linearGradient></defs><path d="m12 2 8 7-8 13L4 9z" fill={`url(#rainbow-${id})`} fillOpacity=".25" stroke={`url(#rainbow-${id})`} strokeWidth="1.4"/><path d="m12 2-3 7 3 13 3-13zM4 9h16" fill="none" stroke={`url(#rainbow-${id})`} strokeWidth="1"/></svg>;
+}
 export function CurrencyAmount({
   kind,
   amount,
   label = true,
 }: {
-  kind: "coin" | "prisma" | "pure";
+  kind: "coin" | "prisma" | "pure" | "original" | "fragments";
   amount: number;
   label?: boolean;
 }) {
   const name =
-    kind === "coin" ? "Coin" : kind === "pure" ? "Pure Prisma" : "Prisma";
+    kind === "coin" ? "Coin" : kind === "pure" ? "Pure Prisma" : kind === "original" ? "Original Prisma" : kind === "fragments" ? "Vụn Prisma" : "Prisma";
   return (
     <span
       className={`currency-amount currency-${kind}`}
@@ -230,7 +238,7 @@ export function CurrencyAmount({
       aria-label={`${fmt(amount)} ${name}`}
       title={name}
     >
-      <Icon name={kind === "coin" ? "coin" : "prism"} />
+      <ResourceIcon kind={kind}/>
       <strong>{fmt(amount)}</strong>
       {label && <small>{name}</small>}
     </span>
@@ -261,6 +269,7 @@ export function StatGrid({
                   Trang bị: +{fmt(actor.gearBonuses?.[key] ?? 0)}
                 </small>
               )}
+              {showGearBonuses && actor.exclusiveBonuses?.[key] ? <small className="stat-exclusive-bonus">Trấn Phái: +{fmt(actor.exclusiveBonuses[key])}</small> : null}
               {actor.teamBonuses?.[key] ? (
                 <small> +{actor.teamBonuses[key]} đội</small>
               ) : null}
@@ -311,30 +320,34 @@ export function CharacterCard({
     <article {...props}>{body}</article>
   );
 }
+export function EquipmentIcon({ typeId, compact = false }: { typeId: string; compact?: boolean }) {
+  const rarity = gearRarity(typeId);
+  const definition = EQUIPMENT_RARITIES[rarity];
+  return <span className={"equipment-icon " + (compact ? "equipment-icon-compact" : "gear-symbol")} data-rarity={rarity} title={definition.label} aria-hidden="true">
+    <Icon name={rarity === "exclusive" ? "anvil" : typeId === "t3_dual" ? "prism" : "shield"}/>
+    <span className="equipment-icon-rank">{definition.mark}</span>
+  </span>;
+}
+
 export function GearCard({
   gear,
   selected,
   onClick,
+  disabled,
+  children,
 }: {
   gear: any;
   selected?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
+  children?: ReactNode;
 }) {
   const { content, campaign } = useGame();
   const owner = gearOwner(campaign, gear.id);
   const body = (
     <>
       {owner && <Equipped ownerName={content.characters[owner].name} />}
-      <div className="gear-symbol">
-        <Icon name={gear.typeId === "t3_dual" ? "prism" : "shield"} />
-        <span>
-          {gear.typeId.startsWith("t3")
-            ? "III"
-            : gear.typeId === "t2"
-              ? "II"
-              : "I"}
-        </span>
-      </div>
+      <EquipmentIcon typeId={gear.typeId}/>
       <h3>{(GEAR_NAMES as any)[gear.typeId]}</h3>
       <p>
         {Object.entries(gear.stats)
@@ -356,10 +369,12 @@ export function GearCard({
   return (
     <button
       className={`gear-card ${gear.typeId} ${selected ? "selected" : ""}`}
+      disabled={disabled}
       onClick={onClick}
       aria-pressed={selected}
     >
       {body}
+      {children}
     </button>
   );
 }
@@ -572,9 +587,11 @@ export function SortControl({
 export function GearFilters({
   filters,
   onChange,
+  hideStatus = false,
 }: {
   filters: any;
   onChange: (values: any) => void;
+  hideStatus?: boolean;
 }) {
   const set = (key: string, value: string) =>
     onChange({ ...filters, [key]: value });
@@ -608,7 +625,7 @@ export function GearFilters({
           ))}
         </select>
       </label>
-      <label>
+      {!hideStatus && <label>
         Trạng thái
         <select
           value={filters.status ?? ""}
@@ -618,7 +635,7 @@ export function GearFilters({
           <option value="equipped">Đang dùng</option>
           <option value="free">Chưa trang bị</option>
         </select>
-      </label>
+      </label>}
       <SortControl
         value={filters.sort ?? "received"}
         direction={filters.direction ?? "desc"}
@@ -710,6 +727,7 @@ export function GameShell({ children }: { children: ReactNode }) {
           </div>
         )}
         {children}
+        {entered && campaign.pendingReforge && <Link className="pending-reforge-link" href="/blacksmith?tab=exclusive" onClick={()=>window.dispatchEvent(new Event('rpg:resume-reforge'))}>Có kết quả tái rèn chờ chọn · Xem kết quả →</Link>}
         {path === "/" && (
           <button
             className="settings-trigger title-settings"

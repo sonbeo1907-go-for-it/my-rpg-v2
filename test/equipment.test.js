@@ -155,7 +155,9 @@ test('three default slots sum all gear before passives; own moves free source an
 
 test('three duplicates unlock slots 4/5/6, later duplicates only grant shards, and six pieces stack once', () => {
   const original = setup(); original.coins = 1000; original.prisma = 10;
-  const outcome = pullGacha(original, content, 'standard', 10, () => .999);
+  let draw=0;
+  const index=content.banners.standard.characterPool.indexOf('lisbeth');
+  const outcome = pullGacha(original, content, 'standard', 10, () => draw++ % 2 === 0 ? .999 : (index+.5)/content.banners.standard.characterPool.length);
   assert.deepEqual(outcome.results.map(result => result.gearSlots), [4, 5, 6, 6, 6, 6, 6, 6, 6, 6]);
   assert.deepEqual(outcome.results.map(result => result.slotUnlocked), [true, true, true, false, false, false, false, false, false, false]);
   assert.equal(outcome.campaign.recruitmentShards, 100);

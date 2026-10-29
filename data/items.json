@@ -1,0 +1,7 @@
+[
+  {"id":"coin","name":"Coin","field":"coins","kind":"coin","description":"Tiền dùng để giao dịch và chế tạo tại Thợ Rèn."},
+  {"id":"prisma","name":"Prisma","field":"prisma","kind":"prisma","description":"Mỗi Prisma dùng cho một lần chiêu mộ thường."},
+  {"id":"pure","name":"Pure Prisma","field":"recruitmentShards","kind":"pure","description":"Dùng để chiêu mộ đồng đội tự chọn và chế tạo Trấn Phái."},
+  {"id":"original","name":"Original Prisma","field":"originalPrisma","kind":"original","description":"Prisma cầu vồng dùng chế tạo, tái rèn Trấn Phái. Nguồn từ Hầm Ngục Ảo Ảnh sẽ được mở sau."},
+  {"id":"fragments","name":"Vụn Prisma","field":"prismaFragments","kind":"fragments","description":"Những mảnh Prisma tím vỡ, thu được khi phân rã trang bị chưa sử dụng."}
+]

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
+import { ExclusiveSlot } from "./exclusive-equipment";
 import { characterCatalog } from "../core/catalog.js";
 import { resolveCharacter } from "../core/progression.js";
 import {
@@ -10,13 +11,12 @@ import {
   changePresetSlot,
   renamePreset,
 } from "../core/game-save.js";
+import { SkillBody, PassiveBody, RulesDisclosure } from "./skill-details";
+import { skillPresentation } from "../ui/skill-copy.js";
 import { basicAbility, DEFEND } from "../core/battle.js";
 import {
-  skillDescription,
   skillCost,
-  passiveDescription,
   TARGET_NAMES,
-  skillScaling,
   skillPreviewOptions,
 } from "../ui/skill-presentation.js";
 import {
@@ -116,40 +116,17 @@ export function SkillCard({ skill, actor }: { skill: any; actor: any }) {
         <h3>{skill.name}</h3>
         <span>{skillCost(skill, actor)}</span>
       </div>
-      <p>{skillDescription(skill)}</p>
       <div className="skill-meta">
         <span>{(TARGET_NAMES as any)[skill.target]}</span>
         {skill.activation === "passive" && <span>Tự động</span>}
       </div>
-      {controls.map((control: any) => (
-        <label className="skill-assumption" key={control.key}>
-          {control.label}: {choices[control.key] ?? control.max}
-          <input
-            type="range"
-            min={control.min}
-            max={control.max}
-            value={choices[control.key] ?? control.max}
-            onChange={(e) =>
-              setChoices({ ...choices, [control.key]: Number(e.target.value) })
-            }
-          />
-        </label>
-      ))}
-      <div className="scaling">
-        {skillScaling(
-          skill,
-          actor,
-          content,
-          Object.fromEntries(
-            controls.map((control: any) => [
-              control.key,
-              choices[control.key] ?? control.max,
-            ]),
-          ),
-        ).map((line: string, i: number) => (
-          <p key={i}>{line}</p>
-        ))}
-      </div>
+      <SkillBody skill={skill} actor={actor} content={content} choices={Object.fromEntries(controls.map((control:any)=>[control.key,choices[control.key]??control.min]))}/>
+      <RulesDisclosure rules={skillPresentation(skill,actor,content).rules} title={controls.length ? "Chi tiết cơ chế & giả định" : "Chi tiết cơ chế"}>
+        {controls.length>0 ? controls.map((control:any)=><label className="skill-assumption" key={control.key}>
+          {control.label}: {choices[control.key]??control.min}
+          <input type="range" min={control.min} max={control.max} value={choices[control.key]??control.min} onChange={event=>setChoices({...choices,[control.key]:Number(event.target.value)})}/>
+        </label>) : undefined}
+      </RulesDisclosure>
     </article>
   );
 }
@@ -204,15 +181,14 @@ export function CharacterDetail({ id }: { id: string }) {
           <h2>{actor.role}</h2>
           <p className="muted">{actor.affiliation}</p>
           <p>{actor.description}</p>
+          {actor.biography && <RulesDisclosure title="Bối cảnh nhân vật"><p>{actor.biography}</p></RulesDisclosure>}
           <StatGrid actor={actor} showGearBonuses />
+          <ExclusiveSlot characterId={id}/>
           <p className="stat-breakdown-note">
             Chỉ số trên đã bao gồm trang bị, đội hình và nội tại. Phần cộng từ
             trang bị hiển thị trước các hiệu ứng tăng theo phần trăm.
           </p>
-          <p className="passive">
-            <strong>Nội tại: </strong>
-            {passiveDescription(actor, content)}
-          </p>
+          <PassiveBody actor={actor} content={content}/>
           {actor.teamBonusSources?.length > 0 && (
             <p className="muted">
               Bonus đội hình:{" "}
@@ -236,6 +212,7 @@ export function CharacterDetail({ id }: { id: string }) {
         </div>
         <p>Hệ số theo tiến trình và chỉ số chuẩn bị hiện tại.</p>
       </div>
+      <RulesDisclosure title="Quy ước chiến đấu"><div className="character-copy-guide"><p>ATK/MAG quyết định sức mạnh; đòn vật lí tính DEF, phép tính RES. Hệ số sát thương hiển thị trước phòng thủ và điểm yếu.</p><p>Lượt là lượt của người mang hiệu ứng; buff tự dùng bắt đầu tính từ lượt kế tiếp. Vòng gồm lượt chính và Vòng Phụ; giới hạn một lần/vòng dùng chung cả hai. “Cuối lượt” khác “cuối vòng”.</p><p>Hồi HP/MP không vượt tối đa; hồi MP theo tỷ lệ làm tròn lên. Khiên không cộng dồn, giữ khiên mạnh hơn. Hiệu ứng cùng tên làm mới; chỉ cộng tầng khi có ghi rõ.</p></div></RulesDisclosure>
       <div className="skill-grid">
         {skills.map((skill: any) => (
           <SkillCard key={skill.id} skill={skill} actor={actor} />

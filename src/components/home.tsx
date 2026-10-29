@@ -37,6 +37,7 @@ export function TitlePage() {
   );
 }
 const menu = [
+  {href:"/blacksmith",name:"Thợ Rèn",sub:"Lửa lò & những món Trấn Phái",icon:"anvil",side:"left"},
   {
     href: "/shop",
     name: "Shop",

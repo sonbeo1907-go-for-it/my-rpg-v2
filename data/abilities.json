@@ -2,7 +2,7 @@
   {
     "id": "arthur.light_slash",
     "name": "Kiếm quang",
-    "description": "Đánh vật lí Light, tạo 1 Cộng hưởng.",
+    "description": "Chém ánh sáng và tích Cộng hưởng.",
     "target": "enemy",
     "effects": [
       {
@@ -22,7 +22,7 @@
   {
     "id": "arthur.release",
     "name": "Giải phóng",
-    "description": "Tiêu toàn bộ Cộng hưởng, mỗi điểm tăng sức mạnh đòn đánh.",
+    "description": "Tiêu toàn bộ Cộng hưởng để tăng sức mạnh đòn chém.",
     "target": "enemy",
     "cost": {
       "resource": {
@@ -39,12 +39,15 @@
         "multiplier": 1,
         "perResource": 0.65
       }
+    ],
+    "rules": [
+      "Sát thương tăng theo số Cộng hưởng thực tiêu."
     ]
   },
   {
     "id": "arthur.ogres_bane",
     "name": "Ogre’s Bane — Bất kham",
-    "description": "Cần 3 Cộng hưởng. Đòn mạnh nhưng không tạo được tài nguyên trong lượt tiếp theo.",
+    "description": "Tung đòn chém cực mạnh, sau đó rơi vào Kiệt sức.",
     "target": "enemy",
     "cost": {
       "mp": 8,
@@ -66,12 +69,15 @@
         "status": "exhausted",
         "duration": 1
       }
+    ],
+    "rules": [
+      "Kiệt sức chặn tích Cộng hưởng đến hết lượt kế tiếp."
     ]
   },
   {
     "id": "arthur.ogres_bane_controlled",
     "name": "Ogre’s Bane — Kiểm soát",
-    "description": "Cần 3 Cộng hưởng. Thay Kiệt sức bằng giảm 10% ATK trong lượt kế tiếp.",
+    "description": "Giải phóng Ogre’s Bane có kiểm soát, sau đó chịu Dư chấn.",
     "target": "enemy",
     "cost": {
       "mp": 8,
@@ -93,12 +99,15 @@
         "status": "controlled_fatigue",
         "duration": 1
       }
+    ],
+    "rules": [
+      "Dư chấn giảm ATK đến hết lượt kế tiếp."
     ]
   },
   {
     "id": "arthur.partial_release",
     "name": "Giải phóng một phần",
-    "description": "Tiêu đúng 1 Cộng hưởng; giữ lại phần còn lại.",
+    "description": "Dùng một phần Cộng hưởng, giữ lại phần còn lại.",
     "target": "enemy",
     "cost": {
       "resource": {
@@ -118,7 +127,7 @@
   {
     "id": "iris.formula",
     "name": "Công thức cường hóa",
-    "description": "Tăng 40% sát thương hành động tấn công tiếp theo của đồng đội, tạo 1 Dữ liệu.",
+    "description": "Cường hóa đòn tấn công tiếp theo của một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 7
@@ -140,7 +149,7 @@
   {
     "id": "iris.calibrate",
     "name": "Hiệu chỉnh thuật thức",
-    "description": "Tăng ATK và MAG 20% trong 2 lượt, tạo 1 Dữ liệu.",
+    "description": "Tăng sức tấn công vật lí và phép cho một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 8
@@ -162,7 +171,7 @@
   {
     "id": "iris.assault",
     "name": "Kế hoạch tổng công kích",
-    "description": "Tiêu 3 Dữ liệu, cường hóa đòn tấn công tiếp theo của toàn đội.",
+    "description": "Dùng Dữ liệu để cường hóa đòn tấn công tiếp theo của cả đội.",
     "target": "all_allies",
     "cost": {
       "mp": 12,
@@ -183,7 +192,7 @@
   {
     "id": "takeshi.stance",
     "name": "Thế né",
-    "description": "70% né đòn vật lí và thu hút đòn đơn mục tiêu đến hết lượt kế tiếp. Phản công tối đa 1 lần/vòng.",
+    "description": "Vào thế né đòn vật lí và thu hút địch tấn công.",
     "target": "self",
     "cost": {
       "mp": 5
@@ -199,7 +208,7 @@
   {
     "id": "takeshi.slash",
     "name": "Phong trảm",
-    "description": "Đòn vật lí Wind ổn định.",
+    "description": "Chém một kẻ địch bằng kiếm Phong.",
     "target": "enemy",
     "effects": [
       {
@@ -213,7 +222,7 @@
   {
     "id": "takeshi.riposte",
     "name": "Hoàn kiếm",
-    "description": "Tiêu Sơ hở tích lũy qua né phản công để tung đòn mạnh.",
+    "description": "Tiêu toàn bộ Sơ hở để tung đòn kết liễu.",
     "target": "enemy",
     "cost": {
       "resource": {
@@ -235,7 +244,7 @@
   {
     "id": "fiona.shard",
     "name": "Hắc tinh",
-    "description": "Gây sát thương Dark và gắn 1 mảnh Prisma, tối đa 3 trên mỗi mục tiêu.",
+    "description": "Gây phép Ám và gắn Mảnh Prisma lên một địch.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -257,7 +266,7 @@
   {
     "id": "fiona.refraction",
     "name": "Khúc xạ",
-    "description": "Gây sát thương nhẹ và gắn 1 mảnh Prisma lên mọi địch.",
+    "description": "Gây phép Ám và rải Mảnh Prisma lên toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 11
@@ -279,7 +288,7 @@
   {
     "id": "fiona.collapse",
     "name": "Sụp đổ Prisma",
-    "description": "Kích nổ mảnh trên mọi địch. Không có mảnh thì sát thương rất thấp.",
+    "description": "Tiêu Mảnh Prisma trên từng địch để tăng sát thương diện rộng.",
     "target": "all_enemies",
     "cost": {
       "mp": 12
@@ -299,7 +308,7 @@
   {
     "id": "elaine.shield",
     "name": "Thủy thuẫn",
-    "description": "Tạo khiên mạnh cho một đồng đội. Khiên không cộng dồn.",
+    "description": "Tạo khiên cho một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 8
@@ -314,7 +323,7 @@
   {
     "id": "elaine.veil",
     "name": "Màn nước",
-    "description": "Tăng 50% kháng phép toàn đội trong 2 lượt.",
+    "description": "Tăng kháng phép cho toàn đội.",
     "target": "all_allies",
     "cost": {
       "mp": 12
@@ -330,7 +339,7 @@
   {
     "id": "elaine.sanctuary",
     "name": "Thánh vực thủy triều",
-    "description": "Tạo khiên vừa cho toàn đội.",
+    "description": "Tạo khiên cho toàn đội.",
     "target": "all_allies",
     "cost": {
       "mp": 18
@@ -346,7 +355,7 @@
   {
     "id": "garrek.cover",
     "name": "Che chắn",
-    "description": "Nhận đòn đơn mục tiêu thay đồng đội trong 2 lượt của người được bảo vệ.",
+    "description": "Nhận đòn đơn mục tiêu thay một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 4
@@ -362,7 +371,7 @@
   {
     "id": "garrek.fortress",
     "name": "Thủ thành",
-    "description": "Giảm mạnh sát thương lên bản thân đến hết lượt tiếp theo.",
+    "description": "Giảm mạnh sát thương nhận vào bản thân.",
     "target": "self",
     "cost": {
       "mp": 6
@@ -379,7 +388,7 @@
   {
     "id": "garrek.resolve",
     "name": "Ý chí người gác làng",
-    "description": "Nhận đòn thay và tăng sức chịu đựng bản thân. Bản mẫu chưa có cơ chế cứu khỏi đòn chí mạng.",
+    "description": "Nhận đòn thay đồng đội và tăng khả năng chịu đòn của bản thân.",
     "target": "ally",
     "cost": {
       "mp": 10
@@ -402,7 +411,7 @@
   {
     "id": "dain.strike",
     "name": "Đánh chắc",
-    "description": "Đòn vật lí Plain ổn định.",
+    "description": "Giáng một đòn chắc tay vào kẻ địch.",
     "target": "enemy",
     "effects": [
       {
@@ -416,7 +425,7 @@
   {
     "id": "dain.brace",
     "name": "Gồng mình",
-    "description": "Giảm 25% sát thương nhận trong 3 lượt tiếp theo. Mỗi hit chịu đựng tạo 1 Quyết tâm; mỗi hành động tấn công có 50% cơ hội tạo thêm 1 Quyết tâm sau khi đánh, kể cả Trọng kích. Tối đa 3 điểm.",
+    "description": "Giảm sát thương nhận và tích Quyết tâm khi chịu đòn hoặc tấn công.",
     "target": "self",
     "cost": {
       "mp": 5
@@ -432,7 +441,7 @@
   {
     "id": "dain.crush",
     "name": "Trọng kích",
-    "description": "Tốn 10 MP và toàn bộ Quyết tâm (ít nhất 1), gây 120% ATK + 80% ATK mỗi điểm, xuyên 30% giáp. Giữ bonus ATK từ Quyết tâm khi gây sát thương, sau đó mới tiêu số điểm đã dùng. Điểm tạo mới từ Gồng mình sau đòn đánh được giữ lại.",
+    "description": "Dồn toàn bộ Quyết tâm vào một đòn xuyên giáp.",
     "target": "enemy",
     "cost": {
       "mp": 10,
@@ -452,12 +461,16 @@
         "perResource": 0.8,
         "penetration": 0.3
       }
+    ],
+    "rules": [
+      "Quyết tâm vẫn tăng ATK trong đòn này; chỉ tiêu sau khi gây sát thương.",
+      "Điểm tạo từ Gồng mình sau đòn đánh được giữ lại."
     ]
   },
   {
     "id": "rowan.aim",
     "name": "Lấy điểm ngắm",
-    "description": "Tạo 2 Điểm ngắm.",
+    "description": "Chuẩn bị Điểm ngắm cho những phát bắn kế tiếp.",
     "target": "self",
     "effects": [
       {
@@ -470,7 +483,7 @@
   {
     "id": "rowan.pierce",
     "name": "Xuyên điểm yếu",
-    "description": "Tiêu 1 Điểm ngắm, xuyên 60% giáp.",
+    "description": "Dùng Điểm ngắm để bắn xuyên giáp một địch.",
     "target": "enemy",
     "cost": {
       "mp": 4,
@@ -492,7 +505,7 @@
   {
     "id": "rowan.volley",
     "name": "Liên xạ",
-    "description": "Gây sát thương vật lí Wind lên mọi địch.",
+    "description": "Bắn tên vào toàn bộ kẻ địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 9
@@ -509,7 +522,7 @@
   {
     "id": "freya.fireball",
     "name": "Hỏa cầu",
-    "description": "Phép Fire đơn mục tiêu, tạo 1 Nhiệt.",
+    "description": "Phóng Hỏa cầu và tích Nhiệt.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -532,7 +545,7 @@
   {
     "id": "freya.inferno",
     "name": "Biển lửa",
-    "description": "Tiêu toàn bộ Nhiệt để tăng sát thương Fire diện rộng.",
+    "description": "Tiêu toàn bộ Nhiệt để thiêu đốt toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 12,
@@ -555,7 +568,7 @@
   {
     "id": "freya.cool",
     "name": "Điều hòa",
-    "description": "Tiêu 1 Nhiệt để hồi 12 MP.",
+    "description": "Chuyển Nhiệt thành MP cho bản thân.",
     "target": "self",
     "cost": {
       "resource": {
@@ -574,7 +587,7 @@
   {
     "id": "arden.poultice",
     "name": "Thuốc đắp",
-    "description": "Hồi 12% HP tối đa đầu lượt trong 3 lượt.",
+    "description": "Đắp thuốc giúp một đồng đội hồi HP mỗi đầu lượt.",
     "target": "ally",
     "cost": {
       "mp": 6
@@ -590,7 +603,7 @@
   {
     "id": "arden.tonic",
     "name": "Dược phòng",
-    "description": "Tăng DEF và kháng phép một đồng đội trong 3 lượt.",
+    "description": "Tăng phòng thủ vật lí và kháng phép cho một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 6
@@ -606,7 +619,7 @@
   {
     "id": "arden.garden",
     "name": "Dược liệu dự phòng",
-    "description": "Đặt hồi phục theo lượt lên cả đội.",
+    "description": "Giúp toàn đội hồi HP mỗi đầu lượt.",
     "target": "all_allies",
     "cost": {
       "mp": 16
@@ -623,7 +636,7 @@
   {
     "id": "rhett.charge",
     "name": "Nạp điện",
-    "description": "Tạo 2 Điện tích.",
+    "description": "Nạp Điện tích cho vũ khí.",
     "target": "self",
     "effects": [
       {
@@ -636,7 +649,7 @@
   {
     "id": "rhett.shot",
     "name": "Phóng đạn điện",
-    "description": "Tiêu 1 Điện tích, sát thương vật lí Thunder.",
+    "description": "Dùng Điện tích để bắn một địch.",
     "target": "enemy",
     "cost": {
       "resource": {
@@ -656,7 +669,7 @@
   {
     "id": "rhett.overload",
     "name": "Ka-Boom!",
-    "description": "Tiêu toàn bộ Điện tích để tấn công diện rộng. Cần 2 vòng hồi chiêu.",
+    "description": "Xả toàn bộ Điện tích thành vụ nổ Lôi diện rộng.",
     "target": "all_enemies",
     "cost": {
       "mp": 8,
@@ -680,7 +693,7 @@
   {
     "id": "galliard.taunt",
     "name": "Khiêu khích",
-    "description": "Thu hút các đòn đơn mục tiêu về bản thân trong 2 lượt.",
+    "description": "Thu hút các đòn đơn mục tiêu về bản thân.",
     "target": "self",
     "cost": {
       "mp": 4
@@ -696,7 +709,7 @@
   {
     "id": "galliard.wall",
     "name": "Tường khiên",
-    "description": "Giảm 20% sát thương lên toàn đội trong 2 lượt.",
+    "description": "Giảm sát thương nhận cho toàn đội.",
     "target": "all_allies",
     "cost": {
       "mp": 10
@@ -713,7 +726,7 @@
   {
     "id": "galliard.hold",
     "name": "Giữ đội hình",
-    "description": "Tăng 30% DEF toàn đội trong 2 lượt.",
+    "description": "Tăng phòng thủ vật lí cho toàn đội.",
     "target": "all_allies",
     "cost": {
       "mp": 9
@@ -729,7 +742,7 @@
   {
     "id": "armie.first_aid",
     "name": "Sơ cứu",
-    "description": "Hồi HP tức thời cho một đồng đội.",
+    "description": "Hồi HP ngay cho một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 7
@@ -744,7 +757,7 @@
   {
     "id": "armie.treatment",
     "name": "Điều trị",
-    "description": "Giải hiệu ứng bất lợi và hồi ít HP.",
+    "description": "Thanh tẩy rồi hồi HP cho một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 8
@@ -762,7 +775,7 @@
   {
     "id": "armie.emergency",
     "name": "Cấp cứu",
-    "description": "Hồi mạnh hơn khi mục tiêu còn không quá 35% HP.",
+    "description": "Hồi HP, hiệu quả mạnh hơn khi đồng đội nguy kịch.",
     "target": "ally",
     "cost": {
       "mp": 13
@@ -779,7 +792,7 @@
   {
     "id": "fran.erode",
     "name": "Mòn giáp",
-    "description": "Giảm 35% DEF của mục tiêu trong 3 lượt.",
+    "description": "Giảm phòng thủ vật lí của một địch.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -795,7 +808,7 @@
   {
     "id": "fran.fracture",
     "name": "Rạn thuật",
-    "description": "Giảm 35% kháng phép của mục tiêu trong 3 lượt.",
+    "description": "Giảm kháng phép của một địch.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -811,7 +824,7 @@
   {
     "id": "fran.night",
     "name": "Đêm không che chở",
-    "description": "Giảm thêm 20% DEF và kháng phép mọi địch trong 2 lượt.",
+    "description": "Giảm DEF và RES của toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 16
@@ -828,7 +841,7 @@
   {
     "id": "aurora.spark",
     "name": "Tia sét",
-    "description": "Gây sát thương phép Thunder đơn mục tiêu. Đòn của Aurora không kích hoạt Mạch sấm của chính mình.",
+    "description": "Phóng một tia sét vào kẻ địch.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -845,7 +858,7 @@
   {
     "id": "aurora.amplify",
     "name": "Truyền dẫn ma lực",
-    "description": "Tăng 25% MAG của một đồng đội trong 2 lượt của người nhận.",
+    "description": "Tăng sức mạnh phép cho một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 8
@@ -861,7 +874,7 @@
   {
     "id": "aurora.storm",
     "name": "Giông sét",
-    "description": "Gây sát thương phép Thunder lên mọi địch. Là đòn diện rộng nên không kích hoạt Mạch sấm.",
+    "description": "Gọi giông sét đánh toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 14
@@ -880,7 +893,7 @@
     "id": "aurora.follow_up",
     "name": "Sét cộng hưởng",
     "activation": "passive",
-    "description": "Liên kích (FuA) phép Thunder vào kẻ địch vừa nhận sát thương phép đơn mục tiêu do đồng đội khác gây ra, tối đa một lần mỗi vòng. Sau khi liên kích, Aurora tích 1 Lôi ấn. Không kích hoạt từ đòn của bản thân hoặc đòn liên kích khác.",
+    "description": "Liên kích vào mục tiêu vừa nhận phép đơn mục tiêu của đồng đội khác.",
     "target": "enemy",
     "effects": [
       {
@@ -894,7 +907,7 @@
   {
     "id": "lisbeth.pride",
     "name": "Kiêu hãnh Ranoc",
-    "description": "Tự tăng 50% MAG trong 3 lượt tiếp theo của bản thân. Cộng với nội tại thành +70% MAG cơ bản.",
+    "description": "Giải phóng ma lực Ranoc để tự tăng MAG.",
     "target": "self",
     "cost": {
       "mp": 12
@@ -911,7 +924,7 @@
   {
     "id": "lisbeth.lance",
     "name": "Quang thương",
-    "description": "Phóng thương ánh sáng, gây sát thương phép Light mạnh lên một kẻ địch, tốn nhiều MP.",
+    "description": "Phóng quang thương vào một địch.",
     "target": "enemy",
     "cost": {
       "mp": 16
@@ -928,7 +941,7 @@
   {
     "id": "lisbeth.judgment",
     "name": "Phán quyết kiêu hãnh",
-    "description": "Dồn ma lực thành đòn phép Light đơn mục tiêu cực mạnh. Chi phí MP cao, hồi 2 vòng.",
+    "description": "Dồn ma lực thành đòn phép Quang cực mạnh.",
     "target": "enemy",
     "cost": {
       "mp": 28
@@ -957,7 +970,8 @@
         "element": "plain",
         "multiplier": 1.3
       }
-    ]
+    ],
+    "description": "Chém lén một đối thủ."
   },
   {
     "id": "enemy.splash",
@@ -974,7 +988,8 @@
         "element": "water",
         "multiplier": 0.9
       }
-    ]
+    ],
+    "description": "Gọi sóng nước đánh toàn đội đối phương."
   },
   {
     "id": "enemy.double_hit",
@@ -991,7 +1006,8 @@
         "multiplier": 0.7,
         "hits": 2
       }
-    ]
+    ],
+    "description": "Quật một đối thủ hai nhịp."
   },
   {
     "id": "enemy.smash",
@@ -1012,7 +1028,8 @@
         "status": "shaken",
         "duration": 2
       }
-    ]
+    ],
+    "description": "Đập mạnh một đối thủ và làm suy yếu ATK."
   },
   {
     "id": "enemy.quake",
@@ -1029,7 +1046,8 @@
         "element": "earth",
         "multiplier": 1.1
       }
-    ]
+    ],
+    "description": "Chấn động mặt đất, đánh toàn đội đối phương."
   },
   {
     "id": "enemy.shaman_ember",
@@ -1209,7 +1227,7 @@
   {
     "id": "kai.poison",
     "name": "Rắc bột độc",
-    "description": "Khiến một kẻ địch nhiễm độc trong 3 lượt đầu của nó. Mỗi lần mất HP bằng 4 + 35% ATK của Kai lúc rắc độc; bỏ qua giáp và khiên, không cộng dồn. Dùng lại làm mới thời hạn và lượng độc.",
+    "description": "Gây độc, làm địch mất HP mỗi đầu lượt.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -1220,12 +1238,16 @@
         "status": "kai_poison",
         "duration": 3
       }
+    ],
+    "rules": [
+      "Độc bỏ qua DEF, RES và khiên; không hưởng điểm yếu.",
+      "Lượng độc chốt khi dùng chiêu; dùng lại làm mới thời hạn và lượng độc."
     ]
   },
   {
     "id": "kai.shield",
     "name": "Khiên gỗ vụng về",
-    "description": "Dựng một tấm khiên nhỏ cho đồng đội. Khiên không cộng dồn.",
+    "description": "Dựng khiên gỗ cho một đồng đội.",
     "target": "ally",
     "cost": {
       "mp": 7
@@ -1241,7 +1263,7 @@
   {
     "id": "kai.formation",
     "name": "Tập giữ hàng",
-    "description": "Bắt chước Garrek, tăng 15% phòng thủ vật lí toàn đội trong 2 lượt.",
+    "description": "Tăng phòng thủ vật lí cho toàn đội.",
     "target": "all_allies",
     "cost": {
       "mp": 10
@@ -1258,7 +1280,7 @@
   {
     "id": "benard.twin_blades",
     "name": "Song kiếm cuồng phong",
-    "description": "Chém một kẻ địch hai nhát bằng song kiếm. Mỗi nhát nhận phần sát thương cộng từ tốc độ.",
+    "description": "Chém liên tiếp hai nhát vào một địch.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -1276,7 +1298,7 @@
   {
     "id": "benard.flash",
     "name": "Nhất thiểm",
-    "description": "Lướt qua một kẻ địch và tung nhát chém lấy tốc độ làm sức mạnh: 70% ATK + 100% SPD, cộng thêm 50% SPD từ nội tại của Benard, tổng cộng 150% SPD.",
+    "description": "Lướt kiếm lấy tốc độ làm sức mạnh.",
     "target": "enemy",
     "cost": {
       "mp": 14
@@ -1295,7 +1317,7 @@
   {
     "id": "benard.gale",
     "name": "Nhịp gió",
-    "description": "Tự tăng 40% tốc độ trong 3 lượt tiếp theo. Sát thương tăng ngay; thứ tự hành động cập nhật từ vòng sau.",
+    "description": "Tăng tốc để di chuyển và ra kiếm nhanh hơn.",
     "target": "self",
     "cost": {
       "mp": 10
@@ -1307,12 +1329,15 @@
         "status": "benard_gale",
         "duration": 3
       }
+    ],
+    "rules": [
+      "SPD tăng ngay; thứ tự hành động đổi khi lập hàng lượt mới."
     ]
   },
   {
     "id": "lanceveil.thrust",
     "name": "Hỏa thương",
-    "description": "Đâm thương bọc lửa vào một kẻ địch, gây sát thương vật lí Hỏa.",
+    "description": "Đâm thương bọc lửa vào một địch.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -1329,7 +1354,7 @@
   {
     "id": "lanceveil.breakthrough",
     "name": "Liệt hỏa phá trận",
-    "description": "Dồn sức vào mũi thương, gây sát thương vật lí Hỏa mạnh lên một kẻ địch và bỏ qua 25% phòng thủ vật lí.",
+    "description": "Dùng hỏa thương xuyên giáp một địch.",
     "target": "enemy",
     "cost": {
       "mp": 13
@@ -1348,7 +1373,7 @@
   {
     "id": "lanceveil.bulwark",
     "name": "Khiên lửa hộ quân",
-    "description": "Dựng hàng khiên giảm 15% mọi sát thương nhận cho toàn đội trong 2 lượt của từng người. Dùng lại chỉ làm mới thời hạn.",
+    "description": "Dựng hàng khiên giảm sát thương cho cả đội.",
     "target": "all_allies",
     "cost": {
       "mp": 12
@@ -1365,7 +1390,7 @@
   {
     "id": "enemy.alice_curse",
     "name": "Lời nguyền hắc kiếm",
-    "description": "Gây sát thương phép Ám lên mọi kẻ địch và giảm 20% ATK cùng MAG trong 2 lượt.",
+    "description": "Gieo lời nguyền Ám, làm yếu sức tấn công toàn đội đối phương.",
     "target": "all_enemies",
     "cost": {
       "mp": 14
@@ -1388,7 +1413,7 @@
   {
     "id": "enemy.alice_grasp",
     "name": "Xiềng đêm vĩnh cửu",
-    "description": "Gây sát thương phép Ám lên mọi kẻ địch và giảm 25% tốc độ trong 2 lượt. Thứ tự hành động đổi từ vòng sau.",
+    "description": "Gây phép Ám và làm chậm toàn đội đối phương.",
     "target": "all_enemies",
     "cost": {
       "mp": 16
@@ -1411,7 +1436,7 @@
   {
     "id": "enemy.alice_judgment",
     "name": "Thánh phán đọa lạc",
-    "description": "Gây sát thương phép Quang lên mọi kẻ địch, giảm 35% DEF và RES trong 2 lượt.",
+    "description": "Gây phép Quang, phá DEF và RES toàn đội đối phương.",
     "target": "all_enemies",
     "cost": {
       "mp": 24
@@ -1590,7 +1615,7 @@
   {
     "id": "enemy.miraebolis_whitefire",
     "name": "Bạch hỏa liên hoàn",
-    "description": "Hai đợt lửa ma pháp đánh vào cả đội. Kìm hãm làm yếu lửa ở giai đoạn 3.",
+    "description": "Phun hai đợt lửa phép lên toàn đội đối phương.",
     "target": "all_enemies",
     "cost": {
       "mp": 16
@@ -1605,12 +1630,15 @@
         "multiplier": 0.65,
         "hits": 2
       }
+    ],
+    "rules": [
+      "Kìm hãm làm yếu lửa ở giai đoạn 3."
     ]
   },
   {
     "id": "enemy.miraebolis_doom",
     "name": "Tâm diệt thành",
-    "description": "Vận sức rồi tung đại chiêu Hỏa diện rộng. Duy trì Kìm hãm và chuẩn bị khiên, kháng phép hoặc Phòng thủ.",
+    "description": "Vận sức rồi tung đại chiêu Hỏa diện rộng.",
     "target": "all_enemies",
     "cost": {
       "mp": 22
@@ -1628,12 +1656,15 @@
         "element": "fire",
         "multiplier": 2.2
       }
+    ],
+    "rules": [
+      "Có báo trước; chuẩn bị phòng thủ và duy trì Kìm hãm."
     ]
   },
   {
     "id": "gahallad.mount",
     "name": "Hắc kỳ giáng thế",
-    "description": "Bật/tắt thế cưỡi ngựa. Khi cưỡi: tăng 15% ATK và nhận Phá Thành — gây thêm 100% sát thương nếu mục tiêu đang có khiên lúc hit bắt đầu. Duy trì đến khi xuống ngựa hoặc hết trận; bật/tắt tốn một lượt, không tốn MP.",
+    "description": "Lên hoặc xuống ngựa. Khi cưỡi, tăng ATK và nhận Phá Thành.",
     "target": "self",
     "effects": [
       {
@@ -1643,12 +1674,15 @@
           "siegebreaker"
         ]
       }
+    ],
+    "rules": [
+      "Bật hoặc tắt tốn một lượt."
     ]
   },
   {
     "id": "gahallad.trample",
     "name": "Thiết kị nghiền trận",
-    "description": "Thúc chiến mã lao qua một đối thủ, gây sát thương vật lí Ám. Hưởng hiệu ứng phá khiên khi đang cưỡi ngựa.",
+    "description": "Thúc chiến mã nghiền qua một địch.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -1665,7 +1699,7 @@
   {
     "id": "gahallad.charge",
     "name": "Vạn vó chôn quân",
-    "description": "Dồn khí thế cả đoàn kị binh vào một đòn vật lí Ám đơn mục tiêu. Khi mục tiêu có khiên, thế cưỡi ngựa nhân đôi toàn bộ hit, kể cả sát thương tràn vào HP.",
+    "description": "Dồn khí thế kị binh vào một đòn chém Ám cực mạnh.",
     "target": "enemy",
     "cost": {
       "mp": 14
@@ -1683,7 +1717,7 @@
   {
     "id": "enemy.spider_cocoon",
     "name": "Kén tơ sắt",
-    "description": "Tự dựng 140 khiên, che lại điểm yếu khi vỡ kén. Ưu tiên dùng khi không có khiên và kỹ năng đã sẵn sàng.",
+    "description": "Dựng kén khiên, khép lại điểm yếu lộ ra khi vỡ kén.",
     "target": "self",
     "cost": {
       "mp": 10
@@ -1734,7 +1768,7 @@
   {
     "id": "gawain.cloud",
     "name": "Thiên lôi tụ trận",
-    "description": "Gọi mây giông đánh toàn bộ địch ở 3 đầu lượt tiếp theo của Gawain. Mỗi lần mây đánh tăng 10% ATK trước sát thương, tối đa 20%, giữ đến khi mây hết. Hồi 3 vòng: gọi lại ngay khi sẵn sàng có một vòng không có Uy lôi; mây mới bắt đầu đánh ở lượt sau.",
+    "description": "Gọi mây giông đánh toàn địch ở đầu các lượt kế tiếp.",
     "target": "self",
     "cost": {
       "mp": 12
@@ -1746,12 +1780,16 @@
         "status": "storm_cloud",
         "duration": 3
       }
+    ],
+    "rules": [
+      "Mây bắt đầu đánh từ đầu lượt kế tiếp.",
+      "Gọi lại ngay khi hết hồi chiêu có một vòng thiếu Uy lôi; Lượt Thêm vẫn tính là lượt thực."
     ]
   },
   {
     "id": "gawain.sweep",
     "name": "Lôi đình phá trận",
-    "description": "Vung đại kiếm quét sấm sét qua toàn bộ kẻ địch, gây sát thương vật lí Lôi.",
+    "description": "Quét đại kiếm Lôi qua toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 9
@@ -1768,7 +1806,7 @@
   {
     "id": "gawain.judgment",
     "name": "Thiên phạt trọng trảm",
-    "description": "Bổ đại kiếm xuống chiến trường, gây sát thương vật lí Lôi mạnh lên toàn bộ kẻ địch. Hưởng ATK từ Uy lôi khi mây còn tồn tại.",
+    "description": "Giáng đại kiếm Lôi xuống toàn chiến trường.",
     "target": "all_enemies",
     "cost": {
       "mp": 16
@@ -1787,7 +1825,7 @@
     "id": "gawain.cloud_pulse",
     "name": "Lôi vực giáng lâm",
     "activation": "passive",
-    "description": "Mây giông tự gây sát thương vật lí Lôi lên toàn bộ địch ở đầu lượt Gawain, dùng ATK hiện tại. Không tốn lượt hay MP, không hưởng hoặc tiêu buff tăng sát thương đòn kế tiếp và không kích hoạt liên kích của Aurora.",
+    "description": "Mây giông tự đánh toàn địch vào đầu lượt Gawain.",
     "target": "all_enemies",
     "effects": [
       {
@@ -1796,12 +1834,15 @@
         "element": "thunder",
         "multiplier": 0.6
       }
+    ],
+    "rules": [
+      "Đòn mây không dùng lượt hoặc MP và không hưởng hay tiêu buff đòn kế tiếp."
     ]
   },
   {
     "id": "lucien.sweep",
     "name": "Ấn thuật truy săn",
-    "description": "Trải ấn thuật lên mọi kẻ địch, gây sát thương phép Thường.",
+    "description": "Rải ấn thuật lên toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 8
@@ -1818,7 +1859,7 @@
   {
     "id": "lucien.tempest",
     "name": "Thiên trận Valmont",
-    "description": "Triển khai đại trận săn quái, gây sát thương phép Thường mạnh lên mọi kẻ địch.",
+    "description": "Triển khai đại trận phép lên toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 16
@@ -1836,7 +1877,7 @@
   {
     "id": "lucien.ward",
     "name": "Kết giới gia huy",
-    "description": "Tăng 25% RES toàn đội trong 2 lượt của từng người nhận.",
+    "description": "Tăng kháng phép cho toàn đội.",
     "target": "all_allies",
     "cost": {
       "mp": 12
@@ -1853,7 +1894,7 @@
   {
     "id": "seraphine.crest",
     "name": "Ý chí người thừa kế",
-    "description": "Tự tăng 30% ATK và 30% MAG trong 3 lượt tiếp theo.",
+    "description": "Tự tăng sức mạnh kiếm thuật và ma pháp.",
     "target": "self",
     "cost": {
       "mp": 10
@@ -1870,7 +1911,7 @@
   {
     "id": "seraphine.blade",
     "name": "Kiếm quyết Valmont",
-    "description": "Đánh một kẻ địch bằng 100% ATK vật lí và 100% MAG ma pháp hệ Thường. Phần vật lí tính DEF, phần ma pháp tính RES riêng.",
+    "description": "Kết hợp kiếm và phép tấn công một địch.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -1888,12 +1929,15 @@
         "element": "plain",
         "multiplier": 1
       }
+    ],
+    "rules": [
+      "Phần vật lí tính DEF; phần phép tính RES riêng."
     ]
   },
   {
     "id": "seraphine.spell",
     "name": "Ấn kiếm truy hồn",
-    "description": "Đánh một kẻ địch bằng 200% ATK vật lí và 200% MAG ma pháp hệ Thường. Phần vật lí tính DEF, phần ma pháp tính RES riêng.",
+    "description": "Dồn kiếm thuật và ma pháp vào một đòn truy kích.",
     "target": "enemy",
     "cost": {
       "mp": 15
@@ -1912,12 +1956,15 @@
         "element": "plain",
         "multiplier": 2
       }
+    ],
+    "rules": [
+      "Phần vật lí tính DEF; phần phép tính RES riêng."
     ]
   },
   {
     "id": "lyon.shield",
     "name": "Thành lũy gia tộc",
-    "description": "Tạo khiên cho toàn đội bằng 150% DEF hiện tại của Lyon, gồm buff DEF. Khiên không cộng dồn.",
+    "description": "Tạo khiên toàn đội dựa trên DEF của Lyon.",
     "target": "all_allies",
     "cost": {
       "mp": 14
@@ -1934,7 +1981,7 @@
   {
     "id": "lyon.formation",
     "name": "Hàng khiên bất khuất",
-    "description": "Tăng 25% DEF toàn đội trong 2 lượt của từng người nhận.",
+    "description": "Tăng phòng thủ vật lí cho toàn đội.",
     "target": "all_allies",
     "cost": {
       "mp": 12
@@ -1950,7 +1997,7 @@
   {
     "id": "lyon.ward",
     "name": "Hộ ấn bất xâm",
-    "description": "Cấp một đồng đội 1 lần Miễn nhiễm hiệu ứng: chặn một hiệu ứng bất lợi mới từ kẻ địch rồi tiêu Hộ ấn. Không giải debuff cũ hoặc chặn hình phạt tự gây; dùng lại chỉ làm mới 1 lần.",
+    "description": "Bảo vệ một đồng đội khỏi hiệu ứng bất lợi kế tiếp.",
     "target": "ally",
     "cost": {
       "mp": 8
@@ -1961,12 +2008,17 @@
         "type": "status",
         "status": "effect_ward"
       }
+    ],
+    "rules": [
+      "Chặn một hiệu ứng, không chặn trọn kỹ năng có nhiều hiệu ứng.",
+      "Không giải hiệu ứng đã có hoặc chặn hình phạt tự gây.",
+      "Dùng lại làm mới một lần chặn, không cộng dồn."
     ]
   },
   {
     "id": "cedric.rally",
     "name": "Hiệu lệnh gia tộc",
-    "description": "Tăng 25% ATK và MAG toàn đội trong 2 lượt của từng người nhận.",
+    "description": "Tăng sức tấn công vật lí và phép cho cả đội.",
     "target": "all_allies",
     "cost": {
       "mp": 12
@@ -1982,7 +2034,7 @@
   {
     "id": "cedric.aid",
     "name": "Tiếp viện chiến trường",
-    "description": "Hồi HP toàn đội bằng 8 + 100% ATK hiện tại của Cedric. Buff ATK tăng lượng hồi.",
+    "description": "Hồi HP toàn đội dựa trên ATK của Cedric.",
     "target": "all_allies",
     "cost": {
       "mp": 16
@@ -2000,7 +2052,7 @@
   {
     "id": "cedric.strike",
     "name": "Lệnh truy săn",
-    "description": "Đánh một kẻ địch bằng sát thương vật lí Phong.",
+    "description": "Ra lệnh truy săn, đánh một địch bằng sức mạnh Phong.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -2051,7 +2103,7 @@
   {
     "id": "enemy.beetle_shell",
     "name": "Khép vỏ cứng",
-    "description": "Bọ cánh cứng khép vỏ, tự tạo 20 khiên. Khiên không cộng dồn.",
+    "description": "Khép vỏ cứng thành khiên bảo vệ bản thân.",
     "target": "self",
     "cost": {
       "mp": 5
@@ -2102,7 +2154,7 @@
   {
     "id": "enemy.snake_fang",
     "name": "Nanh rỉ độc",
-    "description": "Rắn cắn một đối thủ và gây Nhiễm độc trong 2 lượt đầu của người nhận. Độc không cộng dồn.",
+    "description": "Cắn một đối thủ và gây độc.",
     "target": "enemy",
     "cost": {
       "mp": 4
@@ -2160,7 +2212,7 @@
   {
     "id": "enemy.mushroom_spores",
     "name": "Bụi phấn độc",
-    "description": "Nấm rũ một màn phấn gây sát thương phép Thổ nhẹ lên toàn đội đối phương. Không gắn độc kéo dài.",
+    "description": "Rũ phấn gây phép Thổ lên toàn đội đối phương.",
     "target": "all_enemies",
     "cost": {
       "mp": 6
@@ -2208,5 +2260,443 @@
         "multiplier": 0.95
       }
     ]
+  },
+  {
+    "id": "helena.rain",
+    "name": "Mưa rơi trên găng ren",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 0,
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 0.95
+      }
+    ],
+    "description": "Gọi mưa phép Thủy lên toàn địch."
+  },
+  {
+    "id": "helena.parasol",
+    "name": "Chiếc ô ren mỏng manh",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "target": "self",
+    "effects": [
+      {
+        "type": "shield",
+        "multiplier": 1.5
+      }
+    ],
+    "description": "Dựng ô ma lực thành khiên bảo vệ bản thân."
+  },
+  {
+    "id": "helena.ball",
+    "name": "Vũ hội sau màn mưa",
+    "cost": {
+      "mp": 36
+    },
+    "cooldown": 2,
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.8
+      }
+    ],
+    "description": "Nhấn chìm toàn địch trong vũ hội mưa phép."
+  },
+  {
+    "id": "leonardo.cover",
+    "name": "Cứ nấp sau lưng anh",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "target": "ally",
+    "effects": [
+      {
+        "type": "status",
+        "status": "cover",
+        "duration": 2
+      },
+      {
+        "type": "status",
+        "status": "elder_resolve",
+        "duration": 2,
+        "to": "self"
+      }
+    ],
+    "description": "Nhận đòn thay một đồng đội và tự tăng kháng phép."
+  },
+  {
+    "id": "leonardo.home",
+    "name": "Mái nhà anh gìn giữ",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "target": "all_allies",
+    "effects": [
+      {
+        "type": "status",
+        "status": "ranoc_home",
+        "duration": 3
+      }
+    ],
+    "description": "Dựng kết giới kháng phép cho cả đội."
+  },
+  {
+    "id": "leonardo.cleanse",
+    "name": "Anh sẽ không để ai gục ngã",
+    "cost": {
+      "mp": 35
+    },
+    "cooldown": 2,
+    "target": "all_allies",
+    "effects": [
+      {
+        "type": "cleanse"
+      }
+    ],
+    "description": "Thanh tẩy toàn bộ hiệu ứng bất lợi của cả đội."
+  },
+  {
+    "id": "kyle.mischief",
+    "name": "Em có làm gì đâu!",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 4,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 0.35,
+        "hits": 3,
+        "onHitStatus": {
+          "status": "mischief",
+          "duration": 3
+        }
+      }
+    ],
+    "description": "Đánh ba hit, mỗi hit gắn thêm một tầng Trò quậy."
+  },
+  {
+    "id": "kyle.wind",
+    "name": "Tại gió đấy chứ!",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 1.05
+      }
+    ],
+    "description": "Đánh phép Phong vào một địch.",
+    "rules": [
+      "Phép có thể duy trì Trò quậy sẵn có; không tạo dấu mới."
+    ]
+  },
+  {
+    "id": "kyle.escape",
+    "name": "Bắt được em rồi hẵng nói!",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 2,
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 0.75
+      }
+    ],
+    "description": "Gọi gió phép quét qua toàn địch.",
+    "rules": [
+      "Chỉ làm mới Trò quậy trên địch đã có dấu."
+    ]
+  },
+  {
+    "id": "iwayn.advance",
+    "name": "Quang thương tiến bước",
+    "cost": {
+      "mp": 5
+    },
+    "cooldown": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 1.1,
+        "penetration": 0.1
+      }
+    ],
+    "description": "Đâm quang thương xuyên giáp một địch."
+  },
+  {
+    "id": "iwayn.oath",
+    "name": "Lời thề của kị sĩ trẻ",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "target": "self",
+    "effects": [
+      {
+        "type": "status",
+        "status": "young_oath",
+        "duration": 3
+      }
+    ],
+    "description": "Lập lời thề, tăng ATK bản thân."
+  },
+  {
+    "id": "iwayn.victory",
+    "name": "Thương quang quyết thắng",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 2.5,
+        "penetration": 0.1
+      }
+    ],
+    "description": "Dồn sức vào một đòn quang thương xuyên giáp."
+  },
+  {
+    "id": "percival.undertow",
+    "name": "Chùy đập sóng ngầm",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.35
+      },
+      {
+        "type": "status",
+        "status": "undertow_slow",
+        "duration": 2
+      }
+    ],
+    "description": "Đập chùy Thủy, làm chậm một địch."
+  },
+  {
+    "id": "percival.stillness",
+    "name": "Bất động giữa dòng xiết",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "target": "self",
+    "effects": [
+      {
+        "type": "status",
+        "status": "tidal_stillness",
+        "duration": 2
+      }
+    ],
+    "description": "Giảm sát thương nhận và tự hồi HP mỗi đầu lượt."
+  },
+  {
+    "id": "percival.sea",
+    "name": "Nhất chùy trấn hải",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 2.2
+      },
+      {
+        "type": "status",
+        "status": "sea_slow",
+        "duration": 2
+      }
+    ],
+    "description": "Giáng trọng chùy, làm chậm một địch."
+  },
+  {
+    "id": "mandred.axe",
+    "name": "Chiến phủ nghiền đất",
+    "cost": {
+      "mp": 5
+    },
+    "cooldown": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.45
+      }
+    ],
+    "description": "Bổ chiến phủ Thổ vào một địch."
+  },
+  {
+    "id": "mandred.sweep",
+    "name": "Sư tử quét trận",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 0,
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 0.95
+      }
+    ],
+    "description": "Quét chiến phủ Thổ qua toàn địch."
+  },
+  {
+    "id": "mandred.roar",
+    "name": "Đứa nào dám cản ta?!",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "target": "self",
+    "effects": [
+      {
+        "type": "status",
+        "status": "lion_roar",
+        "duration": 2
+      }
+    ],
+    "description": "Tăng ATK và khả năng chịu đòn của bản thân."
+  },
+  {
+    "id": "lionel.oath",
+    "name": "Lời thề người dẫn đường",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "target": "ally",
+    "effects": [
+      {
+        "type": "status",
+        "status": "guiding_oath",
+        "duration": 2
+      }
+    ],
+    "description": "Cường hóa sức tấn công vật lí và phép cho một đồng đội."
+  },
+  {
+    "id": "lionel.encore",
+    "name": "Tiến lên một lần nữa!",
+    "cost": {
+      "mp": 36
+    },
+    "cooldown": 4,
+    "target": "ally",
+    "effects": [
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "description": "Cấp một Lượt Thêm, thực hiện trong Vòng Phụ của vòng này.",
+    "rules": [
+      "Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.",
+      "Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu."
+    ]
+  },
+  {
+    "id": "lionel.light",
+    "name": "Ánh nước soi đường",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.15
+      }
+    ],
+    "description": "Chiếu ánh nước tấn công một địch."
+  },
+  {
+    "id": "giant_boar.gore",
+    "name": "Nanh húc xé giáp",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.45
+      },
+      {
+        "type": "status",
+        "status": "eroded",
+        "duration": 2
+      }
+    ],
+    "description": "Húc nanh, làm giảm DEF của một đối thủ."
+  },
+  {
+    "id": "giant_boar.stampede",
+    "name": "Đại náo ruộng đồng",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 2,
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 0.95
+      }
+    ],
+    "description": "Càn quét toàn đội đối phương."
   }
 ]

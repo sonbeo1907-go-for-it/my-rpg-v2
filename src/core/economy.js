@@ -1,3 +1,4 @@
+import { grantQuestExclusive } from './exclusive-rewards.js';
 import { ownsCharacter, unlockCharacter } from './ownership.js';
 import { gearSlotCapacity, unlockDuplicateSlot } from './gear-slots.js';
 import { completeStoryEvent } from './story-events.js';
@@ -101,7 +102,8 @@ export function claimBattleReward(campaign, battle, content, persist = () => {})
         const alreadyOwned = next.characters[upgrade.characterId].upgradeIds.includes(upgrade.id);
         completeStoryEvent(next, content, upgrade.requires.storyFlag);
         granted.push({ type: 'upgrade', upgradeId: upgrade.id, characterId: upgrade.characterId, alreadyOwned });
-      } else granted.push(grantCharacterCopy(next, content, reward.characterId));
+      } else if (reward.type === 'exclusive') granted.push(grantQuestExclusive(next,content,reward.templateId));
+      else granted.push(grantCharacterCopy(next, content, reward.characterId));
     }
     next.claimedFirstClearRewards.push(battle.encounterId);
   }

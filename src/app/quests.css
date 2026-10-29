@@ -35,3 +35,22 @@
   .quest-categories .quest-illustration h2, .quest-categories .quest-illustration p { max-width: 100%; }
   .quest-locked { min-height: 350px; padding: 2rem 1rem; }
 }
+
+/* Shared, subdued map behind both quest categories; foreground illustrations stay distinct. */
+.quest-page.quest-categories {
+  position: relative;
+  isolation: isolate;
+}
+.quest-page.quest-categories::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(180deg, #09131dd9 0%, #0b1721c7 45%, #09131de0 100%),
+    url("/art/quest.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}

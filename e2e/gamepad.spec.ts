@@ -2,6 +2,10 @@ import { test, expect, type Page } from "@playwright/test";
 import { loadContent } from "../scripts/load-content.mjs";
 import { createGameSave, encodeGameSave } from "../src/core/game-save.js";
 const content: any = await loadContent();
+test('LB/RB switches Inventory and Thợ Rèn tabs; open dismantle modal keeps background tabs unchanged',async({page})=>{
+ await setup(page);await page.goto('/inventory');await expect(page.locator('.gear-card')).toHaveCount(1);await focused(page,'.back-button');await expect(page.locator('.gamepad-guide-status')).toHaveText('TAY CẦM XBOX');await press(page,5);await expect(page.getByRole('button',{name:'Trấn Phái',exact:true})).toHaveAttribute('aria-current','page');await press(page,5);await expect(page.locator('.resource-card')).toHaveCount(5);await press(page,4);await expect(page.getByRole('button',{name:'Trấn Phái',exact:true})).toHaveAttribute('aria-current','page');await press(page,4);await expect(page.locator('.gear-card')).toHaveCount(1);
+ await page.goto('/blacksmith');await expect(page.locator('.gear-card')).toHaveCount(1);await focused(page,'.back-button');await expect(page.locator('.gamepad-guide-status')).toHaveText('TAY CẦM XBOX');await press(page,5);await expect(page.locator('.exclusive-card')).toHaveCount(13);await press(page,4);await page.locator('.gear-card').click();await page.getByRole('button',{name:'Phân rã (1)',exact:true}).click();await expect(page.getByRole('dialog')).toBeVisible();await press(page,5);await expect(page.getByRole('dialog')).toBeVisible();await expect(page.getByRole('button',{name:'Phân rã',exact:true})).toHaveAttribute('aria-current','page');await press(page,1);await expect(page.getByRole('dialog')).toHaveCount(0);
+});
 async function setup(page: Page, mode = "gamepad") {
   const save = createGameSave(content);
   save.prisma = 10;

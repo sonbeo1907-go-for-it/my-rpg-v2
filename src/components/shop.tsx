@@ -18,6 +18,7 @@ import {
   PageHeader,
   fmt,
 } from "./ui";
+import { MerchantScene } from "./merchant-scene";
 
 const keeperGreetings = [
   "Chào mừng… Tiệm vẫn mở. Còn mắt tôi thì đang cố gắng.",
@@ -29,26 +30,6 @@ const keeperGreetings = [
   "Prisma đều được kiểm tra rồi. Quầng thâm này là dấu chứng nhận tận tâm đấy.",
   "Cảm ơn đã ghé. Nếu gặp chủ tiệm… nói giúp tôi hai chữ: nghỉ phép.",
 ];
-
-function ShopKeeper() {
-  const [greeting, setGreeting] = useState(0);
-  return (
-    <aside className="shop-keeper" aria-label="Phù thủy giữ tiệm">
-      <span className="keeper-shift"><span /> CA TRỰC CHƯA KẾT THÚC</span>
-      <div className="witch-dialogue">
-        <span className="eyebrow">PHÙ THỦY GIỮ TIỆM</span>
-        <p aria-live="polite">“{keeperGreetings[greeting]}”</p>
-        <button
-          className="keeper-next"
-          aria-label="Nghe lời chào tiếp theo"
-          onClick={() => setGreeting((current) => (current + 1) % keeperGreetings.length)}
-        >
-          Nói tiếp… <span aria-hidden="true">→</span>
-        </button>
-      </div>
-    </aside>
-  );
-}
 
 export function ShopPage() {
   const { content, campaign, transact, busy } = useGame();
@@ -103,11 +84,7 @@ export function ShopPage() {
   }
   return (
     <main className="page shop-page">
-      <div className="shop-scene" aria-hidden="true">
-        <img src="/art/shop-witch.svg" alt="" />
-      </div>
-      <div className="shop-layout">
-        <div className="shop-stock">
+      <MerchantScene art="/art/shop-witch.svg" name="Phù thủy giữ tiệm" badge="CA TRỰC CHƯA KẾT THÚC" lines={keeperGreetings}>
           <PageHeader
             title="Tiệm Prisma"
             subtitle="Ánh đèn còn sáng. Người bán thì sắp ngủ."
@@ -243,9 +220,7 @@ export function ShopPage() {
               )}
             </section>
           )}
-        </div>
-        <ShopKeeper />
-      </div>
+      </MerchantScene>
       {confirm && (
         <Modal
           title={

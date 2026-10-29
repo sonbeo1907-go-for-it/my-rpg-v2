@@ -7,6 +7,7 @@ import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from "../core/content.js";
 import { EmptyState, ElementBadge, Icon, PageHeader, Modal } from "./ui";
 import { useSettings } from "../runtime/settings-context";
 import { useRouteFilters } from "./characters";
+import { STAT_LABELS } from "../core/catalog.js";
 import { encounterTier, victoryCoinReward } from "../core/economy.js";
 import { QuestLayout, QuestIllustration } from "./quest-layout";
 import { questCatalog, questCategory, SINISTER_UNLOCK_FLAG } from "../core/quest-catalog.js";
@@ -15,6 +16,7 @@ export function rewardNames(content: any, encounter: any) {
     .map((reward: any) =>
       reward.type === "upgrade"
         ? content.upgrades[reward.upgradeId].name
+        : reward.type === "exclusive" ? `${content.exclusiveGear[reward.templateId].name} (${(STAT_LABELS as any)[content.exclusiveGear[reward.templateId].source.statKey]} +${content.exclusiveGear[reward.templateId].source.statValue})`
         : `${reward.type === "duplicate" ? "Bản trùng " : ""}${content.characters[reward.characterId].name}`,
     )
     .join(" · ");

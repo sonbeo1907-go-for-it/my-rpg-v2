@@ -168,7 +168,7 @@ function hintList(
       ["B", "Trở về"],
       ["RS", "Cuộn"],
     ];
-  if (path === "/shop")
+  if (path === "/shop" || path === "/blacksmith" || path === "/inventory")
     return [
       ["A", "Chọn"],
       ["LB / RB", "Chuyển tab"],
@@ -421,7 +421,7 @@ export function GamepadNavigation() {
           document.querySelector<HTMLElement>(".header-actions a")?.click();
       } else if (action === "lb" || action === "rb") {
         const tabs = root.querySelector(
-          ".settings-tabs,.shop-tabs,.preset-bar,.quest-category-tabs",
+          ".settings-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",
         );
         if (tabs) {
           const items = controls(tabs);

@@ -1,0 +1,252 @@
+[
+  {
+    "id": "arthur.intro",
+    "characterId": "arthur",
+    "name": "Dấu rèn khởi hành",
+    "description": "Trấn Phái riêng của Arthur. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "skill_damage",
+      "name": "Vết rèn đầu tiên",
+      "description": "Kiếm quang gây thêm 8% sát thương.",
+      "abilityIds": [
+        "arthur.light_slash"
+      ],
+      "ratio": 0.08,
+      "rules": []
+    },
+    "source": {
+      "type": "quest",
+      "encounterId": "giant_boar_trial",
+      "statKey": "attack",
+      "statValue": 5
+    }
+  },
+  {
+    "id": "arthur.unbound",
+    "characterId": "arthur",
+    "name": "Khế ước bất kham",
+    "description": "Trấn Phái riêng của Arthur. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "skill_penetration",
+      "name": "Phá vỡ giới hạn",
+      "description": "Hai biến thể Ogre’s Bane xuyên thêm 25% DEF.",
+      "abilityIds": [
+        "arthur.ogres_bane",
+        "arthur.ogres_bane_controlled"
+      ],
+      "ratio": 0.25,
+      "rules": []
+    }
+  },
+  {
+    "id": "arthur.afterglow",
+    "characterId": "arthur",
+    "name": "Lời thề dư quang",
+    "description": "Trấn Phái riêng của Arthur. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "after_skill_status",
+      "name": "Kiếm quang hộ thân",
+      "description": "Sau Giải phóng hoặc Giải phóng một phần, giảm 20% sát thương nhận đến hết lượt kế tiếp.",
+      "abilityIds": [
+        "arthur.release",
+        "arthur.partial_release"
+      ],
+      "statusId": "exclusive_afterglow",
+      "duration": 1,
+      "rules": [
+        "Dùng lại làm mới thời hạn, không cộng dồn."
+      ]
+    }
+  },
+  {
+    "id": "iris.notebook",
+    "characterId": "iris",
+    "name": "Bút ký vạn tượng",
+    "description": "Trấn Phái riêng của Iris. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "skill_resource_bonus",
+      "name": "Phát hiện mới",
+      "description": "Công thức cường hóa tạo thêm 1 Dữ liệu, tối đa một lần/vòng.",
+      "abilityIds": [
+        "iris.formula"
+      ],
+      "resource": "data",
+      "amount": 1,
+      "oncePerRound": true,
+      "rules": [
+        "Phần Dữ liệu cộng thêm chỉ tiêu hạn mức khi thực sự tích được điểm."
+      ]
+    }
+  },
+  {
+    "id": "iris.compass",
+    "characterId": "iris",
+    "name": "La bàn hiệu chuẩn",
+    "description": "Trấn Phái riêng của Iris. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "after_skill_status",
+      "name": "Tính toán tiên phong",
+      "description": "Hiệu chỉnh thuật thức còn tăng 10% SPD trong 2 lượt.",
+      "abilityIds": [
+        "iris.calibrate"
+      ],
+      "statusId": "exclusive_calibration",
+      "duration": 2,
+      "to": "targets",
+      "rules": []
+    }
+  },
+  {
+    "id": "takeshi.cloak",
+    "characterId": "takeshi",
+    "name": "Vạt áo vô ảnh",
+    "description": "Trấn Phái riêng của Takeshi. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "dodge_heal",
+      "name": "Bộ pháp vô thương",
+      "description": "Né thành công đòn vật lí sẽ hồi 6% HP tối đa, tối đa một lần/vòng.",
+      "ratio": 0.06,
+      "rules": [
+        "Hồi 0 HP không tiêu hạn mức."
+      ]
+    }
+  },
+  {
+    "id": "takeshi.insight",
+    "characterId": "takeshi",
+    "name": "Kiếm ý nhất thiểm",
+    "description": "Trấn Phái riêng của Takeshi. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "skill_penetration",
+      "name": "Đọc thấu sơ hở",
+      "description": "Hoàn kiếm tiêu từ 2 Sơ hở trở lên sẽ xuyên thêm 25% DEF.",
+      "abilityIds": [
+        "takeshi.riposte"
+      ],
+      "minSpent": 2,
+      "ratio": 0.25,
+      "rules": []
+    }
+  },
+  {
+    "id": "fiona.prism",
+    "characterId": "fiona",
+    "name": "Lăng kính nguyên sơ",
+    "description": "Trấn Phái riêng của Fiona. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "fresh_mark_bonus",
+      "name": "Phân quang",
+      "description": "Hắc tinh vào địch chưa có mảnh sẽ gắn thêm 1 Mảnh Prisma, tối đa một lần/vòng.",
+      "abilityIds": [
+        "fiona.shard"
+      ],
+      "statusId": "prisma",
+      "duration": 4,
+      "amount": 1,
+      "oncePerRound": true,
+      "rules": [
+        "Xét dấu trước khi dùng Hắc tinh; giới hạn vẫn là 3 mảnh trên một địch."
+      ]
+    }
+  },
+  {
+    "id": "fiona.crown",
+    "characterId": "fiona",
+    "name": "Vương miện vạn sắc",
+    "description": "Trấn Phái riêng của Fiona. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "consumed_targets_mp",
+      "name": "Hồi lưu Prisma",
+      "description": "Sụp đổ Prisma tiêu mảnh trên ít nhất 2 địch khác nhau sẽ hồi 8 MP sau chiêu.",
+      "abilityIds": [
+        "fiona.collapse"
+      ],
+      "statusId": "prisma",
+      "minTargets": 2,
+      "amount": 8,
+      "rules": [
+        "Đếm số địch bị tiêu mảnh, không đếm tổng số tầng."
+      ]
+    }
+  },
+  {
+    "id": "elaine.relic",
+    "characterId": "elaine",
+    "name": "Thánh tích giếng xưa",
+    "description": "Trấn Phái riêng của Elaine. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "shield_break_heal_bonus",
+      "name": "Ân phúc sau tan vỡ",
+      "description": "Tăng 50% lượng hồi HP từ nội tại vỡ khiên: 35% → 52,5% MAG.",
+      "ratio": 0.5,
+      "rules": [
+        "Chỉ tăng lượng hồi từ vỡ khiên; Elaine và người nhận phải còn sống."
+      ]
+    }
+  },
+  {
+    "id": "elaine.mirror",
+    "characterId": "elaine",
+    "name": "Thủy kính thánh đường",
+    "description": "Trấn Phái riêng của Elaine. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "skill_status_duration",
+      "name": "Màn nước trường tồn",
+      "description": "Màn nước kéo dài 3 lượt thay vì 2.",
+      "abilityIds": [
+        "elaine.veil"
+      ],
+      "statusId": "water_veil",
+      "extraDuration": 1,
+      "rules": [
+        "Giữ nguyên +50% RES; dùng lại chỉ làm mới thời hạn."
+      ]
+    }
+  },
+  {
+    "id": "garrek.crest",
+    "characterId": "garrek",
+    "name": "Gia huy người gác cổng",
+    "description": "Trấn Phái riêng của Garrek. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "cover_damage_reduction",
+      "name": "Gánh đỡ",
+      "description": "Giảm thêm 15% sát thương khi thực sự nhận đòn thay đồng đội qua Che chắn.",
+      "ratio": 0.15,
+      "rules": [
+        "Nhân riêng ×0,85, chỉ khi Che chắn thực sự đổi mục tiêu sang Garrek."
+      ]
+    }
+  },
+  {
+    "id": "garrek.armor",
+    "characterId": "garrek",
+    "name": "Giáp trấn bắc",
+    "description": "Trấn Phái riêng của Garrek. Chỉ nội tại Trấn Phái đang trang bị có hiệu lực.",
+    "enabled": true,
+    "passive": {
+      "type": "next_turn_heal",
+      "name": "Thành lũy bất khuất",
+      "description": "Dùng Thủ thành: hồi 6% HP tối đa một lần vào đầu lượt kế tiếp, kể cả lượt phụ.",
+      "abilityIds": [
+        "garrek.fortress"
+      ],
+      "ratio": 0.06,
+      "rules": [
+        "Nếu độc hạ gục trước bước hồi phục thì không được hồi HP."
+      ]
+    }
+  }
+]

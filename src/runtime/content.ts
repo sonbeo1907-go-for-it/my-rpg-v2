@@ -10,6 +10,9 @@ import gearTypes from "../../data/gearTypes.json";
 import banners from "../../data/banners.json";
 import music from "../../data/music.json";
 import dungeons from "../../data/dungeons.json";
+import blacksmith from "../../data/blacksmith.json";
+import exclusiveGear from "../../data/exclusiveGear.json";
+import items from "../../data/items.json";
 export function getContent(): any {
   return assembleContent({
     characters,
@@ -23,5 +26,8 @@ export function getContent(): any {
     banners,
     music,
     dungeons,
+    blacksmith,
+    exclusiveGear,
+    items,
   });
 }

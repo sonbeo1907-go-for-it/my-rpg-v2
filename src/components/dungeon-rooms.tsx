@@ -7,9 +7,11 @@ import {
 import { scaleEnemyStats } from "../core/enemy-scaling.js";
 import { STAT_LABELS } from "../core/catalog.js";
 import {
-  skillDescription,
   passiveDescription,
 } from "../ui/skill-presentation.js";
+import { SkillBody, RulesDisclosure } from "./skill-details";
+import { skillPresentation } from "../ui/skill-copy.js";
+import { skillCost } from "../ui/skill-presentation.js";
 import { ElementBadge, Icon, fmt } from "./ui";
 
 function roomEnemies(content: any, encounterId: string) {
@@ -116,7 +118,9 @@ export function DungeonRooms({
                         return (
                           <li key={abilityId}>
                             <strong>{skill.name}</strong>
-                            <p>{skillDescription(skill)}</p>
+                            <small>{skillCost(skill,actor)}</small>
+                            <SkillBody skill={skill} actor={actor} content={content}/>
+                            <RulesDisclosure rules={skillPresentation(skill,actor,content).rules}/>
                           </li>
                         );
                       })}

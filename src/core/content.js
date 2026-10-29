@@ -1,6 +1,7 @@
 import { validateEconomyContent } from './economy.js';
 import { validateBossDefinition } from './boss-mechanics.js';
 import { validateDungeonContent } from './dungeon-rules.js';
+import { validateBlacksmithContent } from './blacksmith-rules.js';
 
 export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark'];
 export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám' };
@@ -11,7 +12,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ'
 };
-export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse'];
+export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -65,7 +66,14 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    const native = actor.passive;
+    if (['extra_mp_damage','marked_ally_magic','hp_difference_damage','ally_heal_mp','stat_conversion','end_round_lowest_mp'].includes(native?.type)) {
+      const ratioKeys = native.type === 'extra_mp_damage' ? ['extraCostRatio','maxDamageBonus'] : [native.type === 'hp_difference_damage' ? 'cap' : 'ratio'];
+      if (!native.name || !native.description || ratioKeys.some(key => !Number.isFinite(native[key]) || native[key] <= 0 || native[key] > 1)) fail(id + ': invalid native passive ratios');
+      if (native.type === 'marked_ally_magic') exists('statuses',native.statusId,id);
+      if (native.type === 'stat_conversion' && (!['maxHp','maxMp'].includes(native.fromStat) || !['attack','magic','defense','resistance','speed'].includes(native.toStat))) fail(id + ': invalid stat conversion');
+    }
     if (['team_flat_self', 'team_flat_aura'].includes(actor.passive?.type)) {
       const passive = actor.passive;
       if (typeof passive.tag !== 'string' || !passive.tag || !passive.modifiers || typeof passive.modifiers !== 'object' || Array.isArray(passive.modifiers) || !Object.keys(passive.modifiers).length
@@ -173,6 +181,10 @@ export function validateContent(content) {
             || ['consumeOnAttack', 'expiresOnShieldGain', 'skipTurn', 'regen', 'onDamagedResource', 'onAttackResource', 'damageOverTime', 'cover', 'taunt', 'blockResourceGain', 'effectImmunity'].some(key => linked[key])) fail(`${id}: linked statuses require persistent modifier buffs`);
         }
       }
+      if (effect.onHitStatus !== undefined) {
+        exists('statuses',effect.onHitStatus?.status,id);
+        if (effect.type !== 'damage' || !Number.isInteger(effect.onHitStatus?.duration) || effect.onHitStatus.duration < 1) fail(id + ': invalid on-hit status');
+      }
       if (effect.type === 'damage') {
         if (!ELEMENTS.includes(effect.element)) fail(`${id}: invalid damage element`);
         if (!['physical', 'magical'].includes(effect.damageType)) fail(`${id}: invalid damage type`);
@@ -196,6 +208,9 @@ export function validateContent(content) {
   }
   for (const [id, status] of Object.entries(content.statuses)) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
+    if (status.modifiersPerStack !== undefined && (status.modifiersPerStack !== true || !Number.isInteger(status.maxStacks) || status.maxStacks < 1)) fail(id + ': invalid stack modifiers');
+    if (status.modifierGroup !== undefined && (typeof status.modifierGroup !== 'string' || !status.modifierGroup)) fail(id + ': invalid modifier group');
+    if (status.magicRefresh !== undefined && (!Number.isInteger(status.magicRefresh?.duration) || status.magicRefresh.duration < 1 || status.magicRefresh.oncePerRound !== true || status.kind !== 'debuff')) fail(id + ': invalid magic refresh');
     if (status.effectImmunity !== undefined) {
       const immunity = status.effectImmunity;
       if (!immunity || status.kind !== 'buff' || !Number.isInteger(immunity.charges) || immunity.charges < 1 || typeof immunity.hostileOnly !== 'boolean') fail(`${id}: invalid effect immunity`);
@@ -256,7 +271,11 @@ export function validateContent(content) {
     if (encounter.firstClearRewards !== undefined) {
       if (!Array.isArray(encounter.firstClearRewards) || !encounter.firstClearRewards.length) fail(`${id}: invalid first clear rewards`);
       else for (const reward of encounter.firstClearRewards) {
-        if (!reward || !['character', 'duplicate', 'upgrade'].includes(reward.type)) fail(`${id}: invalid first clear reward type`);
+        if (!reward || !['character', 'duplicate', 'upgrade', 'exclusive'].includes(reward.type)) fail(`${id}: invalid first clear reward type`);
+        else if (reward.type === 'exclusive') {
+          exists('exclusiveGear',reward.templateId,id);
+          if (content.exclusiveGear?.[reward.templateId]?.source?.encounterId !== id) fail(id + ': exclusive reward source mismatch');
+        }
         else if (reward.type === 'upgrade') exists('upgrades', reward.upgradeId, id);
         else exists('characters', reward.characterId, id);
       }
@@ -270,6 +289,7 @@ export function validateContent(content) {
   }
   errors.push(...validateEconomyContent(content));
   errors.push(...validateDungeonContent(content));
+  errors.push(...validateBlacksmithContent(content));
   return errors;
 }
 
@@ -288,4 +308,4 @@ export function assembleContent(collections) {
   return content;
 }
 
-export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons'];
+export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items'];
