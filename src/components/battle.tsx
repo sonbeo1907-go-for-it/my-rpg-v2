@@ -1,6 +1,7 @@
 "use client";
 import { TurnOrder } from "./turn-order";
 import { CosmicEffects } from "./cosmic-effects";
+import { targetsAsGroup, randomTargetLabel } from "../core/conditional-combat.js";
 import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -280,7 +281,7 @@ function SkillInfo({
         </p>
       )}
       <p className="popover-target">
-        {skill.target.startsWith("all_")
+        {skill.target === "random_enemies" ? randomTargetLabel(skill) : skill.target.startsWith("all_")
           ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
           : `Mục tiêu: ${target?.name ?? actor.name}`}
       </p>
@@ -723,7 +724,7 @@ export function BattlePage() {
         }
         affected={
           !battle.outcome &&
-          Boolean(skill?.target.startsWith("all_")) &&
+          targetsAsGroup(skill) &&
           targets!.affectedIds.includes(item.id)
         }
         hovered={hovered === item.id}
@@ -737,7 +738,7 @@ export function BattlePage() {
     commandActor && skill
       ? abilityAvailability({ ...battle, content }, commandActor, skill)
       : { ok: false, reason: "" };
-  const targetLabel = skill?.target.startsWith("all_")
+  const targetLabel = skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
   return (
@@ -910,6 +911,7 @@ export function BattlePage() {
                     <span>MỤC TIÊU THỰC THI</span>
                     <strong>{targetLabel}</strong>
                     {skill.effects.some((effect:any)=>effect.type==="grant_extra_turn") && <small>{battle.phase==="extra" ? "Vòng Phụ: hiệu ứng cấp Lượt Thêm bị bỏ qua; vẫn tiêu MP và hồi chiêu." : battle.extraTurnGrants?.includes(targets.targetId) ? "Mục tiêu đã có Lượt Thêm trong vòng này; không cộng thêm lượt." : "Lượt Thêm sẽ thực hiện sau lượt chính, theo SPD ở đầu Vòng Phụ."}</small>}
+                    {skill.target === "random_enemies" && <small>{targets.affectedIds.length} đối thủ có thể bị chọn · mỗi đòn chọn lại, có thể trúng lặp.</small>}
                     {skill.target.startsWith("all_") && (
                       <small>
                         {targets.affectedIds.length} mục tiêu · không cần chọn

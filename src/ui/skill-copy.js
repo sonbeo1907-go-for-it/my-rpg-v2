@@ -1,4 +1,5 @@
 // Public copy contract: docs/SKILL_COPY_AND_UX_SPEC.md
+import { debuffDamageBonus } from '../core/conditional-combat.js';
 import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from '../core/content.js';
 import { STAT_LABELS } from '../core/catalog.js';
 import { effectiveStat, damageMultiplier, speedDamageRatio, supportAmount, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
@@ -37,6 +38,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
       else mods.push(`${signed(n)} ${statName(key)}${status.modifiersPerStack?'/tầng':''}`);
     }
     if(mods.length)facts.push(prefix+mods.join(' · ')+turns+(status.consumeOnAttack?' · đòn tấn công kế tiếp':''));
+    if(status.mpCostReduction){facts.push('Giảm '+pct(status.mpCostReduction)+' MP tiêu hao');rules.push('Làm tròn chi phí lên; chiêu có tốn MP luôn cần ít nhất 1 MP.','Không cộng dồn; duy trì hết trận hoặc chuyến hầm ngục.');}
     if(status.effectImmunity){
       facts.push(`${status.name}: ${(choices.statusCharges??status.effectImmunity.charges)} lần chặn · đến khi dùng hết`);
       rules.push('Chặn một hiệu ứng, không chặn trọn kỹ năng có nhiều hiệu ứng.');
@@ -110,6 +112,8 @@ export function skillPresentation(skill,actor,content,choices={}) {
       rules.push('Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.','Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     }
   }
+  if(skill.target==='random_enemies'){facts.push('Mỗi đòn chọn ngẫu nhiên một địch còn sống');rules.push('Có thể trúng lặp; một địch còn sống sẽ nhận toàn bộ các đòn.','Không ưu tiên mục tiêu đang chọn. Như đòn đa mục tiêu: bỏ qua Khiêu khích và Che chắn, không kích hoạt Liên kích phép đơn mục tiêu.');}
+  if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage')){const count=choices.debuffCount??0;facts.push((choices.live?'Hiện tại':'Giả định')+': '+count+' loại debuff · +'+pct(debuffDamageBonus(actor.passive,count))+' sát thương');}
   if(cost?.consumeAt==='after')rules.push('Tài nguyên được tiêu sau khi gây sát thương.');
   if(actor.passive?.type==='extra_mp_damage'&&(skill.cost?.mp??0)>0&&skill.effects.some(e=>e.type==='damage')){
     const cap=Math.ceil(skill.cost.mp*actor.passive.extraCostRatio),extra=choices.live?Math.min(cap,Math.max(0,actor.mp-skill.cost.mp)):cap;
@@ -155,6 +159,8 @@ export function passivePresentation(actor,content) {
   const facts=[],rules=[];
   let summary='',name=p.name??({damage_reduction:'Bền bỉ',shield_break_heal:'Dư âm thủy hộ'}[p.type]??'Năng lực đặc trưng');
   switch(p.type){
+    case 'kill_mp_discount':summary='Hạ một đối thủ để tiết kiệm quân lực cho phần còn lại của trận.';facts.push('Giảm '+pct(p.ratio)+' MP tiêu hao sau lần tự hạ địch đầu tiên');rules.push('Không cộng dồn. Không hoàn MP cho chiêu vừa gây hạ gục.','Hiệu lực giữ qua các phòng trong một chuyến; trận mới độc lập sẽ đặt lại.','Chi phí làm tròn lên, tối thiểu 1 MP với chiêu có tốn MP.');break;
+    case 'target_debuff_damage':summary='Biến hiệu ứng bất lợi trên mục tiêu thành sức mạnh của bản nhạc.';facts.push('+'+pct(p.ratio)+' sát thương mỗi loại debuff · tối đa +'+pct(p.cap));rules.push('Đếm số loại hiệu ứng khác nhau; nhiều tầng hoặc nhiều chỉ số trong cùng một hiệu ứng vẫn chỉ tính một loại.','Đếm lại ở từng hit, bất kể người gây debuff. Áp dụng cho đánh thường và đòn đánh trực tiếp.','Cộng với các buff tăng sát thương cùng nhóm; giới hạn chỉ áp dụng cho nội tại này.');break;
     case 'later_target_base_stat':summary='Khai thác đối thủ đứng sau mình trong thứ tự lượt.';facts.push('+'+number(p.amount)+' '+statName(p.stat)+' căn bản cho kỹ năng đủ điều kiện');rules.push('Cần ít nhất một mục tiêu đứng sau trong thứ tự Vòng Chính; Vòng Phụ dùng lại bảng này.','Chốt lúc thi triển; cộng trước buff %. Chỉ cộng một lần cho cả chiêu, không nhân theo số địch hoặc số hit.','Không áp dụng cho đánh thường, phản công và liên kích.');break;
     case 'combat_mode': { summary=p.description;for(const mode of Object.values(actor.combatModes??{})){for(const [key,n]of Object.entries(mode.baseStatBonuses))facts.push('+'+number(n)+' '+statName(key)+' căn bản khi '+mode.name+' hiện diện');facts.push(mode.name+' rời sân: hồi '+pct(mode.exitMpRatio)+' MP tối đa');}rules.push('Hết tầng: kiểm tra đầu mọi lượt của người triệu hồi và cuối vòng sau Vòng Phụ.','Khi rời sân, hồi MP đúng một lần; không mất lượt hiện tại.');break; }
     case 'damage_reduction':summary=p.requiresStatus?`Bền bỉ khi đang có ${content.statuses[p.requiresStatus].name}.`:'Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận${p.requiresStatus?` · cần ${content.statuses[p.requiresStatus].name}`:''}`);break;

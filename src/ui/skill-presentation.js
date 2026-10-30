@@ -1,4 +1,5 @@
 import { damageMultiplier, supportAmount, effectiveStat, speedDamageBonus, speedDamageRatio, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
+import { mpCost } from '../core/conditional-combat.js';
 import { battleStat } from '../core/stat-values.js';
 
 // Shared presentation for preparation previews and combat commands.
@@ -14,10 +15,10 @@ export function skillDescription(skill) {
 export function skillCost(skill, actor) {
   const costs = [];
   if (skill.cost?.mp) {
-    const base=skill.cost.mp;
+    const base=mpCost(skill,actor);
     const cap=actor.passive?.type==='extra_mp_damage' && skill.effects.some(effect=>effect.type==='damage') ? Math.ceil(base*actor.passive.extraCostRatio) : 0;
     const extra=actor.mp===undefined?cap:Math.min(cap,Math.max(0,actor.mp-base));
-    costs.push((extra ? base+'–'+(base+extra) : base)+' MP');
+    costs.push((extra ? base+'–'+(base+extra) : base)+' MP'+(base<skill.cost.mp?' (gốc '+skill.cost.mp+')':''));
   }
   if (skill.cost?.resource) {
     const cost = skill.cost.resource;
@@ -30,13 +31,14 @@ export function skillCost(skill, actor) {
 }
 
 export const TARGET_NAMES = {
-  enemy: 'Một kẻ địch', all_enemies: 'Mọi kẻ địch',
+  enemy: 'Một kẻ địch', all_enemies: 'Mọi kẻ địch', random_enemies: 'Kẻ địch ngẫu nhiên',
   ally: 'Một đồng đội', all_allies: 'Toàn đội', self: 'Bản thân'
 };
 
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
+  if (['kill_mp_discount','target_debuff_damage'].includes(passive.type)) return passive.name+': '+passive.description;
   if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
   if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
@@ -83,6 +85,7 @@ const percent = value => `${number(value * 100)}%`;
 
 export function skillPreviewOptions(skill, actor, content) {
   const controls = [];
+  if (actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage')) controls.push({key:'debuffCount',label:'Số loại debuff trên mục tiêu',min:0,max:Math.ceil(actor.passive.cap/actor.passive.ratio)});
   if (actor.passive?.type === 'field_growth' && skill.effects.some(effect => effect.type === 'damage')) controls.push({ key: 'fieldStacks', label: 'Uy lôi giả định', min: 0, max: actor.passive.maxStacks });
   if (skill.effects.some(effect => effect.perResource) && skill.cost?.resource?.all) {
     const resource = skill.cost.resource;

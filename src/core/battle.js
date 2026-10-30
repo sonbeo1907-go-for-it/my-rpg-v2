@@ -41,6 +41,7 @@ import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
 import { checkCombatMode, enterCombatMode, modeAvailability } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
+import { mpCost, debuffTypeCount, debuffDamageBonus, targetsAsGroup } from "./conditional-combat.js";
 const modeIO = { write, emit: emitEvent, restore: gainResource };
 const living = (actor) => actor.hp > 0;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -292,6 +293,7 @@ function beginTurn(battle) {
       actor.statuses = actor.statuses.filter(
         (item) => !battle.content.statuses[item.id].turnStartAbility,
       );
+      onActorDefeated(battle,getActor(battle,status.sourceId),actor);
       write(battle, `${actor.name} gục xuống vì ${definition.name}.`);
       advance(battle); // Skip the defeated actor, including a last-enemy victory.
       return;
@@ -403,6 +405,13 @@ function endTurnPassive(battle, actor) {
   }
 }
 
+function onActorDefeated(battle,killer,target) {
+  const passive=killer?.passive;
+  if (!killer || killer.team===target.team || passive?.type!=="kill_mp_discount" || killer.statuses.some(status=>status.id===passive.statusId)) return;
+  applyStatus(battle,killer,passive.statusId,undefined,killer.id);
+  write(battle,killer.name+" kích hoạt "+passive.name+": giảm "+Math.round(passive.ratio*100)+"% MP tiêu hao.");
+}
+
 function checkOutcome(battle) {
   if (!battle.actors.some((actor) => actor.team === "enemy" && living(actor)))
     battle.outcome = "victory";
@@ -486,7 +495,7 @@ export function abilityAvailability(battle, actor, skill) {
       ok: false,
       reason: `Hồi chiêu: ${actor.cooldowns[skill.id]} vòng.`,
     };
-  if (actor.mp < (skill.cost?.mp ?? 0))
+  if (actor.mp < mpCost(skill,actor))
     return { ok: false, reason: "Không đủ MP." };
   if (skill.requiresTargetStatus && !targetsFor(battle,actor,skill).length)
     return { ok: false, reason: `Cần mục tiêu có ${battle.content.statuses[skill.requiresTargetStatus].name}.` };
@@ -735,7 +744,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            modifier(battle, attacker, "damageBonus", actionContext.automatic),
+            modifier(battle, attacker, "damageBonus", actionContext.automatic) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -851,6 +860,7 @@ function resolveHit(
     target.statuses = target.statuses.filter(
       (status) => !battle.content.statuses[status.id].turnStartAbility,
     );
+    onActorDefeated(battle,attacker,target);
     checkCombatMode(battle,target,"owner_ko",modeIO);
     write(battle, `${target.name} gục xuống.`);
   } else if (
@@ -934,6 +944,18 @@ function applyEffect(
   area,
   actionContext = attackContext(battle, actor),
 ) {
+  if (effect.type === "damage" && actionContext.skill?.target === "random_enemies" && effect.to !== "self") {
+    for (let index=0;index<(effect.hits??1) && living(actor);index++) {
+      const pool=targetsFor(battle,actor,actionContext.skill);
+      if (!pool.length) break;
+      const roll=battle.random();
+      if (!Number.isFinite(roll) || roll<0 || roll>=1) throw new Error("Nguồn chọn mục tiêu không hợp lệ.");
+      const target=pool[Math.floor(roll*pool.length)];
+      emitEvent(battle,{type:"random_target",sourceId:actor.id,targetId:target.id,hitIndex:index,totalHits:effect.hits??1});
+      hit(battle,actor,target,effect,spent,{area:true,actionContext});
+    }
+    return;
+  }
   const recipients = effect.to === "self" ? [actor] : targets;
   for (const target of recipients) {
     if (!living(target)) continue;
@@ -1119,7 +1141,7 @@ function resolveAction(
   const availability = abilityAvailability(battle, actor, skill);
   if (!availability.ok) throw new Error(availability.reason);
   const legal = targetsFor(battle, actor, skill);
-  const area = skill.target.startsWith("all_");
+  const area = targetsAsGroup(skill);
   const targets =
     area || skill.target === "self"
       ? legal
@@ -1130,7 +1152,7 @@ function resolveAction(
   if (resetEvents) battle.events = [];
   const oldStatuses = [...actor.statuses];
   if (skill.presentation) emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,presentation:skill.presentation,targetId,area,targetIds:targets.map(target=>target.id)});
-  actor.mp -= skill.cost?.mp ?? 0;
+  actor.mp -= mpCost(skill,actor);
   let spent = 0;
   const deferredResource = skill.cost?.resource?.consumeAt === "after";
   if (skill.cost?.resource) {
@@ -1142,6 +1164,7 @@ function resolveAction(
   write(battle, `${actor.name} dùng ${skill.name}.`);
   const actionContext = attackContext(battle, actor);
   actionContext.skillId = skill.id;
+  actionContext.skill = skill;
   actionContext.primaryTargetId = targetId;
   actionContext.baseStatBonuses = skillBaseStatBonuses(battle,actor,skill,targets);
   for (const [key,amount] of Object.entries(actionContext.baseStatBonuses)) {

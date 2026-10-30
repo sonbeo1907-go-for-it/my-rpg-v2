@@ -68,8 +68,14 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type === 'kill_mp_discount') {
+      exists('statuses',native.statusId,id);
+      const status=content.statuses[native.statusId];
+      if (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>=1 || !status?.persistent || status.kind!=='buff' || status.mpCostReduction!==native.ratio) fail(id+': invalid kill MP discount');
+    }
+    if (native?.type === 'target_debuff_damage' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || !Number.isFinite(native.cap) || native.cap<native.ratio || native.cap>3)) fail(id+': invalid debuff damage passive');
     if (native?.type === 'later_target_base_stat' && (!native.name || !native.description || !['attack','magic'].includes(native.stat) || !Number.isFinite(native.amount) || native.amount <= 0)) fail(id + ': invalid turn-order passive');
     if (native?.type === 'damage_reduction' && (!Number.isFinite(native.amount) || native.amount<0 || native.amount>1 || (native.requiresStatus !== undefined && !Object.hasOwn(content.statuses,native.requiresStatus)))) fail(`${id}: invalid conditional damage reduction`);
     if (native?.type === 'buffed_ally_mp' && !validReactivePassive(native,content,actor)) fail(`${id}: invalid reactive passive`);
@@ -181,7 +187,7 @@ export function validateContent(content) {
     if (skill.requiresMode !== undefined && (typeof skill.requiresMode !== 'string' || !skill.requiresMode)) fail(id + ': invalid mode requirement');
     if (skill.activation !== undefined && !['active', 'passive'].includes(skill.activation)) fail(`${id}: invalid activation`);
     if (skill.requiresTargetStatus !== undefined) exists('statuses',skill.requiresTargetStatus,id);
-    if (!['enemy', 'all_enemies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
+    if (!['enemy', 'all_enemies', 'random_enemies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
     if (!Number.isInteger(skill.cooldown ?? 0) || (skill.cooldown ?? 0) < 0) fail(`${id}: invalid cooldown`);
     if (!Number.isFinite(skill.cost?.mp ?? 0) || (skill.cost?.mp ?? 0) < 0) fail(`${id}: invalid MP cost`);
     if (skill.cost?.resource) {
@@ -189,6 +195,7 @@ export function validateContent(content) {
       if (cost.all ? !Number.isInteger(cost.min) || cost.min < 1 : !Number.isInteger(cost.amount) || cost.amount < 1) fail(`${id}: invalid resource cost`);
       if (cost.consumeAt !== undefined && !['before', 'after'].includes(cost.consumeAt)) fail(`${id}: invalid resource consumption timing`);
     }
+    if (skill.target==='random_enemies' && (!skill.effects?.some(effect=>effect.type==='damage') || skill.effects.some(effect=>effect.type!=='damage' && effect.to!=='self'))) fail(id+': random targeting requires damage or self effects');
     if (!skill.effects?.length) fail(`${id}: requires effects`);
     if (skill.bossHeavy !== undefined && typeof skill.bossHeavy !== 'boolean') fail(`${id}: invalid bossHeavy`);
     if (skill.windup !== undefined && (!skill.windup || skill.windup.rounds !== 1 || typeof skill.windup.message !== 'string' || !skill.windup.message)) fail(`${id}: invalid windup`);
@@ -261,6 +268,7 @@ export function validateContent(content) {
       if (status[key] !== undefined && typeof status[key] !== 'boolean') fail(`${id}: invalid ${key}`);
     }
     if (status.persistent && (status.skipTurn || status.damageOverTime)) fail(`${id}: persistent status cannot skip turns or deal periodic damage`);
+    if (status.mpCostReduction!==undefined && (!Number.isFinite(status.mpCostReduction) || status.mpCostReduction<=0 || status.mpCostReduction>=1 || status.kind!=='buff' || !status.persistent)) fail(id+': invalid MP reduction status');
     if (status.skipTurn && status.kind !== 'debuff') fail(`${id}: skipTurn must be a debuff`);
     for (const key of ['damageVsShielded', 'damageTakenBonus']) {
       if (status.modifiers?.[key] !== undefined && (!Number.isFinite(status.modifiers[key]) || status.modifiers[key] < 0)) fail(`${id}: invalid ${key}`);

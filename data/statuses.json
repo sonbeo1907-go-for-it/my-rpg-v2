@@ -76,5 +76,31 @@
       "magic": -0.15
     },
     "description": "Giảm ATK và MAG đến hết lượt chính kế tiếp của người mang."
+  },
+  {
+    "id": "commanders_economy",
+    "name": "Tiết kiệm quân lực",
+    "kind": "buff",
+    "persistent": true,
+    "mpCostReduction": 0.12,
+    "description": "Giảm MP tiêu hao đến hết trận hoặc chuyến hầm ngục; không cộng dồn."
+  },
+  {
+    "id": "commanders_breach",
+    "name": "Quân lệnh phá giáp",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.3
+    }
+  },
+  {
+    "id": "orchestra_dissonance",
+    "name": "Hòa âm nghịch hành",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": -0.35
+    }
   }
 ]

@@ -1144,5 +1144,74 @@
     "tags": [
       "magic_academy"
     ]
+  },
+  {
+    "id": "charlemagnes",
+    "name": "Charlemagnes",
+    "title": "Đại tướng Kị sĩ đoàn",
+    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "element": "fire",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "description": "Ra quân lệnh tấn công liên tiếp vào các mục tiêu ngẫu nhiên; hạ địch để tiết kiệm MP.",
+    "stats": {
+      "maxHp": 210,
+      "maxMp": 100,
+      "attack": 30,
+      "magic": 8,
+      "defense": 22,
+      "resistance": 18,
+      "speed": 12
+    },
+    "abilities": [
+      "charlemagnes.charge",
+      "charlemagnes.campaign",
+      "charlemagnes.breach"
+    ],
+    "passive": {
+      "type": "kill_mp_discount",
+      "name": "Tiết kiệm quân lực",
+      "description": "Sau khi tự hạ một kẻ địch, giảm MP tiêu hao đến hết trận hoặc chuyến hầm ngục. Không cộng dồn.",
+      "ratio": 0.12,
+      "statusId": "commanders_economy"
+    },
+    "tags": [
+      "capital_knights"
+    ]
+  },
+  {
+    "id": "kreider",
+    "name": "Kreider",
+    "title": "Nhạc công giao hưởng",
+    "affiliation": "Học viện Ma pháp",
+    "element": "dark",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "description": "Dùng nghịch âm làm suy yếu kháng phép, rồi kết liễu mục tiêu bằng một đại hợp tấu.",
+    "stats": {
+      "maxHp": 145,
+      "maxMp": 110,
+      "attack": 8,
+      "magic": 34,
+      "defense": 14,
+      "resistance": 25,
+      "speed": 18
+    },
+    "basicDamageType": "magical",
+    "abilities": [
+      "kreider.prelude",
+      "kreider.dissonance",
+      "kreider.finale"
+    ],
+    "passive": {
+      "type": "target_debuff_damage",
+      "name": "Cộng hưởng nghịch âm",
+      "description": "Đòn đánh gây thêm sát thương theo số loại hiệu ứng bất lợi đang có trên mục tiêu.",
+      "ratio": 0.3,
+      "cap": 0.9
+    },
+    "tags": [
+      "magic_academy"
+    ]
   }
 ]

@@ -3081,5 +3081,112 @@
       "Trong từng phe vẫn xếp theo SPD. Vòng Phụ được sắp xếp riêng.",
       "Có hiệu lực đến hết vòng kế tiếp, sau Vòng Phụ; dùng lại làm mới, không cộng dồn."
     ]
+  },
+  {
+    "id": "charlemagnes.charge",
+    "name": "Kị đoàn xung kích",
+    "description": "Ra lệnh xung phong, đánh liên tiếp vào đội hình địch.",
+    "target": "random_enemies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 2,
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "charlemagnes.campaign",
+    "name": "Uy lệnh tổng tiến công",
+    "description": "Dồn sức toàn quân, tung một đợt tiến công áp đảo.",
+    "target": "random_enemies",
+    "cost": {
+      "mp": 40
+    },
+    "cooldown": 4,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1.8,
+        "hits": 4
+      }
+    ]
+  },
+  {
+    "id": "charlemagnes.breach",
+    "name": "Quân lệnh: Phá giáp",
+    "description": "Chỉ điểm khe hở phòng ngự của một kẻ địch.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "commanders_breach",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "kreider.prelude",
+    "name": "Khúc dạo đầu",
+    "description": "Một câu nhạc Ám tập trung vào một đối thủ.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 1.2
+      }
+    ]
+  },
+  {
+    "id": "kreider.dissonance",
+    "name": "Hòa âm nghịch hành",
+    "description": "Làm rối loạn ma lực và hạ kháng phép của một mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "orchestra_dissonance",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "kreider.finale",
+    "name": "Đại hợp tấu: Chung chương",
+    "description": "Khép lại bản nhạc bằng một đòn phép Ám uy lực.",
+    "target": "enemy",
+    "cost": {
+      "mp": 26
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 3
+      }
+    ]
   }
 ]

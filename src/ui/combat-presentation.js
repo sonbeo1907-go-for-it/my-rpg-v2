@@ -1,3 +1,4 @@
+import { targetsAsGroup, debuffTypeCount, debuffDamageBonus } from '../core/conditional-combat.js';
 import { targetsFor } from '../core/battle.js';
 import { damageMultiplier, supportAmount, speedDamageRatio } from '../core/combat-math.js';
 import { battleStat } from '../core/stat-values.js';
@@ -19,14 +20,14 @@ export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   if (skill?.target === 'enemy' && legal.length && !legal.some(item => item.id === enemyId)) enemyId = legal[0].id;
   const allyId = skill?.target === 'self' && actor?.team === 'party' ? actor.id : rememberedAlly;
   const targetId = skill?.target === 'self' ? actor?.id ?? '' : ['ally', 'all_allies'].includes(skill?.target) ? allyId : enemyId;
-  return { allyId, rememberedAlly, enemyId, targetId, legalIds: legal.map(item => item.id), affectedIds: skill?.target?.startsWith('all_') ? legal.map(item => item.id) : [targetId].filter(Boolean) };
+  return { allyId, rememberedAlly, enemyId, targetId, legalIds: legal.map(item => item.id), affectedIds: targetsAsGroup(skill) ? legal.map(item => item.id) : [targetId].filter(Boolean) };
 }
 export function liveSkillChoices(skill, actor, target, battle) {
   const cost = skill.cost?.resource;
   const effect = skill.effects.find(item => item.consumeStatus);
   const legal = battle ? targetsFor(battle,actor,skill) : [];
-  const selected = skill.target.startsWith('all_') ? legal : legal.filter(item=>item.id===target?.id);
-  return { live: true, baseStatBonuses: battle ? skillBaseStatBonuses(battle,actor,skill,selected) : {}, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
+  const selected = targetsAsGroup(skill) ? legal : legal.filter(item=>item.id===target?.id);
+  return { live: true, debuffCount: battle ? debuffTypeCount(battle.content,target) : 0, baseStatBonuses: battle ? skillBaseStatBonuses(battle,actor,skill,selected) : {}, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
     stacks: effect ? target?.statuses?.find(status => status.id === effect.consumeStatus)?.stacks ?? 0 : 0,
     hpPercent: actor.hp / actor.stats.maxHp * 100,
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
@@ -67,6 +68,8 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
     else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
   }
   for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');
+  if(skill.target==='random_enemies')parts.push('mục tiêu ngẫu nhiên');
+  if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(debuffDamageBonus(actor.passive,choices.debuffCount))+' ST theo debuff');
   const damageCount = skill.effects.filter(effect => effect.type === 'damage').length;
   return parts.join(damageCount > 1 && parts.length === damageCount ? ' + ' : ' · ');
 }
