@@ -115,6 +115,9 @@ function makeWave(content, run, previous = null) {
     {
       enemyScale: structuredClone(run.enemyScale),
       partyActors,
+      turnOrderField: previous?.turnOrderField,
+      // Each wave resolves its own turn queue; summon lifetime spans the whole run.
+      continuesOnVictory: run.waveIndex < run.waveIds.length - 1,
       roundOffset: previous?.round ?? 0,
       enemyIdPrefix: `wave_${run.waveIndex + 1}_enemy_`,
       sourceActors: sources,

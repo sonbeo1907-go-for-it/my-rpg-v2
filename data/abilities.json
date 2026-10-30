@@ -3018,5 +3018,68 @@
         "primaryMultiplier": 3.6
       }
     ]
+  },
+  {
+    "id": "monica.formula",
+    "name": "Thuật thức thời gian",
+    "description": "Làm chậm nhịp tấn công của cả đội hình địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 0.8
+      },
+      {
+        "type": "status",
+        "status": "time_weakened",
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "monica.loophole",
+    "name": "Lỗ Hổng Thời Gian",
+    "description": "Dồn ma lực xuyên qua sơ hở của một mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 3.2,
+        "penetration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "monica.distortion",
+    "name": "Đảo lộn thời không",
+    "description": "Ưu tiên lượt đồng minh trước đối thủ trên toàn chiến trường.",
+    "target": "self",
+    "cost": {
+      "mp": 30
+    },
+    "cooldown": 4,
+    "effects": [
+      {
+        "type": "turn_order_field",
+        "name": "Đảo lộn thời không",
+        "durationRounds": 2
+      }
+    ],
+    "rules": [
+      "Chỉ sắp xếp lượt chưa thực hiện; không cấp thêm lượt.",
+      "Trong từng phe vẫn xếp theo SPD. Vòng Phụ được sắp xếp riêng.",
+      "Có hiệu lực đến hết vòng kế tiếp, sau Vòng Phụ; dùng lại làm mới, không cộng dồn."
+    ]
   }
 ]

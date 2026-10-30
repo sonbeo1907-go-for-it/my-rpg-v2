@@ -1,0 +1,34 @@
+import {test,expect,type Page} from '@playwright/test';
+import {loadContent} from '../scripts/load-content.mjs';
+import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
+const content:any=await loadContent();
+async function seed(page:Page,party?:string[]){
+ const save=createGameSave(content);save.recruitmentShards=120;
+ if(party){save.party=party;save.partyPresets[0].slots=[...party];save.unlockedCharacterIds=[...new Set([...save.unlockedCharacterIds,...party])];}
+ await page.addInitScript(raw=>{if(!localStorage.getItem('northern-prisma.campaign.v6'))localStorage.setItem('northern-prisma.campaign.v6',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.combat.speed','fast');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false}));},encodeGameSave(save,content));await page.emulateMedia({reducedMotion:'reduce'});
+}
+async function cast(page:Page,id:string,target?:string){await expect(page.locator('.execute')).toBeEnabled();await page.locator(`[data-gamepad-skill="${id}"]`).click();await page.keyboard.press('Escape');if(target)await page.locator(`[data-actor-id="${target}"] .target-hitbox`).click();await page.locator('.execute').click();}
+
+test('Monica can be recruited normally, appears as a Wind sorcerer and exposes concise complete skill facts',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page);await page.goto('/shop?tab=recruitment');await page.getByRole('textbox',{name:'Tìm đồng đội'}).fill('Monica');const card=page.locator('.character-grid .character-card');await expect(card).toHaveCount(1);await expect(card).toContainText('Monica');await expect(card.locator('[data-role-icon=sorcerer]')).toBeVisible();await card.click();await page.getByRole('dialog').getByRole('button',{name:'Chiêu mộ bằng Pure Prisma',exact:true}).click();await expect(page.getByRole('dialog')).toHaveCount(0);
+ await page.goto('/characters?ownership=owned&q=Monica');await expect(page.locator('.character-grid a')).toHaveCount(1);await page.locator('.character-grid a').click();await expect(page.locator('.character-overview')).toContainText('Monica');await expect(page.locator('.passive-copy')).toContainText('+6 MAG');
+ const nuke=page.locator('.skill-card').filter({has:page.getByRole('heading',{name:'Lỗ Hổng Thời Gian',exact:true})});await expect(nuke).toContainText('320% MAG');await expect(nuke).toContainText('Xuyên 25% RES');const field=page.locator('.skill-card').filter({has:page.getByRole('heading',{name:'Đảo lộn thời không',exact:true})});await expect(field).toContainText('2 vòng');await expect(page.locator('.skill-grid')).not.toContainText('undefined');
+ await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'test-results/monica-character-phone.png',fullPage:true});expect(errors).toEqual([]);
+});
+
+test('hourglass divides actual ally/enemy turn groups, duration expires after the next round, and mobile fits',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page,['monica','iris','elaine','garrek']);await page.goto('/quests?selected=ogre_trial');await page.getByRole('button',{name:/Xuất chiến/}).click();await expect(page.locator('.command-panel h2')).toContainText('Monica');await expect(page.locator('.turn-team-divider')).toHaveCount(0);
+ await page.locator('[data-gamepad-skill="monica.loophole"]').hover();await expect(page.getByRole('tooltip',{name:'Kỹ năng Lỗ Hổng Thời Gian'})).toContainText('đang kích hoạt');await page.mouse.move(0,0);await cast(page,'monica.distortion');await expect(page.locator('.execute')).toBeEnabled();await expect(page.locator('.turn-field-badge')).toContainText('2 vòng');await expect(page.locator('.turn-team-divider')).toHaveCount(1);
+ expect(await page.locator('.turn-chips > *').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-turn-team')??'hourglass'))).toEqual(['party','party','party','hourglass','enemy','enemy']);
+ expect(await page.locator('.turn-chips [data-turn-actor]').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-turn-actor')))).toEqual(['iris','elaine','garrek','enemy_0','enemy_1']);await expect(page.locator('.combatant[data-actor-id=monica]')).toContainText(/MP\s*120\s*\/\s*150/);
+ await page.locator('.turn-field-badge').hover();await expect(page.getByRole('tooltip',{name:'Đảo lộn thời không',exact:true})).toContainText('không cấp thêm lượt');await page.mouse.move(0,0);await expect(page.getByRole('tooltip',{name:'Đảo lộn thời không',exact:true})).not.toBeVisible();await page.screenshot({path:'test-results/monica-hourglass-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'test-results/monica-hourglass-phone.png',fullPage:true});await page.setViewportSize({width:1440,height:1000});
+ for(let i=0;i<18;i++){await expect(page.locator('.execute')).toBeEnabled();if(!(await page.locator('.turn-field-badge').count()))break;await cast(page,'$defend');}
+ await expect(page.locator('.turn-field-badge')).toHaveCount(0);await expect(page.locator('.turn-team-divider')).toHaveCount(0);await expect(page.locator('.page-header')).toContainText('Vòng Chính 3');await expect(page.locator('.battle-log')).toContainText('Đảo lộn thời không hết hiệu lực.');
+ expect(await page.locator('.turn-chips [data-turn-team]').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-turn-team')))).toEqual(['party','party','party','enemy','enemy','party']);expect(errors).toEqual([]);
+});
+
+test('hourglass field remains visible through an extra phase without consuming an extra round',async({page})=>{
+ await seed(page,['monica','lionel','elaine','garrek']);await page.goto('/quests?selected=ogre_trial');await page.getByRole('button',{name:/Xuất chiến/}).click();await cast(page,'monica.distortion');await expect(page.locator('.command-panel h2')).toContainText('Lionel');await cast(page,'lionel.encore','garrek');
+ for(let i=0;i<6;i++){await expect(page.locator('.execute')).toBeEnabled();if((await page.locator('.turn-order-label').textContent())?.includes('VÒNG PHỤ'))break;await cast(page,'$defend');}
+ await expect(page.locator('.turn-order-label')).toContainText('VÒNG PHỤ');await expect(page.locator('.command-panel h2')).toContainText('Garrek');await expect(page.locator('.turn-field-badge')).toContainText('2 vòng');await expect(page.locator('.turn-team-divider')).toHaveCount(0);await cast(page,'$defend');await expect(page.locator('.execute')).toBeEnabled();await expect(page.locator('.page-header')).toContainText('Vòng Chính 2');await expect(page.locator('.turn-field-badge')).toContainText('1 vòng');await expect(page.locator('.turn-team-divider')).toHaveCount(1);
+});

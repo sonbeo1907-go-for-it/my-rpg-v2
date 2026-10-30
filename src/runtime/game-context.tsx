@@ -31,7 +31,7 @@ import {
   isFinalDungeonWave,
 } from "../core/dungeon.js";
 
-import { battlePresentation } from "../core/combat-modes.js";
+import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
   setAstoriaEnabled: (enabled: boolean) => Promise<boolean>;
@@ -159,9 +159,9 @@ export function GameProvider({
       lastTurn.current = turn;
       setBattleUI((previous) => ({ ...previous, skillId: activeActor(current)?.combatModes?.[activeActor(current)?.activeMode]?.allowedAbilities[0] ?? "$attack" }));
     }
-    if (current?.outcome === "victory") {
+    if (current?.outcome === "victory" && !isContinuingVictory(current)) {
       if (music.current?.state().group !== "victory") music.current?.start("victory");
-    } else if (current?.outcome) music.current?.stop();
+    } else if (current?.outcome && !isContinuingVictory(current)) music.current?.stop();
     else music.current?.setBattleOverride(current ? battlePresentation(current.actors)?.music : null);
     // Engine holds RNG functions/content references. Only publish serializable view data to React.
     setBattle(
@@ -173,6 +173,8 @@ export function GameProvider({
             actors: structuredClone(current.actors),
             sourceActors: structuredClone(current.sourceActors ?? []),
             dungeon: structuredClone(current.dungeon ?? null),
+            turnOrderField: structuredClone(current.turnOrderField),
+            mainTurnOrder: [...current.mainTurnOrder],
             queue: [...current.queue],
             cursor: current.cursor,
             round: current.round,
@@ -376,6 +378,7 @@ export function GameProvider({
           runtime.current = advanceDungeonWave(content, dungeonRun.current);
           music.current?.start(
             content.encounters[runtime.current.encounterId].bgm ?? "normal",
+            { preserveOverride: true },
           );
           battleSerial.current += 1;
           setBattleUI({ allyId: "", enemyId: "", skillId: "$attack" });

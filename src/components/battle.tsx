@@ -1,4 +1,5 @@
 "use client";
+import { TurnOrder } from "./turn-order";
 import { CosmicEffects } from "./cosmic-effects";
 import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
@@ -248,8 +249,8 @@ function SkillInfo({
   target: any;
   reason: string;
 }) {
-  const { content } = useGame();
-  const choices = liveSkillChoices(skill, actor, target);
+  const { content, battle } = useGame();
+  const choices = liveSkillChoices(skill, actor, target, {...battle,content});
   const cost = skill.cost?.resource;
   return (
     <>
@@ -334,7 +335,7 @@ function SkillCommand({
       >
         <strong>{skill.name}</strong>
         <span className="command-scaling">
-          {compactSkillScaling(skill, actor, previewTarget, content)}
+          {compactSkillScaling(skill, actor, previewTarget, content, battle)}
         </span>
       </button>
     </CombatPopover>
@@ -369,42 +370,6 @@ function BossPhasePanel({ boss }: { boss: any }) {
         </strong>
       ))}
     </section>
-  );
-}
-function TurnOrder({ onHover }: { onHover: (id: string) => void }) {
-  const { battle } = useGame();
-  return (
-    <div className="turn-order">
-      {battle.outcome ? (
-        "Cuộc chạm trán đã khép lại."
-      ) : (
-        <>
-          <span className="turn-order-label">{battle.phase === "extra" ? "VÒNG PHỤ · LƯỢT THÊM" : "THỨ TỰ LƯỢT CHÍNH"}</span>
-          <div className="turn-chips">
-            {battle.queue
-              .slice(battle.cursor)
-              .map((id: string) =>
-                battle.actors.find((actor: any) => actor.id === id),
-              )
-              .filter((actor: any) => actor?.hp > 0)
-              .map((actor: any) => (
-                <button
-                  key={actor.id}
-                  className={actor.id === battle.activeId ? "acting" : ""}
-                  onPointerEnter={() => onHover(actor.id)}
-                  onPointerLeave={() => onHover("")}
-                  onFocus={() => onHover(actor.id)}
-                  onBlur={() => onHover("")}
-                  aria-label={`Xem vị trí ${actor.name}`}
-                >
-                  {actor.id === battle.activeId ? "◆ " : ""}
-                  {actor.name}
-                </button>
-              ))}
-          </div>
-        </>
-      )}
-    </div>
   );
 }
 function BattleLog() {

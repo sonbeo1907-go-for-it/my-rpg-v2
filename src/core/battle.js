@@ -40,6 +40,7 @@ import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
 import { checkCombatMode, enterCombatMode, modeAvailability } from "./combat-modes.js";
+import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
 const modeIO = { write, emit: emitEvent, restore: gainResource };
 const living = (actor) => actor.hp > 0;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -51,6 +52,7 @@ export function createBattle(
   random = seededRandom(1),
   options = {},
 ) {
+  if (options.continuesOnVictory !== undefined && typeof options.continuesOnVictory !== "boolean") throw new Error("Thiết lập chuyển trận không hợp lệ.");
   const encounter = content.encounters[encounterId];
   if (!encounter) throw new Error(`Unknown encounter ${encounterId}`);
   assertQuestUnlocked(encounter, campaign);
@@ -122,9 +124,12 @@ export function createBattle(
     extraTurnGrants: new Set(),
     extraTurnUsed: new Set(),
     extraPhaseRequired: false,
+    turnOrderField: copyTurnOrderField(options.turnOrderField),
+    mainTurnOrder: [],
     queue: [],
     cursor: 0,
     outcome: null,
+    continuesOnVictory: options.continuesOnVictory === true,
     log: [...(options.log ?? [])],
     events: [],
     actionCount: 0,
@@ -224,10 +229,9 @@ function startRound(battle) {
     write(battle, "Trận đấu dừng sau 60 vòng.");
     return;
   }
-  battle.queue = battle.actors
-    .filter(living)
-    .sort((a, b) => stat(battle, b, "speed") - stat(battle, a, "speed"))
-    .map((actor) => actor.id);
+  expireTurnOrderField(battle,modeIO);
+  battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
+  battle.mainTurnOrder = [...battle.queue];
   battle.cursor = 0;
   for (const actor of battle.actors) {
     for (const id of Object.keys(actor.cooldowns))
@@ -427,8 +431,7 @@ function finishPhase(battle) {
   if (checkOutcome(battle)) return;
   if (battle.phase === "main" && battle.extraPhaseRequired) {
     battle.phase = "extra";
-    battle.queue = battle.actors.filter(actor => living(actor) && battle.extraTurnGrants.has(actor.id))
-      .sort((a,b) => stat(battle,b,"speed") - stat(battle,a,"speed")).map(actor => actor.id);
+    battle.queue = orderActorIds(battle,battle.actors.filter(actor => living(actor) && battle.extraTurnGrants.has(actor.id)).map(actor=>actor.id));
     battle.cursor = 0;
     write(battle, `— Vòng Phụ ${battle.round} —`);
     emitEvent(battle, { type: "phase", phase: "extra", round: battle.round });
@@ -451,6 +454,7 @@ function finishMainRound(battle) {
       gainResource(battle, target, "mp", Math.ceil(target.stats.maxMp * passive.ratio), source.id);
     }
   }
+  expireTurnOrderField(battle,modeIO,true);
   emitEvent(battle, { type: "round_end", round: battle.round });
   write(battle, `— Kết thúc Vòng Chính ${battle.round} —`);
   startRound(battle);
@@ -667,7 +671,7 @@ function resolveHit(
       if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += passive.ratio;
     }
   }
-  const power = battleStat(battle.content,attacker,effect.damageType === "physical" ? "attack" : "magic",actionContext.automatic,hitMagicBonus);
+  const power = battleStat(battle.content,attacker,effect.damageType === "physical" ? "attack" : "magic",actionContext.automatic,hitMagicBonus,actionContext.baseStatBonuses?.[effect.damageType === "physical" ? "attack" : "magic"] ?? 0);
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
   const extraPenetration = penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0;
   const defense =
@@ -941,6 +945,7 @@ function applyEffect(
       )
         hit(battle, actor, target, effect.primaryMultiplier !== undefined ? {...effect,multiplier:target.id===actionContext.primaryTargetId ? effect.primaryMultiplier : effect.multiplier} : effect, spent, { area, actionContext });
     }
+    if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO);
     if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "heal") {
       healHp(battle,target,supportAmount(effect,stat(battle,actor,effect.scalingStat ?? "magic"),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD),actor.id);
@@ -1138,6 +1143,11 @@ function resolveAction(
   const actionContext = attackContext(battle, actor);
   actionContext.skillId = skill.id;
   actionContext.primaryTargetId = targetId;
+  actionContext.baseStatBonuses = skillBaseStatBonuses(battle,actor,skill,targets);
+  for (const [key,amount] of Object.entries(actionContext.baseStatBonuses)) {
+    write(battle,actor.name+": "+actor.passive.name+" +"+amount+" "+(key==="magic"?"MAG":"ATK")+" căn bản cho chiêu này.");
+    emitEvent(battle,{type:"skill_base_bonus",sourceId:actor.id,abilityId:skill.id,stat:key,amount});
+  }
   actionContext.preMarkedTargets = new Set(battle.actors.flatMap(target => target.statuses.map(mark => target.id + ":" + mark.id)));
   const damageBonus = exclusivePassive(actor,"skill_damage",skill.id);
   if (damageBonus) actionContext.multiplier *= 1 + damageBonus.ratio;

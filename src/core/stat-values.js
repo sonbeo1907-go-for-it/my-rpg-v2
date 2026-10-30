@@ -16,6 +16,6 @@ export function statusModifier(content, actor, key, ignoreConsumables = false) {
   }
   return sum + [...groups.values()].reduce((a,b) => a+b,0);
 }
-export function battleStat(content, actor, key, ignoreConsumables = false, additionalModifier = 0) {
-  return effectiveStat(actor,key,statusModifier(content,actor,key,ignoreConsumables) + additionalModifier);
+export function battleStat(content, actor, key, ignoreConsumables = false, additionalModifier = 0, baseBonus = 0) {
+  return effectiveStat(actor,key,statusModifier(content,actor,key,ignoreConsumables) + additionalModifier,baseBonus);
 }

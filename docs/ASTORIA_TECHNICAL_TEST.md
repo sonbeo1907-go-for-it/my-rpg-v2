@@ -23,7 +23,9 @@ Rifts cap at 5. Mode grants +15 **base** MAG before percentage modifiers. It own
 - Empty resource: check at the beginning of **every** turn and at main round end **after** the extra phase. Turn-start exit preserves the current action.
 - Resource reaches zero during damage: finish all hits using the mode bonus before spending the resource. No immediate exit hook on spending.
 - Replenishing before the next check preserves the mode.
-- Owner KO and battle outcome also terminate the mode.
+- Owner KO, defeat/draw, standalone battle victory and the final dungeon-room victory terminate the mode.
+- Gold Mine / Dangerous Dungeon: intermediate victories keep mode + remaining rifts. No exit event or 35% MP refund is emitted. Existing zero-resource turn-start / round-end checks still apply in the next room.
+- Miraebolis transitions remain inside one battle: keep mode + rifts, and apply the boss's independent full-MP phase reward. This is not a summon exit/refund.
 - `leaveCombatMode` first clears state, then emits one exit event and restores `ceil(maxMP × .35)` (42 at base stats), capped at maximum. Repeated checks do nothing.
 - React rendering, navigation and audio playback never trigger the gameplay refund.
 
@@ -31,7 +33,7 @@ Rifts cap at 5. Mode grants +15 **base** MAG before percentage modifiers. It own
 
 `ability_cast` emits once per cast. `primaryMultiplier` selects a single primary hit without applying defense twice. AoE remains AoE for follow-up eligibility; Aurora only reacts to qualifying single-target magic from another ally.
 
-Magnamut uses `public/art/magnamut.svg` and the supplied `/bgm/bgm_astoria.mp3`. The music overlay pauses the base encounter track and restores its position when the mode ends. Victory clears the overlay and takes priority. Leaving the battle route only pauses playback.
+Magnamut uses `public/art/magnamut.svg` and the supplied `/bgm/bgm_astoria.mp3`. The music overlay pauses the base encounter track and restores its position when the mode ends. Final victory clears the overlay and takes priority. Intermediate room victory keeps the overlay playing without restarting it; only the backing encounter track changes. Leaving the battle route only pauses playback.
 
 Cosmic Effects renders one bounded SVG per cast, 12 fixed particles, no animation dependency in simulation. Formation effects anchor to the enemy grid; single-target slashes anchor to the target card. Timers are cancelled on replacement/unmount and session changes. Reduced motion uses a short static effect.
 

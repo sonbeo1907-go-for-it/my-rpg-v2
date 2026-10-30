@@ -14,7 +14,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode'];
+export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -68,8 +68,9 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type === 'later_target_base_stat' && (!native.name || !native.description || !['attack','magic'].includes(native.stat) || !Number.isFinite(native.amount) || native.amount <= 0)) fail(id + ': invalid turn-order passive');
     if (native?.type === 'damage_reduction' && (!Number.isFinite(native.amount) || native.amount<0 || native.amount>1 || (native.requiresStatus !== undefined && !Object.hasOwn(content.statuses,native.requiresStatus)))) fail(`${id}: invalid conditional damage reduction`);
     if (native?.type === 'buffed_ally_mp' && !validReactivePassive(native,content,actor)) fail(`${id}: invalid reactive passive`);
     if (native?.type === 'dodge_counter' && native.counterAbility && !validReactivePassive({...native,name:native.name ?? 'Phản kiếm'},content,actor)) fail(`${id}: invalid counter ability`);
@@ -215,6 +216,7 @@ export function validateContent(content) {
         if (effect.type !== 'damage' || !Number.isInteger(effect.onHitStatus?.duration) || effect.onHitStatus.duration < 1) fail(id + ': invalid on-hit status');
       }
       if (effect.extraStacksIfPresent !== undefined && (effect.type !== 'status' || !Number.isInteger(effect.extraStacksIfPresent) || effect.extraStacksIfPresent < 1 || !content.statuses[effect.status]?.maxStacks)) fail(`${id}: invalid conditional status stacks`);
+      if (effect.type === 'turn_order_field' && (skill.target !== 'self' || typeof effect.name !== 'string' || !effect.name || !Number.isInteger(effect.durationRounds) || effect.durationRounds < 1)) fail(id + ': invalid turn-order field');
       if (effect.type === 'enter_mode' && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
       if (effect.primaryMultiplier !== undefined && (effect.type !== 'damage' || skill.target !== 'all_enemies' || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
       if (effect.type === 'damage') {

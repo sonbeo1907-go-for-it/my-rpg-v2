@@ -14,6 +14,7 @@ import { BrandLogo } from "./brand-logo";
 export const fmt = (value: number) =>
   new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(value);
 const paths: Record<string, ReactNode> = {
+  hourglass: <><path d="M5 2h14M5 22h14M7 2v5l10 10v5M17 2v5L7 17v5"/><path d="m9 6 3 3 3-3M9 19l3-3 3 3"/></>,
   check: <path d="m5 12 4 4L19 6" />,
   anvil: <><path d="M2 7h20l-4 5h-5v4l5 3v2H6v-2l4-3v-4H6L2 9Zm5-3h7v3" /></>,
   fragments: <><path d="m7 3 5 5-4 4-5-5zM16 4l5 5-6 3-2-5zM10 15l5-2 5 5-7 4-5-4zM3 16l3-2 1 5-4 1z"/></>,

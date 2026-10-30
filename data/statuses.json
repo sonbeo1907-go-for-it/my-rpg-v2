@@ -65,5 +65,16 @@
       "resistance": -0.25
     },
     "description": "Giảm RES trong 4 lượt chính của người mang; Lượt Thêm không làm giảm thời hạn."
+  },
+  {
+    "id": "time_weakened",
+    "name": "Lệch nhịp thời gian",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": -0.15,
+      "magic": -0.15
+    },
+    "description": "Giảm ATK và MAG đến hết lượt chính kế tiếp của người mang."
   }
 ]

@@ -1,6 +1,7 @@
 import { targetsFor } from '../core/battle.js';
 import { damageMultiplier, supportAmount, speedDamageRatio } from '../core/combat-math.js';
 import { battleStat } from '../core/stat-values.js';
+import { skillBaseStatBonuses } from '../core/turn-order.js';
 import { skillPresentation } from './skill-copy.js';
 import { skillScaling } from './skill-presentation.js';
 
@@ -20,16 +21,18 @@ export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   const targetId = skill?.target === 'self' ? actor?.id ?? '' : ['ally', 'all_allies'].includes(skill?.target) ? allyId : enemyId;
   return { allyId, rememberedAlly, enemyId, targetId, legalIds: legal.map(item => item.id), affectedIds: skill?.target?.startsWith('all_') ? legal.map(item => item.id) : [targetId].filter(Boolean) };
 }
-export function liveSkillChoices(skill, actor, target) {
+export function liveSkillChoices(skill, actor, target, battle) {
   const cost = skill.cost?.resource;
   const effect = skill.effects.find(item => item.consumeStatus);
-  return { live: true, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
+  const legal = battle ? targetsFor(battle,actor,skill) : [];
+  const selected = skill.target.startsWith('all_') ? legal : legal.filter(item=>item.id===target?.id);
+  return { live: true, baseStatBonuses: battle ? skillBaseStatBonuses(battle,actor,skill,selected) : {}, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
     stacks: effect ? target?.statuses?.find(status => status.id === effect.consumeStatus)?.stacks ?? 0 : 0,
     hpPercent: actor.hp / actor.stats.maxHp * 100,
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
 }
-export function compactSkillScaling(skill, actor, target, content) {
-  const choices = liveSkillChoices(skill, actor, target);
+export function compactSkillScaling(skill, actor, target, content, battle) {
+  const choices = liveSkillChoices(skill, actor, target, battle ? {...battle,content} : undefined);
   const parts = [];
   for (const effect of skill.effects) {
     if (effect.type === 'damage') {
@@ -59,9 +62,11 @@ export function compactSkillScaling(skill, actor, target, content) {
       if (!modifiers.length && !status.taunt && !status.cover && !status.effectImmunity && !status.regen && !status.turnStartAbility && !status.damageOverTime) parts.push(status.name);
     } else if (effect.type === 'resource') parts.push(effect.maxMpRatio ? `Hồi ${percent(effect.maxMpRatio)} MP` : `+${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources?.[effect.resource]?.name ?? effect.resource}`);
     else if (effect.type === 'enter_mode') parts.push('Triệu hồi '+actor.combatModes[effect.mode].name);
+    else if (effect.type === 'turn_order_field') parts.push('Ưu tiên lượt đồng minh · '+effect.durationRounds+' vòng');
     else if (effect.type === 'grant_extra_turn') parts.push('+1 Lượt Thêm');
     else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
   }
+  for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');
   const damageCount = skill.effects.filter(effect => effect.type === 'damage').length;
   return parts.join(damageCount > 1 && parts.length === damageCount ? ' + ' : ' · ');
 }

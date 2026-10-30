@@ -5,8 +5,8 @@ export function mpRestoreAmount(effect, maxMp) {
   return (effect.amount ?? 0) + Math.ceil(maxMp * (effect.maxMpRatio ?? 0));
 }
 
-export function effectiveStat(actor, key, temporaryModifier = 0) {
-  let base = actor.baseStats?.[key] ?? actor.stats[key];
+export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) {
+  let base = (actor.baseStats?.[key] ?? actor.stats[key]) + baseBonus;
   base += actor.combatModes?.[actor.activeMode]?.baseStatBonuses?.[key] ?? 0;
   if (actor.passive?.type === 'stat_conversion' && actor.passive.toStat === key) base += (actor.baseStats?.[actor.passive.fromStat] ?? actor.stats[actor.passive.fromStat]) * actor.passive.ratio;
   const permanent = actor.passive?.type === 'stat_boost' ? actor.passive.modifiers[key] ?? 0 : 0;

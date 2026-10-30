@@ -385,3 +385,7 @@
     animation: none;
   }
 }
+
+/* A real boundary in the pending queue; never regroup the display independently. */
+.turn-order-heading{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem 1rem;margin-bottom:.6rem}.turn-order-heading .turn-order-label{margin:0}.turn-field-badge{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .6rem;font-size:.78rem;color:#e9dda8;border-color:#a7ae79;background:#1b3838}.turn-field-badge svg{width:18px;height:18px;flex:none}.turn-field-badge span{color:#a9dcd0}.turn-team-divider{display:inline-flex;align-items:center;justify-content:center;flex:none;align-self:stretch;min-height:32px;padding:0 .55rem;color:#f3dda4;border-inline:1px solid #8c946b;background:linear-gradient(90deg,transparent,#8ba17422,transparent)}.turn-team-divider svg{width:23px;height:23px}.turn-order[data-turn-field]{border-color:#818c68}.turn-chips{align-items:center}.turn-order[data-turn-field] [data-turn-team=party]{border-bottom-color:#7dc7ac}.turn-order[data-turn-field] [data-turn-team=enemy]{border-bottom-color:#d19d92}
+@media(max-width:600px){.turn-field-badge{font-size:.7rem}.turn-team-divider{padding-inline:.3rem}.turn-team-divider svg{width:20px;height:20px}}

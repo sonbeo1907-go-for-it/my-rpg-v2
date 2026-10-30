@@ -1095,5 +1095,54 @@
     "tags": [
       "time_traveler"
     ]
+  },
+  {
+    "id": "monica",
+    "name": "Monica",
+    "title": "Phù thủy thời gian",
+    "affiliation": "Học viện Ma pháp",
+    "element": "wind",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "description": "Điều khiển thứ tự lượt, làm yếu địch và khai thác những kẻ chậm nhịp.",
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 150,
+      "attack": 12,
+      "magic": 34,
+      "defense": 15,
+      "resistance": 24,
+      "speed": 24
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 0.6
+      },
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 0.6
+      }
+    ],
+    "abilities": [
+      "monica.formula",
+      "monica.loophole",
+      "monica.distortion"
+    ],
+    "passive": {
+      "type": "later_target_base_stat",
+      "name": "Lăng kính thời gian",
+      "description": "Kỹ năng chủ động tấn công có mục tiêu đứng sau Monica trong thứ tự Vòng Chính nhận thêm MAG căn bản cho cả lần thi triển.",
+      "stat": "magic",
+      "amount": 6
+    },
+    "tags": [
+      "magic_academy"
+    ]
   }
 ]

@@ -16,9 +16,13 @@ export function leaveCombatMode(battle, actor, reason, io) {
   io.restore(battle,actor,'mp',Math.ceil(actor.stats.maxMp * mode.exitMpRatio),actor.id);
   return true;
 }
+// A non-final dungeon room ends its local battle, not the enclosing combat journey.
+export function isContinuingVictory(battle) {
+  return battle?.outcome === 'victory' && battle.continuesOnVictory === true;
+}
 export function checkCombatMode(battle,actor,reason,io) {
   const mode=activeCombatMode(actor);
-  if (mode && (actor.hp<=0 || battle.outcome || ((reason==='turn_start'||reason==='round_end') && (actor.resourceValues?.[mode.resource]??0)<=0))) return leaveCombatMode(battle,actor,reason,io);
+  if (mode && (actor.hp<=0 || (battle.outcome && !isContinuingVictory(battle)) || ((reason==='turn_start'||reason==='round_end') && (actor.resourceValues?.[mode.resource]??0)<=0))) return leaveCombatMode(battle,actor,reason,io);
   return false;
 }
 export function modeAvailability(actor,skill) {

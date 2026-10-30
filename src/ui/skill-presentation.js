@@ -37,6 +37,7 @@ export const TARGET_NAMES = {
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
+  if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
   if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
   if (['team_flat_self', 'team_flat_aura'].includes(passive.type)) {
@@ -95,12 +96,13 @@ export function skillPreviewOptions(skill, actor, content) {
 
 export function skillScaling(skill, actor, content, choices = {}) {
   const lines = [];
-  const valueOf = key => choices.live ? battleStat(content, actor, key) : effectiveStat(actor, key);
+  const valueOf = key => choices.live ? battleStat(content, actor, key,false,0,choices.baseStatBonuses?.[key]??0) : effectiveStat(actor, key);
   const cost = skill.cost?.resource;
   const resourceName = cost ? actor.resources[cost.id].name : '';
   const spent = choices.spent ?? (cost?.all ? actor.resources[cost.id].max : cost?.amount ?? 0);
   const perPerson = skill.target === 'all_allies' ? '/người' : '';
   for (const effect of skill.effects) {
+    if (effect.type === 'turn_order_field') lines.push('Đồng minh đi trước, đối thủ đi sau; giữ SPD trong từng phe. '+effect.durationRounds+' vòng, tính cả vòng thi triển.');
     if (effect.type === 'damage') {
       const stat = effect.damageType === 'physical' ? 'ATK' : 'MAG';
       let formula = effect.primaryMultiplier !== undefined ? `${percent(effect.primaryMultiplier)} ${stat} mục tiêu chính / ${percent(effect.multiplier)} ${stat} còn lại` : `${percent(effect.multiplier ?? 1)} ${stat}`;

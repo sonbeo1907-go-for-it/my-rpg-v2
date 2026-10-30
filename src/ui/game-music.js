@@ -16,7 +16,12 @@ export function createGameMusic({ content, audioFactory = () => document.createE
     report();
   }
   return {
-    start(group) { override = null; players.override.stop(); players.battle.start(group); sync(); },
+    start(group, { preserveOverride = false } = {}) {
+      // A room change replaces the backing track while the summon keeps its position.
+      if (!preserveOverride) { override = null; players.override.stop(); }
+      players.battle.start(group);
+      sync();
+    },
     setBattleOverride(group) {
       const next = group && content.music[group] ? group : null;
       if (next === override) return;
