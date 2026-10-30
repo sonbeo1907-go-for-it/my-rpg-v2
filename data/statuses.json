@@ -51,4 +51,7 @@
   {"id":"exclusive_calibration","name":"Tính toán tiên phong","kind":"buff","modifiers":{"speed":0.1}},
   {"id":"undertow_slow","name":"Sóng ngầm","kind":"debuff","modifiers":{"speed":-0.15},"modifierGroup":"tidal_slow"},
   {"id":"sea_slow","name":"Trấn hải","kind":"debuff","modifiers":{"speed":-0.25},"modifierGroup":"tidal_slow"}
+,
+  {"id":"sword_eye_slow","name":"Kiếm áp","kind":"debuff","durationClock":"main_turn","modifiers":{"speed":-0.15}},
+  {"id":"traveler_ward","name":"Màn hộ vệ","kind":"buff","modifiers":{"defense":0.15,"resistance":0.25}}
 ]

@@ -2698,5 +2698,201 @@
       }
     ],
     "description": "Càn quét toàn đội đối phương."
+  },
+  {
+    "id": "fiona.refraction_complete",
+    "name": "Khúc xạ hoàn thiện",
+    "description": "Rải Mảnh Prisma; địch đã có mảnh nhận thêm một tầng.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 11
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.6
+      },
+      {
+        "type": "status",
+        "status": "prisma",
+        "duration": 4,
+        "extraStacksIfPresent": 1
+      }
+    ],
+    "rules": [
+      "Xét dấu trước khi thi triển; tối đa 3 Mảnh Prisma trên mỗi địch."
+    ]
+  },
+  {
+    "id": "fiona.convergence",
+    "name": "Hội tụ Prisma",
+    "description": "Tiêu toàn bộ Mảnh Prisma trên một địch để dồn sát thương.",
+    "target": "enemy",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 1,
+    "requiresTargetStatus": "prisma",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.5,
+        "consumeStatus": "prisma",
+        "perStack": 1
+      }
+    ],
+    "rules": [
+      "Cần ít nhất 1 Mảnh Prisma. Hồi chiêu 1 vòng: bỏ qua vòng kế tiếp."
+    ]
+  },
+  {
+    "id": "takeshi.counter_awakened",
+    "name": "Tâm nhãn kiếm sĩ",
+    "activation": "passive",
+    "target": "enemy",
+    "description": "Phản kiếm và làm chậm kẻ tấn công.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 0.85,
+        "unavoidable": true
+      },
+      {
+        "type": "status",
+        "status": "sword_eye_slow",
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "traveler.keith",
+    "name": "Song trảm truy kích",
+    "description": "Tấn công đối phương.",
+    "target": "enemy",
+    "cost": {
+      "mp": 7
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 0.7,
+        "hits": 1
+      }
+    ]
+  },
+  {
+    "id": "traveler.sunny",
+    "name": "Hỏa thuật bùng nổ",
+    "description": "Tấn công đối phương.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 1.6,
+        "hits": 1
+      }
+    ]
+  },
+  {
+    "id": "traveler.sunny_wave",
+    "name": "Vòng lửa đối đầu",
+    "description": "Tấn công đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 0.8,
+        "hits": 1
+      }
+    ]
+  },
+  {
+    "id": "traveler.mac_taunt",
+    "name": "Đứng sau lưng tôi!",
+    "description": "Thu hút đòn đánh để bảo vệ đồng đội.",
+    "target": "self",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "taunt",
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "traveler.mac_shield",
+    "name": "Khiên đội hình",
+    "description": "Tạo khiên cho cả đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "defense",
+        "multiplier": 0.8,
+        "flat": 8
+      }
+    ]
+  },
+  {
+    "id": "traveler.amy_heal",
+    "name": "Lời nguyện hồi phục",
+    "description": "Hồi HP cho cả đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "heal",
+        "multiplier": 0.55,
+        "flat": 6
+      }
+    ]
+  },
+  {
+    "id": "traveler.amy_ward",
+    "name": "Màn hộ vệ",
+    "description": "Gia cố phòng thủ cho cả đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "traveler_ward",
+        "duration": 2
+      }
+    ]
   }
 ]

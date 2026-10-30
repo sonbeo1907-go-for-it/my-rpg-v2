@@ -57,7 +57,7 @@ export function validateEconomyContent(content) {
 
 export function validateGear(gear, content) {
   const type = Object.hasOwn(content.gearTypes, gear?.typeId) ? content.gearTypes[gear.typeId] : null;
-  if (!type || typeof gear.id !== 'string' || !/^gear_[1-9]\d*$/.test(gear.id)
+  if (!type || typeof gear.id !== 'string' || !/^(gear|loot)_[1-9]\d*$/.test(gear.id)
     || !gear.stats || typeof gear.stats !== 'object' || Array.isArray(gear.stats)) return false;
   const entries = Object.entries(gear.stats);
   return entries.length === type.statCount && entries.every(([key, value]) => {
@@ -88,6 +88,11 @@ export function grantCharacterCopy(campaign, content, characterId) {
 export function claimBattleReward(campaign, battle, content, persist = () => {}) {
   if (battle.dungeon) return campaign; // Wave clears never grant Quest rewards or first-clear unlocks.
   if (battle.outcome !== 'victory' || battle.rewardClaimed) return campaign;
+  const encounter = content.encounters[battle.encounterId];
+  if (encounter?.travelerStory) {
+    if (encounter.requires?.firstClear && !campaign.claimedFirstClearRewards?.includes(encounter.requires.firstClear)) throw new Error('Chương truyện trước chưa hoàn thành.');
+    if (encounter.requiredPartyIds?.some(id => !battle.actors?.some(actor => actor.team === 'party' && (actor.definitionId ?? actor.id) === id))) throw new Error('Đội tham chiến thiếu nhân vật bắt buộc.');
+  }
   const next = structuredClone(campaign);
   next.coins = checkedAdd(next.coins, victoryCoinReward(content, battle.encounterId));
   next.victories = checkedAdd(next.victories, 1);
@@ -102,7 +107,8 @@ export function claimBattleReward(campaign, battle, content, persist = () => {})
         const alreadyOwned = next.characters[upgrade.characterId].upgradeIds.includes(upgrade.id);
         completeStoryEvent(next, content, upgrade.requires.storyFlag);
         granted.push({ type: 'upgrade', upgradeId: upgrade.id, characterId: upgrade.characterId, alreadyOwned });
-      } else if (reward.type === 'exclusive') granted.push(grantQuestExclusive(next,content,reward.templateId));
+      } else if (reward.type === 'gear_slot') granted.push({type:'gear_slot',characterId:reward.characterId,slotUnlocked:unlockDuplicateSlot(next,content,reward.characterId)});
+      else if (reward.type === 'exclusive') granted.push(grantQuestExclusive(next,content,reward.templateId));
       else granted.push(grantCharacterCopy(next, content, reward.characterId));
     }
     next.claimedFirstClearRewards.push(battle.encounterId);

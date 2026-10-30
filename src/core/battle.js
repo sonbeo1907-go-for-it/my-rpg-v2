@@ -36,7 +36,7 @@ import {
   bossTurnJobs,
 } from "./boss-mechanics.js";
 import { activeStatuses } from "./status-state.js";
-import { assertQuestUnlocked } from "./quest-catalog.js";
+import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
 const living = (actor) => actor.hp > 0;
@@ -52,6 +52,7 @@ export function createBattle(
   const encounter = content.encounters[encounterId];
   if (!encounter) throw new Error(`Unknown encounter ${encounterId}`);
   assertQuestUnlocked(encounter, campaign);
+  assertEncounterParty(encounter, campaign, content);
   if (!isValidParty(campaign.party, content.characters))
     throw new Error("Invalid party");
   assertOwnedParty(campaign);
@@ -192,6 +193,15 @@ function attackContext(battle, actor) {
 }
 
 function finishAttackContext(battle, actor, context) {
+  for (const [sourceId, proc] of context.supportMpSources ?? []) {
+    const source = getActor(battle, sourceId);
+    if (source && living(source)) {
+      const passive = source.passive;
+      write(battle, `${source.name} kích hoạt ${passive.name}.`);
+      gainResource(battle, source, "mp", passive.amount + (proc.weakness ? passive.weaknessBonus : 0), source.id);
+    }
+  }
+  context.supportMpSources?.clear();
   actor.statuses = actor.statuses.filter(
     (status) => !context.attackBuffs.includes(status),
   );
@@ -448,6 +458,7 @@ export function targetsFor(battle, actor, skill) {
       living(target) &&
       (allies ? target.team === actor.team : target.team !== actor.team),
   );
+  if (skill.requiresTargetStatus) targets = targets.filter(target => target.statuses.some(status => status.id === skill.requiresTargetStatus && status.stacks > 0));
   if (skill.target === "enemy") {
     const taunting = targets.filter((target) => flag(battle, target, "taunt"));
     if (taunting.length) targets = taunting;
@@ -465,6 +476,8 @@ export function abilityAvailability(battle, actor, skill) {
     };
   if (actor.mp < (skill.cost?.mp ?? 0))
     return { ok: false, reason: "Không đủ MP." };
+  if (skill.requiresTargetStatus && !targetsFor(battle,actor,skill).length)
+    return { ok: false, reason: `Cần mục tiêu có ${battle.content.statuses[skill.requiresTargetStatus].name}.` };
   const resource = skill.cost?.resource;
   if (
     resource &&
@@ -611,7 +624,18 @@ function resolveHit(
         sourceId: target.id,
         targetId: attacker.id,
       });
-      hit(
+      const counter = battle.content.abilities[target.passive.counterAbility];
+      if (counter) {
+        const context = attackContext(battle, target);
+        context.skillId = counter.id;
+        for (const effect of counter.effects) {
+          if (living(attacker) && living(target)) {
+            if (effect.type === "damage") hit(battle, target, attacker, effect, 0, { reaction: true, actionContext: context });
+            else applyEffect(battle, target, [attacker], effect, 0, false, context);
+          }
+        }
+        finishAttackContext(battle, target, context);
+      } else hit(
         battle,
         target,
         attacker,
@@ -724,6 +748,22 @@ function resolveHit(
     amount,
   );
   target.hp -= lostHp;
+  // Reserve before nested reactions; settle after the whole attack so a later
+  // weak target/hit can upgrade 3 MP to 5 MP. Shield damage and kills count.
+  if (attacker.team !== target.team && lostHp + absorbed > 0) {
+    for (const source of battle.actors) {
+      const passive = source.passive;
+      if (!living(source) || source.id === attacker.id || source.team !== attacker.team
+        || passive?.type !== "buffed_ally_mp"
+        || !attacker.statuses.some(status => status.sourceId === source.id && passive.statusIds.includes(status.id))) continue;
+      const existing = actionContext.supportMpSources?.get(source.id);
+      if (existing) existing.weakness ||= weakness;
+      else if (procAvailable(battle, source, "buffed_ally_mp")) {
+        markProc(battle, source, "buffed_ally_mp");
+        (actionContext.supportMpSources ??= new Map()).set(source.id, { weakness });
+      }
+    }
+  }
   emitEvent(battle, {
     type: "damage",
     targetId: target.id,
@@ -926,9 +966,13 @@ function applyEffect(
         actor.id,
       );
     if (effect.type === "status") {
+      const count = 1 + (effect.extraStacksIfPresent && actionContext.preMarkedTargets?.has(target.id + ":" + effect.status) ? effect.extraStacksIfPresent : 0);
       const extension = exclusivePassive(actor,"skill_status_duration",actionContext.skillId);
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
-      applyStatus(battle, target, effect.status, duration, actor.id);
+      for (let i = 0; i < count; i++) {
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id);
+        if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
+      }
     }
     if (effect.type === "grant_extra_turn") {
       if (battle.phase === "extra") write(battle, `${target.name}: bỏ qua cấp Lượt Thêm trong Vòng Phụ.`);
@@ -1018,6 +1062,7 @@ function finishStatuses(
     if (
       (battle.content.statuses[status.id].persistent &&
         status.remaining === null) ||
+      (battle.content.statuses[status.id].durationClock === "main_turn" && battle.phase === "extra") ||
       !tickDuration
     )
       return true;
@@ -1215,16 +1260,17 @@ export function executeEnemyTurn(battle) {
   const actor = activeActor(battle);
   if (!actor || actor.team !== "enemy") return;
   if (actor.boss) return executeBossTurn(battle, actor);
-  const priority = actor.ai?.priorities.find(
-    (rule) =>
-      rule.when === "unshielded" &&
-      actor.shield === 0 &&
-      abilityAvailability(
-        battle,
-        actor,
-        battle.content.abilities[rule.abilityId],
-      ).ok,
-  );
+  const priority = actor.ai?.priorities.map(rule => {
+    const ability = battle.content.abilities[rule.abilityId];
+    if (!ability || !abilityAvailability(battle, actor, ability).ok) return null;
+    const targets = targetsFor(battle, actor, ability);
+    let target;
+    if (rule.when === "unshielded" && actor.shield === 0) target = targets[0];
+    if (rule.when === "ally_hp_below") target = targets.filter(ally => ally.hp / ally.stats.maxHp < rule.ratio).sort((a,b) => a.hp/a.stats.maxHp-b.hp/b.stats.maxHp)[0];
+    if (rule.when === "ally_unshielded") target = targets.find(ally => ally.shield === 0);
+    if (rule.when === "missing_status") target = targets.find(ally => !ally.statuses.some(status => status.id === rule.statusId));
+    return target ? { ability, target } : null;
+  }).find(Boolean);
   const skills = actor.abilities
     .map((id) => battle.content.abilities[id])
     .filter(
@@ -1233,12 +1279,12 @@ export function executeEnemyTurn(battle) {
         skill.effects.some((effect) => (effect.type === "damage" || effect.type === "grant_extra_turn")),
     );
   const skill = priority
-    ? battle.content.abilities[priority.abilityId]
+    ? priority.ability
     : skills.length && battle.random() < 0.7
       ? skills[Math.floor(battle.random() * skills.length)]
       : basicAbility(actor);
   const targets = targetsFor(battle, actor, skill);
-  const target = targets[Math.floor(battle.random() * targets.length)];
+  const target = priority?.target ?? targets[Math.floor(battle.random() * targets.length)];
   executeAction(battle, {
     actorId: actor.id,
     abilityId: skill.id,

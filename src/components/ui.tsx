@@ -9,10 +9,12 @@ import { gearOwner } from "../core/equipment.js";
 import { useSettings } from "../runtime/settings-context";
 import { gearRarity, EQUIPMENT_RARITIES } from "../ui/equipment-presentation.js";
 import { Equipped } from "./equipped";
+import { BrandLogo } from "./brand-logo";
 
 export const fmt = (value: number) =>
   new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(value);
 const paths: Record<string, ReactNode> = {
+  check: <path d="m5 12 4 4L19 6" />,
   anvil: <><path d="M2 7h20l-4 5h-5v4l5 3v2H6v-2l4-3v-4H6L2 9Zm5-3h7v3" /></>,
   fragments: <><path d="m7 3 5 5-4 4-5-5zM16 4l5 5-6 3-2-5zM10 15l5-2 5 5-7 4-5-4zM3 16l3-2 1 5-4 1z"/></>,
   folder: <path d="M3 6h6l2 2h10v12H3V6Zm0 3V4h6l2 2h8v2" />,
@@ -467,7 +469,7 @@ export function PageHeader({
         <Icon name="arrow" />
       </Link>
       <div>
-        <span className="eyebrow">NORTHERN PRISMA</span>
+        <span className="eyebrow">THE PRISMA ORIGIN</span>
         <h1 ref={heading} tabIndex={-1}>
           {title}
         </h1>
@@ -702,8 +704,8 @@ export function GameShell({ children }: { children: ReactNode }) {
       >
         {path !== "/" && (
           <div className="utility-bar">
-            <Link href="/home" className="brand">
-              <Icon /> NORTHERN PRISMA <small>THE NORTHERN JOURNEY</small>
+            <Link href="/home" className="brand" aria-label="The Prisma Origin — Về Tavern">
+              <BrandLogo compact />
             </Link>
             <div className="utility-wallet" aria-label="Ví tiền">
               <CurrencyAmount kind="prisma" amount={campaign.prisma} />

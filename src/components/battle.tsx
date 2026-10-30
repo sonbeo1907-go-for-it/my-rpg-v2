@@ -1,4 +1,5 @@
 "use client";
+import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
@@ -496,7 +497,7 @@ function BattleResultControls() {
           href={
             dungeon
               ? `/dungeon/${dungeon.typeId}?selected=${dungeon.difficultyId}`
-              : `/quests?selected=${battle.encounterId}`
+              : encounterReturnPath(content, battle.encounterId)
           }
         >
           {dungeon ? "↑ Trở về chọn mức độ" : "↑ Trở về chọn trận"}
@@ -796,7 +797,7 @@ export function BattlePage() {
         back={
           battle.dungeon
             ? `/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`
-            : `/quests?selected=${battle.encounterId}`
+            : encounterReturnPath(content, battle.encounterId)
         }
       >
         <div className="combat-speed" role="group" aria-label="Tốc độ hiệu ứng">

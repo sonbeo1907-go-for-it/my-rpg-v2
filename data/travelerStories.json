@@ -1,0 +1,36 @@
+[
+  {
+    "id": "iris",
+    "characterId": "iris",
+    "order": 1,
+    "name": "Cô phù thủy vụng về",
+    "subtitle": "Iris · Những bài học ngoài trang sách",
+    "description": "Từ những chuyến khảo sát vụng về đến bản lĩnh của một người đồng hành.",
+    "art": "/art/story-iris.svg",
+    "chapters": [
+      "iris_story_growth",
+      "iris_story_pride",
+      "iris_story_revenge"
+    ]
+  },
+  {
+    "id": "takeshi",
+    "characterId": "takeshi",
+    "order": 2,
+    "name": "Thanh gươm vượt biển",
+    "subtitle": "Takeshi · Lời hẹn phía chân trời",
+    "description": "Hai lưỡi kiếm, một hành trình vượt qua giới hạn của chính mình.",
+    "art": "/art/story-takeshi.svg",
+    "chapters": []
+  },
+  {
+    "id": "fiona",
+    "characterId": "fiona",
+    "order": 3,
+    "name": "Cội nguồn của sự sống",
+    "subtitle": "Fiona · Original Prisma",
+    "description": "Trong ánh sáng nguyên sơ, những bí mật của sự sống vẫn đang ngủ yên.",
+    "art": "/art/story-fiona.svg",
+    "chapters": []
+  }
+]

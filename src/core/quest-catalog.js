@@ -7,11 +7,20 @@ export function questUnlockFlag(encounter) {
 export function isQuestUnlocked(encounter, campaign) {
   if (!encounter) return false;
   const flag = questUnlockFlag(encounter);
-  return !flag || Boolean(campaign?.storyFlags?.includes(flag));
+  return (!flag || Boolean(campaign?.storyFlags?.includes(flag)))
+    && (!encounter.requires?.firstClear || Boolean(campaign?.claimedFirstClearRewards?.includes(encounter.requires.firstClear)));
 }
 export function assertQuestUnlocked(encounter, campaign) {
   if (!isQuestUnlocked(encounter, campaign))
-    throw new Error('Nhiệm vụ chưa mở khóa. Hãy tìm dấu vết trong Hầm Ngục Ảo Ảnh.');
+    throw new Error(encounter?.travelerStory ? 'Hãy hoàn thành chương trước để mở khóa chương này.' : 'Nhiệm vụ chưa mở khóa. Hãy tìm dấu vết trong Hầm Ngục Ảo Ảnh.');
+}
+export function assertEncounterParty(encounter, campaign, content) {
+  if (encounter.requiredPartyIds?.some(id => !campaign.party.includes(id)))
+    throw new Error(`Trận này bắt buộc có ${encounter.requiredPartyIds.map(id => content.characters[id].name).join(', ')} trong đội hình.`);
+}
+export function encounterReturnPath(content, id) {
+  const story = content.encounters[id]?.travelerStory;
+  return story ? `/stories/${story}?selected=${id}` : `/quests?selected=${id}`;
 }
 export function questCategory(filters = {}) {
   if (filters.tab === 'extermination') return 'extermination';
@@ -24,6 +33,7 @@ export function questCatalog(content, campaign, filters = {}) {
     .filter(encounter => {
       const tier = encounterTier(encounter);
       return isQuestUnlocked(encounter, campaign)
+        && !encounter.travelerStory
         && (category === 'sinister' ? tier === 'super' : tier !== 'super')
         && (!query || encounter.name.toLocaleLowerCase('vi').includes(query))
         && (category === 'sinister' || !['normal', 'boss'].includes(filters.type) || tier === filters.type);

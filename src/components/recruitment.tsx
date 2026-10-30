@@ -15,6 +15,7 @@ import {
   highestSummonRarity,
 } from "../core/summon-presentation.js";
 import { rarityStyle } from "./summon-cards";
+import { PrismaCrystal } from "./prisma-crystal";
 import { Icon, PageHeader, Modal, CurrencyAmount, fmt } from "./ui";
 
 function RecruitmentInfo({ banner }: { banner: any }) {
@@ -188,15 +189,7 @@ export function RecruitmentPage() {
         >
           <div className="centered-summon-background" />
           <div className="stone-aura" />
-          <svg
-            className="awakening-crystal"
-            viewBox="0 0 1920 1080"
-            preserveAspectRatio="xMidYMid slice"
-            aria-hidden="true"
-          >
-            <polygon points="960,340 1070,500 960,740 850,500" />
-            <path d="m960 340 0 400m-110-240 110 58 110-58M850 500h220" />
-          </svg>
+          <PrismaCrystal />
           <span className="awakening-orbit orbit-one" />
           <span className="awakening-orbit orbit-two" />
           <div className="awakening-copy">

@@ -835,5 +835,113 @@
       "giant_boar.gore",
       "giant_boar.stampede"
     ]
+  },
+  {
+    "id": "traveler_keith",
+    "name": "Keith",
+    "role": "DPS vật lí",
+    "element": "wind",
+    "stats": {
+      "maxHp": 230,
+      "maxMp": 65,
+      "attack": 34,
+      "magic": 9,
+      "defense": 17,
+      "resistance": 15,
+      "speed": 24
+    },
+    "weaknesses": [],
+    "abilities": [
+      "traveler.keith"
+    ]
+  },
+  {
+    "id": "traveler_mac",
+    "name": "Mac",
+    "role": "Thủ Hộ",
+    "element": "earth",
+    "stats": {
+      "maxHp": 300,
+      "maxMp": 80,
+      "attack": 22,
+      "magic": 8,
+      "defense": 24,
+      "resistance": 16,
+      "speed": 11
+    },
+    "weaknesses": [],
+    "abilities": [
+      "traveler.mac_taunt",
+      "traveler.mac_shield"
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "missing_status",
+          "statusId": "taunt",
+          "abilityId": "traveler.mac_taunt"
+        },
+        {
+          "when": "ally_unshielded",
+          "abilityId": "traveler.mac_shield"
+        }
+      ]
+    }
+  },
+  {
+    "id": "traveler_sunny",
+    "name": "Sunny",
+    "role": "DPS ma pháp",
+    "element": "fire",
+    "stats": {
+      "maxHp": 190,
+      "maxMp": 90,
+      "attack": 8,
+      "magic": 32,
+      "defense": 12,
+      "resistance": 25,
+      "speed": 21
+    },
+    "weaknesses": [],
+    "abilities": [
+      "traveler.sunny",
+      "traveler.sunny_wave"
+    ],
+    "basicDamageType": "magical"
+  },
+  {
+    "id": "traveler_amy",
+    "name": "Amy",
+    "role": "Hỗ trợ phòng thủ",
+    "element": "water",
+    "stats": {
+      "maxHp": 220,
+      "maxMp": 100,
+      "attack": 8,
+      "magic": 24,
+      "defense": 16,
+      "resistance": 25,
+      "speed": 19
+    },
+    "weaknesses": [],
+    "abilities": [
+      "traveler.amy_heal",
+      "traveler.amy_ward"
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "ally_hp_below",
+          "ratio": 0.72,
+          "abilityId": "traveler.amy_heal"
+        },
+        {
+          "when": "missing_status",
+          "statusId": "traveler_ward",
+          "abilityId": "traveler.amy_ward"
+        }
+      ]
+    },
+    "basicDamageType": "magical"
   }
 ]

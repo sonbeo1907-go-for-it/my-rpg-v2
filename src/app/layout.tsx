@@ -13,12 +13,14 @@ import "./shop.css";
 import "./controls.css";
 import "./dungeon.css";
 import "./quests.css";
+import "./stories.css";
 import "./blacksmith.css";
 import "./profiles.css";
 import "./skill-copy.css";
 import "./equipment-ui.css";
+import "./brand.css";
 export const metadata: Metadata = {
-  title: "Northern Prisma · Hành trình phương Bắc",
+  title: "The Prisma Origin",
   description:
     "Một hành trình RPG cổ điển. Những người đồng hành, những mảnh Prisma và lời hứa từ phương Bắc.",
 };

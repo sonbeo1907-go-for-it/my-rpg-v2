@@ -2,6 +2,8 @@ import { validateEconomyContent } from './economy.js';
 import { validateBossDefinition } from './boss-mechanics.js';
 import { validateDungeonContent } from './dungeon-rules.js';
 import { validateBlacksmithContent } from './blacksmith-rules.js';
+import { validReactivePassive } from './reactive-passives.js';
+import { validateTravelerStories } from './traveler-stories.js';
 
 export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark'];
 export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám' };
@@ -66,8 +68,10 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type === 'buffed_ally_mp' && !validReactivePassive(native,content,actor)) fail(`${id}: invalid reactive passive`);
+    if (native?.type === 'dodge_counter' && native.counterAbility && !validReactivePassive({...native,name:native.name ?? 'Phản kiếm'},content,actor)) fail(`${id}: invalid counter ability`);
     if (['extra_mp_damage','marked_ally_magic','hp_difference_damage','ally_heal_mp','stat_conversion','end_round_lowest_mp'].includes(native?.type)) {
       const ratioKeys = native.type === 'extra_mp_damage' ? ['extraCostRatio','maxDamageBonus'] : [native.type === 'hp_difference_damage' ? 'cap' : 'ratio'];
       if (!native.name || !native.description || ratioKeys.some(key => !Number.isFinite(native[key]) || native[key] <= 0 || native[key] > 1)) fail(id + ': invalid native passive ratios');
@@ -109,8 +113,13 @@ export function validateContent(content) {
       if (!Array.isArray(actor.ai?.priorities) || !actor.ai.priorities.length) fail(`${id}: invalid AI priorities`);
       else for (const rule of actor.ai.priorities) {
         const skill = content.abilities[rule?.abilityId];
-        if (rule?.when !== 'unshielded' || !actor.abilities?.includes(rule?.abilityId) || !skill
-          || skill.target !== 'self' || !skill.effects?.some(effect => effect.type === 'shield')) fail(`${id}: invalid shield AI priority`);
+        const friendly = ['self','ally','all_allies'].includes(skill?.target);
+        const valid = rule?.when === 'unshielded' ? skill?.target === 'self' && skill.effects?.some(effect=>effect.type==='shield')
+          : rule?.when === 'ally_unshielded' ? friendly && skill.effects?.some(effect=>effect.type==='shield')
+          : rule?.when === 'ally_hp_below' ? friendly && Number.isFinite(rule.ratio) && rule.ratio>0 && rule.ratio<=1 && skill.effects?.some(effect=>effect.type==='heal')
+          : rule?.when === 'missing_status' ? friendly && content.statuses[rule.statusId] && skill.effects?.some(effect=>effect.type==='status'&&effect.status===rule.statusId)
+          : false;
+        if (!actor.abilities?.includes(rule?.abilityId) || !skill || !valid) fail(`${id}: invalid shield AI priority`);
       }
     }
     if (actor.passive?.type === 'resource_stat_boost') {
@@ -151,6 +160,7 @@ export function validateContent(content) {
   }
   for (const [id, skill] of Object.entries(content.abilities)) {
     if (skill.activation !== undefined && !['active', 'passive'].includes(skill.activation)) fail(`${id}: invalid activation`);
+    if (skill.requiresTargetStatus !== undefined) exists('statuses',skill.requiresTargetStatus,id);
     if (!['enemy', 'all_enemies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
     if (!Number.isInteger(skill.cooldown ?? 0) || (skill.cooldown ?? 0) < 0) fail(`${id}: invalid cooldown`);
     if (!Number.isFinite(skill.cost?.mp ?? 0) || (skill.cost?.mp ?? 0) < 0) fail(`${id}: invalid MP cost`);
@@ -185,6 +195,7 @@ export function validateContent(content) {
         exists('statuses',effect.onHitStatus?.status,id);
         if (effect.type !== 'damage' || !Number.isInteger(effect.onHitStatus?.duration) || effect.onHitStatus.duration < 1) fail(id + ': invalid on-hit status');
       }
+      if (effect.extraStacksIfPresent !== undefined && (effect.type !== 'status' || !Number.isInteger(effect.extraStacksIfPresent) || effect.extraStacksIfPresent < 1 || !content.statuses[effect.status]?.maxStacks)) fail(`${id}: invalid conditional status stacks`);
       if (effect.type === 'damage') {
         if (!ELEMENTS.includes(effect.element)) fail(`${id}: invalid damage element`);
         if (!['physical', 'magical'].includes(effect.damageType)) fail(`${id}: invalid damage type`);
@@ -210,6 +221,7 @@ export function validateContent(content) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
     if (status.modifiersPerStack !== undefined && (status.modifiersPerStack !== true || !Number.isInteger(status.maxStacks) || status.maxStacks < 1)) fail(id + ': invalid stack modifiers');
     if (status.modifierGroup !== undefined && (typeof status.modifierGroup !== 'string' || !status.modifierGroup)) fail(id + ': invalid modifier group');
+    if (status.durationClock !== undefined && status.durationClock !== 'main_turn') fail(id + ': invalid duration clock');
     if (status.magicRefresh !== undefined && (!Number.isInteger(status.magicRefresh?.duration) || status.magicRefresh.duration < 1 || status.magicRefresh.oncePerRound !== true || status.kind !== 'debuff')) fail(id + ': invalid magic refresh');
     if (status.effectImmunity !== undefined) {
       const immunity = status.effectImmunity;
@@ -256,14 +268,19 @@ export function validateContent(content) {
         exists('abilities', change.to, id);
       } else if (change.type === 'resource_max') {
         if (!content.characters[upgrade.characterId]?.resources?.[change.resource] || !Number.isInteger(change.max) || change.max < 1) fail(`${id}: invalid resource upgrade`);
+      } else if (change.type === 'set_passive') {
+        if (!validReactivePassive(change.passive,content,content.characters[upgrade.characterId])) fail(`${id}: invalid passive upgrade`);
       } else fail(`${id}: unknown upgrade operation`);
     }
   }
   for (const [id, encounter] of Object.entries(content.encounters)) {
     if (encounter.requires !== undefined &&
       (!encounter.requires || typeof encounter.requires !== 'object' || Array.isArray(encounter.requires)
-        || typeof encounter.requires.storyFlag !== 'string' || !encounter.requires.storyFlag.trim()))
+        || !(typeof encounter.requires.storyFlag === 'string' && encounter.requires.storyFlag.trim() || typeof encounter.requires.firstClear === 'string' && content.encounters[encounter.requires.firstClear])
+        || (encounter.requires.storyFlag !== undefined && (typeof encounter.requires.storyFlag !== 'string' || !encounter.requires.storyFlag.trim()))
+        || (encounter.requires.firstClear !== undefined && (!content.encounters[encounter.requires.firstClear] || encounter.requires.firstClear === id))))
       fail(`${id}: invalid quest unlock requirement`);
+    if (encounter.requiredPartyIds !== undefined && (!Array.isArray(encounter.requiredPartyIds) || !encounter.requiredPartyIds.length || new Set(encounter.requiredPartyIds).size !== encounter.requiredPartyIds.length || encounter.requiredPartyIds.some(characterId=>!content.characters[characterId]))) fail(`${id}: invalid required party`);
     if (!encounter.enemies?.length) fail(`${id}: requires enemies`);
     for (const enemy of encounter.enemies ?? []) exists('enemies', enemy, id);
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);
@@ -271,7 +288,7 @@ export function validateContent(content) {
     if (encounter.firstClearRewards !== undefined) {
       if (!Array.isArray(encounter.firstClearRewards) || !encounter.firstClearRewards.length) fail(`${id}: invalid first clear rewards`);
       else for (const reward of encounter.firstClearRewards) {
-        if (!reward || !['character', 'duplicate', 'upgrade', 'exclusive'].includes(reward.type)) fail(`${id}: invalid first clear reward type`);
+        if (!reward || !['character', 'duplicate', 'gear_slot', 'upgrade', 'exclusive'].includes(reward.type)) fail(`${id}: invalid first clear reward type`);
         else if (reward.type === 'exclusive') {
           exists('exclusiveGear',reward.templateId,id);
           if (content.exclusiveGear?.[reward.templateId]?.source?.encounterId !== id) fail(id + ': exclusive reward source mismatch');
@@ -290,6 +307,7 @@ export function validateContent(content) {
   errors.push(...validateEconomyContent(content));
   errors.push(...validateDungeonContent(content));
   errors.push(...validateBlacksmithContent(content));
+  errors.push(...validateTravelerStories(content));
   return errors;
 }
 
@@ -308,4 +326,4 @@ export function assembleContent(collections) {
   return content;
 }
 
-export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items'];
+export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories'];

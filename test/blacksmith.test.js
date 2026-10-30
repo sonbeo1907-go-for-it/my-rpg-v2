@@ -24,14 +24,14 @@ test('shipping content contains 13 authored exclusive templates; illusion stays 
  assert.equal(Object.keys(content.exclusiveGear).length,13);assert.equal(content.dungeons.illusion.closed,true);
  assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments']);
 });
-test('v4 migrates to v5 without losing presets, ordinary gear, currencies, progression or daily quota',()=>{
+test('v4 migrates to the current envelope without losing presets, ordinary gear, currencies, progression or daily quota',()=>{
  let original=selectPreset(gearSave(),'party-3');original=renamePreset(original,'Đội đã lưu');original.dungeonDaily={day:'2026-10-29',clears:{gold_mine:2}};
  const old=JSON.parse(encodeGameSave(original,content));old.version=4;
  for(const key of ['prismaFragments','originalPrisma','exclusiveGear','equippedExclusiveGear','pendingReforge','blacksmithRevision'])delete old[key];
  const restored=decodeGameSave(JSON.stringify(old),content);
  assert.equal(restored.prismaFragments,0);assert.equal(restored.originalPrisma,0);assert.deepEqual(restored.exclusiveGear,[]);assert.equal(restored.pendingReforge,null);
  for(const key of ['coins','prisma','recruitmentShards','gear','partyPresets','activePartyPresetId','dungeonDaily'])assert.deepEqual(restored[key],original[key]);
- assert.equal(JSON.parse(encodeGameSave(restored,content)).version,5);
+ assert.equal(JSON.parse(encodeGameSave(restored,content)).version,6);
 });
 test('dismantling mixed tiers yields 5/15/40/40, never changes pull counters and does not mutate input',()=>{
  const original=gearSave(),raw=JSON.stringify(original),ids=original.gear.map(x=>x.id);

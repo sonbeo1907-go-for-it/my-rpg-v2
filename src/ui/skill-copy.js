@@ -51,6 +51,8 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(status.blockResourceGain)facts.push(prefix+'Không tích tài nguyên'+turns);
     if(status.skipTurn)facts.push('Choáng'+turns);
     if(status.maxStacks)facts.push(`+1 ${status.name} · tối đa ${status.maxStacks} tầng`+turns);
+    if(effect.extraStacksIfPresent)facts.push(`Địch đã có ${status.name} trước chiêu: thêm ${effect.extraStacksIfPresent} tầng`);
+    if(status.durationClock==='main_turn')rules.push('Duy trì đến hết lượt Vòng Chính kế tiếp của người nhận; Vòng Phụ không giảm thời hạn.');
     if(status.damageOverTime){
       const dot=status.damageOverTime;
       const formula=[dot.flat?number(dot.flat):'',dot.multiplier?`${pct(dot.multiplier)} ${statName(dot.scalingStat)}`:''].filter(Boolean).join(' + ');
@@ -133,6 +135,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(p.type==='cover_damage_reduction')facts.push(tag+`Nhận đòn thay: giảm thêm ${pct(p.ratio)} sát thương`);
     rules.push(...(p.rules??[]));
   }
+  if(skill.requiresTargetStatus)rules.push(`Cần mục tiêu có ${content.statuses[skill.requiresTargetStatus].name}.`);
   const summary=skill.description??(skill.id==='$defend'?'Phòng thủ và hồi MP để chuẩn bị cho lượt sau.':'Tấn công một kẻ địch.');
   return {summary,facts:unique(facts),rules:unique(rules)};
 }
@@ -145,7 +148,13 @@ export function passivePresentation(actor,content) {
   switch(p.type){
     case 'damage_reduction':summary='Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận`);break;
     case 'shield_break_heal':summary='Khi khiên do mình tạo bị phá, hồi HP cho người mang khiên.';facts.push(`Hồi ${pct(p.multiplier*(actor.exclusiveGear?.template?.passive.type==='shield_break_heal_bonus'?1+actor.exclusiveGear.template.passive.ratio:1))} MAG`);rules.push('Cả người tạo và người mang khiên phải còn sống.');break;
-    case 'dodge_counter':name=p.name??'Phản kiếm';summary='Né thành công đòn vật lí sẽ phản công và tích Sơ hở.';facts.push(`Phản công: 85% ATK · +1 ${resourceName(actor,p.resource)} · 1 lần/vòng`);break;
+    case 'dodge_counter':{
+      name=p.name??'Phản kiếm';summary='Né thành công đòn vật lí sẽ phản công và tích Sơ hở.';facts.push(`Phản công: 85% ATK · +1 ${resourceName(actor,p.resource)} · 1 lần/vòng`);
+      const slow=content.abilities[p.counterAbility]?.effects.find(effect=>effect.type==='status');
+      if(slow){facts.push(`${signed(content.statuses[slow.status].modifiers.speed)} SPD mục tiêu trúng phản công`);rules.push('Đến hết lượt Vòng Chính kế tiếp của mục tiêu; cộng với hiệu ứng làm chậm khác.');}
+      break;
+    }
+    case 'buffed_ally_mp':summary='Đồng đội khác mang buff của Iris gây sát thương sẽ tiếp MP cho cô.';facts.push(`Hồi ${p.amount} MP · khai thác điểm yếu: +${p.weaknessBonus} MP · 1 lần/vòng`);rules.push('Chỉ tính buff do chính Iris cấp. Tính sát thương vào khiên, phản công và liên kích; không tính sát thương 0.','Một đòn diện rộng xét toàn bộ mục tiêu; Vòng Phụ dùng chung hạn mức.');break;
     case 'magic_followup_mp':{
       summary='Liên kích theo phép đơn mục tiêu của đồng đội khác để tích Lôi ấn và tiếp MP cho đội.';
       const effect=content.abilities[p.followUpAbility].effects[0];

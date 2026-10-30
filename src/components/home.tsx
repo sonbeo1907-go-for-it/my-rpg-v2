@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { Icon, fmt } from "./ui";
+import { BrandLogo } from "./brand-logo";
 import {
   ProfileSelection,
   ProfileNameDialog,
@@ -14,29 +15,16 @@ export function TitlePage() {
     <main className="title-screen profile-title-screen">
       <div className="scene-background tavern-background" />
       <div className="title-vignette" />
-      <div className="title-content">
-        <span className="title-overline">MỘT LỜI HỨA TỪ PHƯƠNG BẮC</span>
-        <div className="title-crest">
-          <Icon />
-        </div>
-        <h1>
-          Northern
-          <br />
-          <em>Prisma</em>
-        </h1>
-        <span className="title-rule" />
-        <p>
-          Giữa những mảnh sáng lạc lối,
-          <br />
-          một hành trình đang chờ được đánh thức.
-        </p>
+      <div className="title-content origin-title-content">
+        <h1 className="title-logo" aria-label="The Prisma Origin"><BrandLogo /></h1>
       </div>
       <ProfileSelection />
-      <span className="title-version">CHRONICLES OF THE NORTH · v2</span>
+      <span className="title-version">THE PRISMA ORIGIN · v2</span>
     </main>
   );
 }
 const menu = [
+  {href:"/stories",name:"Câu chuyện lữ hành",sub:"Những trang đời đồng hành",icon:"book",side:"right"},
   {href:"/blacksmith",name:"Thợ Rèn",sub:"Lửa lò & những món Trấn Phái",icon:"anvil",side:"left"},
   {
     href: "/shop",

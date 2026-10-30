@@ -187,6 +187,8 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (status.taunt) lines.push(`Thu hút các đòn đơn mục tiêu · ${duration}.`);
       if (status.blockResourceGain) lines.push(`Chặn tích tài nguyên · ${duration}.`);
       if (status.maxStacks) lines.push(`Đặt ${status.name}, tối đa ${status.maxStacks} tầng · ${duration}.`);
+      if (effect.extraStacksIfPresent) lines.push(`Nếu mục tiêu đã có ${status.name} trước chiêu, gắn thêm ${effect.extraStacksIfPresent} tầng, vẫn tuân thủ giới hạn.`);
+      if (status.durationClock === 'main_turn') lines.push('Hết sau lượt Vòng Chính kế tiếp của người nhận; Vòng Phụ không giảm thời hạn.');
       if (status.consumeOnAttack) lines.push('Tiêu hiệu ứng sau hành động tấn công tiếp theo.');
       for (const statusId of effect.linkedStatuses ?? []) {
         lines.push(`Buff đi kèm: ${content.statuses[statusId].name} (gỡ cùng trạng thái chính nếu do trạng thái này cấp).`);

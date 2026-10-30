@@ -33,7 +33,7 @@ test('tavern MP3 plays on home with shared controls and independent battle playb
   await page.getByRole('link', { name: /Đội Hình/ }).click();
   await expect.poll(async () => (await audio())[1].paused).toBe(true);
   const paused = (await audio())[1];
-  await page.getByRole('link', { name: /NORTHERN PRISMA/ }).click();
+  await page.getByRole('link', { name: /The Prisma Origin/ }).click();
   await expect.poll(async () => (await audio())[1].paused).toBe(false);
   expect((await audio())[1].time).toBeGreaterThanOrEqual(paused.time);
   await page.locator('.header-shop').click();
@@ -52,7 +52,7 @@ test('tavern MP3 plays on home with shared controls and independent battle playb
   await page.locator('.audio-toggle').click();
   await expect.poll(async () => (await audio())[2].paused).toBe(false);
   await page.getByRole('button', { name: 'Đóng Settings' }).click();
-  await page.getByRole('link', { name: /NORTHERN PRISMA/ }).click();
+  await page.getByRole('link', { name: /The Prisma Origin/ }).click();
   await expect.poll(async () => (await audio())[2].paused).toBe(true);
   await expect.poll(async () => (await audio())[1].paused).toBe(false);
   await page.goto('/quests');
@@ -60,7 +60,7 @@ test('tavern MP3 plays on home with shared controls and independent battle playb
   await expect(page).toHaveURL(/\/battle$/);
   await expect.poll(async () => (await audio())[0].paused).toBe(false);
   expect((await audio())[1].paused).toBe(true);
-  await page.getByRole('link', { name: /NORTHERN PRISMA/ }).click();
+  await page.getByRole('link', { name: /The Prisma Origin/ }).click();
   await expect.poll(async () => (await audio())[1].paused).toBe(false);
   expect((await audio())[0].paused).toBe(true);
 });

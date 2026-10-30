@@ -10,7 +10,7 @@ export function dungeonDifficulty(content, id, difficultyId) {
 export function dungeonQuestPool(content, id = "gold_mine") {
   const tier = content.dungeons[id]?.encounterTier ?? "normal";
   return Object.values(content.encounters)
-    .filter((item) => encounterTier(item) === tier)
+    .filter((item) => !item.travelerStory && encounterTier(item) === tier)
     .map((item) => item.id);
 }
 function checkedRoll(random) {

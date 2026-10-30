@@ -21,7 +21,7 @@ test('direct targeting preserves one ally and enemy through turns and route navi
   await expect(page.locator('.skill-command small')).toHaveCount(0);
   await page.locator('.execute').click(); await expect(page.locator('.execute')).toBeEnabled();
   await expect(card(page, 'enemy_1')).toHaveClass(/is-target/); await expect(card(page, 'garrek')).toHaveClass(/is-target/);
-  await page.getByRole('link', { name: /NORTHERN PRISMA/ }).click(); await page.getByRole('link', { name: /Tiếp tục trận/ }).click();
+  await page.getByRole('link', { name: /The Prisma Origin/ }).click(); await page.getByRole('link', { name: /Tiếp tục trận/ }).click();
   await expect(card(page, 'enemy_1')).toHaveClass(/is-target/); await expect(card(page, 'garrek')).toHaveClass(/is-target/);
   await page.locator('.skill-command').filter({ hasText: 'Thủy thuẫn' }).click();
   await expect(page.locator('.execute')).toContainText('Garrek');

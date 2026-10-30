@@ -107,7 +107,7 @@ export function SummonCardBack({ result }: { result: any }) {
       <div className="cardback-center">
         {actor ? <RoleIcon roleGroup={actor.roleGroup} /> : <GearEmblem />}
       </div>
-      <span className="cardback-inscription">NORTHERN PRISMA</span>
+      <span className="cardback-inscription">THE PRISMA ORIGIN</span>
       <div className="cardback-marks">
         {Array.from({ length: level }, (_, index) => (
           <span key={index}>◆</span>

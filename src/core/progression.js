@@ -8,6 +8,7 @@ import { grantEligibleUpgrades } from "./story-events.js";
 import { normalizeGachaState } from "./gacha-state.js";
 import { normalizeDungeonDaily } from "./dungeon-rules.js";
 import { emptyBlacksmithState, normalizeBlacksmithState, equippedExclusive } from "./blacksmith-state.js";
+import { emptyIllusionState, normalizeIllusionState } from './legacy-illusion-state.js';
 export { grantEligibleUpgrades, completeStoryEvent } from "./story-events.js";
 
 export const SAVE_VERSION = 3;
@@ -34,6 +35,7 @@ export function createCampaign(content) {
     extraGearSlots: {},
     gacha: { totalPulls: 0, pity: {}, lastSummon: null },
     dungeonDaily: { day: null, clears: {} },
+    illusion: emptyIllusionState(),
     ...emptyBlacksmithState(),
   };
 }
@@ -64,6 +66,8 @@ export function resolveCharacter(content, campaign, characterId) {
         );
       if (change.type === "resource_max")
         character.resources[change.resource].max = change.max;
+      if (change.type === "set_passive")
+        character.passive = structuredClone(change.passive);
     }
   }
   const gear = equippedGear(campaign, characterId);
@@ -136,6 +140,7 @@ export function serializeCampaign(campaign) {
     equippedExclusiveGear: campaign.equippedExclusiveGear ?? {},
     pendingReforge: campaign.pendingReforge ?? null,
     blacksmithRevision: campaign.blacksmithRevision ?? 0,
+    illusion: campaign.illusion ?? emptyIllusionState(),
   });
 }
 
@@ -160,6 +165,7 @@ export function deserializeCampaign(raw, content) {
   )
     throw new Error("Tiến trình nhân vật trong save không hợp lệ.");
   const result = createCampaign(content);
+  result.illusion = normalizeIllusionState(input.illusion);
   result.dungeonDaily = normalizeDungeonDaily(input.dungeonDaily, content);
   result.party = [...input.party];
   result.storyFlags = [...new Set(input.storyFlags)];
@@ -209,7 +215,7 @@ export function deserializeCampaign(raw, content) {
         (item) =>
           !validateGear(item, content) ||
           !Number.isSafeInteger(Number(item.id.slice(5))) ||
-          Number(item.id.slice(5)) > result.gacha.totalPulls,
+          Number(item.id.slice(5)) > (item.id.startsWith('loot_') ? result.illusion.gearSerial : result.gacha.totalPulls),
       ) ||
       new Set(input.gear.map((item) => item.id)).size !== input.gear.length
     )

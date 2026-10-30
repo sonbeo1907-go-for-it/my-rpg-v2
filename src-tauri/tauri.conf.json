@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Northern Prisma",
+  "productName": "The Prisma Origin",
   "version": "2.0.0",
   "identifier": "com.northernprisma.game",
   "build": {
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Northern Prisma",
+        "title": "The Prisma Origin",
         "width": 1440,
         "height": 960,
         "minWidth": 800,

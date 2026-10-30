@@ -1,0 +1,26 @@
+.stories-page{max-width:1450px;position:relative;isolation:isolate}
+.stories-page:before{content:"";position:fixed;inset:58px 0 0;background:linear-gradient(#09141aeb,#09141af5),url('/art/quest.svg') center/cover;z-index:-1;pointer-events:none}
+.story-shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;padding:10px 5px 25px}
+.story-book{position:relative;display:block;min-width:0;aspect-ratio:3/4.6;overflow:hidden;border:1px solid #b8955a9c;border-radius:3px 14px 14px 3px;box-shadow:9px 10px 0 -5px #d2c7ab,14px 16px 0 -8px #4d3424,0 20px 35px #0006;color:#f4e8ce;background:#17242b;transition:transform .2s,border-color .2s}
+.story-book:hover{transform:translateY(-6px);border-color:#edcb80;color:#fff3d6}
+.story-book>img{position:absolute;width:100%;height:100%;object-fit:cover}
+.story-book:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#0000 32%,#07101799 57%,#071017f7 88%)}
+.story-book-spine{position:absolute;inset:0 auto 0 0;width:20px;z-index:1;background:linear-gradient(90deg,#0009,#ffffff16 40%,#0005);border-right:1px solid #ecd5a52e}
+.story-book-copy{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:2rem 1.75rem 1.6rem 2.1rem}
+.story-book-copy .eyebrow{font-size:.65rem;letter-spacing:.12em;color:#e6d19c}
+.story-book-copy h2{font-size:clamp(1.55rem,2.1vw,2rem);line-height:1.35;margin:.65rem 0}
+.story-book-copy p{font-size:.82rem;line-height:1.7;color:#c6cfcf;margin:.7rem 0 1.15rem}
+.story-book-status{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:#a7c8c2}
+.story-book-status .icon{width:18px;height:18px}
+.story-book-copy>strong{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #d9c18e55;margin-top:1rem;padding-top:1rem;font-size:.85rem;color:#edcb80}
+.story-pagination{display:flex;justify-content:center;align-items:center;gap:1.25rem;margin:1rem 0 2rem}
+.story-pagination button{min-width:48px;min-height:44px}.story-pagination span{color:#c4b28c}
+.story-quest-page .quest-background{background-position:center 28%}
+.story-quest-page .quest-illustration{min-height:690px}
+.story-quest-page .quest-illustration:after{background:linear-gradient(180deg,#07101711 20%,#071017c9 65%,#071017f5)}
+.story-board-heading{padding:.3rem .3rem 1rem}.story-board-heading h2{font-size:1.55rem;margin:.6rem 0}.story-board-heading p{font-size:.8rem;margin:0}
+.story-chapter-board{display:flex;flex-direction:column}.story-chapter-list{max-height:340px;flex:0 0 auto}.story-chapter-board .quest-details{margin-top:auto}.story-chapter-board .quest-details .warning{font-size:.85rem;line-height:1.6}
+.story-quest-page .quest-enemies{grid-template-columns:repeat(2,minmax(0,1fr))}.story-quest-page .quest-enemies small{display:block}
+@media(max-width:1000px){.story-shelf{gap:1.1rem}.story-book-copy{padding:1.5rem 1rem 1.25rem 1.6rem}.story-book-copy p{font-size:.75rem}.home-nav-right{gap:.6rem}}
+@media(max-width:700px){.story-shelf{grid-template-columns:1fr;max-width:440px;margin:auto;padding:4px 12px 20px}.story-book{aspect-ratio:3/4.3}.story-book-copy h2{font-size:1.9rem}.story-book-copy{padding:1.8rem}.story-quest-page .quest-illustration{min-height:540px}.story-quest-page .quest-enemies{grid-template-columns:repeat(2,minmax(0,1fr))}.story-chapter-list{max-height:none}.story-chapter-board .quest-details{margin-top:1rem}.story-pagination{margin-top:.4rem}}
+@media(prefers-reduced-motion:reduce){.story-book{transition:none}}

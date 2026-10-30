@@ -67,7 +67,7 @@ test('gacha commits once to selected profile, quests scroll and battle survives 
   await expect(page).toHaveURL(/recruitment\/results/); await expect(page.locator('.summon-result')).toHaveCount(10);
   const coins = await page.evaluate(() => JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text).coins);
   expect(coins).toEqual(2000);
-  await page.goto('/quests'); await expect(page.locator('.quest-card')).toHaveCount(Object.values(content.encounters).filter((item: any) => item.rewardTier !== 'super').length);
+  await page.goto('/quests'); await expect(page.locator('.quest-card')).toHaveCount(Object.values(content.encounters).filter((item: any) => !item.travelerStory && item.rewardTier !== 'super').length);
   expect(await page.locator('.quest-list').evaluate(node => node.scrollHeight > node.clientHeight)).toBe(true);
   await page.getByRole('button', { name: /Xuất chiến/ }).click(); await expect(page).toHaveURL(/\/battle$/);
   await expect(page.locator('.combatant[data-actor-id="arthur"]')).toBeVisible();
@@ -75,7 +75,7 @@ test('gacha commits once to selected profile, quests scroll and battle survives 
   await page.locator('.execute').click();
   await expect(page.locator('.execute')).toBeEnabled();
   const before = await page.locator('.battle-log ol').textContent();
-  await page.getByRole('link', { name: /NORTHERN PRISMA/ }).click();
+  await page.getByRole('link', { name: /The Prisma Origin/ }).click();
   await page.getByRole('link', { name: /Tiếp tục trận/ }).click();
   await expect(page.locator('.battle-log ol')).toHaveText(before!);
 });
@@ -145,7 +145,7 @@ test('capture desktop and phone screens for visual review', async ({ page }) => 
 test('new easy quests appear under normal missions with 50 Coin and spawn their authored monsters', async ({ page }) => {
   await page.addInitScript(raw => { localStorage.setItem('northern-prisma.campaign.v4', raw); sessionStorage.setItem('northern-prisma.entered', '1'); }, raw);
   await page.goto('/quests?type=normal&selected=boar_field');
-  await expect(page.locator('.quest-card')).toHaveCount(Object.values(content.encounters).filter((encounter: any) => encounter.rewardTier === 'normal').length);
+  await expect(page.locator('.quest-card')).toHaveCount(Object.values(content.encounters).filter((encounter: any) => !encounter.travelerStory && encounter.rewardTier === 'normal').length);
   await expect(page.locator('.quest-card.selected')).toContainText('Lợn rừng phá ruộng');
   await expect(page.locator('.quest-card.selected')).toContainText('50 Coin');
   await expect(page.locator('.quest-enemies')).toContainText('Lợn rừng');

@@ -19,9 +19,10 @@ export function characterCatalog(content, campaign, filters = {}, ownedOnly = fa
 export function gearCatalog(content, campaign, filters = {}) {
   const { tier = '', stat = '', status = '', sort = 'received', direction = 'desc' } = filters;
   const tiers = { t1: 1, t2: 2, t3_dual: 3, t3_focused: 3 };
+  const received = new Map(campaign.gear.map((gear, index) => [gear.id, index]));
   return campaign.gear.filter(gear => (!tier || gear.typeId === tier) && (!stat || Object.hasOwn(gear.stats, stat))
     && (!status || Boolean(gearOwner(campaign, gear.id)) === (status === 'equipped'))).slice().sort((a, b) => {
-      const value = gear => sort === 'tier' ? tiers[gear.typeId] : sort === 'received' ? Number(gear.id.slice(5)) : gear.stats[sort] ?? 0;
+      const value = gear => sort === 'tier' ? tiers[gear.typeId] : sort === 'received' ? received.get(gear.id) : gear.stats[sort] ?? 0;
       return (value(a) - value(b)) * (direction === 'asc' ? 1 : -1) || a.id.localeCompare(b.id, 'en', { numeric: true });
     });
 }

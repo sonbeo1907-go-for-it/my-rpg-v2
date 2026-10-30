@@ -1,10 +1,99 @@
 [
   {
-    "id":"arthur.control_training","characterId":"arthur","name":"Kiểm soát Ogre’s Bane","order":10,
-    "requires":{"storyFlag":"arthur_completed_sword_training"},
-    "changes":[
-      {"type":"replace_ability","from":"arthur.ogres_bane","to":"arthur.ogres_bane_controlled"},
-      {"type":"unlock_ability","ability":"arthur.partial_release"}
+    "id": "arthur.control_training",
+    "characterId": "arthur",
+    "name": "Kiểm soát Ogre’s Bane",
+    "order": 10,
+    "requires": {
+      "storyFlag": "arthur_completed_sword_training"
+    },
+    "changes": [
+      {
+        "type": "replace_ability",
+        "from": "arthur.ogres_bane",
+        "to": "arthur.ogres_bane_controlled"
+      },
+      {
+        "type": "unlock_ability",
+        "ability": "arthur.partial_release"
+      }
+    ]
+  },
+  {
+    "id": "fiona.complete_refraction",
+    "characterId": "fiona",
+    "name": "Khúc xạ hoàn thiện",
+    "order": 20,
+    "requires": {
+      "storyFlag": "fiona.refraction_story_cleared"
+    },
+    "changes": [
+      {
+        "type": "replace_ability",
+        "from": "fiona.refraction",
+        "to": "fiona.refraction_complete"
+      }
+    ]
+  },
+  {
+    "id": "fiona.prisma_convergence",
+    "characterId": "fiona",
+    "name": "Hội tụ Prisma",
+    "order": 30,
+    "requires": {
+      "storyFlag": "fiona.origin_story_cleared"
+    },
+    "changes": [
+      {
+        "type": "unlock_ability",
+        "ability": "fiona.convergence"
+      }
+    ]
+  },
+  {
+    "id": "iris.field_conclusions",
+    "characterId": "iris",
+    "name": "Đúc kết thực địa",
+    "order": 20,
+    "requires": {
+      "storyFlag": "iris.traveler_story_cleared"
+    },
+    "changes": [
+      {
+        "type": "set_passive",
+        "passive": {
+          "type": "buffed_ally_mp",
+          "name": "Đúc kết thực địa",
+          "description": "Đồng đội khác mang buff của Iris gây sát thương: hồi 3 MP; khai thác điểm yếu: hồi thêm 2 MP. Tối đa một lần/vòng.",
+          "amount": 3,
+          "weaknessBonus": 2,
+          "statusIds": [
+            "empowered",
+            "calibrated",
+            "exclusive_calibration"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "takeshi.swordsman_eye",
+    "characterId": "takeshi",
+    "name": "Tâm nhãn kiếm sĩ",
+    "order": 20,
+    "requires": {
+      "storyFlag": "takeshi.overseas_story_cleared"
+    },
+    "changes": [
+      {
+        "type": "set_passive",
+        "passive": {
+          "type": "dodge_counter",
+          "name": "Tâm nhãn kiếm sĩ",
+          "resource": "opening",
+          "counterAbility": "takeshi.counter_awakened"
+        }
+      }
     ]
   }
 ]

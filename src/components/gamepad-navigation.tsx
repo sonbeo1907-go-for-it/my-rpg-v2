@@ -39,6 +39,8 @@ const keyFor = (element: HTMLElement) =>
   element.getAttribute("aria-label") ||
   `${element.tagName}:${element.className}:${element.textContent?.trim().slice(0, 90)}`;
 function initial(root: ParentNode, path: string) {
+  if (path === "/stories") return root.querySelector<HTMLElement>(".story-book");
+  if (path.startsWith("/stories/")) return root.querySelector<HTMLElement>(".quest-card.selected,.quest-card:not(:disabled)");
   if (path.startsWith("/dungeon/"))
     return root.querySelector<HTMLElement>(".quest-card.selected,.quest-card");
   if (path === "/dungeon")

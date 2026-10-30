@@ -11,6 +11,10 @@ function setup(encounter, party = ['arthur'], random = () => .99) {
   const campaign = createCampaign(content);
   campaign.storyFlags.push('illusion.sinister_unlocked');
   campaign.party = party;
+  if (content.encounters[encounter].travelerStory) {
+    campaign.claimedFirstClearRewards = ['iris_story_growth','iris_story_pride'];
+    if (content.encounters[encounter].requiredPartyIds?.includes('iris') && !campaign.party.includes('iris')) campaign.party = [...party.slice(0,3),'iris'];
+  }
   campaign.unlockedCharacterIds = Object.keys(content.characters);
   return createBattle(content, campaign, encounter, random);
 }

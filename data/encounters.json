@@ -345,5 +345,70 @@
         "characterId": "takeshi"
       }
     ]
+  },
+  {
+    "id": "iris_story_growth",
+    "name": "Sự trưởng thành",
+    "description": "Ba Ếch già chặn đường khảo sát. Một bước trưởng thành bắt đầu từ những điều nhỏ bé.",
+    "enemies": [
+      "elder_frog",
+      "elder_frog",
+      "elder_frog"
+    ],
+    "bgm": "normal",
+    "travelerStory": "iris",
+    "firstClearRewards": [
+      {
+        "type": "gear_slot",
+        "characterId": "iris"
+      }
+    ],
+    "rewardTier": "normal"
+  },
+  {
+    "id": "iris_story_pride",
+    "name": "Cái giá của sự kiêu ngạo",
+    "description": "Đối mặt Phi long vảy ướt. Chuẩn bị sát thương Lôi để khai thác điểm yếu.",
+    "enemies": [
+      "wyvern_thunder"
+    ],
+    "bgm": "wyvern",
+    "rewardTier": "boss",
+    "travelerStory": "iris",
+    "requires": {
+      "firstClear": "iris_story_growth"
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_slot",
+        "characterId": "iris"
+      }
+    ]
+  },
+  {
+    "id": "iris_story_revenge",
+    "name": "Sự trả thù",
+    "description": "Đấu đội với Keith, Mac, Sunny và Amy. Iris phải trực tiếp tham chiến để đúc kết chuyến hành trình.",
+    "enemies": [
+      "traveler_keith",
+      "traveler_mac",
+      "traveler_sunny",
+      "traveler_amy"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "travelerStory": "iris",
+    "requires": {
+      "firstClear": "iris_story_pride"
+    },
+    "requiredPartyIds": [
+      "iris"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "iris.field_conclusions"
+      }
+    ]
   }
 ]
