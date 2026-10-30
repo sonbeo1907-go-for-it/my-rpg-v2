@@ -102,5 +102,51 @@
     "modifiers": {
       "resistance": -0.35
     }
+  },
+  {
+    "id": "grand_march",
+    "name": "Hiệu lệnh thần tốc",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": 0.6
+    }
+  },
+  {
+    "id": "dawn_standard",
+    "name": "Cờ lệnh bình minh",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.2,
+      "magic": 0.2
+    }
+  },
+  {
+    "id": "council_armament",
+    "name": "Ma kiếm võ trang",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": 0.35
+    }
+  },
+  {
+    "id": "rose_bastion",
+    "name": "Lũy gai bất khuất",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": 0.35
+    }
+  },
+  {
+    "id": "rose_sanctuary",
+    "name": "Lời thề hồng diễm",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": 0.35
+    }
   }
 ]

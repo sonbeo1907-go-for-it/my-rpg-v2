@@ -35,8 +35,9 @@ export function validateContent(content) {
     if (!ELEMENTS.includes(actor.element)) fail(`${id}: invalid element`);
     if (actor.basicAttack !== undefined && (!Array.isArray(actor.basicAttack) || !actor.basicAttack.length || actor.basicAttack.some(effect => !effect
       || effect.type !== 'damage' || !['physical', 'magical'].includes(effect.damageType) || !ELEMENTS.includes(effect.element)
+      || (effect.scalingStat !== undefined && !['attack','magic','defense','resistance'].includes(effect.scalingStat))
       || !Number.isFinite(effect.multiplier) || effect.multiplier <= 0
-      || Object.keys(effect).some(key => !['type', 'damageType', 'element', 'multiplier'].includes(key))))) fail(`${id}: invalid basic attack`);
+      || Object.keys(effect).some(key => !['type', 'damageType', 'element', 'multiplier', 'scalingStat'].includes(key))))) fail(`${id}: invalid basic attack`);
     if (actor.roleGroup !== undefined && !Object.hasOwn(ROLE_GROUPS, actor.roleGroup)) fail(`${id}: invalid role group`);
     if (actor.tags !== undefined && (!Array.isArray(actor.tags) || new Set(actor.tags).size !== actor.tags.length || actor.tags.some(tag => typeof tag !== 'string' || !tag))) fail(`${id}: invalid tags`);
     if (actor.secondaryRoleGroups !== undefined && (!Array.isArray(actor.secondaryRoleGroups) || actor.secondaryRoleGroups.some(group => !Object.hasOwn(ROLE_GROUPS, group)))) fail(`${id}: invalid secondary role groups`);
@@ -68,8 +69,10 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type === 'end_round_team_mp' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1)) fail(id+': invalid team MP regeneration');
+    if (native?.type === 'shield_break_mp' && (!native.name || !native.description || !Number.isFinite(native.multiplier) || native.multiplier<=0 || native.multiplier>1 || native.oncePerRecipientPerRound!==true || !Array.isArray(native.scalingStats) || !native.scalingStats.length || new Set(native.scalingStats).size!==native.scalingStats.length || native.scalingStats.some(key=>!['defense','resistance'].includes(key)))) fail(id+': invalid shield MP passive');
     if (native?.type === 'kill_mp_discount') {
       exists('statuses',native.statusId,id);
       const status=content.statuses[native.statusId];
@@ -187,7 +190,7 @@ export function validateContent(content) {
     if (skill.requiresMode !== undefined && (typeof skill.requiresMode !== 'string' || !skill.requiresMode)) fail(id + ': invalid mode requirement');
     if (skill.activation !== undefined && !['active', 'passive'].includes(skill.activation)) fail(`${id}: invalid activation`);
     if (skill.requiresTargetStatus !== undefined) exists('statuses',skill.requiresTargetStatus,id);
-    if (!['enemy', 'all_enemies', 'random_enemies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
+    if (!['enemy', 'all_enemies', 'random_enemies', 'adjacent_allies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
     if (!Number.isInteger(skill.cooldown ?? 0) || (skill.cooldown ?? 0) < 0) fail(`${id}: invalid cooldown`);
     if (!Number.isFinite(skill.cost?.mp ?? 0) || (skill.cost?.mp ?? 0) < 0) fail(`${id}: invalid MP cost`);
     if (skill.cost?.resource) {
@@ -235,7 +238,8 @@ export function validateContent(content) {
         if (effect[key] !== undefined && (!Number.isFinite(effect[key]) || effect[key] < 0)) fail(`${id}: invalid effect ${key}`);
       }
       if (effect.speedMultiplier !== undefined && (effect.type !== 'damage' || effect.damageType !== 'physical')) fail(`${id}: speedMultiplier requires physical damage`);
-      if (effect.scalingStat !== undefined && (!['heal', 'shield'].includes(effect.type) || !['attack', 'magic', 'defense', 'resistance'].includes(effect.scalingStat))) fail(`${id}: invalid support scaling stat`);
+      if (effect.scalingStat !== undefined && (!['damage', 'heal', 'shield'].includes(effect.type) || !['attack', 'magic', 'defense', 'resistance'].includes(effect.scalingStat))) fail(`${id}: invalid support scaling stat`);
+      if (effect.scalingStats!==undefined && (!['heal','shield'].includes(effect.type) || effect.scalingStat!==undefined || !Array.isArray(effect.scalingStats) || !effect.scalingStats.length || effect.scalingStats.length>4 || new Set(effect.scalingStats).size!==effect.scalingStats.length || effect.scalingStats.some(key=>!['attack','magic','defense','resistance'].includes(key)))) fail(id+': invalid average scaling stats');
       if (effect.type === 'resource') {
         if (!effect.resource || (effect.amount === undefined && effect.maxMpRatio === undefined)
           || (effect.amount !== undefined && (!Number.isInteger(effect.amount) || effect.amount < 1))) fail(`${id}: invalid resource effect`);

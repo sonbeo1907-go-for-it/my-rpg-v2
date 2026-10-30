@@ -4,7 +4,7 @@ Both characters enter the standard banner and its Pure Prisma recruitment pool. 
 
 ## Charlemagnes · Đại tướng Kị sĩ đoàn
 
-Fire / physical DPS; HP210 MP100 ATK30 MAG8 DEF22 RES18 SPD12.
+Fire / physical DPS; HP210 MP100 ATK34 MAG8 DEF22 RES18 SPD14.
 
 | Command | MP / cooldown | Effect |
 | --- | --- | --- |
@@ -18,7 +18,7 @@ Fire / physical DPS; HP210 MP100 ATK30 MAG8 DEF22 RES18 SPD12.
 
 ## Kreider · Nhạc công giao hưởng
 
-Dark / magical DPS; HP145 MP110 ATK8 MAG34 DEF14 RES25 SPD18.
+Dark / magical DPS; HP125 MP110 ATK8 MAG41 DEF14 RES25 SPD18.
 
 | Command | MP / cooldown | Effect |
 | --- | --- | --- |

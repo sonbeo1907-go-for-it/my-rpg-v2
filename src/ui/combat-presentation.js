@@ -1,3 +1,4 @@
+import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { targetsAsGroup, debuffTypeCount, debuffDamageBonus } from '../core/conditional-combat.js';
 import { targetsFor } from '../core/battle.js';
 import { damageMultiplier, supportAmount, speedDamageRatio } from '../core/combat-math.js';
@@ -18,8 +19,8 @@ export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   const legal = actor && skill && !battle.outcome ? targetsFor(battle, actor, skill) : [];
   // Taunt restricts single-target enemy selection. AoE keeps the chosen anchor.
   if (skill?.target === 'enemy' && legal.length && !legal.some(item => item.id === enemyId)) enemyId = legal[0].id;
-  const allyId = skill?.target === 'self' && actor?.team === 'party' ? actor.id : rememberedAlly;
-  const targetId = skill?.target === 'self' ? actor?.id ?? '' : ['ally', 'all_allies'].includes(skill?.target) ? allyId : enemyId;
+  const allyId = skill?.target === 'self' && actor?.team === 'party' ? actor.id : skill?.target==='adjacent_allies' && !legal.some(item=>item.id===rememberedAlly) ? legal[0]?.id??rememberedAlly : rememberedAlly;
+  const targetId = skill?.target === 'self' ? actor?.id ?? '' : ['ally', 'all_allies', 'adjacent_allies'].includes(skill?.target) ? allyId : enemyId;
   return { allyId, rememberedAlly, enemyId, targetId, legalIds: legal.map(item => item.id), affectedIds: targetsAsGroup(skill) ? legal.map(item => item.id) : [targetId].filter(Boolean) };
 }
 export function liveSkillChoices(skill, actor, target, battle) {
@@ -37,7 +38,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   const parts = [];
   for (const effect of skill.effects) {
     if (effect.type === 'damage') {
-      const label = effect.damageType === 'physical' ? 'ATK' : 'MAG';
+      const label = scalingLabel(effect,statNames);
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp });
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
       if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} MAG chính / ${percent(effect.multiplier)} MAG còn lại`;
@@ -45,9 +46,9 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       if (speed) line += ` + ${percent(speed)} SPD`;
       parts.push(line);
     } else if (effect.type === 'heal' || effect.type === 'shield') {
-      const key = effect.scalingStat ?? 'magic';
-      const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${statNames[key]}` : '', effect.flat ? effect.flat : ''].filter(Boolean).join(' + ');
-      const amount = supportAmount(effect, battleStat(content, actor, key), Boolean(target && target.hp / target.stats.maxHp <= .35));
+      const label = scalingLabel(effect,statNames);
+      const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? effect.flat : ''].filter(Boolean).join(' + ');
+      const amount = supportAmount(effect, scalingValue(effect,key=>battleStat(content, actor, key)), Boolean(target && target.hp / target.stats.maxHp <= .35));
       parts.push(`${formula || '0'} → ${amount} ${effect.type === 'shield' ? 'khiên' : 'HP'}`);
     } else if (effect.type === 'status' || effect.type === 'toggle_status') {
       const status = content.statuses[effect.status];
@@ -64,7 +65,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
     } else if (effect.type === 'resource') parts.push(effect.maxMpRatio ? `Hồi ${percent(effect.maxMpRatio)} MP` : `+${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources?.[effect.resource]?.name ?? effect.resource}`);
     else if (effect.type === 'enter_mode') parts.push('Triệu hồi '+actor.combatModes[effect.mode].name);
     else if (effect.type === 'turn_order_field') parts.push('Ưu tiên lượt đồng minh · '+effect.durationRounds+' vòng');
-    else if (effect.type === 'grant_extra_turn') parts.push('+1 Lượt Thêm');
+    else if (effect.type === 'grant_extra_turn') parts.push(skill.target==='adjacent_allies'?'+1 Lượt Thêm / ô kề':'+1 Lượt Thêm');
     else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
   }
   for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');

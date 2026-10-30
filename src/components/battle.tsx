@@ -6,7 +6,7 @@ import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
-import { basicAbility, DEFEND, abilityAvailability } from "../core/battle.js";
+import { basicAbility, DEFEND, abilityAvailability, targetsFor } from "../core/battle.js";
 import { activeStatuses } from "../core/status-state.js";
 import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from "../core/content.js";
 import { bossPhase, bossFireMultiplier } from "../core/boss-mechanics.js";
@@ -281,7 +281,7 @@ function SkillInfo({
         </p>
       )}
       <p className="popover-target">
-        {skill.target === "random_enemies" ? randomTargetLabel(skill) : skill.target.startsWith("all_")
+        {skill.target === "adjacent_allies" ? "Hai ô kề: " + targetsFor({...battle,content},actor,skill).map((item:any)=>item.name).join(" · ") : skill.target === "random_enemies" ? randomTargetLabel(skill) : skill.target.startsWith("all_")
           ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
           : `Mục tiêu: ${target?.name ?? actor.name}`}
       </p>
@@ -738,7 +738,7 @@ export function BattlePage() {
     commandActor && skill
       ? abilityAvailability({ ...battle, content }, commandActor, skill)
       : { ok: false, reason: "" };
-  const targetLabel = skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
+  const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
   return (
@@ -911,6 +911,7 @@ export function BattlePage() {
                     <span>MỤC TIÊU THỰC THI</span>
                     <strong>{targetLabel}</strong>
                     {skill.effects.some((effect:any)=>effect.type==="grant_extra_turn") && <small>{battle.phase==="extra" ? "Vòng Phụ: hiệu ứng cấp Lượt Thêm bị bỏ qua; vẫn tiêu MP và hồi chiêu." : battle.extraTurnGrants?.includes(targets.targetId) ? "Mục tiêu đã có Lượt Thêm trong vòng này; không cộng thêm lượt." : "Lượt Thêm sẽ thực hiện sau lượt chính, theo SPD ở đầu Vòng Phụ."}</small>}
+                    {skill.target === "adjacent_allies" && <small>Hai ô kề cố định · nối vòng ô 1 ↔ 4. Ô trống và người đã gục bị bỏ qua.</small>}
                     {skill.target === "random_enemies" && <small>{targets.affectedIds.length} đối thủ có thể bị chọn · mỗi đòn chọn lại, có thể trúng lặp.</small>}
                     {skill.target.startsWith("all_") && (
                       <small>

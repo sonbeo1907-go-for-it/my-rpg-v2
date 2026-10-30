@@ -1,3 +1,4 @@
+import { scalingValue, scalingLabel } from '../core/scaling.js';
 // Public copy contract: docs/SKILL_COPY_AND_UX_SPEC.md
 import { debuffDamageBonus } from '../core/conditional-combat.js';
 import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from '../core/content.js';
@@ -77,7 +78,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
   for(const effect of skill.effects) {
     const prefix=effect.to==='self'&&skill.target!=='self'?'Bản thân: ':'';
     if(effect.type==='damage'){
-      const label=effect.damageType==='physical'?'ATK':'MAG';
+      const label=scalingLabel(effect,STAT_LABELS);
       let formula=effect.primaryMultiplier!==undefined?`${pct(effect.primaryMultiplier)} ${label} chính / ${pct(effect.multiplier)} ${label} còn lại`:`${pct(effect.multiplier??1)} ${label}`;
       if(effect.perResource)formula+=` + ${pct(effect.perResource)} ${label}/${resourceName(actor,cost?.id)}`;
       if(effect.perStack)formula+=` + ${pct(effect.perStack)} ${label}/${content.statuses[effect.consumeStatus].name}`;
@@ -85,6 +86,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
       const speed=speedDamageRatio(actor,effect.damageType,effect.speedMultiplier??0);
       if(speed)formula+=` + ${pct(speed)} SPD`;
       facts.push(`${DAMAGE_TYPE_NAMES[effect.damageType]} · ${ELEMENT_NAMES[effect.element]} · ${effect.hits>1?effect.hits+' × (':''}${formula}${effect.hits>1?')':''}`);
+      if(effect.scalingStat && effect.scalingStat!==(effect.damageType==='physical'?'attack':'magic'))rules.push(effect.damageType==='physical'?'Lấy chỉ số đã chọn để gây sát thương vật lí: tính DEF, có thể bị né; không kích hoạt Liên kích phép đơn mục tiêu.':'Lấy chỉ số đã chọn để gây sát thương ma pháp: tính RES.');
       if(effect.penetration)facts.push(`Xuyên ${pct(effect.penetration)} ${effect.damageType==='physical'?'DEF':'RES'}`);
       if(effect.consumeStatus)rules.push(`Tiêu toàn bộ ${content.statuses[effect.consumeStatus].name} trên từng mục tiêu; mỗi địch tính riêng.`);
       if(effect.perResource||effect.perStack||effect.lowHpBonus){
@@ -95,11 +97,11 @@ export function skillPresentation(skill,actor,content,choices={}) {
       if(effect.unavoidable)facts.push('Không thể né');
     }
     if(effect.type==='heal'||effect.type==='shield'){
-      const key=effect.scalingStat??'magic';
-      const formula=[effect.multiplier?`${pct(effect.multiplier)} ${statName(key)}`:'',effect.flat?number(effect.flat):''].filter(Boolean).join(' + ')||'0';
-      const amount=supportAmount(effect,value(key));
+      const label=scalingLabel(effect,STAT_LABELS);
+      const formula=[effect.multiplier?`${pct(effect.multiplier)} ${label}`:'',effect.flat?number(effect.flat):''].filter(Boolean).join(' + ')||'0';
+      const amount=supportAmount(effect,scalingValue(effect,value));
       facts.push(`${prefix}${effect.type==='heal'?'Hồi HP':'Khiên'}: ${formula} → ${number(amount)}${skill.target==='all_allies'?'/người':''}`);
-      if(effect.emergency)facts.push(`Mục tiêu ≤${pct(EMERGENCY_HP_THRESHOLD)} HP: hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${supportAmount(effect,value(key),true)} HP`);
+      if(effect.emergency)facts.push(`Mục tiêu ≤${pct(EMERGENCY_HP_THRESHOLD)} HP: hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${supportAmount(effect,scalingValue(effect,value),true)} HP`);
       if(effect.type==='shield')rules.push('Khiên không cộng dồn; chỉ thay khi khiên mới mạnh hơn.');
     }
     if(effect.type==='status'||effect.type==='toggle_status')statusFacts(effect);
@@ -112,6 +114,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
       rules.push('Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.','Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     }
   }
+  if(skill.target==='adjacent_allies'){facts.push('Hai ô kề · nối vòng ô 1 ↔ 4');rules.push('Không tự chọn người nhận và không cấp lượt cho bản thân.','Ô trống hoặc đồng đội đã gục không được thay bằng ô khác.','Lượt đã có không cộng dồn; người nhận vẫn cần đủ MP và kỹ năng hết hồi chiêu để dùng chiêu mong muốn.');}
   if(skill.target==='random_enemies'){facts.push('Mỗi đòn chọn ngẫu nhiên một địch còn sống');rules.push('Có thể trúng lặp; một địch còn sống sẽ nhận toàn bộ các đòn.','Không ưu tiên mục tiêu đang chọn. Như đòn đa mục tiêu: bỏ qua Khiêu khích và Che chắn, không kích hoạt Liên kích phép đơn mục tiêu.');}
   if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage')){const count=choices.debuffCount??0;facts.push((choices.live?'Hiện tại':'Giả định')+': '+count+' loại debuff · +'+pct(debuffDamageBonus(actor.passive,count))+' sát thương');}
   if(cost?.consumeAt==='after')rules.push('Tài nguyên được tiêu sau khi gây sát thương.');
@@ -192,6 +195,8 @@ export function passivePresentation(actor,content) {
     case 'hp_difference_damage':summary='Chênh lệch tỷ lệ HP giữa bản thân và mục tiêu làm tăng sát thương.';facts.push(`Bonus = chênh lệch HP% tuyệt đối · tối đa +${pct(p.cap)}`);rules.push('Tính lại trước mỗi hit.');break;
     case 'ally_heal_mp':summary='Thực nhận HP từ đồng đội khác sẽ hồi thêm MP.';facts.push(`Hồi ${pct(p.ratio)} MP tối đa · 1 lần/vòng`);rules.push('Hồi phục theo lượt của đồng đội được tính; tự hồi và hồi 0 HP không tính.');break;
     case 'stat_conversion':summary='Thể lực tối đa chuyển thành sức mạnh tấn công.';facts.push(`+${pct(p.ratio)} ${statName(p.fromStat)} tối đa vào ${statName(p.toStat)} nền`);rules.push('Tính cả trang bị, trước buff ATK%; không phụ thuộc HP hiện tại.');break;
+    case 'end_round_team_mp':summary='Cuối vòng, tiếp MP cho toàn đội mà không cần tích tầng.';facts.push('Hồi '+pct(p.ratio)+' MP tối đa/người');rules.push('Sau toàn bộ Vòng Phụ, đúng một lần mỗi vòng; gồm bản thân và chỉ nhận khi còn sống.','Người cấp nội tại phải còn sống. Làm tròn lên, không vượt MP tối đa.');break;
+    case 'shield_break_mp':summary='Khiên hoa hồng vỡ sẽ tiếp MP cho người mang khiên.';facts.push('Hồi '+pct(p.multiplier)+' '+scalingLabel(p,STAT_LABELS)+' → '+Math.ceil(scalingValue(p,key=>battleStat(content,{...actor,statuses:actor.statuses??[]},key))*p.multiplier)+' MP/người · 1 lần/người/vòng');rules.push('Lấy DEF và RES hiện tại của người tạo khiên. Làm tròn lên, không vượt MP tối đa.','Cả người tạo và người nhận phải còn sống. Chỉ khi bị đánh vỡ; thay khiên không kích hoạt.','Vòng Chính và Vòng Phụ dùng chung hạn mức. Người đang đầy MP không tiêu hạn mức.');break;
     case 'end_round_lowest_mp':summary='Cuối vòng, tiếp MP cho đồng minh có tỷ lệ MP thấp nhất.';facts.push(`Hồi ${pct(p.ratio)} MP tối đa · tính cả bản thân`);rules.push('Chỉ kích hoạt sau toàn bộ Vòng Phụ. Hòa tỷ lệ MP thì chọn theo thứ tự đội hình.');break;
     default:summary=p.description??'Xem quy tắc nội tại.';
   }

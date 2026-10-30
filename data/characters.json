@@ -1157,11 +1157,11 @@
     "stats": {
       "maxHp": 210,
       "maxMp": 100,
-      "attack": 30,
+      "attack": 34,
       "magic": 8,
       "defense": 22,
       "resistance": 18,
-      "speed": 12
+      "speed": 14
     },
     "abilities": [
       "charlemagnes.charge",
@@ -1189,10 +1189,10 @@
     "roleGroup": "magical_dps",
     "description": "Dùng nghịch âm làm suy yếu kháng phép, rồi kết liễu mục tiêu bằng một đại hợp tấu.",
     "stats": {
-      "maxHp": 145,
+      "maxHp": 125,
       "maxMp": 110,
       "attack": 8,
-      "magic": 34,
+      "magic": 41,
       "defense": 14,
       "resistance": 25,
       "speed": 18
@@ -1212,6 +1212,122 @@
     },
     "tags": [
       "magic_academy"
+    ]
+  },
+  {
+    "id": "roland",
+    "name": "Roland",
+    "title": "Trưởng đoàn Kị sĩ",
+    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "element": "light",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "description": "Dẫn nhịp tiến quân bằng tốc độ, cấp lượt cho hai ô kề và duy trì ma lực toàn đội.",
+    "stats": {
+      "maxHp": 190,
+      "maxMp": 130,
+      "attack": 14,
+      "magic": 26,
+      "defense": 23,
+      "resistance": 24,
+      "speed": 18
+    },
+    "abilities": [
+      "roland.haste",
+      "roland.march",
+      "roland.standard"
+    ],
+    "passive": {
+      "type": "end_round_team_mp",
+      "name": "Hậu cần tổng chỉ huy",
+      "description": "Cuối vòng, sau toàn bộ Vòng Phụ, tiếp MP cho mọi đồng đội còn sống, gồm bản thân.",
+      "ratio": 0.04
+    },
+    "tags": [
+      "capital_knights"
+    ],
+    "basicDamageType": "magical"
+  },
+  {
+    "id": "lumine",
+    "name": "Lumine",
+    "title": "Hội trưởng hội học sinh",
+    "affiliation": "Học viện Ma pháp",
+    "element": "water",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "description": "Biến ma lực thành kiếm thuật: đòn đánh vật lí lấy MAG, đối đầu DEF và vẫn có thể bị né.",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 85,
+      "attack": 10,
+      "magic": 35,
+      "defense": 18,
+      "resistance": 22,
+      "speed": 22
+    },
+    "abilities": [
+      "lumine.edict",
+      "lumine.armament",
+      "lumine.verdict"
+    ],
+    "passive": {
+      "type": "stat_boost",
+      "name": "Ma pháp võ trang",
+      "modifiers": {
+        "magic": 0.15
+      }
+    },
+    "tags": [
+      "magic_academy"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1,
+        "scalingStat": "magic"
+      }
+    ]
+  },
+  {
+    "id": "victorina",
+    "name": "Victorina",
+    "title": "Kị sĩ Hoa Hồng",
+    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "element": "fire",
+    "role": "Thủ Hộ bảo vệ toàn đội",
+    "roleGroup": "tank",
+    "description": "Phủ hoa hồng lên chiến tuyến: khiên, DEF và RES toàn đội với chi phí thấp; không Khiêu khích.",
+    "stats": {
+      "maxHp": 240,
+      "maxMp": 90,
+      "attack": 18,
+      "magic": 12,
+      "defense": 30,
+      "resistance": 28,
+      "speed": 16
+    },
+    "abilities": [
+      "victorina.petals",
+      "victorina.thorns",
+      "victorina.vow"
+    ],
+    "passive": {
+      "type": "shield_break_mp",
+      "name": "Nhựa sống dưới gai",
+      "description": "Khi khiên do Victorina tạo bị đánh vỡ, tiếp MP cho người mang khiên còn sống.",
+      "multiplier": 0.2,
+      "scalingStats": [
+        "defense",
+        "resistance"
+      ],
+      "oncePerRecipientPerRound": true
+    },
+    "tags": [
+      "capital_knights",
+      "dragun"
     ]
   }
 ]

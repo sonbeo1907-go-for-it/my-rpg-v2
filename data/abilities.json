@@ -3188,5 +3188,166 @@
         "multiplier": 3
       }
     ]
+  },
+  {
+    "id": "roland.haste",
+    "name": "Hiệu lệnh: Thần tốc",
+    "target": "all_allies",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 3,
+    "description": "Tăng mạnh tốc độ hành quân của toàn đội.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "grand_march",
+        "duration": 3
+      }
+    ],
+    "rules": [
+      "Thứ tự lượt đã xếp không đổi; SPD mới áp dụng khi xếp Vòng Phụ hoặc vòng tiếp theo."
+    ]
+  },
+  {
+    "id": "roland.march",
+    "name": "Quân lệnh song hành",
+    "target": "adjacent_allies",
+    "cost": {
+      "mp": 54
+    },
+    "cooldown": 6,
+    "description": "Cấp Lượt Thêm cho hai đồng đội ở hai ô kề, nối vòng ô đầu và ô cuối.",
+    "effects": [
+      {
+        "type": "grant_extra_turn"
+      }
+    ]
+  },
+  {
+    "id": "roland.standard",
+    "name": "Cờ lệnh bình minh",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "description": "Giương cờ chỉ huy, cường hóa sức tấn công toàn đội.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "dawn_standard",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "lumine.edict",
+    "name": "Kiếm lệnh hội đồng",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "description": "Dồn ma lực vào một nhát kiếm Thủy.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "magic",
+        "multiplier": 1.6
+      }
+    ]
+  },
+  {
+    "id": "lumine.armament",
+    "name": "Điều lệ: Võ trang",
+    "target": "self",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "description": "Tăng MAG để cường hóa kiếm thuật.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "council_armament",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "lumine.verdict",
+    "name": "Phán quyết thủy ngân",
+    "target": "enemy",
+    "cost": {
+      "mp": 24
+    },
+    "cooldown": 2,
+    "description": "Một kiếm quyết Thủy xuyên phòng ngự vật lí.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "magic",
+        "multiplier": 2.8,
+        "penetration": 0.2
+      }
+    ]
+  },
+  {
+    "id": "victorina.petals",
+    "name": "Màn hồng che chở",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "description": "Phủ khiên hoa hồng lên toàn đội.",
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStats": [
+          "defense",
+          "resistance"
+        ],
+        "multiplier": 1.2
+      }
+    ]
+  },
+  {
+    "id": "victorina.thorns",
+    "name": "Lũy gai bất khuất",
+    "target": "all_allies",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 3,
+    "description": "Dựng phòng tuyến gai hồng, tăng DEF toàn đội.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "rose_bastion",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "victorina.vow",
+    "name": "Lời thề hồng diễm",
+    "target": "all_allies",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 3,
+    "description": "Bảo hộ toàn đội trước ma thuật bằng lời thề hoa hồng.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "rose_sanctuary",
+        "duration": 3
+      }
+    ]
   }
 ]

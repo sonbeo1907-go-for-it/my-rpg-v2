@@ -1,3 +1,4 @@
+import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { damageMultiplier, supportAmount, effectiveStat, speedDamageBonus, speedDamageRatio, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
 import { mpCost } from '../core/conditional-combat.js';
 import { battleStat } from '../core/stat-values.js';
@@ -32,13 +33,13 @@ export function skillCost(skill, actor) {
 
 export const TARGET_NAMES = {
   enemy: 'Một kẻ địch', all_enemies: 'Mọi kẻ địch', random_enemies: 'Kẻ địch ngẫu nhiên',
-  ally: 'Một đồng đội', all_allies: 'Toàn đội', self: 'Bản thân'
+  ally: 'Một đồng đội', all_allies: 'Toàn đội', adjacent_allies: 'Hai ô kề', self: 'Bản thân'
 };
 
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
-  if (['kill_mp_discount','target_debuff_damage'].includes(passive.type)) return passive.name+': '+passive.description;
+  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp'].includes(passive.type)) return passive.name+': '+passive.description;
   if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
   if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
@@ -107,7 +108,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
   for (const effect of skill.effects) {
     if (effect.type === 'turn_order_field') lines.push('Đồng minh đi trước, đối thủ đi sau; giữ SPD trong từng phe. '+effect.durationRounds+' vòng, tính cả vòng thi triển.');
     if (effect.type === 'damage') {
-      const stat = effect.damageType === 'physical' ? 'ATK' : 'MAG';
+      const stat = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
       let formula = effect.primaryMultiplier !== undefined ? `${percent(effect.primaryMultiplier)} ${stat} mục tiêu chính / ${percent(effect.multiplier)} ${stat} còn lại` : `${percent(effect.multiplier ?? 1)} ${stat}`;
       if (effect.perResource) formula += ` + ${percent(effect.perResource)} ${stat} mỗi ${resourceName} đã tiêu`;
       if (effect.perStack) formula += ` + ${percent(effect.perStack)} ${stat} mỗi ${content.statuses[effect.consumeStatus].name}`;
@@ -140,9 +141,8 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (effect.unavoidable) lines.push('Đòn đánh không thể né.');
     }
     if (effect.type === 'heal' || effect.type === 'shield') {
-      const key = effect.scalingStat ?? 'magic';
-      const label = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES' }[key];
-      const value = valueOf(key);
+      const label = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
+      const value = scalingValue(effect,valueOf);
       const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? number(effect.flat) : ''].filter(Boolean).join(' + ') || '0';
       const amount = supportAmount(effect, value);
       lines.push(`${effect.type === 'shield' ? 'Khiên' : 'Hồi phục'}: ${formula} → ${number(amount)} ${effect.type === 'shield' ? 'khiên' : 'HP'}${perPerson}.`);

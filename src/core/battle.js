@@ -1,3 +1,4 @@
+import { scalingValue, adjacentAllies } from "./scaling.js";
 import { statusModifier } from "./stat-values.js";
 import { exclusivePassive, procAvailable, markProc } from "./exclusive-hooks.js";
 import { enemyStatMultipliers, scaleEnemyStats } from "./enemy-scaling.js";
@@ -104,6 +105,10 @@ export function createBattle(
       );
     }),
   ];
+  for (const actor of actors.filter(item=>item.team==='party')) {
+    const slot=campaign.party.indexOf(actor.id);
+    actor.formationSlot=slot>=0?slot:actors.filter(item=>item.team==='party').indexOf(actor);
+  }
   const enemies = actors.filter((actor) => actor.team === "enemy");
   for (const actor of enemies) {
     const siblings = enemies.filter(
@@ -455,6 +460,11 @@ function finishMainRound(battle) {
   for (const actor of battle.actors) checkCombatMode(battle,actor,"round_end",modeIO);
   for (const source of battle.actors.filter(living)) {
     const passive = source.passive;
+    if (passive?.type === "end_round_team_mp") {
+      write(battle,source.name+" kích hoạt "+passive.name+" cuối Vòng.");
+      for (const ally of battle.actors.filter(item=>living(item) && item.team===source.team)) gainResource(battle,ally,"mp",Math.ceil(ally.stats.maxMp*passive.ratio),source.id);
+      continue;
+    }
     if (passive?.type !== "end_round_lowest_mp") continue;
     const target = battle.actors.filter(actor => living(actor) && actor.team === source.team && actor.stats.maxMp > 0)
       .sort((a,b) => a.mp / a.stats.maxMp - b.mp / b.stats.maxMp)[0];
@@ -471,6 +481,7 @@ function finishMainRound(battle) {
 
 export function targetsFor(battle, actor, skill) {
   if (skill.target === "self") return living(actor) ? [actor] : [];
+  if (skill.target === "adjacent_allies") return adjacentAllies(battle,actor);
   const allies = skill.target === "ally" || skill.target === "all_allies";
   let targets = battle.actors.filter(
     (target) =>
@@ -497,6 +508,7 @@ export function abilityAvailability(battle, actor, skill) {
     };
   if (actor.mp < mpCost(skill,actor))
     return { ok: false, reason: "Không đủ MP." };
+  if (skill.target === "adjacent_allies" && !targetsFor(battle,actor,skill).length) return {ok:false,reason:"Không có đồng đội còn sống ở hai ô kề."};
   if (skill.requiresTargetStatus && !targetsFor(battle,actor,skill).length)
     return { ok: false, reason: `Cần mục tiêu có ${battle.content.statuses[skill.requiresTargetStatus].name}.` };
   const resource = skill.cost?.resource;
@@ -680,7 +692,7 @@ function resolveHit(
       if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += passive.ratio;
     }
   }
-  const power = battleStat(battle.content,attacker,effect.damageType === "physical" ? "attack" : "magic",actionContext.automatic,hitMagicBonus,actionContext.baseStatBonuses?.[effect.damageType === "physical" ? "attack" : "magic"] ?? 0);
+  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,key==="magic"?hitMagicBonus:0,actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
   const extraPenetration = penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0;
   const defense =
@@ -826,6 +838,13 @@ function resolveHit(
       const bonus = exclusivePassive(healer,"shield_break_heal_bonus");
       healHp(battle,target,stat(battle,healer,"magic") * healer.passive.multiplier * (1 + (bonus?.ratio ?? 0)),healer.id,"Dư âm thủy hộ");
     }
+    const refill=healer?.passive;
+    if (refill?.type === "shield_break_mp" && living(healer) && target.mp<target.stats.maxMp && procAvailable(battle,target,"shield_mp:"+healer.id)) {
+      const amount=Math.ceil(scalingValue(refill,key=>stat(battle,healer,key))*refill.multiplier);
+      markProc(battle,target,"shield_mp:"+healer.id);
+      write(battle,healer.name+" kích hoạt "+refill.name+" cho "+target.name+".");
+      gainResource(battle,target,"mp",amount,healer.id);
+    }
     if (target.passive?.type === "shield_break_status") {
       write(battle, `${target.name} vỡ khiên!`);
       for (const status of target.passive.statuses)
@@ -970,12 +989,12 @@ function applyEffect(
     if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO);
     if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "heal") {
-      healHp(battle,target,supportAmount(effect,stat(battle,actor,effect.scalingStat ?? "magic"),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD),actor.id);
+      healHp(battle,target,supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD),actor.id);
     }
     if (effect.type === "shield") {
       const amount = supportAmount(
         effect,
-        stat(battle, actor, effect.scalingStat ?? "magic"),
+        scalingValue(effect,key=>stat(battle,actor,key)),
       );
       // Shields do not stack; a weaker shield cannot overwrite a stronger one.
       if (amount > target.shield) {

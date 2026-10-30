@@ -12,7 +12,7 @@ import {skillPresentation} from '../src/ui/skill-copy.js';
 import {liveSkillChoices,resolveCombatTargets,compactSkillScaling} from '../src/ui/combat-presentation.js';
 const content=await loadContent();
 function setup(id='charlemagnes',random=()=>.99,others=[],change=()=>{}){
- const source=structuredClone(content);source.characters[id].stats.speed=100;change(source);
+ const source=structuredClone(content);source.characters[id].stats.speed=100;source.characters.charlemagnes.stats.attack=30;source.characters.kreider.stats.magic=34;change(source);
  const save=createGameSave(source);save.party=[id,...others];save.unlockedCharacterIds=[...new Set([...save.unlockedCharacterIds,...save.party])];
  const b=createBattle(source,save,'forest_patrol',random);
  for(const e of b.actors.filter(a=>a.team==='enemy')){e.hp=e.stats.maxHp=100000;e.stats.defense=e.stats.resistance=0;e.statuses=[];e.weaknesses=[];e.resistances={};delete e.passive;}
