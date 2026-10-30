@@ -97,7 +97,7 @@ test('cloud cannot be selected as an active command and never triggers Aurora fo
   use(battle, 'gawain', 'gawain.cloud'); nextGawain(battle);
   assert.equal(pulses(battle).length, 3);
   assert.equal(getActor(battle, 'aurora').resourceValues.thunder_charge, 0);
-  assert.equal(battle.events.some(event => event.sourceId === 'aurora'), false);
+  assert.equal(battle.events.some(event => event.sourceId === 'aurora' && ['damage','reaction'].includes(event.type)), false);
 });
 
 test('a lethal cloud pulse ends the battle before Gawain can spend an active turn', () => {

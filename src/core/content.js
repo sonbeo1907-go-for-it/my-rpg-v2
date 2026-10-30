@@ -14,7 +14,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field'];
+export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -69,8 +69,9 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type === 'formula_scholar' && (!native.name || !native.description || !Number.isInteger(native.amount) || native.amount<1 || native.amount>10 || !Number.isInteger(native.maxSources) || native.maxSources<1 || native.maxSources>3)) fail(id+': invalid formula scholar');
     if (native?.type === 'shielded_damage_bonus' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1)) fail(id+': invalid shielded damage bonus');
     if (native?.type === 'debuff_received_heal' && (!native.name || !native.description || !Number.isFinite(native.multiplier) || native.multiplier<=0 || native.multiplier>2 || native.oncePerRecipientPerRound!==true)) fail(id+': invalid debuff healing passive');
     if (native?.type === 'end_round_team_mp' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1)) fail(id+': invalid team MP regeneration');
@@ -189,6 +190,10 @@ export function validateContent(content) {
     validateBossDefinition(actor, content, fail);
   }
   for (const [id, skill] of Object.entries(content.abilities)) {
+    if ((skill.effects?.filter(effect=>effect.type==='formula_field').length??0)>1 || (skill.requiresFormula && skill.effects?.some(effect=>effect.type==='formula_field'))) fail(id+': invalid formula opener');
+    if (skill.requiresFormula!==undefined && typeof skill.requiresFormula!=='boolean') fail(id+': invalid formula requirement');
+    if (skill.minFormulaEntries!==undefined && (skill.requiresFormula!==true || !Number.isInteger(skill.minFormulaEntries) || skill.minFormulaEntries<1 || skill.minFormulaEntries>3)) fail(id+': invalid formula minimum');
+    if (skill.formulaTag!==undefined && !['lead','break','strike','none'].includes(skill.formulaTag)) fail(id+': invalid formula tag');
     if (skill.requiresResource && (!skill.requiresResource.id || !Number.isInteger(skill.requiresResource.min) || skill.requiresResource.min < 1)) fail(id + ': invalid resource requirement');
     if (skill.requiresMode !== undefined && (typeof skill.requiresMode !== 'string' || !skill.requiresMode)) fail(id + ': invalid mode requirement');
     if (skill.activation !== undefined && !['active', 'passive'].includes(skill.activation)) fail(`${id}: invalid activation`);
@@ -233,6 +238,11 @@ export function validateContent(content) {
         if (effect.type !== 'damage' || !Number.isInteger(effect.onHitStatus?.duration) || effect.onHitStatus.duration < 1) fail(id + ': invalid on-hit status');
       }
       if (effect.extraStacksIfPresent !== undefined && (effect.type !== 'status' || !Number.isInteger(effect.extraStacksIfPresent) || effect.extraStacksIfPresent < 1 || !content.statuses[effect.status]?.maxStacks)) fail(`${id}: invalid conditional status stacks`);
+      if (effect.type === 'formula_field' && (skill.target!=='self' || typeof effect.name!=='string' || !effect.name.trim() || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1 || !Array.isArray(effect.sequence) || effect.sequence.length!==3 || new Set(effect.sequence).size!==3 || effect.sequence.some(tag=>!['lead','break','strike'].includes(tag)) || !/^\/art\/[a-z0-9_-]+\.svg$/.test(effect.background))) fail(id+': invalid formula field');
+      if (effect.type === 'edit_formula' && (skill.target!=='self' || skill.requiresFormula!==true || !skill.minFormulaEntries)) fail(id+': invalid formula edit');
+      if (effect.type === 'end_formula' && !(skill.target==='self' || effect.to==='self')) fail(id+': formula must end on its owner');
+      if (effect.formulaScaling && !skill.effects.some(effect=>effect.type==='end_formula' && (skill.target==='self'||effect.to==='self'))) fail(id+': formula finisher must close its field');
+      if (effect.formulaScaling!==undefined && (effect.type!=='damage' || skill.requiresFormula!==true || skill.minFormulaEntries!==3 || !Number.isFinite(effect.formulaScaling.perCorrect) || effect.formulaScaling.perCorrect<=0 || effect.formulaScaling.perCorrect>2 || !Number.isFinite(effect.formulaScaling.perfectPenetration) || effect.formulaScaling.perfectPenetration<0 || effect.formulaScaling.perfectPenetration>1)) fail(id+': invalid formula scaling');
       if (effect.type === 'turn_order_field' && (skill.target !== 'self' || typeof effect.name !== 'string' || !effect.name || !Number.isInteger(effect.durationRounds) || effect.durationRounds < 1)) fail(id + ': invalid turn-order field');
       if (effect.type === 'enter_mode' && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
       if (effect.primaryMultiplier !== undefined && (effect.type !== 'damage' || skill.target !== 'all_enemies' || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
@@ -247,7 +257,7 @@ export function validateContent(content) {
       if (effect.speedMultiplier !== undefined && (effect.type !== 'damage' || effect.damageType !== 'physical')) fail(`${id}: speedMultiplier requires physical damage`);
       if (effect.scalingStat !== undefined && (!['damage', 'heal', 'shield'].includes(effect.type) || !['attack', 'magic', 'defense', 'resistance'].includes(effect.scalingStat))) fail(`${id}: invalid support scaling stat`);
       if (effect.scalingStats!==undefined && (!['heal','shield'].includes(effect.type) || effect.scalingStat!==undefined || !Array.isArray(effect.scalingStats) || !effect.scalingStats.length || effect.scalingStats.length>4 || new Set(effect.scalingStats).size!==effect.scalingStats.length || effect.scalingStats.some(key=>!['attack','magic','defense','resistance'].includes(key)))) fail(id+': invalid average scaling stats');
-      if (effect.durationRounds!==undefined && (!['shield','turn_order_field'].includes(effect.type) || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1)) fail(id+': invalid shield round duration');
+      if (effect.durationRounds!==undefined && (!['shield','turn_order_field','formula_field'].includes(effect.type) || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1)) fail(id+': invalid shield round duration');
       if (effect.type === 'resource') {
         if (!effect.resource || (effect.amount === undefined && effect.maxMpRatio === undefined)
           || (effect.amount !== undefined && (!Number.isInteger(effect.amount) || effect.amount < 1))) fail(`${id}: invalid resource effect`);

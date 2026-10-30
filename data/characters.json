@@ -1407,5 +1407,57 @@
       "multiplier": 0.5,
       "oncePerRecipientPerRound": true
     }
+  },
+  {
+    "id": "auguste",
+    "name": "Auguste",
+    "title": "Hiệu trưởng Học viện Ma Thuật",
+    "affiliation": "Học viện Ma Thuật",
+    "element": "plain",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "description": "Biến thứ tự kỹ năng đồng đội thành Đại Đồ Thức; hoàn thành Tam đoạn luận để tung Đại định lý.",
+    "biography": "Người đặt nền móng cho nhiều thế hệ pháp sư. Với Auguste, một trận chiến là bài chứng minh mà từng đồng đội góp vào một luận cứ.",
+    "tags": [
+      "magic_academy"
+    ],
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 140,
+      "attack": 10,
+      "magic": 36,
+      "defense": 18,
+      "resistance": 26,
+      "speed": 25
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "multiplier": 0.6
+      },
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "multiplier": 0.6
+      }
+    ],
+    "basicPresentation": "academic_basic",
+    "abilities": [
+      "auguste.lecture",
+      "auguste.rebuttal",
+      "auguste.edit",
+      "auguste.theorem"
+    ],
+    "passive": {
+      "type": "formula_scholar",
+      "name": "Tri thức được kế thừa",
+      "description": "Khi thi triển Đại định lý, mỗi đồng đội khác nhau trong ba dấu tăng MAG căn bản cho cả kỹ năng.",
+      "amount": 3,
+      "maxSources": 3
+    }
   }
 ]

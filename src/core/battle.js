@@ -1,3 +1,4 @@
+import { activeFormula, formulaAvailability, formulaSnapshot, formulaDamage, validateFormulaEdit, editedFormulaEntries, openFormula, closeFormula, expireFormulaFields, recordFormulaAction } from "./formula-field.js";
 import { expireRoundEffects } from "./round-effects.js";
 import { scalingValue, adjacentAllies } from "./scaling.js";
 import { statusModifier } from "./stat-values.js";
@@ -211,6 +212,7 @@ function finishAttackContext(battle, actor, context) {
     const source = getActor(battle, sourceId);
     if (source && living(source)) {
       const passive = source.passive;
+      announcePassive(battle,source,source.id);
       write(battle, `${source.name} kích hoạt ${passive.name}.`);
       gainResource(battle, source, "mp", passive.amount + (proc.weakness ? passive.weaknessBonus : 0), source.id);
     }
@@ -232,10 +234,11 @@ function startRound(battle) {
   battle.extraPhaseRequired = false;
   if (battle.round - (battle.roundOffset ?? 0) > 60) {
     battle.outcome = "draw";
-    for (const actor of battle.actors) checkCombatMode(battle,actor,"battle_end",modeIO);
+    for (const actor of battle.actors) { checkCombatMode(battle,actor,"battle_end",modeIO); closeFormula(battle,actor,modeIO,"battle_end"); }
     write(battle, "Trận đấu dừng sau 60 vòng.");
     return;
   }
+  expireFormulaFields(battle,modeIO);
   expireRoundEffects(battle,modeIO);
   expireTurnOrderField(battle,modeIO);
   battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
@@ -249,15 +252,22 @@ function startRound(battle) {
   beginTurn(battle);
 }
 
+function announcePassive(battle,source,targetId,label=source?.passive?.name) {
+  if (source?.passive && label) emitEvent(battle,{type:"passive",sourceId:source.id,targetId,label});
+}
+
 function healHp(battle, target, requested, sourceId, label = "") {
   if (!living(target)) return 0;
   const amount = Math.min(target.stats.maxHp - target.hp, Math.max(0, Math.round(requested)));
   target.hp += amount;
   if (amount > 0) {
+    const healer=getActor(battle,sourceId);
+    if (label && (healer?.passive?.name===label || healer?.passive?.type==="shield_break_heal")) announcePassive(battle,healer,target.id,label);
     emitEvent(battle, { type: "heal", targetId: target.id, sourceId, amount });
     const source = getActor(battle, sourceId), passive = target.passive;
     if (passive?.type === "ally_heal_mp" && source && source.id !== target.id && source.team === target.team && procAvailable(battle,target,"ally_heal_mp")) {
       markProc(battle,target,"ally_heal_mp");
+      announcePassive(battle,target,target.id);
       gainResource(battle,target,"mp",Math.ceil(target.stats.maxMp * passive.ratio),target.id);
     }
   }
@@ -313,6 +323,7 @@ function beginTurn(battle) {
   ) {
     const consumed = actor.resourceValues[passive.resource];
     actor.resourceValues[passive.resource] = 0;
+    announcePassive(battle,actor);
     write(
       battle,
       `${actor.name} kích hoạt ${passive.name}, tiêu ${consumed} ${actor.resources[passive.resource].name}: hồi ${Math.round(passive.mpRestoreRatio * 100)}% MP tối đa toàn đội.`,
@@ -370,6 +381,8 @@ function beginTurn(battle) {
       `${actor.name} kích hoạt ${skill.name} từ ${battle.content.statuses[status.id].name}.`,
     );
     const targets = targetsFor(battle, actor, skill);
+    emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:true,automaticCast:true,area:targetsAsGroup(skill),targetId:targets[0]?.id,presentation:skill.presentation});
+    context.skillId=skill.id;context.skill=skill;
     for (const effect of skill.effects) {
       for (const target of targets)
         for (let i = 0; i < (effect.hits ?? 1) && living(target); i++)
@@ -395,6 +408,7 @@ function beginTurn(battle) {
 function endTurnPassive(battle, actor) {
   const passive = actor.passive;
   if (!living(actor) || passive?.type !== "end_turn_mp_regen") return;
+  announcePassive(battle,actor);
   write(battle, `${actor.name} kích hoạt ${passive.name} cuối lượt.`);
   for (const ally of battle.actors.filter(
     (target) => target.team === actor.team && living(target),
@@ -415,6 +429,7 @@ function endTurnPassive(battle, actor) {
 function onActorDefeated(battle,killer,target) {
   const passive=killer?.passive;
   if (!killer || killer.team===target.team || passive?.type!=="kill_mp_discount" || killer.statuses.some(status=>status.id===passive.statusId)) return;
+  announcePassive(battle,killer);
   applyStatus(battle,killer,passive.statusId,undefined,killer.id);
   write(battle,killer.name+" kích hoạt "+passive.name+": giảm "+Math.round(passive.ratio*100)+"% MP tiêu hao.");
 }
@@ -426,7 +441,10 @@ function checkOutcome(battle) {
     !battle.actors.some((actor) => actor.team === "party" && living(actor))
   )
     battle.outcome = "defeat";
-  for (const actor of battle.actors) checkCombatMode(battle,actor,battle.outcome ? "battle_end" : "owner_state",modeIO);
+  for (const actor of battle.actors) {
+    checkCombatMode(battle,actor,battle.outcome ? "battle_end" : "owner_state",modeIO);
+    if (actor.hp<=0 || (battle.outcome && !(battle.outcome==='victory' && battle.continuesOnVictory))) closeFormula(battle,actor,modeIO,actor.hp<=0?'owner_ko':'battle_end');
+  }
   return battle.outcome;
 }
 
@@ -463,6 +481,7 @@ function finishMainRound(battle) {
   for (const source of battle.actors.filter(living)) {
     const passive = source.passive;
     if (passive?.type === "end_round_team_mp") {
+      announcePassive(battle,source);
       write(battle,source.name+" kích hoạt "+passive.name+" cuối Vòng.");
       for (const ally of battle.actors.filter(item=>living(item) && item.team===source.team)) gainResource(battle,ally,"mp",Math.ceil(ally.stats.maxMp*passive.ratio),source.id);
       continue;
@@ -471,10 +490,12 @@ function finishMainRound(battle) {
     const target = battle.actors.filter(actor => living(actor) && actor.team === source.team && actor.stats.maxMp > 0)
       .sort((a,b) => a.mp / a.stats.maxMp - b.mp / b.stats.maxMp)[0];
     if (target) {
+      announcePassive(battle,source,target.id);
       write(battle, `${source.name} kích hoạt ${passive.name} cuối Vòng.`);
       gainResource(battle, target, "mp", Math.ceil(target.stats.maxMp * passive.ratio), source.id);
     }
   }
+  expireFormulaFields(battle,modeIO,true);
   expireRoundEffects(battle,modeIO,true);
   expireTurnOrderField(battle,modeIO,true);
   emitEvent(battle, { type: "round_end", round: battle.round });
@@ -502,6 +523,8 @@ export function targetsFor(battle, actor, skill) {
 export function abilityAvailability(battle, actor, skill) {
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
+  const formulaCheck = formulaAvailability(battle,actor,skill);
+  if (formulaCheck) return formulaCheck;
   const modeCheck = modeAvailability(actor,skill);
   if (modeCheck) return modeCheck;
   if ((actor.cooldowns[skill.id] ?? 0) > 0)
@@ -576,6 +599,7 @@ function triggerMagicFollowups(battle, attacker, target) {
     ally.followUpRound = battle.round;
     const ability = battle.content.abilities[passive.followUpAbility];
     const actionContext = attackContext(battle, ally);
+    actionContext.skillId=ability.id;actionContext.skill=ability;
     write(battle, `${ally.name} ${FOLLOW_UP_LABEL} bằng ${ability.name}.`);
     emitEvent(battle, {
       type: "reaction",
@@ -639,6 +663,8 @@ function resolveHit(
       type: "dodge",
       targetId: target.id,
       sourceId: attacker.id,
+      damageType: effect.damageType, element: effect.element,
+      hitIndex: actionContext.hitIndex ?? 0,
     });
     write(battle, `${target.name} né đòn của ${attacker.name}.`);
     const dodgeHeal = exclusivePassive(target,"dodge_heal");
@@ -657,6 +683,7 @@ function resolveHit(
         type: "reaction",
         kind: "counter",
         label: REACTION_LABELS.counter,
+        abilityId: target.passive.counterAbility,
         sourceId: target.id,
         targetId: attacker.id,
       });
@@ -809,7 +836,10 @@ function resolveHit(
     absorbed,
     element: effect.element,
     weakness,
-    ...(actionContext.hybrid ? { damageType: effect.damageType } : {}),
+    damageType: effect.damageType,
+    abilityId: actionContext.skillId ?? actionContext.skill?.id,
+    area, reaction, hitIndex: actionContext.hitIndex ?? 0,
+    primary: target.id === actionContext.primaryTargetId,
     ...(actionContext.automatic ? { automatic: true } : {}),
   });
   write(
@@ -845,10 +875,12 @@ function resolveHit(
     if (refill?.type === "shield_break_mp" && living(healer) && target.mp<target.stats.maxMp && procAvailable(battle,target,"shield_mp:"+healer.id)) {
       const amount=Math.ceil(scalingValue(refill,key=>stat(battle,healer,key))*refill.multiplier);
       markProc(battle,target,"shield_mp:"+healer.id);
+      announcePassive(battle,healer,target.id);
       write(battle,healer.name+" kích hoạt "+refill.name+" cho "+target.name+".");
       gainResource(battle,target,"mp",amount,healer.id);
     }
     if (target.passive?.type === "shield_break_status") {
+      announcePassive(battle,target,target.id,target.passive.name??"Vỡ khiên");
       write(battle, `${target.name} vỡ khiên!`);
       for (const status of target.passive.statuses)
         applyStatus(battle, target, status.id, status.duration, attacker.id);
@@ -884,6 +916,7 @@ function resolveHit(
     );
     onActorDefeated(battle,attacker,target);
     checkCombatMode(battle,target,"owner_ko",modeIO);
+    closeFormula(battle,target,modeIO,"owner_ko");
     write(battle, `${target.name} gục xuống.`);
   } else if (
     !reaction &&
@@ -954,6 +987,7 @@ function applyStatus(
     );
   }
   target.statuses.push(applied);
+  if (!silent) emitEvent(battle,{type:"status",sourceId,targetId:target.id,statusId,element:source?.element,beneficial:definition.kind!=="debuff"});
   if (!silent) write(battle, `${target.name}: ${definition.name}.`);
   if (definition.kind==='debuff' && source && source.team!==target.team && living(target) && target.hp<target.stats.maxHp) {
     for (const healer of battle.actors.filter(item=>living(item) && item.team===target.team && item.passive?.type==='debuff_received_heal')) {
@@ -961,6 +995,7 @@ function applyStatus(
       const amount=supportAmount({multiplier:healer.passive.multiplier},stat(battle,healer,'magic'));
       if (amount<=0) continue;
       markProc(battle,target,'debuff_heal:'+healer.id);
+      announcePassive(battle,healer,target.id);
       write(battle,healer.name+' kích hoạt '+healer.passive.name+' cho '+target.name+'.');
       healHp(battle,target,amount,healer.id,healer.passive.name);
     }
@@ -977,6 +1012,7 @@ function applyEffect(
   area,
   actionContext = attackContext(battle, actor),
 ) {
+  if (effect.formulaScaling) effect=formulaDamage(effect,actionContext.formula);
   if (effect.type === "damage" && actionContext.skill?.target === "random_enemies" && effect.to !== "self") {
     for (let index=0;index<(effect.hits??1) && living(actor);index++) {
       const pool=targetsFor(battle,actor,actionContext.skill);
@@ -985,6 +1021,7 @@ function applyEffect(
       if (!Number.isFinite(roll) || roll<0 || roll>=1) throw new Error("Nguồn chọn mục tiêu không hợp lệ.");
       const target=pool[Math.floor(roll*pool.length)];
       emitEvent(battle,{type:"random_target",sourceId:actor.id,targetId:target.id,hitIndex:index,totalHits:effect.hits??1});
+      actionContext.hitIndex=index;
       hit(battle,actor,target,effect,spent,{area:true,actionContext});
     }
     return;
@@ -997,9 +1034,19 @@ function applyEffect(
         let i = 0;
         i < (effect.hits ?? 1) && living(target) && living(actor);
         i += 1
-      )
+      ) {
+        actionContext.hitIndex=i;
         hit(battle, actor, target, effect.primaryMultiplier !== undefined ? {...effect,multiplier:target.id===actionContext.primaryTargetId ? effect.primaryMultiplier : effect.multiplier} : effect, spent, { area, actionContext });
+      }
     }
+    if (effect.type === "formula_field") openFormula(battle,target,actionContext.skill,effect,modeIO);
+    if (effect.type === "edit_formula") {
+      const field=activeFormula(battle,target);
+      field.entries=editedFormulaEntries(field,actionContext.formulaEdit,actor,actionContext.skill);
+      write(battle,actor.name+': hiệu chỉnh → '+field.entries.map(entry=>({lead:'Dẫn',break:'Phá',strike:'Kích'}[entry.tag])).join(' · ')+'.');
+      emitEvent(battle,{type:'formula_edit',sourceId:actor.id,entries:structuredClone(field.entries)});
+    }
+    if (effect.type === "end_formula") closeFormula(battle,target,modeIO,"theorem");
     if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO);
     if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "heal") {
@@ -1079,6 +1126,7 @@ function applyEffect(
       }
     }
     if (effect.type === "cleanse") {
+      if (target.statuses.some(status=>battle.content.statuses[status.id].kind==="debuff")) emitEvent(battle,{type:"cleanse",sourceId:actor.id,targetId:target.id});
       target.statuses = target.statuses.filter(
         (status) => battle.content.statuses[status.id].kind !== "debuff",
       );
@@ -1117,8 +1165,8 @@ export const DEFEND = {
   ],
 };
 
-export function executeAction(battle, { actorId, abilityId, targetId }) {
-  return resolveAction(battle, { actorId, abilityId, targetId });
+export function executeAction(battle, command) {
+  return resolveAction(battle, command);
 }
 
 function finishStatuses(
@@ -1155,7 +1203,7 @@ function finishStatuses(
 
 function resolveAction(
   battle,
-  { actorId, abilityId, targetId },
+  { actorId, abilityId, targetId, formulaEdit },
   { endTurn = true, resetEvents = true } = {},
 ) {
   if (battle.outcome) throw new Error("Trận đấu đã kết thúc.");
@@ -1183,10 +1231,12 @@ function resolveAction(
       : legal.filter((target) => target.id === targetId);
   if (!targets.length) throw new Error("Mục tiêu không hợp lệ.");
   if (skill.effects.some(effect=>effect.primaryMultiplier!==undefined) && !legal.some(target=>target.id===targetId)) throw new Error("Mục tiêu chính không hợp lệ.");
+  if (skill.effects.some(effect=>effect.type==='edit_formula')) validateFormulaEdit(activeFormula(battle,actor),formulaEdit);
+  const theorem=skill.effects.some(effect=>effect.formulaScaling) ? formulaSnapshot(battle,actor) : null;
   // Validate everything before mutating MP, resources or turn order.
   if (resetEvents) battle.events = [];
   const oldStatuses = [...actor.statuses];
-  if (skill.presentation) emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,presentation:skill.presentation,targetId,area,targetIds:targets.map(target=>target.id)});
+  emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
   actor.mp -= mpCost(skill,actor);
   let spent = 0;
   const selectedResource = resourceCost(skill,actor);
@@ -1202,8 +1252,12 @@ function resolveAction(
   const actionContext = attackContext(battle, actor);
   actionContext.skillId = skill.id;
   actionContext.skill = skill;
+  actionContext.formula = theorem;
+  actionContext.formulaEdit = formulaEdit;
   actionContext.primaryTargetId = targetId;
   actionContext.baseStatBonuses = skillBaseStatBonuses(battle,actor,skill,targets);
+  if (theorem?.baseMagic) actionContext.baseStatBonuses.magic=(actionContext.baseStatBonuses.magic??0)+theorem.baseMagic;
+  if (theorem) emitEvent(battle,{type:'formula_burst',sourceId:actor.id,targetId,correct:theorem.correct,perfect:theorem.perfect,baseMagic:theorem.baseMagic});
   for (const [key,amount] of Object.entries(actionContext.baseStatBonuses)) {
     write(battle,actor.name+": "+actor.passive.name+" +"+amount+" "+(key==="magic"?"MAG":"ATK")+" căn bản cho chiêu này.");
     emitEvent(battle,{type:"skill_base_bonus",sourceId:actor.id,abilityId:skill.id,stat:key,amount});
@@ -1287,6 +1341,7 @@ function resolveAction(
   if (offensive) finishAttackContext(battle, actor, actionContext);
   battle.actionCount += 1;
   transitionBossPhases(battle, { write, restoreMp: gainResource });
+  recordFormulaAction(battle,actor,skill,modeIO);
   if (endTurn) {
     endTurnPassive(battle, actor);
     advance(battle);

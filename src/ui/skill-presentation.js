@@ -1,3 +1,4 @@
+import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { damageMultiplier, supportAmount, effectiveStat, speedDamageBonus, speedDamageRatio, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
 import { mpCost, resourceCost } from '../core/conditional-combat.js';
@@ -32,6 +33,7 @@ export function skillCost(skill, actor) {
     const name = actor.resources[cost.id].name;
     costs.push(`${cost.all ? `Toàn bộ ${name} (ít nhất ${cost.min})` : `${cost.amount} ${name}`}${cost.consumeAt === 'after' ? ' · Tiêu sau khi thi triển' : ''}`);
   }
+  if (skill.requiresFormula) costs.push('Cần Đại Đồ Thức'+(skill.minFormulaEntries?' · '+skill.minFormulaEntries+' dấu':''));
   if (skill.requiresResource) costs.push('Cần '+skill.requiresResource.min+' '+actor.resources[skill.requiresResource.id].name);
   if (skill.cooldown) costs.push(`Hồi chiêu: ${skill.cooldown} vòng`);
   return costs.join(' · ') || 'Không tốn MP';
@@ -45,7 +47,7 @@ export const TARGET_NAMES = {
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
-  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal'].includes(passive.type)) return passive.name+': '+passive.description;
+  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar'].includes(passive.type)) return passive.name+': '+passive.description;
   if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
   if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
@@ -92,6 +94,7 @@ const percent = value => `${number(value * 100)}%`;
 
 export function skillPreviewOptions(skill, actor, content) {
   const controls = [];
+  if (skill.effects.some(effect=>effect.formulaScaling)) controls.push({key:'formulaCorrect',label:'Số dấu đúng vị trí giả định',min:0,max:3},{key:'formulaContributors',label:'Đồng đội góp dấu khác nhau',min:0,max:actor.passive?.maxSources??3});
   if (actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage')) controls.push({key:'debuffCount',label:'Số loại debuff trên mục tiêu',min:0,max:Math.ceil(actor.passive.cap/actor.passive.ratio)});
   if (actor.passive?.type === 'field_growth' && skill.effects.some(effect => effect.type === 'damage')) controls.push({ key: 'fieldStacks', label: 'Uy lôi giả định', min: 0, max: actor.passive.maxStacks });
   if (skill.effects.some(effect => effect.perResource) && skill.cost?.resource?.all) {
@@ -111,7 +114,11 @@ export function skillScaling(skill, actor, content, choices = {}) {
   const resourceName = cost ? actor.resources[cost.id].name : '';
   const spent = choices.spent ?? (cost?.all ? actor.resources[cost.id].max : cost?.amount ?? 0);
   const perPerson = skill.target === 'all_allies' ? '/người' : '';
-  for (const effect of skill.effects) {
+  for (const authoredEffect of skill.effects) {
+    const effect=formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0});
+    if (effect.type==='formula_field') lines.push('Đại Đồ Thức: '+effect.durationRounds+' vòng · '+effect.sequence.map(tag=>FORMULA_NAMES[tag]).join(' → ')+'.');
+    if (effect.type==='edit_formula') lines.push('Đổi chỗ hai dấu hoặc viết lại một dấu; viết lại mang nguồn người hiệu chỉnh.');
+    if (effect.type==='end_formula') lines.push('Kết thúc Đại Đồ Thức sau khi thi triển.');
     if (effect.type === 'turn_order_field') lines.push('Đồng minh đi trước, đối thủ đi sau; giữ SPD trong từng phe. '+effect.durationRounds+' vòng, tính cả vòng thi triển.');
     if (effect.type === 'damage') {
       const stat = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
@@ -144,6 +151,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       }
       if (cost?.consumeAt === 'after') lines.push('Giữ bonus chỉ số từ tài nguyên khi gây sát thương, tiêu số điểm đã dùng sau khi thi triển.');
       if (effect.penetration) lines.push(`Xuyên ${percent(effect.penetration)} ${effect.damageType === 'physical' ? 'DEF' : 'RES'} của mục tiêu.`);
+      if (effect.formulaScaling) { const power=formulaPower(actor,{correct:choices.formulaCorrect??0,contributors:choices.formulaContributors??0});lines.push((choices.live?'Hiện tại':'Giả định')+': '+power.correct+'/3 dấu đúng · +'+power.baseMagic+' MAG căn bản cho cả ba hit.'); }
       if (effect.unavoidable) lines.push('Đòn đánh không thể né.');
     }
     if (effect.type === 'heal' || effect.type === 'shield') {

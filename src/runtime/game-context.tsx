@@ -1,4 +1,5 @@
 "use client";
+import {combatFeedbackDuration} from "../ui/combat-timeline.js";
 import {
   createContext,
   useContext,
@@ -139,6 +140,8 @@ export function GameProvider({
   const [animationSpeed, setSpeed] = useState<"normal" | "fast">("normal");
   const speedRef = useRef<"normal" | "fast">("normal");
   const battleSerial = useRef(0);
+  const eventIdentity=useRef(new WeakMap<object,number>());
+  const eventSerial=useRef(0);
   const lastTurn = useRef("");
   const music = useRef<any>(null);
   const [audio, setAudio] = useState<any>({ enabled: true, volume: 0.35 });
@@ -191,7 +194,7 @@ export function GameProvider({
       current
         ? current.events.map((event: any, index: number) => ({
             ...event,
-            key: `${current.actionCount}-${current.round}-${index}`,
+            key: (()=>{let id=eventIdentity.current.get(event);if(id===undefined){id=++eventSerial.current;eventIdentity.current.set(event,id);}return `${battleSerial.current}-${id}`;})(),
           }))
         : [],
     );
@@ -348,13 +351,7 @@ export function GameProvider({
       return;
     lock.current = true;
     setBusy(true);
-    const delay = () =>
-      document.hidden ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? 60
-        : speedRef.current === "fast"
-          ? 180
-          : 620;
+    const delay = () => combatFeedbackDuration(runtime.current?.events??[],content,speedRef.current,document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     try {
       if (command) {
         executeAction(runtime.current, command);

@@ -1,3 +1,4 @@
+import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 // Public copy contract: docs/SKILL_COPY_AND_UX_SPEC.md
 import { debuffDamageBonus, resourceCost } from '../core/conditional-combat.js';
@@ -76,7 +77,11 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(status.modifiers?.damageVsShielded)rules.push('Xét khiên ở đầu từng hit; tăng cả sát thương tràn vào HP.');
     for(const id of effect.linkedStatuses??[])statusFacts({type:'status',status:id},true);
   }
-  for(const effect of skill.effects) {
+  for(const authoredEffect of skill.effects) {
+    const effect=formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0});
+    if(effect.type==='formula_field'){facts.push(effect.durationRounds+' vòng · '+effect.sequence.map(tag=>FORMULA_NAMES[tag]).join(' → '));rules.push('Ba kỹ năng chủ động gần nhất của đồng đội khác; mỗi kỹ năng ghi một dấu. Kích ưu tiên trước Phá, rồi Dẫn.','Không ghi đánh thường, Phòng thủ, nội tại, phản công, Liên kích hoặc kỹ năng của chính người dựng.','Vòng thi triển được tính; hết sau Vòng Phụ của vòng '+effect.durationRounds+'.');}
+    if(effect.type==='edit_formula'){facts.push('Đổi chỗ 2 dấu hoặc viết lại 1 dấu');rules.push('Đổi chỗ giữ người góp dấu. Viết lại mang nguồn người hiệu chỉnh.','Tốn một hành động; không ghi thêm dấu vào công thức của chính mình.');}
+    if(effect.type==='end_formula')rules.push('Thi triển xong sẽ kết thúc Đại Đồ Thức, kể cả khi mục tiêu gục trước hit cuối.');
     const prefix=effect.to==='self'&&skill.target!=='self'?'Bản thân: ':'';
     if(effect.type==='damage'){
       const label=scalingLabel(effect,STAT_LABELS);
@@ -115,6 +120,11 @@ export function skillPresentation(skill,actor,content,choices={}) {
       facts.push('Lượt Thêm: 1 · Vòng Phụ hiện tại');
       rules.push('Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.','Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     }
+  }
+  if(skill.effects.some(effect=>effect.formulaScaling)){
+    const power=formulaPower(actor,{correct:choices.formulaCorrect??0,contributors:choices.formulaContributors??0});
+    facts.push((choices.live?'Hiện tại':'Giả định')+': '+power.correct+'/3 dấu đúng · +'+power.baseMagic+' MAG căn bản');
+    const authored=skill.effects.find(effect=>effect.formulaScaling),perfect=formulaDamage(authored,{correct:3});rules.push('Mỗi dấu đúng vị trí tăng '+pct(authored.formulaScaling.perCorrect)+' MAG cho từng hit. Đúng cả ba: mỗi hit '+pct(perfect.multiplier)+' MAG và xuyên '+pct(perfect.penetration)+' RES.','Công thức và MAG nội tại được chốt một lần khi thi triển; buff MAG hiện có áp dụng sau phần cộng căn bản.');
   }
   if(skill.target==='adjacent_allies'){facts.push('Hai ô kề · nối vòng ô 1 ↔ 4');rules.push('Không tự chọn người nhận và không cấp lượt cho bản thân.','Ô trống hoặc đồng đội đã gục không được thay bằng ô khác.','Lượt đã có không cộng dồn; người nhận vẫn cần đủ MP và kỹ năng hết hồi chiêu để dùng chiêu mong muốn.');}
   if(skill.target==='random_enemies'){facts.push('Mỗi đòn chọn ngẫu nhiên một địch còn sống');rules.push('Có thể trúng lặp; một địch còn sống sẽ nhận toàn bộ các đòn.','Không ưu tiên mục tiêu đang chọn. Như đòn đa mục tiêu: bỏ qua Khiêu khích và Che chắn, không kích hoạt Liên kích phép đơn mục tiêu.');}
@@ -165,6 +175,7 @@ export function passivePresentation(actor,content) {
   const facts=[],rules=[];
   let summary='',name=p.name??({damage_reduction:'Bền bỉ',shield_break_heal:'Dư âm thủy hộ'}[p.type]??'Năng lực đặc trưng');
   switch(p.type){
+    case 'formula_scholar':summary='Kế thừa tri thức từ những đồng đội đã góp vào công thức.';facts.push('+'+p.amount+' MAG căn bản/đồng đội khác nhau · tối đa +'+(p.amount*p.maxSources));rules.push('Chỉ áp dụng cho Đại định lý; cộng một lần cho toàn bộ các hit, trước buff MAG%.','Dấu viết lại bởi bản thân không tính. Nhiều dấu của một người chỉ tính một nguồn.','Luận cứ đã ghi vẫn được tính khi người góp dấu đã gục.');break;
     case 'kill_mp_discount':summary='Hạ một đối thủ để tiết kiệm quân lực cho phần còn lại của trận.';facts.push('Giảm '+pct(p.ratio)+' MP tiêu hao sau lần tự hạ địch đầu tiên');rules.push('Không cộng dồn. Không hoàn MP cho chiêu vừa gây hạ gục.','Hiệu lực giữ qua các phòng trong một chuyến; trận mới độc lập sẽ đặt lại.','Chi phí làm tròn lên, tối thiểu 1 MP với chiêu có tốn MP.');break;
     case 'target_debuff_damage':summary='Biến hiệu ứng bất lợi trên mục tiêu thành sức mạnh của bản nhạc.';facts.push('+'+pct(p.ratio)+' sát thương mỗi loại debuff · tối đa +'+pct(p.cap));rules.push('Đếm số loại hiệu ứng khác nhau; nhiều tầng hoặc nhiều chỉ số trong cùng một hiệu ứng vẫn chỉ tính một loại.','Đếm lại ở từng hit, bất kể người gây debuff. Áp dụng cho đánh thường và đòn đánh trực tiếp.','Cộng với các buff tăng sát thương cùng nhóm; giới hạn chỉ áp dụng cho nội tại này.');break;
     case 'later_target_base_stat':summary='Khai thác đối thủ đứng sau mình trong thứ tự lượt.';facts.push('+'+number(p.amount)+' '+statName(p.stat)+' căn bản cho kỹ năng đủ điều kiện');rules.push('Cần ít nhất một mục tiêu đứng sau trong thứ tự Vòng Chính; Vòng Phụ dùng lại bảng này.','Chốt lúc thi triển; cộng trước buff %. Chỉ cộng một lần cho cả chiêu, không nhân theo số địch hoặc số hit.','Không áp dụng cho đánh thường, phản công và liên kích.');break;

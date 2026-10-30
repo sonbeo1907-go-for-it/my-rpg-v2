@@ -3506,5 +3506,100 @@
         "multiplier": 0.9
       }
     ]
+  },
+  {
+    "id": "auguste.lecture",
+    "name": "Đại giảng đường: Khai nguyên",
+    "target": "self",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 6,
+    "presentation": "academic_open",
+    "description": "Dựng Đại Đồ Thức và chuẩn bị một Lượt Thêm để chốt công thức.",
+    "effects": [
+      {
+        "type": "formula_field",
+        "name": "Đại Đồ Thức",
+        "sequence": [
+          "lead",
+          "break",
+          "strike"
+        ],
+        "durationRounds": 3,
+        "background": "/art/auguste-academy.svg"
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ]
+  },
+  {
+    "id": "auguste.rebuttal",
+    "name": "Phản biện thuật thức",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "presentation": "academic_rebuttal",
+    "description": "Phản biện ma lực của một đối thủ bằng phép Thường.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "multiplier": 1.6,
+        "onHitStatus": {
+          "status": "academic_rebuttal",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "auguste.edit",
+    "name": "Hiệu chỉnh luận cứ",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "requiresFormula": true,
+    "minFormulaEntries": 1,
+    "presentation": "academic_edit",
+    "description": "Đổi chỗ hai dấu hoặc viết lại một dấu. Đổi chỗ giữ nguồn; viết lại mang nguồn Auguste.",
+    "effects": [
+      {
+        "type": "edit_formula"
+      }
+    ]
+  },
+  {
+    "id": "auguste.theorem",
+    "name": "Đại định lý: Điều phải chứng minh",
+    "target": "enemy",
+    "cost": {
+      "mp": 36
+    },
+    "requiresFormula": true,
+    "minFormulaEntries": 3,
+    "presentation": "academic_theorem",
+    "description": "Chốt công thức thành ba đòn phép Thường, rồi kết thúc Đại Đồ Thức.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "multiplier": 1.8,
+        "hits": 3,
+        "formulaScaling": {
+          "perCorrect": 0.6,
+          "perfectPenetration": 0.5
+        }
+      },
+      {
+        "type": "end_formula",
+        "to": "self"
+      }
+    ]
   }
 ]

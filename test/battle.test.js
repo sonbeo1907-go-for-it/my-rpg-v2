@@ -1,3 +1,4 @@
+import { defaultFormulaEdit } from '../src/core/formula-field.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadContent } from '../scripts/load-content.mjs';
@@ -165,7 +166,7 @@ test('every character can complete a deterministic headless battle without inval
       const skill = skills[turnNumber % skills.length];
       const abilityId = skill?.id ?? '$attack';
       const target = skill ? targetsFor(battle, actor, skill)[0] : battle.actors.find(target => target.team === 'enemy' && target.hp > 0);
-      executeAction(battle, { actorId: actor.id, abilityId, targetId: target?.id });
+      executeAction(battle, { actorId: actor.id, abilityId, targetId: target?.id, ...(skill?.effects.some(effect=>effect.type==='edit_formula') ? {formulaEdit:defaultFormulaEdit(actor.formulaField)} : {}) });
       for (const member of battle.actors) {
         assert.ok(Number.isFinite(member.hp) && member.hp >= 0 && member.hp <= member.stats.maxHp, `${id}: HP`);
         assert.ok(Number.isFinite(member.mp) && member.mp >= 0 && member.mp <= member.stats.maxMp, `${id}: MP`);
@@ -196,23 +197,24 @@ test('feedback preserves hit then shield-break healing even when net HP increase
   const before = arthur.hp;
   use(battle, 'enemy_0', 'enemy.slash', 'arthur');
   assert.ok(arthur.hp > before);
-  assert.deepEqual(battle.events.map(event => event.type), ['damage', 'heal']);
-  assert.deepEqual(battle.events[0], { type: 'damage', targetId: 'arthur', sourceId: 'enemy_0', amount: 1, absorbed: 19, element: 'plain', weakness: false });
-  assert.equal(battle.events[1].amount, 11);
+  const feedback=battle.events.filter(event=>['damage','heal'].includes(event.type));
+  assert.deepEqual(feedback.map(event => event.type), ['damage', 'heal']);
+  assert.deepEqual(feedback[0], { type: 'damage', targetId: 'arthur', sourceId: 'enemy_0', amount: 1, absorbed: 19, element: 'plain', weakness: false, damageType:'physical',abilityId:'enemy.slash',area:false,reaction:false,hitIndex:0,primary:true });
+  assert.equal(feedback[1].amount, 11);
 });
 
 test('shield-only impacts have damage feedback while dodges do not', () => {
   const shieldBattle = setup(['elaine', 'arthur']);
   use(shieldBattle, 'elaine', 'elaine.shield', 'arthur');
   use(shieldBattle, 'enemy_0', 'enemy.slash', 'arthur');
-  assert.equal(shieldBattle.events[0].type, 'damage');
-  assert.equal(shieldBattle.events[0].amount, 0);
-  assert.equal(shieldBattle.events[0].absorbed, 20);
+  const blocked=shieldBattle.events.find(event=>event.type==='damage');
+  assert.equal(blocked.amount, 0);
+  assert.equal(blocked.absorbed, 20);
 
   const dodgeBattle = setup(['takeshi'], () => 0);
   use(dodgeBattle, 'takeshi', 'takeshi.stance');
   use(dodgeBattle, 'enemy_0', 'enemy.slash', 'takeshi');
-  assert.equal(dodgeBattle.events[0].type, 'dodge');
+  assert.equal(dodgeBattle.events.find(event=>event.type==='dodge').targetId,'takeshi');
   assert.ok(!dodgeBattle.events.some(event => event.type === 'damage' && event.targetId === 'takeshi'));
   assert.ok(dodgeBattle.events.some(event => event.type === 'damage' && event.targetId === 'enemy_0'));
 });

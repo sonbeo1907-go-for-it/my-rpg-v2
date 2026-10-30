@@ -176,5 +176,14 @@
     "modifiers": {
       "speed": -0.15
     }
+  },
+  {
+    "id": "academic_rebuttal",
+    "name": "Phản biện",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": -0.15
+    }
   }
 ]

@@ -1,4 +1,8 @@
 "use client";
+import { FormulaBoards, FormulaForecast, FormulaSkillTag, FormulaScene, FormulaEditControl } from './formula-board';
+import { CombatEffects } from "./combat-effects";
+import { AcademicEffects } from './academic-effects';
+import { activeFormula, defaultFormulaEdit, validateFormulaEdit } from '../core/formula-field.js';
 import { TurnOrder } from "./turn-order";
 import { CosmicEffects } from "./cosmic-effects";
 import { targetsAsGroup, randomTargetLabel, resourceCost } from "../core/conditional-combat.js";
@@ -97,44 +101,10 @@ export function CombatantCard({
   legal: boolean;
   onSelect: () => void;
 }) {
-  const { content, battle, events, animationSpeed } = useGame();
-  const card = useRef<HTMLElement>(null);
-  const impacts = events.filter(
-    (event) =>
-      event.targetId === actor.id &&
-      ["damage", "heal", "mp_restore", "dodge"].includes(event.type),
-  );
-  useEffect(() => {
-    const incoming = events.filter((event) => event.targetId === actor.id);
-    if (
-      !card.current ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    if (incoming.some((event) => event.type === "damage"))
-      card.current.animate(
-        [
-          { transform: "translateX(0)", backgroundColor: "#0c1d27" },
-          { transform: "translateX(-3px)", backgroundColor: "#6c303c" },
-          { transform: "translateX(3px)" },
-          { transform: "translateX(0)", backgroundColor: "#0c1d27" },
-        ],
-        { duration: animationSpeed === "fast" ? 180 : 400 },
-      );
-    else if (incoming.some((event) => event.type === "heal"))
-      card.current.animate(
-        [
-          { backgroundColor: "#0c1d27" },
-          { backgroundColor: "#39734e" },
-          { backgroundColor: "#0c1d27" },
-        ],
-        { duration: animationSpeed === "fast" ? 180 : 500 },
-      );
-  }, [events, actor.id, animationSpeed]);
+  const { battle } = useGame();
   const acting = battle.activeId === actor.id && !battle.outcome;
   return (
     <article
-      ref={card}
       className={`combatant ${actor.hp <= 0 ? "fallen" : ""} ${acting ? "current-turn" : ""} ${actor.shield > 0 ? "has-shield" : ""} ${selected ? "is-target" : ""} ${affected ? "is-affected" : ""} ${hovered ? "turn-hovered" : ""}`}
       data-actor-id={actor.id}
       data-team={actor.team}
@@ -219,24 +189,6 @@ export function CombatantCard({
           <StatusBadge key={status.id} status={status} actor={actor} />
         ))}
       </div>
-      {impacts.map((event, index) => (
-        <span
-          key={event.key}
-          className={`combat-impact ${event.type}`}
-          style={{
-            animationDelay: `${index * (animationSpeed === "fast" ? 40 : 100)}ms`,
-            animationDuration: animationSpeed === "fast" ? "220ms" : "650ms",
-          }}
-        >
-          {event.type === "damage"
-            ? event.amount
-              ? `−${event.amount}`
-              : `Chặn ${event.absorbed}`
-            : event.type === "dodge"
-              ? "Né!"
-              : `+${event.amount}${event.type === "mp_restore" ? " MP" : " HP"}`}
-        </span>
-      ))}
     </article>
   );
 }
@@ -264,6 +216,7 @@ function SkillInfo({
       </div>
       {reason && <p className="unavailable-reason">{reason}</p>}
       <SkillBody skill={skill} actor={actor} content={content} choices={choices} combat/>
+      <FormulaForecast battle={{...battle,content}} actor={actor} skill={skill}/>
       {cost && (
         <p>
           {actor.resources[cost.id].name}: {actor.resourceValues[cost.id] ?? 0}/
@@ -335,7 +288,7 @@ function SkillCommand({
           if (!busy && available.ok) onSelect();
         }}
       >
-        <strong>{skill.name}</strong>
+        <strong>{skill.name}<FormulaSkillTag battle={{...battle,content}} actor={actor} skill={skill}/></strong>
         <span className="command-scaling">
           {compactSkillScaling(skill, actor, previewTarget, content, battle)}
         </span>
@@ -493,6 +446,10 @@ export function BattlePage() {
     notify,
   } = useGame();
   const [hovered, setHovered] = useState("");
+  const [visualAction,setVisualAction]=useState<any>(null);
+  const visualName=battle?.actors.find((item:any)=>item.id===visualAction?.sourceId)?.name;
+  const [savedFormulaEdit,setSavedFormulaEdit]=useState<any>(null);
+  useEffect(()=>setSavedFormulaEdit(null),[battle?.sessionId,battle?.activeId,battle?.round,battle?.phase,battleUI.skillId]);
   const actor = battle?.actors.find((item: any) => item.id === battle.activeId);
   const commandActor = actor?.team === "party" ? actor : null;
   const skills = commandActor
@@ -739,6 +696,10 @@ export function BattlePage() {
     commandActor && skill
       ? abilityAvailability({ ...battle, content }, commandActor, skill)
       : { ok: false, reason: "" };
+  const ownFormula=commandActor?activeFormula({...battle,content},commandActor):null;
+  let formulaEdit=defaultFormulaEdit(ownFormula);
+  if(savedFormulaEdit){try{validateFormulaEdit(ownFormula,savedFormulaEdit);formulaEdit=savedFormulaEdit;}catch{}}
+  const hasFormulaField=battle.actors.some((item:any)=>activeFormula({...battle,content},item));
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
@@ -823,10 +784,13 @@ export function BattlePage() {
           <BossPhasePanel key={boss.id} boss={boss} />
         ))}
       {battle.presentation && <div className="summon-backdrop" aria-hidden="true" style={{backgroundImage:'url("'+battle.presentation.background+'")'}}><span className="summon-eye-halo"/></div>}
+      <CombatEffects events={events} content={content} sessionId={battle.sessionId} speed={animationSpeed} onCue={setVisualAction}/>
+      <AcademicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
       <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
       {battle.presentation && <div className="summon-state" role="status">Magnamut · Cộng hưởng thời không <span>+15 MAG căn bản · Mệnh lệnh hủy diệt</span></div>}
       <div className="battle-layout">
-        <section className="battlefield panel">
+        <section className={`battlefield panel ${hasFormulaField?"has-academic-field":""}`}>
+          <FormulaScene battle={{...battle,content}} content={content}/>
           <div className="battle-reactions" aria-live="polite">
             {events
               .filter((event) => event.type === "reaction")
@@ -858,6 +822,7 @@ export function BattlePage() {
               .map(renderActor)}
           </div>
           <TurnOrder onHover={setHovered} />
+          <FormulaBoards battle={{...battle,content}} content={content}/>
           <div className="ally-grid">
             {battle.actors
               .filter((item: any) => item.team === "party")
@@ -884,12 +849,12 @@ export function BattlePage() {
             <BattleResultControls />
           ) : actor?.team === "enemy" ? (
             <>
-              <h2>Lượt của {actor.name}</h2>
-              <p>Đối thủ đang hành động…</p>
+              <h2>{busy&&visualName?visualName+" đang thi triển":"Lượt của "+actor.name}</h2>
+              <p>{busy&&visualAction?visualAction.label:"Đối thủ đang hành động…"}</p>
             </>
           ) : (
             <>
-              <h2>Lượt của {actor?.name}</h2>
+              <h2>{busy&&visualName?visualName+" đang thi triển":"Lượt của "+actor?.name}</h2>
               <p className="command-hint">
                 Chọn kỹ năng và bấm trực tiếp vào thẻ mục tiêu. Rê chuột hoặc
                 chạm giữ kỹ năng để xem chi tiết.
@@ -908,6 +873,8 @@ export function BattlePage() {
               </div>
               {skill && (
                 <>
+                  {skill.effects.some((effect:any)=>effect.type==='edit_formula') && ownFormula?.entries.length>0 && <FormulaEditControl owner={actor} skill={skill} battle={{...battle,content}} content={content} value={formulaEdit} onChange={setSavedFormulaEdit} busy={busy}/>}
+                  <FormulaForecast battle={{...battle,content}} actor={actor} skill={skill}/>
                   <div className="target-summary" aria-live="polite">
                     <span>MỤC TIÊU THỰC THI</span>
                     <strong>{targetLabel}</strong>
@@ -930,6 +897,7 @@ export function BattlePage() {
                         actorId: actor.id,
                         abilityId: skill.id,
                         targetId: targets.targetId,
+                        ...(skill.effects.some((effect:any)=>effect.type==='edit_formula') ? {formulaEdit} : {}),
                       })
                     }
                   >

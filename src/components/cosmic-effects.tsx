@@ -13,11 +13,11 @@ export function CosmicEffects({ events, sessionId, speed }: { events: any[]; ses
     return () => { if (timer.current) clearTimeout(timer.current); };
   }, [sessionId]);
   useEffect(() => {
-    const casts = events.filter(event => event.type === "ability_cast" && event.presentation?.startsWith("cosmic_") && !seen.current.has(event.key));
+    const casts = events.filter(event => event.type === "ability_cast" && event.presentation?.startsWith("cosmic_") && !seen.current.has(event.visualId??event.key));
     if (!casts.length) return;
-    for (const cast of casts) seen.current.add(cast.key);
+    for (const cast of casts) seen.current.add(cast.visualId??cast.key);
     // Retain only the recent batch; event history cannot grow with an endless run.
-    if (seen.current.size > 64) seen.current = new Set(casts.map(event => event.key));
+    if (seen.current.size > 64) seen.current = new Set(casts.map(event => event.visualId??event.key));
     const cast = casts.at(-1)!;
     const formation = cast.area || cast.presentation === "cosmic_summon";
     const anchor = formation ? document.querySelector(".enemy-grid") : Array.from(document.querySelectorAll<HTMLElement>("[data-actor-id]")).find(card => card.dataset.actorId === cast.targetId);
