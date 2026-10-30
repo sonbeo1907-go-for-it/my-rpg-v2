@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="void"><stop stop-color="#010208"/><stop offset=".5" stop-color="#0c0620"/><stop offset=".82" stop-color="#251047"/><stop offset="1" stop-color="#070610"/></radialGradient>
+    <linearGradient id="rift" x2="1" y2="1"><stop stop-color="#180d34"/><stop offset=".45" stop-color="#7337a0" stop-opacity=".4"/><stop offset=".7" stop-color="#433389" stop-opacity=".3"/><stop offset="1" stop-color="#160821"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#c4ddff" stop-opacity=".85"/><stop offset=".2" stop-color="#708dff" stop-opacity=".6"/><stop offset="1" stop-color="#4645d4" stop-opacity="0"/></radialGradient>
+    <linearGradient id="face"><stop stop-color="#060611"/><stop offset=".5" stop-color="#17182d"/><stop offset="1" stop-color="#03040b"/></linearGradient>
+    <radialGradient id="nebula"><stop stop-color="#9a55d4" stop-opacity=".3"/><stop offset=".45" stop-color="#523282" stop-opacity=".18"/><stop offset="1" stop-color="#190c31" stop-opacity="0"/></radialGradient>
+    <filter id="eye"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <path fill="url(#void)" d="M0 0h1920v1080H0z"/>
+  <g fill="url(#rift)">
+    <path d="M0 0h740L570 180 730 370 300 210 40 430 190 150Z"/>
+    <path d="M1920 0H1220l190 220-110 185 350-160 270 260-120-330Z"/>
+    <path d="m0 1080 190-330 380-40 160-200-60 330 240 240Z"/>
+    <path d="m1920 1080-260-360-340-150 70 320-280 190Z"/>
+  </g>
+  <g fill="url(#nebula)"><ellipse cx="90" cy="250" rx="580" ry="300"/><ellipse cx="1800" cy="240" rx="520" ry="370"/><ellipse cx="160" cy="870" rx="600" ry="290"/><ellipse cx="1750" cy="890" rx="650" ry="340"/></g>
+  <g fill="none" stroke="#8459c5" opacity=".17" stroke-width="3">
+    <path d="M0 190q620-250 920 105M1920 130q-590-220-880 160M0 970q650 100 860-230M1920 990q-700 70-890-250"/>
+    <path d="M0 370q320-230 600-100M1920 400q-330-220-620-130M130 1080q500-70 640-300M1830 1080q-440-90-670-290"/>
+  </g>
+  <!-- A silhouette inside the wormhole: horns, layered brow and a long armored snout. -->
+  <path fill="#03040b" d="m960 820-190-160-45-175-170-290 220 125-85-290 230 210 40-130 40 130L1230 30l-85 290 220-125-170 290-45 175Z"/>
+  <path fill="url(#face)" d="m960 255-120 150-80-35 85 180 20 145 95 125 95-125 20-145 85-180-80 35Z"/>
+  <path fill="#070812" d="m960 320-45 195 45 235 45-235Z"/>
+  <g fill="none" stroke="#333659" opacity=".4" stroke-width="4"><path d="m830 393 76 89-48 35M1090 393l-76 89 48 35M960 530l-38 114 38 62 38-62Z"/><path d="m853 582 28 63m186-63-28 63"/></g>
+  <ellipse cx="850" cy="510" rx="115" ry="66" fill="url(#halo)"/>
+  <ellipse cx="1070" cy="510" rx="115" ry="66" fill="url(#halo)"/>
+  <g fill="#a0a8ff" filter="url(#eye)"><path d="m810 480 69 65-44-19Z"/><path d="m1110 480-69 65 44-19Z"/></g>
+  <g fill="#e9f8ff"><path d="m810 480 69 65-44-19-17-21Z"/><path d="m1110 480-69 65 44-19 17-21Z"/></g>
+  <g fill="#c2b2ff" opacity=".4"><circle cx="230" cy="340" r="2"/><circle cx="1440" cy="130" r="2"/><circle cx="1580" cy="735" r="3"/><circle cx="440" cy="830" r="2"/><circle cx="720" cy="115" r="1"/><circle cx="1130" cy="940" r="2"/><circle cx="1700" cy="420" r="1"/><circle cx="310" cy="610" r="1"/></g>
+</svg>

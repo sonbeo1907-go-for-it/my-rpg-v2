@@ -1,4 +1,5 @@
 "use client";
+import { CosmicEffects } from "./cosmic-effects";
 import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -279,7 +280,7 @@ function SkillInfo({
       )}
       <p className="popover-target">
         {skill.target.startsWith("all_")
-          ? (TARGET_NAMES as any)[skill.target]
+          ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
           : `Mục tiêu: ${target?.name ?? actor.name}`}
       </p>
 
@@ -772,12 +773,13 @@ export function BattlePage() {
       ? abilityAvailability({ ...battle, content }, commandActor, skill)
       : { ok: false, reason: "" };
   const targetLabel = skill?.target.startsWith("all_")
-    ? (TARGET_NAMES as any)[skill.target]
+    ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
   return (
     <main
       className="page battle-page"
       data-speed={animationSpeed}
+      data-combat-mode={battle.presentation?.mode}
       data-gamepad-phase={gamepadPhase}
       data-dungeon-wave={
         battle.dungeon ? battle.dungeon.waveIndex + 1 : undefined
@@ -853,6 +855,9 @@ export function BattlePage() {
         .map((boss: any) => (
           <BossPhasePanel key={boss.id} boss={boss} />
         ))}
+      {battle.presentation && <div className="summon-backdrop" aria-hidden="true" style={{backgroundImage:'url("'+battle.presentation.background+'")'}}><span className="summon-eye-halo"/></div>}
+      <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
+      {battle.presentation && <div className="summon-state" role="status">Magnamut · Cộng hưởng thời không <span>+15 MAG căn bản · Mệnh lệnh hủy diệt</span></div>}
       <div className="battle-layout">
         <section className="battlefield panel">
           <div className="battle-reactions" aria-live="polite">

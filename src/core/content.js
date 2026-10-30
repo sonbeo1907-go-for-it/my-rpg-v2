@@ -12,9 +12,9 @@ export const WEAKNESS_MULTIPLIER = 1.5;
 export const ROLE_GROUPS = {
   physical_dps: 'DPS vật lí', magical_dps: 'DPS ma pháp',
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
-  tank: 'Thủ Hộ', fighter: 'Đấu sĩ'
+  tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn'];
+export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -68,7 +68,7 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
     if (native?.type === 'damage_reduction' && (!Number.isFinite(native.amount) || native.amount<0 || native.amount>1 || (native.requiresStatus !== undefined && !Object.hasOwn(content.statuses,native.requiresStatus)))) fail(`${id}: invalid conditional damage reduction`);
     if (native?.type === 'buffed_ally_mp' && !validReactivePassive(native,content,actor)) fail(`${id}: invalid reactive passive`);
@@ -157,9 +157,27 @@ export function validateContent(content) {
         if (attackResource && (effect.to === 'self' || skill.target === 'self') && !Object.hasOwn(actor.resources ?? {}, attackResource)) fail(`${id}/${skillId}: unknown attack resource ${attackResource}`);
       }
     }
+    if (actor.developerOnly !== undefined && typeof actor.developerOnly !== 'boolean') fail(id + ': invalid developer flag');
+    if (actor.passive?.type === 'combat_mode' && !Object.keys(actor.combatModes ?? {}).length) fail(id + ': combat mode passive requires modes');
+    for (const [modeId, mode] of Object.entries(actor.combatModes ?? {})) {
+      if (!modeId || !mode.name || !actor.resources?.[mode.resource] || mode.emptyExit !== 'turn_start_or_round_end'
+        || !Array.isArray(mode.allowedAbilities) || !mode.allowedAbilities.length || mode.allowedAbilities.some(skill => !actor.abilities.includes(skill))
+        || !Number.isFinite(mode.exitMpRatio) || mode.exitMpRatio < 0 || mode.exitMpRatio > 1
+        || !mode.baseStatBonuses || Object.entries(mode.baseStatBonuses).some(([key,value]) => !['attack','magic','defense','resistance','speed'].includes(key) || !Number.isFinite(value) || value < 0)
+        || !/^\/art\/[a-z0-9_-]+\.svg$/.test(mode.background)) fail(id + ': invalid combat mode');
+      exists('music',mode.music,id);
+    }
+    for (const skillId of actor.abilities ?? []) {
+      const skill = content.abilities[skillId];
+      if (skill?.requiresMode && !actor.combatModes?.[skill.requiresMode]) fail(id + ': unknown required mode');
+      if (skill?.requiresResource && (!actor.resources?.[skill.requiresResource.id] || skill.requiresResource.min > actor.resources[skill.requiresResource.id].max)) fail(id + ': invalid required resource');
+      for (const effect of skill?.effects ?? []) if (effect.type === 'enter_mode' && !actor.combatModes?.[effect.mode]) fail(id + ': unknown mode');
+    }
     validateBossDefinition(actor, content, fail);
   }
   for (const [id, skill] of Object.entries(content.abilities)) {
+    if (skill.requiresResource && (!skill.requiresResource.id || !Number.isInteger(skill.requiresResource.min) || skill.requiresResource.min < 1)) fail(id + ': invalid resource requirement');
+    if (skill.requiresMode !== undefined && (typeof skill.requiresMode !== 'string' || !skill.requiresMode)) fail(id + ': invalid mode requirement');
     if (skill.activation !== undefined && !['active', 'passive'].includes(skill.activation)) fail(`${id}: invalid activation`);
     if (skill.requiresTargetStatus !== undefined) exists('statuses',skill.requiresTargetStatus,id);
     if (!['enemy', 'all_enemies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
@@ -197,6 +215,8 @@ export function validateContent(content) {
         if (effect.type !== 'damage' || !Number.isInteger(effect.onHitStatus?.duration) || effect.onHitStatus.duration < 1) fail(id + ': invalid on-hit status');
       }
       if (effect.extraStacksIfPresent !== undefined && (effect.type !== 'status' || !Number.isInteger(effect.extraStacksIfPresent) || effect.extraStacksIfPresent < 1 || !content.statuses[effect.status]?.maxStacks)) fail(`${id}: invalid conditional status stacks`);
+      if (effect.type === 'enter_mode' && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
+      if (effect.primaryMultiplier !== undefined && (effect.type !== 'damage' || skill.target !== 'all_enemies' || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
       if (effect.type === 'damage') {
         if (!ELEMENTS.includes(effect.element)) fail(`${id}: invalid damage element`);
         if (!['physical', 'magical'].includes(effect.damageType)) fail(`${id}: invalid damage type`);

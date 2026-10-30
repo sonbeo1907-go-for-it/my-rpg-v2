@@ -47,7 +47,7 @@ export function validateEconomyContent(content) {
     if (banner.pity !== undefined && (!banner.pity || !positiveInt(banner.pity.characterAt) || banner.pity.characterAt < 2)) errors.push(`banners: invalid pity ${banner.id}`);
     if (!Array.isArray(banner.characterPool) || !banner.characterPool.length
       || new Set(banner.characterPool).size !== banner.characterPool.length
-      || banner.characterPool.some(id => !Object.hasOwn(content.characters, id) || rules.starterCharacters?.includes(id))) errors.push(`banners: invalid characterPool ${banner.id}`);
+      || banner.characterPool.some(id => !Object.hasOwn(content.characters, id) || content.characters[id]?.developerOnly || rules.starterCharacters?.includes(id))) errors.push(`banners: invalid characterPool ${banner.id}`);
     if (!Array.isArray(banner.gearRates) || !banner.gearRates.length
       || new Set(banner.gearRates.map(item => item.typeId)).size !== banner.gearRates.length
       || banner.gearRates.some(item => !Object.hasOwn(content.gearTypes, item.typeId) || !positiveInt(item.weight))) errors.push(`banners: invalid gearRates ${banner.id}`);

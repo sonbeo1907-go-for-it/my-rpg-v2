@@ -6,5 +6,13 @@
   {"id":"wyvern","name":"Trận phi long","tracks":["/bgm/boss_wyvern.mp3"]},
   {"id":"victory","name":"Chiến thắng","tracks":["/bgm/victory.mp3"],"loop":false},
   {"id":"alice","name":"Siêu trùm Alice","tracks":["/bgm/spboss_alice.mp3"]},
-  {"id":"miraebolis","name":"Siêu trùm Miraebolis","tracks":["/bgm/spboss_miraebolis.mp3"]}
+  {"id":"miraebolis","name":"Siêu trùm Miraebolis","tracks":["/bgm/spboss_miraebolis.mp3"]},
+  {
+    "id": "astoria",
+    "name": "Magnamut · Cộng hưởng thời không",
+    "tracks": [
+      "/bgm/bgm_astoria.mp3"
+    ],
+    "loop": true
+  }
 ]

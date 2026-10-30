@@ -10,7 +10,8 @@ import { SwitchProfileButton } from "./profiles";
 import { BrandLogo } from "./brand-logo";
 
 function SettingsDialog() {
-  const { audio, entered, openSaveDirectory } = useGame();
+  const { audio, entered, openSaveDirectory, campaign, battle, busy, setAstoriaEnabled } = useGame();
+  const [developerOpen, setDeveloperOpen] = useState(false);
   const { preferences, update, open, setOpen, connection, storageError } =
     useSettings();
   const [tab, setTab] = useState("audio");
@@ -199,6 +200,7 @@ function SettingsDialog() {
         </section>
       )}
       <div className="profile-dialog-actions">
+        <button onClick={() => setDeveloperOpen(true)}>Developer Option</button>
         <button onClick={openSaveDirectory}>
           <Icon name="folder" /> Mở thư mục lưu dữ liệu game
         </button>
@@ -206,6 +208,20 @@ function SettingsDialog() {
           <SwitchProfileButton className="" onLeave={() => setOpen(false)} />
         )}
       </div>
+      {developerOpen && <Modal title="Developer Option" onClose={() => setDeveloperOpen(false)} footer={<button onClick={() => setDeveloperOpen(false)}>Đóng Developer Option</button>}>
+        <div className="developer-astoria">
+          <span className="eyebrow">THỬ NGHIỆM · THỜI KHÔNG</span>
+          <h3>Astoria</h3>
+          <p>Thuật Sư hệ Ám · Kẻ du hành xuyên không thời gian.</p>
+          <p>Bản trùng: <strong>0</strong> · 3 ô trang bị. Nhân vật không xuất hiện trong Chiêu Mộ.</p>
+          <button role="switch" aria-checked={Boolean(campaign?.storyFlags.includes("developer.astoria"))} disabled={!entered || busy || Boolean(battle && !battle.outcome)} onClick={() => void setAstoriaEnabled(!campaign?.storyFlags.includes("developer.astoria"))}>
+            {campaign?.storyFlags.includes("developer.astoria") ? "Tắt Astoria" : "Bật Astoria"}
+          </button>
+          {!entered && <p className="settings-notice">Chọn một hành trình trước khi bật nhân vật thử nghiệm.</p>}
+          {battle && !battle.outcome && <p className="settings-notice">Kết thúc trận hoặc chuyến đi trước khi thay đổi.</p>}
+          <small>Tắt sẽ gỡ Astoria khỏi đội hình và trả trang bị về túi đồ.</small>
+        </div>
+      </Modal>}
       {storageError && (
         <p className="warning" role="status">
           {storageError}

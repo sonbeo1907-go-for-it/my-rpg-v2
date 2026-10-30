@@ -39,6 +39,8 @@ import { activeStatuses } from "./status-state.js";
 import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
+import { checkCombatMode, enterCombatMode, modeAvailability } from "./combat-modes.js";
+const modeIO = { write, emit: emitEvent, restore: gainResource };
 const living = (actor) => actor.hp > 0;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -218,6 +220,7 @@ function startRound(battle) {
   battle.extraPhaseRequired = false;
   if (battle.round - (battle.roundOffset ?? 0) > 60) {
     battle.outcome = "draw";
+    for (const actor of battle.actors) checkCombatMode(battle,actor,"battle_end",modeIO);
     write(battle, "Trận đấu dừng sau 60 vòng.");
     return;
   }
@@ -253,6 +256,7 @@ function healHp(battle, target, requested, sourceId, label = "") {
 function beginTurn(battle) {
   const actor = activeActor(battle);
   if (!actor) return;
+  checkCombatMode(battle,actor,"turn_start",modeIO);
   if (battle.phase === "extra") battle.extraTurnUsed.add(actor.id);
   // Poison resolves before any regeneration or turn-start passive, even after its source falls.
   for (const status of [...actor.statuses]) {
@@ -402,6 +406,7 @@ function checkOutcome(battle) {
     !battle.actors.some((actor) => actor.team === "party" && living(actor))
   )
     battle.outcome = "defeat";
+  for (const actor of battle.actors) checkCombatMode(battle,actor,battle.outcome ? "battle_end" : "owner_state",modeIO);
   return battle.outcome;
 }
 
@@ -435,6 +440,7 @@ function finishPhase(battle) {
 function finishMainRound(battle) {
   if (checkOutcome(battle) || battle.endOfRoundResolvedRound === battle.round) return;
   battle.endOfRoundResolvedRound = battle.round;
+  for (const actor of battle.actors) checkCombatMode(battle,actor,"round_end",modeIO);
   for (const source of battle.actors.filter(living)) {
     const passive = source.passive;
     if (passive?.type !== "end_round_lowest_mp") continue;
@@ -469,6 +475,8 @@ export function targetsFor(battle, actor, skill) {
 export function abilityAvailability(battle, actor, skill) {
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
+  const modeCheck = modeAvailability(actor,skill);
+  if (modeCheck) return modeCheck;
   if ((actor.cooldowns[skill.id] ?? 0) > 0)
     return {
       ok: false,
@@ -839,6 +847,7 @@ function resolveHit(
     target.statuses = target.statuses.filter(
       (status) => !battle.content.statuses[status.id].turnStartAbility,
     );
+    checkCombatMode(battle,target,"owner_ko",modeIO);
     write(battle, `${target.name} gục xuống.`);
   } else if (
     !reaction &&
@@ -930,8 +939,9 @@ function applyEffect(
         i < (effect.hits ?? 1) && living(target) && living(actor);
         i += 1
       )
-        hit(battle, actor, target, effect, spent, { area, actionContext });
+        hit(battle, actor, target, effect.primaryMultiplier !== undefined ? {...effect,multiplier:target.id===actionContext.primaryTargetId ? effect.primaryMultiplier : effect.multiplier} : effect, spent, { area, actionContext });
     }
+    if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "heal") {
       healHp(battle,target,supportAmount(effect,stat(battle,actor,effect.scalingStat ?? "magic"),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD),actor.id);
     }
@@ -1021,6 +1031,7 @@ export function basicAbility(actor) {
     id: "$attack",
     name: magical ? "Phép cơ bản" : "Đánh thường",
     target: "enemy",
+    presentation: actor.basicPresentation,
     effects: actor.basicAttack
       ? structuredClone(actor.basicAttack)
       : [
@@ -1109,9 +1120,11 @@ function resolveAction(
       ? legal
       : legal.filter((target) => target.id === targetId);
   if (!targets.length) throw new Error("Mục tiêu không hợp lệ.");
+  if (skill.effects.some(effect=>effect.primaryMultiplier!==undefined) && !legal.some(target=>target.id===targetId)) throw new Error("Mục tiêu chính không hợp lệ.");
   // Validate everything before mutating MP, resources or turn order.
   if (resetEvents) battle.events = [];
   const oldStatuses = [...actor.statuses];
+  if (skill.presentation) emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,presentation:skill.presentation,targetId,area,targetIds:targets.map(target=>target.id)});
   actor.mp -= skill.cost?.mp ?? 0;
   let spent = 0;
   const deferredResource = skill.cost?.resource?.consumeAt === "after";
@@ -1124,6 +1137,7 @@ function resolveAction(
   write(battle, `${actor.name} dùng ${skill.name}.`);
   const actionContext = attackContext(battle, actor);
   actionContext.skillId = skill.id;
+  actionContext.primaryTargetId = targetId;
   actionContext.preMarkedTargets = new Set(battle.actors.flatMap(target => target.statuses.map(mark => target.id + ":" + mark.id)));
   const damageBonus = exclusivePassive(actor,"skill_damage",skill.id);
   if (damageBonus) actionContext.multiplier *= 1 + damageBonus.ratio;

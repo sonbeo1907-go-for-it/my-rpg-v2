@@ -2889,3 +2889,21 @@ h1[tabindex='-1']:focus { outline: none; }
 .gear-card small .gear-equipped-owner { font-size: .8rem; font-weight: 700; line-height: 1.5; }
 
 .equipped-badge{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:34px;height:34px;border:2px solid #c82333;border-radius:50%;background:#fff;color:#c82333;font-family:Segoe UI,Arial,sans-serif;font-size:1.1rem;font-weight:800;line-height:1;box-shadow:0 2px 7px #0005;pointer-events:none}.gear-card{position:relative}.gear-card>.equipped-badge{position:absolute;right:.7rem;top:.7rem}.equipment-slots>button{position:relative;min-height:104px}.equipment-slots .equipped-badge{position:absolute;right:.3rem;top:.3rem;width:22px;height:22px;font-size:.76rem}.equipment-slots>button>strong.equipment-slot-stats{display:flex;flex-direction:column;gap:.2rem;font-size:.85rem;line-height:1.4;color:var(--gold-light)}
+
+/* Astoria: bounded cosmic effects; the simulation never waits for paint. */
+.developer-astoria{padding:1rem;border:1px solid #9b75c7;border-radius:6px;background:linear-gradient(135deg,#241b37,#101b26)}
+.developer-astoria h3{color:#dec0ff}.developer-astoria button{display:block;margin:1.2rem 0}.developer-astoria small{color:var(--muted)}
+.summon-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;background-size:cover;background-position:center;animation:cosmic-arrive .45s ease-out}
+.battle-page[data-combat-mode]{isolation:isolate}.battle-page[data-combat-mode]>.page-header,.battle-page[data-combat-mode]>.battle-layout,.battle-page[data-combat-mode]>.combat-log,.battle-page[data-combat-mode]>section{position:relative;z-index:1}
+.battle-page[data-combat-mode] .battlefield{background:rgba(10,12,27,.68);border-color:#705194}.battle-page[data-combat-mode] .combatant{background:rgba(13,14,32,.82)}
+.summon-state{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;margin-bottom:1rem;padding:.8rem 1rem;border:1px solid #9771bd;background:#160e28dc;color:#e3c3ff}.summon-state span{color:#acbde4;font-size:.85em}
+.summon-eye-halo{position:absolute;inset:25% 32% 36%;background:radial-gradient(ellipse,#9493ff20,transparent 65%);animation:cosmic-breathe 3.5s ease-in-out infinite alternate}
+.cosmic-fx{position:fixed;z-index:45;pointer-events:none;contain:layout style;animation:cosmic-arrive var(--fx-duration) ease-out both}.cosmic-fx svg{width:100%;height:100%;overflow:visible}.cosmic-slashes path{stroke-dasharray:900;stroke-dashoffset:900;animation:cosmic-cut var(--fx-duration) ease-out both}.cosmic-slashes .slash-two{animation-delay:70ms;stroke-width:6}.cosmic-burst{transform-origin:300px 150px;animation:cosmic-explode var(--fx-duration) ease-out both}.cosmic-particles{transform-origin:300px 150px;animation:cosmic-sparks var(--fx-duration) ease-out both}.cosmic_rupture .cosmic-burst{animation-delay:80ms}
+@keyframes cosmic-arrive{from{opacity:0}20%{opacity:1}to{opacity:1}}
+@keyframes cosmic-cut{0%{stroke-dashoffset:900;opacity:0}20%{opacity:1}65%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes cosmic-explode{0%{transform:scale(.1);opacity:0}25%{opacity:1}100%{transform:scale(1.12);opacity:0}}
+@keyframes cosmic-sparks{0%{transform:scale(.15);opacity:0}35%{opacity:1}100%{transform:scale(1.15);opacity:0}}
+@keyframes cosmic-breathe{to{opacity:.35;transform:scale(1.04)}}
+@media(prefers-reduced-motion:reduce){.summon-backdrop,.summon-eye-halo,.cosmic-fx,.cosmic-fx *{animation:none!important}.cosmic-slashes path{stroke-dashoffset:0}.cosmic-fx{opacity:.6}}
+
+.summon-state{isolation:isolate;min-height:104px;align-content:center;flex-direction:column;justify-content:center;overflow:hidden}.summon-state::after{content:"";position:absolute;inset:0 0 0 42%;z-index:-1;background:linear-gradient(90deg,#160e28,transparent 34%),url('/art/magnamut.svg') center 46%/cover no-repeat}.summon-state span{max-width:62%}@media(max-width:600px){.summon-state{min-height:100px;font-size:.84rem}.summon-state::after{left:30%;opacity:.65}.summon-state span{max-width:75%}}

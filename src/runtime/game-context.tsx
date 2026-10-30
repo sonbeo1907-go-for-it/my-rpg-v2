@@ -31,7 +31,10 @@ import {
   isFinalDungeonWave,
 } from "../core/dungeon.js";
 
+import { battlePresentation } from "../core/combat-modes.js";
+import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
+  setAstoriaEnabled: (enabled: boolean) => Promise<boolean>;
   content: any;
   campaign: any;
   battle: any;
@@ -154,12 +157,17 @@ export function GameProvider({
       : "";
     if (turn !== lastTurn.current) {
       lastTurn.current = turn;
-      setBattleUI((previous) => ({ ...previous, skillId: "$attack" }));
+      setBattleUI((previous) => ({ ...previous, skillId: activeActor(current)?.combatModes?.[activeActor(current)?.activeMode]?.allowedAbilities[0] ?? "$attack" }));
     }
+    if (current?.outcome === "victory") {
+      if (music.current?.state().group !== "victory") music.current?.start("victory");
+    } else if (current?.outcome) music.current?.stop();
+    else music.current?.setBattleOverride(current ? battlePresentation(current.actors)?.music : null);
     // Engine holds RNG functions/content references. Only publish serializable view data to React.
     setBattle(
       current
         ? {
+            presentation: battlePresentation(current.actors),
             encounterId: current.encounterId,
             sessionId: battleSerial.current,
             actors: structuredClone(current.actors),
@@ -378,7 +386,7 @@ export function GameProvider({
         break;
       }
       if (runtime.current.outcome === "victory") {
-        music.current?.start("victory");
+        if (music.current?.state().group !== "victory") music.current?.start("victory");
         await claimReward();
       } else if (runtime.current.outcome) music.current?.stop();
     } catch (error) {
@@ -540,6 +548,7 @@ export function GameProvider({
     return true;
   }
   const value: GameContextValue = {
+    setAstoriaEnabled: (enabled) => transact(current => configureAstoria(current,enabled,{battleActive:Boolean(runtime.current && !runtime.current.outcome) || Boolean(dungeonRun.current && !runtime.current?.outcome)}), enabled ? "Đã bật Astoria · bản trùng 0." : "Đã tắt Astoria."),
     content,
     profiles,
     saveDirectory,

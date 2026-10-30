@@ -36,6 +36,7 @@ export function compactSkillScaling(skill, actor, target, content) {
       const label = effect.damageType === 'physical' ? 'ATK' : 'MAG';
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp });
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
+      if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} MAG chính / ${percent(effect.multiplier)} MAG còn lại`;
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;
       parts.push(line);
@@ -57,6 +58,7 @@ export function compactSkillScaling(skill, actor, target, content) {
       if (status.damageOverTime) parts.push(`${status.name} · ${effect.duration} lượt`);
       if (!modifiers.length && !status.taunt && !status.cover && !status.effectImmunity && !status.regen && !status.turnStartAbility && !status.damageOverTime) parts.push(status.name);
     } else if (effect.type === 'resource') parts.push(effect.maxMpRatio ? `Hồi ${percent(effect.maxMpRatio)} MP` : `+${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources?.[effect.resource]?.name ?? effect.resource}`);
+    else if (effect.type === 'enter_mode') parts.push('Triệu hồi '+actor.combatModes[effect.mode].name);
     else if (effect.type === 'grant_extra_turn') parts.push('+1 Lượt Thêm');
     else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
   }
@@ -76,5 +78,5 @@ export function statusDetails(status, actor, battle, content) {
     if (index >= 0) lines[index] = `Độc đã ghi nhận: ${status.potency} HP mỗi đầu lượt · còn ${status.remaining} lần.`;
   }
   if (status.growth !== undefined) lines.push(`Đã tích ${status.growth} tầng nội tại đám mây.`);
-  return { source: source.name, duration: definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : `${status.remaining} lượt của người mang`, lines };
+  return { source: source.name, duration: definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
 }

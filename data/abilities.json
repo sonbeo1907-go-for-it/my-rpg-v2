@@ -2912,5 +2912,111 @@
         "duration": 2
       }
     ]
+  },
+  {
+    "id": "astoria.slash",
+    "name": "Vết chém không gian",
+    "description": "Xé đội hình địch bằng một vết chém thời không.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "presentation": "cosmic_wave",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.8,
+        "primaryMultiplier": 1.6
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "space_rift",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "astoria.rift",
+    "name": "Không gian rạn nứt",
+    "description": "Chém xuyên không gian, làm suy yếu kháng phép của mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "presentation": "cosmic_rupture",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 1.6
+      },
+      {
+        "type": "status",
+        "status": "space_fracture",
+        "duration": 4
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "space_rift",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "astoria.summon",
+    "name": "Triệu hồi Magnamut",
+    "description": "Hãy trỗi dậy từ hố đen đi, Magnamut.",
+    "target": "self",
+    "cost": {
+      "mp": 0
+    },
+    "requiresResource": {
+      "id": "space_rift",
+      "min": 5
+    },
+    "presentation": "cosmic_summon",
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "magnamut"
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "rules": [
+      "Cần 5 Vết nứt; triệu hồi không tiêu tầng.",
+      "Khi hết tầng: Magnamut rời sân vào cuối vòng (sau Vòng Phụ), hoặc đầu lượt Astoria kế tiếp. Lượt hiện tại vẫn được giữ."
+    ]
+  },
+  {
+    "id": "astoria.command",
+    "name": "Mệnh lệnh hủy diệt",
+    "description": "Hủy diệt mọi thứ trước mắt ngươi đi, Magnamut.",
+    "target": "all_enemies",
+    "requiresMode": "magnamut",
+    "cost": {
+      "resource": {
+        "id": "space_rift",
+        "amount": 1,
+        "consumeAt": "after"
+      }
+    },
+    "presentation": "cosmic_annihilation",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 2,
+        "primaryMultiplier": 3.6
+      }
+    ]
   }
 ]

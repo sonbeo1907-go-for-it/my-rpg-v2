@@ -1022,5 +1022,78 @@
       "capital_knights"
     ],
     "basicDamageType": "magical"
+  },
+  {
+    "id": "astoria",
+    "name": "Astoria",
+    "title": "Kẻ du hành xuyên không thời gian",
+    "element": "dark",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "developerOnly": true,
+    "affiliation": "Lữ khách thời không",
+    "description": "Tích Vết nứt để triệu hồi Magnamut, thay đổi chiến trường và ra lệnh hủy diệt.",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 120,
+      "attack": 12,
+      "magic": 36,
+      "defense": 18,
+      "resistance": 22,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.6
+      },
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.6
+      }
+    ],
+    "basicPresentation": "cosmic_double",
+    "abilities": [
+      "astoria.slash",
+      "astoria.rift",
+      "astoria.summon",
+      "astoria.command"
+    ],
+    "resources": {
+      "space_rift": {
+        "name": "Vết nứt không gian",
+        "max": 5
+      }
+    },
+    "passive": {
+      "type": "combat_mode",
+      "name": "Cộng hưởng không gian và thời gian",
+      "description": "Magnamut hiện diện: +15 MAG căn bản. Mỗi lần Magnamut rời sân, hồi 35% MP tối đa."
+    },
+    "combatModes": {
+      "magnamut": {
+        "name": "Magnamut",
+        "resource": "space_rift",
+        "allowedAbilities": [
+          "astoria.command"
+        ],
+        "baseStatBonuses": {
+          "magic": 15
+        },
+        "exitMpRatio": 0.35,
+        "music": "astoria",
+        "background": "/art/magnamut.svg",
+        "emptyExit": "turn_start_or_round_end",
+        "description": "Chỉ dùng được Mệnh lệnh hủy diệt khi Magnamut hiện diện."
+      }
+    },
+    "tags": [
+      "time_traveler"
+    ]
   }
 ]

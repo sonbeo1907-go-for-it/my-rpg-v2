@@ -55,5 +55,15 @@
   {"id":"sword_eye_slow","name":"Kiếm áp","kind":"debuff","durationClock":"main_turn","modifiers":{"speed":-0.15}},
   {"id":"traveler_ward","name":"Màn hộ vệ","kind":"buff","modifiers":{"defense":0.15,"resistance":0.3}}
 ,
-  {"id":"traveler_mac_defense","name":"Trận tuyến thép","kind":"buff","modifiers":{"defense":0.25}}
+  {"id":"traveler_mac_defense","name":"Trận tuyến thép","kind":"buff","modifiers":{"defense":0.25}},
+  {
+    "id": "space_fracture",
+    "name": "Không gian rạn nứt",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": -0.25
+    },
+    "description": "Giảm RES trong 4 lượt chính của người mang; Lượt Thêm không làm giảm thời hạn."
+  }
 ]

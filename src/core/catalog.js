@@ -7,6 +7,7 @@ const compare = (a, b) => typeof a === 'string' ? a.localeCompare(b, 'vi', { num
 export function characterCatalog(content, campaign, filters = {}, ownedOnly = false) {
   const { q = '', element = '', role = '', ownership = '', sort = 'name', direction = 'asc' } = filters;
   return Object.values(content.characters).filter(actor => {
+    if (actor.developerOnly && !campaign.storyFlags.includes('developer.'+actor.id)) return false;
     const owned = campaign.unlockedCharacterIds.includes(actor.id);
     return (!ownedOnly || owned) && (!ownership || owned === (ownership === 'owned')) && (!element || actor.element === element)
       && (!role || actor.roleGroup === role || actor.secondaryRoleGroups?.includes(role))

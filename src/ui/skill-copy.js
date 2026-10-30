@@ -27,7 +27,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     const self=effect.to==='self'||skill.target==='self';
     const prefix=effect.to==='self'&&skill.target!=='self'?'Bản thân: ':'';
     const extension=exclusive?.type==='skill_status_duration'&&applies(exclusive,skill)&&exclusive.statusId===effect.status?exclusive.extraDuration:0;
-    const turns=effect.duration===undefined?'':` · ${effect.duration+extension} lượt${self?' kế tiếp':''}`;
+    const turns=effect.duration===undefined?'':` · ${effect.duration+extension} lượt${status.durationClock==='main_turn'?' chính của mục tiêu':self?' kế tiếp':''}`;
     const mods=[];
     for(const[key,n]of Object.entries(status.modifiers??{})) {
       if(key==='damageVsShielded')mods.push(`Địch có khiên: sát thương ×${number(1+n)}`);
@@ -76,7 +76,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     const prefix=effect.to==='self'&&skill.target!=='self'?'Bản thân: ':'';
     if(effect.type==='damage'){
       const label=effect.damageType==='physical'?'ATK':'MAG';
-      let formula=`${pct(effect.multiplier??1)} ${label}`;
+      let formula=effect.primaryMultiplier!==undefined?`${pct(effect.primaryMultiplier)} ${label} chính / ${pct(effect.multiplier)} ${label} còn lại`:`${pct(effect.multiplier??1)} ${label}`;
       if(effect.perResource)formula+=` + ${pct(effect.perResource)} ${label}/${resourceName(actor,cost?.id)}`;
       if(effect.perStack)formula+=` + ${pct(effect.perStack)} ${label}/${content.statuses[effect.consumeStatus].name}`;
       if(effect.lowHpBonus)formula+=` + tối đa ${pct(effect.lowHpBonus)} ${label} theo HP đã mất`;
@@ -102,6 +102,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     }
     if(effect.type==='status'||effect.type==='toggle_status')statusFacts(effect);
     if(effect.type==='resource')facts.push(`${prefix}${effect.resource==='mp'?'Hồi':'Tạo'} ${effect.maxMpRatio?(effect.amount?effect.amount+' + ':'')+pct(effect.maxMpRatio)+' MP tối đa':effect.amount+' '+resourceName(actor,effect.resource)}`);
+    if(effect.type==='enter_mode') {const mode=actor.combatModes[effect.mode];facts.push('Triệu hồi '+mode.name+' · +'+mode.baseStatBonuses.magic+' MAG căn bản');rules.push(mode.description);}
     if(effect.type==='cleanse')facts.push('Giải toàn bộ hiệu ứng bất lợi');
     if(effect.type==='grant_extra_turn'){
       facts.push('Lượt Thêm: 1 · Vòng Phụ hiện tại');
@@ -136,6 +137,8 @@ export function skillPresentation(skill,actor,content,choices={}) {
     rules.push(...(p.rules??[]));
   }
   if(skill.requiresTargetStatus)rules.push(`Cần mục tiêu có ${content.statuses[skill.requiresTargetStatus].name}.`);
+  if(skill.requiresResource)facts.push('Cần '+skill.requiresResource.min+' '+resourceName(actor,skill.requiresResource.id)+' · không tiêu tầng');
+  if(skill.requiresMode)rules.push('Chỉ dùng khi '+actor.combatModes[skill.requiresMode].name+' hiện diện.');
   const summary=skill.description??(skill.id==='$defend'?'Phòng thủ và hồi MP để chuẩn bị cho lượt sau.':'Tấn công một kẻ địch.');
   return {summary,facts:unique(facts),rules:unique(rules)};
 }
@@ -146,6 +149,7 @@ export function passivePresentation(actor,content) {
   const facts=[],rules=[];
   let summary='',name=p.name??({damage_reduction:'Bền bỉ',shield_break_heal:'Dư âm thủy hộ'}[p.type]??'Năng lực đặc trưng');
   switch(p.type){
+    case 'combat_mode': { summary=p.description;for(const mode of Object.values(actor.combatModes??{})){for(const [key,n]of Object.entries(mode.baseStatBonuses))facts.push('+'+number(n)+' '+statName(key)+' căn bản khi '+mode.name+' hiện diện');facts.push(mode.name+' rời sân: hồi '+pct(mode.exitMpRatio)+' MP tối đa');}rules.push('Hết tầng: kiểm tra đầu mọi lượt của người triệu hồi và cuối vòng sau Vòng Phụ.','Khi rời sân, hồi MP đúng một lần; không mất lượt hiện tại.');break; }
     case 'damage_reduction':summary=p.requiresStatus?`Bền bỉ khi đang có ${content.statuses[p.requiresStatus].name}.`:'Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận${p.requiresStatus?` · cần ${content.statuses[p.requiresStatus].name}`:''}`);break;
     case 'shield_break_heal':summary='Khi khiên do mình tạo bị phá, hồi HP cho người mang khiên.';facts.push(`Hồi ${pct(p.multiplier*(actor.exclusiveGear?.template?.passive.type==='shield_break_heal_bonus'?1+actor.exclusiveGear.template.passive.ratio:1))} MAG`);rules.push('Cả người tạo và người mang khiên phải còn sống.');break;
     case 'dodge_counter':{

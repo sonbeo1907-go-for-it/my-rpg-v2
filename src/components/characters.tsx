@@ -80,7 +80,7 @@ export function CharactersPage() {
     <main className="page">
       <PageHeader
         title="Những người đồng hành"
-        subtitle={`${campaign.unlockedCharacterIds.length} đã sở hữu · ${Object.keys(content.characters).length} nhân vật`}
+        subtitle={`${characterCatalog(content,campaign,{},true).length} đã sở hữu · ${characterCatalog(content,campaign).length} nhân vật`}
       />
       <CharacterFilters filters={filters} onChange={setFilters} />
       <div className="catalog-heading">

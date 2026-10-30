@@ -90,6 +90,8 @@ test("ten pulls use highest rarity, force the 50th character and never grant rew
   await page.getByRole("button", { name: /Tiếp tục · 2\/10/ }).click();
   await expect(page).toHaveURL(/card=1/);
   await page.getByRole("link", { name: "Bỏ qua → Kết quả" }).click();
+  // Next client navigation completes after click; reload the results URL, not the reveal URL.
+  await expect(page).toHaveURL(/recruitment\/results/);
   await page.reload();
   await expect(page.locator(".summon-result")).toHaveCount(10);
   expect(await saved(page)).toEqual(before);

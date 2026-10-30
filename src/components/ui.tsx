@@ -180,6 +180,7 @@ const roleGlyphs: Record<string, ReactNode> = {
       <path d="M17 1h3v3h3v3h-3v3h-3V7h-3V4h3Z" />
     </>
   ),
+  sorcerer: <><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-35 12 12)"/><path d="m12 2 4 10-4 10-4-10Z"/><circle cx="12" cy="12" r="2"/><path d="M2 3h3M3.5 1.5v3M19 20h3"/></>,
   tank: paths.shield,
   fighter: (
     <>
