@@ -1,5 +1,5 @@
 import { scalingValue, scalingLabel } from '../core/scaling.js';
-import { targetsAsGroup, debuffTypeCount, debuffDamageBonus } from '../core/conditional-combat.js';
+import { targetsAsGroup, resourceCost, debuffTypeCount, debuffDamageBonus } from '../core/conditional-combat.js';
 import { targetsFor } from '../core/battle.js';
 import { damageMultiplier, supportAmount, speedDamageRatio } from '../core/combat-math.js';
 import { battleStat } from '../core/stat-values.js';
@@ -24,7 +24,7 @@ export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   return { allyId, rememberedAlly, enemyId, targetId, legalIds: legal.map(item => item.id), affectedIds: targetsAsGroup(skill) ? legal.map(item => item.id) : [targetId].filter(Boolean) };
 }
 export function liveSkillChoices(skill, actor, target, battle) {
-  const cost = skill.cost?.resource;
+  const cost = resourceCost(skill,actor);
   const effect = skill.effects.find(item => item.consumeStatus);
   const legal = battle ? targetsFor(battle,actor,skill) : [];
   const selected = targetsAsGroup(skill) ? legal : legal.filter(item=>item.id===target?.id);
@@ -49,7 +49,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const label = scalingLabel(effect,statNames);
       const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? effect.flat : ''].filter(Boolean).join(' + ');
       const amount = supportAmount(effect, scalingValue(effect,key=>battleStat(content, actor, key)), Boolean(target && target.hp / target.stats.maxHp <= .35));
-      parts.push(`${formula || '0'} → ${amount} ${effect.type === 'shield' ? 'khiên' : 'HP'}`);
+      parts.push(`${formula || '0'} → ${amount} ${effect.type === 'shield' ? 'khiên' : 'HP'}${effect.durationRounds?' · '+effect.durationRounds+' vòng':''}`);
     } else if (effect.type === 'status' || effect.type === 'toggle_status') {
       const status = content.statuses[effect.status];
       const modifiers = Object.entries(status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `Địch có khiên: ST ×${compactNumber(1+Number(value))}` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? key}`);
@@ -70,6 +70,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   }
   for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');
   if(skill.target==='random_enemies')parts.push('mục tiêu ngẫu nhiên');
+  if(actor.passive?.type==='shielded_damage_bonus' && actor.shield>0 && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(actor.passive.ratio)+' ST từ khiên');
   if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(debuffDamageBonus(actor.passive,choices.debuffCount))+' ST theo debuff');
   const damageCount = skill.effects.filter(effect => effect.type === 'damage').length;
   return parts.join(damageCount > 1 && parts.length === damageCount ? ' + ' : ' · ');
@@ -87,5 +88,5 @@ export function statusDetails(status, actor, battle, content) {
     if (index >= 0) lines[index] = `Độc đã ghi nhận: ${status.potency} HP mỗi đầu lượt · còn ${status.remaining} lần.`;
   }
   if (status.growth !== undefined) lines.push(`Đã tích ${status.growth} tầng nội tại đám mây.`);
-  return { source: source.name, duration: definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
+  return { source: source.name, duration: definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
 }

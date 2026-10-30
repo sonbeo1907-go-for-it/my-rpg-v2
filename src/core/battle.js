@@ -1,3 +1,4 @@
+import { expireRoundEffects } from "./round-effects.js";
 import { scalingValue, adjacentAllies } from "./scaling.js";
 import { statusModifier } from "./stat-values.js";
 import { exclusivePassive, procAvailable, markProc } from "./exclusive-hooks.js";
@@ -42,7 +43,7 @@ import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
 import { checkCombatMode, enterCombatMode, modeAvailability } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
-import { mpCost, debuffTypeCount, debuffDamageBonus, targetsAsGroup } from "./conditional-combat.js";
+import { mpCost, resourceCost, debuffTypeCount, debuffDamageBonus, targetsAsGroup } from "./conditional-combat.js";
 const modeIO = { write, emit: emitEvent, restore: gainResource };
 const living = (actor) => actor.hp > 0;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -235,6 +236,7 @@ function startRound(battle) {
     write(battle, "Trận đấu dừng sau 60 vòng.");
     return;
   }
+  expireRoundEffects(battle,modeIO);
   expireTurnOrderField(battle,modeIO);
   battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
   battle.mainTurnOrder = [...battle.queue];
@@ -473,6 +475,7 @@ function finishMainRound(battle) {
       gainResource(battle, target, "mp", Math.ceil(target.stats.maxMp * passive.ratio), source.id);
     }
   }
+  expireRoundEffects(battle,modeIO,true);
   expireTurnOrderField(battle,modeIO,true);
   emitEvent(battle, { type: "round_end", round: battle.round });
   write(battle, `— Kết thúc Vòng Chính ${battle.round} —`);
@@ -511,7 +514,7 @@ export function abilityAvailability(battle, actor, skill) {
   if (skill.target === "adjacent_allies" && !targetsFor(battle,actor,skill).length) return {ok:false,reason:"Không có đồng đội còn sống ở hai ô kề."};
   if (skill.requiresTargetStatus && !targetsFor(battle,actor,skill).length)
     return { ok: false, reason: `Cần mục tiêu có ${battle.content.statuses[skill.requiresTargetStatus].name}.` };
-  const resource = skill.cost?.resource;
+  const resource = resourceCost(skill,actor);
   if (
     resource &&
     (actor.resourceValues[resource.id] ?? 0) <
@@ -756,7 +759,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            modifier(battle, attacker, "damageBonus", actionContext.automatic) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)),
+            modifier(battle, attacker, "damageBonus", actionContext.automatic) + (attacker.passive?.type==="shielded_damage_bonus" && attacker.shield>0 ? attacker.passive.ratio : 0) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -938,6 +941,7 @@ function applyStatus(
     stacks: Math.min(definition.maxStacks ?? 1, (previous?.stacks ?? 0) + 1),
     ...(previous?.refreshedRound !== undefined ? { refreshedRound: previous.refreshedRound } : {}),
   };
+  if (definition.durationClock === "round") applied.expiresAfterRound=battle.round+duration-1;
   if (definition.effectImmunity)
     applied.charges = definition.effectImmunity.charges;
   if (definition.damageOverTime) {
@@ -951,6 +955,16 @@ function applyStatus(
   }
   target.statuses.push(applied);
   if (!silent) write(battle, `${target.name}: ${definition.name}.`);
+  if (definition.kind==='debuff' && source && source.team!==target.team && living(target) && target.hp<target.stats.maxHp) {
+    for (const healer of battle.actors.filter(item=>living(item) && item.team===target.team && item.passive?.type==='debuff_received_heal')) {
+      if (target.hp>=target.stats.maxHp || !procAvailable(battle,target,'debuff_heal:'+healer.id)) continue;
+      const amount=supportAmount({multiplier:healer.passive.multiplier},stat(battle,healer,'magic'));
+      if (amount<=0) continue;
+      markProc(battle,target,'debuff_heal:'+healer.id);
+      write(battle,healer.name+' kích hoạt '+healer.passive.name+' cho '+target.name+'.');
+      healHp(battle,target,amount,healer.id,healer.passive.name);
+    }
+  }
   return applied;
 }
 
@@ -1000,6 +1014,8 @@ function applyEffect(
       if (amount > target.shield) {
         target.shield = amount;
         target.shieldSourceId = actor.id;
+        if (effect.durationRounds!==undefined) target.shieldExpiresAfterRound=battle.round+effect.durationRounds-1;
+        else delete target.shieldExpiresAfterRound;
         target.statuses = target.statuses.filter(
           (status) => !battle.content.statuses[status.id].expiresOnShieldGain,
         );
@@ -1114,7 +1130,7 @@ function finishStatuses(
 ) {
   actor.statuses = actor.statuses.filter((status) => {
     if (!oldStatuses.includes(status)) return true;
-    if (battle.content.statuses[status.id].damageOverTime) return true;
+    if (battle.content.statuses[status.id].damageOverTime || battle.content.statuses[status.id].durationClock === "round") return true;
     if (offensive && battle.content.statuses[status.id].consumeOnAttack)
       return false;
     if (
@@ -1173,14 +1189,16 @@ function resolveAction(
   if (skill.presentation) emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,presentation:skill.presentation,targetId,area,targetIds:targets.map(target=>target.id)});
   actor.mp -= mpCost(skill,actor);
   let spent = 0;
-  const deferredResource = skill.cost?.resource?.consumeAt === "after";
-  if (skill.cost?.resource) {
-    const cost = skill.cost.resource;
+  const selectedResource = resourceCost(skill,actor);
+  const deferredResource = selectedResource?.consumeAt === "after";
+  if (selectedResource) {
+    const cost = selectedResource;
     spent = cost.all ? actor.resourceValues[cost.id] : cost.amount;
     if (!deferredResource) actor.resourceValues[cost.id] -= spent;
   }
   if (skill.cooldown) actor.cooldowns[skill.id] = skill.cooldown + 1;
   write(battle, `${actor.name} dùng ${skill.name}.`);
+  if (skill.cost?.preferResource) write(battle,actor.name+': tiêu '+(selectedResource ? spent+' '+actor.resources[selectedResource.id].name : mpCost(skill,actor)+' MP')+'.');
   const actionContext = attackContext(battle, actor);
   actionContext.skillId = skill.id;
   actionContext.skill = skill;
@@ -1235,7 +1253,7 @@ function resolveAction(
     if (exclusive.type === "next_turn_heal") actor.pendingExclusiveHeal = { ratio: exclusive.ratio, sourceId: actor.id, name: exclusive.name };
   }
   if (deferredResource) {
-    const resourceId = skill.cost.resource.id;
+    const resourceId = selectedResource.id;
     actor.resourceValues[resourceId] = Math.max(
       0,
       actor.resourceValues[resourceId] - spent,

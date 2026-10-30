@@ -69,8 +69,10 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type === 'shielded_damage_bonus' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1)) fail(id+': invalid shielded damage bonus');
+    if (native?.type === 'debuff_received_heal' && (!native.name || !native.description || !Number.isFinite(native.multiplier) || native.multiplier<=0 || native.multiplier>2 || native.oncePerRecipientPerRound!==true)) fail(id+': invalid debuff healing passive');
     if (native?.type === 'end_round_team_mp' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1)) fail(id+': invalid team MP regeneration');
     if (native?.type === 'shield_break_mp' && (!native.name || !native.description || !Number.isFinite(native.multiplier) || native.multiplier<=0 || native.multiplier>1 || native.oncePerRecipientPerRound!==true || !Array.isArray(native.scalingStats) || !native.scalingStats.length || new Set(native.scalingStats).size!==native.scalingStats.length || native.scalingStats.some(key=>!['defense','resistance'].includes(key)))) fail(id+': invalid shield MP passive');
     if (native?.type === 'kill_mp_discount') {
@@ -159,7 +161,8 @@ export function validateContent(content) {
     for (const skillId of possibleSkills) {
       const skill = content.abilities[skillId];
       if (!skill) continue;
-      const resourceId = skill.cost?.resource?.id;
+      const resourceId = skill.cost?.resource?.id??skill.cost?.preferResource?.id;
+      if (skill.cost?.preferResource && skill.cost.preferResource.amount>(actor.resources?.[resourceId]?.max??0)) fail(id+'/'+skillId+': preferred cost exceeds resource cap');
       if (resourceId && !actor.resources?.[resourceId]) fail(`${id}/${skillId}: unknown resource ${resourceId}`);
       for (const effect of skill.effects ?? []) {
         if (effect.type === 'resource' && effect.resource !== 'mp' && (effect.to === 'self' || skill.target === 'self') && !actor.resources?.[effect.resource]) fail(`${id}/${skillId}: unknown resource ${effect.resource}`);
@@ -193,6 +196,10 @@ export function validateContent(content) {
     if (!['enemy', 'all_enemies', 'random_enemies', 'adjacent_allies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
     if (!Number.isInteger(skill.cooldown ?? 0) || (skill.cooldown ?? 0) < 0) fail(`${id}: invalid cooldown`);
     if (!Number.isFinite(skill.cost?.mp ?? 0) || (skill.cost?.mp ?? 0) < 0) fail(`${id}: invalid MP cost`);
+    if (skill.cost?.preferResource) {
+      const preferred=skill.cost.preferResource;
+      if (skill.cost.resource || !Number.isFinite(skill.cost.mp) || skill.cost.mp<=0 || typeof preferred.id!=='string' || !preferred.id || !Number.isInteger(preferred.amount) || preferred.amount<1 || !['before','after'].includes(preferred.consumeAt) || Object.keys(preferred).some(key=>!['id','amount','consumeAt'].includes(key))) fail(id+': invalid preferred resource cost');
+    }
     if (skill.cost?.resource) {
       const cost = skill.cost.resource;
       if (cost.all ? !Number.isInteger(cost.min) || cost.min < 1 : !Number.isInteger(cost.amount) || cost.amount < 1) fail(`${id}: invalid resource cost`);
@@ -240,6 +247,7 @@ export function validateContent(content) {
       if (effect.speedMultiplier !== undefined && (effect.type !== 'damage' || effect.damageType !== 'physical')) fail(`${id}: speedMultiplier requires physical damage`);
       if (effect.scalingStat !== undefined && (!['damage', 'heal', 'shield'].includes(effect.type) || !['attack', 'magic', 'defense', 'resistance'].includes(effect.scalingStat))) fail(`${id}: invalid support scaling stat`);
       if (effect.scalingStats!==undefined && (!['heal','shield'].includes(effect.type) || effect.scalingStat!==undefined || !Array.isArray(effect.scalingStats) || !effect.scalingStats.length || effect.scalingStats.length>4 || new Set(effect.scalingStats).size!==effect.scalingStats.length || effect.scalingStats.some(key=>!['attack','magic','defense','resistance'].includes(key)))) fail(id+': invalid average scaling stats');
+      if (effect.durationRounds!==undefined && (!['shield','turn_order_field'].includes(effect.type) || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1)) fail(id+': invalid shield round duration');
       if (effect.type === 'resource') {
         if (!effect.resource || (effect.amount === undefined && effect.maxMpRatio === undefined)
           || (effect.amount !== undefined && (!Number.isInteger(effect.amount) || effect.amount < 1))) fail(`${id}: invalid resource effect`);
@@ -255,7 +263,8 @@ export function validateContent(content) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
     if (status.modifiersPerStack !== undefined && (status.modifiersPerStack !== true || !Number.isInteger(status.maxStacks) || status.maxStacks < 1)) fail(id + ': invalid stack modifiers');
     if (status.modifierGroup !== undefined && (typeof status.modifierGroup !== 'string' || !status.modifierGroup)) fail(id + ': invalid modifier group');
-    if (status.durationClock !== undefined && status.durationClock !== 'main_turn') fail(id + ': invalid duration clock');
+    if (status.durationClock !== undefined && !['main_turn','round'].includes(status.durationClock)) fail(id + ': invalid duration clock');
+    if (status.durationClock==='round' && (status.kind!=='buff' || status.persistent || status.damageOverTime || status.turnStartAbility || status.consumeOnAttack)) fail(id+': round clock requires a timed support buff');
     if (status.magicRefresh !== undefined && (!Number.isInteger(status.magicRefresh?.duration) || status.magicRefresh.duration < 1 || status.magicRefresh.oncePerRound !== true || status.kind !== 'debuff')) fail(id + ': invalid magic refresh');
     if (status.effectImmunity !== undefined) {
       const immunity = status.effectImmunity;

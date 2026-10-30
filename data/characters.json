@@ -1329,5 +1329,83 @@
       "capital_knights",
       "dragun"
     ]
+  },
+  {
+    "id": "sieg",
+    "name": "Sieg",
+    "title": "Kiếm sĩ Ngân Triều",
+    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "element": "water",
+    "role": "Đấu sĩ",
+    "roleGroup": "fighter",
+    "description": "Tích Kiếm Kĩ, dựng kết giới bảo hộ cả đội rồi tung bí kiếm. Rất chậm nhưng bền bỉ.",
+    "biography": "Một kiếm sĩ elf phục vụ trong Kị sĩ đoàn Thủ đô. Sieg rèn kiếm qua nhiều năm, chuộng thế trận vững chắc hơn những bước tiến vội vàng.",
+    "tags": [
+      "capital_knights",
+      "elf"
+    ],
+    "stats": {
+      "maxHp": 235,
+      "maxMp": 80,
+      "attack": 29,
+      "magic": 10,
+      "defense": 30,
+      "resistance": 24,
+      "speed": 6
+    },
+    "resources": {
+      "sword_art": {
+        "name": "Kiếm Kĩ",
+        "max": 4
+      }
+    },
+    "abilities": [
+      "sieg.opening",
+      "sieg.sanctuary",
+      "sieg.break_form",
+      "sieg.still_sea"
+    ],
+    "passive": {
+      "type": "shielded_damage_bonus",
+      "name": "Tĩnh tâm trong sóng",
+      "description": "Khi đang có khiên, bản thân gây thêm sát thương.",
+      "ratio": 0.08
+    }
+  },
+  {
+    "id": "minerva",
+    "name": "Minerva",
+    "title": "Cô gái mang lời nguyền",
+    "affiliation": "Khu rừng phương Bắc",
+    "element": "earth",
+    "role": "Hỗ trợ phòng thủ",
+    "roleGroup": "defensive_support",
+    "description": "Dùng Hộ Ấn và giải hiệu ứng để bảo vệ đồng đội; khả năng hồi máu trực tiếp yếu.",
+    "biography": "Sống lẩn khuất trong rừng dưới sự che chở của Gahallad, Minerva hiểu rõ nỗi đau của lời nguyền. Cô dùng điều ấy để xoa dịu những người chịu hiệu ứng bất lợi.",
+    "tags": [
+      "forest"
+    ],
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 110,
+      "attack": 8,
+      "magic": 28,
+      "defense": 15,
+      "resistance": 28,
+      "speed": 24
+    },
+    "basicDamageType": "magical",
+    "abilities": [
+      "minerva.ward",
+      "minerva.cleanse",
+      "minerva.herbs"
+    ],
+    "passive": {
+      "type": "debuff_received_heal",
+      "name": "Đồng cảm lời nguyền",
+      "description": "Khi đồng đội thực nhận debuff từ địch, hồi một ít HP cho người đó, gồm bản thân.",
+      "multiplier": 0.5,
+      "oncePerRecipientPerRound": true
+    }
   }
 ]

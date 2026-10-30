@@ -148,5 +148,33 @@
     "modifiers": {
       "resistance": 0.35
     }
+  },
+  {
+    "id": "silver_tide",
+    "name": "Kết giới Ngân Triều",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifiers": {
+      "defense": 0.3,
+      "resistance": 0.3
+    }
+  },
+  {
+    "id": "tide_disarmed",
+    "name": "Lệch thế kiếm",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": -0.15
+    }
+  },
+  {
+    "id": "still_sea_slow",
+    "name": "Tịch Hải",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.15
+    }
   }
 ]

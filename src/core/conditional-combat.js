@@ -1,7 +1,12 @@
 import {activeStatuses} from './status-state.js';
 
+// Preferred resource replaces MP only when the full authored amount is available.
+export function resourceCost(skill,actor) {
+  const preferred=skill.cost?.preferResource;
+  return preferred && (actor?.resourceValues?.[preferred.id]??0)>=preferred.amount ? preferred : skill.cost?.resource??null;
+}
 export function mpCost(skill,actor) {
-  const base=skill.cost?.mp??0,passive=actor?.passive;
+  const base=skill.cost?.preferResource && resourceCost(skill,actor)===skill.cost.preferResource ? 0 : skill.cost?.mp??0,passive=actor?.passive;
   if (base<=0 || passive?.type!=='kill_mp_discount' || !(actor.statuses??[]).some(status=>status.id===passive.statusId && (status.remaining==null || status.remaining>0))) return base;
   return Math.max(1,Math.ceil(base*(1-passive.ratio)));
 }

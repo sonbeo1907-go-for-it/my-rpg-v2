@@ -3349,5 +3349,162 @@
         "duration": 3
       }
     ]
+  },
+  {
+    "id": "sieg.opening",
+    "name": "Thủy kiếm: Khai thức",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "description": "Một nhát kiếm mở thế, tích Kiếm Kĩ.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.6
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "sword_art",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "sieg.sanctuary",
+    "name": "Kết giới Ngân Triều",
+    "target": "all_allies",
+    "cost": {
+      "mp": 24
+    },
+    "cooldown": 4,
+    "description": "Dựng khiên dày, đồng thời tăng DEF và RES toàn đội.",
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "defense",
+        "multiplier": 2,
+        "durationRounds": 3
+      },
+      {
+        "type": "status",
+        "status": "silver_tide",
+        "duration": 3
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "sword_art",
+        "amount": 2
+      }
+    ],
+    "rules": [
+      "Vòng thi triển là vòng đầu. Bảo hộ hết sau Vòng Phụ của vòng thứ ba; có hai vòng trống trước khi dùng lại.",
+      "Khiên hết thời hạn không tính là bị đánh vỡ."
+    ]
+  },
+  {
+    "id": "sieg.break_form",
+    "name": "Triều kiếm: Phá thế",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "description": "Phá nhịp tấn công của một kẻ địch, tích Kiếm Kĩ.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.8,
+        "onHitStatus": {
+          "status": "tide_disarmed",
+          "duration": 2
+        }
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "sword_art",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "sieg.still_sea",
+    "name": "Bí kiếm: Tịch Hải",
+    "target": "enemy",
+    "cost": {
+      "mp": 24,
+      "preferResource": {
+        "id": "sword_art",
+        "amount": 4,
+        "consumeAt": "after"
+      }
+    },
+    "cooldown": 2,
+    "description": "Dồn kiếm lực vào một đòn mạnh, làm chậm mục tiêu.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 3.6,
+        "onHitStatus": {
+          "status": "still_sea_slow",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "minerva.ward",
+    "name": "Hộ ấn rừng lặng",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "description": "Cấp Hộ Ấn cho mọi đồng đội để chặn hiệu ứng bất lợi tiếp theo.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "effect_ward"
+      }
+    ]
+  },
+  {
+    "id": "minerva.cleanse",
+    "name": "Gột lời nguyền",
+    "target": "all_allies",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 1,
+    "description": "Giải mọi hiệu ứng bất lợi đang có trên đồng đội.",
+    "effects": [
+      {
+        "type": "cleanse"
+      }
+    ]
+  },
+  {
+    "id": "minerva.herbs",
+    "name": "Dược cỏ dưới trăng",
+    "target": "ally",
+    "cost": {
+      "mp": 4
+    },
+    "description": "Dùng dược cỏ hồi một lượng HP nhỏ cho một đồng đội.",
+    "effects": [
+      {
+        "type": "heal",
+        "multiplier": 0.9
+      }
+    ]
   }
 ]

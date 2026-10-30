@@ -1,7 +1,7 @@
 "use client";
 import { TurnOrder } from "./turn-order";
 import { CosmicEffects } from "./cosmic-effects";
-import { targetsAsGroup, randomTargetLabel } from "../core/conditional-combat.js";
+import { targetsAsGroup, randomTargetLabel, resourceCost } from "../core/conditional-combat.js";
 import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -204,6 +204,7 @@ export function CombatantCard({
         <p className="shield-value">
           <Icon name="shield" />
           Khiên: {actor.shield}
+          {actor.shieldExpiresAfterRound !== undefined && <small> · đến cuối vòng {actor.shieldExpiresAfterRound}</small>}
         </p>
       )}
       {Object.entries(actor.resources ?? {}).map(
@@ -252,7 +253,7 @@ function SkillInfo({
 }) {
   const { content, battle } = useGame();
   const choices = liveSkillChoices(skill, actor, target, {...battle,content});
-  const cost = skill.cost?.resource;
+  const cost = resourceCost(skill,actor);
   return (
     <>
       <span className="eyebrow">THÔNG TIN KỸ NĂNG</span>

@@ -1,6 +1,6 @@
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { damageMultiplier, supportAmount, effectiveStat, speedDamageBonus, speedDamageRatio, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
-import { mpCost } from '../core/conditional-combat.js';
+import { mpCost, resourceCost } from '../core/conditional-combat.js';
 import { battleStat } from '../core/stat-values.js';
 
 // Shared presentation for preparation previews and combat commands.
@@ -15,7 +15,13 @@ export function skillDescription(skill) {
 
 export function skillCost(skill, actor) {
   const costs = [];
-  if (skill.cost?.mp) {
+  const preferred=skill.cost?.preferResource;
+  if (preferred) {
+    const name=actor.resources[preferred.id].name;
+    costs.push('Ưu tiên '+preferred.amount+' '+name+' · Thiếu tầng: '+skill.cost.mp+' MP');
+    if (actor.resourceValues) costs.push('Hiện tại: '+(resourceCost(skill,actor) ? preferred.amount+' '+name : mpCost(skill,actor)+' MP'));
+  }
+  if (skill.cost?.mp && !preferred) {
     const base=mpCost(skill,actor);
     const cap=actor.passive?.type==='extra_mp_damage' && skill.effects.some(effect=>effect.type==='damage') ? Math.ceil(base*actor.passive.extraCostRatio) : 0;
     const extra=actor.mp===undefined?cap:Math.min(cap,Math.max(0,actor.mp-base));
@@ -39,7 +45,7 @@ export const TARGET_NAMES = {
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
-  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp'].includes(passive.type)) return passive.name+': '+passive.description;
+  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal'].includes(passive.type)) return passive.name+': '+passive.description;
   if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
   if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
@@ -101,7 +107,7 @@ export function skillPreviewOptions(skill, actor, content) {
 export function skillScaling(skill, actor, content, choices = {}) {
   const lines = [];
   const valueOf = key => choices.live ? battleStat(content, actor, key,false,0,choices.baseStatBonuses?.[key]??0) : effectiveStat(actor, key);
-  const cost = skill.cost?.resource;
+  const cost = resourceCost(skill,actor);
   const resourceName = cost ? actor.resources[cost.id].name : '';
   const spent = choices.spent ?? (cost?.all ? actor.resources[cost.id].max : cost?.amount ?? 0);
   const perPerson = skill.target === 'all_allies' ? '/người' : '';
@@ -146,6 +152,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? number(effect.flat) : ''].filter(Boolean).join(' + ') || '0';
       const amount = supportAmount(effect, value);
       lines.push(`${effect.type === 'shield' ? 'Khiên' : 'Hồi phục'}: ${formula} → ${number(amount)} ${effect.type === 'shield' ? 'khiên' : 'HP'}${perPerson}.`);
+      if (effect.durationRounds) lines.push('Khiên tồn tại '+effect.durationRounds+' vòng, tính cả vòng thi triển; hết thời hạn không kích hoạt hiệu ứng vỡ khiên.');
       if (effect.type === 'heal' && effect.emergency) lines.push(`Khi mục tiêu còn ≤${percent(EMERGENCY_HP_THRESHOLD)} HP: lượng hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${number(supportAmount(effect, value, true))} HP${perPerson}.`);
     }
     if (effect.type === 'resource') {
@@ -167,7 +174,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       const status = content.statuses[effect.status];
       const extension=actor.exclusiveGear?.template?.passive;
       const effectiveDuration=effect.duration + (extension?.type==='skill_status_duration' && extension.statusId===effect.status && extension.abilityIds.includes(skill.id) ? extension.extraDuration : 0);
-      const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effectiveDuration} lượt của người nhận`;
+      const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effectiveDuration} ${status.durationClock==='round'?'vòng':'lượt của người nhận'}`;
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);
       if (effect.type === 'toggle_status') lines.push(`Bật/tắt ${status.name}; dùng lại để xuống ngựa, không cộng dồn.`);
       const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', evasion: 'khả năng né đòn vật lí' };
@@ -195,7 +202,8 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (status.blockResourceGain) lines.push(`Chặn tích tài nguyên · ${duration}.`);
       if (status.maxStacks) lines.push(`Đặt ${status.name}, tối đa ${status.maxStacks} tầng · ${duration}.`);
       if (effect.extraStacksIfPresent) lines.push(`Nếu mục tiêu đã có ${status.name} trước chiêu, gắn thêm ${effect.extraStacksIfPresent} tầng, vẫn tuân thủ giới hạn.`);
-      if (status.durationClock === 'main_turn') lines.push('Hết sau lượt Vòng Chính kế tiếp của người nhận; Vòng Phụ không giảm thời hạn.');
+      if (status.durationClock === 'round') lines.push('Tính cả vòng thi triển; giảm thời hạn sau toàn bộ Vòng Phụ.');
+      if (status.durationClock === 'main_turn') lines.push('Thời hạn giảm theo lượt Vòng Chính của người nhận; Vòng Phụ không giảm thời hạn.');
       if (status.consumeOnAttack) lines.push('Tiêu hiệu ứng sau hành động tấn công tiếp theo.');
       for (const statusId of effect.linkedStatuses ?? []) {
         lines.push(`Buff đi kèm: ${content.statuses[statusId].name} (gỡ cùng trạng thái chính nếu do trạng thái này cấp).`);
