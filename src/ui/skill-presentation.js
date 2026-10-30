@@ -58,7 +58,7 @@ export function passiveDescription(actor, content) {
     const names = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD' };
     return `${passive.name}: ${Object.entries(passive.modifiers).map(([key, amount]) => `${amount >= 0 ? '+' : '−'}${percent(Math.abs(amount))} ${names[key]} vĩnh viễn (${number(actor.baseStats?.[key] ?? actor.stats[key])} ${actor.gearBonuses?.[key] ? 'nền gồm gear' : 'cơ bản'} → ${number(effectiveStat(actor, key))})`).join('; ')}. Buff trong trận cộng tỷ lệ trên chỉ số nền${actor.gearBonuses ? ' gồm gear' : ''}.`;
   }
-  if (passive.type === 'damage_reduction') return `Luôn giảm ${Math.round(passive.amount * 100)}% sát thương nhận.`;
+  if (passive.type === 'damage_reduction') return `${passive.requiresStatus?`Khi có ${content.statuses[passive.requiresStatus].name}, giảm`:'Luôn giảm'} ${Math.round(passive.amount * 100)}% sát thương nhận.`;
   if (passive.type === 'shield_break_attack_buff') {
     const status = content?.statuses[passive.statusId];
     return `${passive.name}: khi tự đánh vỡ khiên của kẻ địch, nhận ${status?.name ?? passive.statusId}. Đòn tấn công kế tiếp gây ${percent(status?.modifiers.attackMultiplier ?? 2)} sát thương (nhân riêng với buff khác). Hiệu lực bắt đầu sau toàn bộ đòn phá khiên, không cộng dồn; Phòng thủ/hỗ trợ giữ buff, đánh lại vỡ khiên sẽ cấp buff mới sau khi dùng buff cũ.`;

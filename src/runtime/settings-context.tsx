@@ -15,6 +15,7 @@ import {
   readSettings,
 } from "../ui/preferences.js";
 type Preferences = {
+  logoStyle: "en" | "jp";
   controlMode: "mouse" | "gamepad";
   musicEnabled: boolean;
   musicVolume: number;

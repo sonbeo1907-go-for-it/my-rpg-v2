@@ -1,4 +1,5 @@
 @font-face{font-family:"Prisma Cinzel";src:url('/fonts/cinzel-decorative/CinzelDecorative-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Prisma Kaisei";src:url('/fonts/kaisei-opti/KaiseiOpti-Logo.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
 .origin-logo{--rarity-color:#c08aff;display:inline-grid;grid-template-columns:max-content;max-width:100%;position:relative;font-family:"Prisma Cinzel","Noto Serif Variable",Georgia,serif;font-weight:700;font-style:normal;font-size:clamp(3.25rem,6.1vw,7rem);line-height:1;letter-spacing:-.035em;isolation:isolate;padding:.1em .13em .22em}
 .origin-logo-top{display:flex;align-items:center;gap:.04em;white-space:nowrap}
 .origin-logo-prisma,.origin-logo-origin,.origin-logo-the{color:#aa75d7;-webkit-text-stroke:1.5px #fff5ff;paint-order:stroke fill;text-shadow:0 3px 0 #28143e,0 6px 20px #0009,0 0 28px #a269dc38}
@@ -19,6 +20,17 @@
 .origin-logo-compact .origin-logo-crystal{filter:drop-shadow(0 0 3px #bd89f266)}
 .origin-logo-compact .origin-crystal-glow{filter:drop-shadow(0 0 4px var(--rarity-color))}
 .brand:has(.origin-logo){gap:0;line-height:1;text-decoration:none;min-height:42px}
+.origin-logo-jp{font-family:"Prisma Kaisei","Yu Mincho",serif;letter-spacing:0;padding-right:.25em}
+.origin-logo-jp .origin-logo-prisma{letter-spacing:-.09em;line-height:1.08}
+.origin-logo-jp .origin-logo-origin{position:relative;letter-spacing:.025em;margin-right:.7em;margin-top:.03em;line-height:1.05}
+.origin-logo-kanji{position:absolute;right:-1.75em;top:.4em;font-size:.23em;letter-spacing:.05em;line-height:1.2;writing-mode:vertical-rl;border:1px solid #f4e3ffb0;padding:.2em .12em;background:#552b7626;-webkit-text-stroke:.45px #fff5ff;text-shadow:0 0 10px #b680dd66}
+.origin-logo-compact .origin-logo-kanji{display:none}
+.logo-style-fieldset{min-width:0;border:0;padding:0;margin:0}.logo-style-fieldset legend{font-family:"Noto Serif Variable",serif;font-size:1.2rem;font-weight:700}.logo-style-fieldset>p{font-size:.8rem;line-height:1.6;color:var(--muted)}
+.logo-style-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.2rem}
+.logo-style-option{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1rem;min-width:0;min-height:160px;padding:1.4rem .8rem .8rem;background:linear-gradient(150deg,#30213c66,#101b2599);border:1px solid #706080;border-radius:5px}
+.logo-style-option[aria-pressed=true]{border-color:#d1a5ff;box-shadow:inset 0 0 0 1px #d1a5ff,0 0 20px #8b4bb91f;background:linear-gradient(150deg,#59386d66,#19202b99)}
+.logo-style-option .origin-logo{font-size:clamp(1.55rem,3vw,2.25rem)}.logo-style-option>span:last-child{display:flex;align-items:center;justify-content:space-between;gap:.7rem;width:100%}.logo-style-option strong{color:#e4c5ff}.logo-style-option small{font-size:.65rem;color:#bfafca}
+@media(max-width:600px){.logo-style-options{gap:.6rem}.logo-style-option{min-height:135px;padding:1rem .5rem .65rem}.logo-style-option .origin-logo{font-size:clamp(1.3rem,5.2vw,1.7rem)}.logo-style-option>span:last-child{flex-wrap:wrap;gap:.3rem}.logo-style-option small{font-size:.6rem}}
 @media(max-width:850px){.profile-title-screen .title-content.origin-title-content{padding:1.5rem 0 .7rem}.origin-title-content .origin-logo{font-size:clamp(2.35rem,10.5vw,5rem)}}
 @media(max-width:420px){.origin-logo-compact{font-size:1.1rem}.origin-logo-prisma,.origin-logo-origin{-webkit-text-stroke:1.15px #fff5ff}}
 @media(prefers-reduced-motion:reduce){.origin-crystal-glow{animation:none;opacity:.65;filter:drop-shadow(0 0 10px var(--rarity-color))}.origin-logo-compact .origin-crystal-glow{filter:drop-shadow(0 0 3px var(--rarity-color))}}

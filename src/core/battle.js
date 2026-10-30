@@ -689,7 +689,8 @@ function resolveHit(
     hpRatio: attacker.hp / attacker.stats.maxHp,
   });
   let reduction = modifier(battle, target, "damageReduction");
-  if (target.passive?.type === "damage_reduction")
+  if (target.passive?.type === "damage_reduction" &&
+    (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
   const elementWeakness = target.weaknesses?.includes(effect.element) ?? false;
   const typeWeakness =

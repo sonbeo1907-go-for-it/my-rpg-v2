@@ -865,14 +865,15 @@
       "maxMp": 80,
       "attack": 22,
       "magic": 8,
-      "defense": 24,
-      "resistance": 16,
+      "defense": 30,
+      "resistance": 24,
       "speed": 11
     },
     "weaknesses": [],
     "abilities": [
       "traveler.mac_taunt",
-      "traveler.mac_shield"
+      "traveler.mac_shield",
+      "traveler.mac_defense"
     ],
     "ai": {
       "priorities": [
@@ -882,10 +883,22 @@
           "abilityId": "traveler.mac_taunt"
         },
         {
+          "when": "missing_status",
+          "statusId": "traveler_mac_defense",
+          "abilityId": "traveler.mac_defense"
+        },
+        {
           "when": "ally_unshielded",
           "abilityId": "traveler.mac_shield"
         }
       ]
+    },
+    "passive": {
+      "type": "damage_reduction",
+      "name": "Thành trì sống",
+      "description": "Khi đang Khiêu khích, giảm 30% sát thương nhận.",
+      "amount": 0.3,
+      "requiresStatus": "taunt"
     }
   },
   {

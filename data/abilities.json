@@ -2773,7 +2773,7 @@
   {
     "id": "traveler.keith",
     "name": "Song trảm truy kích",
-    "description": "Tấn công đối phương.",
+    "description": "Chém hai nhát liên tiếp, xuyên một phần giáp đối phương.",
     "target": "enemy",
     "cost": {
       "mp": 7
@@ -2785,7 +2785,8 @@
         "damageType": "physical",
         "element": "wind",
         "multiplier": 0.7,
-        "hits": 1
+        "hits": 2,
+        "penetration": 0.2
       }
     ]
   },
@@ -2881,7 +2882,7 @@
   {
     "id": "traveler.amy_ward",
     "name": "Màn hộ vệ",
-    "description": "Gia cố phòng thủ cho cả đội.",
+    "description": "Gia cố DEF và kháng phép cho cả đội.",
     "target": "all_allies",
     "cost": {
       "mp": 10
@@ -2891,6 +2892,23 @@
       {
         "type": "status",
         "status": "traveler_ward",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "traveler.mac_defense",
+    "name": "Trận tuyến thép",
+    "description": "Gia cố DEF cho cả đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "traveler_mac_defense",
         "duration": 2
       }
     ]

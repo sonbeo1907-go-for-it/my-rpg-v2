@@ -71,10 +71,10 @@ test('Takeshi awakened counter stacks with Percival, survives Extra, expires aft
  use(b,'enemy_1','$attack','takeshi');assert.equal(getActor(b,'enemy_1').statuses.some(s=>s.id==='sword_eye_slow'),false);assert.equal(t.resourceValues.opening,1);
  b.phase='extra';use(b,'enemy_0','$defend');assert.ok(e.statuses.some(s=>s.id==='sword_eye_slow'));b.phase='main';b.round++;use(b,'enemy_0','$defend');assert.equal(e.statuses.some(s=>s.id==='sword_eye_slow'),false);
 });
-test('PvP support AI heals its own wounded team and Mac taunts then shields allies',()=>{
+test('PvP support AI heals its own wounded team and Mac taunts, buffs DEF, then shields allies',()=>{
  const c=save();c.claimedFirstClearRewards=['iris_story_growth','iris_story_pride'];const b=createBattle(content,c,'iris_story_revenge');
  function enemyTurn(id){b.queue=[id,...b.actors.filter(a=>a.id!==id).map(a=>a.id)];b.cursor=0;executeEnemyTurn(b);}
- enemyTurn('enemy_1');assert.ok(getActor(b,'enemy_1').statuses.some(s=>s.id==='taunt'));enemyTurn('enemy_1');assert.ok(b.actors.filter(a=>a.team==='enemy').every(a=>a.shield>0));
+ enemyTurn('enemy_1');assert.ok(getActor(b,'enemy_1').statuses.some(s=>s.id==='taunt'));enemyTurn('enemy_1');assert.ok(b.actors.filter(a=>a.team==='enemy').every(a=>a.statuses.some(s=>s.id==='traveler_mac_defense')));enemyTurn('enemy_1');enemyTurn('enemy_1');assert.ok(b.actors.filter(a=>a.team==='enemy').every(a=>a.shield>0));
  getActor(b,'enemy_0').hp=100;enemyTurn('enemy_3');assert.ok(getActor(b,'enemy_0').hp>100);assert.ok(b.events.filter(e=>e.type==='heal').every(e=>getActor(b,e.targetId).team==='enemy'));
 });
 test('Takeshi failed evasion and magical attacks never grant opening or apply the slow',()=>{

@@ -146,7 +146,7 @@ export function passivePresentation(actor,content) {
   const facts=[],rules=[];
   let summary='',name=p.name??({damage_reduction:'Bền bỉ',shield_break_heal:'Dư âm thủy hộ'}[p.type]??'Năng lực đặc trưng');
   switch(p.type){
-    case 'damage_reduction':summary='Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận`);break;
+    case 'damage_reduction':summary=p.requiresStatus?`Bền bỉ khi đang có ${content.statuses[p.requiresStatus].name}.`:'Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận${p.requiresStatus?` · cần ${content.statuses[p.requiresStatus].name}`:''}`);break;
     case 'shield_break_heal':summary='Khi khiên do mình tạo bị phá, hồi HP cho người mang khiên.';facts.push(`Hồi ${pct(p.multiplier*(actor.exclusiveGear?.template?.passive.type==='shield_break_heal_bonus'?1+actor.exclusiveGear.template.passive.ratio:1))} MAG`);rules.push('Cả người tạo và người mang khiên phải còn sống.');break;
     case 'dodge_counter':{
       name=p.name??'Phản kiếm';summary='Né thành công đòn vật lí sẽ phản công và tích Sơ hở.';facts.push(`Phản công: 85% ATK · +1 ${resourceName(actor,p.resource)} · 1 lần/vòng`);

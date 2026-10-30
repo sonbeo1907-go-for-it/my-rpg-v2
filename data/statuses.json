@@ -53,5 +53,7 @@
   {"id":"sea_slow","name":"Trấn hải","kind":"debuff","modifiers":{"speed":-0.25},"modifierGroup":"tidal_slow"}
 ,
   {"id":"sword_eye_slow","name":"Kiếm áp","kind":"debuff","durationClock":"main_turn","modifiers":{"speed":-0.15}},
-  {"id":"traveler_ward","name":"Màn hộ vệ","kind":"buff","modifiers":{"defense":0.15,"resistance":0.25}}
+  {"id":"traveler_ward","name":"Màn hộ vệ","kind":"buff","modifiers":{"defense":0.15,"resistance":0.3}}
+,
+  {"id":"traveler_mac_defense","name":"Trận tuyến thép","kind":"buff","modifiers":{"defense":0.25}}
 ]

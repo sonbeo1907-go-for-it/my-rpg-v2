@@ -70,6 +70,7 @@ export function validateContent(content) {
     }
     if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type === 'damage_reduction' && (!Number.isFinite(native.amount) || native.amount<0 || native.amount>1 || (native.requiresStatus !== undefined && !Object.hasOwn(content.statuses,native.requiresStatus)))) fail(`${id}: invalid conditional damage reduction`);
     if (native?.type === 'buffed_ally_mp' && !validReactivePassive(native,content,actor)) fail(`${id}: invalid reactive passive`);
     if (native?.type === 'dodge_counter' && native.counterAbility && !validReactivePassive({...native,name:native.name ?? 'Phản kiếm'},content,actor)) fail(`${id}: invalid counter ability`);
     if (['extra_mp_damage','marked_ally_magic','hp_difference_damage','ally_heal_mp','stat_conversion','end_round_lowest_mp'].includes(native?.type)) {

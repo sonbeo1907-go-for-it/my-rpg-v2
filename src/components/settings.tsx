@@ -7,6 +7,7 @@ import { Icon, Modal } from "./ui";
 import { GamepadNavigation } from "./gamepad-navigation";
 import { GamepadEditor } from "./gamepad-editor";
 import { SwitchProfileButton } from "./profiles";
+import { BrandLogo } from "./brand-logo";
 
 function SettingsDialog() {
   const { audio, entered, openSaveDirectory } = useGame();
@@ -39,6 +40,9 @@ function SettingsDialog() {
         >
           <Icon name="gamepad" />
           Điều khiển
+        </button>
+        <button role="tab" aria-selected={tab === "appearance"} aria-controls="settings-appearance" onClick={() => setTab("appearance")}>
+          <Icon name="prism" /> Giao diện
         </button>
       </div>
       {tab === "audio" ? (
@@ -93,7 +97,7 @@ function SettingsDialog() {
             </p>
           )}
         </section>
-      ) : (
+      ) : tab === "controls" ? (
         <section
           id="settings-controls"
           role="tabpanel"
@@ -179,6 +183,19 @@ function SettingsDialog() {
             Chuột luôn dùng được. Trong combat: A chọn chiêu → chọn mục tiêu → A
             thực hiện. B quay lại chọn chiêu.
           </p>
+        </section>
+      ) : (
+        <section id="settings-appearance" role="tabpanel" className="settings-panel" aria-label="Giao diện">
+          <fieldset className="logo-style-fieldset">
+            <legend>Kiểu logo</legend>
+            <p>Chọn dấu ấn của hành trình. Áp dụng ngay và lưu trên thiết bị này.</p>
+            <div className="logo-style-options">
+              {(["en","jp"] as const).map(style=><button key={style} type="button" className="logo-style-option" aria-label={style==="en"?"EN — Logo tiếng Anh":"JP — Logo tiếng Nhật"} aria-pressed={preferences.logoStyle===style} onClick={()=>update({logoStyle:style})}>
+                <BrandLogo compact variant={style}/>
+                <span><strong>{style.toUpperCase()}</strong><small>{style==="en"?"Tiếng Anh":"日本語 · Tiếng Nhật"}</small></span>
+              </button>)}
+            </div>
+          </fieldset>
         </section>
       )}
       <div className="profile-dialog-actions">
