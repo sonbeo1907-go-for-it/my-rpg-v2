@@ -19,7 +19,16 @@
                     "desktop:dev":  "node scripts/tauri.mjs dev",
                     "desktop:build":  "node scripts/tauri.mjs build",
                     "desktop:check":  "node scripts/tauri.mjs --test",
-                    "preview":  "node scripts/preview-static.mjs"
+                    "preview":  "node scripts/preview-static.mjs",
+                    "graph": "node scripts/graphify.mjs",
+                    "graph:setup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/setup-graphify.ps1",
+                    "graph:build": "node scripts/graphify.mjs build",
+                    "graph:update": "node scripts/graphify.mjs update",
+                    "graph:query": "node scripts/graphify.mjs query",
+                    "graph:explain": "node scripts/graphify.mjs explain",
+                    "graph:path": "node scripts/graphify.mjs path",
+                    "graph:affected": "node scripts/graphify.mjs affected",
+                    "graph:stats": "node scripts/graphify.mjs god-nodes --top 8"
                 },
     "dependencies":  {
                          "@fontsource-variable/noto-serif":  "^5.3.0",

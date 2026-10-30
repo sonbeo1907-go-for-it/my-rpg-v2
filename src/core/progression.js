@@ -1,3 +1,4 @@
+import {emptyDailyCommissions,normalizeDailyCommissions} from './daily-commissions.js';
 import { isValidParty } from "./party.js";
 import { effectiveStat } from "./combat-math.js";
 import { teamBonusesFor } from "./team-bonuses.js";
@@ -35,6 +36,7 @@ export function createCampaign(content) {
     extraGearSlots: {},
     gacha: { totalPulls: 0, pity: {}, lastSummon: null },
     dungeonDaily: { day: null, clears: {} },
+    dailyCommissions: emptyDailyCommissions(),
     illusion: emptyIllusionState(),
     ...emptyBlacksmithState(),
   };
@@ -134,6 +136,7 @@ export function serializeCampaign(campaign) {
     extraGearSlots,
     claimedFirstClearRewards,
     dungeonDaily: campaign.dungeonDaily ?? { day: null, clears: {} },
+    dailyCommissions: normalizeDailyCommissions(campaign.dailyCommissions),
     prismaFragments: campaign.prismaFragments ?? 0,
     originalPrisma: campaign.originalPrisma ?? 0,
     exclusiveGear: campaign.exclusiveGear ?? [],
@@ -166,6 +169,7 @@ export function deserializeCampaign(raw, content) {
     throw new Error("Tiến trình nhân vật trong save không hợp lệ.");
   const result = createCampaign(content);
   result.illusion = normalizeIllusionState(input.illusion);
+  result.dailyCommissions = normalizeDailyCommissions(input.dailyCommissions);
   result.dungeonDaily = normalizeDungeonDaily(input.dungeonDaily, content);
   result.party = [...input.party];
   result.storyFlags = [...new Set(input.storyFlags)];

@@ -15,11 +15,11 @@ async function seed(page:Page,used=0) {
   await page.emulateMedia({reducedMotion:'reduce'});
 }
 const saved=(page:Page)=>page.evaluate(()=>JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text));
-test('three illustrated doors and Quest-style difficulty boards show current scope and fit phones',async({page,request})=>{
-  await seed(page);await page.goto('/dungeon');await expect(page.locator('.dungeon-choice')).toHaveCount(3);
+test('two illustrated doors and Quest-style difficulty boards show current scope and fit phones',async({page,request})=>{
+  await seed(page);await page.goto('/dungeon');await expect(page.locator('.dungeon-choice')).toHaveCount(2);
   const widths=await page.locator('.dungeon-choice').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().width));expect(Math.max(...widths)-Math.min(...widths)).toBeLessThan(2);
-  await expect(page.locator('.dungeon-choice.closed')).toBeDisabled();
-  for(const file of ['dungeon-gold.svg','dungeon-danger.svg','dungeon-illusion.svg']){const result=await request.get(`/art/${file}`);expect(result.ok()).toBe(true);expect(await result.text()).toContain('<svg');}
+  await expect(page.locator('.dungeon-choice.closed')).toHaveCount(0);
+  for(const file of ['dungeon-gold.svg','dungeon-danger.svg']){const result=await request.get(`/art/${file}`);expect(result.ok()).toBe(true);expect(await result.text()).toContain('<svg');}
   await page.screenshot({path:'test-results/visual-dungeon-doors.png',fullPage:true});
   await page.locator('a.dungeon-choice[href="/dungeon/gold_mine"]').click();
   await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.quest-card.selected')).toContainText('Dễ');await expect(page.locator('.quest-illustration')).toContainText('1.000');
@@ -49,7 +49,7 @@ for(const [difficulty,waves,reward] of [['easy',3,1000],['medium',4,2000],['hard
     await expect(page.locator('.command-panel h2')).toContainText('Hoàn thành thám hiểm');expect(seen.size).toBe(waves);
     if(blockedStorage){await expect(page.locator('.notice')).toContainText('Quota exceeded');expect((await saved(page)).coins).toBe(0);expect((await saved(page)).dungeonDaily.day).toBeNull();await page.evaluate(()=>{Storage.prototype.setItem=(window as any).__originalStorage;});await page.getByRole('button',{name:'Nhận thưởng chiến thắng'}).click();}
     await expect(page.locator('.battle-outcome')).toContainText(`+${reward} coin đã lưu`);
-    const after=await saved(page);expect(after.coins).toBe(reward);expect(after.victories).toBe(1);expect(after.dungeonDaily.clears.gold_mine).toBe(1);expect(after.claimedFirstClearRewards).toEqual([]);expect(after.unlockedCharacterIds).not.toContain('kai');expect(after.extraGearSlots.arthur).toBeUndefined();
+    const after=await saved(page);expect(after.coins).toBe(reward);expect(after.victories).toBe(1);expect(after.dungeonDaily.clears.gold_mine).toBe(1);expect(after.dailyCommissions.dungeonClears).toBe(1);expect(after.dailyCommissions.questClears).toBe(0);expect(after.claimedFirstClearRewards).toEqual([]);expect(after.unlockedCharacterIds).not.toContain('kai');expect(after.extraGearSlots.arthur).toBeUndefined();
     await page.screenshot({path:`test-results/visual-dungeon-${difficulty}-clear.png`,fullPage:true});
     await page.getByRole('link',{name:/Trở về chọn mức độ/}).click();await expect(page.locator('.page-header')).toContainText('2/3');await page.reload();await expect(page.locator('.page-header')).toContainText('2/3');expect((await saved(page)).coins).toBe(reward);
   });

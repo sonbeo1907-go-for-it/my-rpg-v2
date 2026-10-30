@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { Icon, fmt } from "./ui";
+import { DailyCommissions } from "./daily-commissions";
 import { BrandLogo } from "./brand-logo";
 import {
   ProfileSelection,
@@ -64,7 +65,7 @@ const menu = [
   {
     href: "/dungeon",
     name: "Khám Phá Hầm Ngục",
-    sub: "Cánh cửa chưa khai mở",
+    sub: "Vàng bạc & thử thách mỗi ngày",
     icon: "door",
     side: "right",
   },
@@ -82,7 +83,6 @@ export function HomePage() {
     battle,
     activeProfile,
     renameProfile,
-    openSaveDirectory,
     busy,
   } = useGame();
   const [renaming, setRenaming] = useState(false);
@@ -110,10 +110,7 @@ export function HomePage() {
           </p>
         </div>
       </button>
-      <button className="home-export" onClick={openSaveDirectory}>
-        <Icon name="folder" />
-        <span>Mở thư mục lưu dữ liệu game</span>
-      </button>
+      <DailyCommissions />
       <nav className="home-nav home-nav-left" aria-label="Chuẩn bị hành trình">
         {menu
           .filter((item) => item.side === "left")

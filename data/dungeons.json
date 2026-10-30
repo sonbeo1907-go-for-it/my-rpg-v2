@@ -112,14 +112,5 @@
     "encounterTier": "boss",
     "revealRooms": true,
     "stageLabel": "Phòng"
-  },
-  {
-    "id": "illusion",
-    "name": "Hầm ngục ảo ảnh",
-    "description": "Những lối đi không lặp lại, nơi Prisma nguyên sơ chờ thức giấc.",
-    "art": "/art/dungeon-illusion.svg",
-    "icon": "prism",
-    "closed": true,
-    "difficulties": []
   }
 ]

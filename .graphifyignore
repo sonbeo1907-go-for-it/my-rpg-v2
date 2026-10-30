@@ -1,0 +1,32 @@
+# Generated files, dependencies and local tooling
+.git/
+.tools/
+.next/
+node_modules/
+out/
+dist/
+coverage/
+test-results/
+playwright-report/
+graphify-out/
+src-tauri/target/
+src-tauri/gen/
+src-tauri/icons/
+src-tauri/app-icon.svg
+.agents/
+.codex/
+
+# Visual/audio assets are inspected directly when doing UI work.
+public/
+bgm/
+
+# Locks, editor outputs and private runtime data
+package-lock.json
+*.lock
+*.tsbuildinfo
+*.log
+.desktop-env.json
+.env
+.env.*
+savedata*.json
+*.bak

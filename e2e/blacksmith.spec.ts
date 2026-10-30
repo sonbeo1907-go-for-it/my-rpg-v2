@@ -21,7 +21,7 @@ test('Thợ Rèn has warm SVG, 60/40 layout, two tabs, known costs and 13 author
  await page.getByRole('button',{name:'Trấn Phái',exact:true}).click();await expect(page.locator('.blacksmith-tabs button')).toHaveCount(2);await expect(page.locator('.exclusive-card')).toHaveCount(13);await expect(page.locator('.exclusive-card')).toHaveCount(13);
  await page.locator('.forge-policy summary').click();await expect(page.locator('.forge-cost')).toContainText('10.000');await expect(page.locator('.forge-cost')).toContainText('120');await expect(page.locator('.forge-policy .forge-roll-ranges')).toContainText('HP +25–50');await expect(page.locator('.forge-policy')).toContainText('Mặc định thử nghiệm');
  await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'test-results/blacksmith-phone.png',fullPage:true});
- await page.goto('/dungeon/illusion');await expect(page.locator('.empty-state')).toContainText('tạm đóng');
+ await page.goto('/dungeon');await expect(page.locator('.dungeon-choice')).toHaveCount(2);await expect(page.locator('main')).not.toContainText('ảo ảnh');
 });
 test('dismantle confirms 1–99 unequipped items, cancels safely, rolls back disk errors and preserves summon history',async({page})=>{
  await seed(page);await page.goto('/blacksmith');await expect(page.locator('.gear-card')).toHaveCount(5);await expect(page.getByRole('combobox',{name:'Trạng thái',exact:true})).toHaveCount(0);

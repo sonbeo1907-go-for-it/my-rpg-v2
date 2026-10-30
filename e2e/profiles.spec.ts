@@ -169,6 +169,7 @@ test("native bridge scans saves, awaits disk writes before granting purchases an
   await expect(page.getByText(/Bản xem trước trên trình duyệt/)).toHaveCount(0);
   await page.getByRole("button", { name: /^Tiếp tục/ }).click();
   await expect(page).toHaveURL(/home$/);
+  await page.goto("/");
   await page
     .getByRole("button", { name: "Mở thư mục lưu dữ liệu game", exact: true })
     .click();

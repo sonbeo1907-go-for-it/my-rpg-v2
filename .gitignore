@@ -20,3 +20,6 @@ playwright-report/
 coverage/
 *.tsbuildinfo
 *.log
+# Local Graphify tooling and generated code graph
+.tools/graphify/
+graphify-out/

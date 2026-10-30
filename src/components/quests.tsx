@@ -80,7 +80,7 @@ export function QuestPage() {
         >
           <span className="eyebrow">{tab === "sinister" ? "SAU CÁNH CỬA KHÔNG ÁNH SÁNG" : "NHỮNG NẺO ĐƯỜNG PHƯƠNG BẮC"}</span>
           <h2>{selected?.name ?? (sinisterLocked ? "Cánh cửa chưa thức giấc" : "Những miền đất chưa biết")}</h2>
-          <p>{selected?.description ?? (sinisterLocked ? "Có những hiểm họa chỉ hiện hình khi ảo ảnh tan đi." : "Chưa có lời thách thức phù hợp với tìm kiếm này.")}</p>
+          <p>{selected?.description ?? (sinisterLocked ? "Những hiểm họa đang chờ một lời thách thức." : "Chưa có lời thách thức phù hợp với tìm kiếm này.")}</p>
           {selected && <div className="quest-rewards">
             <Icon name="coin" />
             <span>
@@ -100,9 +100,8 @@ export function QuestPage() {
             <div className="quest-locked" role="status">
               <span className="quest-locked-seal"><Icon name="door" /></span>
               <span className="eyebrow">CHƯA KHAI MỞ</span>
-              <h2>Dấu vết trong ảo ảnh</h2>
-              <p>Một cánh cửa chưa thức giấc. Hãy tìm dấu vết trong Hầm Ngục Ảo Ảnh.</p>
-              <Link className="button" href="/dungeon/illusion">Đến Hầm Ngục Ảo Ảnh <span aria-hidden="true">→</span></Link>
+              <h2>Hiểm họa chưa khai mở</h2>
+              <p>Điều kiện mở khóa sẽ được bổ sung trong bản cập nhật sau.</p>
             </div>
           ) : <>
           <div className="filter-bar">

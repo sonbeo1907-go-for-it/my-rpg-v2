@@ -34,11 +34,11 @@ test('locked Hiểm Ác never reveals boss names/stats/reward or a departure but
  await seed(page);
  for(const query of ['tab=sinister&selected=alice_superboss&q=Alice','type=super&selected=miraebolis_superboss','tab=extermination&selected=alice_superboss']){
   await page.goto(`/quests?${query}`);await expect(page.locator('.quest-category-tabs')).toBeVisible();await expect(page.locator('main')).not.toContainText('Alice');await expect(page.locator('main')).not.toContainText('Miraebolis');
-  if(!query.includes('extermination')){await expect(page.locator('.quest-locked')).toContainText('Hầm Ngục Ảo Ảnh');await expect(page.locator('.quest-card,.quest-enemies,.embark,.quest-rewards')).toHaveCount(0);}
+  if(!query.includes('extermination')){await expect(page.locator('.quest-locked')).toContainText('Điều kiện mở khóa');await expect(page.locator('.quest-card,.quest-enemies,.embark,.quest-rewards')).toHaveCount(0);}
  }
  await page.getByRole('button',{name:'Hiểm Ác',exact:true}).click();await expect(page.getByRole('button',{name:'Hiểm Ác',exact:true})).toHaveAttribute('aria-current','page');await expect(page.locator('.quest-background')).toHaveCSS('background-image',/quest-sinister.svg/);await page.screenshot({path:'test-results/quest-sinister-locked-desktop.png',fullPage:true});
  await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'test-results/quest-sinister-locked-phone.png',fullPage:true});
- await page.getByRole('link',{name:/Đến Hầm Ngục Ảo Ảnh/}).click();await expect(page).toHaveURL(/dungeon\/illusion$/);
+ await expect(page.locator('a[href="/dungeon/illusion"]')).toHaveCount(0);
 });
 test('persisted illusion flag reveals 1000 Coin quests, supports scoped search and starts the selected super boss',async({page})=>{
  await seed(page,true);await page.goto('/quests?tab=sinister');await expect(page.locator('.quest-card')).toHaveCount(2);expect(await rewards(page)).toEqual([1000,1000]);await expect(page.locator('.quest-locked')).toHaveCount(0);

@@ -71,14 +71,14 @@ export function DungeonSelectionPage() {
                     ? "KHO BÁU DƯỚI LÒNG ĐẤT"
                     : item.id === "dangerous"
                       ? "THỬ THÁCH NƠI VỰC SÂU"
-                      : "NHỮNG LỐI ĐI KHÔNG LẶP LẠI"}
+                      : "THÁM HIỂM HẰNG NGÀY"}
                 </span>
                 <h2>{item.name}</h2>
                 <p>{item.description}</p>
                 <div className="dungeon-choice-limit">
                   {daily.limit
                     ? `${daily.remaining}/${daily.limit} lượt nhận thưởng hôm nay`
-                    : "Roguelike · Chưa khai mở"}
+                    : "Thám hiểm"}
                 </div>
                 <strong>{item.closed ? "Tạm đóng" : "Chọn mức độ →"}</strong>
               </div>

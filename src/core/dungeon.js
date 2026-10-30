@@ -1,3 +1,4 @@
+import {recordDailyClear} from './daily-commissions.js';
 import { createBattle } from "./battle.js";
 import { dungeonDay, dungeonDailyState } from "./dungeon-rules.js";
 import { encounterTier } from "./economy.js";
@@ -189,6 +190,7 @@ export function claimDungeonReward(
   for (const [currency, amount] of Object.entries(run.reward))
     next[currency] = add(next[currency], amount);
   next.victories = add(next.victories, 1);
+  if (["gold_mine","dangerous"].includes(run.typeId)) recordDailyClear(next,"dungeon",now);
   next.dungeonDaily.clears[run.typeId] = add(
     next.dungeonDaily.clears[run.typeId] ?? 0,
     1,

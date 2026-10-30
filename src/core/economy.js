@@ -1,3 +1,4 @@
+import {recordDailyClear} from './daily-commissions.js';
 import { grantQuestExclusive } from './exclusive-rewards.js';
 import { ownsCharacter, unlockCharacter } from './ownership.js';
 import { gearSlotCapacity, unlockDuplicateSlot } from './gear-slots.js';
@@ -85,7 +86,7 @@ export function grantCharacterCopy(campaign, content, characterId) {
 }
 
 // A failed persistence callback leaves both campaign and claim unchanged for a retry.
-export function claimBattleReward(campaign, battle, content, persist = () => {}) {
+export function claimBattleReward(campaign, battle, content, persist = () => {}, now = new Date()) {
   if (battle.dungeon) return campaign; // Wave clears never grant Quest rewards or first-clear unlocks.
   if (battle.outcome !== 'victory' || battle.rewardClaimed) return campaign;
   const encounter = content.encounters[battle.encounterId];
@@ -96,6 +97,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {})
   const next = structuredClone(campaign);
   next.coins = checkedAdd(next.coins, victoryCoinReward(content, battle.encounterId));
   next.victories = checkedAdd(next.victories, 1);
+  if (encounter && !encounter.travelerStory && ["normal","boss"].includes(encounterTier(encounter))) recordDailyClear(next,"quest",now);
   next.claimedFirstClearRewards ??= [];
   const rewards = content.encounters[battle.encounterId]?.firstClearRewards;
   const granted = [];

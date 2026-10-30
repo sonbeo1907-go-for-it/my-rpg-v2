@@ -18,6 +18,8 @@ import {
 } from "../core/battle.js";
 import { claimBattleReward, victoryCoinReward } from "../core/economy.js";
 import { seededRandom } from "../core/random.js";
+import {needsDailyVisit,visitDailyCommissions,claimDailyCommissions} from "../core/daily-commissions.js";
+import {nextDungeonReset,dungeonDay} from "../core/dungeon-rules.js";
 import { createGameMusic } from "../ui/game-music.js";
 import { readSettings } from "../ui/preferences.js";
 import { createProfileStore } from "./profile-store.js";
@@ -35,6 +37,9 @@ import {
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
+  dailyNow: number;
+  claimCommissions: (keys?: string[]) => Promise<boolean>;
+  refreshCommissions: () => Promise<boolean>;
   setAstoriaEnabled: (enabled: boolean) => Promise<boolean>;
   content: any;
   campaign: any;
@@ -101,6 +106,14 @@ export function GameProvider({
   const content = useRef(initialContent).current;
   const path = usePathname();
   const [campaign, setCampaign] = useState<any>(null);
+  const [dailyNow,setDailyNow]=useState(()=>Date.now());
+  const dailyAttempt=useRef("");
+  useEffect(()=>{
+    let timer:ReturnType<typeof setTimeout>;
+    const tick=()=>{const now=new Date();setDailyNow(now.getTime());clearTimeout(timer);timer=setTimeout(tick,Math.min(60_000,nextDungeonReset(now).getTime()-now.getTime()+100));};
+    const visible=()=>{if(!document.hidden){dailyAttempt.current="";tick();}};tick();window.addEventListener("focus",visible);document.addEventListener("visibilitychange",visible);
+    return()=>{clearTimeout(timer);window.removeEventListener("focus",visible);document.removeEventListener("visibilitychange",visible);};
+  },[]);
   const campaignRef = useRef<any>(null);
   const store = useRef<ReturnType<typeof createProfileStore> | null>(null);
   const initializing = useRef<Promise<any> | null>(null);
@@ -214,7 +227,7 @@ export function GameProvider({
       })();
     }
     initializing.current
-      .then((repository) => {
+      .then(async (repository) => {
         if (!alive) return;
         setDesktop(repository.native);
         setSaveDirectory(repository.directory);
@@ -231,7 +244,12 @@ export function GameProvider({
               ) ?? repository.entries.find((p: any) => !p.error);
           }
         } catch {}
-        const loaded = chosen?.campaign ?? createGameSave(content);
+        let loaded = chosen?.campaign ?? createGameSave(content);
+        if(chosen && needsDailyVisit(loaded)){
+          try{chosen=await repository.save(chosen.id,visitDailyCommissions(loaded));loaded=chosen.campaign;syncProfiles();}
+          catch(error){dailyAttempt.current=chosen.id+":"+dungeonDay();notify("Chưa ghi nhận được đăng nhập ngày: "+(error as Error).message);}
+        }
+        if(!alive)return;
         campaignRef.current = loaded;
         setCampaign(loaded);
         activeProfileId.current = chosen?.id ?? null;
@@ -297,6 +315,14 @@ export function GameProvider({
       if (!lock.current) setBusy(false);
     }
   }
+  async function refreshCommissions(){
+    if(!campaignRef.current||!needsDailyVisit(campaignRef.current))return true;
+    return transact(current=>visitDailyCommissions(current),"");
+  }
+  useEffect(()=>{
+    if(!ready||!entered||busy||activeProfileId.current===null||!campaignRef.current||!needsDailyVisit(campaignRef.current,new Date(dailyNow)))return;
+    const key=activeProfileId.current+":"+dungeonDay(new Date(dailyNow));if(dailyAttempt.current===key)return;dailyAttempt.current=key;void refreshCommissions();
+  },[ready,entered,busy,activeProfile?.id,dailyNow]);
   async function claimReward() {
     if (
       !runtime.current ||
@@ -400,7 +426,7 @@ export function GameProvider({
     if (lock.current || saveLock.current || activeProfileId.current === null)
       return false;
     if (!isQuestUnlocked(content.encounters[id], campaignRef.current)) {
-      notify("Nhiệm vụ chưa mở khóa. Hãy tìm dấu vết trong Hầm Ngục Ảo Ảnh.");
+      notify("Nhiệm vụ chưa mở khóa. Điều kiện mở khóa sẽ được bổ sung sau.");
       return false;
     }
     if (
@@ -548,6 +574,8 @@ export function GameProvider({
     return true;
   }
   const value: GameContextValue = {
+    dailyNow,refreshCommissions,
+    claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
     setAstoriaEnabled: (enabled) => transact(current => configureAstoria(current,enabled,{battleActive:Boolean(runtime.current && !runtime.current.outcome) || Boolean(dungeonRun.current && !runtime.current?.outcome)}), enabled ? "Đã bật Astoria · bản trùng 0." : "Đã tắt Astoria."),
     content,
     profiles,
@@ -571,7 +599,7 @@ export function GameProvider({
         const selected = await store.current.load(id);
         if (selected.error) throw new Error(selected.error);
         // Upgrade old save schemas durably before entering; retain the prior file as backup.
-        const saved = await store.current.save(id, selected.campaign);
+        const saved = await store.current.save(id, needsDailyVisit(selected.campaign)?visitDailyCommissions(selected.campaign):selected.campaign);
         activate(saved);
         return true;
       }),
@@ -580,7 +608,8 @@ export function GameProvider({
         if (!store.current || profileError)
           throw new Error(profileError || "Kho lưu dữ liệu chưa sẵn sàng.");
         const created = await store.current.create(username);
-        activate(created);
+        const visited=await store.current.save(created.id,visitDailyCommissions(created.campaign));
+        activate(visited);
         return true;
       }),
     renameProfile: (username) =>

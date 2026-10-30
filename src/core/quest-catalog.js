@@ -12,7 +12,7 @@ export function isQuestUnlocked(encounter, campaign) {
 }
 export function assertQuestUnlocked(encounter, campaign) {
   if (!isQuestUnlocked(encounter, campaign))
-    throw new Error(encounter?.travelerStory ? 'Hãy hoàn thành chương trước để mở khóa chương này.' : 'Nhiệm vụ chưa mở khóa. Hãy tìm dấu vết trong Hầm Ngục Ảo Ảnh.');
+    throw new Error(encounter?.travelerStory ? 'Hãy hoàn thành chương trước để mở khóa chương này.' : 'Nhiệm vụ chưa mở khóa. Điều kiện mở khóa sẽ được bổ sung sau.');
 }
 export function assertEncounterParty(encounter, campaign, content) {
   if (encounter.requiredPartyIds?.some(id => !campaign.party.includes(id)))
