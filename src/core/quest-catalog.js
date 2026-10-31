@@ -21,9 +21,9 @@ export function assertEncounterParty(encounter, campaign, content) {
   if (encounter.requiredPartyIds?.some(id => !campaign.party.includes(id)))
     throw new Error(`Trận này bắt buộc có ${encounter.requiredPartyIds.map(id => content.characters[id].name).join(', ')} trong đội hình.`);
 }
-export function encounterReturnPath(content, id) {
+export function encounterReturnPath(content, id,difficultyId) {
   const story = content.encounters[id]?.travelerStory;
-  return story ? `/stories/${story}?selected=${id}` : content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}`:`/quests?selected=${id}`;
+  return story ? `/stories/${story}?selected=${id}` : content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
 }
 export function questCategory(filters = {}) {
   if(filters.tab==='bounty')return 'bounty';

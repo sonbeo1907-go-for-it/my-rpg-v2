@@ -21,3 +21,10 @@ export function scaleEnemyStats(stats, value = 1) {
   }
   return scaled;
 }
+
+// Always normalize from the authored template; never scale an already scaled actor.
+export function levelScaledEnemyStats(enemy,level,content,override=1){
+ if(!Number.isInteger(level)||level<1||level>99)throw Error('Level đối thủ không hợp lệ.');
+ const r=content.progressionRules.default,ref=enemy.referenceLevel??5,factor=(key,l)=>1+r.enemyGrowth[key]*(l-1)+r.milestones.filter(m=>m.level<=l).reduce((n,m)=>n+(['attack','magic'].includes(key)?m.offense:['defense','resistance'].includes(key)?m.defense:0),0);
+ const normalized=Object.fromEntries(ENEMY_SCALE_STATS.map(key=>[key,enemy.stats[key]*(factor(key,level)/factor(key,ref))]));return scaleEnemyStats(normalized,override);
+}

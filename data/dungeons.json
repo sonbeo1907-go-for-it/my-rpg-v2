@@ -112,5 +112,113 @@
     "encounterTier": "boss",
     "revealRooms": true,
     "stageLabel": "Phòng"
+  },
+  {
+    "id": "training_grounds",
+    "name": "Hầm ngục Rèn Luyện",
+    "description": "Tích lũy kinh nghiệm cho từng đồng đội. Tích tối đa 9 lượt, hồi 3 lượt mỗi 8 giờ.",
+    "art": "/art/dungeon-training.svg",
+    "icon": "sword",
+    "dailyLimit": 9,
+    "recharge": {
+      "capacity": 9,
+      "amount": 3,
+      "hours": 8,
+      "initial": 9
+    },
+    "encounterTier": "normal",
+    "difficulties": [
+      {
+        "id": "easy",
+        "name": "Dễ",
+        "enabled": true,
+        "waves": 3,
+        "enemyLevel": 15,
+        "enemyScale": {
+          "maxHp": 1
+        },
+        "reward": {
+          "characterXp": 360
+        }
+      },
+      {
+        "id": "medium",
+        "name": "Trung bình",
+        "enabled": true,
+        "waves": 4,
+        "enemyLevel": 30,
+        "enemyScale": {
+          "maxHp": 1
+        },
+        "reward": {
+          "characterXp": 900
+        }
+      },
+      {
+        "id": "hard",
+        "name": "Khó",
+        "enabled": true,
+        "waves": 5,
+        "enemyLevel": 45,
+        "enemyScale": {
+          "maxHp": 1
+        },
+        "reward": {
+          "characterXp": 1900
+        }
+      }
+    ]
+  },
+  {
+    "id": "breakthrough_trial",
+    "name": "Hầm ngục Phá Giới",
+    "description": "Vượt thử thách để tìm Tinh Thạch mở giới hạn cấp độ.",
+    "art": "/art/dungeon-breakthrough.svg",
+    "icon": "prism",
+    "dailyLimit": 2,
+    "encounterTier": "boss",
+    "revealRooms": true,
+    "stageLabel": "Phòng",
+    "difficulties": [
+      {
+        "id": "easy",
+        "name": "Dễ",
+        "enabled": true,
+        "waves": 1,
+        "enemyLevel": 20,
+        "enemyScale": {
+          "maxHp": 1
+        },
+        "reward": {
+          "limitBreakStones": 1
+        }
+      },
+      {
+        "id": "medium",
+        "name": "Trung bình",
+        "enabled": true,
+        "waves": 2,
+        "enemyLevel": 30,
+        "enemyScale": {
+          "maxHp": 1
+        },
+        "reward": {
+          "limitBreakStones": 2
+        }
+      },
+      {
+        "id": "hard",
+        "name": "Khó",
+        "enabled": true,
+        "waves": 3,
+        "enemyLevel": 40,
+        "enemyScale": {
+          "maxHp": 1
+        },
+        "reward": {
+          "limitBreakStones": 3
+        }
+      }
+    ]
   }
 ]

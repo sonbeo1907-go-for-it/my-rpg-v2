@@ -128,6 +128,7 @@ export function createProfileStore({ content, storage, nativeInvoke = null }) {
       if (!entries.length) {
         const raw = [
           GAME_SAVE_KEY,
+          "northern-prisma.campaign.v6",
           "northern-prisma.campaign.v5",
           "northern-prisma.campaign.v4",
           "northern-prisma.campaign.v3",

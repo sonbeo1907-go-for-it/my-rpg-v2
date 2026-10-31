@@ -7,13 +7,13 @@ import {createDungeonRun,createDungeonPreview,claimDungeonReward} from '../src/c
 import {emptyDailyCommissions,normalizeDailyCommissions,visitDailyCommissions,needsDailyVisit,recordDailyClear,dailyCommissionView,claimDailyCommissions} from '../src/core/daily-commissions.js';
 const content=await loadContent(),day=new Date('2026-10-31T12:00:00Z');
 const fresh=()=>createGameSave(content);
-function full(){const c=visitDailyCommissions(fresh(),day);for(let i=0;i<5;i++)recordDailyClear(c,'quest',day);recordDailyClear(c,'dungeon',day);return c;}
+function full(){const c=visitDailyCommissions(fresh(),day);for(let i=0;i<5;i++)recordDailyClear(c,'quest',day);recordDailyClear(c,'training',day);return c;}
 test('login requires no currency grant before claim and completes the first milestone independently',()=>{
  const before=fresh(),c=visitDailyCommissions(before,day),view=dailyCommissionView(c,day);assert.equal(before.dailyCommissions.day,null);assert.equal(c.prisma,0);assert.equal(view.count,1);assert.deepEqual(view.available.map(x=>x.key),['task:login','milestone:1']);assert.equal(needsDailyVisit(c,day),false);
  const next=claimDailyCommissions(c,['milestone:1'],day);assert.equal(next.coins,500);assert.equal(next.prisma,0);assert.equal(next.dailyCommissions.claimedTasks.length,0);
 });
-test('all five tasks and every milestone award the exact daily totals once',()=>{
- const c=full(),next=claimDailyCommissions(c,undefined,day);assert.equal(next.coins,6500);assert.equal(next.prisma,1);assert.equal(next.recruitmentShards,11);assert.equal(next.originalPrisma,1);assert.equal(dailyCommissionView(next,day).available.length,0);assert.equal(next.dailyCommissions.claimedTasks.length,5);assert.equal(next.dailyCommissions.claimedMilestones.length,5);assert.throws(()=>claimDailyCommissions(next,undefined,day));assert.equal(c.coins,0);
+test('all six tasks and every milestone award the exact daily totals once',()=>{
+ const c=full(),next=claimDailyCommissions(c,undefined,day);assert.equal(next.coins,6500);assert.equal(next.prisma,1);assert.equal(next.recruitmentShards,11);assert.equal(next.originalPrisma,1);assert.equal(next.sweepTickets,4);assert.equal(dailyCommissionView(next,day).available.length,0);assert.equal(next.dailyCommissions.claimedTasks.length,6);assert.equal(next.dailyCommissions.claimedMilestones.length,6);assert.throws(()=>claimDailyCommissions(next,undefined,day));assert.equal(c.coins,0);
 });
 test('partial claims, duplicate requests, unearned milestones and malformed keys are atomic',()=>{
  const c=visitDailyCommissions(fresh(),day),before=structuredClone(c);for(const keys of [['task:quest_1'],['milestone:5'],['task:login','task:login'],['bad'],[]])assert.throws(()=>claimDailyCommissions(c,keys,day));assert.deepEqual(c,before);const n=claimDailyCommissions(c,['task:login'],day);assert.throws(()=>claimDailyCommissions(n,['task:login'],day));assert.equal(n.prisma,1);

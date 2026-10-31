@@ -224,6 +224,8 @@ export function ElementBadge({ element }: { element: string }) {
 }
 export function ResourceIcon({kind}:{kind:string}) {
   const id=useId().replace(/:/g,'');
+  if(kind==='ticket')return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Z"/><path d="M9 6v12m4-8h5m-5 4h5" strokeDasharray="2 2"/></svg>;
+  if(kind==='breakthrough')return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m12 2 8 7-2 11-6 3-7-4-1-11Z"/><path d="m12 2-3 8 6 3-5 10m-6-15 5 2m6 3 5-4"/></svg>;
   if(kind!=='original')return <Icon name={kind==='coin'?'coin':kind==='fragments'?'fragments':'prism'}/>;
   return <svg className="icon original-prisma-icon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id={`rainbow-${id}`} x2="1" y2="1"><stop stopColor="#ff9eac"/><stop offset=".2" stopColor="#ffe195"/><stop offset=".4" stopColor="#a4e5ad"/><stop offset=".6" stopColor="#8bd8ed"/><stop offset=".8" stopColor="#aca5f2"/><stop offset="1" stopColor="#eda7e7"/></linearGradient></defs><path d="m12 2 8 7-8 13L4 9z" fill={`url(#rainbow-${id})`} fillOpacity=".25" stroke={`url(#rainbow-${id})`} strokeWidth="1.4"/><path d="m12 2-3 7 3 13 3-13zM4 9h16" fill="none" stroke={`url(#rainbow-${id})`} strokeWidth="1"/></svg>;
 }
@@ -232,12 +234,12 @@ export function CurrencyAmount({
   amount,
   label = true,
 }: {
-  kind: "coin" | "prisma" | "pure" | "original" | "fragments";
+  kind: "coin" | "prisma" | "pure" | "original" | "fragments" | "ticket" | "breakthrough";
   amount: number;
   label?: boolean;
 }) {
   const name =
-    kind === "coin" ? "Coin" : kind === "pure" ? "Pure Prisma" : kind === "original" ? "Original Prisma" : kind === "fragments" ? "Vụn Prisma" : "Prisma";
+    kind === "ticket" ? "Thẻ Quét" : kind === "breakthrough" ? "Tinh Thạch Phá Giới" : kind === "coin" ? "Coin" : kind === "pure" ? "Pure Prisma" : kind === "original" ? "Original Prisma" : kind === "fragments" ? "Vụn Prisma" : "Prisma";
   return (
     <span
       className={`currency-amount currency-${kind}`}
@@ -276,6 +278,7 @@ export function StatGrid({
                   Trang bị: +{fmt(actor.gearBonuses?.[key] ?? 0)}
                 </small>
               )}
+              {showGearBonuses&&actor.levelBonuses?.[key]?<small className="stat-level-bonus">Phân bổ: +{fmt(actor.levelBonuses[key])}</small>:null}
               {showGearBonuses && actor.exclusiveBonuses?.[key] ? <small className="stat-exclusive-bonus">Trấn Phái: +{fmt(actor.exclusiveBonuses[key])}</small> : null}
               {actor.teamBonuses?.[key] ? (
                 <small> +{actor.teamBonuses[key]} đội</small>
@@ -310,6 +313,7 @@ export function CharacterCard({
       </div>
       <div>
         <h3>{actor.name}</h3>
+        <small className="character-level">Level {actor.level??1} / {actor.levelCap??20}</small>
         <p>{actor.title}</p>
         <small>{actor.role}</small>
       </div>

@@ -1,5 +1,7 @@
 "use client";
+import {CharacterProgression} from "./character-progression";
 import Link from "next/link";
+import {CharacterTabs} from "./wide-tabs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
@@ -133,6 +135,7 @@ export function SkillCard({ skill, actor }: { skill: any; actor: any }) {
 export function CharacterDetail({ id }: { id: string }) {
   const { content, campaign } = useGame();
   const search = useSearchParams();
+  const tab=["overview","level","skills"].includes(search.get("tab")??"")?search.get("tab")!:"overview";
   const requested = search.get("back") ?? "/characters";
   const back =
     requested === "/party" ||
@@ -167,15 +170,9 @@ export function CharacterDetail({ id }: { id: string }) {
   for(const companion of Object.values(actor.companions??{}) as any[]) for(const abilityId of [companion.roundStartAbility,companion.roundEndAbility]) skills.push(content.abilities[abilityId]);
   return (
     <main className="page">
-      <PageHeader title={actor.name} subtitle={actor.title} back={back}>
-        <Link
-          className="button gold"
-          href={`/characters/${id}/equipment?back=${encodeURIComponent(back)}`}
-        >
-          <Icon name="shield" />
-          Trang bị
-        </Link>
-      </PageHeader>
+      <PageHeader title={actor.name} subtitle={actor.title} back={back}/>
+      <CharacterTabs id={id} active={tab} back={back}/>
+      {tab==='overview'&&<section aria-label="Tổng Quan" className="character-tab-panel">
       <div className="character-overview" data-element={actor.element}>
         <CharacterCard actor={actor} owned={owned} />
         <section className="panel">
@@ -207,6 +204,9 @@ export function CharacterDetail({ id }: { id: string }) {
           )}
         </section>
       </div>
+      </section>}
+      {tab==='level'&&<section aria-label="Cấp Độ" className="character-tab-panel"><CharacterProgression id={id}/></section>}
+      {tab==='skills'&&<section aria-label="Kỹ Năng" className="character-tab-panel"><PassiveBody actor={actor} content={content}/>
       <div className="section-heading">
         <div>
           <span className="eyebrow">SỨC MẠNH & DẤU ẤN</span>
@@ -220,6 +220,7 @@ export function CharacterDetail({ id }: { id: string }) {
           <SkillCard key={skill.id} skill={skill} actor={actor} />
         ))}
       </div>
+      </section>}
     </main>
   );
 }

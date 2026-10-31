@@ -1,7 +1,51 @@
 [
-  {"id":"coin","name":"Coin","field":"coins","kind":"coin","description":"Tiền dùng để giao dịch và chế tạo tại Thợ Rèn."},
-  {"id":"prisma","name":"Prisma","field":"prisma","kind":"prisma","description":"Mỗi Prisma dùng cho một lần chiêu mộ thường."},
-  {"id":"pure","name":"Pure Prisma","field":"recruitmentShards","kind":"pure","description":"Dùng để chiêu mộ đồng đội tự chọn và chế tạo Trấn Phái."},
-  {"id":"original","name":"Original Prisma","field":"originalPrisma","kind":"original","description":"Prisma cầu vồng dùng chế tạo, tái rèn Trấn Phái. Nguồn từ Hầm Ngục Ảo Ảnh sẽ được mở sau."},
-  {"id":"fragments","name":"Vụn Prisma","field":"prismaFragments","kind":"fragments","description":"Những mảnh Prisma tím vỡ, thu được khi phân rã trang bị chưa sử dụng."}
+  {
+    "id": "coin",
+    "name": "Coin",
+    "field": "coins",
+    "kind": "coin",
+    "description": "Tiền dùng để giao dịch và chế tạo tại Thợ Rèn."
+  },
+  {
+    "id": "prisma",
+    "name": "Prisma",
+    "field": "prisma",
+    "kind": "prisma",
+    "description": "Mỗi Prisma dùng cho một lần chiêu mộ thường."
+  },
+  {
+    "id": "pure",
+    "name": "Pure Prisma",
+    "field": "recruitmentShards",
+    "kind": "pure",
+    "description": "Dùng để chiêu mộ đồng đội tự chọn và chế tạo Trấn Phái."
+  },
+  {
+    "id": "original",
+    "name": "Original Prisma",
+    "field": "originalPrisma",
+    "kind": "original",
+    "description": "Prisma cầu vồng dùng chế tạo và tái rèn Trấn Phái. Nhận từ Ủy Thác và các chương lữ hành."
+  },
+  {
+    "id": "fragments",
+    "name": "Vụn Prisma",
+    "field": "prismaFragments",
+    "kind": "fragments",
+    "description": "Những mảnh Prisma tím vỡ, thu được khi phân rã trang bị chưa sử dụng."
+  },
+  {
+    "id": "limit_break_stone",
+    "name": "Tinh Thạch Phá Giới",
+    "field": "limitBreakStones",
+    "kind": "breakthrough",
+    "description": "Đột Phá ở Level 20/30/40 để mở giới hạn 30/40/50. Nhận từ Hầm ngục Phá Giới."
+  },
+  {
+    "id": "sweep_ticket",
+    "name": "Thẻ Quét",
+    "field": "sweepTickets",
+    "kind": "ticket",
+    "description": "Quét một chuyến hầm ngục ở mức đã chiến thắng. Tiêu 1 thẻ và 1 lượt; nhận đầy đủ thưởng cho đội đang chọn."
+  }
 ]

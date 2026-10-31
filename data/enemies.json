@@ -24,7 +24,8 @@
     ],
     "abilities": [
       "enemy.slash"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "elder_frog",
@@ -45,7 +46,8 @@
     "abilities": [
       "enemy.splash",
       "enemy.double_hit"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "ogre_underling",
@@ -67,7 +69,8 @@
     "abilities": [
       "enemy.smash",
       "enemy.quake"
-    ]
+    ],
+    "referenceLevel": 15
   },
   {
     "id": "goblin_shaman",
@@ -88,7 +91,8 @@
     "abilities": [
       "enemy.shaman_ember",
       "enemy.shaman_hex"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "wyvern_plain",
@@ -110,7 +114,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_fire",
@@ -132,7 +137,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_water",
@@ -154,7 +160,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_earth",
@@ -176,7 +183,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_wind",
@@ -198,7 +206,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_thunder",
@@ -220,7 +229,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 15
   },
   {
     "id": "wyvern_light",
@@ -242,7 +252,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_dark",
@@ -264,7 +275,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_magical",
@@ -287,7 +299,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wyvern_physical",
@@ -310,7 +323,8 @@
       "enemy.wyvern_bite",
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "wolf_leader",
@@ -331,7 +345,8 @@
     "abilities": [
       "enemy.wolf_pounce",
       "enemy.wolf_rend"
-    ]
+    ],
+    "referenceLevel": 20
   },
   {
     "id": "wolf",
@@ -351,7 +366,8 @@
     ],
     "abilities": [
       "enemy.wolf_bite"
-    ]
+    ],
+    "referenceLevel": 20
   },
   {
     "id": "giant_pangolin",
@@ -372,7 +388,8 @@
     "abilities": [
       "enemy.pangolin_roll",
       "enemy.pangolin_tail"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "small_goblin",
@@ -399,7 +416,8 @@
     ],
     "abilities": [
       "enemy.slash"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "dark_holy_blade_alice",
@@ -423,7 +441,8 @@
       "enemy.alice_grasp",
       "enemy.alice_judgment",
       "enemy.alice_blade"
-    ]
+    ],
+    "referenceLevel": 60
   },
   {
     "id": "miraebolis",
@@ -537,7 +556,8 @@
           ]
         }
       ]
-    }
+    },
+    "referenceLevel": 60
   },
   {
     "id": "giant_spider",
@@ -581,7 +601,8 @@
           "when": "unshielded"
         }
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "wild_boar",
@@ -603,7 +624,8 @@
     ],
     "abilities": [
       "enemy.boar_charge"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "forest_rat",
@@ -625,7 +647,8 @@
     ],
     "abilities": [
       "enemy.rat_gnaw"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "giant_beetle",
@@ -656,7 +679,8 @@
           "when": "unshielded"
         }
       ]
-    }
+    },
+    "referenceLevel": 5
   },
   {
     "id": "cave_bat",
@@ -678,7 +702,8 @@
     ],
     "abilities": [
       "enemy.bat_flurry"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "marsh_snake",
@@ -700,7 +725,8 @@
     ],
     "abilities": [
       "enemy.snake_fang"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "pond_crab",
@@ -722,7 +748,8 @@
     ],
     "abilities": [
       "enemy.crab_pinch"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "forest_spider",
@@ -744,7 +771,8 @@
     ],
     "abilities": [
       "enemy.spider_nip"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "wild_mushroom",
@@ -766,7 +794,8 @@
     ],
     "abilities": [
       "enemy.mushroom_spores"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "ember_wisp",
@@ -788,7 +817,8 @@
     ],
     "abilities": [
       "enemy.wisp_flare"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "moss_slime",
@@ -812,7 +842,8 @@
     ],
     "abilities": [
       "enemy.slime_bump"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "giant_boar",
@@ -834,7 +865,8 @@
     "abilities": [
       "giant_boar.gore",
       "giant_boar.stampede"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "traveler_keith",
@@ -853,7 +885,8 @@
     "weaknesses": [],
     "abilities": [
       "traveler.keith"
-    ]
+    ],
+    "referenceLevel": 20
   },
   {
     "id": "traveler_mac",
@@ -899,7 +932,8 @@
       "description": "Khi đang Khiêu khích, giảm 30% sát thương nhận.",
       "amount": 0.3,
       "requiresStatus": "taunt"
-    }
+    },
+    "referenceLevel": 20
   },
   {
     "id": "traveler_sunny",
@@ -920,7 +954,8 @@
       "traveler.sunny",
       "traveler.sunny_wave"
     ],
-    "basicDamageType": "magical"
+    "basicDamageType": "magical",
+    "referenceLevel": 20
   },
   {
     "id": "traveler_amy",
@@ -955,7 +990,8 @@
         }
       ]
     },
-    "basicDamageType": "magical"
+    "basicDamageType": "magical",
+    "referenceLevel": 20
   },
   {
     "id": "goblin_warrior",
@@ -976,7 +1012,8 @@
     ],
     "abilities": [
       "enemy.slash"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "ogre_warrior",
@@ -997,7 +1034,8 @@
     ],
     "abilities": [
       "enemy.smash"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "ogre_king",
@@ -1066,7 +1104,8 @@
           ]
         }
       ]
-    }
+    },
+    "referenceLevel": 20
   },
   {
     "id": "bandit_vanguard",
@@ -1088,7 +1127,8 @@
     ],
     "abilities": [
       "bandit.advance"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "bandit_archer",
@@ -1110,7 +1150,8 @@
     ],
     "abilities": [
       "bandit.arrow"
-    ]
+    ],
+    "referenceLevel": 15
   },
   {
     "id": "bandit_brute",
@@ -1132,7 +1173,8 @@
     ],
     "abilities": [
       "bandit.crush"
-    ]
+    ],
+    "referenceLevel": 15
   },
   {
     "id": "bandit_mage",
@@ -1155,7 +1197,8 @@
     "abilities": [
       "bandit.flame",
       "bandit.firebolt"
-    ]
+    ],
+    "referenceLevel": 15
   },
   {
     "id": "bandit_chief",
@@ -1178,7 +1221,8 @@
     "abilities": [
       "bandit.command_cut",
       "bandit.command_sweep"
-    ]
+    ],
+    "referenceLevel": 5
   },
   {
     "id": "ryoga",
@@ -1201,7 +1245,8 @@
       "ryoga.cut",
       "ryoga.finish",
       "ryoga.sweep"
-    ]
+    ],
+    "referenceLevel": 20
   },
   {
     "id": "shadow_arthur",
@@ -1291,7 +1336,8 @@
           ]
         }
       ]
-    }
+    },
+    "referenceLevel": 30
   },
   {
     "id": "bell_lock_guardian",
@@ -1333,7 +1379,8 @@
     },
     "damageTypeWeaknesses": [
       "magical"
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "ash_cloaked_swordsman",
@@ -1373,7 +1420,8 @@
           "abilityId": "bounty.swordsman.cloak"
         }
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "salt_marsh_witch",
@@ -1414,7 +1462,8 @@
           "abilityId": "bounty.witch.prayer"
         }
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "slag_iron_bull",
@@ -1446,7 +1495,8 @@
         "element": "plain",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "referenceLevel": 25
   },
   {
     "id": "black_script_cleric",
@@ -1491,7 +1541,8 @@
           "abilityId": "bounty.cleric.mark"
         }
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "vesper",
@@ -1531,7 +1582,8 @@
           "abilityId": "vesper.seal"
         }
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "rauth",
@@ -1572,7 +1624,8 @@
         "rauth.break_line",
         "rauth.crush"
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "prototype07",
@@ -1614,7 +1667,8 @@
         "prototype07.offbeat",
         "prototype07.overload"
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "dry_river_guardian",
@@ -1656,7 +1710,8 @@
         "river_guardian.rubble",
         "river_guardian.flood"
       ]
-    }
+    },
+    "referenceLevel": 25
   },
   {
     "id": "time_quill",
@@ -1686,7 +1741,8 @@
         "element": "wind",
         "damageType": "magical"
       }
-    ]
+    ],
+    "referenceLevel": 15
   },
   {
     "id": "unstable_hourglass",
@@ -1716,7 +1772,8 @@
         "element": "thunder",
         "damageType": "magical"
       }
-    ]
+    ],
+    "referenceLevel": 15
   },
   {
     "id": "spell_afterimage",
@@ -1747,7 +1804,8 @@
         "element": "dark",
         "damageType": "magical"
       }
-    ]
+    ],
+    "referenceLevel": 20
   },
   {
     "id": "unstable_sync_axis",
@@ -1778,6 +1836,7 @@
         "element": "thunder",
         "damageType": "magical"
       }
-    ]
+    ],
+    "referenceLevel": 20
   }
 ]

@@ -1,3 +1,4 @@
+import {trainingChargeState} from './training-charges.js';
 import { enemyStatMultipliers } from "./enemy-scaling.js";
 export const DUNGEON_TIME_ZONE = "Asia/Ho_Chi_Minh";
 export function dungeonDay(now = new Date()) {
@@ -47,6 +48,7 @@ export function validateDungeonContent(content) {
       (typeof dungeon.stageLabel !== "string" || !dungeon.stageLabel.trim())
     )
       errors.push(`Invalid dungeon stage label ${dungeon.id}`);
+    if(dungeon.recharge&&(dungeon.id!=="training_grounds"||dungeon.dailyLimit!==9||dungeon.recharge.capacity!==9||dungeon.recharge.amount!==3||dungeon.recharge.hours!==8||dungeon.recharge.initial!==9))errors.push("Invalid recharge rule "+dungeon.id);
     const ids = new Set();
     for (const difficulty of dungeon.difficulties) {
       if (
@@ -56,12 +58,15 @@ export function validateDungeonContent(content) {
       )
         errors.push(`Invalid dungeon difficulty ${dungeon.id}`);
       ids.add(difficulty.id);
+      if(difficulty.enemyLevel!==undefined&&(!Number.isInteger(difficulty.enemyLevel)||difficulty.enemyLevel<1||difficulty.enemyLevel>60))errors.push("Invalid dungeon enemy level "+dungeon.id);
       const rewards = Object.entries(difficulty.reward ?? {});
+      const expectedReward={gold_mine:'coins',dangerous:'recruitmentShards',training_grounds:'characterXp',breakthrough_trial:'limitBreakStones'}[dungeon.id];
+      if(expectedReward&&!Object.hasOwn(difficulty.reward??{},expectedReward))errors.push('Invalid reward kind '+dungeon.id);
       if (
         rewards.length !== 1 ||
         rewards.some(
           ([key, value]) =>
-            !["coins", "recruitmentShards"].includes(key) ||
+            !["coins", "recruitmentShards", "characterXp", "limitBreakStones"].includes(key) ||
             !Number.isSafeInteger(value) ||
             value <= 0,
         )
@@ -120,6 +125,7 @@ export function normalizeDungeonDaily(input, content) {
     if (
       !definition ||
       !definition.dailyLimit ||
+      definition.recharge ||
       !Number.isSafeInteger(count) ||
       count < 0 ||
       count > definition.dailyLimit ||
@@ -131,6 +137,7 @@ export function normalizeDungeonDaily(input, content) {
 }
 export function dungeonDailyState(campaign, content, id, now = new Date()) {
   const definition = content.dungeons[id];
+  if(definition?.recharge)return trainingChargeState(campaign,now);
   if (!definition?.dailyLimit) return { used: 0, remaining: null, limit: null };
   const ledger = campaign.dungeonDaily ?? { day: null, clears: {} };
   const today = dungeonDay(now);

@@ -30,9 +30,9 @@ test('five bounty bosses and 18 recipes validate, stay out of ordinary board/dun
 });
 test('boss first clear unlocks only assigned recipes, survives save and failed persistence, replay never repeats unlocks',()=>{
  let c=finishStories();assert.ok(BOUNTY_PREREQUISITES.every(id=>c.claimedFirstClearRewards.includes(id)));
- for(const e of bounties){const b={encounterId:e.id,outcome:'victory',rewardRandom:()=>0};assert.throws(()=>claimBattleReward(c,b,content,()=>{throw Error('disk');}));assert.equal(b.rewardClaimed,undefined);assert.ok(e.firstClearRewards.every(r=>!gearRecipeUnlocked(c,content.gearEffects[r.recipeId])));
+ for(const e of bounties){const b={questDifficulty:'very_easy',encounterId:e.id,outcome:'victory',rewardRandom:()=>0};assert.throws(()=>claimBattleReward(c,b,content,()=>{throw Error('disk');}));assert.equal(b.rewardClaimed,undefined);assert.ok(e.firstClearRewards.every(r=>!gearRecipeUnlocked(c,content.gearEffects[r.recipeId])));
   c=claimBattleReward(c,b,content);assert.equal(b.firstClearRewards.length,e.firstClearRewards.length);c=decodeGameSave(encodeGameSave(c,content),content);assert.ok(e.firstClearRewards.every(r=>gearRecipeUnlocked(c,content.gearEffects[r.recipeId])));
-  const replay={encounterId:e.id,outcome:'victory',rewardRandom:()=>0};const coins=c.coins;c=claimBattleReward(c,replay,content);assert.equal(c.coins,coins+150);assert.deepEqual(replay.firstClearRewards,[]);
+  const replay={questDifficulty:'very_easy',encounterId:e.id,outcome:'victory',rewardRandom:()=>0};const coins=c.coins;c=claimBattleReward(c,replay,content);assert.equal(c.coins,coins+150);assert.deepEqual(replay.firstClearRewards,[]);
  }
  const fresh=createGameSave(content);assert.throws(()=>claimBattleReward(fresh,{encounterId:bounties[0].id,outcome:'victory'},content));
 });

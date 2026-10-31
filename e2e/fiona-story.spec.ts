@@ -20,8 +20,8 @@ test('Eins confirmation includes scouting and combat moves through all three wav
  test.setTimeout(120000);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page,{strong:true});await page.goto('/stories/fiona');await page.locator('.embark').click();await expect(page.getByRole('dialog').locator('.story-wave-scouting section')).toHaveCount(3);await page.getByRole('dialog').getByRole('button',{name:'Xuất chiến',exact:true}).click();await expect(page.getByRole('region',{name:'Tiến độ chương truyện'})).toContainText('Đợt 1/3');
  const seen=new Set<string>();
  for(let i=0;i<160;i++) {
-  const progress=await page.getByRole('region',{name:'Tiến độ chương truyện'}).innerText();seen.add(progress.match(/Đợt \d\/3/)?.[0]??'');
   if(await page.locator('.battle-outcome').filter({hasText:/đã lưu/}).count())break;
+  if(await page.getByRole('region',{name:'Tiến độ chương truyện'}).count()){const progress=await page.getByRole('region',{name:'Tiến độ chương truyện'}).innerText();seen.add(progress.match(/Đợt \d\/3/)?.[0]??'');}
   const execute=page.locator('.execute');if(!await execute.count()){await page.waitForTimeout(100);continue;}await expect(execute).toBeEnabled();
   const heading=await page.locator('.command-panel h2').innerText();let skill='$attack';
   if(heading.includes('Fiona')){

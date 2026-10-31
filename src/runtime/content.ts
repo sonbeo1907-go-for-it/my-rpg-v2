@@ -1,4 +1,5 @@
 import { assembleContent } from "../core/content.js";
+import progressionRules from "../../data/progressionRules.json";
 import characters from "../../data/characters.json";
 import abilities from "../../data/abilities.json";
 import statuses from "../../data/statuses.json";
@@ -17,6 +18,7 @@ import items from "../../data/items.json";
 import travelerStories from "../../data/travelerStories.json";
 export function getContent(): any {
   return assembleContent({
+    progressionRules,
     characters,
     abilities,
     statuses,

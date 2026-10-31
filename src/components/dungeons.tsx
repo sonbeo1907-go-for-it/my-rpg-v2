@@ -1,4 +1,5 @@
 "use client";
+import {DungeonReward,XpCapWarning} from "./dungeon-rewards";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,7 +26,7 @@ function useDungeonClock() {
       clearTimeout(timer);
       timer = setTimeout(
         refresh,
-        nextDungeonReset(date).getTime() - date.getTime() + 100,
+        Math.min(60_000-date.getTime()%60_000+100,nextDungeonReset(date).getTime() - date.getTime() + 100),
       );
     };
     const visible = () => {
@@ -57,7 +58,7 @@ export function DungeonSelectionPage() {
       )}
       <div className="dungeon-choices">
         {Object.values(content.dungeons).map((item: any) => {
-          const daily = dungeonDailyState(campaign, content, item.id, now);
+          const daily:any = dungeonDailyState(campaign, content, item.id, now);
           const body = (
             <>
               <img src={item.art} alt="" />
@@ -77,7 +78,7 @@ export function DungeonSelectionPage() {
                 <p>{item.description}</p>
                 <div className="dungeon-choice-limit">
                   {daily.limit
-                    ? `${daily.remaining}/${daily.limit} lượt nhận thưởng hôm nay`
+                    ? `${daily.remaining}/${daily.limit} ${daily.recharge?"lượt tích trữ":"lượt nhận thưởng hôm nay"}`
                     : "Thám hiểm"}
                 </div>
                 <strong>{item.closed ? "Tạm đóng" : "Chọn mức độ →"}</strong>
@@ -99,8 +100,9 @@ export function DungeonSelectionPage() {
           );
         })}
       </div>
+      <p className="page-note">Rèn Luyện hồi 3 lượt lúc 00:00 / 08:00 / 16:00, tối đa 9 lượt. Thẻ Quét chỉ dùng cho mức hầm ngục đã chiến thắng.</p>
       <p className="page-note">
-        Lượt ngày đặt lại lúc 00:00 giờ Việt Nam. Mỏ vàng dùng chung 3 lượt giữa
+        Mỏ Vàng, Hiểm Trở và Phá Giới đặt lại lúc 00:00 giờ Việt Nam. Mỏ vàng dùng chung 3 lượt giữa
         các mức độ.
       </p>
     </main>
@@ -115,11 +117,13 @@ export function DungeonQuestPage({ id }: { id: string }) {
     startDungeon,
     prepareDungeonPreview,
     activeProfile,
+    sweepDungeon,progressionLocked,
   } = useGame();
   const router = useRouter();
   const now = useDungeonClock();
   const [filters, setFilters] = useRouteFilters();
   const [confirm, setConfirm] = useState(false);
+  const [entryMethod,setEntryMethod]=useState<'battle'|'sweep'>('battle');
   const [preview, setPreview] = useState<any>(null);
   const [previewError, setPreviewError] = useState("");
   const definition = Object.hasOwn(content.dungeons, id)
@@ -131,7 +135,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
     ) ?? definition?.difficulties[0];
   const scoutingDay = dungeonDay(now);
   useEffect(() => {
-    setConfirm(false);
+    setConfirm(false);setEntryMethod('battle');
     setPreview(null);
     setPreviewError("");
     if (!definition?.revealRooms || !selected?.enabled) return;
@@ -160,7 +164,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
       </main>
     );
 
-  const daily = dungeonDailyState(campaign, content, id, now);
+  const daily:any = dungeonDailyState(campaign, content, id, now);
   const pool = dungeonQuestPool(content, id);
   const previewReady =
     !definition.revealRooms ||
@@ -169,17 +173,15 @@ export function DungeonQuestPage({ id }: { id: string }) {
   const canStart =
     selected.enabled && !busy && (daily.remaining ?? 0) > 0 && previewReady;
   const stageLabel = definition.stageLabel ?? "Đợt";
-  const reward = (item: any) =>
-    item.reward.coins ? (
-      <CurrencyAmount kind="coin" amount={item.reward.coins} />
-    ) : (
-      <CurrencyAmount kind="pure" amount={item.reward.recruitmentShards} />
-    );
+  const reward=(item:any)=><DungeonReward reward={item.reward}/>;
+  const cleared=campaign.dungeonClearedDifficulties?.[id]?.includes(selected.id);
+  const canSweep=!busy&&!progressionLocked&&daily.remaining>0&&campaign.sweepTickets>0&&cleared;
+  const recovery=daily.recharge?`Hồi 3 lượt lúc ${new Intl.DateTimeFormat("vi-VN",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Ho_Chi_Minh"}).format(daily.nextRecovery)} · tối đa 9 lượt`:"Đặt lại lượt lúc 00:00 giờ Việt Nam";
   return (
     <main className="quest-page dungeon-quest">
       <PageHeader
         title={definition.name}
-        subtitle={`${daily.remaining}/${daily.limit} lượt nhận thưởng còn lại hôm nay`}
+        subtitle={`${daily.remaining}/${daily.limit} ${daily.recharge?"lượt tích trữ":"lượt nhận thưởng còn lại hôm nay"}`}
         back="/dungeon"
       />
       {battle?.dungeon && (
@@ -202,10 +204,11 @@ export function DungeonQuestPage({ id }: { id: string }) {
           </h2>
           <p>
             {selected.enabled
-              ? `${selected.waves} ${stageLabel.toLocaleLowerCase("vi")}, chọn ngẫu nhiên từ ${definition.encounterTier === "boss" ? "nhóm trùm" : "Quest thường"}, không trùng trong cùng chuyến. Chỉ số quái: ${enemyScaleSummary(selected.enemyScale)}.`
+              ? `${selected.waves} ${stageLabel.toLocaleLowerCase("vi")}, chọn ngẫu nhiên từ ${definition.encounterTier === "boss" ? "nhóm trùm" : "Quest thường"}, không trùng trong cùng chuyến. Chỉ số quái: ${selected.enemyLevel?"Level "+selected.enemyLevel:enemyScaleSummary(selected.enemyScale)}.`
               : "Mức độ này sẽ được bổ sung ở hành trình sau."}
           </p>
           <div className="dungeon-reward-preview">{reward(selected)}</div>
+          <XpCapWarning amount={selected.reward.characterXp??0}/>
           <p>
             {selected.enabled
               ? "Giữ HP, MP, khiên, buff/debuff, hồi chiêu và tài nguyên giữa các đợt. Chỉ nhận thưởng khi vượt hết chuỗi."
@@ -215,7 +218,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
         <section className="quest-board">
           <div className="dungeon-board-heading">
             <span className="eyebrow">CHỌN MỨC ĐỘ</span>
-            <p>Đặt lại lượt lúc 00:00 giờ Việt Nam</p>
+            <p>{recovery}</p>
           </div>
           <div className="quest-list dungeon-difficulty-list">
             {definition.difficulties.map((item: any) => (
@@ -231,7 +234,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
                   <strong>{item.name}</strong>
                   <small>
                     {item.enabled
-                      ? `${item.waves} ${stageLabel.toLocaleLowerCase("vi")} · ${enemyScaleSummary(item.enemyScale)}`
+                      ? `${item.waves} ${stageLabel.toLocaleLowerCase("vi")} · ${item.enemyLevel?"Level "+item.enemyLevel:enemyScaleSummary(item.enemyScale)}`
                       : "Chưa mở"}
                   </small>
                 </span>
@@ -283,8 +286,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
                 </p>
                 {daily.remaining === 0 && (
                   <p className="warning" role="status">
-                    Đã hết lượt nhận thưởng hôm nay. Hãy trở lại sau 00:00 giờ
-                    Việt Nam.
+                    Đã hết lượt nhận thưởng hôm nay. {daily.recharge?"Mỗi mốc 00:00 / 08:00 / 16:00 hồi 3 lượt.":"Hãy trở lại sau 00:00 giờ Việt Nam."}
                   </p>
                 )}
               </>
@@ -296,14 +298,16 @@ export function DungeonQuestPage({ id }: { id: string }) {
             <button
               className="gold embark"
               disabled={!canStart}
-              onClick={() => setConfirm(true)}
+              onClick={() => {setEntryMethod('battle');setConfirm(true);}}
             >
               <Icon name="door" />
               {selected.enabled ? "Bắt đầu thám hiểm" : "Chưa mở"}
             </button>
+
           </div>
         </section>
       </QuestLayout>
+
       {confirm && (
         <Modal
           className={definition.revealRooms ? "dungeon-scouting-modal" : ""}
@@ -322,20 +326,21 @@ export function DungeonQuestPage({ id }: { id: string }) {
               <button onClick={() => setConfirm(false)}>Hủy</button>
               <button
                 className="gold"
-                disabled={!canStart}
-                onClick={() => {
-                  setConfirm(false);
-                  if (startDungeon(id, selected.id)) router.push("/battle");
+                disabled={entryMethod==='sweep'?!canSweep:!canStart}
+                onClick={async () => {
+                  if(entryMethod==='sweep'){if(await sweepDungeon(id,selected.id))setConfirm(false);}
+                  else {setConfirm(false);if(startDungeon(id,selected.id))router.push('/battle');}
                 }}
               >
-                Bắt đầu thám hiểm
+                {entryMethod==='sweep'?'Xác nhận Quét · 1 Thẻ':'Bắt đầu thám hiểm'}
               </button>
             </>
           }
         >
+          <section className="dungeon-entry-method" aria-label="Cách vào hầm ngục"><div className="result-section-title"><h3>Cách xuất phát</h3><CurrencyAmount kind="ticket" amount={campaign.sweepTickets}/></div><div className="entry-method-options"><button className={entryMethod==='battle'?'active':''} aria-pressed={entryMethod==='battle'} onClick={()=>setEntryMethod('battle')}>Đánh trực tiếp</button><button className="sweep-button" aria-pressed={entryMethod==='sweep'} disabled={!canSweep} onClick={()=>setEntryMethod('sweep')}>Dùng Thẻ Quét</button></div><p>{entryMethod==='sweep'?'Tiêu 1 Thẻ Quét và 1 lượt nhận thưởng cho cả chuyến. Nhận đủ phần thưởng; EXP dành cho đội hiện tại.':!cleared?'Chiến thắng mức này một lần để mở Quét.':progressionLocked?'Kết thúc trận hoặc chuyến đang chơi trước khi Quét.':campaign.sweepTickets<1?'Chưa có Thẻ Quét. Có thể nhận từ Ủy Thác Hằng Ngày.':'Có thể dùng 1 Thẻ Quét để nhận thưởng cả chuyến.'}</p><XpCapWarning amount={selected.reward.characterXp??0}/></section>
           <p className="scouting-run-info">
             {selected.waves} {stageLabel.toLocaleLowerCase("vi")} liên tiếp ·{" "}
-            {enemyScaleSummary(selected.enemyScale)}.
+            {selected.enemyLevel?"Level "+selected.enemyLevel:enemyScaleSummary(selected.enemyScale)}.
           </p>
           <p>Thưởng hoàn thành: {reward(selected)}</p>
           <p>
@@ -346,7 +351,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
             <DungeonRooms
               content={content}
               preview={preview}
-              scale={selected.enemyScale}
+              scale={selected.enemyScale} enemyLevel={selected.enemyLevel}
             />
           )}
         </Modal>

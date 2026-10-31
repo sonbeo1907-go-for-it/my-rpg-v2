@@ -1,3 +1,7 @@
+import {isValidParty} from './party.js';
+import {grantPartyXp} from './leveling.js';
+import {consumeTrainingCharge} from './training-charges.js';
+import {assertOwnedParty} from './ownership.js';
 import {recordDailyClear} from './daily-commissions.js';
 import { createBattle } from "./battle.js";
 import { dungeonDay, dungeonDailyState } from "./dungeon-rules.js";
@@ -89,6 +93,7 @@ export function createDungeonRun(
     waveIds,
     waveIndex: 0,
     enemyScale: structuredClone(difficulty.enemyScale),
+    enemyLevel:difficulty.enemyLevel??null,
     reward: structuredClone(difficulty.reward),
     partyCampaign: structuredClone(campaign),
     random,
@@ -115,6 +120,7 @@ function makeWave(content, run, previous = null) {
     run.random,
     {
       enemyScale: structuredClone(run.enemyScale),
+      enemyLevel:run.enemyLevel??null,
       partyActors,
       turnOrderField: previous?.turnOrderField,
       // Each wave resolves its own turn queue; summon lifetime spans the whole run.
@@ -187,16 +193,28 @@ export function claimDungeonReward(
       throw new Error("Số dư vượt giới hạn cho phép.");
     return value + amount;
   };
-  for (const [currency, amount] of Object.entries(run.reward))
-    next[currency] = add(next[currency], amount);
+  for (const [currency, amount] of Object.entries(run.reward))if(currency!=="characterXp")next[currency] = add(next[currency]??0, amount);
+  const xpAwards=run.reward.characterXp?grantPartyXp(next,content,run.partyCampaign.party.filter(Boolean),run.reward.characterXp):[];
   next.victories = add(next.victories, 1);
-  if (["gold_mine","dangerous"].includes(run.typeId)) recordDailyClear(next,"dungeon",now);
-  next.dungeonDaily.clears[run.typeId] = add(
+  recordDailyClear(next,["training_grounds","breakthrough_trial"].includes(run.typeId)?"training":"dungeon",now);
+  if(content.dungeons[run.typeId].recharge)consumeTrainingCharge(next,now);
+  else next.dungeonDaily.clears[run.typeId] = add(
     next.dungeonDaily.clears[run.typeId] ?? 0,
     1,
   );
+  next.dungeonClearedDifficulties??={};next.dungeonClearedDifficulties[run.typeId]=[...new Set([...(next.dungeonClearedDifficulties[run.typeId]??[]),run.difficultyId])];
   persist(next);
+  run.battle.xpAwards=xpAwards;
   run.claimed = true;
   run.battle.rewardClaimed = true;
   return next;
+}
+
+export function sweepDungeon(campaign,content,id,difficultyId,persist=()=>{},now=new Date(),options={}){
+ if(options.battleActive)throw Error('Hãy kết thúc trận hoặc chuyến đang chơi trước khi Quét.');assertOwnedParty(campaign);if(!isValidParty(campaign.party,content.characters))throw Error("Đội hình không hợp lệ.");
+ const difficulty=dungeonDifficulty(content,id,difficultyId);if(!difficulty?.enabled||content.dungeons[id]?.closed)throw Error('Hầm ngục chưa mở.');
+ if(!campaign.dungeonClearedDifficulties?.[id]?.includes(difficultyId))throw Error('Cần chiến thắng mức này trước khi Quét.');if(campaign.sweepTickets<1)throw Error('Không đủ Thẻ Quét.');
+ const next=structuredClone(campaign);next.sweepTickets--;
+ const run={typeId:id,difficultyId,waveIds:Array(difficulty.waves).fill('sweep'),waveIndex:difficulty.waves-1,partyCampaign:structuredClone(campaign),reward:structuredClone(difficulty.reward),claimed:false,battle:{outcome:'victory',dungeon:{typeId:id}}};
+ return claimDungeonReward(next,run,content,persist,now);
 }

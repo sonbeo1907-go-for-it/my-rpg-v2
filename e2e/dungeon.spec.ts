@@ -15,11 +15,11 @@ async function seed(page:Page,used=0) {
   await page.emulateMedia({reducedMotion:'reduce'});
 }
 const saved=(page:Page)=>page.evaluate(()=>JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text));
-test('two illustrated doors and Quest-style difficulty boards show current scope and fit phones',async({page,request})=>{
-  await seed(page);await page.goto('/dungeon');await expect(page.locator('.dungeon-choice')).toHaveCount(2);
+test('four illustrated doors and Quest-style difficulty boards show current scope and fit phones',async({page,request})=>{
+  await seed(page);await page.goto('/dungeon');await expect(page.locator('.dungeon-choice')).toHaveCount(4);
   const widths=await page.locator('.dungeon-choice').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().width));expect(Math.max(...widths)-Math.min(...widths)).toBeLessThan(2);
   await expect(page.locator('.dungeon-choice.closed')).toHaveCount(0);
-  for(const file of ['dungeon-gold.svg','dungeon-danger.svg']){const result=await request.get(`/art/${file}`);expect(result.ok()).toBe(true);expect(await result.text()).toContain('<svg');}
+  for(const file of ['dungeon-gold.svg','dungeon-danger.svg','dungeon-training.svg','dungeon-breakthrough.svg']){const result=await request.get(`/art/${file}`);expect(result.ok()).toBe(true);expect(await result.text()).toContain('<svg');}
   await page.screenshot({path:'test-results/visual-dungeon-doors.png',fullPage:true});
   await page.locator('a.dungeon-choice[href="/dungeon/gold_mine"]').click();
   await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.quest-card.selected')).toContainText('Dễ');await expect(page.locator('.quest-illustration')).toContainText('1.000');

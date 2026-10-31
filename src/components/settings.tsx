@@ -187,6 +187,7 @@ function SettingsDialog() {
         </section>
       ) : (
         <section id="settings-appearance" role="tabpanel" className="settings-panel" aria-label="Giao diện">
+          <div className="settings-row"><div><h3>Nhật ký chiến đấu</h3><p>Hiện hoặc ẩn Battle Logs trong trận và ở màn kết quả.</p></div><button role="switch" aria-label="Battle Logs" aria-checked={preferences.battleLogs} onClick={()=>update({battleLogs:!preferences.battleLogs})}>{preferences.battleLogs?'Đang bật':'Đang tắt'}</button></div>
           <fieldset className="logo-style-fieldset">
             <legend>Kiểu logo</legend>
             <p>Chọn dấu ấn của hành trình. Áp dụng ngay và lưu trên thiết bị này.</p>

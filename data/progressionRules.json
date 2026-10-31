@@ -1,0 +1,139 @@
+[
+  {
+    "id": "default",
+    "maxLevel": 50,
+    "caps": [
+      20,
+      30,
+      40,
+      50
+    ],
+    "limitBreakCosts": [
+      1,
+      2,
+      3
+    ],
+    "xp": {
+      "base": 80,
+      "linear": 20,
+      "quadratic": 2
+    },
+    "allocations": {
+      "maxHp": {
+        "gain": 5,
+        "cost": 1,
+        "max": 25,
+        "everyLevels": 3
+      },
+      "maxMp": {
+        "gain": 2,
+        "cost": 1,
+        "max": 25,
+        "everyLevels": 3
+      },
+      "attack": {
+        "gain": 1,
+        "cost": 1,
+        "max": 25,
+        "everyLevels": 3
+      },
+      "magic": {
+        "gain": 1,
+        "cost": 1,
+        "max": 25,
+        "everyLevels": 3
+      },
+      "defense": {
+        "gain": 1,
+        "cost": 1,
+        "max": 25,
+        "everyLevels": 3
+      },
+      "resistance": {
+        "gain": 1,
+        "cost": 1,
+        "max": 25,
+        "everyLevels": 3
+      },
+      "speed": {
+        "gain": 1,
+        "cost": 2,
+        "max": 10,
+        "everyLevels": 6
+      }
+    },
+    "questXpMultipliers": {
+      "normal": 1,
+      "boss": 2,
+      "bounty": 3
+    },
+    "questDifficulties": {
+      "very_easy": {
+        "name": "Rất dễ",
+        "level": 5,
+        "xp": 40,
+        "rewardMultiplier": 1
+      },
+      "easy": {
+        "name": "Dễ",
+        "level": 15,
+        "xp": 150,
+        "rewardMultiplier": 1.25
+      },
+      "medium": {
+        "name": "Trung bình",
+        "level": 25,
+        "xp": 340,
+        "rewardMultiplier": 1.5
+      },
+      "hard": {
+        "name": "Khó",
+        "level": 35,
+        "xp": 615,
+        "rewardMultiplier": 1.75
+      },
+      "very_hard": {
+        "name": "Rất khó",
+        "level": 45,
+        "xp": 965,
+        "rewardMultiplier": 2
+      }
+    },
+    "enemyGrowth": {
+      "maxHp": 0.03,
+      "maxMp": 0.01,
+      "attack": 0.012,
+      "magic": 0.012,
+      "defense": 0.008,
+      "resistance": 0.008,
+      "speed": 0.0015
+    },
+    "milestones": [
+      {
+        "level": 20,
+        "offense": 0.04,
+        "defense": 0.02
+      },
+      {
+        "level": 30,
+        "offense": 0.05,
+        "defense": 0.02
+      },
+      {
+        "level": 40,
+        "offense": 0.06,
+        "defense": 0.03
+      },
+      {
+        "level": 50,
+        "offense": 0.07,
+        "defense": 0.03
+      },
+      {
+        "level": 60,
+        "offense": 0.08,
+        "defense": 0.04
+      }
+    ]
+  }
+]

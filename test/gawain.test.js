@@ -167,7 +167,7 @@ test('old saves gain a locked Gawain and recruitment uses the shared banner flow
   const old = createCampaign(content); delete old.characters.gawain;
   let campaign = deserializeCampaign(serializeCampaign(old), content);
   assert.equal(campaign.unlockedCharacterIds.includes('gawain'), false);
-  assert.deepEqual(campaign.characters.gawain, { level: 1, upgradeIds: [] });
+  assert.deepEqual(campaign.characters.gawain, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
   campaign.coins = 100; campaign.prisma = 10;
   const pool = content.banners.standard.characterPool;
   const draws = [.95, (pool.indexOf('gawain') + .5) / pool.length];

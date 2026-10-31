@@ -153,6 +153,7 @@ function hintList(
   if (path.endsWith("/equipment"))
     return [
       ["A", "Chọn ô / Trang bị"],
+      ["LB / RB", "Chuyển tab"],
       ["LT / RT", "Đổi trang"],
       ["Y", "Bộ lọc"],
       ["B", "Trở về"],
@@ -161,6 +162,7 @@ function hintList(
   if (path.startsWith("/characters/"))
     return [
       ["A", "Chọn"],
+      ["LB / RB", "Chuyển tab"],
       ["X", "Trang bị"],
       ["B", "Trở về"],
       ["RS", "Cuộn"],
@@ -180,7 +182,7 @@ function hintList(
       ["B", "Trở về"],
     ];
   if (path === "/quests")
-    return [["A", "Chọn"], ["LB / RB", "Thảo phạt / Hiểm Ác / Truy Nã"], ["Y", "Bộ lọc"], ["B", "Trở về"], ["RS", "Cuộn"]];
+    return [["A", "Chọn"], ["LB / RB", "Thảo Phạt / Truy Nã / Hiểm Ác"], ["LT / RT", "Độ khó"], ["Y", "Bộ lọc"], ["B", "Trở về"], ["RS", "Cuộn"]];
   if (["/characters", "/inventory"].includes(path))
     return [
       ["A", "Chọn"],
@@ -416,12 +418,14 @@ export function GamepadNavigation() {
           path.startsWith("/characters/") &&
           !path.endsWith("/equipment")
         )
-          document.querySelector<HTMLElement>(".header-actions a")?.click();
+          document.querySelector<HTMLElement>(".character-tabs [data-tab-id=equipment],.header-actions a")?.click();
       } else if(action==='lt'||action==='rt'){
-        root.querySelector<HTMLButtonElement>('[data-gamepad-page="'+(action==='lt'?'previous':'next')+'"]:not(:disabled)')?.click();
+        const difficulties=root.querySelector('.quest-difficulty-buttons');
+        if(path==='/quests'&&difficulties){const items=controls(difficulties);cycle(items,action==='lt'?-1:1,items.find(i=>i.matches('[aria-pressed=true]'))??active,true);}
+        else root.querySelector<HTMLButtonElement>('[data-gamepad-page="'+(action==='lt'?'previous':'next')+'"]:not(:disabled)')?.click();
       } else if (action === "lb" || action === "rb") {
         const tabs = root.querySelector(
-          ".settings-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",
+          ".settings-tabs,.page-wide-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",
         );
         if (tabs) {
           const items = controls(tabs);

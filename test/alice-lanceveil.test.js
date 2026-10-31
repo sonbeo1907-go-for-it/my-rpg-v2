@@ -111,7 +111,7 @@ test('Lanceveil starts locked, is recruitable and round-trips through old saves 
   const old = createCampaign(content); delete old.characters.lanceveil;
   const restored = deserializeCampaign(serializeCampaign(old), content);
   assert.deepEqual(restored.party, old.party);
-  assert.deepEqual(restored.characters.lanceveil, { level: 1, upgradeIds: [] });
+  assert.deepEqual(restored.characters.lanceveil, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
   assert.equal(restored.unlockedCharacterIds.includes('lanceveil'), false);
   restored.coins = 100; restored.prisma = 10;
   const pool = content.banners.standard.characterPool;

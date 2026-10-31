@@ -1,3 +1,5 @@
+import {normalizeLevelState,allocationBonuses,levelCap} from './leveling.js';
+import {normalizeTrainingCharges} from './training-charges.js';
 import {exclusiveStatModifiers} from './exclusive-hooks.js';
 import {emptyShopDaily,normalizeShopDaily} from './shop-daily.js';
 import {emptyDailyCommissions,normalizeDailyCommissions} from './daily-commissions.js';
@@ -19,11 +21,12 @@ export const SAVE_VERSION = 3;
 export function createCampaign(content) {
   return {
     version: SAVE_VERSION,
+    levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
     party: ["arthur", "iris", "elaine", "garrek"],
     characters: Object.fromEntries(
       Object.keys(content.characters).map((id) => [
         id,
-        { level: 1, upgradeIds: [] },
+        { level: 1, xp:0, allocations:{}, limitBreakRank:0, upgradeIds: [] },
       ]),
     ),
     storyFlags: [],
@@ -75,6 +78,9 @@ export function resolveCharacter(content, campaign, characterId) {
         character.passive = structuredClone(change.passive);
     }
   }
+  character.level=state.level;character.levelCap=levelCap(state,content);character.xp=state.xp;character.limitBreakRank=state.limitBreakRank;
+  character.levelBonuses=allocationBonuses(content,state);
+  for(const[key,n]of Object.entries(character.levelBonuses))character.stats[key]+=n;
   const gear = equippedGear(campaign, characterId);
   if (gear.length) {
     character.equippedGearIds = gear.map((item) => item.id);
@@ -125,6 +131,7 @@ export function serializeCampaign(campaign) {
     claimedFirstClearRewards = [],
   } = campaign;
   return JSON.stringify({
+    levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
     version,
     party,
     characters,
@@ -175,6 +182,11 @@ export function deserializeCampaign(raw, content) {
   )
     throw new Error("Tiến trình nhân vật trong save không hợp lệ.");
   const result = createCampaign(content);
+  if(input.levelProgressionVersion!==undefined&&input.levelProgressionVersion!==1)throw Error("Phiên bản tiến trình không hợp lệ.");
+  for(const key of ["limitBreakStones","sweepTickets"]){const value=input[key]===undefined?0:input[key];if(!Number.isSafeInteger(value)||value<0)throw Error("Vật phẩm tiến trình không hợp lệ.");result[key]=value;}
+  result.trainingCharges=normalizeTrainingCharges(input.trainingCharges);
+  const cleared=input.dungeonClearedDifficulties===undefined?{}:input.dungeonClearedDifficulties;if(!cleared||typeof cleared!=="object"||Array.isArray(cleared))throw Error("Tiến trình quét không hợp lệ.");
+  for(const[id,list]of Object.entries(cleared)){if(!content.dungeons[id]||!Array.isArray(list)||new Set(list).size!==list.length||list.some(key=>!content.dungeons[id].difficulties.some(d=>d.id===key&&d.enabled)))throw Error("Mức hầm ngục đã vượt không hợp lệ.");}result.dungeonClearedDifficulties=structuredClone(cleared);
   result.illusion = normalizeIllusionState(input.illusion);
   result.dailyCommissions = normalizeDailyCommissions(input.dailyCommissions);
   result.shopDaily = normalizeShopDaily(input.shopDaily);
@@ -295,10 +307,7 @@ export function deserializeCampaign(raw, content) {
       )
         throw new Error(`Nâng cấp ${upgradeId} không hợp lệ.`);
     }
-    result.characters[id] = {
-      level: saved.level,
-      upgradeIds: [...new Set(saved.upgradeIds)],
-    };
+    result.characters[id] = normalizeLevelState(content,{...saved,upgradeIds:[...new Set(saved.upgradeIds)]},{legacy:input.levelProgressionVersion!==1});
   }
   grantEligibleUpgrades(result, content);
   for (const id of claimed)

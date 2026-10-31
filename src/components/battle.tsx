@@ -1,4 +1,6 @@
 "use client";
+import {BattleResult} from "./battle-result";
+import {isBattleFinished} from "../ui/battle-result-model.js";
 import {commandAbilityIds} from '../core/combat-modes.js';
 import { SummonScenes } from './summon-scenes';
 import { FormulaBoards, FormulaForecast, FormulaSkillTag, FormulaScene, FormulaEditControl } from './formula-board';
@@ -134,7 +136,7 @@ export function CombatantCard({
       )}
       {acting && <span className="acting-label">◆ Đang hành động</span>}
       <ElementBadge element={actor.element} />
-      <h3>{actor.name}</h3>
+      <h3>{actor.name}</h3><small className="combat-level">Level {actor.level??1}</small>
       <small>{actor.role ?? (actor.boss ? "Siêu trùm" : "Đối thủ")}</small>
       {(actor.team === "enemy" || actor.statuses.some((status:any)=>content.statuses[status.id].exposedElement)) &&
         Boolean(
@@ -415,7 +417,7 @@ function BattleResultControls() {
           onClick={() =>
             dungeon
               ? startDungeon(dungeon.typeId, dungeon.difficultyId)
-              : startBattle(battle.encounterId)
+              : startBattle(battle.encounterId,battle.questDifficulty??undefined)
           }
         >
           {dungeon ? "↻ Thám hiểm lại" : "↻ Đánh lại"}
@@ -425,7 +427,7 @@ function BattleResultControls() {
           href={
             dungeon
               ? `/dungeon/${dungeon.typeId}?selected=${dungeon.difficultyId}`
-              : encounterReturnPath(content, battle.encounterId)
+              : encounterReturnPath(content, battle.encounterId,battle.questDifficulty)
           }
         >
           {dungeon ? "↑ Trở về chọn mức độ" : "↑ Trở về chọn trận"}
@@ -706,6 +708,7 @@ export function BattlePage() {
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
+  if(isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty)}/><BattleResult><BattleResultControls/></BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
   return (
     <main
       className="page battle-page"
@@ -730,7 +733,7 @@ export function BattlePage() {
         back={
           battle.dungeon
             ? `/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`
-            : encounterReturnPath(content, battle.encounterId)
+            : encounterReturnPath(content, battle.encounterId,battle.questDifficulty)
         }
       >
         <div className="combat-speed" role="group" aria-label="Tốc độ hiệu ứng">
@@ -847,6 +850,7 @@ export function BattlePage() {
                 : battle.outcome === "defeat"
                   ? "Đội hình đã gục ngã"
                   : "Cuộc giao tranh tạm dừng"}
+              {battle.xpAwards?.length>0&&<div className="battle-xp-awards"><strong>Kinh nghiệm đội hình</strong>{battle.xpAwards.map((r:any)=><span key={r.characterId}>{content.characters[r.characterId].name}: +{r.accepted} XP{r.points?` · Level ${r.fromLevel} → ${r.toLevel} · +${r.points} điểm`:""}{r.lost>0?` · ${r.lost} XP vượt giới hạn không được tích`:""}</span>)}<Link href="/characters?ownership=owned">Phân bổ điểm →</Link></div>}
               {battle.firstClearRewards?.some((r:any)=>['currency','exclusive_recipe','gear_recipe'].includes(r.type))&&<div className="recipe-unlocks"><strong>Thưởng lần đầu</strong>{battle.firstClearRewards.filter((r:any)=>['currency','exclusive_recipe','gear_recipe'].includes(r.type)).map((r:any,i:number)=><span key={i}>{firstClearRewardLabel(content,r)}</span>)}{battle.firstClearRewards.some((r:any)=>r.type==='exclusive_recipe'||r.type==='gear_recipe')&&<Link href={battle.firstClearRewards.some((r:any)=>r.type==='exclusive_recipe')?'/blacksmith?tab=exclusive':'/blacksmith?tab=effects'}>Đến Thợ Rèn →</Link>}</div>}
             </div>
           )}
@@ -919,7 +923,7 @@ export function BattlePage() {
           )}
         </aside>
       </div>
-      <BattleLog />
+      {preferences.battleLogs&&<BattleLog />}
     </main>
   );
 }

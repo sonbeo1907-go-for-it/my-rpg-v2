@@ -1,4 +1,6 @@
 "use client";
+import {allocatePoints,limitBreak} from '../core/leveling.js';
+import {sweepDungeon as sweepDungeonAction} from '../core/dungeon.js';
 import {combatFeedbackDuration} from "../ui/combat-timeline.js";
 import {
   createContext,
@@ -76,7 +78,11 @@ type GameContextValue = {
     operation: (current: any) => any,
     message?: string,
   ) => Promise<boolean>;
-  startBattle: (id: string) => boolean;
+  startBattle: (id: string,difficultyId?:string) => boolean;
+  progressionLocked:boolean;
+  updateAllocations:(id:string,allocations:Record<string,number>)=>Promise<boolean>;
+  breakCharacterLimit:(id:string)=>Promise<boolean>;
+  sweepDungeon:(id:string,difficultyId:string)=>Promise<boolean>;
   startDungeon: (id: string, difficultyId: string) => boolean;
   prepareDungeonPreview: (id: string, difficultyId: string, now?: Date) => any;
   runBattle: (command?: any) => Promise<void>;
@@ -143,6 +149,7 @@ export function GameProvider({
   const [ready, setReady] = useState(false);
   const [entered, setEntered] = useState(false);
   const [busy, setBusy] = useState(false);
+  const pendingQuestDifficulty=useRef<string|undefined>(undefined);
   const [pendingBattleId, setPendingBattleId] = useState<string | null>(null);
   const [pendingDungeon, setPendingDungeon] = useState<{
     typeId: string;
@@ -189,6 +196,7 @@ export function GameProvider({
         ? {
             presentation: battlePresentation(current.actors),
             encounterId: current.encounterId,
+            questDifficulty:current.questDifficulty,enemyLevel:current.enemyLevel,xpAwards:structuredClone(current.xpAwards??[]),
             sessionId: battleSerial.current,
             actors: structuredClone(current.actors),
             sourceActors: structuredClone(current.sourceActors ?? []),
@@ -353,6 +361,7 @@ export function GameProvider({
       await persist(next);
       currentBattle.rewardClaimed = claimBattle.rewardClaimed;
       currentBattle.firstClearRewards = claimBattle.firstClearRewards;
+      currentBattle.xpAwards=claimBattle.xpAwards;
       if (run) run.claimed = run.kind==='story' ? claimBattle.rewardClaimed : claimRun.claimed;
       campaignRef.current = next;
       setCampaign(next);
@@ -430,7 +439,7 @@ export function GameProvider({
       setBusy(saveLock.current);
     }
   }
-  function startBattle(id: string, confirmed = false) {
+  function startBattle(id: string, confirmed = false,difficultyId?:string) {
     if (lock.current || saveLock.current || activeProfileId.current === null)
       return false;
     if (!isQuestUnlocked(content.encounters[id], campaignRef.current)) {
@@ -454,12 +463,13 @@ export function GameProvider({
       !confirmed
     ) {
       setPendingDungeon(null);
+      pendingQuestDifficulty.current=difficultyId;
       setPendingBattleId(id);
       return false;
     }
     try {
       const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(20261027)) : null;
-      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(20261027));
+      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(20261027),{questDifficulty:difficultyId});
       dungeonRun.current = storyRun;
       battleSerial.current += 1;
       setBattleUI({ allyId: "", enemyId: "", skillId: "$attack" });
@@ -577,7 +587,12 @@ export function GameProvider({
     }
     return true;
   }
+  const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&!runtime.current.rewardClaimed));
   const value: GameContextValue = {
+    progressionLocked:inAdventure(),
+    updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()}),"Đã lưu điểm phân bổ."),
+    breakCharacterLimit:id=>transact(c=>limitBreak(c,content,id,{battleActive:inAdventure()}),"Đã Đột Phá giới hạn."),
+    sweepDungeon:(id,difficultyId)=>transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu."),
     dailyNow,refreshCommissions,
     claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
     setAstoriaEnabled: (enabled) => transact(current => configureAstoria(current,enabled,{battleActive:Boolean(runtime.current && !runtime.current.outcome) || Boolean(dungeonRun.current && !runtime.current?.outcome)}), enabled ? "Đã bật Astoria · bản trùng 0." : "Đã tắt Astoria."),
@@ -671,7 +686,7 @@ export function GameProvider({
       if (!pendingBattleId && !pendingDungeon) return false;
       const ok = pendingDungeon
         ? startDungeon(pendingDungeon.typeId, pendingDungeon.difficultyId, true)
-        : startBattle(pendingBattleId!, true);
+        : startBattle(pendingBattleId!, true,pendingQuestDifficulty.current);
       if (ok) {
         setPendingBattleId(null);
         setPendingDungeon(null);
@@ -692,7 +707,7 @@ export function GameProvider({
       } catch {}
     },
     transact,
-    startBattle,
+    startBattle:(id,difficultyId)=>startBattle(id,false,difficultyId),
     startDungeon,
     prepareDungeonPreview: (id, difficultyId, now = new Date()) =>
       scoutingCache().prepare(activeProfileId.current, id, difficultyId, now),

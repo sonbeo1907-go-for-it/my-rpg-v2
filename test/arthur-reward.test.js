@@ -12,7 +12,7 @@ const upgradeId = 'arthur.control_training';
 
 test('winning the ogre trial grants the Arthur upgrade even when Arthur is benched; only new battle actors change', () => {
   const campaign = createCampaign(content); campaign.party = ['iris', 'elaine'];
-  const battle = createBattle(content, campaign, 'ogre_trial');
+  const battle = createBattle(content, campaign, 'ogre_trial', undefined, {questDifficulty:'very_easy'});
   getActor(battle, 'enemy_0').hp = 1; getActor(battle, 'enemy_1').hp = 1;
   executeAction(battle, { actorId: 'iris', abilityId: '$attack', targetId: 'enemy_0' });
   executeAction(battle, { actorId: 'elaine', abilityId: '$attack', targetId: 'enemy_1' });
@@ -35,7 +35,7 @@ test('winning the ogre trial grants the Arthur upgrade even when Arthur is bench
   assert.deepEqual(parseSaveImport(createSaveExport(restored, content).text, content), restored);
   restored.party = ['arthur'];
   assert.ok(getActor(createBattle(content, restored, 'forest_patrol'), 'arthur').abilities.includes('arthur.partial_release'));
-  const repeat = { encounterId: 'ogre_trial', outcome: 'victory', rewardRandom:()=>0 };
+  const repeat = { questDifficulty:'very_easy', encounterId: 'ogre_trial', outcome: 'victory', rewardRandom:()=>0 };
   const twice = claimBattleReward(restored, repeat, content);
   assert.equal(twice.coins, 300);
   assert.deepEqual(twice.characters.arthur.upgradeIds, [upgradeId]);
@@ -45,7 +45,7 @@ test('winning the ogre trial grants the Arthur upgrade even when Arthur is bench
 
 test('failed persistence cannot partially grant the upgrade, story flag, ledger or coins', () => {
   const campaign = createCampaign(content), before = serializeCampaign(campaign);
-  const battle = { encounterId: 'ogre_trial', outcome: 'victory', rewardRandom:()=>0 };
+  const battle = { questDifficulty:'very_easy', encounterId: 'ogre_trial', outcome: 'victory', rewardRandom:()=>0 };
   assert.throws(() => claimBattleReward(campaign, battle, content, () => { throw new Error('quota'); }));
   assert.equal(serializeCampaign(campaign), before);
   assert.equal(battle.rewardClaimed, undefined);
@@ -61,7 +61,7 @@ test('legacy trained Arthur retains the upgrade without duplicate skills or upgr
   const old = createCampaign(content);
   completeStoryEvent(old, content, 'arthur_completed_sword_training');
   const restored = deserializeCampaign(serializeCampaign(old), content);
-  const battle = { encounterId: 'ogre_trial', outcome: 'victory', rewardRandom:()=>0 };
+  const battle = { questDifficulty:'very_easy', encounterId: 'ogre_trial', outcome: 'victory', rewardRandom:()=>0 };
   const next = claimBattleReward(restored, battle, content);
   assert.deepEqual(next.characters.arthur.upgradeIds, [upgradeId]);
   assert.equal(next.storyFlags.filter(id => id === 'arthur_completed_sword_training').length, 1);

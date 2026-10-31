@@ -53,7 +53,7 @@ test('adding a new character does not break existing saves', () => {
   const old = createCampaign(content);
   delete old.characters.fran;
   const restored = deserializeCampaign(JSON.stringify(old), content);
-  assert.deepEqual(restored.characters.fran, { level: 1, upgradeIds: [] });
+  assert.deepEqual(restored.characters.fran, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
 });
 
 test('content validation reports bad references, resource typos and damage types', () => {

@@ -76,7 +76,7 @@ test('recipe validation catches malformed costs/effects and Trấn Phái now cos
 });
 
 test('ordinary and boss Quest rewards split exactly at 0.5, preserve daily counts and first-clear rewards',()=>{
- for(const[id,coins,fragments]of[['forest_patrol',50,5],['ogre_trial',150,15]])for(const value of [0,.499999,.5,.99999]){const c=funded(),b={encounterId:id,outcome:'victory',rewardRandom:()=>value};const next=claimBattleReward(c,b,content,()=>{},new Date('2026-10-31T05:00:00Z'));assert.equal(next.coins-c.coins,value<.5?coins:0);assert.equal(next.prismaFragments-c.prismaFragments,value<.5?0:fragments);assert.equal(dailyCommissionView(next,new Date('2026-10-31T05:00:00Z')).state,undefined);assert.equal(next.dailyCommissions.questClears,1);if(id==='ogre_trial')assert.ok(next.characters.arthur.upgradeIds.includes('arthur.control_training'));assert.equal(claimBattleReward(next,b,content),next);}
+ for(const[id,coins,fragments]of[['forest_patrol',50,5],['ogre_trial',150,15]])for(const value of [0,.499999,.5,.99999]){const c=funded(),b={questDifficulty:'very_easy',encounterId:id,outcome:'victory',rewardRandom:()=>value};const next=claimBattleReward(c,b,content,()=>{},new Date('2026-10-31T05:00:00Z'));assert.equal(next.coins-c.coins,value<.5?coins:0);assert.equal(next.prismaFragments-c.prismaFragments,value<.5?0:fragments);assert.equal(dailyCommissionView(next,new Date('2026-10-31T05:00:00Z')).state,undefined);assert.equal(next.dailyCommissions.questClears,1);if(id==='ogre_trial')assert.ok(next.characters.arthur.upgradeIds.includes('arthur.control_training'));assert.equal(claimBattleReward(next,b,content),next);}
 });
 
 test('failed disk commit does not reroll or pay twice; super bosses and traveler stories retain their fixed Coin reward',()=>{

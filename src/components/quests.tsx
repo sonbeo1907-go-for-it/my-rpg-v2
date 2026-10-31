@@ -1,5 +1,9 @@
 "use client";
+import {questDifficulty,questExperience} from "../core/quest-difficulty.js";
+import {levelScaledEnemyStats} from "../core/enemy-scaling.js";
 import Link from "next/link";
+import {WideTabs} from "./wide-tabs";
+import {XpCapWarning} from "./dungeon-rewards";
 import {firstClearRewardLabel} from "../core/first-clear-labels.js";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -36,6 +40,8 @@ export function QuestPage() {
   const selected =
     encounters.find((encounter) => encounter.id === filters.selected) ??
     encounters[0];
+  const difficultyId=Object.hasOwn(content.progressionRules.default.questDifficulties,filters.difficulty)?filters.difficulty:undefined;
+  const difficulty=selected?questDifficulty(content,selected,difficultyId):null;
   const list = useRef<HTMLDivElement>(null);
   const tabMemory = useRef<Record<string, Record<string, string>>>({});
   const scrollKey = `quest-list-scroll:${tab}`;
@@ -54,7 +60,7 @@ export function QuestPage() {
     } catch {}
   }, [scrollKey]);
   return (
-    <main className={`quest-page quest-categories quest-category-${tab}`}>
+    <main className={`quest-page quest-categories quest-category-${tab}`} data-difficulty={difficulty?.id??"fixed"}>
       <PageHeader
         title="Bảng nhiệm vụ"
         subtitle="Chọn một lời thách thức, viết tiếp một trang hành trình"
@@ -67,20 +73,11 @@ export function QuestPage() {
           →
         </Link>
       )}
+      <WideTabs className="quest-category-tabs" label="Danh mục nhiệm vụ" active={tab} tabs={[{id:'extermination',label:'Thảo Phạt'},{id:'bounty',label:'Truy Nã'},{id:'sinister',label:'Hiểm Ác'}]} onChange={changeTab}/>
       <QuestLayout>
         <QuestIllustration
           art={tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
-          header={
-            <nav className="quest-category-tabs" aria-label="Danh mục nhiệm vụ">
-              <button className={tab === "extermination" ? "active" : ""} aria-current={tab === "extermination" ? "page" : undefined} onClick={() => changeTab("extermination")}>
-                <Icon name="sword" /> Thảo phạt
-              </button>
-              <button className={tab === "sinister" ? "active" : ""} aria-current={tab === "sinister" ? "page" : undefined} onClick={() => changeTab("sinister")}>
-                <Icon name="skull" /> Hiểm Ác
-              </button>
-              <button className={tab === "bounty" ? "active" : ""} aria-current={tab === "bounty" ? "page" : undefined} onClick={() => changeTab("bounty")}><Icon name="scroll" /> Truy Nã</button>
-            </nav>
-          }
+          header={difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{Object.entries(content.progressionRules.default.questDifficulties).map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
         >
           <span className="eyebrow">{tab === "bounty" ? "NHỮNG KHẾ ƯỚC TRÊN BẢNG TRUY NÃ" : tab === "sinister" ? "SAU CÁNH CỬA KHÔNG ÁNH SÁNG" : "NHỮNG NẺO ĐƯỜNG PHƯƠNG BẮC"}</span>
           <h2>{selected?.name ?? (bountyLocked ? "Lời mời của Hội Thợ Săn" : sinisterLocked ? "Cánh cửa chưa thức giấc" : "Những miền đất chưa biết")}</h2>
@@ -88,7 +85,7 @@ export function QuestPage() {
           {selected && <div className="quest-rewards">
             <Icon name="coin" />
             <span>
-              {victoryRewardPreview(content, selected?.id)} khi chiến thắng
+              {victoryRewardPreview(content, selected?.id,difficulty?.id)} khi chiến thắng
             </span>
           </div>}
           {selected?.firstClearRewards?.length > 0 && (
@@ -108,6 +105,7 @@ export function QuestPage() {
               {bountyLocked?<><p>Hoàn thành toàn bộ câu chuyện lữ hành của Iris, Takeshi và Fiona để mở Truy Nã.</p><Link href="/stories">Đến Câu Chuyện Lữ Hành →</Link></>:<p>Điều kiện mở khóa sẽ được bổ sung trong bản cập nhật sau.</p>}
             </div>
           ) : <>
+
           <div className="filter-bar">
             <label>
               Tìm nhiệm vụ
@@ -167,7 +165,7 @@ export function QuestPage() {
                 <span>
                   <strong>{encounter.name}</strong>
                   <small>
-                    {encounter.enemies.length} đối thủ · {victoryRewardPreview(content, encounter.id)}
+                    {encounter.enemies.length} đối thủ · {victoryRewardPreview(content, encounter.id,difficultyId)}
                     {campaign.claimedFirstClearRewards.includes(encounter.id)
                       ? " · Đã nhận thưởng lần đầu"
                       : encounter.firstClearRewards?.length
@@ -187,13 +185,13 @@ export function QuestPage() {
               <h3>Đối thủ</h3>
               <div className="quest-enemies">
                 {selected.enemies.map((id: string, index: number) => {
-                  const enemy = content.enemies[id];
+                  const template=content.enemies[id],enemy={...template,stats:levelScaledEnemyStats(template,difficulty?.level??selected.enemyLevel,content)};
                   return (
                     <div key={`${id}-${index}`}>
                       <ElementBadge element={enemy.element} />
                       <strong>{enemy.name}</strong>
                       <small>
-                        HP {enemy.stats.maxHp} · Yếu:{" "}
+                        Level {difficulty?.level??selected.enemyLevel} · HP {enemy.stats.maxHp} · Yếu:{" "}
                         {[...(enemy.weaknesses??[]).map((element:string)=>(ELEMENT_NAMES as any)[element]),...(enemy.damageTypeWeaknesses??[]).map((type:string)=>(DAMAGE_TYPE_NAMES as any)[type])].join(", ") ||
                           "Không có"}
                       </small>
@@ -207,7 +205,7 @@ export function QuestPage() {
                 onClick={() => {
                   if (preferences.controlMode === "gamepad")
                     setConfirmId(selected.id);
-                  else if (startBattle(selected.id)) router.push("/battle");
+                  else if (startBattle(selected.id,difficulty?.id)) router.push("/battle");
                 }}
               >
                 <Icon name="sword" />
@@ -231,7 +229,7 @@ export function QuestPage() {
                 onClick={() => {
                   const id = confirmId;
                   setConfirmId(null);
-                  if (startBattle(id)) router.push("/battle");
+                  if (startBattle(id,difficulty?.id)) router.push("/battle");
                 }}
               >
                 Xuất chiến
@@ -239,7 +237,7 @@ export function QuestPage() {
             </>
           }
         >
-          <p>{content.encounters[confirmId].name}</p>
+          <p>{content.encounters[confirmId].name} · {difficulty?.name??"Cấp độ cố định"} · Level {difficulty?.level??content.encounters[confirmId].enemyLevel}</p>
           <p>Đội hình hiện tại sẽ bắt đầu một trận mới.</p>
         </Modal>
       )}

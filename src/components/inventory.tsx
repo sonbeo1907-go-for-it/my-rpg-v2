@@ -25,6 +25,7 @@ import {
 } from "./ui";
 import { useRouteFilters } from "./characters";
 import Link from "next/link";
+import {CharacterTabs} from "./wide-tabs";
 import { CurrencyAmount, ResourceIcon } from "./ui";
 import { ExclusiveSlot, ExclusiveInventory } from "./exclusive-equipment";
 
@@ -151,6 +152,7 @@ export function EquipmentPage({ id }: { id: string }) {
       >
         <ElementBadge element={actor.element} />
       </PageHeader>
+      <CharacterTabs id={id} active="equipment" back={filters.back??"/characters"}/>
       <div className="equipment-layout">
         <section>
           <GearFilters filters={filters} onChange={values=>setFilters({...values,page:"1"})} />

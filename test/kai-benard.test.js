@@ -77,7 +77,7 @@ test('older v3 saves gain locked character states and an empty first-clear ledge
   const old = createCampaign(content); delete old.claimedFirstClearRewards; delete old.characters.kai; delete old.characters.benard;
   const restored = deserializeCampaign(JSON.stringify(old), content);
   assert.deepEqual(restored.claimedFirstClearRewards, []);
-  assert.deepEqual(restored.characters.kai, { level: 1, upgradeIds: [] });
+  assert.deepEqual(restored.characters.kai, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
   assert.equal(restored.unlockedCharacterIds.includes('kai'), false);
   for (const ledger of [[quest], ['missing'], [quest, quest], 'bad']) {
     const invalid = createCampaign(content); invalid.claimedFirstClearRewards = ledger;

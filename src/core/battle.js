@@ -1,3 +1,4 @@
+import {questDifficulty} from './quest-difficulty.js';
 import {shieldedDamageBonus} from './exclusive-field.js';
 import {evasionChance} from './evasion.js';
 import {exposureStatus} from './weakness.js';
@@ -10,7 +11,7 @@ import { expireRoundEffects } from "./round-effects.js";
 import { scalingValue, adjacentAllies, splashEnemies } from "./scaling.js";
 import { statusModifier } from "./stat-values.js";
 import { exclusivePassive, exclusivePassives, exclusiveDamageEffect, procAvailable, markProc } from "./exclusive-hooks.js";
-import { enemyStatMultipliers, scaleEnemyStats } from "./enemy-scaling.js";
+import { enemyStatMultipliers, levelScaledEnemyStats } from "./enemy-scaling.js";
 import { resolveCharacter } from "./progression.js";
 import { seededRandom } from "./random.js";
 import {
@@ -77,6 +78,8 @@ export function createBattle(
   assertValidEquipment(campaign, content);
   normalizeBlacksmithState(campaign, content, campaign);
   const scale = enemyStatMultipliers(options.enemyScale ?? 1);
+  const difficulty=questDifficulty(content,encounter,options.questDifficulty);
+  const requestedLevel=difficulty?(Object.hasOwn(options,"enemyLevel")?options.enemyLevel:difficulty.level):encounter.enemyLevel;
   if (
     !Number.isSafeInteger(options.roundOffset ?? 0) ||
     (options.roundOffset ?? 0) < 0
@@ -109,7 +112,8 @@ export function createBattle(
           )),
     ...(encounter.waves?.[options.storyWaveIndex ?? 0] ?? encounter.enemies).map((id, index) => {
       const definition = structuredClone(content.enemies[id]);
-      definition.stats = scaleEnemyStats(definition.stats, scale);
+      const level=requestedLevel??definition.referenceLevel;
+      definition.stats = levelScaledEnemyStats(definition,level,content,scale);definition.level=level;
       return makeActor(
         definition,
         "enemy",
@@ -133,6 +137,7 @@ export function createBattle(
   const battle = {
     content,
     encounterId,
+    questDifficulty:difficulty?.id??null,enemyLevel:requestedLevel??null,
     actors,
     random,
     round: options.roundOffset ?? 0,

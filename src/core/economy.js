@@ -1,3 +1,5 @@
+import {grantPartyXp} from './leveling.js';
+import {questExperience} from './quest-difficulty.js';
 import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
 import {validT4Gear} from './gear-rules.js';
 import {prepareVictoryReward} from './quest-rewards.js';
@@ -128,7 +130,11 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     }
     next.claimedFirstClearRewards.push(battle.encounterId);
   }
+  const amount=questExperience(content,encounter,battle.questDifficulty);
+  const recipients=battle.actors?.filter(a=>a.team==="party").map(a=>a.definitionId??a.id)??campaign.party.filter(Boolean);
+  const xpAwards=amount?grantPartyXp(next,content,recipients,amount):[];
   persist(next);
+  battle.xpAwards=xpAwards;
   battle.rewardClaimed = true;
   battle.firstClearRewards = granted;
   return next;

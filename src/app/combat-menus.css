@@ -1,0 +1,74 @@
+/* Full-width navigation is shared by character pages and the Quest board. */
+.page-wide-tabs.page-wide-tabs {display:grid;width:100%;gap:0;padding:0;margin:0 0 1.5rem;border:1px solid #657783;border-radius:5px;overflow:hidden;background:#14252fe8;backdrop-filter:blur(8px)}
+.page-wide-tabs>a,.page-wide-tabs>button {display:flex;align-items:center;justify-content:center;min-width:0;min-height:56px;padding:.85rem .5rem;margin:0;border:0;border-right:1px solid #647b824a;border-radius:0;color:#b8cbd1;background:transparent;text-decoration:none;text-align:center;font-weight:650;font-size:.95rem;white-space:normal}
+.page-wide-tabs>:last-child {border-right:0}
+.page-wide-tabs>.active,.page-wide-tabs>button.active {background:linear-gradient(135deg,#dec38c,#b99960);color:#19262d;box-shadow:inset 0 -3px #ffe9b5}
+.page-wide-tabs>:focus-visible {outline:3px solid #a4d6ff;outline-offset:-4px;z-index:1}
+.character-tab-panel {animation:menu-panel-in .18s ease-out}
+.character-tab-panel .character-progression {margin:0}
+.character-tab-panel>.section-heading:first-of-type {margin-top:0}
+.character-tab-panel>.passive-detail {margin-bottom:1.3rem}
+.quest-categories {--quest-accent:#a4bdb6}
+.quest-categories[data-difficulty=very_easy] {--quest-accent:#83c99a}
+.quest-categories[data-difficulty=easy] {--quest-accent:#80b9ed}
+.quest-categories[data-difficulty=medium] {--quest-accent:#b59ae0}
+.quest-categories[data-difficulty=hard] {--quest-accent:#e4b571}
+.quest-categories[data-difficulty=very_hard] {--quest-accent:#e98389}
+.quest-categories[data-difficulty=fixed] {--quest-accent:#9d97ba}
+.quest-categories .quest-layout>.quest-illustration,.quest-categories .quest-layout>.quest-board,.quest-categories>.page-wide-tabs {border-color:var(--quest-accent);transition:border-color .2s}
+.quest-categories .quest-card.selected {border-color:var(--quest-accent);box-shadow:inset 4px 0 var(--quest-accent)}
+.quest-categories .quest-difficulty-selector {border-color:var(--quest-accent);margin:0;background:#0e202aeb}
+.quest-categories .quest-difficulty-buttons button.active {background:var(--quest-accent);border-color:var(--quest-accent);color:#14212a}
+.quest-categories .quest-illustration {display:flex;flex-direction:column}
+.quest-categories .quest-illustration-top {position:relative;inset:auto;padding:1.1rem;z-index:3}
+.quest-categories .quest-illustration-content {flex:1;min-height:440px;padding-top:1.7rem}
+.quest-fixed-difficulty {display:inline-block;padding:.6rem .9rem;background:#101b2dd9;border:1px solid var(--quest-accent);border-radius:4px;font-size:.8rem;color:#c4b9dc}
+.dungeon-entry-method {padding:1rem;margin:0 0 1.1rem;border:1px solid #91adb966;border-radius:5px;background:#0d1c28ad}
+.dungeon-entry-method h3 {font-size:1.1rem;margin:0}
+.dungeon-entry-method p {font-size:.82rem;line-height:1.7;color:#acc1cb;margin-bottom:0}
+.entry-method-options {display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.9rem}
+.entry-method-options button {font-size:.88rem;padding:.8rem .4rem}
+.entry-method-options [aria-pressed=true] {background:#d6ba7c;color:#17242b;border-color:#f0d69c}
+.result-section-title {display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.result-section-title h3 {margin:0}
+.battle-results-page {max-width:1120px}
+.battle-result {padding:clamp(1.1rem,3vw,2.4rem);border-color:#baa373;overflow:hidden}
+.battle-result.defeat {border-color:#ab737e}
+.battle-result-heading {display:flex;align-items:center;gap:1.2rem;padding-bottom:1.1rem}
+.result-emblem {display:grid;place-items:center;width:70px;height:70px;flex:none;border:1px solid #c5a86a;color:#e1c481;background:radial-gradient(#d7af5428,#152630);border-radius:50%}
+.result-emblem .icon {width:34px;height:34px}
+.battle-result-heading h2 {font-size:clamp(1.6rem,3vw,2.3rem);margin:.45rem 0;color:#edcf8b;scroll-margin-top:90px}
+.defeat .battle-result-heading h2 {color:#e8a6ad}
+.battle-result-heading p {font-size:.8rem;color:#acc0c8;margin:0}
+.battle-result .battle-outcome {font-size:.9rem;text-align:left;padding:.85rem 1rem;margin:0;border:1px solid #a8925a55;border-radius:4px;background:#d1b2630c;color:#dcccaa}
+.result-rewards,.result-experience {padding:1.25rem 0;border-bottom:1px solid var(--line)}
+.battle-result h3 {font-size:1.1rem;margin:0 0 .9rem}
+.result-currencies {display:flex;gap:1.3rem;flex-wrap:wrap;align-items:center;min-height:24px}
+.result-currencies .currency-amount {font-size:1.1rem}
+.battle-result .recipe-unlocks {max-width:none;text-align:left;margin:1rem 0 0}
+.result-section-title a {font-size:.8rem;color:var(--gold)}
+.battle-result .battle-xp-awards {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;border:0;background:transparent;padding:0;margin:.7rem 0 0}
+.result-xp-row {min-width:0;padding:1rem;background:#0b1925a8;border:1px solid #71644266;border-radius:5px}
+.result-xp-heading,.result-xp-meta {display:flex;justify-content:space-between;gap:.6rem;align-items:center;flex-wrap:wrap}
+.result-xp-heading strong {color:#e8e3d4;font-size:.95rem}
+.xp-gained {font-size:.95rem;color:#f3cf70;font-weight:700}
+.result-xp-track {height:10px;position:relative;overflow:hidden;border-radius:8px;background:#263542;margin:.85rem 0 .65rem}
+.result-xp-track i {position:absolute;inset-block:0;display:block;border-radius:6px}
+.xp-before {background:#67899c}
+.xp-earned {background:linear-gradient(90deg,#d8a946,#ffe395);box-shadow:0 0 12px #e6b85560;transform-origin:left;animation:xp-result-fill .85s ease-out both}
+.result-xp-meta {font-size:.72rem;color:#b1c1ca;line-height:1.65}
+.result-xp-row small.warning {display:block;font-size:.72rem;margin-top:.5rem}
+.command-panel.result-footer {padding:1.4rem 0 0;background:none;border:0}
+.result-footer>h2,.result-footer>p:first-of-type {display:none}
+.result-footer .result-actions {display:flex;flex-direction:row;flex-wrap:wrap;gap:.8rem}
+.result-footer .result-actions>* {flex:1;min-width:180px;text-align:center;justify-content:center}
+.result-team-review {margin:1rem 0;padding:.8rem 1rem;border:1px solid #50616c;border-radius:4px;background:#12232b}
+.result-team-review summary {cursor:pointer;color:#a7c0cd;font-size:.85rem}
+.result-team-review .ally-grid {margin:1rem 0}
+.battle-results-page>.battle-log {margin-top:1rem}
+@keyframes xp-result-fill {from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes menu-panel-in {from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(max-width:700px){.page-wide-tabs>a,.page-wide-tabs>button{font-size:.75rem;min-height:48px;padding:.6rem .25rem}.quest-categories .quest-illustration-content{min-height:330px;padding-top:1.2rem}.quest-categories .quest-illustration-top{padding:.7rem}.quest-categories .quest-difficulty-selector{padding:.6rem}.quest-categories .quest-difficulty-buttons button{font-size:.68rem}.battle-result .battle-xp-awards{grid-template-columns:1fr}.battle-result-heading{gap:.8rem}.result-emblem{width:50px;height:50px}.result-emblem .icon{width:25px;height:25px}.result-footer .result-actions>*{min-width:100%;flex-basis:100%}.result-xp-row{padding:.85rem}}
+@media(prefers-reduced-motion:reduce){.xp-earned,.character-tab-panel{animation:none}.quest-categories .quest-layout>*{transition:none}}
+
+.quest-categories .quest-difficulty-buttons button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;min-height:56px;text-align:center}.quest-categories .quest-difficulty-buttons button small{display:block;margin:0}

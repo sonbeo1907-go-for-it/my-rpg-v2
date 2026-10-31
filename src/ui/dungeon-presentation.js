@@ -16,6 +16,8 @@ export function enemyScaleSummary(scale) {
 }
 
 export function dungeonRewardText(reward) {
+  if(reward.characterXp)return `${reward.characterXp} XP / nhân vật`;
+  if(reward.limitBreakStones)return `${reward.limitBreakStones} Tinh Thạch Phá Giới`;
   return reward.coins
     ? `${reward.coins} coin`
     : `${reward.recruitmentShards} Pure Prisma`;

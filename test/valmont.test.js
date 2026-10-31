@@ -257,7 +257,7 @@ test('older saves gain locked Valmont, every new character is recruitable and re
   for (const id of family) {
     const old = createCampaign(content); for (const name of family) delete old.characters[name];
     let campaign = deserializeCampaign(serializeCampaign(old), content);
-    assert.deepEqual(campaign.characters[id], { level: 1, upgradeIds: [] });
+    assert.deepEqual(campaign.characters[id], { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
     assert.equal(campaign.unlockedCharacterIds.includes(id), false);
     const pool = content.banners.standard.characterPool;
     const draws = [.95, (pool.indexOf(id) + .5) / pool.length];

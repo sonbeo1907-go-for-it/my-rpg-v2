@@ -2,8 +2,8 @@ import { createCampaign, serializeCampaign, deserializeCampaign } from './progre
 import { parseSaveImport, MAX_SAVE_FILE_BYTES } from './save-file.js';
 import { isValidParty, partySlots, assignPartySlot, removePartySlot } from './party.js';
 
-export const GAME_SAVE_VERSION = 6;
-export const GAME_SAVE_KEY = 'northern-prisma.campaign.v6';
+export const GAME_SAVE_VERSION = 7;
+export const GAME_SAVE_KEY = 'northern-prisma.campaign.v7';
 const presetId = index => `party-${index + 1}`;
 export function withPresets(campaign) {
   return { ...campaign, activePartyPresetId: 'party-1', partyPresets: Array.from({ length: 5 }, (_, index) => ({ id: presetId(index), name: `Đội ${index + 1}`, slots: index === 0 ? partySlots(campaign.party) : null })) };
@@ -12,9 +12,10 @@ export function createGameSave(content) { return withPresets(createCampaign(cont
 export function decodeGameSave(text, content) {
   if (typeof text !== 'string' || new TextEncoder().encode(text).length > MAX_SAVE_FILE_BYTES) throw new Error('File save không hợp lệ hoặc vượt 10 MB.');
   const input = JSON.parse(text.replace(/^\uFEFF/, ''));
-  if (![4, 5, GAME_SAVE_VERSION].includes(input?.version)) return withPresets(parseSaveImport(text, content));
+  if (![4, 5, 6, GAME_SAVE_VERSION].includes(input?.version)) return withPresets(parseSaveImport(text, content));
   if (input.version >= 5 && ['prismaFragments','originalPrisma','exclusiveGear','equippedExclusiveGear','pendingReforge','blacksmithRevision'].some(key=>!Object.hasOwn(input,key))) throw new Error('Save thiếu dữ liệu Thợ Rèn.');
-  if (input.version === GAME_SAVE_VERSION && !Object.hasOwn(input,'illusion')) throw new Error('Save v6 thiếu dữ liệu Ảo Ảnh.');
+  if(input.version===7&&(input.levelProgressionVersion!==1||['limitBreakStones','sweepTickets','trainingCharges','dungeonClearedDifficulties'].some(k=>!Object.hasOwn(input,k))))throw Error('Save v7 thiếu tiến trình Level.');
+  if (input.version >= 6 && !Object.hasOwn(input,'illusion')) throw new Error('Save v6 thiếu dữ liệu Ảo Ảnh.');
   // Retain the tested v1-v3 engine migration contract; the application envelope adds five presets.
   const base = deserializeCampaign(JSON.stringify({ ...input, version: 3 }), content);
   const presets = input.partyPresets;

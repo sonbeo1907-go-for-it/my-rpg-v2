@@ -4,7 +4,7 @@ import {
   DAMAGE_TYPE_NAMES,
   WEAKNESS_MULTIPLIER,
 } from "../core/content.js";
-import { scaleEnemyStats } from "../core/enemy-scaling.js";
+import { scaleEnemyStats,levelScaledEnemyStats } from "../core/enemy-scaling.js";
 import { STAT_LABELS } from "../core/catalog.js";
 import {
   passiveDescription,
@@ -27,10 +27,12 @@ export function DungeonRooms({
   content,
   preview,
   scale,
+  enemyLevel,
 }: {
   content: any;
   preview: any;
   scale: any;
+  enemyLevel?:number;
 }) {
   return (
     <section
@@ -64,7 +66,7 @@ export function DungeonRooms({
             {roomEnemies(content, id).map((enemy) => {
               const actor = {
                 ...enemy,
-                stats: scaleEnemyStats(enemy.stats, scale),
+                stats: enemyLevel?levelScaledEnemyStats(enemy,enemyLevel,content,scale):scaleEnemyStats(enemy.stats, scale),
               };
               const weaknesses = [
                 ...(enemy.weaknesses?.length === 8

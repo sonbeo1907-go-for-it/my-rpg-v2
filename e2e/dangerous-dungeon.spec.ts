@@ -31,7 +31,7 @@ test('room scouting reveals every enemy and scaled stats, survives party/equipme
  for(const id of plans.medium)await expect(page.locator('.dungeon-rooms')).not.toContainText(content.encounters[id].name);
  await ogre.locator('summary').click();await expect(ogre.locator('details')).toHaveAttribute('open','');
  await dialog.getByRole('link',{name:'Chỉnh đội hình',exact:true}).click();await expect(page).toHaveURL(/party\?fromDungeon=dangerous&difficulty=medium/);
- await page.locator('.detail-button').first().click();await expect(page).toHaveURL(/characters\/lisbeth/);await page.getByRole('link',{name:'Trang bị',exact:true}).click();await expect(page).toHaveURL(/lisbeth\/equipment/);
+ await page.locator('.detail-button').first().click();await expect(page).toHaveURL(/characters\/lisbeth/);await page.getByRole('link',{name:'Trang Bị',exact:true}).click();await expect(page).toHaveURL(/lisbeth\/equipment/);
  await page.getByRole('link',{name:'Trở về',exact:true}).click();await page.getByRole('link',{name:'Trở về',exact:true}).click();await expect(page).toHaveURL(/party\?fromDungeon/);
  await page.getByLabel('Tên đội',{exact:true}).fill('Đội trinh sát');await page.getByRole('button',{name:'Lưu tên',exact:true}).click();await expect(page.getByLabel('Tên đội',{exact:true})).toHaveValue('Đội trinh sát');
  await page.getByRole('link',{name:'Trở về',exact:true}).click();await expect(page).toHaveURL(/dangerous\?selected=medium/);

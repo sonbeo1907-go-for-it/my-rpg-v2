@@ -28,9 +28,9 @@ test('automatic v3 migration, routes, character details and five teams work', as
   await expect(page.locator('.party-member').first()).toContainText('Seraphine');
   await page.locator('.detail-button').first().click();
   await expect(page).toHaveURL(/characters\/seraphine/);
-  await expect(page.locator('.skill-grid')).toContainText('60% ATK');
-  await expect(page.locator('.skill-grid')).toContainText('60% MAG');
-  await page.getByRole('link', { name: 'Trang bị', exact: true }).click();
+  await page.locator('.character-tabs [data-tab-id=skills]').click();await expect(page.locator('.skill-grid')).toContainText('60% ATK');
+  await page.locator('.character-tabs [data-tab-id=skills]').click();await expect(page.locator('.skill-grid')).toContainText('60% MAG');
+  await page.getByRole('link', { name: 'Trang Bị', exact: true }).click();
   await expect(page).toHaveURL(/seraphine\/equipment/);
   await expect(page.locator('.equipment-slots button')).toHaveCount(6);
   expect(errors).toEqual([]);

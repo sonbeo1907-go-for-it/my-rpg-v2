@@ -1,3 +1,4 @@
+import {validateLevelRules} from './leveling.js';
 import {validEvasion} from './evasion.js';
 import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
 import {validateSummonDefinition} from './summon-rules.js';
@@ -35,6 +36,7 @@ export function validateContent(content) {
   }
   if (errors.length) return errors;
   for (const [id, actor] of Object.entries({ ...content.characters, ...content.enemies })) {
+    if(content.enemies[id]===actor&&(!Number.isInteger(actor.referenceLevel)||actor.referenceLevel<1||actor.referenceLevel>99))fail(id+': invalid reference level');
     if (!ELEMENTS.includes(actor.element)) fail(`${id}: invalid element`);
     if (actor.basicAttack !== undefined && (!Array.isArray(actor.basicAttack) || !actor.basicAttack.length || actor.basicAttack.some(effect => !effect
       || effect.type !== 'damage' || !['physical', 'magical'].includes(effect.damageType) || !ELEMENTS.includes(effect.element)
@@ -350,6 +352,8 @@ export function validateContent(content) {
     }
   }
   for (const [id, encounter] of Object.entries(content.encounters)) {
+    if(!Number.isInteger(encounter.enemyLevel)||encounter.enemyLevel<1||encounter.enemyLevel>99)fail(id+": invalid encounter level");
+    if(encounter.defaultDifficulty!==undefined&&!content.progressionRules?.default?.questDifficulties[encounter.defaultDifficulty])fail(id+": invalid default difficulty");
     if (encounter.requires !== undefined &&
       (!encounter.requires || typeof encounter.requires !== 'object' || Array.isArray(encounter.requires)
         || !(typeof encounter.requires.storyFlag === 'string' && encounter.requires.storyFlag.trim() || typeof encounter.requires.firstClear === 'string' && content.encounters[encounter.requires.firstClear] || Array.isArray(encounter.requires.firstClears) && encounter.requires.firstClears.length>0)
@@ -395,6 +399,7 @@ export function validateContent(content) {
       || new Set(group.tracks).size !== group.tracks.length
       || group.tracks.some(track => typeof track !== 'string' || !/^\/bgm\/[a-zA-Z0-9_-]+\.mp3$/.test(track))) fail(`${id}: invalid music tracks`);
   }
+  errors.push(...validateLevelRules(content));
   errors.push(...validateEconomyContent(content));
   errors.push(...validateDungeonContent(content));
   errors.push(...validateBlacksmithContent(content));
@@ -417,4 +422,4 @@ export function assembleContent(collections) {
   return content;
 }
 
-export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects'];
+export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects', 'progressionRules'];

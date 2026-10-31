@@ -12,7 +12,7 @@ const content = await loadContent();
 function setup(random = () => .99, source = content) {
   const campaign = createCampaign(source); campaign.party = ['dain', 'garrek'];
   campaign.unlockedCharacterIds.push('dain');
-  return createBattle(source, campaign, 'ogre_trial', random);
+  return createBattle(source, campaign, 'ogre_trial', random, {enemyLevel:content.enemies.ogre_underling.referenceLevel});
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);

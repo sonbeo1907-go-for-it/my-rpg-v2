@@ -132,7 +132,7 @@ test('preview presents persistent cavalry, shield multiplier and damage formulas
 test('Gahallad is locked in old saves, recruitable and uses the normal duplicate/save flow', () => {
   const old = createCampaign(content); delete old.characters.gahallad;
   let campaign = deserializeCampaign(serializeCampaign(old), content);
-  assert.deepEqual(campaign.characters.gahallad, { level: 1, upgradeIds: [] });
+  assert.deepEqual(campaign.characters.gahallad, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
   assert.equal(campaign.unlockedCharacterIds.includes('gahallad'), false);
   campaign.coins = 200; campaign.prisma = 10;
   const pool = content.banners.standard.characterPool;

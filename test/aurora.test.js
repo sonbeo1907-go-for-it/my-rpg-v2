@@ -192,7 +192,7 @@ test('older saves gain Aurora without changing the party or storing battle charg
   delete campaign.characters.aurora;
   const restored = deserializeCampaign(serializeCampaign(campaign), content);
   assert.deepEqual(restored.party, campaign.party);
-  assert.deepEqual(restored.characters.aurora, { level: 1, upgradeIds: [] });
+  assert.deepEqual(restored.characters.aurora, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
   assert.equal('resourceValues' in restored.characters.aurora, false);
 });
 

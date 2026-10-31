@@ -31,7 +31,7 @@ export function validateBlacksmithContent(content) {
     if(template.requires?.firstClear&&!content.encounters[template.requires.firstClear]?.firstClearRewards?.some(r=>r.type==='exclusive_recipe'&&r.templateId===template.id))errors.push('exclusiveGear: invalid recipe gate '+template.id);
     if(template.source && (template.source.type!=='quest' || !content.encounters[template.source.encounterId] || !validExclusiveStat(content,template.source.statKey,template.source.statValue))) errors.push('exclusiveGear: invalid quest source '+template.id);
   }
-  for(const item of Object.values(content.items)) if(!['coins','prisma','recruitmentShards','originalPrisma','prismaFragments'].includes(item.field)||!item.name?.trim()||!item.description?.trim()||!['coin','prisma','pure','original','fragments'].includes(item.kind)) errors.push(`items: invalid resource ${item.id}`);
+  for(const item of Object.values(content.items)) if(!['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets'].includes(item.field)||!item.name?.trim()||!item.description?.trim()||!['coin','prisma','pure','original','fragments','breakthrough','ticket'].includes(item.kind)) errors.push(`items: invalid resource ${item.id}`);
   return [...errors,...validateT4Content(content)];
 }
 
