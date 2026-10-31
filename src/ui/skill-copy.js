@@ -1,3 +1,4 @@
+import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 // Public copy contract: docs/SKILL_COPY_AND_UX_SPEC.md
@@ -60,8 +61,9 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(status.durationClock==='main_turn')rules.push('Thời hạn giảm theo lượt Vòng Chính của người nhận; Vòng Phụ không giảm thời hạn.');
     if(status.damageOverTime){
       const dot=status.damageOverTime;
+      const bonus=actor.passive?.type==='dot_potency_bonus' && actor.passive.statusIds.includes(status.id) ? 1+actor.passive.ratio : 1;
       const formula=[dot.flat?number(dot.flat):'',dot.multiplier?`${pct(dot.multiplier)} ${statName(dot.scalingStat)}`:''].filter(Boolean).join(' + ');
-      facts.push(`Độc: ${formula} → ${Math.max(1,supportAmount(dot,value(dot.scalingStat)))} HP/đầu lượt`+turns);
+      facts.push(`Độc: ${formula} → ${periodicPotency(status,actor,value)} HP/đầu lượt${status.maxStacks?' mỗi tầng':''}${bonus>1?' (nội tại ×'+number(bonus)+')':''}`+turns);
       if(!skill.rules?.length)rules.push('Độc bỏ qua giáp và khiên; lượng độc chốt khi dùng chiêu. Dùng lại làm mới.');
     }
     if(status.turnStartAbility){
@@ -99,7 +101,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
         const ratio=damageMultiplier(effect,{spent,stacks:choices.stacks??0,hpRatio:(choices.hpPercent??100)/100});
         facts.push(`${choices.live?'Hiện tại':'Giả định'}: ${effect.hits>1?effect.hits+' × ':''}${pct(ratio)} ${label}${speed?' + '+pct(speed)+' SPD':''}`);
       }
-      if(effect.onHitStatus)statusFacts({type:'status',status:effect.onHitStatus.status,duration:effect.onHitStatus.duration});
+      if(effect.onHitStatus){statusFacts({type:'status',status:effect.onHitStatus.status,duration:effect.onHitStatus.duration});if(content.statuses[effect.onHitStatus.status].maxStacks)rules.push('Mỗi hit trúng gắn một tầng; né không gắn hiệu ứng.');}
       if(effect.unavoidable)facts.push('Không thể né');
     }
     if(effect.type==='heal'||effect.type==='shield'){
@@ -113,7 +115,8 @@ export function skillPresentation(skill,actor,content,choices={}) {
     }
     if(effect.type==='status'||effect.type==='toggle_status')statusFacts(effect);
     if(effect.type==='resource')facts.push(`${prefix}${effect.resource==='mp'?'Hồi':'Tạo'} ${effect.maxMpRatio?(effect.amount?effect.amount+' + ':'')+pct(effect.maxMpRatio)+' MP tối đa':effect.amount+' '+resourceName(actor,effect.resource)}`);
-    if(effect.type==='enter_mode') {const mode=actor.combatModes[effect.mode];facts.push('Triệu hồi '+mode.name+' · +'+mode.baseStatBonuses.magic+' MAG căn bản');rules.push(mode.description);}
+    if(['enter_mode','prepare_mode'].includes(effect.type)) {const mode=actor.combatModes[effect.mode];facts.push((effect.type==='prepare_mode'?'Đầu vòng sau: ':'Triển khai ')+mode.name);for(const [key,n]of Object.entries(mode.baseStatBonuses)) facts.push('+'+n+' '+statName(key)+' căn bản');if(mode.entryEffects) facts.push('Khi lên giáp: khiên '+pct(mode.entryEffects[0].multiplier)+' HP tối đa → '+Math.round(actor.stats.maxHp*mode.entryEffects[0].multiplier));if(mode.durationRounds) facts.push(mode.durationRounds+' vòng, tính cả vòng gọi');rules.push(mode.description);}
+    if(effect.type==='summon_companion'){const c=actor.companions[effect.companion];facts.push('Đầu vòng sau: '+c.name+' · '+c.durationRounds+' vòng');facts.push('Đầu/cuối vòng: '+pct(content.abilities[c.roundStartAbility].effects[0].multiplier)+' DEF · Thổ · toàn địch');rules.push('Tính một lần mỗi đầu và cuối vòng, sau Vòng Phụ; không chiếm lượt hay ô đội hình.','Là Liên kích theo thời điểm, không được kích hoạt thêm bởi đòn của Drake, đồng đội hoặc Liên kích khác.');}
     if(effect.type==='turn_order_field') {facts.push('Đồng minh trước · đối thủ sau · '+effect.durationRounds+' vòng');rules.push('Vòng thi triển được tính là vòng đầu; kết thúc sau Vòng Phụ.');}
     if(effect.type==='cleanse')facts.push('Giải toàn bộ hiệu ứng bất lợi');
     if(effect.type==='grant_extra_turn'){
@@ -127,6 +130,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     const authored=skill.effects.find(effect=>effect.formulaScaling),perfect=formulaDamage(authored,{correct:3});rules.push('Mỗi dấu đúng vị trí tăng '+pct(authored.formulaScaling.perCorrect)+' MAG cho từng hit. Đúng cả ba: mỗi hit '+pct(perfect.multiplier)+' MAG và xuyên '+pct(perfect.penetration)+' RES.','Công thức và MAG nội tại được chốt một lần khi thi triển; buff MAG hiện có áp dụng sau phần cộng căn bản.');
   }
   if(skill.target==='adjacent_allies'){facts.push('Hai ô kề · nối vòng ô 1 ↔ 4');rules.push('Không tự chọn người nhận và không cấp lượt cho bản thân.','Ô trống hoặc đồng đội đã gục không được thay bằng ô khác.','Lượt đã có không cộng dồn; người nhận vẫn cần đủ MP và kỹ năng hết hồi chiêu để dùng chiêu mong muốn.');}
+  if(skill.target==='enemy_splash'){facts.push('Mục tiêu chính và hai ô kề');rules.push('Không nối vòng hai đầu đội hình; ô trống hoặc địch đã gục không kéo mục tiêu khác vào.','Là đòn diện rộng: không bị Khiêu khích/Che chắn chuyển hướng, không kích hoạt Liên kích phép đơn mục tiêu.');}
   if(skill.target==='random_enemies'){facts.push('Mỗi đòn chọn ngẫu nhiên một địch còn sống');rules.push('Có thể trúng lặp; một địch còn sống sẽ nhận toàn bộ các đòn.','Không ưu tiên mục tiêu đang chọn. Như đòn đa mục tiêu: bỏ qua Khiêu khích và Che chắn, không kích hoạt Liên kích phép đơn mục tiêu.');}
   if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage')){const count=choices.debuffCount??0;facts.push((choices.live?'Hiện tại':'Giả định')+': '+count+' loại debuff · +'+pct(debuffDamageBonus(actor.passive,count))+' sát thương');}
   if(skill.cost?.preferResource){const preferred=skill.cost.preferResource;rules.push('Đủ '+preferred.amount+' '+resourceName(actor,preferred.id)+': tự dùng tầng, không tốn MP. Thiếu tầng: trả '+skill.cost.mp+' MP và giữ nguyên tầng.','Cách trả được chốt khi thi triển; không đổi sang cách còn lại giữa chừng.');}
@@ -175,11 +179,20 @@ export function passivePresentation(actor,content) {
   const facts=[],rules=[];
   let summary='',name=p.name??({damage_reduction:'Bền bỉ',shield_break_heal:'Dư âm thủy hộ'}[p.type]??'Năng lực đặc trưng');
   switch(p.type){
+    case 'dot_potency_bonus':summary='Nọc độc tự gây bào mòn con mồi mạnh hơn.';facts.push('+'+pct(p.ratio)+' sát thương '+p.statusIds.map(id=>content.statuses[id].name).join(', '));rules.push('Chốt khi gắn độc; không tăng độc do đồng đội tạo.','Mỗi tầng cùng loại dùng lượng độc mỗi tầng mới nhất; dùng lại làm mới thời hạn.');break;
+    case 'attack_status':summary='Mỗi đòn trực tiếp trúng địch làm suy yếu sức tấn công của họ.';facts.push(...Object.entries(content.statuses[p.statusId].modifiers).map(([key,n])=>signed(n)+' '+statName(key)),p.duration+' lượt chính của mục tiêu');rules.push('Tính đánh thường và kỹ năng; trúng khiên vẫn kích hoạt. Né, hồi máu và sát thương định kỳ không kích hoạt.','Mỗi mục tiêu tính riêng; làm mới, không cộng tầng.');break;
+    case 'shield_survival_followup': {
+      summary='Đồng đội khác bị đánh mà còn khiên sau toàn bộ chiêu sẽ gọi Liên kích diện rộng.';
+      const follow=content.abilities[p.followUpAbility];
+      facts.push(...follow.effects.map(effect=>'Liên kích: '+pct(effect.multiplier)+' '+scalingLabel(effect,STAT_LABELS)+' · '+ELEMENT_NAMES[effect.element]+' · toàn địch · 1 lần/vòng'));
+      for(const effect of follow.effects) if(effect.onHitStatus){const mark=content.statuses[effect.onHitStatus.status];facts.push(...Object.entries(mark.modifiers??{}).map(([key,n])=>signed(n)+' '+statName(key)),effect.onHitStatus.duration+' lượt'+(mark.durationClock==='main_turn'?' chính':'')+' của mục tiêu');}
+      rules.push('Khiên từ bất kỳ nguồn nào; chỉ xét người thực sự bị đánh trúng và vẫn còn khiên cuối chiêu.','Nếu chỉ bản thân bị đánh, không kích hoạt. Né, sát thương định kỳ và phản ứng khác không kích hoạt.','Đòn nhiều hit/diện rộng chỉ xét một lần; Vòng Chính và Vòng Phụ dùng chung hạn mức.');break;
+    }
     case 'formula_scholar':summary='Kế thừa tri thức từ những đồng đội đã góp vào công thức.';facts.push('+'+p.amount+' MAG căn bản/đồng đội khác nhau · tối đa +'+(p.amount*p.maxSources));rules.push('Chỉ áp dụng cho Đại định lý; cộng một lần cho toàn bộ các hit, trước buff MAG%.','Dấu viết lại bởi bản thân không tính. Nhiều dấu của một người chỉ tính một nguồn.','Luận cứ đã ghi vẫn được tính khi người góp dấu đã gục.');break;
     case 'kill_mp_discount':summary='Hạ một đối thủ để tiết kiệm quân lực cho phần còn lại của trận.';facts.push('Giảm '+pct(p.ratio)+' MP tiêu hao sau lần tự hạ địch đầu tiên');rules.push('Không cộng dồn. Không hoàn MP cho chiêu vừa gây hạ gục.','Hiệu lực giữ qua các phòng trong một chuyến; trận mới độc lập sẽ đặt lại.','Chi phí làm tròn lên, tối thiểu 1 MP với chiêu có tốn MP.');break;
     case 'target_debuff_damage':summary='Biến hiệu ứng bất lợi trên mục tiêu thành sức mạnh của bản nhạc.';facts.push('+'+pct(p.ratio)+' sát thương mỗi loại debuff · tối đa +'+pct(p.cap));rules.push('Đếm số loại hiệu ứng khác nhau; nhiều tầng hoặc nhiều chỉ số trong cùng một hiệu ứng vẫn chỉ tính một loại.','Đếm lại ở từng hit, bất kể người gây debuff. Áp dụng cho đánh thường và đòn đánh trực tiếp.','Cộng với các buff tăng sát thương cùng nhóm; giới hạn chỉ áp dụng cho nội tại này.');break;
     case 'later_target_base_stat':summary='Khai thác đối thủ đứng sau mình trong thứ tự lượt.';facts.push('+'+number(p.amount)+' '+statName(p.stat)+' căn bản cho kỹ năng đủ điều kiện');rules.push('Cần ít nhất một mục tiêu đứng sau trong thứ tự Vòng Chính; Vòng Phụ dùng lại bảng này.','Chốt lúc thi triển; cộng trước buff %. Chỉ cộng một lần cho cả chiêu, không nhân theo số địch hoặc số hit.','Không áp dụng cho đánh thường, phản công và liên kích.');break;
-    case 'combat_mode': { summary=p.description;for(const mode of Object.values(actor.combatModes??{})){for(const [key,n]of Object.entries(mode.baseStatBonuses))facts.push('+'+number(n)+' '+statName(key)+' căn bản khi '+mode.name+' hiện diện');facts.push(mode.name+' rời sân: hồi '+pct(mode.exitMpRatio)+' MP tối đa');}rules.push('Hết tầng: kiểm tra đầu mọi lượt của người triệu hồi và cuối vòng sau Vòng Phụ.','Khi rời sân, hồi MP đúng một lần; không mất lượt hiện tại.');break; }
+    case 'combat_mode': {summary=p.description;for(const mode of Object.values(actor.combatModes??{})){for(const [key,n]of Object.entries(mode.baseStatBonuses)) facts.push('+'+number(n)+' '+statName(key)+' căn bản khi '+mode.name+' hiện diện');if(mode.exitMpRatio>0) facts.push(mode.name+' rời sân: hồi '+pct(mode.exitMpRatio)+' MP tối đa');if(mode.durationRounds) facts.push(mode.name+': '+mode.durationRounds+' vòng, tính cả vòng gọi');if(mode.entryEffects) facts.push('Lên giáp: khiên '+pct(mode.entryEffects[0].multiplier)+' HP tối đa');if((mode.lifetime??'resource')==='resource') rules.push('Hết tầng: kiểm tra đầu mọi lượt của người triệu hồi và cuối vòng sau Vòng Phụ.','Khi rời sân, hồi MP đúng một lần; không mất lượt hiện tại.');else rules.push(mode.description);}break;}
     case 'damage_reduction':summary=p.requiresStatus?`Bền bỉ khi đang có ${content.statuses[p.requiresStatus].name}.`:'Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận${p.requiresStatus?` · cần ${content.statuses[p.requiresStatus].name}`:''}`);break;
     case 'shield_break_heal':summary='Khi khiên do mình tạo bị phá, hồi HP cho người mang khiên.';facts.push(`Hồi ${pct(p.multiplier*(actor.exclusiveGear?.template?.passive.type==='shield_break_heal_bonus'?1+actor.exclusiveGear.template.passive.ratio:1))} MAG`);rules.push('Cả người tạo và người mang khiên phải còn sống.');break;
     case 'dodge_counter':{

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+<defs><radialGradient id="sky"><stop stop-color="#577661"/><stop offset="1" stop-color="#101c1a"/></radialGradient><linearGradient id="stone"><stop stop-color="#8b9980"/><stop offset=".45" stop-color="#526658"/><stop offset="1" stop-color="#263d34"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="10"/></filter></defs>
+<path d="M0 0h1600v1000H0z" fill="url(#sky)"/>
+<g stroke="#1b3028" stroke-width="13" stroke-linejoin="round" fill="url(#stone)">
+<path d="m980 200 150-35 105 70-40 150-135 5-100-90Z"/><path d="m970 330 240 20 140 195-110 175-260-30-130-195Z"/>
+<path d="m930 330-170-30-110 130 55 165 160-40ZM1270 365l180-50 105 140-65 160-155-15Z"/>
+<path d="m715 535-60 215 115 110 125-95-20-225ZM1390 565l-20 230 120 80 100-135-35-185Z"/>
+<path d="m995 680-45 230 150 30 55-205 45 210 150-15-70-245Z"/>
+</g>
+<g fill="none" stroke="#b2dba1" stroke-width="6"><path d="m1060 270 35 5M1145 275l35-6M1060 415l95-5 42 90-90 100-85-100Z"/><path d="m1010 495 95 40 95-35M1106 535v65M785 372l35 70-45 72M1420 400l-25 74 43 60"/></g>
+<path d="m1060 415 95-5 42 90-90 100-85-100Z" fill="#a9e6a2" opacity=".3" filter="url(#glow)"/>
+<g fill="none" stroke="#a9cf92" opacity=".5"><ellipse cx="1110" cy="900" rx="490" ry="100" stroke-width="6"/><ellipse cx="1110" cy="900" rx="350" ry="70" stroke-width="3"/><path d="m650 900 170-50 290 115 280-115 200 60" stroke-width="4"/></g>
+<g fill="#829577" opacity=".7"><path d="m560 650 50-35 30 60-60 25ZM790 155l50-40 35 65-55 15ZM1450 100l50-20 10 55-45 10Z"/></g>
+<path d="M0 950 400 870 750 970 1150 900 1600 950V1000H0Z" fill="#0c1814"/>
+</svg>

@@ -1,4 +1,6 @@
 "use client";
+import {commandAbilityIds} from '../core/combat-modes.js';
+import { SummonScenes } from './summon-scenes';
 import { FormulaBoards, FormulaForecast, FormulaSkillTag, FormulaScene, FormulaEditControl } from './formula-board';
 import { CombatEffects } from "./combat-effects";
 import { AcademicEffects } from './academic-effects';
@@ -453,11 +455,7 @@ export function BattlePage() {
   const actor = battle?.actors.find((item: any) => item.id === battle.activeId);
   const commandActor = actor?.team === "party" ? actor : null;
   const skills = commandActor
-    ? [
-        basicAbility(commandActor),
-        ...commandActor.abilities.map((id: string) => content.abilities[id]),
-        DEFEND,
-      ]
+    ? commandAbilityIds(commandActor).map((id:string)=>id==="$attack"?basicAbility(commandActor):id==="$defend"?DEFEND:content.abilities[id])
     : [];
   const skill =
     skills.find((item: any) => item.id === battleUI.skillId) ??
@@ -783,11 +781,11 @@ export function BattlePage() {
         .map((boss: any) => (
           <BossPhasePanel key={boss.id} boss={boss} />
         ))}
-      {battle.presentation && <div className="summon-backdrop" aria-hidden="true" style={{backgroundImage:'url("'+battle.presentation.background+'")'}}><span className="summon-eye-halo"/></div>}
+      <SummonScenes presentation={battle.presentation} actors={battle.actors} round={battle.round}/>
       <CombatEffects events={events} content={content} sessionId={battle.sessionId} speed={animationSpeed} onCue={setVisualAction}/>
       <AcademicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
       <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
-      {battle.presentation && <div className="summon-state" role="status">Magnamut · Cộng hưởng thời không <span>+15 MAG căn bản · Mệnh lệnh hủy diệt</span></div>}
+
       <div className="battle-layout">
         <section className={`battlefield panel ${hasFormulaField?"has-academic-field":""}`}>
           <FormulaScene battle={{...battle,content}} content={content}/>
@@ -880,6 +878,7 @@ export function BattlePage() {
                     <strong>{targetLabel}</strong>
                     {skill.effects.some((effect:any)=>effect.type==="grant_extra_turn") && <small>{battle.phase==="extra" ? "Vòng Phụ: hiệu ứng cấp Lượt Thêm bị bỏ qua; vẫn tiêu MP và hồi chiêu." : battle.extraTurnGrants?.includes(targets.targetId) ? "Mục tiêu đã có Lượt Thêm trong vòng này; không cộng thêm lượt." : "Lượt Thêm sẽ thực hiện sau lượt chính, theo SPD ở đầu Vòng Phụ."}</small>}
                     {skill.target === "adjacent_allies" && <small>Hai ô kề cố định · nối vòng ô 1 ↔ 4. Ô trống và người đã gục bị bỏ qua.</small>}
+                    {skill.target === "enemy_splash" && <small>{targets.affectedIds.length} mục tiêu · chính và hai ô kề, không nối vòng.</small>}
                     {skill.target === "random_enemies" && <small>{targets.affectedIds.length} đối thủ có thể bị chọn · mỗi đòn chọn lại, có thể trúng lặp.</small>}
                     {skill.target.startsWith("all_") && (
                       <small>

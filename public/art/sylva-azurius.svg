@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#122c37"/><stop offset=".55" stop-color="#30362c"/><stop offset="1" stop-color="#101d21"/></linearGradient>
+ <radialGradient id="sun"><stop stop-color="#ffe1a1" stop-opacity=".75"/><stop offset=".45" stop-color="#e68d46" stop-opacity=".3"/><stop offset="1" stop-color="#f18032" stop-opacity="0"/></radialGradient>
+ <linearGradient id="wing"><stop stop-color="#173942"/><stop offset=".45" stop-color="#27626c"/><stop offset="1" stop-color="#b06836"/></linearGradient>
+ <linearGradient id="fire"><stop stop-color="#fff0b2"/><stop offset=".3" stop-color="#e4b15e"/><stop offset="1" stop-color="#723925"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="7"/></filter>
+</defs>
+<path fill="url(#sky)" d="M0 0h1600v1000H0z"/>
+<ellipse cx="1170" cy="260" rx="560" ry="480" fill="url(#sun)"/>
+<g fill="#102626" opacity=".8"><path d="M0 620 120 120 205 620 330 210 460 670 570 170 720 690 0 950ZM950 690 1080 170 1200 620 1360 95 1440 520 1540 280 1600 650V1000H950Z"/></g>
+<g fill="none" stroke="#b09a69" opacity=".13"><ellipse cx="1050" cy="410" rx="400" ry="330"/><ellipse cx="1050" cy="410" rx="340" ry="280"/><path d="M700 410h700M1050 80v660M770 170l550 490M1320 180 780 650"/></g>
+<!-- Azurius: a two-winged wyvern, seen behind the battlefield. -->
+<g stroke="#102a31" stroke-width="9" stroke-linejoin="round">
+ <path d="M1035 410Q890 120 560 45L700 310 565 275 770 485 660 450 920 625 1060 490Z" fill="url(#wing)"/>
+ <path d="M1110 415Q1300 90 1580 45L1470 320 1590 260 1440 505 1515 465 1210 630 1080 485Z" fill="url(#wing)"/>
+ <path d="M1040 410 700 310M1040 410 770 485M1110 415 1470 320M1110 415 1440 505" fill="none" stroke="#b38a53" stroke-width="6"/>
+ <path d="M1030 355 1020 240 1065 295 1100 270 1125 345 1200 370 1160 425 1090 440 1045 515 1120 620 1040 710 990 595 1000 485 945 430 970 380Z" fill="#254650"/>
+ <path d="M1035 345 1090 330 1145 373 1108 393 1070 380Z" fill="#60817e"/>
+ <path d="M990 595Q780 790 1350 765Q1190 870 1040 710" fill="none" stroke="#254650" stroke-width="40"/>
+ <path d="M1045 515 960 615 900 625M1105 520 1210 610 1250 600" fill="none" stroke="#446267" stroke-width="23"/>
+</g>
+<path d="m1110 363 28 8-24 9Z" fill="#fcd887"/>
+<path d="M1155 398Q1270 450 1430 415Q1330 495 1440 550Q1245 520 1155 398" fill="url(#fire)" opacity=".7"/>
+<path d="M1155 398Q1300 475 1390 470" fill="none" stroke="#ffc66c" stroke-width="18" filter="url(#glow)"/>
+<g fill="#e9bc70" opacity=".65"><circle cx="870" cy="660" r="3"/><circle cx="1200" cy="710" r="4"/><circle cx="1380" cy="640" r="2"/><circle cx="760" cy="720" r="4"/><circle cx="1460" cy="320" r="3"/><circle cx="975" cy="200" r="2"/></g>
+<path d="M0 820Q350 740 700 880T1600 820V1000H0Z" fill="#0b171a" opacity=".8"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+<defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#151b1e"/><stop offset="1" stop-color="#28352a"/></linearGradient><radialGradient id="light"><stop stop-color="#d8d49c" stop-opacity=".35"/><stop offset="1" stop-color="#a3c291" stop-opacity="0"/></radialGradient><linearGradient id="rock"><stop stop-color="#879182"/><stop offset=".5" stop-color="#3b4941"/><stop offset="1" stop-color="#202d29"/></linearGradient></defs>
+<path d="M0 0h1600v1000H0z" fill="url(#bg)"/><ellipse cx="1150" cy="470" rx="700" ry="530" fill="url(#light)"/>
+<g fill="#29362f" stroke="#475448" stroke-width="4"><path d="m0 1000 120-510 120 70 60 440ZM200 1000 330 290 125 110 60 600ZM350 1000 130-180 80 80 60 900ZM1450 1000l-140-650-110 160-10 490ZM1600 1000V120l-100 180-60 700Z"/><path d="m550 1000-45-240 90 55 50 185ZM1230 1000l-80-280 100-30 110 310Z"/></g>
+<!-- Armored mage silhouette and levitating earth plates. -->
+<g stroke="#1e2b27" stroke-width="10" stroke-linejoin="round" fill="url(#rock)">
+<path d="m1130 145 95 25 25 105-55 65-75-30-25-100Z"/><path d="m1090 305 130 20 95 95-25 225-110 80-120-95-40-215Z"/><path d="m1080 340-100-50-65 105 35 145 105-25ZM1240 350l130-20 65 125-80 130-75-50Z"/><path d="m960 500-70 85 45 145 85-55 20-155ZM1340 535l-20 155 85 55 65-120-35-100Z"/><path d="m1080 660-65 225 75 20 95-185 65 185 85-20-70-235Z"/>
+</g>
+<g fill="none" stroke="#d7d298" stroke-width="5" opacity=".8"><path d="m1140 220 55 10M1148 382l58 26-32 88-50-45Z"/><path d="m1120 575 50-80 50 82M955 375l45 30-20 55M1330 410l46 20-25 65"/><ellipse cx="1175" cy="840" rx="360" ry="95"/><ellipse cx="1175" cy="840" rx="290" ry="70"/><path d="m890 840 150-50 140 110 150-110 120 50"/></g>
+<g fill="#7f8c72"><path d="m840 310 65-50 30 45-60 45ZM1400 185l60-35 25 75-65 15ZM820 680l45-75 50 60-65 60ZM1440 720l65-50 15 100-70 20Z"/></g>
+<path d="M0 930 600 860 1150 960 1600 880V1000H0Z" fill="#101c18" opacity=".85"/>
+</svg>

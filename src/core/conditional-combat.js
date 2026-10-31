@@ -21,7 +21,7 @@ export function debuffDamageBonus(passive,count) {
   return count>=Math.ceil(passive.cap/passive.ratio) ? passive.cap : Math.max(0,count)*passive.ratio;
 }
 export function targetsAsGroup(skill) {
-  return Boolean(skill?.target?.startsWith('all_') || ['random_enemies','adjacent_allies'].includes(skill?.target));
+  return Boolean(skill?.target?.startsWith('all_') || ['random_enemies','adjacent_allies','enemy_splash'].includes(skill?.target));
 }
 export function randomTargetLabel(skill) {
   const hits=skill.effects.filter(effect=>effect.type==='damage').reduce((sum,effect)=>sum+(effect.hits??1),0);

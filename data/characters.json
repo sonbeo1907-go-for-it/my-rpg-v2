@@ -1459,5 +1459,271 @@
       "amount": 3,
       "maxSources": 3
     }
+  },
+  {
+    "id": "logia",
+    "name": "Logia",
+    "title": "Độc xà Lôi ảnh",
+    "affiliation": "Hội Thợ Săn",
+    "element": "thunder",
+    "role": "DPS vật lí / Độc",
+    "roleGroup": "physical_dps",
+    "description": "Chồng Độc xà lên địch, để nọc độc kết liễu con mồi qua từng lượt.",
+    "biography": "Thợ săn tàn nhẫn chuộng những vết cắt nhỏ và cái chết chậm. Logia thích đứng ngoài tầm với, lặng nhìn kẻ thù kiệt dần vì độc.",
+    "tags": [
+      "hunter_guild"
+    ],
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 80,
+      "attack": 31,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 17,
+      "speed": 23
+    },
+    "abilities": [
+      "logia.fang",
+      "logia.miasma",
+      "logia.agony"
+    ],
+    "passive": {
+      "type": "dot_potency_bonus",
+      "name": "Thú vui độc địa",
+      "description": "Nọc độc do bản thân gây ra mạnh hơn.",
+      "statusIds": [
+        "logia_venom"
+      ],
+      "ratio": 0.25
+    }
+  },
+  {
+    "id": "amelia",
+    "name": "Amelia",
+    "title": "Pháp sư Băng hộ",
+    "affiliation": "Hội Thợ Săn / Học Viện Ma Pháp",
+    "element": "water",
+    "role": "Hỗ trợ phòng thủ",
+    "roleGroup": "defensive_support",
+    "basicDamageType": "magical",
+    "description": "Giảm sát thương, dựng khiên cho đội và phản kích diện rộng khi khiên đồng đội vẫn đứng vững.",
+    "biography": "Pháp sư tốt nghiệp cùng khóa với Yufina. Amelia dùng băng để giữ vững đội hình, biến những đòn đánh không phá nổi khiên thành cơ hội phản kích.",
+    "tags": [
+      "hunter_guild",
+      "magic_academy"
+    ],
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 110,
+      "attack": 9,
+      "magic": 30,
+      "defense": 16,
+      "resistance": 28,
+      "speed": 20
+    },
+    "abilities": [
+      "amelia.curtain",
+      "amelia.bastion",
+      "amelia.shard"
+    ],
+    "passive": {
+      "type": "shield_survival_followup",
+      "name": "Băng kính hồi âm",
+      "description": "Liên kích toàn địch khi đồng đội khác bị đánh nhưng còn khiên sau chiêu.",
+      "followUpAbility": "amelia.echo",
+      "oncePerRound": true
+    }
+  },
+  {
+    "id": "chloe",
+    "name": "Chloe",
+    "title": "Mèo hoang của Hội",
+    "affiliation": "Hội Thợ Săn",
+    "element": "plain",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "description": "Cào rách phòng thủ của cụm địch, làm yếu người trúng đòn và chăm sóc một đồng đội.",
+    "biography": "Linh vật không chính thức của Hội Thợ Săn. Chloe sống tùy hứng như mèo: thoắt ẩn thoắt hiện, quấy rầy con mồi rồi quay về chăm sóc người mình quý.",
+    "tags": [
+      "hunter_guild"
+    ],
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 90,
+      "attack": 25,
+      "magic": 23,
+      "defense": 15,
+      "resistance": 20,
+      "speed": 27
+    },
+    "abilities": [
+      "chloe.claws",
+      "chloe.care",
+      "chloe.pounce"
+    ],
+    "passive": {
+      "type": "attack_status",
+      "name": "Mèo vờn chuột",
+      "description": "Đòn trực tiếp trúng địch làm giảm ATK và MAG của người đó.",
+      "statusId": "cat_intimidation",
+      "duration": 1
+    }
+  },
+  {
+    "id": "sylva",
+    "name": "Sylva",
+    "title": "Tiếng nói của muông thú",
+    "affiliation": "Hội Thợ Săn",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "element": "fire",
+    "basicDamageType": "magical",
+    "description": "Gọi phi long Azurius để biến đổi kỹ năng; cùng bạn thú tấn công và bảo vệ đội.",
+    "biography": "Cô bé được Hội Thợ Săn giữ lại nhờ khả năng trò chuyện với thú dữ. Với Sylva, Azurius không phải vũ khí mà là người bạn hiểu tiếng gọi của mình.",
+    "tags": [
+      "hunter_guild"
+    ],
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 115,
+      "attack": 10,
+      "magic": 32,
+      "defense": 14,
+      "resistance": 25,
+      "speed": 21
+    },
+    "abilities": [
+      "sylva.flare",
+      "sylva.care",
+      "sylva.bond",
+      "sylva.call",
+      "sylva.breath",
+      "sylva.wings",
+      "sylva.dive"
+    ],
+    "normalAbilities": [
+      "sylva.flare",
+      "sylva.care",
+      "sylva.bond",
+      "sylva.call"
+    ],
+    "passive": {
+      "type": "combat_mode",
+      "name": "Lời hẹn với phi long",
+      "description": "Azurius hiện diện sẽ cường hóa MAG căn bản và biến đổi ba kỹ năng thường."
+    },
+    "combatModes": {
+      "azurius": {
+        "name": "Azurius · Phi long khế hữu",
+        "lifetime": "rounds",
+        "durationRounds": 3,
+        "baseStatBonuses": {
+          "magic": 6
+        },
+        "exitMpRatio": 0,
+        "background": "/art/sylva-azurius.svg",
+        "allowedAbilities": [
+          "$attack",
+          "sylva.breath",
+          "sylva.wings",
+          "sylva.dive",
+          "$defend"
+        ],
+        "commandAbilities": [
+          "$attack",
+          "sylva.breath",
+          "sylva.wings",
+          "sylva.dive",
+          "$defend"
+        ],
+        "summary": "+6 MAG căn bản · Kỹ năng đồng hành · 3 vòng",
+        "description": "Azurius ở lại 3 vòng tính cả vòng gọi; ba kỹ năng thường được thay bằng kỹ năng phối hợp. Hết hạn hoặc Sylva gục thì rời sân."
+      }
+    }
+  },
+  {
+    "id": "drake",
+    "name": "Drake",
+    "title": "Tảng đá bất động",
+    "affiliation": "Học Viện Ma Pháp",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "element": "earth",
+    "basicDamageType": "magical",
+    "description": "Chuẩn bị Thổ Địa Vũ Trang, bảo hộ cả đội rồi gọi Golem tiếp sức đầu và cuối vòng.",
+    "biography": "Một pháp sư của Học Viện Ma Pháp, Drake coi sự vững chãi là nghệ thuật. Anh dựng giáp từ lòng đất và đánh thức Thạch Vệ để bảo vệ đồng đội.",
+    "tags": [
+      "magic_academy"
+    ],
+    "stats": {
+      "maxHp": 215,
+      "maxMp": 120,
+      "attack": 12,
+      "magic": 28,
+      "defense": 24,
+      "resistance": 24,
+      "speed": 12
+    },
+    "abilities": [
+      "drake.armor",
+      "drake.ward",
+      "drake.rampart",
+      "drake.golem",
+      "drake.stone"
+    ],
+    "preModeAbility": "drake.armor",
+    "passive": {
+      "type": "combat_mode",
+      "name": "Trái tim nham thạch",
+      "description": "Thổ Địa Vũ Trang tăng DEF và RES căn bản; chỉ khi lên giáp mới dùng được kỹ năng bảo hộ và gọi Golem."
+    },
+    "combatModes": {
+      "earth_armor": {
+        "name": "Thổ Địa Vũ Trang",
+        "lifetime": "permanent",
+        "baseStatBonuses": {
+          "defense": 5,
+          "resistance": 5
+        },
+        "exitMpRatio": 0,
+        "entryEffects": [
+          {
+            "type": "shield",
+            "scalingStat": "maxHp",
+            "multiplier": 1
+          }
+        ],
+        "background": "/art/drake-armor.svg",
+        "allowedAbilities": [
+          "$attack",
+          "drake.ward",
+          "drake.rampart",
+          "drake.golem",
+          "drake.stone",
+          "$defend"
+        ],
+        "commandAbilities": [
+          "$attack",
+          "drake.ward",
+          "drake.rampart",
+          "drake.golem",
+          "drake.stone",
+          "$defend"
+        ],
+        "summary": "+5 DEF / RES căn bản · Khi lên giáp: khiên bằng HP tối đa",
+        "description": "Kích hoạt ở đầu vòng sau khi chuẩn bị. Duy trì đến hết trận/chuyến; chỉ tạo khiên lúc lên giáp, không tạo lại mỗi vòng hoặc mỗi phòng."
+      }
+    },
+    "companions": {
+      "stone_guardian": {
+        "name": "Thạch Vệ",
+        "durationRounds": 3,
+        "requiresMode": "earth_armor",
+        "roundStartAbility": "drake.golem_start",
+        "roundEndAbility": "drake.golem_end",
+        "background": "/art/drake-golem.svg",
+        "summary": "Golem · Liên kích toàn địch đầu và cuối vòng · 3 vòng"
+      }
+    }
   }
 ]

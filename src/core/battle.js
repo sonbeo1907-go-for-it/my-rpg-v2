@@ -1,6 +1,8 @@
+import {prepareCombatMode,prepareCompanion,roundSummons,expireRoundSummons} from './combat-summons.js';
+import {periodicPotency} from './periodic-damage.js';
 import { activeFormula, formulaAvailability, formulaSnapshot, formulaDamage, validateFormulaEdit, editedFormulaEntries, openFormula, closeFormula, expireFormulaFields, recordFormulaAction } from "./formula-field.js";
 import { expireRoundEffects } from "./round-effects.js";
-import { scalingValue, adjacentAllies } from "./scaling.js";
+import { scalingValue, adjacentAllies, splashEnemies } from "./scaling.js";
 import { statusModifier } from "./stat-values.js";
 import { exclusivePassive, procAvailable, markProc } from "./exclusive-hooks.js";
 import { enemyStatMultipliers, scaleEnemyStats } from "./enemy-scaling.js";
@@ -45,7 +47,9 @@ import { normalizeBlacksmithState } from "./blacksmith-state.js";
 import { checkCombatMode, enterCombatMode, modeAvailability } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
 import { mpCost, resourceCost, debuffTypeCount, debuffDamageBonus, targetsAsGroup } from "./conditional-combat.js";
-const modeIO = { write, emit: emitEvent, restore: gainResource };
+const modeIO = { write, emit: emitEvent, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
+  apply:(battle,actor,effects)=>{for(const effect of effects) applyEffect(battle,actor,[actor],effect,0,false);}
+};
 const living = (actor) => actor.hp > 0;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -198,6 +202,7 @@ function attackContext(battle, actor) {
     consumedTargets: new Map(),
     newlyMarkedTargets: new Set(),
     shieldBreakBuffs: new Set(),
+    shieldedAllyHits: new Set(),
     attackBuffs: buffs,
     multiplier: buffs.reduce(
       (value, status) =>
@@ -224,6 +229,7 @@ function finishAttackContext(battle, actor, context) {
   if (living(actor))
     for (const statusId of context.shieldBreakBuffs)
       applyStatus(battle, actor, statusId, undefined, actor.id);
+  triggerShieldSurvivalFollowups(battle,actor,context);
 }
 
 function startRound(battle) {
@@ -241,6 +247,8 @@ function startRound(battle) {
   expireFormulaFields(battle,modeIO);
   expireRoundEffects(battle,modeIO);
   expireTurnOrderField(battle,modeIO);
+  roundSummons(battle,"start",modeIO);
+  if (checkOutcome(battle)) return;
   battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
   battle.mainTurnOrder = [...battle.queue];
   battle.cursor = 0;
@@ -287,7 +295,7 @@ function beginTurn(battle) {
     const amount = Math.min(
       Math.max(0, actor.hp - bossHealthFloor(actor)),
       Math.floor(
-        status.potency *
+        status.potency * (status.stacks ?? 1) *
           incomingDamageMultiplier(modifier(battle, actor, "damageTakenBonus")),
       ),
     );
@@ -477,6 +485,9 @@ function finishPhase(battle) {
 function finishMainRound(battle) {
   if (checkOutcome(battle) || battle.endOfRoundResolvedRound === battle.round) return;
   battle.endOfRoundResolvedRound = battle.round;
+  roundSummons(battle,"end",modeIO);
+  if (checkOutcome(battle)) return;
+  expireRoundSummons(battle,modeIO);
   for (const actor of battle.actors) checkCombatMode(battle,actor,"round_end",modeIO);
   for (const source of battle.actors.filter(living)) {
     const passive = source.passive;
@@ -518,6 +529,13 @@ export function targetsFor(battle, actor, skill) {
     if (taunting.length) targets = taunting;
   }
   return skill.excludeSelf ? targets.filter(target => target.id !== actor.id) : targets;
+}
+
+// Legal anchors and actual area recipients are separate: splash must preserve formation gaps.
+export function selectedTargets(battle,actor,skill,targetId) {
+  if (skill.target==="enemy_splash") return splashEnemies(battle,actor,targetId);
+  const legal=targetsFor(battle,actor,skill);
+  return targetsAsGroup(skill)||skill.target==="self" ? legal : legal.filter(target=>target.id===targetId);
 }
 
 export function abilityAvailability(battle, actor, skill) {
@@ -620,6 +638,38 @@ function triggerMagicFollowups(battle, attacker, target) {
       `${ally.name}: ${ally.resources[passive.resource].name} ${ally.resourceValues[passive.resource]} / ${ally.resources[passive.resource].max}.`,
     );
   }
+}
+
+// Settle once after the complete hostile attack, never recursively from reactions or DoT.
+function triggerShieldSurvivalFollowups(battle,attacker,context) {
+  if (!context.shieldedAllyHits?.size) return;
+  for (const owner of battle.actors) {
+    const passive=owner.passive;
+    if (passive?.type!=="shield_survival_followup" || !living(owner) || !procAvailable(battle,owner,"shield_survival")) continue;
+    const enemies=battle.actors.filter(target=>target.team!==owner.team && living(target));
+    const protectedAlly=battle.actors.find(target=>context.shieldedAllyHits.has(target.id) && target.shield>0 && enemies.some(enemy=>canTriggerFollowUp(owner,target,enemy)));
+    if (!protectedAlly || attacker.team===owner.team || !enemies.length) continue;
+    markProc(battle,owner,"shield_survival");
+    const ability=battle.content.abilities[passive.followUpAbility];
+    announcePassive(battle,owner,protectedAlly.id);
+    write(battle,owner.name+" "+FOLLOW_UP_LABEL+" bằng "+ability.name+".");
+    emitEvent(battle,{type:"reaction",kind:"follow_up",label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:enemies[0].id,targetIds:enemies.map(target=>target.id),abilityId:ability.id,area:true});
+    const reactionContext=attackContext(battle,owner);
+    reactionContext.skillId=ability.id;reactionContext.skill=ability;reactionContext.reaction=true;
+    for (const effect of ability.effects) applyEffect(battle,owner,enemies,effect,0,true,reactionContext);
+    finishAttackContext(battle,owner,reactionContext);
+  }
+}
+
+function companionPulse(battle,owner,abilityId,name,phase) {
+  const skill=battle.content.abilities[abilityId],targets=targetsFor(battle,owner,skill);
+  if (!targets.length) return;
+  write(battle,name+" "+FOLLOW_UP_LABEL+" "+(phase==="start"?"đầu":"cuối")+" vòng: "+skill.name+".");
+  emitEvent(battle,{type:"reaction",kind:"follow_up",label:name+" · "+FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(target=>target.id),abilityId,area:true,automaticCast:true});
+  const context={...attackContext(battle,owner),skillId:abilityId,skill,attackBuffs:[],multiplier:1,automatic:true,reaction:true};
+  for(const effect of skill.effects) applyEffect(battle,owner,targets,effect,0,true,context);
+  finishAttackContext(battle,owner,context);
+  transitionBossPhases(battle,{write,restoreMp:gainResource});
 }
 
 function hit(
@@ -804,6 +854,7 @@ function resolveHit(
         (1 - clamp(reduction, 0, 0.75)),
     ),
   );
+  if (!reaction && attacker.team!==target.team && target.shield>0) actionContext.shieldedAllyHits.add(target.id);
   const absorbed = Math.min(target.shield, amount);
   target.shield -= absorbed;
   amount -= absorbed;
@@ -910,6 +961,9 @@ function resolveHit(
   } else if (living(target) && effect.damageType !== "magical" && lostHp + absorbed > 0 && effect.onHitStatus) {
     applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id);
   }
+  if (living(target) && attacker.team!==target.team && lostHp+absorbed>0 && attacker.passive?.type==="attack_status") {
+    if (applyStatus(battle,target,attacker.passive.statusId,attacker.passive.duration,attacker.id)) announcePassive(battle,attacker,target.id);
+  }
   if (!living(target)) {
     target.statuses = target.statuses.filter(
       (status) => !battle.content.statuses[status.id].turnStartAbility,
@@ -978,13 +1032,7 @@ function applyStatus(
   if (definition.effectImmunity)
     applied.charges = definition.effectImmunity.charges;
   if (definition.damageOverTime) {
-    applied.potency = Math.max(
-      1,
-      supportAmount(
-        definition.damageOverTime,
-        stat(battle, source, definition.damageOverTime.scalingStat),
-      ),
-    );
+    applied.potency = periodicPotency(definition,source,key=>stat(battle,source,key));
   }
   target.statuses.push(applied);
   if (!silent) emitEvent(battle,{type:"status",sourceId,targetId:target.id,statusId,element:source?.element,beneficial:definition.kind!=="debuff"});
@@ -1022,7 +1070,7 @@ function applyEffect(
       const target=pool[Math.floor(roll*pool.length)];
       emitEvent(battle,{type:"random_target",sourceId:actor.id,targetId:target.id,hitIndex:index,totalHits:effect.hits??1});
       actionContext.hitIndex=index;
-      hit(battle,actor,target,effect,spent,{area:true,actionContext});
+      hit(battle,actor,target,effect,spent,{area:true,reaction:actionContext.reaction===true,actionContext});
     }
     return;
   }
@@ -1036,7 +1084,7 @@ function applyEffect(
         i += 1
       ) {
         actionContext.hitIndex=i;
-        hit(battle, actor, target, effect.primaryMultiplier !== undefined ? {...effect,multiplier:target.id===actionContext.primaryTargetId ? effect.primaryMultiplier : effect.multiplier} : effect, spent, { area, actionContext });
+        hit(battle, actor, target, effect.primaryMultiplier !== undefined ? {...effect,multiplier:target.id===actionContext.primaryTargetId ? effect.primaryMultiplier : effect.multiplier} : effect, spent, { area, reaction:actionContext.reaction===true, actionContext });
       }
     }
     if (effect.type === "formula_field") openFormula(battle,target,actionContext.skill,effect,modeIO);
@@ -1049,6 +1097,8 @@ function applyEffect(
     if (effect.type === "end_formula") closeFormula(battle,target,modeIO,"theorem");
     if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO);
     if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO);
+    if (effect.type === "prepare_mode") prepareCombatMode(battle,target,effect.mode,modeIO);
+    if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if (effect.type === "heal") {
       healHp(battle,target,supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD),actor.id);
     }
@@ -1225,10 +1275,7 @@ function resolveAction(
   if (!availability.ok) throw new Error(availability.reason);
   const legal = targetsFor(battle, actor, skill);
   const area = targetsAsGroup(skill);
-  const targets =
-    area || skill.target === "self"
-      ? legal
-      : legal.filter((target) => target.id === targetId);
+  const targets = selectedTargets(battle,actor,skill,targetId);
   if (!targets.length) throw new Error("Mục tiêu không hợp lệ.");
   if (skill.effects.some(effect=>effect.primaryMultiplier!==undefined) && !legal.some(target=>target.id===targetId)) throw new Error("Mục tiêu chính không hợp lệ.");
   if (skill.effects.some(effect=>effect.type==='edit_formula')) validateFormulaEdit(activeFormula(battle,actor),formulaEdit);

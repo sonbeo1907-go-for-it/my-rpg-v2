@@ -163,6 +163,7 @@ export function CharacterDetail({ id }: { id: string }) {
         content.statuses[actor.passive.statusId].turnStartAbility
       ],
     );
+  for(const companion of Object.values(actor.companions??{}) as any[]) for(const abilityId of [companion.roundStartAbility,companion.roundEndAbility]) skills.push(content.abilities[abilityId]);
   return (
     <main className="page">
       <PageHeader title={actor.name} subtitle={actor.title} back={back}>

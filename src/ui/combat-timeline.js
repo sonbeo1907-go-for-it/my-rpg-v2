@@ -10,7 +10,7 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
    const skill=content.abilities[event.abilityId],reaction=event.type==='reaction';
    const start=Math.max(cursor,lastImpact+(lastImpact<0?0:step));
    const attack=event.attack??skill?.effects?.some(effect=>effect.type==='damage')??true;
-   const action={start,custom:custom(event.presentation?event:skill),targetId:event.targetId,area:skill?.target!=='random_enemies'&&(event.area??skill?.target?.startsWith('all_')),primary:skill?.effects?.some(effect=>effect.primaryMultiplier!==undefined),automatic:event.automaticCast};
+   const action={start,custom:custom(event.presentation?event:skill),targetId:event.targetId,area:skill?.target!=='random_enemies'&&(event.area??(skill?.target?.startsWith('all_')||skill?.target==='enemy_splash')),primary:skill?.effects?.some(effect=>effect.primaryMultiplier!==undefined),automatic:event.automaticCast};
    actions.set(event.sourceId,action);cursor=start+lead;
    add(event,'source',start,{attack,automatic:action.automatic,label:reaction?event.label:event.label??skill?.name??(event.abilityId==='$defend'?'Phòng thủ':'Đánh thường'),reaction});
    if(!action.custom&&action.area&&attack){

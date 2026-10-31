@@ -1,3 +1,4 @@
+import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { damageMultiplier, supportAmount, effectiveStat, speedDamageBonus, speedDamageRatio, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
@@ -40,14 +41,14 @@ export function skillCost(skill, actor) {
 }
 
 export const TARGET_NAMES = {
-  enemy: 'Một kẻ địch', all_enemies: 'Mọi kẻ địch', random_enemies: 'Kẻ địch ngẫu nhiên',
+  enemy_splash: 'Mục tiêu chính và hai ô kề', enemy: 'Một kẻ địch', all_enemies: 'Mọi kẻ địch', random_enemies: 'Kẻ địch ngẫu nhiên',
   ally: 'Một đồng đội', all_allies: 'Toàn đội', adjacent_allies: 'Hai ô kề', self: 'Bản thân'
 };
 
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
-  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar'].includes(passive.type)) return passive.name+': '+passive.description;
+  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar','dot_potency_bonus','attack_status','shield_survival_followup'].includes(passive.type)) return passive.name+': '+passive.description;
   if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
   if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
@@ -174,7 +175,9 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.type === 'grant_extra_turn') lines.push('Cấp 1 Lượt Thêm trong Vòng Phụ hiện tại; tối đa 1/người/vòng. Không chen lượt chính. Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     if (effect.onHitStatus) {
       const mark=content.statuses[effect.onHitStatus.status];
-      lines.push('Mỗi hit trúng gắn 1 ' + mark.name + ', tối đa ' + mark.maxStacks + ' tầng, trong ' + effect.onHitStatus.duration + ' lượt mục tiêu.');
+      lines.push('Mỗi hit trúng gắn 1 ' + mark.name + ', tối đa ' + (mark.maxStacks ?? 1) + ' tầng, trong ' + effect.onHitStatus.duration + ' lượt mục tiêu.');
+      if (mark.damageOverTime) lines.push('Độc: '+periodicPotency(mark,actor,valueOf)+' HP mỗi đầu lượt/mỗi tầng, tối đa '+(mark.maxStacks??1)+' tầng. Bỏ qua giáp và khiên; chốt khi gắn độc.');
+      if (mark.modifiers && !mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>(n<0?'−':'+')+percent(Math.abs(n))+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'}[key]??key)).join(' · '));
       if (mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>percent(n)+' '+(key==='resistance'?'RES':key)+' mỗi tầng').join(', '));
     }
     if (effect.type === 'cleanse') lines.push('Giải toàn bộ hiệu ứng bất lợi trên người nhận.');
@@ -203,7 +206,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
         const dot = status.damageOverTime;
         const scaling = dot.scalingStat === 'attack' ? 'ATK' : 'MAG';
         lines.push(`Độc: ${number(dot.flat ?? 0)} + ${percent(dot.multiplier ?? 0)} ${scaling} → ${number(Math.max(1, supportAmount(dot, valueOf(dot.scalingStat))))} HP mỗi đầu lượt mục tiêu, trong ${effect.duration} lần.`);
-        lines.push('Bỏ qua giáp và khiên; không hưởng điểm yếu, không kích hoạt liên kích. Không cộng dồn; dùng lại làm mới. Lượng độc ghi nhận chỉ số lúc sử dụng và vẫn duy trì khi người gây độc gục.');
+        lines.push(`Bỏ qua giáp và khiên; không hưởng điểm yếu, không kích hoạt liên kích. ${status.maxStacks?'Cộng dồn tối đa '+status.maxStacks+' tầng; dùng lại làm mới thời hạn và lượng độc mỗi tầng.':'Không cộng dồn; dùng lại làm mới.'} Lượng độc ghi nhận chỉ số lúc sử dụng và vẫn duy trì khi người gây độc gục.`);
       }
       if (status.cover) lines.push(`Nhận đòn đơn mục tiêu thay người nhận · ${duration}.`);
       if (status.taunt) lines.push(`Thu hút các đòn đơn mục tiêu · ${duration}.`);

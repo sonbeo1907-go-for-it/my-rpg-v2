@@ -3601,5 +3601,445 @@
         "to": "self"
       }
     ]
+  },
+  {
+    "id": "logia.fang",
+    "name": "Nanh xà chớp giật",
+    "description": "Rạch một vết thương và đưa nọc độc vào con mồi.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 1.4,
+        "onHitStatus": {
+          "status": "logia_venom",
+          "duration": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "logia.miasma",
+    "name": "Màn săn tẩm độc",
+    "description": "Gieo độc lên cả bầy con mồi.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 0.7,
+        "onHitStatus": {
+          "status": "logia_venom",
+          "duration": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "logia.agony",
+    "name": "Chết chậm thôi",
+    "description": "Đâm liên tiếp để chồng nọc độc lên một con mồi.",
+    "target": "enemy",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 0.9,
+        "hits": 2,
+        "onHitStatus": {
+          "status": "logia_venom",
+          "duration": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "amelia.curtain",
+    "name": "Màn băng tĩnh lặng",
+    "description": "Giảm sát thương nhận vào cho toàn đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "frost_curtain",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "amelia.bastion",
+    "name": "Thành lũy pha lê",
+    "description": "Dựng một lớp khiên băng cho toàn đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "shield",
+        "multiplier": 1.2,
+        "flat": 12
+      }
+    ]
+  },
+  {
+    "id": "amelia.shard",
+    "name": "Mảnh băng cảnh giới",
+    "description": "Bắn mảnh băng vào một đối thủ.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.6
+      }
+    ]
+  },
+  {
+    "id": "amelia.echo",
+    "name": "Băng kính phản chiếu",
+    "description": "Liên kích toàn địch và làm dịu sức tấn công của chúng.",
+    "target": "all_enemies",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 0.65,
+        "onHitStatus": {
+          "status": "frost_echo",
+          "duration": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "chloe.claws",
+    "name": "Vuốt mèo cào rối",
+    "description": "Cào mục tiêu chính và hai ô bên cạnh, làm rách cả hai lớp phòng thủ.",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 0.6,
+        "primaryMultiplier": 1.2,
+        "onHitStatus": {
+          "status": "cat_claw_rend",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "chloe.care",
+    "name": "Chăm chút bằng chân mèo",
+    "description": "Hồi HP và giúp một đồng đội lấy lại thế chủ động.",
+    "target": "ally",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "multiplier": 1.6,
+        "flat": 10
+      },
+      {
+        "type": "status",
+        "status": "chloe_comfort",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "chloe.pounce",
+    "name": "Vồ lấy sơ hở",
+    "description": "Bất ngờ vồ vào một đối thủ.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1.8
+      }
+    ]
+  },
+  {
+    "id": "sylva.flare",
+    "name": "Đốm lửa dẫn đường",
+    "target": "enemy",
+    "description": "Phóng một đốm lửa vào đối thủ.",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": "sylva.care",
+    "name": "Bàn tay nhỏ dịu dàng",
+    "target": "ally",
+    "description": "Hồi HP cho một người bạn.",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "multiplier": 1.1,
+        "flat": 8
+      }
+    ]
+  },
+  {
+    "id": "sylva.bond",
+    "name": "Lời thì thầm hoang dã",
+    "target": "self",
+    "description": "Lắng nghe muông thú để tập trung ma lực.",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "sylva_bond",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "sylva.call",
+    "name": "Azurius, đến bên tớ!",
+    "target": "self",
+    "description": "Gọi phi long khế hữu và biến đổi bộ kỹ năng.",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 5,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "azurius"
+      }
+    ]
+  },
+  {
+    "id": "sylva.breath",
+    "name": "Azurius: Hơi thở rạng đông",
+    "target": "all_enemies",
+    "requiresMode": "azurius",
+    "description": "Azurius phun lửa quét qua đội hình địch.",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 1.1,
+        "primaryMultiplier": 2.2
+      }
+    ]
+  },
+  {
+    "id": "sylva.wings",
+    "name": "Azurius: Đôi cánh chở che",
+    "target": "all_allies",
+    "requiresMode": "azurius",
+    "description": "Dang cánh dựng khiên cho toàn đội.",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "shield",
+        "multiplier": 1,
+        "flat": 8
+      }
+    ]
+  },
+  {
+    "id": "sylva.dive",
+    "name": "Azurius: Vút qua tầng mây",
+    "target": "enemy",
+    "requiresMode": "azurius",
+    "description": "Phi long lao xuống một đối thủ giữa luồng lửa.",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 3.2
+      }
+    ]
+  },
+  {
+    "id": "drake.armor",
+    "name": "Thổ Địa Vũ Trang",
+    "target": "self",
+    "description": "Chuẩn bị giáp nham thạch, hoàn tất vào đầu vòng sau.",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "prepare_mode",
+        "mode": "earth_armor"
+      }
+    ]
+  },
+  {
+    "id": "drake.ward",
+    "name": "Bức tường nham thạch",
+    "target": "all_allies",
+    "requiresMode": "earth_armor",
+    "description": "Dựng khiên đá cho cả đội.",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "defense",
+        "multiplier": 1,
+        "flat": 12
+      }
+    ]
+  },
+  {
+    "id": "drake.rampart",
+    "name": "Thành trì địa mạch",
+    "target": "all_allies",
+    "requiresMode": "earth_armor",
+    "description": "Củng cố hai lớp phòng thủ của toàn đội.",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "drake_rampart",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "drake.golem",
+    "name": "Thạch Vệ, thức tỉnh!",
+    "target": "self",
+    "requiresMode": "earth_armor",
+    "description": "Gọi Golem đến vào đầu vòng sau.",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 5,
+    "effects": [
+      {
+        "type": "summon_companion",
+        "companion": "stone_guardian"
+      }
+    ]
+  },
+  {
+    "id": "drake.stone",
+    "name": "Trọng áp địa tầng",
+    "target": "enemy",
+    "requiresMode": "earth_armor",
+    "description": "Nén đá vào một đối thủ và làm giảm sức tấn công.",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1.8,
+        "onHitStatus": {
+          "status": "drake_stagger",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drake.golem_start",
+    "name": "Thạch Vệ: Chấn địa khai trận",
+    "target": "all_enemies",
+    "activation": "passive",
+    "description": "Đầu vòng, Golem liên kích toàn địch bằng sức mạnh phòng thủ của Drake.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1,
+        "scalingStat": "defense"
+      }
+    ]
+  },
+  {
+    "id": "drake.golem_end",
+    "name": "Thạch Vệ: Dư chấn khép vòng",
+    "target": "all_enemies",
+    "activation": "passive",
+    "description": "Cuối vòng sau Vòng Phụ, Golem liên kích toàn địch.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1,
+        "scalingStat": "defense"
+      }
+    ]
   }
 ]

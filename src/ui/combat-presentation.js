@@ -1,7 +1,7 @@
 import { formulaSnapshot, formulaDamage } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { targetsAsGroup, resourceCost, debuffTypeCount, debuffDamageBonus } from '../core/conditional-combat.js';
-import { targetsFor } from '../core/battle.js';
+import { targetsFor, selectedTargets } from '../core/battle.js';
 import { damageMultiplier, supportAmount, speedDamageRatio } from '../core/combat-math.js';
 import { battleStat } from '../core/stat-values.js';
 import { skillBaseStatBonuses } from '../core/turn-order.js';
@@ -22,13 +22,13 @@ export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   if (skill?.target === 'enemy' && legal.length && !legal.some(item => item.id === enemyId)) enemyId = legal[0].id;
   const allyId = skill?.target === 'self' && actor?.team === 'party' ? actor.id : skill?.target==='adjacent_allies' && !legal.some(item=>item.id===rememberedAlly) ? legal[0]?.id??rememberedAlly : rememberedAlly;
   const targetId = skill?.target === 'self' ? actor?.id ?? '' : ['ally', 'all_allies', 'adjacent_allies'].includes(skill?.target) ? allyId : enemyId;
-  return { allyId, rememberedAlly, enemyId, targetId, legalIds: legal.map(item => item.id), affectedIds: targetsAsGroup(skill) ? legal.map(item => item.id) : [targetId].filter(Boolean) };
+  return { allyId, rememberedAlly, enemyId, targetId, legalIds: legal.map(item => item.id), affectedIds: actor && skill ? selectedTargets(battle,actor,skill,targetId).map(item=>item.id) : [] };
 }
 export function liveSkillChoices(skill, actor, target, battle) {
   const cost = resourceCost(skill,actor);
   const effect = skill.effects.find(item => item.consumeStatus);
   const legal = battle ? targetsFor(battle,actor,skill) : [];
-  const selected = targetsAsGroup(skill) ? legal : legal.filter(item=>item.id===target?.id);
+  const selected = battle ? selectedTargets(battle,actor,skill,target?.id) : [];
   const theorem=battle && skill.effects.some(effect=>effect.formulaScaling)?formulaSnapshot(battle,actor):null;
   const baseStatBonuses=battle?skillBaseStatBonuses(battle,actor,skill,selected):{};
   if(theorem?.baseMagic) baseStatBonuses.magic=(baseStatBonuses.magic??0)+theorem.baseMagic;
@@ -46,7 +46,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const label = scalingLabel(effect,statNames);
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp });
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
-      if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} MAG chính / ${percent(effect.multiplier)} MAG còn lại`;
+      if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} ${label} chính / ${percent(effect.multiplier)} ${label} ${skill.target==='enemy_splash'?'ô kề':'còn lại'}`;
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;
       parts.push(line);
@@ -69,7 +69,8 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       if (status.damageOverTime) parts.push(`${status.name} · ${effect.duration} lượt`);
       if (!modifiers.length && !status.taunt && !status.cover && !status.effectImmunity && !status.regen && !status.turnStartAbility && !status.damageOverTime) parts.push(status.name);
     } else if (effect.type === 'resource') parts.push(effect.maxMpRatio ? `Hồi ${percent(effect.maxMpRatio)} MP` : `+${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources?.[effect.resource]?.name ?? effect.resource}`);
-    else if (effect.type === 'enter_mode') parts.push('Triệu hồi '+actor.combatModes[effect.mode].name);
+    else if (['enter_mode','prepare_mode'].includes(effect.type)) parts.push((effect.type==='prepare_mode'?'Đầu vòng sau: ':'Triển khai ')+actor.combatModes[effect.mode].name);
+    else if (effect.type==='summon_companion') parts.push('Đầu vòng sau: '+actor.companions[effect.companion].name+' · '+actor.companions[effect.companion].durationRounds+' vòng');
     else if (effect.type === 'turn_order_field') parts.push('Ưu tiên lượt đồng minh · '+effect.durationRounds+' vòng');
     else if (effect.type === 'grant_extra_turn') parts.push(skill.target==='adjacent_allies'?'+1 Lượt Thêm / ô kề':'+1 Lượt Thêm');
     else if (effect.type === 'formula_field') parts.push('Đại Đồ Thức · '+effect.durationRounds+' vòng');
@@ -93,7 +94,7 @@ export function statusDetails(status, actor, battle, content) {
   const lines = [...presentation.facts, ...presentation.rules];
   if (status.potency !== undefined) {
     const index = lines.findIndex(line => line.startsWith('Độc:'));
-    if (index >= 0) lines[index] = `Độc đã ghi nhận: ${status.potency} HP mỗi đầu lượt · còn ${status.remaining} lần.`;
+    if (index >= 0) lines[index] = `Độc đã ghi nhận: ${status.potency * (status.stacks ?? 1)} HP mỗi đầu lượt · còn ${status.remaining} lần.`;
   }
   if (status.growth !== undefined) lines.push(`Đã tích ${status.growth} tầng nội tại đám mây.`);
   return { source: source.name, duration: definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };

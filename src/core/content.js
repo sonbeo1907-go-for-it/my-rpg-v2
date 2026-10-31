@@ -1,3 +1,4 @@
+import {validateSummonDefinition} from './summon-rules.js';
 import { validateEconomyContent } from './economy.js';
 import { validateBossDefinition } from './boss-mechanics.js';
 import { validateDungeonContent } from './dungeon-rules.js';
@@ -14,7 +15,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula'];
+export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -69,7 +70,7 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
     if (native?.type === 'formula_scholar' && (!native.name || !native.description || !Number.isInteger(native.amount) || native.amount<1 || native.amount>10 || !Number.isInteger(native.maxSources) || native.maxSources<1 || native.maxSources>3)) fail(id+': invalid formula scholar');
     if (native?.type === 'shielded_damage_bonus' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1)) fail(id+': invalid shielded damage bonus');
@@ -82,6 +83,12 @@ export function validateContent(content) {
       if (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>=1 || !status?.persistent || status.kind!=='buff' || status.mpCostReduction!==native.ratio) fail(id+': invalid kill MP discount');
     }
     if (native?.type === 'target_debuff_damage' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || !Number.isFinite(native.cap) || native.cap<native.ratio || native.cap>3)) fail(id+': invalid debuff damage passive');
+    if (native?.type==='dot_potency_bonus' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1 || !Array.isArray(native.statusIds) || !native.statusIds.length || new Set(native.statusIds).size!==native.statusIds.length || native.statusIds.some(key=>!content.statuses[key]?.damageOverTime))) fail(id+': invalid periodic damage passive');
+    if (native?.type==='attack_status' && (!native.name || !native.description || content.statuses[native.statusId]?.kind!=='debuff' || !Number.isInteger(native.duration) || native.duration<1)) fail(id+': invalid attack status passive');
+    if (native?.type==='shield_survival_followup') {
+      const follow=content.abilities[native.followUpAbility];
+      if (!native.name || !native.description || native.oncePerRound!==true || follow?.activation!=='passive' || follow.target!=='all_enemies' || follow.cost || follow.cooldown || !follow.effects?.length || follow.effects.some(effect=>effect.type!=='damage')) fail(id+': invalid shield survival follow-up');
+    }
     if (native?.type === 'later_target_base_stat' && (!native.name || !native.description || !['attack','magic'].includes(native.stat) || !Number.isFinite(native.amount) || native.amount <= 0)) fail(id + ': invalid turn-order passive');
     if (native?.type === 'damage_reduction' && (!Number.isFinite(native.amount) || native.amount<0 || native.amount>1 || (native.requiresStatus !== undefined && !Object.hasOwn(content.statuses,native.requiresStatus)))) fail(`${id}: invalid conditional damage reduction`);
     if (native?.type === 'buffed_ally_mp' && !validReactivePassive(native,content,actor)) fail(`${id}: invalid reactive passive`);
@@ -173,14 +180,7 @@ export function validateContent(content) {
     }
     if (actor.developerOnly !== undefined && typeof actor.developerOnly !== 'boolean') fail(id + ': invalid developer flag');
     if (actor.passive?.type === 'combat_mode' && !Object.keys(actor.combatModes ?? {}).length) fail(id + ': combat mode passive requires modes');
-    for (const [modeId, mode] of Object.entries(actor.combatModes ?? {})) {
-      if (!modeId || !mode.name || !actor.resources?.[mode.resource] || mode.emptyExit !== 'turn_start_or_round_end'
-        || !Array.isArray(mode.allowedAbilities) || !mode.allowedAbilities.length || mode.allowedAbilities.some(skill => !actor.abilities.includes(skill))
-        || !Number.isFinite(mode.exitMpRatio) || mode.exitMpRatio < 0 || mode.exitMpRatio > 1
-        || !mode.baseStatBonuses || Object.entries(mode.baseStatBonuses).some(([key,value]) => !['attack','magic','defense','resistance','speed'].includes(key) || !Number.isFinite(value) || value < 0)
-        || !/^\/art\/[a-z0-9_-]+\.svg$/.test(mode.background)) fail(id + ': invalid combat mode');
-      exists('music',mode.music,id);
-    }
+    validateSummonDefinition(actor,content,fail);
     for (const skillId of actor.abilities ?? []) {
       const skill = content.abilities[skillId];
       if (skill?.requiresMode && !actor.combatModes?.[skill.requiresMode]) fail(id + ': unknown required mode');
@@ -198,7 +198,7 @@ export function validateContent(content) {
     if (skill.requiresMode !== undefined && (typeof skill.requiresMode !== 'string' || !skill.requiresMode)) fail(id + ': invalid mode requirement');
     if (skill.activation !== undefined && !['active', 'passive'].includes(skill.activation)) fail(`${id}: invalid activation`);
     if (skill.requiresTargetStatus !== undefined) exists('statuses',skill.requiresTargetStatus,id);
-    if (!['enemy', 'all_enemies', 'random_enemies', 'adjacent_allies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
+    if (!['enemy', 'enemy_splash', 'all_enemies', 'random_enemies', 'adjacent_allies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
     if (!Number.isInteger(skill.cooldown ?? 0) || (skill.cooldown ?? 0) < 0) fail(`${id}: invalid cooldown`);
     if (!Number.isFinite(skill.cost?.mp ?? 0) || (skill.cost?.mp ?? 0) < 0) fail(`${id}: invalid MP cost`);
     if (skill.cost?.preferResource) {
@@ -244,8 +244,9 @@ export function validateContent(content) {
       if (effect.formulaScaling && !skill.effects.some(effect=>effect.type==='end_formula' && (skill.target==='self'||effect.to==='self'))) fail(id+': formula finisher must close its field');
       if (effect.formulaScaling!==undefined && (effect.type!=='damage' || skill.requiresFormula!==true || skill.minFormulaEntries!==3 || !Number.isFinite(effect.formulaScaling.perCorrect) || effect.formulaScaling.perCorrect<=0 || effect.formulaScaling.perCorrect>2 || !Number.isFinite(effect.formulaScaling.perfectPenetration) || effect.formulaScaling.perfectPenetration<0 || effect.formulaScaling.perfectPenetration>1)) fail(id+': invalid formula scaling');
       if (effect.type === 'turn_order_field' && (skill.target !== 'self' || typeof effect.name !== 'string' || !effect.name || !Number.isInteger(effect.durationRounds) || effect.durationRounds < 1)) fail(id + ': invalid turn-order field');
-      if (effect.type === 'enter_mode' && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
-      if (effect.primaryMultiplier !== undefined && (effect.type !== 'damage' || skill.target !== 'all_enemies' || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
+      if (['enter_mode','prepare_mode'].includes(effect.type) && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
+      if (effect.type==='summon_companion' && (typeof effect.companion!=='string' || !effect.companion || skill.target!=='self')) fail(id+': invalid companion summon');
+      if (effect.primaryMultiplier !== undefined && (effect.type !== 'damage' || !['all_enemies','enemy_splash'].includes(skill.target) || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
       if (effect.type === 'damage') {
         if (!ELEMENTS.includes(effect.element)) fail(`${id}: invalid damage element`);
         if (!['physical', 'magical'].includes(effect.damageType)) fail(`${id}: invalid damage type`);
@@ -304,6 +305,7 @@ export function validateContent(content) {
         || !Number.isFinite(trigger.chance) || trigger.chance <= 0 || trigger.chance > 1
         || !Number.isInteger(trigger.amount ?? 1) || (trigger.amount ?? 1) < 1) fail(`${id}: invalid attack resource trigger`);
     }
+    if (status.maxStacks!==undefined && (!Number.isInteger(status.maxStacks) || status.maxStacks<1 || status.maxStacks>99)) fail(id+': invalid stack cap');
     if (status.damageOverTime !== undefined) {
       const dot = status.damageOverTime;
       if (!dot || typeof dot !== 'object' || !['attack', 'magic'].includes(dot.scalingStat)
