@@ -421,3 +421,10 @@
 .shared-combat-fx.fx-status[data-beneficial=true] svg{animation:shared-number var(--vfx-duration) ease-out both}
 .shared-combat-fx.fx-status[data-beneficial=false] svg{animation:shared-debuff var(--vfx-duration) ease-out both}
 @keyframes shared-debuff{from{opacity:0;translate:0 -10px}30%{opacity:.8}to{opacity:0;translate:0 8px}}
+
+.enemy-telegraphs{display:grid;gap:.6rem;margin:1rem 0}.enemy-telegraphs>div{display:flex;gap:.8rem;align-items:flex-start;padding:1rem;border:1px solid #efbc7b;background:#653b233d;border-radius:5px}.enemy-telegraphs .icon{flex:0 0 24px;color:#ffd495}.enemy-telegraphs strong{color:#ffe0a8;font-size:.9rem}.enemy-telegraphs p{font-size:.8rem;line-height:1.7;margin:.4rem 0 0;color:#e3c9b6}
+.shared-combat-fx.fx-signature{z-index:8;overflow:visible;box-shadow:none}.shared-combat-fx.fx-signature svg{width:115%;height:105%;opacity:.8}.shared-combat-fx.fx-signature[data-fx-area=true]{inset:-10px;overflow:hidden}.shared-combat-fx.fx-signature[data-fx-area=true] svg{width:100%;height:100%}.hero-cleave,.hero-wave{transform-origin:center;animation:hero-cleave var(--vfx-duration) ease-out both}.hero-seal,.hero-resonance{transform-origin:center;animation:hero-seal var(--vfx-duration) ease-out both}.hero-impact,.hero-edge,.hero-shards{animation:hero-shards var(--vfx-duration) ease-out both}.vfx-number{z-index:3}
+@keyframes hero-cleave{0%{opacity:0;transform:translate(9%,-8%) scale(.6)}30%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(-5%,5%) scale(1.12)}}
+@keyframes hero-seal{0%{opacity:0;transform:scale(.5)}35%{opacity:.8}100%{opacity:0;transform:scale(1.2)}}
+@keyframes hero-shards{0%,15%{opacity:0}35%{opacity:.9}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.shared-combat-fx.fx-signature svg{opacity:.35}.shared-combat-fx.fx-signature,.shared-combat-fx.fx-signature *{animation:none!important}}

@@ -3079,7 +3079,7 @@
     "rules": [
       "Chỉ sắp xếp lượt chưa thực hiện; không cấp thêm lượt.",
       "Trong từng phe vẫn xếp theo SPD. Vòng Phụ được sắp xếp riêng.",
-      "Có hiệu lực đến hết vòng kế tiếp, sau Vòng Phụ; dùng lại làm mới, không cộng dồn."
+      "Vòng thi triển được tính vào thời hạn; dùng lại làm mới, không cộng dồn."
     ]
   },
   {
@@ -4400,7 +4400,8 @@
       "Sau khi đánh: +20% ATK đến hết trận, không cộng dồn.",
       "Buff có thể bị xóa; thi triển lại sẽ cấp lại buff.",
       "Không gây Kiệt sức hoặc Dư chấn."
-    ]
+    ],
+    "presentation": "hero_mastered"
   },
   {
     "id": "arthur.ogres_bane_flash",
@@ -4421,7 +4422,8 @@
         "element": "light",
         "multiplier": 2.8
       }
-    ]
+    ],
+    "presentation": "hero_flash"
   },
   {
     "id": "bandit.advance",
@@ -5240,5 +5242,305 @@
         }
       }
     ]
+  },
+  {
+    "id": "rauth.hammer",
+    "name": "Thiết Chùy",
+    "description": "Nện chùy đá vào một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.2,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ]
+  },
+  {
+    "id": "rauth.quake",
+    "name": "Chấn Địa",
+    "description": "Chấn động cả đội hình đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.8,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ],
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "rauth.break_line",
+    "name": "Phá Hàng Khiên",
+    "description": "Dồn sức phá một vị trí trên chiến tuyến.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.55,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ],
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3
+  },
+  {
+    "id": "rauth.crush",
+    "name": "Nghiền Nát Chiến Tuyến",
+    "description": "Vận sức một vòng rồi giáng chùy lên toàn đội đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.15,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ],
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 3,
+    "windup": {
+      "rounds": 1,
+      "message": "Cả đội sẽ chịu đòn chùy diện rộng ở lượt chính kế tiếp. Hãy dựng khiên hoặc Phòng thủ!"
+    }
+  },
+  {
+    "id": "prototype07.tick",
+    "name": "Tích Tắc Lệch Nhịp",
+    "description": "Bắn xung thuật thức Lôi vào một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "prototype07.reverse",
+    "name": "Kim Đồng Hồ Đảo Chiều",
+    "description": "Phóng những kim đồng hồ Lôi qua cả đội hình.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.8,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ],
+    "cost": {
+      "mp": 9
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "prototype07.offbeat",
+    "name": "Sai Pha Thuật Thức",
+    "description": "Làm chậm nhịp một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "status",
+        "status": "prototype_offbeat",
+        "duration": 2
+      }
+    ],
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3
+  },
+  {
+    "id": "prototype07.overload",
+    "name": "Trục Thời Gian Quá Tải",
+    "description": "Dồn xung Lôi quá tải vào một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.55,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ],
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 3
+  },
+  {
+    "id": "river_guardian.fist",
+    "name": "Nắm Đá Thô",
+    "description": "Giáng nắm đá vào một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.2,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ]
+  },
+  {
+    "id": "river_guardian.quake",
+    "name": "Địa Chấn Ven Sông",
+    "description": "Nện đất gây chấn động toàn đội đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.8,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ],
+    "cost": {
+      "mp": 9
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "river_guardian.rubble",
+    "name": "Đá Vụn Liên Hoàn",
+    "description": "Hai cú đánh đá vụn vào một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.65,
+        "element": "earth",
+        "damageType": "physical",
+        "hits": 2
+      }
+    ],
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "river_guardian.flood",
+    "name": "Lũ Cổ Tràn Bờ",
+    "description": "Gọi dòng nước cổ tràn qua cả chiến tuyến.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.95,
+        "element": "water",
+        "damageType": "magical"
+      }
+    ],
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3
+  },
+  {
+    "id": "time_enemy.quill",
+    "name": "Vệt Mực Lạc Nhịp",
+    "description": "Vệt mực phép nhẹ từ chiếc bút nhiễu thời.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.9,
+        "element": "wind",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "time_enemy.sand",
+    "name": "Hạt Cát Nghịch Giờ",
+    "description": "Phóng cát thuật thức vào một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "time_enemy.echo",
+    "name": "Dư Âm Lạc Phách",
+    "description": "Một xung phép Ám lạc khỏi công thức.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.05,
+        "element": "dark",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "time_enemy.echo_wave",
+    "name": "Giao Thoa Dư Ảnh",
+    "description": "Giao thoa phép nhẹ lên toàn đội đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.6,
+        "element": "dark",
+        "damageType": "magical"
+      }
+    ],
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "time_enemy.axis",
+    "name": "Xung Đồng Bộ",
+    "description": "Bắn xung Lôi từ trục đồng bộ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "time_enemy.axis_wave",
+    "name": "Nhiễu Đồng Bộ",
+    "description": "Lôi quang nhiễu loạn toàn đội hình.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.65,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ],
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2
   }
 ]

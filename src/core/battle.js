@@ -1,3 +1,4 @@
+import {shieldedDamageBonus} from './exclusive-field.js';
 import {evasionChance} from './evasion.js';
 import {exposureStatus} from './weakness.js';
 import {initializeGearEncounter,activateRoundGear,gearMainTurn,gearGuardReduction,gearIncomingMultiplier,gearOutgoingMultiplier,gearShieldExtra,gearHpLoss,gearAfterDirectHit,gearObserveWeakness,gearBuffApplied,prepareGearHealing,gearSkillHealed,gearAfterAction,gearAfterAttack} from './gear-effects.js';
@@ -8,7 +9,7 @@ import { activeFormula, formulaAvailability, formulaSnapshot, formulaDamage, val
 import { expireRoundEffects } from "./round-effects.js";
 import { scalingValue, adjacentAllies, splashEnemies } from "./scaling.js";
 import { statusModifier } from "./stat-values.js";
-import { exclusivePassive, exclusiveDamageEffect, procAvailable, markProc } from "./exclusive-hooks.js";
+import { exclusivePassive, exclusivePassives, exclusiveDamageEffect, procAvailable, markProc } from "./exclusive-hooks.js";
 import { enemyStatMultipliers, scaleEnemyStats } from "./enemy-scaling.js";
 import { resolveCharacter } from "./progression.js";
 import { seededRandom } from "./random.js";
@@ -880,7 +881,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            modifier(battle, attacker, "damageBonus", actionContext.automatic) + exposureBonus + (attacker.passive?.type==="shielded_damage_bonus" && attacker.shield>0 ? attacker.passive.ratio : 0) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp),
+            modifier(battle, attacker, "damageBonus", actionContext.automatic) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -972,13 +973,11 @@ function resolveHit(
       const bonus = exclusivePassive(healer,"shield_break_heal_bonus");
       healHp(battle,target,stat(battle,healer,"magic") * healer.passive.multiplier * (1 + (bonus?.ratio ?? 0)),healer.id,"Dư âm thủy hộ");
     }
-    const refill=healer?.passive;
-    if (refill?.type === "shield_break_mp" && living(healer) && target.mp<target.stats.maxMp && procAvailable(battle,target,"shield_mp:"+healer.id)) {
-      const amount=Math.ceil(scalingValue(refill,key=>stat(battle,healer,key))*refill.multiplier);
-      markProc(battle,target,"shield_mp:"+healer.id);
-      announcePassive(battle,healer,target.id);
-      write(battle,healer.name+" kích hoạt "+refill.name+" cho "+target.name+".");
-      gainResource(battle,target,"mp",amount,healer.id);
+    const refill=healer?.passive,rose=healer&&exclusivePassive(healer,'shield_break_restore_hp');
+    if(refill?.type==='shield_break_mp'&&living(healer)&&procAvailable(battle,target,'shield_mp:'+healer.id)&&(target.mp<target.stats.maxMp||rose&&target.hp<target.stats.maxHp)){
+      markProc(battle,target,'shield_mp:'+healer.id);announcePassive(battle,healer,target.id);write(battle,healer.name+' kích hoạt '+refill.name+' cho '+target.name+'.');
+      if(target.mp<target.stats.maxMp)gainResource(battle,target,'mp',Math.ceil(scalingValue(refill,key=>stat(battle,healer,key))*refill.multiplier),healer.id);
+      if(rose&&target.hp<target.stats.maxHp)healHp(battle,target,scalingValue(rose,key=>stat(battle,healer,key))*rose.multiplier,healer.id);
     }
     if (target.passive?.type === "shield_break_status") {
       announcePassive(battle,target,target.id,target.passive.name??"Vỡ khiên");
@@ -1149,7 +1148,7 @@ function applyEffect(
       emitEvent(battle,{type:'formula_edit',sourceId:actor.id,entries:structuredClone(field.entries)});
     }
     if (effect.type === "end_formula") closeFormula(battle,target,modeIO,"theorem");
-    if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO);
+    if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO,actionContext.skillId);
     if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "prepare_mode") prepareCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
@@ -1393,8 +1392,7 @@ function resolveAction(
     ).size > 1;
   for (const effect of skill.effects)
     applyEffect(battle, actor, targets, effect, spent, area, actionContext);
-  const exclusive = actor.exclusiveGear?.template?.passive;
-  if (exclusive && (!exclusive.abilityIds || exclusive.abilityIds.includes(skill.id)) && living(actor)) {
+  for(const exclusive of exclusivePassives(actor).filter(p=>(!p.abilityIds||p.abilityIds.includes(skill.id))&&living(actor))) {
     if (exclusive.type === "after_skill_status") {
       for (const target of exclusive.to === "targets" ? targets.filter(living) : [actor]) applyStatus(battle,target,exclusive.statusId,exclusive.duration,actor.id);
     }
@@ -1514,7 +1512,15 @@ export function executeEnemyTurn(battle) {
   const actor = activeActor(battle);
   if (!actor || actor.team !== "enemy") return;
   if (actor.boss) return executeBossTurn(battle, actor);
-  const priority = actor.ai?.priorities.map(rule => {
+  const prepared=actor.preparedMove;
+  if(prepared){
+    if(battle.phase!=='main'||prepared.readyRound>battle.round){executeAction(battle,{actorId:actor.id,abilityId:'$defend',targetId:actor.id});return;}
+    delete actor.preparedMove;
+    let skill=battle.content.abilities[prepared.abilityId];if(!abilityAvailability(battle,actor,skill).ok)skill=basicAbility(actor);
+    const legal=targetsFor(battle,actor,skill),target=legal.find(t=>t.id===prepared.targetId)??legal[0];
+    executeAction(battle,{actorId:actor.id,abilityId:skill.id,targetId:target?.id});return;
+  }
+  const priority = actor.ai?.priorities?.map(rule => {
     const ability = battle.content.abilities[rule.abilityId];
     if (!ability || !abilityAvailability(battle, actor, ability).ok) return null;
     const targets = targetsFor(battle, actor, ability);
@@ -1534,16 +1540,20 @@ export function executeEnemyTurn(battle) {
         abilityAvailability(battle, actor, skill).ok &&
         skill.effects.some((effect) => (effect.type === "damage" || effect.type === "grant_extra_turn")),
     );
-  const skill = priority
+  const rotation=actor.ai?.rotation;let rotated;
+  if(rotation?.length){const id=rotation[(actor.aiRotationStep??0)%rotation.length];actor.aiRotationStep=(actor.aiRotationStep??0)+1;const candidate=battle.content.abilities[id];rotated=abilityAvailability(battle,actor,candidate).ok?candidate:basicAbility(actor);}
+  const skill = rotated??(priority
     ? priority.ability
     : skills.length && battle.random() < 0.7
       ? skills[Math.floor(battle.random() * skills.length)]
-      : basicAbility(actor);
+      : basicAbility(actor));
   const targets = targetsFor(battle, actor, skill);
-  const target = priority?.target ?? targets[Math.floor(battle.random() * targets.length)];
-  executeAction(battle, {
-    actorId: actor.id,
-    abilityId: skill.id,
-    targetId: target?.id,
-  });
+  const target = (!rotated&&priority?.target) || targets[Math.floor(battle.random() * targets.length)];
+  if(skill.windup){
+    battle.events=[];const oldStatuses=[...actor.statuses];actor.preparedMove={abilityId:skill.id,readyRound:battle.round+skill.windup.rounds,targetId:target?.id};
+    emitEvent(battle,{type:'enemy_windup',sourceId:actor.id,abilityId:skill.id,label:skill.name,readyRound:actor.preparedMove.readyRound});
+    write(battle,actor.name+' vận sức: '+skill.name+'. '+skill.windup.message);battle.actionCount++;
+    finishStatuses(battle,actor,oldStatuses,false);endTurnPassive(battle,actor);advance(battle);return;
+  }
+  executeAction(battle,{actorId:actor.id,abilityId:skill.id,targetId:target?.id});
 }

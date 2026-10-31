@@ -66,5 +66,47 @@
       "chelsea_story_arrows",
       "chelsea_story_unsigned"
     ]
+  },
+  {
+    "id": "victorina",
+    "characterId": "victorina",
+    "order": 6,
+    "name": "Hoa Hồng Không Cúi Đầu",
+    "subtitle": "Victorina · Lời thề nhà Dragun",
+    "description": "Một cô gái nhà Dragun khoác giáp để chứng minh với cha: con gái cũng có thể trở thành kị sĩ và bảo vệ mọi người.",
+    "art": "/art/story-victorina.svg",
+    "chapters": [
+      "victorina_story_1",
+      "victorina_story_2",
+      "victorina_story_3"
+    ]
+  },
+  {
+    "id": "monica",
+    "characterId": "monica",
+    "order": 7,
+    "name": "Thời Gian Không Chờ Ai",
+    "subtitle": "Monica · Những phút giây không thể bỏ lỡ",
+    "description": "Những sự cố nhỏ trong học viện kéo Monica vào cuộc chạy đua với một nguyên mẫu đồng hồ ngược.",
+    "art": "/art/story-monica.svg",
+    "chapters": [
+      "monica_story_1",
+      "monica_story_2",
+      "monica_story_3"
+    ]
+  },
+  {
+    "id": "sieg",
+    "characterId": "sieg",
+    "order": 8,
+    "name": "Nơi Dòng Sông Gọi Là Nhà",
+    "subtitle": "Sieg · Ngân triều và mái nhà",
+    "description": "Một kiếm sĩ elf học cách ở lại, lắng nghe dòng sông và tìm một nơi mình có thể gọi là nhà.",
+    "art": "/art/story-sieg.svg",
+    "chapters": [
+      "sieg_story_1",
+      "sieg_story_2",
+      "sieg_story_3"
+    ]
   }
 ]

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1000" width="720" height="1000" role="img" aria-labelledby="title desc">
+<title id="title">Sieg — Nơi Dòng Sông Gọi Là Nhà</title>
+<desc id="desc">Không có người trong tranh: thanh kiếm Ngân Triều đặt bên cây cầu làng, bát canh nóng và đèn lồng soi dòng sông dưới những ngọn núi quê hương elf.</desc>
+<defs>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".068"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+<filter id="glow"><feGaussianBlur stdDeviation="13"/></filter>
+<filter id="smallGlow"><feGaussianBlur stdDeviation="5"/></filter>
+
+<linearGradient id="sSky" x2="0" y2="1"><stop stop-color="#172746"/><stop offset=".35" stop-color="#385a80"/><stop offset=".65" stop-color="#c48d86"/><stop offset="1" stop-color="#e9c49a"/></linearGradient>
+<radialGradient id="sSun"><stop stop-color="#fff4ce"/><stop offset="1" stop-color="#fac693"/></radialGradient>
+<linearGradient id="sWater" x2="0" y2="1"><stop stop-color="#587b91"/><stop offset=".6" stop-color="#24445b"/><stop offset="1" stop-color="#10293c"/></linearGradient>
+<linearGradient id="sWood" x2="1" y2="1"><stop stop-color="#87684f"/><stop offset=".47" stop-color="#4f403d"/><stop offset="1" stop-color="#292a31"/></linearGradient>
+<linearGradient id="sSteel" x2="1" y2="1"><stop stop-color="#e8f5ee"/><stop offset=".38" stop-color="#a8cbd5"/><stop offset=".7" stop-color="#486b84"/><stop offset="1" stop-color="#eef1d9"/></linearGradient>
+<radialGradient id="sWarm"><stop stop-color="#ffdc9e" stop-opacity=".64"/><stop offset="1" stop-color="#f5ad70" stop-opacity="0"/></radialGradient>
+<linearGradient id="sBowl" x2="1" y2="1"><stop stop-color="#ddc7a3"/><stop offset="1" stop-color="#82685d"/></linearGradient>
+</defs>
+
+<rect width="720" height="1000" fill="url(#sSky)"/>
+<circle cx="510" cy="268" r="77" fill="url(#sSun)"/>
+<circle cx="510" cy="268" r="132" fill="#fbd5aa" opacity=".2" filter="url(#glow)"/>
+<path d="M0 145q90-22 164-6t190-3m97 58q88-25 220-10M34 261q57-10 126-4" fill="none" stroke="#d6d5da" stroke-width="10" stroke-opacity=".22"/>
+<!-- cool mountains remember Sieg's distant homeland -->
+<path d="M0 437 91 310l44 56 86-139 85 115 59-81 119 175z" fill="#223d5b"/>
+<path d="m186 280 35-53 37 50-34-13-18 18Zm138 34 41-53 38 53-35-16-18 18Z" fill="#d3dedc" opacity=".58"/>
+<path d="M0 497 101 382l73 90 85-118 82 132 84-83 95 89 84-93 116 107v101H0Z" fill="#2d4c5e"/>
+<path d="M0 494q96-20 191 0t179 0 186 0 164 0v182H0Z" fill="#26475b"/>
+<!-- distant village across river, lanterns mean belonging -->
+<g><path d="M61 439h81v89h-81z" fill="#344c64" stroke="#9ba7a6" stroke-opacity=".12" stroke-width="2"/><path d="M51 442l50-51 50 51Z" fill="#233b50" stroke="#bd9b88" stroke-opacity=".32" stroke-width="2"/><path d="M76 464h12v19h-12zM111 464h13v19h-13z" fill="#ffdc9e" opacity=".89"/><path d="M82 464v19M117 464v19" stroke="#886a62" stroke-width="2"/></g><g><path d="M150 415h88v112h-88z" fill="#394b5e" stroke="#9ba7a6" stroke-opacity=".12" stroke-width="2"/><path d="M140 418l54-51 54 51Z" fill="#233b50" stroke="#bd9b88" stroke-opacity=".32" stroke-width="2"/><path d="M166 440h12v19h-12zM204 440h13v19h-13z" fill="#ffdc9e" opacity=".89"/><path d="M172 440v19M210 440v19" stroke="#886a62" stroke-width="2"/></g><g><path d="M275 456h70v80h-70z" fill="#36556a" stroke="#9ba7a6" stroke-opacity=".12" stroke-width="2"/><path d="M265 459l45-51 45 51Z" fill="#233b50" stroke="#bd9b88" stroke-opacity=".32" stroke-width="2"/><path d="M288 481h12v19h-12zM318 481h13v19h-13z" fill="#ffdc9e" opacity=".89"/><path d="M294 481v19M324 481v19" stroke="#886a62" stroke-width="2"/></g><g><path d="M413 428h87v103h-87z" fill="#33485a" stroke="#9ba7a6" stroke-opacity=".12" stroke-width="2"/><path d="M403 431l54-51 54 51Z" fill="#233b50" stroke="#bd9b88" stroke-opacity=".32" stroke-width="2"/><path d="M429 453h12v19h-12zM466 453h13v19h-13z" fill="#ffdc9e" opacity=".89"/><path d="M435 453v19M472 453v19" stroke="#886a62" stroke-width="2"/></g><g><path d="M528 443h92v93h-92z" fill="#344c64" stroke="#9ba7a6" stroke-opacity=".12" stroke-width="2"/><path d="M518 446l56-51 56 51Z" fill="#233b50" stroke="#bd9b88" stroke-opacity=".32" stroke-width="2"/><path d="M545 468h12v19h-12zM585 468h13v19h-13z" fill="#ffdc9e" opacity=".89"/><path d="M551 468v19M591 468v19" stroke="#886a62" stroke-width="2"/></g><g><path d="M637 419h70v112h-70z" fill="#394b5e" stroke="#9ba7a6" stroke-opacity=".12" stroke-width="2"/><path d="M627 422l45-51 45 51Z" fill="#233b50" stroke="#bd9b88" stroke-opacity=".32" stroke-width="2"/><path d="M650 444h12v19h-12zM680 444h13v19h-13z" fill="#ffdc9e" opacity=".89"/><path d="M656 444v19M686 444v19" stroke="#886a62" stroke-width="2"/></g>
+<path d="M0 555q168-34 331 0t389-4v449H0Z" fill="url(#sWater)"/>
+<path d="M0 569q95-11 181 0t179 0 180 0 180 0M40 593q89-7 169 0t180 0 180 0 180 0M0 617q80-10 160 0t160 0 160 0 160 0M33 658q94-11 180 0t179 0 178 0 180 0" stroke="#c5c1bd" stroke-opacity=".18" stroke-width="3" fill="none"/>
+<g stroke="#e6b983" stroke-width="5" stroke-opacity=".43" stroke-linecap="round"><path d="M90 634h62m81 19h50m169-34h80m75 31h42m-507 54h51m143 28h72m104-41h90"/></g>
+<!-- continuous human bridge, symbol of reaching the community -->
+<path d="M-30 681Q350 509 753 683" fill="none" stroke="#1d2d3c" stroke-width="46"/>
+<path d="M-30 675Q350 506 753 675" fill="none" stroke="#9f8573" stroke-width="22"/>
+<path d="M-30 666Q350 494 753 666" fill="none" stroke="#c5a184" stroke-width="4" opacity=".75"/>
+<g stroke="#2a4051" stroke-width="8"><path d="M81 651v95m117-144v115m124-119v96m129-92v120m115-78v94m102-61v83"/></g>
+<path d="M0 736q124-29 243 8t248-6 229-4v266H0Z" fill="#1e384a"/>
+<path d="M0 777q176-27 350 14t370-6" stroke="#bed0ca" stroke-opacity=".15" stroke-width="5" fill="none"/>
+<!-- foreground pier and old wooden bench -->
+<path d="M0 857q162-40 345 0t375-9v152H0Z" fill="#2b323b"/>
+<path d="M0 883q170-33 355 8t365-9" stroke="#ae927b" stroke-opacity=".5" stroke-width="7" fill="none"/>
+<path d="M69 756h582l-32 48H90Z" fill="url(#sWood)" stroke="#bb9e7c" stroke-width="4"/>
+<path d="M105 802v178h36V802m407 0v178h37V802" fill="#302b2c" stroke="#a8917d" stroke-width="3"/>
+<path d="M92 776h539m-520 10h497" stroke="#ddba86" stroke-opacity=".45" stroke-width="4"/>
+<!-- sword resting by the bridge, elf adventurer choosing to stay -->
+<g transform="translate(334 783) rotate(21)">
+  <path d="M-10 0-10-390 0-424 11-390 10 0Z" fill="url(#sSteel)" stroke="#e5eff1" stroke-width="2.5"/>
+  <path d="M0-408V-8" stroke="#e8efe8" stroke-width="2"/>
+  <path d="M-44-10q44-21 88 0" fill="none" stroke="#dcbf8e" stroke-width="12" stroke-linecap="round"/>
+  <path d="M-15-8v126H15V-8Z" fill="#293d4c" stroke="#b7bac4" stroke-width="2"/>
+  <path d="m-12 12 24 19-24 19 24 19-24 19 24 19" stroke="#b5a18b" stroke-width="4" fill="none"/>
+  <path d="M-19 120q19 22 38 0" fill="none" stroke="#dfbe8b" stroke-width="9" stroke-linecap="round"/>
+  <path d="M-1-424 0-456 14-423" fill="#e7f1ea"/>
+</g>
+<!-- soup, offered by local villagers: quiet human kindness without drawing a human -->
+<g transform="translate(477 770)">
+  <ellipse cx="10" cy="44" rx="99" ry="24" fill="#141e29" opacity=".65"/>
+  <path d="M-80-5q4 59 76 63 77 0 84-63Z" fill="url(#sBowl)" stroke="#d4ba94" stroke-width="3"/>
+  <ellipse cy="-5" rx="80" ry="23" fill="#b18b6e" stroke="#e5caa0" stroke-width="6"/>
+  <ellipse cy="-5" rx="66" ry="15" fill="#876c55"/>
+  <path d="M-49-13q24-8 43 2t35-2" stroke="#e2aa6b" stroke-opacity=".58" stroke-width="4" fill="none"/>
+</g>
+<!-- fragrant steam and moonlike warm lantern -->
+<g fill="none" stroke="#e4d6be" stroke-opacity=".55" stroke-linecap="round" stroke-width="3"><path d="M441 741q-23-25 2-49t1-46M483 731q-20-26 2-46t3-45M518 733q-17-21 2-40t0-43"/></g>
+<g transform="translate(155 695)">
+  <circle cx="0" cy="0" r="100" fill="url(#sWarm)" opacity=".48"/>
+  <path d="M0-81v32m-24 0h48l-7 60h-33Z" fill="#30465c" stroke="#dcba8e" stroke-width="3"/>
+  <path d="M-19-44h38l-5 45h-28Z" fill="#ffd08d"/>
+  <path d="M-33 11h66" stroke="#dfbf97" stroke-width="6" stroke-linecap="round"/>
+  <path d="M-14-65q14-18 28 0" fill="none" stroke="#e9cb9f" stroke-width="4"/>
+</g>
+<!-- little leaf buds from the mountain tree: two homes in one image -->
+<path d="M664 748q-17-77 25-143m-26 80q-51-19-50-57m52-3q24-42 46-33" stroke="#557a6f" stroke-width="5" fill="none"/>
+<path d="M646 659q-42-2-47-40 44 5 47 40Zm26-28q18-37 42-40-1 35-42 40Z" fill="#6e9484"/>
+<circle cx="541" cy="345" r="1.83" fill="#c7e6e9" opacity="0.36"/>
+<circle cx="215" cy="190" r="0.46" fill="#c7e6e9" opacity="0.19"/>
+<circle cx="188" cy="399" r="1.74" fill="#f8e4b7" opacity="0.5"/>
+<circle cx="198" cy="179" r="1.13" fill="#f8e4b7" opacity="0.23"/>
+<circle cx="405" cy="379" r="1.66" fill="#eccebe" opacity="0.33"/>
+<circle cx="322" cy="466" r="1.2" fill="#c7e6e9" opacity="0.36"/>
+<circle cx="684" cy="474" r="0.74" fill="#c7e6e9" opacity="0.46"/>
+<circle cx="601" cy="238" r="1.88" fill="#eccebe" opacity="0.47"/>
+<circle cx="405" cy="161" r="1.16" fill="#c7e6e9" opacity="0.24"/>
+<circle cx="77" cy="359" r="1.95" fill="#eccebe" opacity="0.41"/>
+<circle cx="433" cy="489" r="1.55" fill="#eccebe" opacity="0.37"/>
+<circle cx="382" cy="464" r="0.86" fill="#f8e4b7" opacity="0.52"/>
+<circle cx="411" cy="465" r="1.02" fill="#eccebe" opacity="0.17"/>
+<circle cx="529" cy="156" r="1.7" fill="#f8e4b7" opacity="0.29"/>
+<circle cx="499" cy="438" r="1.22" fill="#eccebe" opacity="0.35"/>
+<circle cx="338" cy="344" r="1.35" fill="#f8e4b7" opacity="0.36"/>
+<circle cx="284" cy="486" r="1.08" fill="#eccebe" opacity="0.15"/>
+<circle cx="108" cy="429" r="0.66" fill="#eccebe" opacity="0.51"/>
+<circle cx="660" cy="199" r="1.01" fill="#f8e4b7" opacity="0.29"/>
+<circle cx="340" cy="285" r="0.86" fill="#f8e4b7" opacity="0.44"/>
+<circle cx="671" cy="498" r="1.04" fill="#c7e6e9" opacity="0.31"/>
+<circle cx="585" cy="239" r="0.98" fill="#f8e4b7" opacity="0.27"/>
+<circle cx="475" cy="115" r="0.83" fill="#c7e6e9" opacity="0.49"/>
+<circle cx="211" cy="295" r="0.51" fill="#c7e6e9" opacity="0.49"/>
+<circle cx="459" cy="340" r="0.57" fill="#f8e4b7" opacity="0.38"/>
+<circle cx="121" cy="410" r="1.81" fill="#f8e4b7" opacity="0.17"/>
+<circle cx="515" cy="440" r="1.2" fill="#eccebe" opacity="0.45"/>
+<circle cx="239" cy="175" r="1.49" fill="#c7e6e9" opacity="0.21"/>
+<circle cx="662" cy="120" r="1.2" fill="#c7e6e9" opacity="0.25"/>
+<circle cx="313" cy="165" r="1.51" fill="#f8e4b7" opacity="0.37"/>
+<circle cx="94" cy="456" r="0.92" fill="#eccebe" opacity="0.41"/>
+<circle cx="153" cy="213" r="1.14" fill="#f8e4b7" opacity="0.36"/>
+<circle cx="177" cy="225" r="1.58" fill="#eccebe" opacity="0.15"/>
+<circle cx="239" cy="348" r="0.88" fill="#c7e6e9" opacity="0.38"/>
+<circle cx="315" cy="346" r="0.67" fill="#c7e6e9" opacity="0.22"/>
+<circle cx="520" cy="437" r="1.17" fill="#f8e4b7" opacity="0.16"/>
+<circle cx="522" cy="387" r="0.47" fill="#f8e4b7" opacity="0.4"/>
+<circle cx="189" cy="152" r="1.61" fill="#f8e4b7" opacity="0.15"/>
+<circle cx="452" cy="204" r="1.01" fill="#eccebe" opacity="0.33"/>
+<circle cx="241" cy="499" r="0.95" fill="#f8e4b7" opacity="0.48"/>
+<circle cx="458" cy="285" r="1.97" fill="#f8e4b7" opacity="0.21"/>
+<circle cx="214" cy="505" r="1.94" fill="#f8e4b7" opacity="0.44"/>
+<circle cx="451" cy="323" r="0.4" fill="#c7e6e9" opacity="0.3"/>
+<circle cx="279" cy="95" r="0.98" fill="#eccebe" opacity="0.47"/>
+<circle cx="606" cy="393" r="0.83" fill="#eccebe" opacity="0.23"/>
+<circle cx="590" cy="147" r="1.71" fill="#f8e4b7" opacity="0.5"/>
+<circle cx="263" cy="381" r="0.95" fill="#eccebe" opacity="0.36"/>
+<circle cx="100" cy="278" r="0.49" fill="#c7e6e9" opacity="0.17"/>
+<circle cx="53" cy="321" r="0.42" fill="#eccebe" opacity="0.15"/>
+<circle cx="568" cy="489" r="1.59" fill="#f8e4b7" opacity="0.38"/>
+<circle cx="240" cy="499" r="1.34" fill="#f8e4b7" opacity="0.5"/>
+<circle cx="322" cy="144" r="0.56" fill="#c7e6e9" opacity="0.15"/>
+<circle cx="269" cy="304" r="0.58" fill="#c7e6e9" opacity="0.43"/>
+<circle cx="189" cy="231" r="1.57" fill="#eccebe" opacity="0.22"/>
+<circle cx="587" cy="321" r="1.36" fill="#eccebe" opacity="0.36"/>
+<rect width="720" height="1000" filter="url(#grain)" opacity=".38" pointer-events="none"/>
+
+<!-- Double gilt border and corner flourishes in the Traveler Story visual language -->
+<rect x="23" y="23" width="674" height="954" rx="8" fill="none" stroke="#e4c184" stroke-opacity=".69" stroke-width="2"/>
+<rect x="35" y="35" width="650" height="930" rx="4" fill="none" stroke="#ead3a0" stroke-opacity=".24" stroke-width="1.6"/>
+<g fill="none" stroke="#f0d498" stroke-width="4" stroke-linecap="square"><path d="M45 102V45h55M620 45h55v57M45 900v55h55M620 955h55v-55"/></g>
+<path d="m360 42 10 15-10 15-10-15z" fill="#f1d7a0"/>
+</svg>

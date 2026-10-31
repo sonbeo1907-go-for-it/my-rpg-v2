@@ -1,8 +1,10 @@
+import {extendedFieldDuration,syncExclusiveFieldModifiers} from './exclusive-field.js';
 import {battleStat} from './stat-values.js';
 
 export function copyTurnOrderField(field) {
   if (field == null) return null;
   if (field.kind !== 'team_priority' || !['party','enemy'].includes(field.priorityTeam) || typeof field.name !== 'string' || !field.name || typeof field.sourceId !== 'string' || !field.sourceId || !Number.isSafeInteger(field.expiresAfterRound) || field.expiresAfterRound < 0) throw new Error('Hiệu ứng thứ tự lượt không hợp lệ.');
+  if(field.abilityId!==undefined&&(typeof field.abilityId!=='string'||!field.abilityId))throw Error('Chiêu tạo trường thời gian không hợp lệ.');
   return structuredClone(field);
 }
 // Round-wide fields are independent of actor status clocks and of extra actions.
@@ -26,9 +28,11 @@ export function expireTurnOrderField(battle,io,atRoundEnd=false) {
     io.write(battle,field.name+' hết hiệu lực.');
     io.emit(battle,{type:'turn_order_field_end',sourceId:field.sourceId});
   }
+  syncExclusiveFieldModifiers(battle);
 }
-export function applyTurnOrderField(battle,actor,effect,io) {
-  battle.turnOrderField={kind:'team_priority',name:effect.name,sourceId:actor.id,priorityTeam:actor.team,expiresAfterRound:battle.round+effect.durationRounds-1};
+export function applyTurnOrderField(battle,actor,effect,io,abilityId) {
+  battle.turnOrderField={kind:'team_priority',name:effect.name,sourceId:actor.id,priorityTeam:actor.team,...(abilityId?{abilityId}:{}),expiresAfterRound:battle.round+extendedFieldDuration(actor,abilityId,effect)-1};
+  syncExclusiveFieldModifiers(battle);
   // Freeze history and the current action. Reorder only actors that have not acted.
   const prefix=battle.queue.slice(0,battle.cursor+1);
   battle.queue=[...prefix,...orderActorIds(battle,battle.queue.slice(battle.cursor+1))];

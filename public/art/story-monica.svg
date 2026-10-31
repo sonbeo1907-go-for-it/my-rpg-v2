@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1000" width="720" height="1000" role="img" aria-labelledby="title desc">
+<title id="title">Monica — Thời Gian Không Chờ Ai</title>
+<desc id="desc">Không có người trong tranh: đồng hồ thời gian gần nửa đêm, tài liệu nghiên cứu đã hoàn tất, bình mực, bút lông và đồng hồ cát cạnh cửa sổ bình minh trong Học viện Ma pháp.</desc>
+<defs>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".068"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+<filter id="glow"><feGaussianBlur stdDeviation="13"/></filter>
+<filter id="smallGlow"><feGaussianBlur stdDeviation="5"/></filter>
+
+<linearGradient id="mRoom" x2=".8" y2="1"><stop stop-color="#10182d"/><stop offset=".53" stop-color="#28304c"/><stop offset="1" stop-color="#493548"/></linearGradient>
+<radialGradient id="mLamp"><stop stop-color="#f8dfb0" stop-opacity=".65"/><stop offset="1" stop-color="#efa975" stop-opacity="0"/></radialGradient>
+<linearGradient id="mWood" x2="0" y2="1"><stop stop-color="#795344"/><stop offset=".55" stop-color="#3d2b33"/><stop offset="1" stop-color="#1a1b2c"/></linearGradient>
+<linearGradient id="mClock" x2="1" y2="1"><stop stop-color="#faf3d8"/><stop offset=".38" stop-color="#b0d7d5"/><stop offset=".8" stop-color="#517589"/><stop offset="1" stop-color="#25374e"/></linearGradient>
+<linearGradient id="mPaper" x2="1" y2="1"><stop stop-color="#f5e9c9"/><stop offset="1" stop-color="#c2b18d"/></linearGradient>
+<linearGradient id="mBlue" x2="1" y2="1"><stop stop-color="#ccf4ec"/><stop offset=".5" stop-color="#6dd1d1"/><stop offset="1" stop-color="#495fac"/></linearGradient>
+<radialGradient id="mMagic"><stop stop-color="#dffffd"/><stop offset=".4" stop-color="#8cdbd7" stop-opacity=".48"/><stop offset="1" stop-color="#5db7d0" stop-opacity="0"/></radialGradient>
+<linearGradient id="mGlass" x2="1" y2="1"><stop stop-color="#e3fbf0" stop-opacity=".58"/><stop offset=".4" stop-color="#7ec1d3" stop-opacity=".14"/><stop offset="1" stop-color="#dcf5ed" stop-opacity=".66"/></linearGradient>
+</defs>
+
+<rect width="720" height="1000" fill="url(#mRoom)"/>
+<!-- bookshelves, academy architecture -->
+<path d="M0 75h204v565H0zM524 65h196v575H524Z" fill="#101a2a" opacity=".58"/>
+<g stroke="#77848a" stroke-opacity=".26" stroke-width="8" fill="none"><path d="M35 145h146M35 267h146M35 389h146M35 511h146M548 142h144M548 264h144M548 386h144M548 508h144"/></g>
+<g opacity=".54">
+  <path d="M46 150h15v111H46zM63 166h28v94H63zM96 177h16v84H96zM118 138h21v122h-21zM143 182h24v78h-24z" fill="#586776"/>
+  <path d="M53 274h25v110H53zM83 295h24v89H83zM113 265h21v119h-21zM140 301h22v83h-22z" fill="#74616e"/>
+  <path d="M550 147h20v110h-20zM575 172h25v85h-25zM605 154h17v103h-17zM629 174h32v84h-32zM667 159h18v99h-18z" fill="#657985"/>
+  <path d="M556 274h21v106h-21zM581 304h19v77h-19zM606 286h18v95h-18zM629 267h18v114h-18zM654 296h32v86h-32z" fill="#645770"/>
+</g>
+<!-- academy's dawn through an arched window -->
+<path d="M223 87Q360-7 497 87V343H223Z" fill="#b69e83" opacity=".65"/>
+<path d="M236 100Q360 17 484 100V334H236Z" fill="#253952"/>
+<path d="M238 222q104-65 246-2v113H238Z" fill="#826b83"/>
+<circle cx="422" cy="155" r="76" fill="#ffd3a1" opacity=".45" filter="url(#glow)"/>
+<circle cx="422" cy="155" r="38" fill="#e9c7a1"/>
+<path d="M260 326q100-38 226-4" stroke="#ad988c" stroke-width="3" fill="none"/>
+<path d="M360 60V336M236 218h247" stroke="#3c455b" stroke-width="9"/>
+<!-- clock magic uses arcane rings, not a person -->
+<circle cx="360" cy="382" r="205" fill="url(#mMagic)" opacity=".7"/>
+<g fill="none" stroke="#8dd5d5" opacity=".32"><circle cx="360" cy="374" r="203" stroke-width="2"/><circle cx="360" cy="374" r="191" stroke-width="1.5" stroke-dasharray="9 17"/><circle cx="360" cy="374" r="173" stroke-width="2"/></g>
+<path d="M166 384q36-93 133-177M524 387q-35 103-125 166" stroke="#ceeff0" stroke-opacity=".55" stroke-width="3" fill="none" stroke-linecap="round"/>
+<!-- clock face: 11:59; the product is still completed -->
+<circle cx="360" cy="374" r="164" fill="#102137" opacity=".94" stroke="#d7bf8f" stroke-width="10"/>
+<circle cx="360" cy="374" r="150" fill="url(#mClock)" fill-opacity=".28" stroke="#a6dbd7" stroke-width="3"/>
+<circle cx="360" cy="374" r="133" fill="#13243d" opacity=".85"/>
+<path d="M360.00 222.00 360.00 246.00" stroke="#dbead8" stroke-width="5" stroke-linecap="round"/>
+<path d="M436.00 242.36 427.50 257.09" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M491.64 298.00 476.91 306.50" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M512.00 374.00 488.00 374.00" stroke="#dbead8" stroke-width="5" stroke-linecap="round"/>
+<path d="M491.64 450.00 476.91 441.50" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M436.00 505.64 427.50 490.91" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M360.00 526.00 360.00 502.00" stroke="#dbead8" stroke-width="5" stroke-linecap="round"/>
+<path d="M284.00 505.64 292.50 490.91" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M228.36 450.00 243.09 441.50" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M208.00 374.00 232.00 374.00" stroke="#dbead8" stroke-width="5" stroke-linecap="round"/>
+<path d="M228.36 298.00 243.09 306.50" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M284.00 242.36 292.50 257.09" stroke="#dbead8" stroke-width="2.5" stroke-linecap="round"/>
+<g fill="#d1e7d9" font-family="Georgia,serif" font-size="21" text-anchor="middle" opacity=".85"><text x="360" y="272">XII</text><text x="469" y="382">III</text><text x="360" y="498">VI</text><text x="254" y="382">IX</text></g>
+<!-- hands pointing at almost midnight -->
+<path d="M360 374 353 324" stroke="#f9e3b8" stroke-width="8" stroke-linecap="round"/>
+<path d="M360 374 354 252" stroke="#9cdee0" stroke-width="4" stroke-linecap="round"/>
+<path d="M360 374 262 402" stroke="#f0d7a9" stroke-width="6" stroke-linecap="round"/>
+<circle cx="360" cy="374" r="14" fill="#f8ecce" stroke="#75b4c1" stroke-width="4"/>
+<!-- orbital diagrams imply research and temporal slips -->
+<g fill="none" stroke="#8fd8d4" stroke-width="2" opacity=".53"><ellipse cx="360" cy="374" rx="237" ry="76" transform="rotate(27 360 374)"/><ellipse cx="360" cy="374" rx="232" ry="94" transform="rotate(-38 360 374)"/></g>
+<g fill="#d8fff5"><circle cx="154" cy="284" r="5"/><circle cx="535" cy="286" r="4"/><path d="m492 531 7 12 13 5-13 6-7 12-7-12-12-6 12-5z" opacity=".8"/></g>
+<!-- desk, almost burned candle, scattered failures -->
+<path d="M0 645q338-31 720 0v355H0Z" fill="url(#mWood)"/>
+<path d="M0 665q338-31 720 0" stroke="#cda77c" stroke-opacity=".65" stroke-width="8" fill="none"/>
+<path d="M0 727h720M0 842h720M0 947h720" stroke="#2d2631" stroke-width="7" opacity=".74"/>
+<g stroke="#b78d6d" stroke-opacity=".3" stroke-width="2"><path d="M29 750q110-7 200 3m100 0q100-9 182 2m65-4q50-8 114 2M20 873q150-9 270 2m95 2q125-12 283 0" fill="none"/></g>
+<!-- left: scattered research books -->
+<g transform="translate(42 694) rotate(-12)">
+ <path d="M0 0h153v105H0z" fill="#142132" stroke="#d5ac7f" stroke-width="3"/>
+ <path d="M13 10h128v86H13z" fill="#8c8490" opacity=".3"/>
+ <path d="M22 24q55 7 97 0m-97 16q52 6 96 0m-95 16q41 6 80 0" stroke="#d1c2a2" stroke-width="2" fill="none"/>
+ <path d="M9 81 146 81" stroke="#c29d7c" stroke-width="4"/>
+</g>
+<g transform="translate(100 796) rotate(7)"><path d="M0 0h170v44H0z" fill="#334358" stroke="#c5a278" stroke-width="2"/><path d="M9 9h153v27H9z" fill="#d4c2a7"/><path d="M18 16h85m-85 9h114" stroke="#8d7c74" stroke-width="2"/></g>
+<!-- center: research report recovered and now ready for lecture -->
+<g transform="translate(273 706) rotate(5)">
+ <path d="M4 7h240v192H4z" fill="#111724" opacity=".5"/>
+ <path d="M0 0h240v192H0z" fill="url(#mPaper)" stroke="#dec39d" stroke-width="3"/>
+ <path d="M20 19h198m-197 14h163m-163 17h178m-178 17h175m-175 16h181" stroke="#857964" stroke-width="2" opacity=".72"/>
+ <circle cx="121" cy="121" r="39" fill="none" stroke="#557f87" stroke-width="3"/>
+ <circle cx="121" cy="121" r="27" fill="none" stroke="#557f87" stroke-width="2"/>
+ <path d="m121 87 11 31 26 3-37 32-29-32 29-34z" fill="none" stroke="#4c8892" stroke-width="2"/>
+ <path d="M19 172h64m73 0h63" stroke="#857964" stroke-width="3"/>
+</g>
+<!-- dry but intact hourglass + a little spilled ink -->
+<g transform="translate(583 777) rotate(-16)">
+  <path d="M-18-100h76M-18-4h76" stroke="#d5bc92" stroke-width="9" stroke-linecap="round"/>
+  <path d="M-8-93h56v11q0 24-23 36 23 15 23 38H-8q0-23 23-38Q-8-58-8-82Z" fill="url(#mGlass)" stroke="#b8d8cf" stroke-width="2"/>
+  <path d="M6-75h30L24-51l-18-24ZM7-17h31l-15-14z" fill="#72cbd0" opacity=".84"/>
+  <path d="M-14-105V0M54-105V0" stroke="#d8ad7b" stroke-width="5"/>
+</g>
+<!-- quill and ink: an accident survived -->
+<path d="M637 873q-10-74 40-151 20 71-21 141z" fill="#d8c9b7" stroke="#a9b2a8" stroke-width="2"/>
+<path d="m645 901 17-133" stroke="#e8ded3" stroke-width="3" fill="none"/>
+<ellipse cx="624" cy="906" rx="44" ry="14" fill="#1a1b2a" opacity=".58"/>
+<path d="M591 877h55v46q-27 15-55 0Z" fill="#1a2f41" stroke="#ccb48f" stroke-width="3"/>
+<ellipse cx="619" cy="877" rx="27" ry="8" fill="#101827"/>
+<!-- magic has corrected the chaos -->
+<path d="M297 691q-32-67-86-61m-13-1 17-12-3 23m294-9q-50 8-72 63" fill="none" stroke="#9be8e5" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+<circle cx="161" cy="551" r="0.66" fill="#e8ddc3" opacity="0.66"/>
+<circle cx="224" cy="632" r="1.62" fill="#9de6e0" opacity="0.14"/>
+<circle cx="348" cy="215" r="1.68" fill="#9de6e0" opacity="0.49"/>
+<circle cx="503" cy="313" r="1.41" fill="#f8d8ac" opacity="0.43"/>
+<circle cx="267" cy="364" r="0.79" fill="#f8d8ac" opacity="0.22"/>
+<circle cx="81" cy="101" r="0.77" fill="#9de6e0" opacity="0.29"/>
+<circle cx="168" cy="531" r="0.63" fill="#f8d8ac" opacity="0.4"/>
+<circle cx="652" cy="418" r="1.4" fill="#e8ddc3" opacity="0.26"/>
+<circle cx="483" cy="275" r="0.68" fill="#e8ddc3" opacity="0.31"/>
+<circle cx="109" cy="635" r="1.53" fill="#f8d8ac" opacity="0.28"/>
+<circle cx="341" cy="417" r="1.4" fill="#e8ddc3" opacity="0.19"/>
+<circle cx="374" cy="492" r="1.48" fill="#f8d8ac" opacity="0.32"/>
+<circle cx="315" cy="272" r="1.64" fill="#9de6e0" opacity="0.46"/>
+<circle cx="234" cy="276" r="0.8" fill="#e8ddc3" opacity="0.58"/>
+<circle cx="168" cy="480" r="0.69" fill="#9de6e0" opacity="0.43"/>
+<circle cx="217" cy="237" r="1.93" fill="#9de6e0" opacity="0.23"/>
+<circle cx="642" cy="178" r="0.7" fill="#9de6e0" opacity="0.3"/>
+<circle cx="395" cy="98" r="1.36" fill="#e8ddc3" opacity="0.18"/>
+<circle cx="514" cy="590" r="1.82" fill="#f8d8ac" opacity="0.66"/>
+<circle cx="194" cy="348" r="1.07" fill="#e8ddc3" opacity="0.66"/>
+<circle cx="64" cy="554" r="1.82" fill="#e8ddc3" opacity="0.61"/>
+<circle cx="211" cy="653" r="0.61" fill="#f8d8ac" opacity="0.66"/>
+<circle cx="123" cy="486" r="1.96" fill="#9de6e0" opacity="0.48"/>
+<circle cx="535" cy="353" r="0.81" fill="#9de6e0" opacity="0.26"/>
+<circle cx="544" cy="310" r="1.52" fill="#9de6e0" opacity="0.42"/>
+<circle cx="654" cy="156" r="1.35" fill="#9de6e0" opacity="0.34"/>
+<circle cx="102" cy="632" r="0.8" fill="#f8d8ac" opacity="0.67"/>
+<circle cx="201" cy="523" r="0.62" fill="#f8d8ac" opacity="0.53"/>
+<circle cx="324" cy="413" r="1.34" fill="#e8ddc3" opacity="0.31"/>
+<circle cx="502" cy="254" r="0.92" fill="#f8d8ac" opacity="0.41"/>
+<circle cx="152" cy="153" r="0.9" fill="#f8d8ac" opacity="0.55"/>
+<circle cx="519" cy="611" r="1.83" fill="#e8ddc3" opacity="0.46"/>
+<circle cx="432" cy="496" r="0.79" fill="#9de6e0" opacity="0.28"/>
+<circle cx="660" cy="219" r="0.85" fill="#e8ddc3" opacity="0.26"/>
+<circle cx="108" cy="358" r="1.11" fill="#f8d8ac" opacity="0.21"/>
+<circle cx="389" cy="375" r="0.67" fill="#9de6e0" opacity="0.38"/>
+<circle cx="408" cy="538" r="1.75" fill="#e8ddc3" opacity="0.45"/>
+<circle cx="222" cy="103" r="1.5" fill="#9de6e0" opacity="0.6"/>
+<circle cx="117" cy="118" r="0.84" fill="#9de6e0" opacity="0.67"/>
+<circle cx="333" cy="131" r="1.07" fill="#e8ddc3" opacity="0.32"/>
+<circle cx="659" cy="513" r="1.37" fill="#9de6e0" opacity="0.22"/>
+<circle cx="113" cy="442" r="1.97" fill="#9de6e0" opacity="0.65"/>
+<circle cx="79" cy="143" r="0.45" fill="#9de6e0" opacity="0.44"/>
+<circle cx="63" cy="327" r="1.4" fill="#e8ddc3" opacity="0.18"/>
+<circle cx="159" cy="172" r="0.77" fill="#f8d8ac" opacity="0.25"/>
+<circle cx="318" cy="648" r="0.77" fill="#9de6e0" opacity="0.67"/>
+<circle cx="274" cy="638" r="0.68" fill="#9de6e0" opacity="0.48"/>
+<circle cx="406" cy="387" r="1.71" fill="#f8d8ac" opacity="0.34"/>
+<circle cx="202" cy="147" r="1.85" fill="#e8ddc3" opacity="0.57"/>
+<circle cx="405" cy="552" r="1.38" fill="#e8ddc3" opacity="0.43"/>
+<circle cx="631" cy="226" r="1.38" fill="#9de6e0" opacity="0.68"/>
+<circle cx="191" cy="385" r="1.01" fill="#e8ddc3" opacity="0.28"/>
+<circle cx="539" cy="463" r="0.98" fill="#e8ddc3" opacity="0.16"/>
+<circle cx="498" cy="123" r="1.92" fill="#9de6e0" opacity="0.42"/>
+<circle cx="188" cy="252" r="1.0" fill="#9de6e0" opacity="0.7"/>
+<circle cx="89" cy="368" r="1.04" fill="#e8ddc3" opacity="0.55"/>
+<circle cx="371" cy="402" r="1.91" fill="#f8d8ac" opacity="0.34"/>
+<circle cx="371" cy="270" r="0.8" fill="#9de6e0" opacity="0.51"/>
+<circle cx="94" cy="173" r="1.96" fill="#e8ddc3" opacity="0.57"/>
+<circle cx="643" cy="616" r="1.43" fill="#f8d8ac" opacity="0.47"/>
+<circle cx="357" cy="202" r="1.28" fill="#f8d8ac" opacity="0.31"/>
+<circle cx="583" cy="134" r="0.56" fill="#9de6e0" opacity="0.54"/>
+<circle cx="91" cy="313" r="1.77" fill="#9de6e0" opacity="0.65"/>
+<circle cx="605" cy="388" r="1.3" fill="#e8ddc3" opacity="0.52"/>
+<circle cx="285" cy="329" r="1.04" fill="#f8d8ac" opacity="0.3"/>
+<circle cx="495" cy="627" r="1.26" fill="#9de6e0" opacity="0.34"/>
+<circle cx="267" cy="616" r="1.84" fill="#f8d8ac" opacity="0.63"/>
+<circle cx="359" cy="220" r="0.71" fill="#e8ddc3" opacity="0.41"/>
+<circle cx="256" cy="481" r="1.66" fill="#f8d8ac" opacity="0.17"/>
+<circle cx="548" cy="462" r="1.19" fill="#e8ddc3" opacity="0.56"/>
+<circle cx="503" cy="570" r="0.44" fill="#e8ddc3" opacity="0.3"/>
+<circle cx="289" cy="328" r="0.63" fill="#f8d8ac" opacity="0.7"/>
+<circle cx="648" cy="631" r="0.65" fill="#f8d8ac" opacity="0.39"/>
+<circle cx="302" cy="476" r="0.89" fill="#e8ddc3" opacity="0.53"/>
+<circle cx="629" cy="433" r="0.98" fill="#e8ddc3" opacity="0.39"/>
+<circle cx="576" cy="535" r="1.04" fill="#9de6e0" opacity="0.43"/>
+<circle cx="147" cy="416" r="1.13" fill="#e8ddc3" opacity="0.53"/>
+<circle cx="510" cy="465" r="1.6" fill="#f8d8ac" opacity="0.65"/>
+<circle cx="366" cy="609" r="1.04" fill="#9de6e0" opacity="0.48"/>
+<circle cx="221" cy="249" r="1.13" fill="#9de6e0" opacity="0.67"/>
+<circle cx="290" cy="359" r="1.78" fill="#f8d8ac" opacity="0.36"/>
+<circle cx="487" cy="621" r="1.18" fill="#9de6e0" opacity="0.62"/>
+<circle cx="154" cy="275" r="0.53" fill="#f8d8ac" opacity="0.21"/>
+<circle cx="514" cy="316" r="1.93" fill="#e8ddc3" opacity="0.28"/>
+<circle cx="157" cy="241" r="0.71" fill="#f8d8ac" opacity="0.63"/>
+<rect width="720" height="1000" filter="url(#grain)" opacity=".38" pointer-events="none"/>
+
+<!-- Double gilt border and corner flourishes in the Traveler Story visual language -->
+<rect x="23" y="23" width="674" height="954" rx="8" fill="none" stroke="#e4c184" stroke-opacity=".69" stroke-width="2"/>
+<rect x="35" y="35" width="650" height="930" rx="4" fill="none" stroke="#ead3a0" stroke-opacity=".24" stroke-width="1.6"/>
+<g fill="none" stroke="#f0d498" stroke-width="4" stroke-linecap="square"><path d="M45 102V45h55M620 45h55v57M45 900v55h55M620 955h55v-55"/></g>
+<path d="m360 42 10 15-10 15-10-15z" fill="#f1d7a0"/>
+</svg>

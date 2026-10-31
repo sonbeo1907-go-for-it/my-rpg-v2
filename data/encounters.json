@@ -927,5 +927,357 @@
         "amount": 1
       }
     ]
+  },
+  {
+    "id": "victorina_story_1",
+    "name": "Giáp Trụ Không Chọn Người",
+    "description": "Chương I — Một cô gái nhà Dragun khoác giáp để chứng minh với cha: con gái cũng có thể trở thành kị sĩ và bảo vệ mọi người.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_vanguard",
+      "bandit_archer"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "victorina",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      }
+    ]
+  },
+  {
+    "id": "victorina_story_2",
+    "name": "Giữ Vững Hàng Khiên",
+    "description": "Chương II — Ba đợt thử thách nối tiếp, giữ vững lời hẹn của hành trình.",
+    "enemies": [
+      "wolf",
+      "wolf",
+      "wolf_leader"
+    ],
+    "waves": [
+      [
+        "wolf",
+        "wolf",
+        "wolf_leader"
+      ],
+      [
+        "goblin",
+        "goblin",
+        "goblin_shaman"
+      ],
+      [
+        "goblin_warrior",
+        "goblin_warrior",
+        "goblin_shaman"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "victorina",
+    "requires": {
+      "firstClear": "victorina_story_1",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      },
+      {
+        "type": "exclusive_recipe",
+        "templateId": "victorina.rose_shield"
+      }
+    ]
+  },
+  {
+    "id": "victorina_story_3",
+    "name": "Lời Thề Nhà Dragun",
+    "description": "Chương III — Lời Thề Nhà Dragun. Đối mặt Rauth — Kẻ Phá Trận.",
+    "enemies": [
+      "rauth"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "travelerStory": "victorina",
+    "requires": {
+      "firstClear": "victorina_story_2",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "originalPrisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "monica_story_1",
+    "name": "Ba Ngày, Bảy Sự Cố",
+    "description": "Chương I — Những sự cố nhỏ trong học viện kéo Monica vào cuộc chạy đua với một nguyên mẫu đồng hồ ngược.",
+    "enemies": [
+      "time_quill",
+      "time_quill",
+      "unstable_hourglass"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "monica",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      }
+    ]
+  },
+  {
+    "id": "monica_story_2",
+    "name": "Một Phút Sai Lệch",
+    "description": "Chương II — Ba đợt thử thách nối tiếp, giữ vững lời hẹn của hành trình.",
+    "enemies": [
+      "time_quill",
+      "time_quill",
+      "unstable_hourglass"
+    ],
+    "waves": [
+      [
+        "time_quill",
+        "time_quill",
+        "unstable_hourglass"
+      ],
+      [
+        "spell_afterimage",
+        "spell_afterimage",
+        "unstable_hourglass"
+      ],
+      [
+        "spell_afterimage",
+        "spell_afterimage",
+        "unstable_sync_axis"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "monica",
+    "requires": {
+      "firstClear": "monica_story_1",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      },
+      {
+        "type": "exclusive_recipe",
+        "templateId": "monica.silver_watch"
+      }
+    ]
+  },
+  {
+    "id": "monica_story_3",
+    "name": "Trước Khi Chuông Điểm",
+    "description": "Chương III — Trước Khi Chuông Điểm. Đối mặt Nguyên Mẫu 07 — Đồng Hồ Ngược.",
+    "enemies": [
+      "prototype07"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "travelerStory": "monica",
+    "requires": {
+      "firstClear": "monica_story_2",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "originalPrisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "sieg_story_1",
+    "name": "Lời Chào Chưa Thuộc",
+    "description": "Chương I — Một kiếm sĩ elf học cách ở lại, lắng nghe dòng sông và tìm một nơi mình có thể gọi là nhà.",
+    "enemies": [
+      "ember_wisp",
+      "ember_wisp",
+      "wild_boar"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "sieg",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      }
+    ]
+  },
+  {
+    "id": "sieg_story_2",
+    "name": "Ở Lại Đến Mùa Sau",
+    "description": "Chương II — Ba đợt thử thách nối tiếp, giữ vững lời hẹn của hành trình.",
+    "enemies": [
+      "marsh_snake",
+      "marsh_snake",
+      "pond_crab"
+    ],
+    "waves": [
+      [
+        "marsh_snake",
+        "marsh_snake",
+        "pond_crab"
+      ],
+      [
+        "moss_slime",
+        "moss_slime",
+        "marsh_snake"
+      ],
+      [
+        "wild_boar",
+        "wild_boar",
+        "ember_wisp",
+        "ember_wisp"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "sieg",
+    "requires": {
+      "firstClear": "sieg_story_1",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      },
+      {
+        "type": "exclusive_recipe",
+        "templateId": "sieg.silver_tide"
+      }
+    ]
+  },
+  {
+    "id": "sieg_story_3",
+    "name": "Dòng Sông Có Tên Nhà",
+    "description": "Chương III — Dòng Sông Có Tên Nhà. Đối mặt Thạch Nhân Sông Cạn.",
+    "enemies": [
+      "dry_river_guardian"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "travelerStory": "sieg",
+    "requires": {
+      "firstClear": "sieg_story_2",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "originalPrisma",
+        "amount": 1
+      }
+    ]
   }
 ]

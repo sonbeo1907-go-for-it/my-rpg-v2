@@ -138,8 +138,9 @@ export function validateContent(content) {
       }
     }
     if (actor.ai !== undefined) {
-      if (!Array.isArray(actor.ai?.priorities) || !actor.ai.priorities.length) fail(`${id}: invalid AI priorities`);
-      else for (const rule of actor.ai.priorities) {
+      if (!Array.isArray(actor.ai?.priorities) || !actor.ai.priorities.length&&!actor.ai.rotation?.length) fail(`${id}: invalid AI priorities`);
+      if(actor.ai.rotation!==undefined&&(!Array.isArray(actor.ai.rotation)||!actor.ai.rotation.length||actor.ai.rotation.some(key=>!actor.abilities.includes(key)||!content.abilities[key])))fail(id+': invalid AI rotation');
+      if(Array.isArray(actor.ai?.priorities)) for (const rule of actor.ai.priorities) {
         const skill = content.abilities[rule?.abilityId];
         const friendly = ['self','ally','all_allies'].includes(skill?.target);
         const valid = rule?.when === 'unshielded' ? skill?.target === 'self' && skill.effects?.some(effect=>effect.type==='shield')

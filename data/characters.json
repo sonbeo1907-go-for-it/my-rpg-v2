@@ -1787,7 +1787,6 @@
           "yufina.daze"
         ],
         "exitMpRatio": 0.2,
-        "background": "/art/yufina-radiance.svg",
         "allowedAbilities": [
           "$attack",
           "yufina.jab",

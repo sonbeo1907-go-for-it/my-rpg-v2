@@ -1,3 +1,4 @@
+import {exclusiveStatModifiers} from './exclusive-hooks.js';
 import {emptyShopDaily,normalizeShopDaily} from './shop-daily.js';
 import {emptyDailyCommissions,normalizeDailyCommissions} from './daily-commissions.js';
 import { isValidParty } from "./party.js";
@@ -90,7 +91,7 @@ export function resolveCharacter(content, campaign, characterId) {
     character.exclusiveGear = structuredClone(exclusive);
     character.exclusiveBonuses = { [exclusive.statKey]: exclusive.statValue };
     character.stats[exclusive.statKey] += exclusive.statValue;
-    if (exclusive.template.passive.type === "stat_boost") character.exclusiveModifiers = { ...exclusive.template.passive.modifiers };
+    const modifiers=exclusiveStatModifiers(character);if(Object.keys(modifiers).length)character.exclusiveModifiers=modifiers;
   }
   const team = teamBonusesFor(content, campaign, characterId);
   character.teamBonuses = team.bonuses;

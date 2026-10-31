@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1000" width="720" height="1000" role="img" aria-labelledby="title desc">
+<title id="title">Victorina — Hoa Hồng Không Cúi Đầu</title>
+<desc id="desc">Không có người trong tranh: chiếc khiên hoa hồng của Victorina bảo vệ tiền đồn nơi bình minh, lá thư niêm phong của cha và những mũi tên bị bẻ gãy kể lời thề một nữ kỵ sĩ.</desc>
+<defs>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".068"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+<filter id="glow"><feGaussianBlur stdDeviation="13"/></filter>
+<filter id="smallGlow"><feGaussianBlur stdDeviation="5"/></filter>
+
+<linearGradient id="vSky" x2="0" y2="1"><stop stop-color="#141a2c"/><stop offset=".42" stop-color="#3c3949"/><stop offset=".79" stop-color="#944b4a"/><stop offset="1" stop-color="#e0a67c"/></linearGradient>
+<radialGradient id="vDawn"><stop stop-color="#ffe6ba"/><stop offset=".34" stop-color="#f4c29d" stop-opacity=".65"/><stop offset="1" stop-color="#e78879" stop-opacity="0"/></radialGradient>
+<linearGradient id="vStone" x2=".6" y2="1"><stop stop-color="#5b5c65"/><stop offset="1" stop-color="#191e2b"/></linearGradient>
+<linearGradient id="vShield" x2="1" y2="1"><stop stop-color="#fff2d4"/><stop offset=".22" stop-color="#bbaeb0"/><stop offset=".49" stop-color="#48566d"/><stop offset=".75" stop-color="#697585"/><stop offset="1" stop-color="#252c3e"/></linearGradient>
+<linearGradient id="vCrimson" x2="1" y2="1"><stop stop-color="#ef9d88"/><stop offset=".26" stop-color="#ac3d52"/><stop offset=".65" stop-color="#63233b"/><stop offset="1" stop-color="#351d37"/></linearGradient>
+<linearGradient id="vGold" x2="1" y2="1"><stop stop-color="#ffe7af"/><stop offset=".55" stop-color="#d6a96a"/><stop offset="1" stop-color="#80563e"/></linearGradient>
+<linearGradient id="vScroll" x2=".6" y2="1"><stop stop-color="#f5e5bd"/><stop offset="1" stop-color="#bba07b"/></linearGradient>
+<radialGradient id="vBloom"><stop stop-color="#ff99a6" stop-opacity=".45"/><stop offset="1" stop-color="#b52e52" stop-opacity="0"/></radialGradient>
+</defs>
+
+<rect width="720" height="1000" fill="url(#vSky)"/>
+<circle cx="477" cy="289" r="230" fill="url(#vDawn)"/>
+<path d="M0 160q102-35 214-12T450 149q103-38 270-8M-10 225q105-28 200-6t180-2m88 20q98-36 248-19" fill="none" stroke="#f7c2b1" stroke-opacity=".15" stroke-width="13"/>
+<!-- the defensive frontier outpost: no figures -->
+<path d="M0 486 53 449l75 17 89-48 90 19 96-47 91 30 95-51 131 51v220H0Z" fill="#222c3c" opacity=".88"/>
+<path d="M0 566 83 526l88 23 92-35 111 22 105-37 86 23 155-43v260H0Z" fill="#202630"/>
+<g fill="#161d29" stroke="#b87d6d" stroke-opacity=".38" stroke-width="2">
+  <path d="M0 627V516h39v-18h31v18h37v112z"/>
+  <path d="M74 617V487h33v-22h29v22h29v131z"/>
+  <path d="M545 610V478h38v-22h32v22h42v132z"/>
+  <path d="M642 636V525h34v-25h29v25h28v111z"/>
+  <path d="M260 601V513l50-25 51 25v88z"/>
+</g>
+<g fill="#ffd6a1" opacity=".63"><path d="M18 549h14v19H18zM91 520h12v15H91zM590 504h14v19h-14zM662 544h14v19h-14z"/></g>
+<!-- sweeping signal / outgoing protective ward -->
+<ellipse cx="362" cy="458" rx="273" ry="290" fill="#aa5260" opacity=".13" filter="url(#glow)"/>
+<path d="M101 548Q110 290 365 208q243 70 254 344" stroke="#f0ba9a" stroke-opacity=".23" stroke-width="3" fill="none"/>
+<path d="M128 558Q136 314 364 241q214 63 225 310" stroke="#ffdcaa" stroke-opacity=".18" stroke-width="2" fill="none"/>
+<!-- ground with path between shield and the people behind it -->
+<path d="M0 640q162-53 310 13t410-7v354H0Z" fill="#3b333a"/>
+<path d="M0 720q168-65 354 1t366-2v281H0Z" fill="#2b2931"/>
+<path d="M250 1000 348 663l75-3 173 340Z" fill="#947562" opacity=".24"/>
+<path d="M360 675 302 993m107-318 101 318" stroke="#dbbc95" stroke-width="3" opacity=".12"/>
+<!-- a monumental abandoned knight shield, frontal, no human likeness -->
+<ellipse cx="364" cy="764" rx="225" ry="39" fill="#131823" opacity=".55"/>
+<g transform="translate(361 511) rotate(-5)">
+  <path d="M-169-219Q-19-266 169-219L166 35q-21 177-166 252Q-147 212-167 35Z" fill="#111622" stroke="#d9b278" stroke-width="12"/>
+  <path d="M-150-203Q0-246 151-203L147 29q-17 161-147 232Q-132 200-147 29Z" fill="url(#vShield)" stroke="#e4d1b1" stroke-opacity=".65" stroke-width="4"/>
+  <path d="M-121-171Q0-203 121-171L119 22Q108 147 0 218Q-112 149-120 24Z" fill="url(#vCrimson)" stroke="#a77c70" stroke-width="3"/>
+  <!-- metallic ribs -->
+  <path d="M0-220V259M-147-75H147M-127 71Q0 112 127 70" fill="none" stroke="url(#vGold)" stroke-width="11" opacity=".92"/>
+  <path d="M0-206V233M-139-75H136" fill="none" stroke="#fff0ca" stroke-opacity=".65" stroke-width="2"/>
+  <!-- Dragun rose insignia -->
+  <circle cx="0" cy="-32" r="83" fill="#521d36" stroke="#e2ae74" stroke-width="7"/>
+  <path d="M-39-29c-39-39 6-86 42-59 42-29 83 22 40 59 28 38-11 79-39 59-35 18-78-25-43-59Z" fill="#bf4763" stroke="#ffb3ac" stroke-width="4"/>
+  <path d="M-4-87c28 28 31 48-5 68 26 10 41 30 15 59M-40-28C-12-35 6-23 6 11M45-31C19-17 13-8 5 12" stroke="#f4abb2" stroke-width="6" fill="none" opacity=".83"/>
+  <circle cx="1" cy="-7" r="12" fill="#ffdaa8"/>
+  <path d="M0 30q-14 31 0 86m-2-47q-37 2-55-21m55 38q35 6 49-15" stroke="#d0ad74" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M-55 45q-12-25-43-21 11 32 43 21Zm105 25q26-30 54-10-20 28-54 10Z" fill="#72856c" stroke="#d4c497" stroke-width="2"/>
+  <!-- fine embossed outer ornaments -->
+  <path d="M-133-176Q-85-186-60-167m193-9q-48-12-73 9M-111 113q32 61 65 82m157-82q-30 61-66 82" stroke="#fee1b3" stroke-opacity=".65" stroke-width="3" fill="none"/>
+</g>
+<!-- crimson rose petals: gesture of courage rather than literal portrait -->
+<g fill="#e99091" opacity=".86">
+<path d="M142 374q-16-24-29-3 12 24 29 3Z"/><path d="M533 327q14-23 30-7-5 24-30 7Z"/>
+<path d="M602 506q-26-18-26 9 16 19 26-9Z"/><path d="M100 555q18-18 25 3-12 21-25-3Z"/>
+<path d="M555 690q-17-28-31-4 12 22 31 4Z"/><path d="M198 739q-27-12-23 14 21 16 23-14Z"/>
+</g>
+<!-- arrows broken on stone: defensive battle was fought -->
+<g fill="none" stroke="#857b74" stroke-width="5"><path d="m84 740 97 100m460-135-88 129"/></g>
+<g fill="#a2a6a5"><path d="m82 735 28 7-18 18Z"/><path d="m645 699-27 8 19 16Z"/></g>
+<!-- father's folded oath letter, wax seal, and a golden twig symbol -->
+<g transform="translate(92 798) rotate(10)">
+  <path d="M0 0h222v123H0Z" fill="#101522" opacity=".7" transform="translate(5 7)"/>
+  <path d="M0 0h222v123H0Z" fill="url(#vScroll)" stroke="#ba9366" stroke-width="3"/>
+  <path d="m5 4 105 72L218 4M6 116l74-56m137 56-75-56" stroke="#987659" stroke-width="3" fill="none" opacity=".6"/>
+  <circle cx="111" cy="75" r="27" fill="#9e3d43" stroke="#e2b488" stroke-width="3"/>
+  <path d="m111 56 16 22-16 22-16-22Z" stroke="#f5d3a4" stroke-width="3" fill="none"/>
+</g>
+<circle cx="133" cy="193" r="1.94" fill="#e8c1a0" opacity="0.43"/>
+<circle cx="91" cy="299" r="0.84" fill="#ffd9b3" opacity="0.2"/>
+<circle cx="613" cy="575" r="0.55" fill="#e8c1a0" opacity="0.28"/>
+<circle cx="543" cy="472" r="0.57" fill="#e8c1a0" opacity="0.52"/>
+<circle cx="151" cy="412" r="1.86" fill="#ffd9b3" opacity="0.22"/>
+<circle cx="373" cy="104" r="0.65" fill="#ffd9b3" opacity="0.31"/>
+<circle cx="389" cy="329" r="1.13" fill="#f4c3bd" opacity="0.35"/>
+<circle cx="655" cy="137" r="1.12" fill="#ffd9b3" opacity="0.28"/>
+<circle cx="538" cy="263" r="1.19" fill="#f4c3bd" opacity="0.18"/>
+<circle cx="186" cy="573" r="1.19" fill="#e8c1a0" opacity="0.42"/>
+<circle cx="193" cy="227" r="1.78" fill="#f4c3bd" opacity="0.23"/>
+<circle cx="515" cy="257" r="1.96" fill="#e8c1a0" opacity="0.21"/>
+<circle cx="335" cy="478" r="1.96" fill="#f4c3bd" opacity="0.43"/>
+<circle cx="388" cy="135" r="0.6" fill="#e3b27a" opacity="0.26"/>
+<circle cx="371" cy="89" r="1.3" fill="#e3b27a" opacity="0.46"/>
+<circle cx="521" cy="519" r="0.67" fill="#e8c1a0" opacity="0.3"/>
+<circle cx="407" cy="276" r="1.61" fill="#f4c3bd" opacity="0.19"/>
+<circle cx="159" cy="593" r="1.23" fill="#e8c1a0" opacity="0.2"/>
+<circle cx="122" cy="568" r="1.52" fill="#ffd9b3" opacity="0.4"/>
+<circle cx="665" cy="374" r="1.89" fill="#e3b27a" opacity="0.19"/>
+<circle cx="621" cy="260" r="1.34" fill="#e8c1a0" opacity="0.52"/>
+<circle cx="449" cy="397" r="0.66" fill="#f4c3bd" opacity="0.39"/>
+<circle cx="306" cy="508" r="1.78" fill="#f4c3bd" opacity="0.53"/>
+<circle cx="567" cy="233" r="0.63" fill="#e8c1a0" opacity="0.15"/>
+<circle cx="427" cy="280" r="1.87" fill="#f4c3bd" opacity="0.15"/>
+<circle cx="579" cy="553" r="0.52" fill="#f4c3bd" opacity="0.36"/>
+<circle cx="402" cy="360" r="0.6" fill="#e8c1a0" opacity="0.53"/>
+<circle cx="431" cy="307" r="0.52" fill="#ffd9b3" opacity="0.27"/>
+<circle cx="653" cy="572" r="1.42" fill="#ffd9b3" opacity="0.23"/>
+<circle cx="190" cy="128" r="1.18" fill="#f4c3bd" opacity="0.29"/>
+<circle cx="78" cy="559" r="0.85" fill="#f4c3bd" opacity="0.46"/>
+<circle cx="63" cy="362" r="1.69" fill="#e8c1a0" opacity="0.54"/>
+<circle cx="365" cy="388" r="1.41" fill="#e8c1a0" opacity="0.21"/>
+<circle cx="414" cy="611" r="1.36" fill="#f4c3bd" opacity="0.34"/>
+<circle cx="67" cy="133" r="1.92" fill="#e8c1a0" opacity="0.4"/>
+<circle cx="335" cy="227" r="1.93" fill="#f4c3bd" opacity="0.4"/>
+<circle cx="435" cy="338" r="1.32" fill="#f4c3bd" opacity="0.55"/>
+<circle cx="434" cy="528" r="1.07" fill="#f4c3bd" opacity="0.51"/>
+<circle cx="56" cy="291" r="1.9" fill="#e3b27a" opacity="0.27"/>
+<circle cx="456" cy="412" r="0.9" fill="#ffd9b3" opacity="0.16"/>
+<circle cx="604" cy="108" r="1.8" fill="#ffd9b3" opacity="0.28"/>
+<circle cx="97" cy="476" r="0.9" fill="#e3b27a" opacity="0.55"/>
+<circle cx="374" cy="392" r="0.52" fill="#e3b27a" opacity="0.16"/>
+<circle cx="193" cy="376" r="1.66" fill="#e8c1a0" opacity="0.35"/>
+<circle cx="627" cy="419" r="1.94" fill="#e3b27a" opacity="0.3"/>
+<circle cx="481" cy="493" r="1.34" fill="#e8c1a0" opacity="0.51"/>
+<circle cx="420" cy="473" r="0.53" fill="#f4c3bd" opacity="0.2"/>
+<circle cx="405" cy="539" r="0.73" fill="#f4c3bd" opacity="0.2"/>
+<circle cx="76" cy="505" r="1.8" fill="#e3b27a" opacity="0.22"/>
+<circle cx="91" cy="307" r="0.49" fill="#e3b27a" opacity="0.37"/>
+<circle cx="655" cy="444" r="0.59" fill="#f4c3bd" opacity="0.31"/>
+<circle cx="384" cy="199" r="1.92" fill="#e3b27a" opacity="0.49"/>
+<circle cx="491" cy="207" r="1.48" fill="#f4c3bd" opacity="0.16"/>
+<circle cx="423" cy="134" r="0.77" fill="#e8c1a0" opacity="0.42"/>
+<circle cx="570" cy="362" r="1.19" fill="#ffd9b3" opacity="0.14"/>
+<circle cx="50" cy="448" r="1.82" fill="#e3b27a" opacity="0.38"/>
+<circle cx="485" cy="331" r="1.85" fill="#f4c3bd" opacity="0.25"/>
+<circle cx="528" cy="503" r="1.06" fill="#f4c3bd" opacity="0.39"/>
+<circle cx="58" cy="422" r="1.13" fill="#ffd9b3" opacity="0.2"/>
+<circle cx="517" cy="323" r="0.71" fill="#e3b27a" opacity="0.21"/>
+<circle cx="542" cy="583" r="0.78" fill="#f4c3bd" opacity="0.38"/>
+<circle cx="436" cy="593" r="1.37" fill="#f4c3bd" opacity="0.25"/>
+<circle cx="652" cy="315" r="1.39" fill="#e3b27a" opacity="0.2"/>
+<circle cx="111" cy="500" r="1.31" fill="#ffd9b3" opacity="0.38"/>
+<circle cx="352" cy="212" r="0.86" fill="#e8c1a0" opacity="0.38"/>
+<circle cx="152" cy="545" r="0.48" fill="#ffd9b3" opacity="0.18"/>
+<circle cx="598" cy="616" r="0.68" fill="#f4c3bd" opacity="0.47"/>
+<circle cx="311" cy="258" r="1.44" fill="#e8c1a0" opacity="0.43"/>
+<circle cx="506" cy="285" r="0.74" fill="#ffd9b3" opacity="0.31"/>
+<circle cx="58" cy="157" r="1.61" fill="#e8c1a0" opacity="0.32"/>
+<circle cx="146" cy="279" r="1.75" fill="#ffd9b3" opacity="0.44"/>
+<circle cx="564" cy="97" r="1.05" fill="#e8c1a0" opacity="0.33"/>
+<circle cx="256" cy="241" r="1.83" fill="#f4c3bd" opacity="0.47"/>
+<circle cx="595" cy="392" r="1.84" fill="#e3b27a" opacity="0.54"/>
+<circle cx="482" cy="492" r="1.67" fill="#f4c3bd" opacity="0.29"/>
+<circle cx="633" cy="394" r="0.41" fill="#e8c1a0" opacity="0.28"/>
+<circle cx="448" cy="505" r="1.81" fill="#e3b27a" opacity="0.24"/>
+<circle cx="207" cy="485" r="1.72" fill="#e3b27a" opacity="0.19"/>
+<circle cx="374" cy="207" r="1.17" fill="#f4c3bd" opacity="0.45"/>
+<circle cx="188" cy="355" r="1.79" fill="#ffd9b3" opacity="0.5"/>
+<circle cx="439" cy="209" r="0.83" fill="#f4c3bd" opacity="0.41"/>
+<circle cx="129" cy="431" r="1.72" fill="#ffd9b3" opacity="0.51"/>
+<circle cx="68" cy="203" r="0.54" fill="#e8c1a0" opacity="0.21"/>
+<circle cx="399" cy="288" r="0.68" fill="#ffd9b3" opacity="0.34"/>
+<circle cx="335" cy="597" r="1.75" fill="#e3b27a" opacity="0.41"/>
+<rect width="720" height="1000" filter="url(#grain)" opacity=".38" pointer-events="none"/>
+
+<!-- Double gilt border and corner flourishes in the Traveler Story visual language -->
+<rect x="23" y="23" width="674" height="954" rx="8" fill="none" stroke="#e4c184" stroke-opacity=".69" stroke-width="2"/>
+<rect x="35" y="35" width="650" height="930" rx="4" fill="none" stroke="#ead3a0" stroke-opacity=".24" stroke-width="1.6"/>
+<g fill="none" stroke="#f0d498" stroke-width="4" stroke-linecap="square"><path d="M45 102V45h55M620 45h55v57M45 900v55h55M620 955h55v-55"/></g>
+<path d="m360 42 10 15-10 15-10-15z" fill="#f1d7a0"/>
+</svg>

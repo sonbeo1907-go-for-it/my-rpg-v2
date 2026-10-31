@@ -920,5 +920,14 @@
     "modifiers": {
       "resistance": -0.15
     }
+  },
+  {
+    "id": "prototype_offbeat",
+    "name": "Sai pha thuật thức",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.15
+    }
   }
 ]

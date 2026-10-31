@@ -9,8 +9,8 @@ async function seed(page:Page,party=['arthur','iris','elaine','garrek'],intro=fa
 }
 const state=(page:Page)=>page.evaluate(()=>JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text));
 const template=(page:Page,name:string)=>page.locator('.exclusive-card').filter({has:page.getByRole('heading',{name,exact:true})});
-test('14 exclusive templates are browsable; free Arthur template links to correct boss and fixed-stat first-clear rewards',async({page})=>{
- await seed(page);await page.goto('/blacksmith?tab=exclusive');await expect(page.locator('.exclusive-card')).toHaveCount(14);const intro=template(page,'Dấu rèn khởi hành');await expect(intro).toContainText('ATK +5 cố định');await expect(intro.getByRole('button',{name:'Chế tạo',exact:true})).toHaveCount(0);
+test('17 exclusive templates are browsable; free Arthur template links to correct boss and fixed-stat first-clear rewards',async({page})=>{
+ await seed(page);await page.goto('/blacksmith?tab=exclusive');await expect(page.locator('.exclusive-card')).toHaveCount(17);const intro=template(page,'Dấu rèn khởi hành');await expect(intro).toContainText('ATK +5 cố định');await expect(intro.getByRole('button',{name:'Chế tạo',exact:true})).toHaveCount(0);
  await intro.getByRole('link',{name:'Đến nhiệm vụ'}).click();await expect(page.locator('.quest-card.selected')).toContainText('Lợn rừng khổng lồ');await expect(page.locator('.quest-illustration')).toContainText('ATK +5');await expect(page.locator('.quest-illustration')).toContainText('Bản trùng Takeshi');
 });
 test('craft preview/cancel is free, failed disk write rolls back, retry commits once and equipped passive appears in character detail',async({page})=>{

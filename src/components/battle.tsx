@@ -710,7 +710,7 @@ export function BattlePage() {
     <main
       className="page battle-page"
       data-speed={animationSpeed}
-      data-combat-mode={battle.presentation?.mode}
+      data-combat-mode={battle.presentation?.background?battle.presentation.mode:battle.presentation?.scenes?.find((scene:any)=>scene.background)?.mode}
       data-gamepad-phase={gamepadPhase}
       data-dungeon-wave={
         battle.dungeon ? battle.dungeon.waveIndex + 1 : undefined
@@ -820,6 +820,7 @@ export function BattlePage() {
                 </div>
               ))}
           </div>
+          {battle.actors.some((a:any)=>a.team==='enemy'&&a.hp>0&&a.preparedMove)&&<section className="enemy-telegraphs" aria-live="polite">{battle.actors.filter((a:any)=>a.team==='enemy'&&a.hp>0&&a.preparedMove).map((a:any)=><div key={a.id} data-enemy-telegraph={a.id}><Icon name="hourglass"/><div><strong>{a.name} đang chuẩn bị: {content.abilities[a.preparedMove.abilityId].name}</strong><p>{content.abilities[a.preparedMove.abilityId].windup.message} Thi triển từ lượt chính ở vòng {a.preparedMove.readyRound}.</p></div></div>)}</section>}
           <div className="enemy-grid">
             {battle.actors
               .filter((item: any) => item.team === "enemy")

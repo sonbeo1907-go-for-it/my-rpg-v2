@@ -1,5 +1,6 @@
+import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
-import {exclusiveDamageEffect} from '../core/exclusive-hooks.js';
+import {exclusiveDamageEffect,exclusivePassive} from '../core/exclusive-hooks.js';
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
@@ -126,7 +127,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.type==='formula_field') lines.push('Đại Đồ Thức: '+effect.durationRounds+' vòng · '+effect.sequence.map(tag=>FORMULA_NAMES[tag]).join(' → ')+'.');
     if (effect.type==='edit_formula') lines.push('Đổi chỗ hai dấu hoặc viết lại một dấu; viết lại mang nguồn người hiệu chỉnh.');
     if (effect.type==='end_formula') lines.push('Kết thúc Đại Đồ Thức sau khi thi triển.');
-    if (effect.type === 'turn_order_field') lines.push('Đồng minh đi trước, đối thủ đi sau; giữ SPD trong từng phe. '+effect.durationRounds+' vòng, tính cả vòng thi triển.');
+    if (effect.type === 'turn_order_field') lines.push('Đồng minh đi trước, đối thủ đi sau; giữ SPD trong từng phe. '+extendedFieldDuration(actor,skill.id,effect)+' vòng, tính cả vòng thi triển.');
     if (effect.type === 'damage') {
       const stat = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
       let formula = effect.primaryMultiplier !== undefined ? `${percent(effect.primaryMultiplier)} ${stat} mục tiêu chính / ${percent(effect.multiplier)} ${stat} còn lại` : `${percent(effect.multiplier ?? 1)} ${stat}`;
@@ -193,7 +194,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.type === 'cleanse') lines.push('Giải toàn bộ hiệu ứng bất lợi trên người nhận.');
     if (['status', 'toggle_status'].includes(effect.type)) {
       const status = content.statuses[effect.status];
-      const extension=actor.exclusiveGear?.template?.passive;
+      const extension=exclusivePassive(actor,'skill_status_duration',skill.id);
       const effectiveDuration=effect.duration + (extension?.type==='skill_status_duration' && extension.statusId===effect.status && extension.abilityIds.includes(skill.id) ? extension.extraDuration : 0);
       const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effectiveDuration} ${status.durationClock==='round'?'vòng':'lượt của người nhận'}`;
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);

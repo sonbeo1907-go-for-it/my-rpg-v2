@@ -264,16 +264,116 @@
       "statValue": 5
     },
     "passive": {
-      "type": "skill_scaling_override",
+      "type": "bundle",
       "name": "Lối về không thất lạc",
-      "description": "Bưu Kiện Hoàn Trả! tăng hệ số phản công từ 50% lên 85% ATK, vẫn gắn 2 Sơ hở Quang.",
-      "abilityIds": [
-        "chelsea.counter"
+      "description": "Phản công tăng lên 85% ATK. Thư Khẩn! Tránh Đường Nào! kéo dài thêm 1 lượt chính.",
+      "effects": [
+        {
+          "type": "skill_scaling_override",
+          "name": "Lối về không thất lạc",
+          "description": "Bưu Kiện Hoàn Trả! tăng hệ số phản công từ 50% lên 85% ATK, vẫn gắn 2 Sơ hở Quang.",
+          "abilityIds": [
+            "chelsea.counter"
+          ],
+          "multiplier": 0.85,
+          "rules": [
+            "Thay hệ số gốc trước DEF và điểm yếu; không cộng thêm một hit.",
+            "Giữ giới hạn phản công một lần mỗi vòng."
+          ]
+        },
+        {
+          "type": "skill_status_duration",
+          "name": "Thư đến đúng hẹn",
+          "description": "Thư khẩn kéo dài thêm 1 lượt chính, gồm tăng ATK và Khiêu khích.",
+          "abilityIds": [
+            "chelsea.urgent"
+          ],
+          "statusId": "chelsea_urgent",
+          "extraDuration": 1
+        }
       ],
-      "multiplier": 0.85,
       "rules": [
-        "Thay hệ số gốc trước DEF và điểm yếu; không cộng thêm một hit.",
         "Giữ giới hạn phản công một lần mỗi vòng."
+      ]
+    }
+  },
+  {
+    "id": "monica.silver_watch",
+    "characterId": "monica",
+    "name": "Chiếc Đồng Hồ Cầm Tay Bạc",
+    "description": "Một lời nhắc dịu dàng rằng thời gian quý nhất là thời gian dành cho người khác.",
+    "enabled": true,
+    "requires": {
+      "firstClear": "monica_story_2"
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Khoảnh khắc giữ lại",
+      "description": "Đảo lộn thời không kéo dài thêm 1 vòng. Trong trường thời gian do mình tạo, Monica nhận +25% MAG.",
+      "effects": [
+        {
+          "type": "field_duration",
+          "name": "Một nhịp lâu hơn",
+          "description": "Đảo lộn thời không kéo dài thêm 1 vòng.",
+          "abilityIds": [
+            "monica.distortion"
+          ],
+          "extraRounds": 1
+        },
+        {
+          "type": "field_stat_boost",
+          "name": "Nhịp bạc ngân vang",
+          "description": "Khi Đảo lộn thời không của bản thân còn hiệu lực, tăng 25% MAG.",
+          "abilityIds": [
+            "monica.distortion"
+          ],
+          "modifiers": {
+            "magic": 0.25
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "victorina.rose_shield",
+    "characterId": "victorina",
+    "name": "Tấm Khiên Hoa Hồng Kiêu Sa",
+    "description": "Hoa hồng mang gai để che chở, chiếc khiên mang lời thề không cúi đầu.",
+    "enabled": true,
+    "requires": {
+      "firstClear": "victorina_story_2"
+    },
+    "passive": {
+      "type": "shield_break_restore_hp",
+      "name": "Hoa nở sau mưa tên",
+      "description": "Khi khiên do Victorina tạo bị đánh vỡ, hồi HP cho người mang còn sống bằng 35% (DEF + RES)/2 của Victorina, một lần/người/vòng.",
+      "multiplier": 0.35,
+      "scalingStats": [
+        "defense",
+        "resistance"
+      ],
+      "rules": [
+        "Dùng chung giới hạn kích hoạt với hồi MP từ nội tại. Khi MP đầy vẫn có thể hồi HP.",
+        "Người tạo và người mang phải còn sống; khiên hết hạn hoặc bị thay không kích hoạt."
+      ]
+    }
+  },
+  {
+    "id": "sieg.silver_tide",
+    "characterId": "sieg",
+    "name": "Ngân Triều Kiếm",
+    "description": "Lưỡi kiếm nghe tiếng sông, giữ một mái nhà trong lòng thủy triều.",
+    "enabled": true,
+    "requires": {
+      "firstClear": "sieg_story_2"
+    },
+    "passive": {
+      "type": "share_shielded_passive",
+      "name": "Dòng chảy cùng nhau",
+      "description": "Nội tại +8% sát thương khi có khiên áp dụng cho cả đội. Mỗi đồng minh cần đang có khiên; Sieg phải còn sống.",
+      "rules": [
+        "Không cộng hai lần lên chính Sieg. Khiên có thể đến từ nguồn bất kỳ.",
+        "Hiệu lực cùng loại lấy mức cao nhất, không cộng dồn."
       ]
     }
   }

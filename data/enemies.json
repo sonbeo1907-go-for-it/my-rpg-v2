@@ -1532,5 +1532,252 @@
         }
       ]
     }
+  },
+  {
+    "id": "rauth",
+    "name": "Rauth — Kẻ Phá Trận",
+    "role": "Đấu sĩ chùy nặng",
+    "element": "earth",
+    "stats": {
+      "maxHp": 1050,
+      "maxMp": 100,
+      "attack": 39,
+      "magic": 21,
+      "defense": 28,
+      "resistance": 23,
+      "speed": 16
+    },
+    "weaknesses": [
+      "fire"
+    ],
+    "abilities": [
+      "rauth.hammer",
+      "rauth.quake",
+      "rauth.break_line",
+      "rauth.crush"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1.2,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "rauth.hammer",
+        "rauth.quake",
+        "rauth.break_line",
+        "rauth.crush"
+      ]
+    }
+  },
+  {
+    "id": "prototype07",
+    "name": "Nguyên Mẫu 07 — Đồng Hồ Ngược",
+    "role": "Thiết bị thuật thức mất đồng bộ",
+    "element": "thunder",
+    "stats": {
+      "maxHp": 920,
+      "maxMp": 140,
+      "attack": 16,
+      "magic": 35,
+      "defense": 22,
+      "resistance": 27,
+      "speed": 29
+    },
+    "weaknesses": [
+      "wind",
+      "earth"
+    ],
+    "abilities": [
+      "prototype07.tick",
+      "prototype07.reverse",
+      "prototype07.offbeat",
+      "prototype07.overload"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "prototype07.tick",
+        "prototype07.reverse",
+        "prototype07.offbeat",
+        "prototype07.overload"
+      ]
+    }
+  },
+  {
+    "id": "dry_river_guardian",
+    "name": "Thạch Nhân Sông Cạn",
+    "role": "Vệ thần cổ ven sông",
+    "element": "earth",
+    "stats": {
+      "maxHp": 1100,
+      "maxMp": 100,
+      "attack": 38,
+      "magic": 20,
+      "defense": 32,
+      "resistance": 22,
+      "speed": 9
+    },
+    "weaknesses": [
+      "water",
+      "thunder"
+    ],
+    "abilities": [
+      "river_guardian.fist",
+      "river_guardian.quake",
+      "river_guardian.rubble",
+      "river_guardian.flood"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1.2,
+        "element": "earth",
+        "damageType": "physical"
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "river_guardian.fist",
+        "river_guardian.quake",
+        "river_guardian.rubble",
+        "river_guardian.flood"
+      ]
+    }
+  },
+  {
+    "id": "time_quill",
+    "name": "Bút Lông Nhiễu Thời",
+    "role": "Vật dụng nhiễu thời",
+    "element": "wind",
+    "stats": {
+      "maxHp": 80,
+      "maxMp": 40,
+      "attack": 8,
+      "magic": 16,
+      "defense": 8,
+      "resistance": 12,
+      "speed": 38
+    },
+    "weaknesses": [
+      "fire",
+      "earth"
+    ],
+    "abilities": [
+      "time_enemy.quill"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 0.9,
+        "element": "wind",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "unstable_hourglass",
+    "name": "Đồng Hồ Cát Bất Ổn",
+    "role": "Vật dụng thuật thức",
+    "element": "thunder",
+    "stats": {
+      "maxHp": 130,
+      "maxMp": 70,
+      "attack": 10,
+      "magic": 23,
+      "defense": 12,
+      "resistance": 16,
+      "speed": 22
+    },
+    "weaknesses": [
+      "wind",
+      "earth"
+    ],
+    "abilities": [
+      "time_enemy.sand"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "spell_afterimage",
+    "name": "Dư Ảnh Thuật Thức",
+    "role": "Dư ảnh ma pháp",
+    "element": "dark",
+    "stats": {
+      "maxHp": 125,
+      "maxMp": 65,
+      "attack": 8,
+      "magic": 25,
+      "defense": 10,
+      "resistance": 18,
+      "speed": 31
+    },
+    "weaknesses": [
+      "light",
+      "wind"
+    ],
+    "abilities": [
+      "time_enemy.echo",
+      "time_enemy.echo_wave"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1.05,
+        "element": "dark",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "unstable_sync_axis",
+    "name": "Trục Đồng Bộ Bất Ổn",
+    "role": "Trục thuật thức nhiễu thời",
+    "element": "thunder",
+    "stats": {
+      "maxHp": 210,
+      "maxMp": 90,
+      "attack": 12,
+      "magic": 28,
+      "defense": 16,
+      "resistance": 20,
+      "speed": 34
+    },
+    "weaknesses": [
+      "earth",
+      "water"
+    ],
+    "abilities": [
+      "time_enemy.axis",
+      "time_enemy.axis_wave"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "thunder",
+        "damageType": "magical"
+      }
+    ]
   }
 ]

@@ -1,4 +1,5 @@
 "use client";
+import {HeroGlyph} from './hero-glyph';
 import {useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {combatTimeline,COMBAT_COLORS} from '../ui/combat-timeline.js';
@@ -25,7 +26,7 @@ export function CombatEffects({events,content,sessionId,speed,onCue}:{events:any
   for(const frame of plan.frames.slice(0,128))later(()=>{
    const source=frame.kind==='source'||frame.kind==='passive',card=findCard(source?frame.sourceId:frame.targetId);
    let anchor:HTMLElement|undefined=card;
-   if(frame.kind==='formation'){
+   if(frame.kind==='formation'||frame.kind==='signature'&&frame.area){
     const team=card?.dataset.team??findCard(frame.sourceId)?.dataset.team;
     anchor=document.querySelector<HTMLElement>(team==='party'?'.ally-grid':'.enemy-grid')??undefined;
     if(!card)anchor=document.querySelector<HTMLElement>(findCard(frame.sourceId)?.dataset.team==='party'?'.enemy-grid':'.ally-grid')??undefined;
@@ -48,8 +49,8 @@ export function CombatEffects({events,content,sessionId,speed,onCue}:{events:any
   const color=frame.kind==='heal'?'#87e7a6':['block','shield','effect_blocked'].includes(frame.kind)?'#78c8ff':frame.kind==='mp_restore'?'#c5a3ff':(COMBAT_COLORS as any)[frame.element]??'#ead69d';
   const text=cue?frame.label:frame.kind==='hurt'?`−${frame.amount}`:frame.kind==='block'?`Chặn ${frame.absorbed}`:frame.kind==='zero'?'0':frame.kind==='dodge'?'Né!':frame.kind==='heal'?`+${frame.amount} HP`:frame.kind==='mp_restore'?`+${frame.amount} MP`:frame.kind==='shield'?`+${frame.amount} Khiên`:frame.kind==='effect_blocked'?'Miễn nhiễm':frame.kind==='cleanse'?'Thanh tẩy':frame.kind==='dispel'?'Xóa '+frame.amount+' buff':frame.kind==='hp_spent'?'−'+frame.amount+' HP (chi phí)':null;
   const hitGlyph=!cue&&!frame.custom&&!frame.periodic&&!['zero','dodge'].includes(frame.kind);
-  return createPortal(<div className={`shared-combat-fx fx-${frame.kind} ${frame.primary?'primary-hit':''} ${frame.reduced?'reduced':''}`} data-combat-fx={frame.kind} data-fx-source={frame.sourceId} data-fx-target={frame.targetId} data-fx-damage-type={frame.damageType} data-fx-hit={frame.hitIndex} data-fx-id={frame.id} data-fx-custom={Boolean(frame.custom)} data-beneficial={frame.beneficial} style={{'--vfx-color':color,'--vfx-duration':`${frame.duration}ms`,'--vfx-hit-offset':`${((frame.hitIndex??0)%3)*22}px`} as React.CSSProperties} aria-hidden="true">
-   {cue?<span className={`cast-cue ${frame.kind==='passive'?'passive-cue':''}`}>{frame.kind==='passive'?'◇ ':frame.reaction?'↗ ':'◆ '}{text}</span>:<>{hitGlyph&&<Glyph kind={frame.kind} damageType={frame.damageType}/>}<span className="vfx-number">{text}</span></>}
+  return createPortal(<div className={`shared-combat-fx fx-${frame.kind} ${frame.primary?'primary-hit':''} ${frame.reduced?'reduced':''}`} data-combat-fx={frame.kind} data-fx-presentation={frame.presentation} data-fx-area={Boolean(frame.area)} data-fx-source={frame.sourceId} data-fx-target={frame.targetId} data-fx-damage-type={frame.damageType} data-fx-hit={frame.hitIndex} data-fx-id={frame.id} data-fx-custom={Boolean(frame.custom)} data-beneficial={frame.beneficial} style={{'--vfx-color':color,'--vfx-duration':`${frame.duration}ms`,'--vfx-hit-offset':`${((frame.hitIndex??0)%3)*22}px`} as React.CSSProperties} aria-hidden="true">
+   {frame.kind==='signature'?<HeroGlyph presentation={frame.presentation} id={frame.id}/>:cue?<span className={`cast-cue ${frame.kind==='passive'?'passive-cue':''}`}>{frame.kind==='passive'?'◇ ':frame.reaction?'↗ ':'◆ '}{text}</span>:<>{hitGlyph&&<Glyph kind={frame.kind} damageType={frame.damageType}/>}<span className="vfx-number">{text}</span></>}
   </div>,frame.anchor,frame.id);
  })}</>;
 }
