@@ -105,6 +105,7 @@ function hintList(
         ["LB / RB", "Chuyển tab"],
         ["RS", "Cuộn"],
       ];
+    if(root.querySelector(".gear-pagination"))return [["A","Chọn"],["LT / RT","Đổi trang"],["B","Đóng"],["RS","Cuộn"]];
     if (root.querySelector(".modal-grid"))
       return [
         ["A", "Chọn"],
@@ -152,6 +153,7 @@ function hintList(
   if (path.endsWith("/equipment"))
     return [
       ["A", "Chọn ô / Trang bị"],
+      ["LT / RT", "Đổi trang"],
       ["Y", "Bộ lọc"],
       ["B", "Trở về"],
       ["RS", "Cuộn"],
@@ -167,6 +169,7 @@ function hintList(
     return [
       ["A", "Chọn"],
       ["LB / RB", "Chuyển tab"],
+      ...(path!=="/shop"?[["LT / RT","Đổi trang"] as [string,string]]:[]),
       ["B", "Trở về"],
       ["RS", "Cuộn"],
     ];
@@ -177,7 +180,7 @@ function hintList(
       ["B", "Trở về"],
     ];
   if (path === "/quests")
-    return [["A", "Chọn"], ["LB / RB", "Thảo phạt / Hiểm Ác"], ["Y", "Bộ lọc"], ["B", "Trở về"], ["RS", "Cuộn"]];
+    return [["A", "Chọn"], ["LB / RB", "Thảo phạt / Hiểm Ác / Truy Nã"], ["Y", "Bộ lọc"], ["B", "Trở về"], ["RS", "Cuộn"]];
   if (["/characters", "/inventory"].includes(path))
     return [
       ["A", "Chọn"],
@@ -414,6 +417,8 @@ export function GamepadNavigation() {
           !path.endsWith("/equipment")
         )
           document.querySelector<HTMLElement>(".header-actions a")?.click();
+      } else if(action==='lt'||action==='rt'){
+        root.querySelector<HTMLButtonElement>('[data-gamepad-page="'+(action==='lt'?'previous':'next')+'"]:not(:disabled)')?.click();
       } else if (action === "lb" || action === "rb") {
         const tabs = root.querySelector(
           ".settings-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",

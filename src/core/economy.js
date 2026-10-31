@@ -1,3 +1,6 @@
+import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
+import {validT4Gear} from './gear-rules.js';
+import {prepareVictoryReward} from './quest-rewards.js';
 import {recordDailyClear} from './daily-commissions.js';
 import { grantQuestExclusive } from './exclusive-rewards.js';
 import { ownsCharacter, unlockCharacter } from './ownership.js';
@@ -32,6 +35,7 @@ export function validateEconomyContent(content) {
   for (const key of ['victoryCoins', 'bossVictoryCoins', 'superVictoryCoins', 'legacyVictoryCoins', 'prismaCoinCost', 'singlePullCost', 'tenPullCost', 'duplicateShards', 'recruitCost']) {
     if (!positiveInt(rules[key])) errors.push(`economy: invalid ${key}`);
   }
+  if(!Number.isFinite(rules.coinRewardChance)||rules.coinRewardChance<=0||rules.coinRewardChance>=1||!positiveInt(rules.normalFragmentReward)||!positiveInt(rules.bossFragmentReward))errors.push('economy: invalid Quest reward split');
   for (const encounter of Object.values(content.encounters)) if (!['normal', 'boss', 'super'].includes(encounterTier(encounter))) errors.push(`encounters: invalid rewardTier ${encounter.id}`);
   if (!positiveInt(rules.baseGearSlots) || !positiveInt(rules.maxGearSlots) || rules.maxGearSlots < rules.baseGearSlots) errors.push('economy: invalid gear slot limits');
   if (!Array.isArray(rules.starterCharacters) || !rules.starterCharacters.length
@@ -41,6 +45,8 @@ export function validateEconomyContent(content) {
     || new Set(rules.gearStats.map(item => item.stat)).size !== rules.gearStats.length
     || rules.gearStats.some(item => !STAT_KEYS.includes(item.stat) || !positiveInt(item.scale) || typeof item.label !== 'string')) errors.push('economy: invalid gearStats');
   for (const type of Object.values(content.gearTypes)) {
+    if(type.id==='t4_stats'&&(type.points!==5||type.statCount!==2))errors.push('gearTypes: invalid forged stats');
+    if (type.id==='t4_effect') {if(type.points!==0||type.statCount!==0)errors.push('gearTypes: invalid effect gear');continue;}
     if (!positiveInt(type.points) || !positiveInt(type.statCount) || type.statCount > (rules.gearStats?.length ?? 0)) errors.push(`gearTypes: invalid ${type.id}`);
   }
   for (const banner of Object.values(content.banners)) {
@@ -51,15 +57,17 @@ export function validateEconomyContent(content) {
       || banner.characterPool.some(id => !Object.hasOwn(content.characters, id) || content.characters[id]?.developerOnly || rules.starterCharacters?.includes(id))) errors.push(`banners: invalid characterPool ${banner.id}`);
     if (!Array.isArray(banner.gearRates) || !banner.gearRates.length
       || new Set(banner.gearRates.map(item => item.typeId)).size !== banner.gearRates.length
-      || banner.gearRates.some(item => !Object.hasOwn(content.gearTypes, item.typeId) || !positiveInt(item.weight))) errors.push(`banners: invalid gearRates ${banner.id}`);
+      || banner.gearRates.some(item => !Object.hasOwn(content.gearTypes, item.typeId) || item.typeId.startsWith('t4_') || !positiveInt(item.weight))) errors.push(`banners: invalid gearRates ${banner.id}`);
   }
   return errors;
 }
 
 export function validateGear(gear, content) {
   const type = Object.hasOwn(content.gearTypes, gear?.typeId) ? content.gearTypes[gear.typeId] : null;
-  if (!type || typeof gear.id !== 'string' || !/^(gear|loot)_[1-9]\d*$/.test(gear.id)
+  if (!type || typeof gear.id !== 'string' || !/^(gear|loot|rune)_[1-9]\d*$/.test(gear.id)
     || !gear.stats || typeof gear.stats !== 'object' || Array.isArray(gear.stats)) return false;
+  if(['t4_stats','t4_effect'].includes(gear.typeId))return validT4Gear(gear,content);
+  if(gear.primaryStat!==undefined||gear.secondaryStat!==undefined||gear.effectId!==undefined||gear.id.startsWith('rune_'))return false;
   const entries = Object.entries(gear.stats);
   return entries.length === type.statCount && entries.every(([key, value]) => {
     const definition = economyRules(content).gearStats.find(item => item.stat === key);
@@ -91,13 +99,13 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
   if (battle.outcome !== 'victory' || battle.rewardClaimed) return campaign;
   const encounter = content.encounters[battle.encounterId];
   if (encounter?.waves && (battle.storyWave?.totalWaves!==encounter.waves.length || battle.storyWave?.waveIndex!==encounter.waves.length-1)) return campaign;
-  if (encounter?.travelerStory) {
+  if (encounter?.travelerStory || encounter?.category==='bounty') {
     if (encounter.requires?.firstClear && !campaign.claimedFirstClearRewards?.includes(encounter.requires.firstClear)) throw new Error('Chương truyện trước chưa hoàn thành.');
-    if (encounter.requires?.firstClears?.some(id=>!campaign.claimedFirstClearRewards?.includes(id))) throw new Error('Hãy hoàn thành đủ các câu chuyện bắt buộc trước khi nhận thưởng vĩ thanh.');
+    if (encounter.requires?.firstClears?.some(id=>!campaign.claimedFirstClearRewards?.includes(id))) throw new Error('Hãy hoàn thành đủ các câu chuyện bắt buộc trước khi nhận thưởng chương truyện.');
     if (encounter.requiredPartyIds?.some(id => !battle.actors?.some(actor => actor.team === 'party' && (actor.definitionId ?? actor.id) === id))) throw new Error('Đội tham chiến thiếu nhân vật bắt buộc.');
   }
   const next = structuredClone(campaign);
-  next.coins = checkedAdd(next.coins, victoryCoinReward(content, battle.encounterId));
+  for(const[field,n]of Object.entries(prepareVictoryReward(battle,content))) next[field]=checkedAdd(next[field]??0,n);
   next.victories = checkedAdd(next.victories, 1);
   if (encounter && !encounter.travelerStory && ["normal","boss"].includes(encounterTier(encounter))) recordDailyClear(next,"quest",now);
   next.claimedFirstClearRewards ??= [];
@@ -111,7 +119,10 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
         const alreadyOwned = next.characters[upgrade.characterId].upgradeIds.includes(upgrade.id);
         completeStoryEvent(next, content, upgrade.requires.storyFlag);
         granted.push({ type: 'upgrade', upgradeId: upgrade.id, characterId: upgrade.characterId, alreadyOwned });
-      } else if (reward.type === 'gear_slot') granted.push({type:'gear_slot',characterId:reward.characterId,slotUnlocked:unlockDuplicateSlot(next,content,reward.characterId)});
+      } else if(reward.type==='currency'){if(!FIRST_CLEAR_CURRENCIES.includes(reward.currency))throw Error('Loại tiền thưởng không hợp lệ.');next[reward.currency]=checkedAdd(next[reward.currency]??0,reward.amount);granted.push({...reward});}
+      else if(reward.type==='exclusive_recipe')granted.push({...reward});
+      else if (reward.type === 'gear_slot') granted.push({type:'gear_slot',characterId:reward.characterId,slotUnlocked:unlockDuplicateSlot(next,content,reward.characterId)});
+      else if (reward.type === 'gear_recipe') granted.push({type:'gear_recipe',recipeId:reward.recipeId});
       else if (reward.type === 'exclusive') granted.push(grantQuestExclusive(next,content,reward.templateId));
       else granted.push(grantCharacterCopy(next, content, reward.characterId));
     }

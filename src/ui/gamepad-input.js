@@ -1,4 +1,4 @@
-const ACTIONS = { 0: 'a', 1: 'b', 2: 'x', 3: 'y', 4: 'lb', 5: 'rb', 9: 'menu' };
+const ACTIONS = { 0: 'a', 1: 'b', 2: 'x', 3: 'y', 4: 'lb', 5: 'rb', 6:'lt',7:'rt', 9: 'menu' };
 export class GamepadReader {
   constructor() { this.reset(); }
   reset() { this.identity = null; this.previous = []; this.direction = null; this.repeatAt = 0; }

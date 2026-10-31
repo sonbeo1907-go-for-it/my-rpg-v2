@@ -12,14 +12,14 @@ async function seed(page:Page,count=6,legacy=false){
 }
 const state=(page:Page)=>page.evaluate(()=>JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text));
 
-test('Thợ Rèn has warm SVG, 60/40 layout, two tabs, known costs and 13 authored exclusive templates; phone fits',async({page,request})=>{
+test('Thợ Rèn has warm SVG, 60/40 layout, four tabs, known costs and 14 authored exclusive templates; phone fits',async({page,request})=>{
  await seed(page);await page.goto('/home');await page.locator('.home-menu-link[href="/blacksmith"]').click();await expect(page).toHaveURL(/blacksmith$/);
  await expect(page.locator('.shop-scene img')).toHaveAttribute('src','/art/blacksmith.svg');const response=await request.get('/art/blacksmith.svg');expect(response.ok()).toBe(true);expect(await response.text()).not.toContain('base64');
  await expect(page.locator('.forge-wallet')).toContainText('120');await expect(page.locator('.forge-wallet [data-currency=original]')).toContainText('4');
  const stock=await page.locator('.shop-stock').boundingBox(),keeper=await page.locator('.shop-keeper').boundingBox();expect(stock!.x+stock!.width).toBeLessThan(keeper!.x);expect(stock!.width/(stock!.width+keeper!.width)).toBeCloseTo(.6,1);
  await page.screenshot({path:'test-results/blacksmith-desktop.png',fullPage:true});
- await page.getByRole('button',{name:'Trấn Phái',exact:true}).click();await expect(page.locator('.blacksmith-tabs button')).toHaveCount(2);await expect(page.locator('.exclusive-card')).toHaveCount(13);await expect(page.locator('.exclusive-card')).toHaveCount(13);
- await page.locator('.forge-policy summary').click();await expect(page.locator('.forge-cost')).toContainText('10.000');await expect(page.locator('.forge-cost')).toContainText('120');await expect(page.locator('.forge-policy .forge-roll-ranges')).toContainText('HP +25–50');await expect(page.locator('.forge-policy')).toContainText('Mặc định thử nghiệm');
+ await page.getByRole('button',{name:'Trấn Phái',exact:true}).click();await expect(page.locator('.blacksmith-tabs button')).toHaveCount(4);await expect(page.locator('.exclusive-card')).toHaveCount(14);await expect(page.locator('.exclusive-card')).toHaveCount(14);
+ await page.locator('.forge-policy summary').click();await expect(page.locator('.forge-cost')).toContainText('10.000');await expect(page.locator('.forge-cost')).toContainText('2.400');await expect(page.locator('.forge-policy .forge-roll-ranges')).toContainText('HP +25–50');await expect(page.locator('.forge-policy')).toContainText('Mặc định thử nghiệm');
  await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'test-results/blacksmith-phone.png',fullPage:true});
  await page.goto('/dungeon');await expect(page.locator('.dungeon-choice')).toHaveCount(2);await expect(page.locator('main')).not.toContainText('ảo ảnh');
 });
@@ -36,7 +36,7 @@ test('dismantle confirms 1–99 unequipped items, cancels safely, rolls back dis
  await page.reload();await expect(page.locator('.gear-card')).toHaveCount(2);await page.goto('/recruitment/results');await expect(page.locator('main')).toContainText('Đã phân rã');expect((await state(page)).gear).toHaveLength(3);
 });
 test('select visible caps at 99; filtering clears hidden selections; one-piece confirm cancels without spending',async({page})=>{
- await seed(page,101);await page.goto('/blacksmith');await expect(page.locator('.gear-card')).toHaveCount(100);await page.getByRole('button',{name:'Chọn các món đang hiển thị'}).click();await expect(page.locator('.forge-selection')).toContainText('99/99');await expect(page.locator('.gear-card:not([aria-pressed=true])')).toBeDisabled();
+ await seed(page,101);await page.goto('/blacksmith');await expect(page.locator('.gear-card')).toHaveCount(12);await page.getByRole('button',{name:'Chọn các món đang hiển thị'}).click();await expect(page.locator('.forge-selection')).toContainText('12/99');await expect(page.getByRole('button',{name:'Trang sau'})).toBeEnabled();
  await page.getByRole('combobox',{name:'Chỉ số',exact:true}).selectOption('magic');await expect(page.locator('.forge-selection')).toContainText('0/99');await expect(page.getByRole('button',{name:'Phân rã (0)',exact:true})).toBeDisabled();
  await page.getByRole('combobox',{name:'Chỉ số',exact:true}).selectOption('attack');await page.locator('.gear-card').first().click();await page.getByRole('button',{name:'Phân rã (1)',exact:true}).click();await expect(page.getByRole('dialog')).toContainText('1 trang bị');await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);expect((await state(page)).gear).toHaveLength(101);
 });

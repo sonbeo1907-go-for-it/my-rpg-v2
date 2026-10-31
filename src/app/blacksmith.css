@@ -87,3 +87,30 @@
  .reforge-comparison { grid-template-columns:1fr; }
  .inventory-forge-link { font-size:.75rem; padding:.75rem; }
 }
+
+/* Siêu Cấp: separate rarity and affixes, reusable inventory paging. */
+.gear-pagination{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin:1rem 0;color:var(--muted);font-size:.8rem}.gear-pagination button{padding:.6rem .8rem}.gear-affixes{display:grid;gap:.3rem;font-size:.8rem}.gear-affixes>span:first-child{color:#ffe3a8}.gear-affixes>span:last-child{color:#cbb6e6}.gear-card.t4_stats,.gear-card.t4_effect{border-color:#df8fbb}.equipment-icon[data-rarity=super]{color:#ffacd5;background:#42253566;filter:drop-shadow(0 0 5px #c65eaa66)}.gear-effect-description{font-size:.8rem;line-height:1.7;color:#dfc7e9!important}.t4-forge-form{display:grid;gap:1rem;padding:1.2rem;margin-bottom:1.5rem}.t4-forge-form h2{margin:0}.t4-forge-form p,.t4-owned>p{font-size:.85rem;line-height:1.8;color:var(--muted)}.t4-forge-form label{display:grid;gap:.5rem}.t4-costs{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}.t4-costs>span:last-child{font-size:.8rem;color:var(--muted)}.t4-recipes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}.t4-recipe{text-align:left;display:grid;gap:.5rem;padding:1rem}.t4-recipe.selected{outline:2px solid #e9b972}.t4-recipe>span,.t4-recipe>small{font-size:.75rem;color:var(--muted)}.t4-reforge-card{display:flex;flex-direction:column;gap:.5rem;min-width:0}.t4-reforge-card .gear-card{flex:1;width:100%}.t4-reforge-card>button:last-child{font-size:.8rem;padding:.6rem}.blacksmith-tabs button{font-size:.8rem;padding:.8rem}.gear-grid:has(.t4-reforge-card){align-items:stretch}@media(max-width:640px){.t4-recipes{grid-template-columns:1fr}.gear-pagination{font-size:.7rem}.gear-pagination button{padding:.5rem}}
+
+@media(max-width:640px){.blacksmith-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.blacksmith-tabs button{width:100%;justify-content:center}}
+
+/* Every recipe follows the same icon / title / description / footer alignment. */
+.blacksmith-page .t4-recipe.panel{
+ position:relative;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;align-content:start;align-items:start;gap:1rem;
+ min-width:0;min-height:250px;padding:1.35rem;text-align:left;border:1px solid #9b7bb15c;
+ background:linear-gradient(140deg,#342d3bba,#222d32e0);box-shadow:inset 0 1px #e4ceff0a;
+}
+.blacksmith-page .t4-recipe.panel:hover{background:linear-gradient(140deg,#42344dbd,#26333ae8);border-color:#bd9ad8;}
+.blacksmith-page .t4-recipe.panel.selected{outline:2px solid #e6c189;outline-offset:-2px;background:linear-gradient(140deg,#403549dd,#29343be8);}
+.t4-recipe>.t4-recipe-heading{display:flex;align-items:center;justify-content:flex-start;gap:1.25rem;width:100%;min-height:74px;position:relative;z-index:3;}
+.t4-recipe-heading>.gear-symbol.equipment-icon{width:48px;height:48px;margin:.65rem .6rem;flex:0 0 48px;}
+.t4-recipe-copy{display:flex;flex-direction:column;align-items:flex-start;gap:.65rem;min-width:0;}
+.t4-recipe-copy>strong{font-family:"Noto Serif Variable",Georgia,serif;font-size:1.05rem;line-height:1.5;color:#f0e6ff;font-weight:750;}
+.t4-recipe-kind{font-size:.68rem;line-height:1.5;letter-spacing:.025em;color:#d4bfeb;border:1px solid #ad83cf50;border-radius:3px;padding:.2rem .45rem;background:#a275c414;}
+.t4-recipe[data-recipe-class=special] .t4-recipe-kind{color:#f0d6b1;border-color:#d2b38955;background:#b18d5010;}
+.t4-recipe.panel>p{margin:0;color:#c9c8d2;font-size:.84rem;line-height:1.85;position:relative;z-index:3;}
+.t4-recipe-footer{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem;width:100%;border-top:1px solid #bc9dd41c;padding-top:.8rem;font-size:.7rem;color:#bcaecb;line-height:1.65;position:relative;z-index:3;}
+.t4-recipe-footer>span:last-child{white-space:nowrap;display:inline-flex;align-items:center;gap:.3rem;color:#dfcaee;}
+.t4-recipe-footer .icon{width:13px;height:13px;}
+.t4-recipe.is-locked .t4-recipe-footer>span:first-child{color:#cdbb9d;}
+.t4-recipe>.prisma-sparkles{z-index:0;}
+@media(max-width:640px){.blacksmith-page .t4-recipe.panel{padding:1rem;min-height:240px}.t4-recipe>.t4-recipe-heading{gap:1rem}.t4-recipe-copy>strong{font-size:1rem}}

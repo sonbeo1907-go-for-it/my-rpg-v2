@@ -847,5 +847,78 @@
       "damageTakenBonus": 0.35
     },
     "description": "Nhận thêm 35% sát thương sau khi dồn lực tung đao. Hiệu lực bắt đầu trước đòn chém."
+  },
+  {
+    "id": "gear_defense_crack",
+    "name": "Vết đinh phá giáp",
+    "kind": "debuff",
+    "modifiers": {
+      "defense": -0.1
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "gear_resistance_crack",
+    "name": "Vết kính rạn thuật",
+    "kind": "debuff",
+    "modifiers": {
+      "resistance": -0.1
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "bounty_guardian_crack",
+    "name": "Giáp cổ rạn nứt",
+    "kind": "debuff",
+    "modifiers": {
+      "defense": -0.15
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "bounty_sword_delay",
+    "name": "Nhịp kiếm chậm",
+    "kind": "debuff",
+    "modifiers": {
+      "speed": -0.15
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "bounty_salt_corrosion",
+    "name": "Sương muối ăn mòn",
+    "kind": "debuff",
+    "modifiers": {
+      "resistance": -0.15
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "bounty_ash_evasion",
+    "name": "Vạt áo trong gió",
+    "kind": "buff",
+    "modifiers": {
+      "evasion": 0.2
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "chelsea_urgent",
+    "name": "Thư khẩn",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "taunt": true,
+    "modifiers": {
+      "attack": 0.25
+    }
+  },
+  {
+    "id": "vesper_false_warrant",
+    "name": "Lệnh truy bắt giả",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": -0.15
+    }
   }
 ]

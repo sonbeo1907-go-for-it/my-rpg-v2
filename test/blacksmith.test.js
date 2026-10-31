@@ -16,12 +16,12 @@ function source(){
  for(const[id,characterId,modifiers]of[['test-arthur','arthur',{attack:.2}],['test-arthur-two','arthur',{defense:.1}],['test-lisbeth','lisbeth',{magic:.1}]])c.exclusiveGear[id]={id,characterId,name:`Mẫu kiểm thử ${id}`,description:'Chỉ có trong bài kiểm thử.',enabled:true,passive:{type:'stat_boost',description:'Hiệu ứng kiểm thử.',modifiers}};
  assert.deepEqual(validateContent(c),[]);return c;
 }
-function funded(c=content){const save=createGameSave(c);Object.assign(save,{coins:50000,prismaFragments:1000,recruitmentShards:30,originalPrisma:20});return save;}
+function funded(c=content){const save=createGameSave(c);Object.assign(save,{coins:50000,prismaFragments:10000,recruitmentShards:30,originalPrisma:20});return save;}
 function gearSave(){const save=funded();save.gear=['t1','t2','t3_focused','t3_dual'].map((typeId,i)=>({id:`gear_${i+1}`,typeId,stats:typeId==='t3_dual'?{attack:2,magic:2}:{attack:typeId==='t1'?1:typeId==='t2'?3:5}}));save.gacha.totalPulls=4;return save;}
 function rng(...values){return()=>values.shift()??0;}
 
-test('shipping content contains 13 authored exclusive templates; removed illusion is absent',()=>{
- assert.equal(Object.keys(content.exclusiveGear).length,13);assert.equal(Object.hasOwn(content.dungeons,'illusion'),false);
+test('shipping content contains 14 authored exclusive templates; removed illusion is absent',()=>{
+ assert.equal(Object.keys(content.exclusiveGear).length,14);assert.equal(Object.hasOwn(content.dungeons,'illusion'),false);
  assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments']);
 });
 test('v4 migrates to the current envelope without losing presets, ordinary gear, currencies, progression or daily quota',()=>{
@@ -36,13 +36,13 @@ test('v4 migrates to the current envelope without losing presets, ordinary gear,
 test('dismantling mixed tiers yields 5/15/40/40, never changes pull counters and does not mutate input',()=>{
  const original=gearSave(),raw=JSON.stringify(original),ids=original.gear.map(x=>x.id);
  assert.equal(dismantleQuote(original,content,ids).fragments,100);
- const next=dismantleGear(original,content,ids);assert.equal(next.prismaFragments,1100);assert.deepEqual(next.gear,[]);assert.equal(next.gacha.totalPulls,4);assert.equal(JSON.stringify(original),raw);
+ const next=dismantleGear(original,content,ids);assert.equal(next.prismaFragments,10100);assert.deepEqual(next.gear,[]);assert.equal(next.gacha.totalPulls,4);assert.equal(JSON.stringify(original),raw);
  assert.deepEqual(decodeGameSave(encodeGameSave(next,content),content),next);
 });
 test('dismantle rechecks any owner, rejects missing/duplicate/exclusive IDs and atomically refuses invalid batches',()=>{
  const c=source();let original=gearSave();original=equipGear(original,c,'iris','gear_2');
  for(const ids of [[],['gear_1','gear_1'],['gear_1','missing'],['gear_1','gear_2'],['test-arthur']])assert.throws(()=>dismantleGear(original,c,ids));
- assert.equal(original.gear.length,4);assert.equal(original.prismaFragments,1000);
+ assert.equal(original.gear.length,4);assert.equal(original.prismaFragments,10000);
  const many=funded();many.gear=Array.from({length:100},(_,i)=>({id:`gear_${i+1}`,typeId:'t1',stats:{attack:1}}));many.gacha.totalPulls=100;
  assert.throws(()=>dismantleGear(many,content,many.gear.map(x=>x.id)));
  assert.equal(dismantleGear(many,content,many.gear.slice(0,99).map(x=>x.id)).gear.length,1);
@@ -64,7 +64,7 @@ test('one stat rolls uniformly by type then integer, covers min/max inclusive, a
 });
 test('craft costs exactly four materials once, requires owner and enabled template, and never autoequips',()=>{
  const c=source(),original=funded(c),raw=JSON.stringify(original),next=craftExclusive(original,c,'test-arthur',rng(0,0));
- assert.equal(next.coins,40000);assert.equal(next.prismaFragments,880);assert.equal(next.recruitmentShards,27);assert.equal(next.originalPrisma,19);
+ assert.equal(next.coins,40000);assert.equal(next.prismaFragments,7600);assert.equal(next.recruitmentShards,27);assert.equal(next.originalPrisma,19);
  assert.deepEqual(next.exclusiveGear,[{templateId:'test-arthur',statKey:'maxHp',statValue:25}]);assert.deepEqual(next.equippedExclusiveGear,{});assert.equal(JSON.stringify(original),raw);
  assert.throws(()=>craftExclusive(next,c,'test-arthur'));assert.throws(()=>craftExclusive(original,c,'test-lisbeth'));
  c.exclusiveGear['test-arthur'].enabled=false;assert.throws(()=>craftExclusive(original,c,'test-arthur'));

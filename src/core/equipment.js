@@ -26,11 +26,13 @@ export function assertValidEquipment(campaign, content) {
   for (const [characterId, slots] of Object.entries(equipment)) {
     if (!Object.hasOwn(content.characters, characterId) || !ownsCharacter(campaign, characterId)) throw new Error('Trang bị thuộc nhân vật chưa mở khóa hoặc không tồn tại.');
     if (!Array.isArray(slots) || !slots.length || slots.length > gearSlotCapacity(campaign, content, characterId)) throw new Error('Số ô trang bị không hợp lệ.');
+    const effects = new Set();
     for (const gearId of slots) {
       if (gearId === null) continue;
       const gear = campaign.gear.find(item => item.id === gearId);
       if (typeof gearId !== 'string' || !gear || !validateGear(gear, content)) throw new Error('Trang bị tham chiếu gear không hợp lệ.');
       if (used.has(gearId)) throw new Error('Một gear không thể xuất hiện trong hai ô trang bị.');
+      if(gear.effectId){const group=content.gearEffects[gear.effectId].effectGroup;if(effects.has(group))throw Error('Mỗi nhân vật chỉ mang một gear cùng nhóm hiệu ứng.');effects.add(group);}
       used.add(gearId);
     }
   }
@@ -72,6 +74,7 @@ export function equipGear(campaign, content, characterId, gearId, slot = 0) {
   const target = equipmentSlots(next, content, characterId);
   target[slot] = gearId;
   saveSlots(next, characterId, target);
+  assertValidEquipment(next,content);
   return next;
 }
 

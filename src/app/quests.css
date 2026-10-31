@@ -54,3 +54,12 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+.quest-category-bounty .quest-illustration {border-color:#a78a5d;}
+.quest-category-bounty .quest-illustration:after {background:linear-gradient(0deg,#111c22fc,#161d2440 65%,#101b2420);}
+.quest-category-bounty .quest-board {background:linear-gradient(140deg,#343027,#181f24);border-color:#a78a5d;}
+.quest-category-bounty .quest-category-tabs {background:#1d252dd9;}
+.quest-category-tabs {max-width:100%;flex-wrap:wrap;}
+@media(max-width:640px){.quest-category-tabs{gap:.2rem;padding:.25rem}.quest-category-tabs button{padding:.65rem .4rem;font-size:.75rem}.quest-category-tabs .icon{width:17px;height:17px}}
+
+.recipe-unlocks{display:grid;gap:.5rem;margin:1rem auto 0;font-size:.9rem;max-width:480px;padding:1rem;background:#221e3580;border:1px solid #b69add66;border-radius:5px}.recipe-unlocks strong{color:#e8d7ff}.recipe-unlocks span{color:#c8cbd0}.recipe-unlocks a{font-size:1rem;color:#e5c58c}

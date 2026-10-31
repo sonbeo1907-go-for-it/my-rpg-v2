@@ -1,4 +1,5 @@
 "use client";
+import {GearPagination,useGearPagination} from "./gear-pagination";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useGame } from "../runtime/game-context";
@@ -107,10 +108,11 @@ export function ExclusiveInventory({ filters, onChange }: { filters: any; onChan
   const owners = [...new Set(owned.map((item: any) => item.template.characterId))] as string[];
   const query = (filters.exclusiveQ ?? "").trim().toLocaleLowerCase("vi");
   const items = owned.filter((item: any) => (!filters.exclusiveCharacter || item.template.characterId === filters.exclusiveCharacter) && `${item.template.name} ${content.characters[item.template.characterId].name}`.toLocaleLowerCase("vi").includes(query));
+  const pager=useGearPagination(items,filters,onChange);
   return <section aria-label="Trấn Phái trong túi đồ">
-    <div className="filter-bar exclusive-inventory-filters"><label>Tìm Trấn Phái<input value={filters.exclusiveQ ?? ""} placeholder="Tên món hoặc nhân vật…" onChange={event => onChange({ ...filters, exclusiveQ: event.target.value })}/></label><label>Nhân vật<select value={filters.exclusiveCharacter ?? ""} onChange={event => onChange({ ...filters, exclusiveCharacter: event.target.value })}><option value="">Tất cả</option>{owners.map(id => <option key={id} value={id}>{content.characters[id].name}</option>)}</select></label></div>
+    <div className="filter-bar exclusive-inventory-filters"><label>Tìm Trấn Phái<input value={filters.exclusiveQ ?? ""} placeholder="Tên món hoặc nhân vật…" onChange={event => onChange({ ...filters, exclusiveQ: event.target.value,page:"1" })}/></label><label>Nhân vật<select value={filters.exclusiveCharacter ?? ""} onChange={event => onChange({ ...filters, exclusiveCharacter: event.target.value,page:"1" })}><option value="">Tất cả</option>{owners.map(id => <option key={id} value={id}>{content.characters[id].name}</option>)}</select></label></div>
     <div className="catalog-heading"><span>{items.length}/{owned.length} Trấn Phái</span><p>Mỗi nhân vật có một ô Trấn Phái riêng.</p></div>
-    <div className="exclusive-inventory-grid">{items.map((item: any) => {
+    <GearPagination pager={pager}/><div className="exclusive-inventory-grid">{pager.items.map((item: any) => {
       const actor = content.characters[item.template.characterId], equipped = campaign.equippedExclusiveGear[actor.id] === item.templateId;
       return <Link className="exclusive-inventory-card panel" href={`/characters/${actor.id}/equipment`} key={item.templateId} aria-label={`Quản lý ${item.template.name} của ${actor.name}, ${equipped ? "đang trang bị" : "chưa trang bị"}`}>
         {equipped && <Equipped ownerName={actor.name}/>}<EquipmentIcon typeId="exclusive"/><span className="eyebrow">TRẤN PHÁI · {actor.name}</span><h3>{item.template.name}</h3><strong className="exclusive-stat-pill">{stat(item)}</strong><p>{item.template.passive.description}</p><span className="exclusive-inventory-state">{equipped ? "Đang trang bị" : "Chưa trang bị"}</span><span className="exclusive-manage">Quản lý trang bị →</span>

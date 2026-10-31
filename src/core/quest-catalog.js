@@ -1,5 +1,7 @@
 import { encounterTier, victoryCoinReward } from './economy.js';
 
+export const BOUNTY_PREREQUISITES=['iris_story_revenge','takeshi_story_horizon','fiona_story_drei'];
+export const bountyUnlocked=campaign=>BOUNTY_PREREQUISITES.every(id=>campaign.claimedFirstClearRewards?.includes(id));
 export const SINISTER_UNLOCK_FLAG = 'illusion.sinister_unlocked';
 export function questUnlockFlag(encounter) {
   return encounter?.requires?.storyFlag ?? (encounterTier(encounter) === 'super' && !encounter.travelerStory ? SINISTER_UNLOCK_FLAG : null);
@@ -21,9 +23,10 @@ export function assertEncounterParty(encounter, campaign, content) {
 }
 export function encounterReturnPath(content, id) {
   const story = content.encounters[id]?.travelerStory;
-  return story ? `/stories/${story}?selected=${id}` : `/quests?selected=${id}`;
+  return story ? `/stories/${story}?selected=${id}` : content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}`:`/quests?selected=${id}`;
 }
 export function questCategory(filters = {}) {
+  if(filters.tab==='bounty')return 'bounty';
   if (filters.tab === 'extermination') return 'extermination';
   return filters.tab === 'sinister' || filters.type === 'super' ? 'sinister' : 'extermination';
 }
@@ -35,9 +38,9 @@ export function questCatalog(content, campaign, filters = {}) {
       const tier = encounterTier(encounter);
       return isQuestUnlocked(encounter, campaign)
         && !encounter.travelerStory
-        && (category === 'sinister' ? tier === 'super' : tier !== 'super')
+        && (category === 'bounty' ? encounter.category==='bounty' : encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super'))
         && (!query || encounter.name.toLocaleLowerCase('vi').includes(query))
-        && (category === 'sinister' || !['normal', 'boss'].includes(filters.type) || tier === filters.type);
+        && (category !== 'extermination' || !['normal', 'boss'].includes(filters.type) || tier === filters.type);
     })
     // Stable sort retains authored/story order inside a reward group.
     .sort((a, b) => victoryCoinReward(content, a.id) - victoryCoinReward(content, b.id));

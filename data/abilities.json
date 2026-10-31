@@ -4744,5 +4744,501 @@
         "multiplier": 0.85
       }
     ]
+  },
+  {
+    "id": "bounty.guardian.strike",
+    "name": "Nện Chuông",
+    "description": "Nện chuông xuống một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.2
+      }
+    ]
+  },
+  {
+    "id": "bounty.guardian.armor",
+    "name": "Đóng Giáp Cổ",
+    "description": "Dựng giáp cổ, nhận 90 khiên.",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "shield",
+        "flat": 90
+      }
+    ]
+  },
+  {
+    "id": "bounty.guardian.echo",
+    "name": "Dội Vang Phế Tích",
+    "description": "Dội tiếng chuông chấn động toàn đội đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 0.75
+      }
+    ]
+  },
+  {
+    "id": "bounty.guardian.crack",
+    "name": "Giáng Nứt",
+    "description": "Giáng xuống một mục tiêu, giảm 15% DEF trong 2 lượt chính.",
+    "target": "enemy",
+    "cost": {
+      "mp": 9
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.4,
+        "onHitStatus": {
+          "status": "bounty_guardian_crack",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "bounty.swordsman.strike",
+    "name": "Kiếm Lạc Gió",
+    "description": "Lướt kiếm chém một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1.1
+      }
+    ]
+  },
+  {
+    "id": "bounty.swordsman.cloak",
+    "name": "Vạt Áo Tan Trong Gió",
+    "description": "Tăng 20% né đòn vật lý trong 2 lượt chính.",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 4,
+    "effects": [
+      {
+        "type": "status",
+        "status": "bounty_ash_evasion",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "bounty.swordsman.delay",
+    "name": "Chém Trệ Nhịp",
+    "description": "Chém một đối thủ, giảm 15% SPD trong 2 lượt chính.",
+    "target": "enemy",
+    "cost": {
+      "mp": 7
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1.25,
+        "onHitStatus": {
+          "status": "bounty_sword_delay",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "bounty.swordsman.sweep",
+    "name": "Phong Trảm Ngang",
+    "description": "Quét kiếm gió qua toàn đội đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 9
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 0.7
+      }
+    ]
+  },
+  {
+    "id": "bounty.witch.needle",
+    "name": "Thủy Châm",
+    "description": "Phóng thủy châm vào một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.2
+      }
+    ]
+  },
+  {
+    "id": "bounty.witch.mist",
+    "name": "Sương Mù Ăn Mòn",
+    "description": "Sương muối phủ toàn đội đối phương, giảm 15% RES trong 2 lượt chính.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 0.75,
+        "onHitStatus": {
+          "status": "bounty_salt_corrosion",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "bounty.witch.vortex",
+    "name": "Dòng Xoáy Chìm Sâu",
+    "description": "Nhấn chìm một đối thủ trong dòng xoáy.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.4
+      }
+    ]
+  },
+  {
+    "id": "bounty.witch.prayer",
+    "name": "Khấn Nước Đục",
+    "description": "Hồi 55 HP. Chỉ dùng khi HP dưới 35%.",
+    "target": "self",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 4,
+    "effects": [
+      {
+        "type": "heal",
+        "flat": 55
+      }
+    ],
+    "requiresHpBelow": 0.35
+  },
+  {
+    "id": "bounty.bull.horn",
+    "name": "Sừng Thép",
+    "description": "Húc một đối thủ bằng sừng thép.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1.2
+      }
+    ]
+  },
+  {
+    "id": "bounty.bull.stomp",
+    "name": "Hai Nhịp Giẫm",
+    "description": "Giẫm hai lần vào một đối thủ.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 0.75,
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "bounty.bull.furnace",
+    "name": "Rít Lò Than",
+    "description": "Phả hơi lò than lên toàn đội đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 0.8
+      }
+    ]
+  },
+  {
+    "id": "bounty.bull.charge",
+    "name": "Húc Sập Phòng Tuyến",
+    "description": "Húc lửa phá một mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1.45
+      }
+    ]
+  },
+  {
+    "id": "bounty.cleric.staff",
+    "name": "Trượng Cạn Ánh",
+    "description": "Quật trượng vào một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.1
+      }
+    ]
+  },
+  {
+    "id": "bounty.cleric.mark",
+    "name": "Khắc Mạch Ám",
+    "description": "Gây sát thương phép Ám, rồi gắn 1 Sơ hở Ám. Sơ hở không tăng sát thương chính chiêu này.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.85
+      },
+      {
+        "type": "status",
+        "status": "exposure_dark",
+        "stacks": 1
+      }
+    ]
+  },
+  {
+    "id": "bounty.cleric.pin",
+    "name": "Đinh Ám",
+    "description": "Ghim đinh phép Ám vào một đối thủ. Ưu tiên kẻ đang có Sơ hở Ám.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 1.35
+      }
+    ]
+  },
+  {
+    "id": "bounty.cleric.scripture",
+    "name": "Kinh Văn U Ám",
+    "description": "Đọc hắc văn gây sát thương phép Ám toàn đội đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.65
+      }
+    ]
+  },
+  {
+    "id": "chelsea.urgent",
+    "name": "Thư Khẩn! Tránh Đường Nào!",
+    "description": "Tăng ATK và thu hút đòn đánh để mở cơ hội phản công.",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "chelsea_urgent",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "chelsea.seal",
+    "name": "Dấu Niêm Phán Quyết",
+    "description": "Đóng dấu một mục tiêu bằng đòn đánh Quang ổn định.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.6,
+        "element": "light",
+        "damageType": "physical"
+      }
+    ]
+  },
+  {
+    "id": "chelsea.delivery",
+    "name": "Giao Tận Tay — Không Thất Lạc!",
+    "description": "Giao đòn kết liễu mạnh hơn khi mục tiêu đang có Sơ hở.",
+    "target": "enemy",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 3.2,
+        "element": "light",
+        "damageType": "physical",
+        "bonusVsExposure": 0.3
+      }
+    ]
+  },
+  {
+    "id": "chelsea.counter",
+    "name": "Bưu Kiện Hoàn Trả!",
+    "description": "Phản công sau khi né, rồi gắn Sơ hở Quang.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.5,
+        "element": "light",
+        "damageType": "physical",
+        "onHitStatus": {
+          "status": "exposure_light",
+          "stacks": 2
+        }
+      }
+    ],
+    "activation": "passive"
+  },
+  {
+    "id": "vesper.knife",
+    "name": "Dao Rọc Phong Bì",
+    "description": "Lướt dao rọc thư qua một đối thủ.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "wind",
+        "damageType": "physical"
+      }
+    ]
+  },
+  {
+    "id": "vesper.ink",
+    "name": "Mực Đen Tràn Giấy",
+    "description": "Mực đen phủ toàn đội đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.75,
+        "element": "dark",
+        "damageType": "magical"
+      }
+    ]
+  },
+  {
+    "id": "vesper.seal",
+    "name": "Niêm Phong Ngụy Tạo",
+    "description": "Tạo 70 khiên cho bản thân.",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "shield",
+        "flat": 70
+      }
+    ]
+  },
+  {
+    "id": "vesper.warrant",
+    "name": "Lệnh Truy Bắt Giả",
+    "description": "Công kích một mục tiêu và làm suy yếu kháng phép.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.4,
+        "element": "dark",
+        "damageType": "magical",
+        "onHitStatus": {
+          "status": "vesper_false_warrant",
+          "duration": 2
+        }
+      }
+    ]
   }
 ]

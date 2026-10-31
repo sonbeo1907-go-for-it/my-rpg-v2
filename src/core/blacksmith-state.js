@@ -1,11 +1,12 @@
+import {validT4Gear,GEAR_STAT_KEYS} from './gear-rules.js';
 import { validExclusiveStat } from './blacksmith-rules.js';
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
 export function emptyBlacksmithState() {
-  return { prismaFragments:0, originalPrisma:0, exclusiveGear:[], equippedExclusiveGear:{}, pendingReforge:null, blacksmithRevision:0 };
+  return { prismaFragments:0, originalPrisma:0, exclusiveGear:[], equippedExclusiveGear:{}, pendingReforge:null, blacksmithRevision:0, craftedGearSerial:0, pendingGearReforge:null };
 }
 export function normalizeBlacksmithState(input, content, campaign) {
   const state=emptyBlacksmithState();
-  for(const key of ['prismaFragments','originalPrisma','blacksmithRevision']) {
+  for(const key of ['prismaFragments','originalPrisma','blacksmithRevision','craftedGearSerial']) {
     const value=input[key]===undefined?0:input[key];
     if(!Number.isSafeInteger(value)||value<0) throw new Error('Số dư hoặc phiên bản Thợ Rèn không hợp lệ.');
     state[key]=value;
@@ -30,6 +31,10 @@ export function normalizeBlacksmithState(input, content, campaign) {
     const owned=state.exclusiveGear.find(item=>item.templateId===pending?.templateId);
     if(!record(pending)||!owned||!Number.isSafeInteger(pending.id)||pending.id<1||pending.id>state.blacksmithRevision||owned.statKey!==pending.previousStatKey||owned.statValue!==pending.previousStatValue||!validExclusiveStat(content,pending.nextStatKey,pending.nextStatValue)) throw new Error('Kết quả tái rèn đang chờ không hợp lệ.');
     state.pendingReforge={id:pending.id,templateId:pending.templateId,previousStatKey:pending.previousStatKey,previousStatValue:pending.previousStatValue,nextStatKey:pending.nextStatKey,nextStatValue:pending.nextStatValue};
+  }
+  if(input.pendingGearReforge!=null){const p=input.pendingGearReforge,g=campaign.gear.find(g=>g.id===p?.gearId);
+    if(!record(p)||state.pendingReforge||!g||g.typeId!=='t4_stats'||!validT4Gear(g,content)||!Number.isSafeInteger(p.id)||p.id<1||p.id>state.blacksmithRevision||g.primaryStat!==p.primaryStat||g.secondaryStat!==p.previousSecondaryStat||!GEAR_STAT_KEYS.includes(p.nextSecondaryStat))throw Error('Kết quả tái rèn dòng phụ không hợp lệ.');
+    state.pendingGearReforge={id:p.id,gearId:p.gearId,primaryStat:p.primaryStat,previousSecondaryStat:p.previousSecondaryStat,nextSecondaryStat:p.nextSecondaryStat};
   }
   return state;
 }

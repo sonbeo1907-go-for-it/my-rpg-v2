@@ -56,6 +56,9 @@
     "bossVictoryCoins": 150,
     "superVictoryCoins": 1000,
     "legacyVictoryCoins": 100,
-    "prismaCoinCost": 300
+    "prismaCoinCost": 300,
+    "coinRewardChance": 0.5,
+    "normalFragmentReward": 5,
+    "bossFragmentReward": 15
   }
 ]

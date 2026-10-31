@@ -1,3 +1,5 @@
+import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
+import {exclusiveDamageEffect} from '../core/exclusive-hooks.js';
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
@@ -83,6 +85,7 @@ export function passiveDescription(actor, content) {
   if (passive.type === 'shield_break_status') return `${passive.name}: khi khiên bị đánh vỡ và vẫn còn sống, nhận ${passive.statuses.map(status => `${content?.statuses?.[status.id]?.name ?? status.id}${status.duration ? ` (${status.duration} lượt)` : ''}`).join(', ')}.`;
   if (passive.type === 'speed_damage') return `${passive.name}: cộng ${percent(passive.ratio)} SPD hiện tại vào sát thương gốc của mỗi nhát vật lí, trước phòng thủ và điểm yếu. Áp dụng cho đánh thường và kỹ năng; tốc độ từ gear và buff đều có hiệu lực.`;
   if (passive.type === 'shield_break_heal') return `Khi khiên do ${actor.name} tạo bị phá, hồi tối đa ${Math.round(actor.stats.magic * passive.multiplier)} HP cho người mang khiên nếu cả hai còn đứng vững.`;
+  if(passive.type==='dodge_counter'&&passive.evasion)return passive.name+': né vật lý và phép '+percent(nativeEvasion(actor,'physical'))+'; né thành công phản công và gắn 2 Sơ hở Quang, một lần mỗi vòng. SPD căn bản gồm trang bị, không gồm buff %.';
   if (passive.type === 'dodge_counter') return `Né thành công sẽ phản công và tạo 1 ${actor.resources[passive.resource].name}, tối đa một lần mỗi vòng.`;
   if (passive.type === 'magic_followup_mp') {
     const effect = content?.abilities[passive.followUpAbility]?.effects[0];
@@ -119,7 +122,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
   const spent = choices.spent ?? (cost?.all ? actor.resources[cost.id].max : cost?.amount ?? 0);
   const perPerson = skill.target === 'all_allies' ? '/người' : '';
   for (const authoredEffect of skill.effects) {
-    const effect=formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0});
+    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0}));
     if (effect.type==='formula_field') lines.push('Đại Đồ Thức: '+effect.durationRounds+' vòng · '+effect.sequence.map(tag=>FORMULA_NAMES[tag]).join(' → ')+'.');
     if (effect.type==='edit_formula') lines.push('Đổi chỗ hai dấu hoặc viết lại một dấu; viết lại mang nguồn người hiệu chỉnh.');
     if (effect.type==='end_formula') lines.push('Kết thúc Đại Đồ Thức sau khi thi triển.');
@@ -155,6 +158,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
         }
       }
       if (cost?.consumeAt === 'after') lines.push('Giữ bonus chỉ số từ tài nguyên khi gây sát thương, tiêu số điểm đã dùng sau khi thi triển.');
+      if(effect.bonusVsExposure)lines.push('Gây thêm '+percent(effect.bonusVsExposure)+' sát thương nếu mục tiêu đang có Sơ hở bất kỳ.');
       if (effect.penetration) lines.push(`Xuyên ${percent(effect.penetration)} ${effect.damageType === 'physical' ? 'DEF' : 'RES'} của mục tiêu.`);
       if (effect.formulaScaling) { const power=formulaPower(actor,{correct:choices.formulaCorrect??0,contributors:choices.formulaContributors??0});lines.push((choices.live?'Hiện tại':'Giả định')+': '+power.correct+'/3 dấu đúng · +'+power.baseMagic+' MAG căn bản cho cả ba hit.'); }
       if (effect.unavoidable) lines.push('Đòn đánh không thể né.');
@@ -179,7 +183,8 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.type === 'grant_extra_turn') lines.push('Cấp 1 Lượt Thêm trong Vòng Phụ hiện tại; tối đa 1/người/vòng. Không chen lượt chính. Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     if (effect.onHitStatus) {
       const mark=content.statuses[effect.onHitStatus.status];
-      lines.push('Mỗi hit trúng gắn 1 ' + mark.name + ', tối đa ' + (mark.maxStacks ?? 1) + ' tầng, trong ' + effect.onHitStatus.duration + ' lượt mục tiêu.');
+      if(mark.exposedElement)lines.push('Mỗi hit trúng gắn '+(effect.onHitStatus.stacks??1)+' '+mark.name+', tối đa '+mark.maxStacks+' tầng; duy trì đến khi hết tầng hoặc bị giải.');
+      else lines.push('Mỗi hit trúng gắn 1 ' + mark.name + ', tối đa ' + (mark.maxStacks ?? 1) + ' tầng, trong ' + effect.onHitStatus.duration + ' lượt mục tiêu.');
       if (mark.damageOverTime) lines.push('Độc: '+periodicPotency(mark,actor,valueOf)+' HP mỗi đầu lượt/mỗi tầng, tối đa '+(mark.maxStacks??1)+' tầng. Bỏ qua giáp và khiên; chốt khi gắn độc.');
       if (mark.modifiers && !mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>(n<0?'−':'+')+percent(Math.abs(n))+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'}[key]??key)).join(' · '));
       if (mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>percent(n)+' '+(key==='resistance'?'RES':key)+' mỗi tầng').join(', '));

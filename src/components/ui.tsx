@@ -5,9 +5,11 @@ import { useEffect, useId, useRef, type ReactNode } from "react";
 import { useGame } from "../runtime/game-context";
 import { ELEMENT_NAMES, ROLE_GROUPS } from "../core/content.js";
 import { STAT_LABELS, GEAR_NAMES } from "../core/catalog.js";
+import {gearName} from '../core/gear-rules.js';
 import { gearOwner } from "../core/equipment.js";
 import { useSettings } from "../runtime/settings-context";
 import { gearRarity, EQUIPMENT_RARITIES } from "../ui/equipment-presentation.js";
+import {PrismaSparkles} from "./prisma-sparkles";
 import { Equipped } from "./equipped";
 import { BrandLogo } from "./brand-logo";
 
@@ -16,6 +18,7 @@ export const fmt = (value: number) =>
 const paths: Record<string, ReactNode> = {
   hourglass: <><path d="M5 2h14M5 22h14M7 2v5l10 10v5M17 2v5L7 17v5"/><path d="m9 6 3 3 3-3M9 19l3-3 3 3"/></>,
   check: <path d="m5 12 4 4L19 6" />,
+  ring: <><ellipse cx="12" cy="15.5" rx="7.5" ry="6.5"/><path d="m8 3 8 0 3 4-7 7-7-7 3-4Zm-3 4h14M8 3l4 11 4-11"/></>,
   anvil: <><path d="M2 7h20l-4 5h-5v4l5 3v2H6v-2l4-3v-4H6L2 9Zm5-3h7v3" /></>,
   fragments: <><path d="m7 3 5 5-4 4-5-5zM16 4l5 5-6 3-2-5zM10 15l5-2 5 5-7 4-5-4zM3 16l3-2 1 5-4 1z"/></>,
   folder: <path d="M3 6h6l2 2h10v12H3V6Zm0 3V4h6l2 2h8v2" />,
@@ -328,8 +331,9 @@ export function EquipmentIcon({ typeId, compact = false }: { typeId: string; com
   const rarity = gearRarity(typeId);
   const definition = EQUIPMENT_RARITIES[rarity];
   return <span className={"equipment-icon " + (compact ? "equipment-icon-compact" : "gear-symbol")} data-rarity={rarity} title={definition.label} aria-hidden="true">
-    <Icon name={rarity === "exclusive" ? "anvil" : typeId === "t3_dual" ? "prism" : "shield"}/>
+    <Icon name={rarity === "exclusive" ? "anvil" : typeId === "t4_effect" ? "ring" : typeId === "t3_dual" ? "prism" : "shield"}/>
     <span className="equipment-icon-rank">{definition.mark}</span>
+    {rarity==="super"&&<PrismaSparkles/>}
   </span>;
 }
 
@@ -350,9 +354,12 @@ export function GearCard({
   const owner = gearOwner(campaign, gear.id);
   const body = (
     <>
+      {["t4_stats","t4_effect"].includes(gear.typeId)&&<PrismaSparkles/>}
       {owner && <Equipped ownerName={content.characters[owner].name} />}
       <EquipmentIcon typeId={gear.typeId}/>
-      <h3>{(GEAR_NAMES as any)[gear.typeId]}</h3>
+      <h3>{gearName(content,gear)}</h3>
+      {gear.typeId==='t4_stats'&&<span className="gear-affixes"><span>Dòng chính: {(STAT_LABELS as any)[gear.primaryStat]} +{5*content.economy.default.gearStats.find((s:any)=>s.stat===gear.primaryStat).scale}</span><span>Dòng phụ: {(STAT_LABELS as any)[gear.secondaryStat]} +{3*content.economy.default.gearStats.find((s:any)=>s.stat===gear.secondaryStat).scale}</span></span>}
+      {gear.effectId&&<p className="gear-effect-description">{content.gearEffects[gear.effectId].description}</p>}
       <p>
         {Object.entries(gear.stats)
           .map(([key, value]) => `${(STAT_LABELS as any)[key]} +${value}`)

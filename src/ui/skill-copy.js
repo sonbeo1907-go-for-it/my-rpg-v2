@@ -1,3 +1,5 @@
+import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
+import {exclusiveDamageEffect} from '../core/exclusive-hooks.js';
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
@@ -83,7 +85,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     for(const id of effect.linkedStatuses??[])statusFacts({type:'status',status:id},true);
   }
   for(const authoredEffect of skill.effects) {
-    const effect=formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0});
+    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0}));
     if(effect.type==='formula_field'){facts.push(effect.durationRounds+' vòng · '+effect.sequence.map(tag=>FORMULA_NAMES[tag]).join(' → '));rules.push('Ba kỹ năng chủ động gần nhất của đồng đội khác; mỗi kỹ năng ghi một dấu. Kích ưu tiên trước Phá, rồi Dẫn.','Không ghi đánh thường, Phòng thủ, nội tại, phản công, Liên kích hoặc kỹ năng của chính người dựng.','Vòng thi triển được tính; hết sau Vòng Phụ của vòng '+effect.durationRounds+'.');}
     if(effect.type==='edit_formula'){facts.push('Đổi chỗ 2 dấu hoặc viết lại 1 dấu');rules.push('Đổi chỗ giữ người góp dấu. Viết lại mang nguồn người hiệu chỉnh.','Tốn một hành động; không ghi thêm dấu vào công thức của chính mình.');}
     if(effect.type==='end_formula')rules.push('Thi triển xong sẽ kết thúc Đại Đồ Thức, kể cả khi mục tiêu gục trước hit cuối.');
@@ -99,6 +101,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
       if(speed)formula+=` + ${pct(speed)} SPD`;
       facts.push(`${DAMAGE_TYPE_NAMES[effect.damageType]} · ${ELEMENT_NAMES[effect.element]} · ${effect.hits>1?effect.hits+' × (':''}${formula}${effect.hits>1?')':''}`);
       if(effect.scalingStat && effect.scalingStat!==(effect.damageType==='physical'?'attack':'magic'))rules.push(effect.damageType==='physical'?'Lấy chỉ số đã chọn để gây sát thương vật lí: tính DEF, có thể bị né; không kích hoạt Liên kích phép đơn mục tiêu.':'Lấy chỉ số đã chọn để gây sát thương ma pháp: tính RES.');
+      if(effect.bonusVsExposure)facts.push('Địch có Sơ hở bất kỳ: +'+pct(effect.bonusVsExposure)+' sát thương');
       if(effect.penetration)facts.push(`Xuyên ${pct(effect.penetration)} ${effect.damageType==='physical'?'DEF':'RES'}`);
       if(effect.consumeStatus)rules.push(`Tiêu toàn bộ ${content.statuses[effect.consumeStatus].name} trên từng mục tiêu; mỗi địch tính riêng.`);
       if(effect.perResource||effect.perStack||effect.lowHpBonus||effect.perTargetBuff){
@@ -212,6 +215,8 @@ export function passivePresentation(actor,content) {
     case 'damage_reduction':summary=p.requiresStatus?`Bền bỉ khi đang có ${content.statuses[p.requiresStatus].name}.`:'Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận${p.requiresStatus?` · cần ${content.statuses[p.requiresStatus].name}`:''}`);break;
     case 'shield_break_heal':summary='Khi khiên do mình tạo bị phá, hồi HP cho người mang khiên.';facts.push(`Hồi ${pct(p.multiplier*(actor.exclusiveGear?.template?.passive.type==='shield_break_heal_bonus'?1+actor.exclusiveGear.template.passive.ratio:1))} MAG`);rules.push('Cả người tạo và người mang khiên phải còn sống.');break;
     case 'dodge_counter':{
+      if(p.evasion){const counter=exclusiveDamageEffect(actor,p.counterAbility,content.abilities[p.counterAbility].effects.find(e=>e.type==='damage'));summary='Né vật lý lẫn phép; phản công tạo Sơ hở Quang.';facts.push('Né hiện tại: '+pct(nativeEvasion(actor,'physical'))+' · '+number(evasionBaseSpeed(actor))+' SPD căn bản',pct(p.evasion.baseChance)+' + '+pct(p.evasion.perBaseSpeed)+'/SPD căn bản · tối đa '+pct(p.evasion.cap),'Phản công: '+pct(counter.multiplier)+' ATK · Quang · +2 Sơ hở Quang · 1 lần/vòng');rules.push('SPD căn bản tính trang bị, Trấn Phái và bonus căn bản; không tính buff/debuff SPD theo %.','Né được đòn thường, kỹ năng đơn mục tiêu và từng hit diện rộng, kể cả phép; không né Độc hoặc đòn không thể né.','Vòng Chính/Vòng Phụ dùng chung giới hạn phản công; không phản công lồng từ phản ứng khác.','Sơ hở được gắn sau sát thương phản công, có thể bị Hộ ấn chặn.');break;}
+
       name=p.name??'Phản kiếm';summary='Né thành công đòn vật lí sẽ phản công và tích Sơ hở.';facts.push(`Phản công: 85% ATK · +1 ${resourceName(actor,p.resource)} · 1 lần/vòng`);
       const slow=content.abilities[p.counterAbility]?.effects.find(effect=>effect.type==='status');
       if(slow){facts.push(`${signed(content.statuses[slow.status].modifiers.speed)} SPD mục tiêu trúng phản công`);rules.push('Đến hết lượt Vòng Chính kế tiếp của mục tiêu; cộng với hiệu ứng làm chậm khác.');}

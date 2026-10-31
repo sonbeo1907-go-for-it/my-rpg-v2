@@ -49,12 +49,12 @@ test('every encounter pays its data-driven tier once, independent of BGM and fir
     const expected = { normal: 50, boss: 150, super: 1000 }[encounter.rewardTier];
     assert.equal(victoryCoinReward(content, encounter.id), expected);
     encounter.bgm = 'normal';
-    const battle = { encounterId: encounter.id, ...(encounter.waves?{storyWave:{waveIndex:encounter.waves.length-1,totalWaves:encounter.waves.length}}:{}), outcome: 'victory', actors:(encounter.requiredPartyIds??[]).map(id=>({id,team:'party'})) };
+    const battle = { rewardRandom:()=>0, encounterId: encounter.id, ...(encounter.waves?{storyWave:{waveIndex:encounter.waves.length-1,totalWaves:encounter.waves.length}}:{}), outcome: 'victory', actors:(encounter.requiredPartyIds??[]).map(id=>({id,team:'party'})) };
     const campaign=createGameSave(content);
     if(encounter.travelerStory)campaign.claimedFirstClearRewards=withoutMusic.travelerStories[encounter.travelerStory].chapters.slice(0,withoutMusic.travelerStories[encounter.travelerStory].chapters.indexOf(encounter.id));
     campaign.claimedFirstClearRewards.push(...(encounter.requires?.firstClears??[]));
     const next = claimBattleReward(campaign, battle, withoutMusic);
-    assert.equal(next.coins, expected, encounter.id);
+    assert.equal(next.coins, expected+(encounter.firstClearRewards??[]).filter(r=>r.type==='currency'&&r.currency==='coins').reduce((n,r)=>n+r.amount,0), encounter.id);
     assert.equal(claimBattleReward(next, battle, withoutMusic), next);
   }
   for (const tier of ['superboss', null, -1]) {

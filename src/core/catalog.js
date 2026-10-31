@@ -1,7 +1,7 @@
 import { resolveCharacter } from './progression.js';
 import { gearOwner } from './equipment.js';
 export const STAT_LABELS = { maxHp: 'HP', maxMp: 'MP', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD' };
-export const GEAR_NAMES = { t1: 'Trang bị cấp thấp', t2: 'Trang bị cấp trung', t3_dual: 'Trang bị cấp cao đa dụng', t3_focused: 'Trang bị cấp cao chuyên biệt' };
+export const GEAR_NAMES = { t1: 'Trang bị cấp thấp', t2: 'Trang bị cấp trung', t3_dual: 'Trang bị cấp cao đa dụng', t3_focused: 'Trang bị cấp cao chuyên biệt', t4_stats:'Gear Siêu Cấp Chỉ Số', t4_effect:'Gear Siêu Cấp Hiệu Ứng' };
 const text = value => String(value).toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/đ/g, 'd');
 const compare = (a, b) => typeof a === 'string' ? a.localeCompare(b, 'vi', { numeric: true }) : a - b;
 export function characterCatalog(content, campaign, filters = {}, ownedOnly = false) {
@@ -19,7 +19,7 @@ export function characterCatalog(content, campaign, filters = {}, ownedOnly = fa
 }
 export function gearCatalog(content, campaign, filters = {}) {
   const { tier = '', stat = '', status = '', sort = 'received', direction = 'desc' } = filters;
-  const tiers = { t1: 1, t2: 2, t3_dual: 3, t3_focused: 3 };
+  const tiers = { t1: 1, t2: 2, t3_dual: 3, t3_focused: 3, t4_stats:4, t4_effect:4 };
   const received = new Map(campaign.gear.map((gear, index) => [gear.id, index]));
   return campaign.gear.filter(gear => (!tier || gear.typeId === tier) && (!stat || Object.hasOwn(gear.stats, stat))
     && (!status || Boolean(gearOwner(campaign, gear.id)) === (status === 'equipped'))).slice().sort((a, b) => {

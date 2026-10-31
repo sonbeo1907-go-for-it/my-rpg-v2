@@ -1083,8 +1083,8 @@
       "speed": 21
     },
     "weaknesses": [
-      "wind",
-      "fire"
+      "fire",
+      "light"
     ],
     "abilities": [
       "bandit.advance"
@@ -1105,8 +1105,8 @@
       "speed": 24
     },
     "weaknesses": [
-      "wind",
-      "earth"
+      "earth",
+      "dark"
     ],
     "abilities": [
       "bandit.arrow"
@@ -1149,8 +1149,8 @@
       "speed": 15
     },
     "weaknesses": [
-      "wind",
-      "water"
+      "water",
+      "thunder"
     ],
     "abilities": [
       "bandit.flame",
@@ -1289,6 +1289,246 @@
               "shadow_arthur.slash"
             ]
           ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "bell_lock_guardian",
+    "name": "Thạch Vệ Khóa Chuông",
+    "element": "earth",
+    "stats": {
+      "maxHp": 1080,
+      "maxMp": 90,
+      "attack": 37,
+      "magic": 18,
+      "defense": 46,
+      "resistance": 22,
+      "speed": 10
+    },
+    "weaknesses": [
+      "thunder"
+    ],
+    "abilities": [
+      "bounty.guardian.strike",
+      "bounty.guardian.armor",
+      "bounty.guardian.echo",
+      "bounty.guardian.crack"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.2
+      }
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "unshielded",
+          "abilityId": "bounty.guardian.armor"
+        }
+      ]
+    },
+    "damageTypeWeaknesses": [
+      "magical"
+    ]
+  },
+  {
+    "id": "ash_cloaked_swordsman",
+    "name": "Du Kiếm Khách Áo Tro",
+    "element": "wind",
+    "stats": {
+      "maxHp": 920,
+      "maxMp": 90,
+      "attack": 38,
+      "magic": 16,
+      "defense": 22,
+      "resistance": 26,
+      "speed": 25
+    },
+    "weaknesses": [
+      "fire"
+    ],
+    "abilities": [
+      "bounty.swordsman.strike",
+      "bounty.swordsman.cloak",
+      "bounty.swordsman.delay",
+      "bounty.swordsman.sweep"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1.1
+      }
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "missing_status",
+          "statusId": "bounty_ash_evasion",
+          "abilityId": "bounty.swordsman.cloak"
+        }
+      ]
+    }
+  },
+  {
+    "id": "salt_marsh_witch",
+    "name": "Phù Thủy Lầy Muối",
+    "element": "water",
+    "stats": {
+      "maxHp": 1000,
+      "maxMp": 130,
+      "attack": 24,
+      "magic": 36,
+      "defense": 24,
+      "resistance": 38,
+      "speed": 16
+    },
+    "weaknesses": [
+      "thunder",
+      "earth"
+    ],
+    "abilities": [
+      "bounty.witch.needle",
+      "bounty.witch.mist",
+      "bounty.witch.vortex",
+      "bounty.witch.prayer"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.2
+      }
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "ally_hp_below",
+          "ratio": 0.35,
+          "abilityId": "bounty.witch.prayer"
+        }
+      ]
+    }
+  },
+  {
+    "id": "slag_iron_bull",
+    "name": "Hỏa Ngưu Thép Xỉ",
+    "element": "fire",
+    "stats": {
+      "maxHp": 1180,
+      "maxMp": 110,
+      "attack": 42,
+      "magic": 29,
+      "defense": 32,
+      "resistance": 22,
+      "speed": 13
+    },
+    "weaknesses": [
+      "water",
+      "earth"
+    ],
+    "abilities": [
+      "bounty.bull.horn",
+      "bounty.bull.stomp",
+      "bounty.bull.furnace",
+      "bounty.bull.charge"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1.2
+      }
+    ]
+  },
+  {
+    "id": "black_script_cleric",
+    "name": "Giáo Sĩ Hắc Văn",
+    "element": "dark",
+    "stats": {
+      "maxHp": 1120,
+      "maxMp": 120,
+      "attack": 29,
+      "magic": 34,
+      "defense": 26,
+      "resistance": 30,
+      "speed": 17
+    },
+    "weaknesses": [
+      "light"
+    ],
+    "abilities": [
+      "bounty.cleric.staff",
+      "bounty.cleric.mark",
+      "bounty.cleric.pin",
+      "bounty.cleric.scripture"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.1
+      }
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "enemy_has_status",
+          "statusId": "exposure_dark",
+          "abilityId": "bounty.cleric.pin"
+        },
+        {
+          "when": "enemy_missing_status",
+          "statusId": "exposure_dark",
+          "abilityId": "bounty.cleric.mark"
+        }
+      ]
+    }
+  },
+  {
+    "id": "vesper",
+    "name": "Vesper — Kẻ Giả Ấn",
+    "role": "Kẻ giả mạo thư lệnh",
+    "element": "dark",
+    "stats": {
+      "maxHp": 960,
+      "maxMp": 100,
+      "attack": 35,
+      "magic": 28,
+      "defense": 24,
+      "resistance": 25,
+      "speed": 20
+    },
+    "weaknesses": [
+      "water"
+    ],
+    "abilities": [
+      "vesper.knife",
+      "vesper.ink",
+      "vesper.seal",
+      "vesper.warrant"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1.1,
+        "element": "wind",
+        "damageType": "physical"
+      }
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "unshielded",
+          "abilityId": "vesper.seal"
         }
       ]
     }

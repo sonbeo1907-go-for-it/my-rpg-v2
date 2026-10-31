@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import {firstClearRewardLabel} from "../core/first-clear-labels.js";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGame } from "../runtime/game-context";
@@ -12,9 +13,7 @@ import { ElementBadge, EmptyState, Icon, Modal, PageHeader } from "./ui";
 import { QuestIllustration, QuestLayout } from "./quest-layout";
 
 function chapterReward(content:any,encounter:any) {
-  return encounter.firstClearRewards.map((reward:any) => reward.type === "gear_slot"
-    ? `Mở thêm 1 ô trang bị ${content.characters[reward.characterId].name} (tối đa 6 ô)`
-    : `Mở ${content.upgrades[reward.upgradeId].changes.some((change:any)=>change.type==="set_passive")?"nội tại":"nâng cấp"} ${content.upgrades[reward.upgradeId].name}`).join(" · ");
+  return (encounter.firstClearRewards??[]).map((reward:any)=>firstClearRewardLabel(content,reward)).join(" · ");
 }
 
 function StoryOpponents({content,encounter}:{content:any,encounter:any}) {
@@ -67,6 +66,7 @@ export function TravelerStoryPage({id}:{id:string}) {
   const selected=chapters.find(chapter=>chapter.id===filters.selected)??chapters.find(chapter=>!chapter.cleared&&chapter.unlocked)??chapters[0];
   const missing=selected?.requiredPartyIds?.filter((characterId:string)=>!campaign.party.includes(characterId))??[];
   const prerequisites=storyPrerequisites(content,campaign,id),storyLocked=prerequisites.some((r:any)=>!r.completed);
+  const gachaStory=Object.values(content.banners).some((b:any)=>b.characterPool.includes(story.characterId));
   const canStart=selected?.unlocked&&!missing.length&&!busy;
   useEffect(()=>setConfirm(false),[selected?.id]);
   return <main className="quest-page story-quest-page">
@@ -81,8 +81,8 @@ export function TravelerStoryPage({id}:{id:string}) {
           <p className="first-clear">{selected.cleared?"✓ Đã nhận phần thưởng lần đầu":`Thưởng lần đầu: ${chapterReward(content,selected)}`}</p></>}
       </QuestIllustration>
       <section className="quest-board story-chapter-board" aria-label="Các chương truyện">
-        {storyLocked?<div className="story-prerequisites"><span className="eyebrow">VĨ THANH CHƯA KHAI MỞ</span><h2>Ba hành trình, một lời hẹn</h2><p>Hoàn thành toàn bộ câu chuyện của Iris, Fiona và Takeshi để viết tiếp trang này.</p><ul>{prerequisites.map((r:any)=><li key={r.id}><Icon name={r.completed?'check':'door'}/><Link href={r.storyId?'/stories/'+r.storyId:'/quests?selected='+r.id}>{r.name}</Link><strong>{r.completed?'Đã hoàn thành':'Chưa hoàn thành'}</strong></li>)}</ul></div>:!chapters.length?<EmptyState>Câu chuyện này chưa khai mở. Các nâng cấp của nhân vật vẫn chờ những chương tiếp theo.</EmptyState>:<>
-          <div className="story-board-heading"><span className="eyebrow">NHỮNG TRANG ĐỜI ĐỒNG HÀNH</span><h2>Hành trình của {content.characters[story.characterId].name}</h2><p>{gearSlotCapacity(campaign,content,story.characterId)}/6 ô trang bị đã mở · Phần thưởng đặc biệt chỉ nhận một lần.</p></div>
+        {storyLocked?<div className="story-prerequisites"><span className="eyebrow">CÂU CHUYỆN CHƯA KHAI MỞ</span><h2>Ba hành trình, một lời hẹn</h2><p>Hoàn thành toàn bộ câu chuyện của Iris, Fiona và Takeshi để viết tiếp trang này.</p><ul>{prerequisites.map((r:any)=><li key={r.id}><Icon name={r.completed?'check':'door'}/><Link href={r.storyId?'/stories/'+r.storyId:'/quests?selected='+r.id}>{r.name}</Link><strong>{r.completed?'Đã hoàn thành':'Chưa hoàn thành'}</strong></li>)}</ul></div>:!chapters.length?<EmptyState>Câu chuyện này chưa khai mở. Các nâng cấp của nhân vật vẫn chờ những chương tiếp theo.</EmptyState>:<>
+          <div className="story-board-heading"><span className="eyebrow">NHỮNG TRANG ĐỜI ĐỒNG HÀNH</span><h2>Hành trình của {content.characters[story.characterId].name}</h2><p>{gachaStory?`Không cần sở hữu hoặc đưa ${content.characters[story.characterId].name} vào đội.`:`${gearSlotCapacity(campaign,content,story.characterId)}/6 ô trang bị đã mở`} · Phần thưởng đặc biệt chỉ nhận một lần.</p></div>
           <div className="quest-list story-chapter-list">
             {chapters.map((chapter,index)=><button key={chapter.id} data-encounter-id={chapter.id} className={`quest-card ${selected.id===chapter.id?"selected":""}`} aria-pressed={selected.id===chapter.id} onClick={()=>setFilters({...filters,selected:chapter.id})}>
               <span className="quest-card-icon"><Icon name={!chapter.unlocked?"door":chapter.cleared?"check":chapter.rewardTier==="super"?"skull":"scroll"}/></span>

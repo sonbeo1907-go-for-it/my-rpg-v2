@@ -1,3 +1,4 @@
+import {INTRO_STORY_FINALS,storyNeedsIntro} from './story-gates.js';
 import { isQuestUnlocked } from './quest-catalog.js';
 
 export const STORIES_PER_PAGE = 3;
@@ -28,6 +29,8 @@ export function validateTravelerStories(content) {
     }
     story.chapters.forEach((id,index) => {
       const encounter=content.encounters[id];
+      if(storyNeedsIntro(story)&&INTRO_STORY_FINALS.some(key=>!encounter?.requires?.firstClears?.includes(key)))errors.push(story.id+': later story requires intro trilogy');
+      if(Object.values(content.banners??{}).some(b=>b.characterPool.includes(story.characterId))&&encounter?.requiredPartyIds?.includes(story.characterId))errors.push(story.id+': gacha story cannot require its character');
       if (!encounter || encounter.travelerStory !== story.id || (encounter.requires?.firstClear ?? null) !== (story.chapters[index-1] ?? null)) errors.push(`${story.id}: invalid chapter order ${id}`);
     });
   }

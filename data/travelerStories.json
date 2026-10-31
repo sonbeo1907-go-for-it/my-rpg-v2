@@ -52,5 +52,19 @@
     "chapters": [
       "epilogue_unfinished"
     ]
+  },
+  {
+    "id": "chelsea",
+    "characterId": "chelsea",
+    "order": 5,
+    "name": "Những lá thư chẳng lỡ hẹn",
+    "subtitle": "Chelsea · Sứ giả định mệnh",
+    "description": "Một chuyến giao thư thường ngày dẫn Chelsea đến những phong bì mang dấu niêm của kẻ khác. Có những lời hẹn cần được giữ, ngay cả khi người gửi chưa từng tồn tại.",
+    "art": "/art/story-chelsea.svg",
+    "chapters": [
+      "chelsea_story_daily",
+      "chelsea_story_arrows",
+      "chelsea_story_unsigned"
+    ]
   }
 ]

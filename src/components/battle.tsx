@@ -10,6 +10,7 @@ import { CosmicEffects } from "./cosmic-effects";
 import { targetsAsGroup, randomTargetLabel, resourceCost } from "../core/conditional-combat.js";
 import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
+import {firstClearRewardLabel} from "../core/first-clear-labels.js";
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { basicAbility, DEFEND, abilityAvailability, targetsFor } from "../core/battle.js";
@@ -33,6 +34,7 @@ import {
 import { ElementBadge, EmptyState, Icon, PageHeader } from "./ui";
 import { SkillBody } from "./skill-details";
 import { CombatPopover } from "./combat-popover";
+import {victoryRewardText} from '../core/quest-rewards.js';
 import { victoryCoinReward } from "../core/economy.js";
 import { useSettings } from "../runtime/settings-context";
 import { dungeonDailyState } from "../core/dungeon-rules.js";
@@ -834,7 +836,7 @@ export function BattlePage() {
             <div className="battle-outcome">
               {battle.outcome === "victory"
                 ? battle.rewardClaimed
-                  ? `Chiến thắng · +${battle.dungeon ? dungeonRewardText(battle.dungeon.reward) : `${victoryCoinReward(content, battle.encounterId)} coin`} đã lưu`
+                  ? `Chiến thắng · +${battle.dungeon ? dungeonRewardText(battle.dungeon.reward) : victoryRewardText(battle.victoryReward)} đã lưu`
                   : battle.dungeon &&
                       battle.dungeon.waveIndex + 1 < battle.dungeon.totalWaves
                     ? `Đã vượt ${(battle.dungeon.stageLabel ?? "Đợt").toLocaleLowerCase("vi")} ${battle.dungeon.waveIndex + 1} · Đang tiến vào ${(battle.dungeon.stageLabel ?? "đợt").toLocaleLowerCase("vi")} tiếp theo`
@@ -844,6 +846,7 @@ export function BattlePage() {
                 : battle.outcome === "defeat"
                   ? "Đội hình đã gục ngã"
                   : "Cuộc giao tranh tạm dừng"}
+              {battle.firstClearRewards?.some((r:any)=>['currency','exclusive_recipe','gear_recipe'].includes(r.type))&&<div className="recipe-unlocks"><strong>Thưởng lần đầu</strong>{battle.firstClearRewards.filter((r:any)=>['currency','exclusive_recipe','gear_recipe'].includes(r.type)).map((r:any,i:number)=><span key={i}>{firstClearRewardLabel(content,r)}</span>)}{battle.firstClearRewards.some((r:any)=>r.type==='exclusive_recipe'||r.type==='gear_recipe')&&<Link href={battle.firstClearRewards.some((r:any)=>r.type==='exclusive_recipe')?'/blacksmith?tab=exclusive':'/blacksmith?tab=effects'}>Đến Thợ Rèn →</Link>}</div>}
             </div>
           )}
         </section>

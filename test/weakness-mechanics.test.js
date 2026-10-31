@@ -39,7 +39,7 @@ function buff(b,id='arthur'){grant(b,id,'weakness_exploitation',1,3);}
 test('all eight elemental exposures exist; no playable character gains these mechanics automatically',()=>{
   assert.equal(content.statuses.weakness_exploitation.weaknessMultiplier,2);
   for(const element of ELEMENTS){const s=content.statuses['exposure_'+element];assert.equal(s.exposedElement,element);assert.equal(s.maxStacks,3);assert.equal(s.kind,'debuff');}
-  assert.ok(Object.values(content.abilities).every(s=>s.effects.every(e=>!content.statuses[e.status]?.exposedElement&&e.status!=='weakness_exploitation')));
+  assert.ok(Object.values(content.characters).flatMap(c=>c.abilities.map(id=>content.abilities[id])).every(s=>s.effects.every(e=>!content.statuses[e.status]?.exposedElement&&e.status!=='weakness_exploitation')));
 });
 
 test('exploitation replaces 150% with 200%, applies to innate/type weaknesses and never creates weakness itself',()=>{

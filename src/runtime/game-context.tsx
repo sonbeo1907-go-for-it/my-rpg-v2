@@ -16,6 +16,7 @@ import {
   executeAction,
   executeEnemyTurn,
 } from "../core/battle.js";
+import {prepareVictoryReward,victoryRewardText} from '../core/quest-rewards.js';
 import { claimBattleReward, victoryCoinReward } from "../core/economy.js";
 import { seededRandom } from "../core/random.js";
 import {needsDailyVisit,visitDailyCommissions,claimDailyCommissions} from "../core/daily-commissions.js";
@@ -202,6 +203,8 @@ export function GameProvider({
             extraTurnGrants: [...current.extraTurnGrants],
             outcome: current.outcome,
             rewardClaimed: current.rewardClaimed,
+            victoryReward: current.victoryReward,
+            firstClearRewards: current.firstClearRewards,
             log: [...current.log],
             activeId: activeActor(current)?.id,
           }
@@ -341,6 +344,7 @@ export function GameProvider({
       const run = dungeonRun.current;
       const currentBattle = runtime.current;
       // Compute rewards on a shallow transaction copy; live claimed flags move only after disk commit.
+      if(!currentBattle.dungeon)prepareVictoryReward(currentBattle,content);
       const claimBattle = { ...currentBattle };
       const claimRun = run ? { ...run, battle: claimBattle } : null;
       const next = currentBattle.dungeon
@@ -354,7 +358,7 @@ export function GameProvider({
       setCampaign(next);
       publish();
       notify(
-        `Chiến thắng! +${runtime.current.dungeon ? dungeonRewardText(run.reward) : `${victoryCoinReward(content, runtime.current.encounterId)} Coin`}. Thưởng và tiến trình đã được lưu.`,
+        `Chiến thắng! +${runtime.current.dungeon ? dungeonRewardText(run.reward) : victoryRewardText(runtime.current.victoryReward)}. Thưởng và tiến trình đã được lưu.`,
       );
     } catch (error) {
       notify(

@@ -1,0 +1,386 @@
+[
+  {
+    "id": "guardian_talisman",
+    "name": "Bùa Hộ Vệ",
+    "description": "Đầu vòng, nếu chưa có Hộ Ấn, nhận 1 lần chặn hiệu ứng bất lợi. Kích hoạt lại sau 3 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_ward",
+    "condition": "no_ward",
+    "cooldownRounds": 3,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "status",
+      "status": "effect_ward"
+    }
+  },
+  {
+    "id": "spring_talisman",
+    "name": "Bùa Suối Nguồn",
+    "description": "Đầu vòng, hồi 5% HP tối đa nếu chưa đầy máu. Kích hoạt lại sau 2 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_heal",
+    "condition": "missing_hp",
+    "cooldownRounds": 2,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "heal",
+      "ratio": 0.05
+    }
+  },
+  {
+    "id": "mana_talisman",
+    "name": "Bùa Tụ Linh",
+    "description": "Đầu vòng, hồi 5% MP tối đa nếu chưa đầy MP. Kích hoạt lại sau 3 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_mana",
+    "condition": "missing_mp",
+    "cooldownRounds": 3,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "mp",
+      "ratio": 0.05
+    }
+  },
+  {
+    "id": "prisma_lens",
+    "name": "Kính Săn Điểm Yếu",
+    "description": "Đầu vòng, nhận Khai phá điểm yếu trong 2 lượt chính nếu chưa có. Kích hoạt lại sau 4 vòng.",
+    "costClass": "special",
+    "effectGroup": "gear_exploit",
+    "condition": "missing_status",
+    "cooldownRounds": 4,
+    "dismantleYield": 320,
+    "requires": {
+      "storyFlag": "arthur.full_control_story_cleared"
+    },
+    "effect": {
+      "type": "status",
+      "status": "weakness_exploitation",
+      "duration": 2
+    }
+  },
+  {
+    "id": "spell_mirror",
+    "name": "Gương Kháng Thuật",
+    "description": "Giảm 20% sát thương một lần trúng phép trực tiếp. Kích hoạt lại sau 3 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_spell_mirror",
+    "hook": "before_direct_hit",
+    "cooldownRounds": 3,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_salt_marsh_witch"
+    },
+    "effect": {
+      "type": "direct_reduction",
+      "damageType": "magical",
+      "ratio": 0.2
+    }
+  },
+  {
+    "id": "recoil_lining",
+    "name": "Giáp Lót Phản Chấn",
+    "description": "Giảm 20% sát thương một lần trúng vật lý trực tiếp. Kích hoạt lại sau 3 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_recoil_lining",
+    "hook": "before_direct_hit",
+    "cooldownRounds": 3,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_bell_lock_guardian"
+    },
+    "effect": {
+      "type": "direct_reduction",
+      "damageType": "physical",
+      "ratio": 0.2
+    }
+  },
+  {
+    "id": "unyielding_stone",
+    "name": "Thạch Tâm Bất Khuất",
+    "description": "Sống sót sau một lần trúng mất ít nhất 25% HP tối đa, tính cả khiên hấp thụ: nhận khiên bằng 12% HP tối đa. Kích hoạt lại sau 4 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_unyielding_stone",
+    "hook": "after_direct_hit",
+    "cooldownRounds": 4,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_slag_iron_bull"
+    },
+    "effect": {
+      "type": "impact_shield",
+      "threshold": 0.25,
+      "ratio": 0.12
+    }
+  },
+  {
+    "id": "life_charm",
+    "name": "Lá Bùa Sinh Mệnh",
+    "description": "Khi mất HP và còn sống dưới 30% HP, hồi 12% HP tối đa. Một lần mỗi trận.",
+    "costClass": "common",
+    "effectGroup": "gear_life_charm",
+    "hook": "hp_loss",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_ash_cloaked_swordsman"
+    },
+    "effect": {
+      "type": "critical_heal",
+      "threshold": 0.3,
+      "ratio": 0.12
+    },
+    "oncePerEncounter": true
+  },
+  {
+    "id": "calming_incense",
+    "name": "Hương Trầm Tĩnh Tâm",
+    "description": "Dùng Phòng thủ: hồi thêm 4 MP.",
+    "costClass": "common",
+    "effectGroup": "gear_calming_incense",
+    "hook": "after_action",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_ash_cloaked_swordsman"
+    },
+    "effect": {
+      "type": "defend_mp",
+      "amount": 4
+    }
+  },
+  {
+    "id": "source_crystal",
+    "name": "Tinh Thể Mạch Nguồn",
+    "description": "Đầu lượt chính, nếu MP không quá 25%, hồi 10% MP tối đa, ít nhất 3 MP. Kích hoạt lại sau 4 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_source_crystal",
+    "hook": "main_turn_start",
+    "cooldownRounds": 4,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_salt_marsh_witch"
+    },
+    "effect": {
+      "type": "low_mp",
+      "threshold": 0.25,
+      "ratio": 0.1,
+      "minimum": 3
+    }
+  },
+  {
+    "id": "mana_lens",
+    "name": "Thấu Kính Dẫn Mana",
+    "description": "Cấp thành công buff cho đồng đội khác: hồi 2 MP. Mỗi vòng một lần.",
+    "costClass": "common",
+    "effectGroup": "gear_mana_lens",
+    "hook": "buff_applied",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_salt_marsh_witch"
+    },
+    "effect": {
+      "type": "ally_buff_mp",
+      "amount": 2
+    },
+    "oncePerRound": true
+  },
+  {
+    "id": "steadfast_shield",
+    "name": "Lá Chắn Bền Vững",
+    "description": "Phòng thủ giảm thêm 10% sát thương nhận vào, tổng cộng 50%.",
+    "costClass": "common",
+    "effectGroup": "gear_steadfast_shield",
+    "hook": "damage_reduction",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_bell_lock_guardian"
+    },
+    "effect": {
+      "type": "guard_reduction",
+      "ratio": 0.1
+    }
+  },
+  {
+    "id": "emergency_kit",
+    "name": "Bình Dược Cấp Cứu",
+    "description": "Chiêu hồi HP cho người dưới 40% HP hồi thêm 6% HP tối đa. Chiêu hồi cả đội chỉ tăng cho một người có tỷ lệ HP thấp nhất. Mỗi vòng một lần.",
+    "costClass": "common",
+    "effectGroup": "gear_emergency_kit",
+    "hook": "skill_heal",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_slag_iron_bull"
+    },
+    "effect": {
+      "type": "emergency_heal",
+      "threshold": 0.4,
+      "ratio": 0.06
+    },
+    "oncePerRound": true
+  },
+  {
+    "id": "rest_bell",
+    "name": "Chuông Tịnh Dưỡng",
+    "description": "Được kỹ năng của đồng đội khác hồi HP: hồi 2 MP. Mỗi vòng một lần.",
+    "costClass": "common",
+    "effectGroup": "gear_rest_bell",
+    "hook": "skill_healed",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_salt_marsh_witch"
+    },
+    "effect": {
+      "type": "healed_mp",
+      "amount": 2
+    },
+    "oncePerRound": true
+  },
+  {
+    "id": "hunter_ring",
+    "name": "Nhẫn Thợ Săn",
+    "description": "Chiêu tấn công đơn mục tiêu gây thêm 18% sát thương nếu địch còn từ 80% HP khi bắt đầu chiêu.",
+    "costClass": "common",
+    "effectGroup": "gear_hunter_ring",
+    "hook": "skill_damage",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_ash_cloaked_swordsman"
+    },
+    "effect": {
+      "type": "healthy_target_bonus",
+      "threshold": 0.8,
+      "ratio": 0.18
+    }
+  },
+  {
+    "id": "shield_hook",
+    "name": "Móc Xuyên Khiên",
+    "description": "Gây thêm 25% sát thương lên phần khiên hấp thụ. Không tăng sát thương tràn vào HP.",
+    "costClass": "common",
+    "effectGroup": "gear_shield_hook",
+    "hook": "shield_damage",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_bell_lock_guardian"
+    },
+    "effect": {
+      "type": "shield_only_bonus",
+      "ratio": 0.25
+    }
+  },
+  {
+    "id": "execution_blade",
+    "name": "Lưỡi Đao Kết Liễu",
+    "description": "Chiêu tấn công đơn mục tiêu gây thêm 10% sát thương nếu địch dưới 35% HP khi bắt đầu chiêu.",
+    "costClass": "common",
+    "effectGroup": "gear_execution_blade",
+    "hook": "skill_damage",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_ash_cloaked_swordsman"
+    },
+    "effect": {
+      "type": "execute_bonus",
+      "threshold": 0.35,
+      "ratio": 0.1
+    }
+  },
+  {
+    "id": "armor_pin",
+    "name": "Đinh Găm Phá Giáp",
+    "description": "Sau chiêu vật lý gây sát thương HP, giảm 10% DEF một mục tiêu trong 1 lượt chính. Kích hoạt lại sau 3 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_armor_pin",
+    "hook": "after_skill_attack",
+    "cooldownRounds": 3,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_slag_iron_bull"
+    },
+    "effect": {
+      "type": "damage_status",
+      "damageType": "physical",
+      "status": "gear_defense_crack",
+      "duration": 1
+    }
+  },
+  {
+    "id": "cracked_lens",
+    "name": "Kính Nứt Ma Thuật",
+    "description": "Sau chiêu phép gây sát thương HP, giảm 10% RES một mục tiêu trong 1 lượt chính. Kích hoạt lại sau 3 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_cracked_lens",
+    "hook": "after_skill_attack",
+    "cooldownRounds": 3,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_black_script_cleric"
+    },
+    "effect": {
+      "type": "damage_status",
+      "damageType": "magical",
+      "status": "gear_resistance_crack",
+      "duration": 1
+    }
+  },
+  {
+    "id": "photometer",
+    "name": "Trắc Quang Kính",
+    "description": "Chiêu chủ động đánh trúng điểm yếu và gây sát thương: hồi 3 MP. Kích hoạt lại sau 2 vòng.",
+    "costClass": "common",
+    "effectGroup": "gear_photometer",
+    "hook": "after_skill_attack",
+    "cooldownRounds": 2,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_black_script_cleric"
+    },
+    "effect": {
+      "type": "weakness_mp",
+      "amount": 3
+    }
+  },
+  {
+    "id": "weakness_compass",
+    "name": "La Bàn Nhược Điểm",
+    "description": "Sau chiêu đơn mục tiêu gây sát thương lên địch chưa yếu hệ của đòn, có 50% gắn 1 Sơ hở cùng hệ. Kích hoạt lại sau 2 vòng khi gắn thành công.",
+    "costClass": "common",
+    "effectGroup": "gear_weakness_compass",
+    "hook": "after_skill_attack",
+    "cooldownRounds": 2,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_black_script_cleric"
+    },
+    "effect": {
+      "type": "exposure_on_hit",
+      "chance": 0.5
+    }
+  },
+  {
+    "id": "observer_medal",
+    "name": "Huy Chương Quan Trắc",
+    "description": "Đồng đội bất kỳ đánh trúng điểm yếu: người mang nhận khiên bằng 5% HP tối đa. Mỗi vòng một lần.",
+    "costClass": "common",
+    "effectGroup": "gear_observer_medal",
+    "hook": "ally_weakness_hit",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "requires": {
+      "firstClear": "bounty_black_script_cleric"
+    },
+    "effect": {
+      "type": "ally_weakness_shield",
+      "ratio": 0.05
+    },
+    "oncePerRound": true
+  }
+]

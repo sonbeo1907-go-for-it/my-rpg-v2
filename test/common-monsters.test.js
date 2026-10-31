@@ -20,6 +20,7 @@ test('new easy quests are beatable ungeared with the default four starters using
     assert.equal(battle.outcome,'victory',`${id}/${seed}`);
     assert.ok(battle.round<=10,`${id}/${seed} took ${battle.round} rounds`);
     assert.ok(battle.actors.filter(actor=>actor.team==='party').every(actor=>actor.hp>0),`${id}/${seed} lost a starter`);
+    battle.rewardRandom=()=>0; // Explicitly verify the Coin branch after the combat simulation.
     const rewarded=claimBattleReward(campaign,battle,content);
     assert.equal(rewarded.coins,50,id);assert.equal(rewarded.prisma,0);assert.equal(rewarded.recruitmentShards,0);
     assert.equal(claimBattleReward(rewarded,battle,content),rewarded);

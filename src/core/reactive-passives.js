@@ -11,7 +11,7 @@ export function validReactivePassive(passive, content, actor) {
   }
   if (passive.type === 'dodge_counter') {
     const ability = content.abilities[passive.counterAbility];
-    return Boolean(actor.resources?.[passive.resource] && ability?.activation === 'passive'
+    return Boolean((passive.resource===undefined||actor.resources?.[passive.resource]) && ability?.activation === 'passive'
       && ability.target === 'enemy' && !ability.cost && !ability.cooldown
       && ability.effects.some(effect => effect.type === 'damage')
       && ability.effects.every(effect => ['damage', 'status'].includes(effect.type)));

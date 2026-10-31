@@ -1,4 +1,6 @@
 "use client";
+import {gearName} from '../core/gear-rules.js';
+import {GearPagination,useGearPagination} from './gear-pagination';
 import { useEffect, useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { Equipped } from "./equipped";
@@ -32,24 +34,26 @@ export function InventoryPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const tab=filters.tab==='items'?'items':filters.tab==='exclusive'?'exclusive':'equipment';
   const gear = gearCatalog(content, campaign, filters);
-  const chosen = gear.find((item: any) => item.id === selected) ?? gear[0];
+  const pager=useGearPagination(gear,filters,setFilters);
+  const chosen = pager.items.find((item: any) => item.id === selected) ?? pager.items[0];
   return (
     <main className="page inventory-page">
       <PageHeader
         title="Túi đồ"
-        subtitle={`${campaign.gear.length} trang bị thường · ${campaign.exclusiveGear.length} Trấn Phái`}
+        subtitle={`${campaign.gear.length} trang bị · ${campaign.exclusiveGear.length} Trấn Phái`}
       ><Link className="button inventory-forge-link" href="/blacksmith">Thợ Rèn →</Link></PageHeader>
       <nav className="inventory-tabs shop-tabs" aria-label="Các mục Túi đồ"><button className={tab==='equipment'?'active':''} aria-current={tab==='equipment'?'page':undefined} onClick={()=>setFilters({...filters,tab:'equipment'})}>Trang bị</button><button className={tab==='exclusive'?'active':''} aria-current={tab==='exclusive'?'page':undefined} onClick={()=>setFilters({...filters,tab:'exclusive'})}>Trấn Phái</button><button className={tab==='items'?'active':''} aria-current={tab==='items'?'page':undefined} onClick={()=>setFilters({...filters,tab:'items'})}>Vật phẩm</button></nav>
       {tab==='exclusive'? <ExclusiveInventory filters={filters} onChange={setFilters}/>:tab==='items'? <section className="resource-grid" aria-label="Vật phẩm trong túi">{Object.values(content.items).map((item:any)=><article className={`panel resource-card currency-${item.kind}`} key={item.id} data-item={item.id}><ResourceIcon kind={item.kind}/><h2>{item.name}</h2><CurrencyAmount kind={item.kind} amount={campaign[item.field]}/><p>{item.description}</p></article>)}</section>: <>
-      <GearFilters filters={filters} onChange={setFilters} />
+      <GearFilters filters={filters} onChange={values=>setFilters({...values,page:"1"})} />
       <div className="inventory-layout">
         <section>
           <div className="catalog-heading">
             <span>{gear.length} trang bị</span>
             <p>Lựa chọn một món để xem chi tiết.</p>
           </div>
+          <GearPagination pager={pager}/>
           <div className="gear-grid">
-            {gear.map((item: any) => (
+            {pager.items.map((item: any) => (
               <GearCard
                 key={item.id}
                 gear={item}
@@ -71,7 +75,8 @@ export function InventoryPage() {
             <>
               <EquipmentIcon typeId={chosen.typeId}/>
               <span className="eyebrow">VẬT PHẨM TRONG HÀNH TRANG</span>
-              <h2>{(GEAR_NAMES as any)[chosen.typeId]}</h2>
+              <h2>{gearName(content,chosen)}</h2>
+              {chosen.effectId&&<p>{content.gearEffects[chosen.effectId].description}</p>}
               <dl className="gear-values">
                 {Object.entries(chosen.stats).map(([key, value]) => (
                   <div key={key}>
@@ -119,11 +124,13 @@ export function EquipmentPage({ id }: { id: string }) {
   const capacity = gearSlotCapacity(campaign, content, id);
   const slots = equipmentSlots(campaign, content, id);
   const gear = gearCatalog(content, campaign, filters);
-  const chosen = gear.find((item: any) => item.id === selected) ?? null;
+  const pager=useGearPagination(gear,filters,setFilters);
+  const chosen = pager.items.find((item: any) => item.id === selected) ?? null;
   const current = campaign.gear.find((item: any) => item.id === slots[slot]);
   const location = chosen ? gearLocation(campaign, chosen.id) : null;
   const same = chosen && location?.characterId === id && location.slot === slot;
   let after = actor;
+  let equipError="";
   if (owned)
     try {
       after = resolveCharacter(
@@ -133,7 +140,7 @@ export function EquipmentPage({ id }: { id: string }) {
           : unequipGear(campaign, content, id, slot),
         id,
       );
-    } catch {}
+    } catch(error) {equipError=(error as Error).message;}
   const back = filters.back ? `?back=${encodeURIComponent(filters.back)}` : "";
   return (
     <main className="page">
@@ -146,9 +153,10 @@ export function EquipmentPage({ id }: { id: string }) {
       </PageHeader>
       <div className="equipment-layout">
         <section>
-          <GearFilters filters={filters} onChange={setFilters} />
+          <GearFilters filters={filters} onChange={values=>setFilters({...values,page:"1"})} />
+          <GearPagination pager={pager}/>
           <div className="gear-grid">
-            {gear.map((item: any) => (
+            {pager.items.map((item: any) => (
               <GearCard
                 key={item.id}
                 gear={item}
@@ -169,7 +177,7 @@ export function EquipmentPage({ id }: { id: string }) {
                 (item: any) => item.id === slots[index],
               );
               const statLines = piece
-                ? Object.entries(piece.stats).map(
+                ? piece.effectId ? [content.gearEffects[piece.effectId].name] : Object.entries(piece.stats).map(
                     ([key, value]) => `${(STAT_LABELS as any)[key]} +${value}`,
                   )
                 : [];
@@ -214,6 +222,9 @@ export function EquipmentPage({ id }: { id: string }) {
               được trả vào túi.
             </p>
           )}
+          {chosen?.effectId&&<p className="gear-effect-description">Trang bị: {content.gearEffects[chosen.effectId].description}</p>}
+          {current?.effectId&&chosen?.id!==current.id&&<p className="muted">Tháo: {content.gearEffects[current.effectId].name}</p>}
+          {equipError&&<p className="warning">{equipError}</p>}
           <table className="comparison">
             <thead>
               <tr>
@@ -247,7 +258,7 @@ export function EquipmentPage({ id }: { id: string }) {
           <div className="stack-actions">
             <button
               className="gold"
-              disabled={!owned || busy || !chosen || Boolean(same)}
+              disabled={!owned || busy || !chosen || Boolean(same) || Boolean(equipError)}
               onClick={() =>
                 chosen &&
                 transact(

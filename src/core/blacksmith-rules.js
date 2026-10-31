@@ -1,3 +1,4 @@
+import {validateT4Content} from './gear-rules.js';
 import { validateExclusivePassive } from './exclusive-hooks.js';
 export const FORGE_STATS = ['maxHp','maxMp','attack','magic','defense','resistance','speed'];
 export const FORGE_CURRENCIES = ['coins','prismaFragments','recruitmentShards','originalPrisma'];
@@ -26,8 +27,12 @@ export function validateBlacksmithContent(content) {
     if(!Object.hasOwn(content.characters,template.characterId)||typeof template.enabled!=='boolean'||!template.name?.trim()||!template.description?.trim()||!template.passive?.description?.trim()) errors.push(`exclusiveGear: invalid template ${template.id}`);
     // New combat passive types must get an explicit, tested adapter before being enabled.
     if(!validateExclusivePassive(template.passive,content)) errors.push('exclusiveGear: unsupported passive '+template.id);
+    if(template.initialStat&&!validExclusiveStat(content,template.initialStat.statKey,template.initialStat.statValue))errors.push('exclusiveGear: invalid initial stat '+template.id);
+    if(template.requires?.firstClear&&!content.encounters[template.requires.firstClear]?.firstClearRewards?.some(r=>r.type==='exclusive_recipe'&&r.templateId===template.id))errors.push('exclusiveGear: invalid recipe gate '+template.id);
     if(template.source && (template.source.type!=='quest' || !content.encounters[template.source.encounterId] || !validExclusiveStat(content,template.source.statKey,template.source.statValue))) errors.push('exclusiveGear: invalid quest source '+template.id);
   }
   for(const item of Object.values(content.items)) if(!['coins','prisma','recruitmentShards','originalPrisma','prismaFragments'].includes(item.field)||!item.name?.trim()||!item.description?.trim()||!['coin','prisma','pure','original','fragments'].includes(item.kind)) errors.push(`items: invalid resource ${item.id}`);
-  return errors;
+  return [...errors,...validateT4Content(content)];
 }
+
+export const exclusiveCraftUnlocked=(campaign,template)=>!template.requires?.firstClear||campaign.claimedFirstClearRewards.includes(template.requires.firstClear);

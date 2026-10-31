@@ -84,6 +84,7 @@ export function resolveCharacter(content, campaign, characterId) {
     for (const [key, amount] of Object.entries(character.gearBonuses))
       character.stats[key] += amount;
   }
+  character.gearEffects=gear.filter(item=>item.effectId).map(item=>structuredClone(content.gearEffects[item.effectId]));
   const exclusive = equippedExclusive(campaign, content, characterId);
   if (exclusive) {
     character.exclusiveGear = structuredClone(exclusive);
@@ -146,6 +147,8 @@ export function serializeCampaign(campaign) {
     equippedExclusiveGear: campaign.equippedExclusiveGear ?? {},
     pendingReforge: campaign.pendingReforge ?? null,
     blacksmithRevision: campaign.blacksmithRevision ?? 0,
+    craftedGearSerial: campaign.craftedGearSerial ?? 0,
+    pendingGearReforge: campaign.pendingGearReforge ?? null,
     illusion: campaign.illusion ?? emptyIllusionState(),
   });
 }
@@ -223,15 +226,17 @@ export function deserializeCampaign(raw, content) {
         (item) =>
           !validateGear(item, content) ||
           !Number.isSafeInteger(Number(item.id.slice(5))) ||
-          Number(item.id.slice(5)) > (item.id.startsWith('loot_') ? result.illusion.gearSerial : result.gacha.totalPulls),
+          Number(item.id.slice(5)) > (item.id.startsWith('loot_') ? result.illusion.gearSerial : item.id.startsWith('rune_') ? (input.craftedGearSerial??0) : result.gacha.totalPulls),
       ) ||
       new Set(input.gear.map((item) => item.id)).size !== input.gear.length
     )
       throw new Error("Gear trong save không hợp lệ.");
-    result.gear = input.gear.map(({ id, typeId, stats }) => ({
+    result.gear = input.gear.map(({ id, typeId, stats,primaryStat,secondaryStat,effectId }) => ({
       id,
       typeId,
       stats: { ...stats },
+      ...(primaryStat!==undefined?{primaryStat,secondaryStat}:{}),
+      ...(effectId!==undefined?{effectId}:{}),
     }));
     result.equipment = input.equipment === undefined ? {} : input.equipment;
     if (input.version === 2) {
@@ -307,6 +312,10 @@ export function deserializeCampaign(raw, content) {
           throw new Error("Thưởng lần đầu không khớp nâng cấp đã nhận.");
       } else if (reward.type === "exclusive") {
         if (!input.exclusiveGear?.some(item => item.templateId === reward.templateId)) throw new Error("Thưởng lần đầu không khớp Trấn Phái đã nhận.");
+      } else if(reward.type==="currency"||reward.type==="exclusive_recipe") {
+        // Currency was committed atomically; recipes derive from this chapter receipt, regardless of character ownership.
+      } else if (reward.type === "gear_recipe") {
+        if(content.gearEffects[reward.recipeId]?.requires?.firstClear!==id) throw Error("Nguồn công thức không hợp lệ.");
       } else if (!result.unlockedCharacterIds.includes(reward.characterId))
         throw new Error("Thưởng lần đầu không khớp nhân vật đã sở hữu.");
     }

@@ -19,7 +19,7 @@ const buff=(b,id,status='empowered',source='iris')=>getActor(b,id).statuses.push
 function win(c,id){const b=createBattle(content,c,id);b.outcome='victory';return claimBattleReward(c,b,content);}
 
 test('story shelves paginate; unopened books contain no playable chapters or free upgrades',()=>{
- const c=save();assert.equal(travelerStoryPage(content).stories.length,3);assert.equal(travelerStoryPage(content,2,1).stories[0].id,'takeshi');assert.equal(travelerStoryPage(content,-5,1).page,1);assert.equal(travelerStoryPage(content,999,1).page,4);
+ const c=save();assert.equal(travelerStoryPage(content).stories.length,3);assert.equal(travelerStoryPage(content,2,1).stories[0].id,'takeshi');assert.equal(travelerStoryPage(content,-5,1).page,1);assert.equal(travelerStoryPage(content,999,1).page,Object.keys(content.travelerStories).length);
  assert.equal(travelerChapters(content,c,'takeshi').length,3);assert.equal(resolveCharacter(content,c,'takeshi').passive.counterAbility,undefined);assert.equal(resolveCharacter(content,c,'fiona').abilities.includes('fiona.convergence'),false);
 });
 test('story chapters cannot leak into Quest or either random dungeon pool',()=>{

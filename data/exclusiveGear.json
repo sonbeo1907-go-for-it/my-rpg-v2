@@ -249,5 +249,32 @@
         "Nếu độc hạ gục trước bước hồi phục thì không được hồi HP."
       ]
     }
+  },
+  {
+    "id": "chelsea.compass",
+    "characterId": "chelsea",
+    "name": "La Bàn Dẫn Đường",
+    "description": "Kim la bàn luôn chỉ về người đang đợi. Chế tạo lần đầu nhận SPD +5; tái rèn theo quy tắc Trấn Phái chung.",
+    "enabled": true,
+    "requires": {
+      "firstClear": "chelsea_story_arrows"
+    },
+    "initialStat": {
+      "statKey": "speed",
+      "statValue": 5
+    },
+    "passive": {
+      "type": "skill_scaling_override",
+      "name": "Lối về không thất lạc",
+      "description": "Bưu Kiện Hoàn Trả! tăng hệ số phản công từ 50% lên 85% ATK, vẫn gắn 2 Sơ hở Quang.",
+      "abilityIds": [
+        "chelsea.counter"
+      ],
+      "multiplier": 0.85,
+      "rules": [
+        "Thay hệ số gốc trước DEF và điểm yếu; không cộng thêm một hit.",
+        "Giữ giới hạn phản công một lần mỗi vòng."
+      ]
+    }
   }
 ]

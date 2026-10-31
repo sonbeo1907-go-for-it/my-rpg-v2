@@ -9,28 +9,28 @@ import { battleStat } from '../src/core/stat-values.js';
 import { skillScaling } from '../src/ui/skill-presentation.js';
 import { validateContent } from '../src/core/content.js';
 const content=await loadContent();
-function campaign(){const c=createGameSave(content);c.unlockedCharacterIds=Object.keys(content.characters);Object.assign(c,{coins:50000,prismaFragments:1000,recruitmentShards:30,originalPrisma:20});return c;}
+function campaign(){const c=createGameSave(content);c.unlockedCharacterIds=Object.keys(content.characters);Object.assign(c,{coins:50000,prismaFragments:10000,recruitmentShards:30,originalPrisma:20});return c;}
 function setup(id,party,disable=false,random=()=>.99){let c=campaign();c.party=party;const template=content.exclusiveGear[id];c.exclusiveGear.push({templateId:id,statKey:'attack',statValue:5});c.equippedExclusiveGear[template.characterId]=id;const b=createBattle(content,c,'forest_patrol',random);for(const e of b.actors.filter(a=>a.team==='enemy')){e.hp=e.stats.maxHp=10000;e.stats.defense=60;}if(disable)delete getActor(b,template.characterId).exclusiveGear;return b;}
 function use(b,id,ability,target=id){b.queue=[id,...b.actors.filter(a=>a.id!==id&&a.hp>0).map(a=>a.id)];b.cursor=0;executeAction(b,{actorId:id,abilityId:ability,targetId:target});}
 const damage=b=>b.events.filter(e=>e.type==='damage');
 
 test('quest first clear grants fixed ATK+5 exclusive and Arthur/Iris/Takeshi dupes atomically; replay cannot duplicate',()=>{
- const c=createGameSave(content),battle={outcome:'victory',encounterId:'giant_boar_trial'};
+ const c=createGameSave(content),battle={outcome:'victory',rewardRandom:()=>0,encounterId:'giant_boar_trial'};
  assert.throws(()=>claimBattleReward(c,battle,content,()=>{throw Error('disk');}),/disk/);assert.equal(battle.rewardClaimed,undefined);assert.equal(c.coins,0);assert.deepEqual(c.exclusiveGear,[]);
  const next=claimBattleReward(c,battle,content);assert.equal(next.coins,150);assert.deepEqual(next.exclusiveGear,[{templateId:'arthur.intro',statKey:'attack',statValue:5}]);assert.deepEqual(next.extraGearSlots,{arthur:1,iris:1,takeshi:1});assert.equal(next.recruitmentShards,30);
- const restored=decodeGameSave(encodeGameSave(next,content),content);const replay=claimBattleReward(restored,{outcome:'victory',encounterId:'giant_boar_trial'},content);assert.equal(replay.coins,300);assert.deepEqual(replay.exclusiveGear,next.exclusiveGear);assert.deepEqual(replay.extraGearSlots,next.extraGearSlots);assert.equal(replay.recruitmentShards,30);
+ const restored=decodeGameSave(encodeGameSave(next,content),content);const replay=claimBattleReward(restored,{outcome:'victory',rewardRandom:()=>0,encounterId:'giant_boar_trial'},content);assert.equal(replay.coins,300);assert.deepEqual(replay.exclusiveGear,next.exclusiveGear);assert.deepEqual(replay.extraGearSlots,next.extraGearSlots);assert.equal(replay.recruitmentShards,30);
  assert.equal(content.encounters.giant_boar_trial.bgm,'boss');assert.equal(content.encounters.giant_boar_trial.rewardTier,'boss');
  assert.throws(()=>craftExclusive(c,content,'arthur.intro'),/nhiệm vụ/);
  const forged=JSON.parse(encodeGameSave(next,content));forged.exclusiveGear=[];assert.throws(()=>decodeGameSave(JSON.stringify(forged),content),/Trấn Phái/);
- assert.equal(claimBattleReward(c,{outcome:'victory',encounterId:'giant_boar_trial',dungeon:{}},content),c);
+ assert.equal(claimBattleReward(c,{outcome:'victory',rewardRandom:()=>0,encounterId:'giant_boar_trial',dungeon:{}},content),c);
 });
 test('already-owned quest exclusive keeps reforged stat; intro is eligible for ordinary reforge without changing passive',()=>{
  let c=campaign();c.exclusiveGear=[{templateId:'arthur.intro',statKey:'speed',statValue:9}];
- const next=claimBattleReward(c,{outcome:'victory',encounterId:'giant_boar_trial'},content);assert.equal(next.exclusiveGear[0].statKey,'speed');assert.equal(next.exclusiveGear[0].statValue,9);
+ const next=claimBattleReward(c,{outcome:'victory',rewardRandom:()=>0,encounterId:'giant_boar_trial'},content);assert.equal(next.exclusiveGear[0].statKey,'speed');assert.equal(next.exclusiveGear[0].statValue,9);
  c=beginReforge(next,content,'arthur.intro',()=>0);assert.equal(c.originalPrisma,19);assert.equal(c.exclusiveGear[0].statKey,'speed');c=finishReforge(c,content,c.pendingReforge.id,true);assert.equal(c.exclusiveGear[0].statKey,'maxHp');assert.equal(c.exclusiveGear[0].statValue,25);assert.equal(content.exclusiveGear['arthur.intro'].passive.type,'skill_damage');
 });
 test('all 12 authored craft templates can be crafted/reforged/equipped once in separate slot and round-trip save',()=>{
- for(const t of Object.values(content.exclusiveGear).filter(t=>!t.source)){
+ for(const t of Object.values(content.exclusiveGear).filter(t=>!t.source&&!t.requires)){
   let c=campaign();c=craftExclusive(c,content,t.id,()=>.5);assert.equal(c.coins,40000);c=equipExclusive(c,content,t.characterId,t.id);const resolved=resolveCharacter(content,c,t.characterId);assert.equal(resolved.exclusiveGear.template.passive.type,t.passive.type);assert.deepEqual(c.equipment,{});assert.throws(()=>craftExclusive(c,content,t.id),/đã được/);assert.deepEqual(decodeGameSave(encodeGameSave(c,content),content).exclusiveGear,c.exclusiveGear);
  }
 });

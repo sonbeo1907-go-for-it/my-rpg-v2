@@ -67,7 +67,7 @@ test('gacha commits once to selected profile, quests scroll and battle survives 
   await expect(page).toHaveURL(/recruitment\/results/); await expect(page.locator('.summon-result')).toHaveCount(10);
   const coins = await page.evaluate(() => JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text).coins);
   expect(coins).toEqual(2000);
-  await page.goto('/quests'); await expect(page.locator('.quest-card')).toHaveCount(Object.values(content.encounters).filter((item: any) => !item.travelerStory && item.rewardTier !== 'super').length);
+  await page.goto('/quests'); await expect(page.locator('.quest-card')).toHaveCount(Object.values(content.encounters).filter((item: any) => !item.travelerStory && item.category !== 'bounty' && item.rewardTier !== 'super').length);
   expect(await page.locator('.quest-list').evaluate(node => node.scrollHeight > node.clientHeight)).toBe(true);
   await page.getByRole('button', { name: /Xuất chiến/ }).click(); await expect(page).toHaveURL(/\/battle$/);
   await expect(page.locator('.combatant[data-actor-id="arthur"]')).toBeVisible();
@@ -93,6 +93,7 @@ test('phone layouts fit viewport and route guards return unopened sessions to st
 });
 
 test('battle victory saves coins and first-clear rewards once, then rematch starts fresh', async ({ page }) => {
+  await page.addInitScript(()=>Math.random=()=>0);
   await page.addInitScript(raw => { localStorage.setItem('northern-prisma.campaign.v4', raw); sessionStorage.setItem('northern-prisma.entered', '1'); }, raw);
   await page.goto('/quests?selected=goblin_forest_ambush');
   await page.getByRole('button', { name: /Xuất chiến/ }).click();
@@ -101,7 +102,7 @@ test('battle victory saves coins and first-clear rewards once, then rematch star
     if (await page.locator('.battle-outcome').count()) break;
     await page.locator('.execute').click();
   }
-  await expect(page.locator('.battle-outcome')).toContainText('+50 coin đã lưu');
+  await expect(page.locator('.battle-outcome')).toContainText('+50 Coin đã lưu');
   const saved = await page.evaluate(() => JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text));
   expect(saved.coins).toEqual(2050); expect(saved.victories).toEqual(1);
   expect(saved.unlockedCharacterIds).toContain('kai'); expect(saved.extraGearSlots.arthur).toEqual(1); expect(saved.extraGearSlots.garrek).toEqual(1);

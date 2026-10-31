@@ -638,5 +638,294 @@
         "upgradeId": "arthur.complete_control"
       }
     ]
+  },
+  {
+    "id": "bounty_bell_lock_guardian",
+    "name": "Thạch Vệ Khóa Chuông",
+    "description": "Tiếng chuông vỡ vọng qua phế tích. Dùng phép hoặc Lôi phá giáp cổ, rồi dứt điểm trước khi thạch vệ dựng lại khiên.",
+    "enemies": [
+      "bell_lock_guardian"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "category": "bounty",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "takeshi_story_horizon",
+        "fiona_story_drei"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_recipe",
+        "recipeId": "recoil_lining"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "steadfast_shield"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "shield_hook"
+      }
+    ]
+  },
+  {
+    "id": "bounty_ash_cloaked_swordsman",
+    "name": "Du Kiếm Khách Áo Tro",
+    "description": "Một bóng áo tro thách đấu trên đường hoang. Phép Hỏa có thể xuyên qua những bước né của kiếm khách.",
+    "enemies": [
+      "ash_cloaked_swordsman"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "category": "bounty",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "takeshi_story_horizon",
+        "fiona_story_drei"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_recipe",
+        "recipeId": "life_charm"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "calming_incense"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "hunter_ring"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "execution_blade"
+      }
+    ]
+  },
+  {
+    "id": "bounty_salt_marsh_witch",
+    "name": "Phù Thủy Lầy Muối",
+    "description": "Sương muối che kín đầm lầy. Chống đỡ ma thuật và dùng Lôi hoặc Thổ ngăn lời khấn hồi sinh.",
+    "enemies": [
+      "salt_marsh_witch"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "category": "bounty",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "takeshi_story_horizon",
+        "fiona_story_drei"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_recipe",
+        "recipeId": "spell_mirror"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "source_crystal"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "mana_lens"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "rest_bell"
+      }
+    ]
+  },
+  {
+    "id": "bounty_slag_iron_bull",
+    "name": "Hỏa Ngưu Thép Xỉ",
+    "description": "Lò than sống gầm giữa đồng xỉ. Thủy và Thổ có thể dập tắt những cú giẫm cùng hơi nóng.",
+    "enemies": [
+      "slag_iron_bull"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "category": "bounty",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "takeshi_story_horizon",
+        "fiona_story_drei"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_recipe",
+        "recipeId": "unyielding_stone"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "emergency_kit"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "armor_pin"
+      }
+    ]
+  },
+  {
+    "id": "bounty_black_script_cleric",
+    "name": "Giáo Sĩ Hắc Văn",
+    "description": "Hắc văn khắc Sơ hở Ám trước khi ghim xuống mục tiêu. Dùng Quang, Hộ ấn hoặc giải hiệu ứng để phá nghi lễ.",
+    "enemies": [
+      "black_script_cleric"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "category": "bounty",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "takeshi_story_horizon",
+        "fiona_story_drei"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_recipe",
+        "recipeId": "cracked_lens"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "photometer"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "weakness_compass"
+      },
+      {
+        "type": "gear_recipe",
+        "recipeId": "observer_medal"
+      }
+    ]
+  },
+  {
+    "id": "chelsea_story_daily",
+    "name": "Ngày Nào Cũng Có Thư!",
+    "description": "Chương I — Chuyến giao thư mở đầu bằng một toán cướp chặn đường. Không cần sở hữu hoặc đưa Chelsea vào đội.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_vanguard",
+      "bandit_archer"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "chelsea",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      }
+    ]
+  },
+  {
+    "id": "chelsea_story_arrows",
+    "name": "Hồi Âm Giữa Mưa Tên",
+    "description": "Chương II — Những lá thư phải đến nơi, dù con đường liên tiếp có ba đợt phục kích. Sau mưa tên, một dấu niêm lạ hé lộ kẻ đứng sau.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_vanguard",
+      "bandit_archer"
+    ],
+    "waves": [
+      [
+        "bandit_vanguard",
+        "bandit_vanguard",
+        "bandit_archer"
+      ],
+      [
+        "bandit_brute",
+        "bandit_mage",
+        "bandit_vanguard"
+      ],
+      [
+        "bandit_chief",
+        "bandit_archer",
+        "bandit_mage"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "chelsea",
+    "requires": {
+      "firstClear": "chelsea_story_daily",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      },
+      {
+        "type": "exclusive_recipe",
+        "templateId": "chelsea.compass"
+      }
+    ]
+  },
+  {
+    "id": "chelsea_story_unsigned",
+    "name": "Lá Thư Không Có Người Gửi",
+    "description": "Chương III — Vesper dùng thư lệnh giả để đẩy các đoàn lữ hành vào bẫy. Lần này, Chelsea phải tìm được người nhận cho một bức thư không có người gửi.",
+    "enemies": [
+      "vesper"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "travelerStory": "chelsea",
+    "requires": {
+      "firstClear": "chelsea_story_arrows",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "originalPrisma",
+        "amount": 1
+      }
+    ]
   }
 ]

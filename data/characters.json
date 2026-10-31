@@ -1912,5 +1912,45 @@
       "counterAbility": "yumia.counter",
       "oncePerRound": true
     }
+  },
+  {
+    "id": "chelsea",
+    "name": "Chelsea",
+    "title": "Sứ giả định mệnh",
+    "affiliation": "Sứ giả Định Mệnh",
+    "role": "DPS né / phản công",
+    "roleGroup": "physical_dps",
+    "element": "light",
+    "description": "Né cả vật lý lẫn phép, phản công tạo Sơ hở Quang rồi giao đòn kết liễu đúng hẹn.",
+    "biography": "Là sứ giả của định mệnh, Chelsea coi mỗi bức thư là một lời hẹn không được phép thất lạc. Dù băng qua mưa tên hay những ngã đường bất trắc, cô vẫn luôn xuất hiện cùng câu nói: thư đến rồi đây!",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 75,
+      "attack": 30,
+      "magic": 12,
+      "defense": 14,
+      "resistance": 18,
+      "speed": 28
+    },
+    "abilities": [
+      "chelsea.urgent",
+      "chelsea.seal",
+      "chelsea.delivery"
+    ],
+    "passive": {
+      "type": "dodge_counter",
+      "name": "Không Bao Giờ Trễ Hẹn!",
+      "description": "Né vật lý và phép theo SPD căn bản. Né thành công phản công và gắn 2 Sơ hở Quang, mỗi vòng một lần.",
+      "counterAbility": "chelsea.counter",
+      "evasion": {
+        "baseChance": 0.4,
+        "perBaseSpeed": 0.006,
+        "cap": 1,
+        "damageTypes": [
+          "physical",
+          "magical"
+        ]
+      }
+    }
   }
 ]

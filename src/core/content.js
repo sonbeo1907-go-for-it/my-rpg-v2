@@ -1,3 +1,5 @@
+import {validEvasion} from './evasion.js';
+import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
 import {validateSummonDefinition} from './summon-rules.js';
 import { validateEconomyContent } from './economy.js';
 import { validateBossDefinition } from './boss-mechanics.js';
@@ -72,6 +74,7 @@ export function validateContent(content) {
     }
     if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if(native?.evasion!==undefined&&(native.type!=="dodge_counter"||!native.counterAbility||!validEvasion(native.evasion)))fail(id+": invalid native evasion");
     if (native?.type==='detonation_base_growth' && !validReactivePassive(native,content,actor)) fail(id+': invalid detonation growth');
     if (native?.type==='low_hp_damage' && (!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1)) fail(id+': invalid low HP damage');
     if (native?.type==='target_buff_damage' && (!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||!Number.isFinite(native.cap)||native.cap<=0||native.cap>2)) fail(id+': invalid target buff damage');
@@ -143,6 +146,7 @@ export function validateContent(content) {
           : rule?.when === 'ally_unshielded' ? friendly && skill.effects?.some(effect=>effect.type==='shield')
           : rule?.when === 'ally_hp_below' ? friendly && Number.isFinite(rule.ratio) && rule.ratio>0 && rule.ratio<=1 && skill.effects?.some(effect=>effect.type==='heal')
           : rule?.when === 'missing_status' ? friendly && content.statuses[rule.statusId] && skill.effects?.some(effect=>effect.type==='status'&&effect.status===rule.statusId)
+          : ['enemy_has_status','enemy_missing_status'].includes(rule?.when) ? skill?.target==='enemy' && Boolean(content.statuses[rule.statusId])
           : false;
         if (!actor.abilities?.includes(rule?.abilityId) || !skill || !valid) fail(`${id}: invalid shield AI priority`);
       }
@@ -195,6 +199,7 @@ export function validateContent(content) {
   }
   for (const [id, skill] of Object.entries(content.abilities)) {
     if ((skill.effects?.filter(effect=>effect.type==='formula_field').length??0)>1 || (skill.requiresFormula && skill.effects?.some(effect=>effect.type==='formula_field'))) fail(id+': invalid formula opener');
+    if(skill.requiresHpBelow!==undefined&&(!Number.isFinite(skill.requiresHpBelow)||skill.requiresHpBelow<=0||skill.requiresHpBelow>1)) fail(id+': invalid HP gate');
     if (skill.requiresFormula!==undefined && typeof skill.requiresFormula!=='boolean') fail(id+': invalid formula requirement');
     if (skill.minFormulaEntries!==undefined && (skill.requiresFormula!==true || !Number.isInteger(skill.minFormulaEntries) || skill.minFormulaEntries<1 || skill.minFormulaEntries>3)) fail(id+': invalid formula minimum');
     if (skill.formulaTag!==undefined && !['lead','break','strike','none'].includes(skill.formulaTag)) fail(id+': invalid formula tag');
@@ -238,6 +243,7 @@ export function validateContent(content) {
             || ['consumeOnAttack', 'expiresOnShieldGain', 'skipTurn', 'regen', 'onDamagedResource', 'onAttackResource', 'damageOverTime', 'cover', 'taunt', 'blockResourceGain', 'effectImmunity'].some(key => linked[key])) fail(`${id}: linked statuses require persistent modifier buffs`);
         }
       }
+      if(effect.bonusVsExposure!==undefined&&(effect.type!=='damage'||!Number.isFinite(effect.bonusVsExposure)||effect.bonusVsExposure<=0||effect.bonusVsExposure>2))fail(id+': invalid exposure damage bonus');
       if (effect.onHitStatus !== undefined) {
         exists('statuses',effect.onHitStatus?.status,id);
         const onHit = content.statuses[effect.onHitStatus?.status];
@@ -361,10 +367,18 @@ export function validateContent(content) {
     for (const enemy of encounter.enemies ?? []) exists('enemies', enemy, id);
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);
     exists('music', encounter.bgm ?? 'normal', id);
+    if(encounter.category!==undefined&&encounter.category!=='bounty') fail(id+': invalid quest category');
+    if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');
     if (encounter.firstClearRewards !== undefined) {
       if (!Array.isArray(encounter.firstClearRewards) || !encounter.firstClearRewards.length) fail(`${id}: invalid first clear rewards`);
       else for (const reward of encounter.firstClearRewards) {
-        if (!reward || !['character', 'duplicate', 'gear_slot', 'upgrade', 'exclusive'].includes(reward.type)) fail(`${id}: invalid first clear reward type`);
+        if (!reward || !['character', 'duplicate', 'gear_slot', 'upgrade', 'exclusive', 'gear_recipe', 'currency', 'exclusive_recipe'].includes(reward.type)) fail(`${id}: invalid first clear reward type`);
+        else if(reward.type==='currency'){if(!FIRST_CLEAR_CURRENCIES.includes(reward.currency)||!Number.isSafeInteger(reward.amount)||reward.amount<=0)fail(id+': invalid first-clear currency');}
+        else if(reward.type==='exclusive_recipe'){exists('exclusiveGear',reward.templateId,id);if(content.exclusiveGear?.[reward.templateId]?.requires?.firstClear!==id)fail(id+': exclusive recipe source mismatch');}
+        else if (reward.type === 'gear_recipe') {
+          exists('gearEffects',reward.recipeId,id);
+          if(content.gearEffects?.[reward.recipeId]?.requires?.firstClear!==id) fail(id+': recipe reward source mismatch');
+        }
         else if (reward.type === 'exclusive') {
           exists('exclusiveGear',reward.templateId,id);
           if (content.exclusiveGear?.[reward.templateId]?.source?.encounterId !== id) fail(id + ': exclusive reward source mismatch');
@@ -402,4 +416,4 @@ export function assembleContent(collections) {
   return content;
 }
 
-export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories'];
+export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects'];

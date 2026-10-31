@@ -36,7 +36,7 @@ test('ambush is two small goblins; Kai is a village poison defender and Benard a
 
 test('first victory atomically grants Kai and Arthur/Garrek duplicates once, including after save and import', () => {
   let campaign = createCampaign(content);
-  const battle = { encounterId: quest, outcome: 'victory' };
+  const battle = { encounterId: quest, outcome: 'victory',rewardRandom:()=>0 };
   let writes = 0;
   campaign = claimBattleReward(campaign, battle, content, next => { writes++; assert.ok(next.unlockedCharacterIds.includes('kai')); assert.deepEqual(next.claimedFirstClearRewards, [quest]); });
   assert.equal(writes, 1);
@@ -47,7 +47,7 @@ test('first victory atomically grants Kai and Arthur/Garrek duplicates once, inc
   assert.deepEqual(battle.firstClearRewards.map(item => [item.characterId, item.duplicate]), [['kai', false], ['arthur', true], ['garrek', true]]);
   assert.equal(claimBattleReward(campaign, battle, content), campaign);
   campaign = parseSaveImport(createSaveExport(restore(campaign), content).text, content);
-  const repeat = { encounterId: quest, outcome: 'victory' };
+  const repeat = { encounterId: quest, outcome: 'victory',rewardRandom:()=>0 };
   campaign = claimBattleReward(campaign, repeat, content);
   assert.equal(campaign.coins, 100);
   assert.equal(campaign.recruitmentShards, 20);
@@ -57,7 +57,7 @@ test('first victory atomically grants Kai and Arthur/Garrek duplicates once, inc
 
 test('failed reward persistence or shard overflow preserves first-clear eligibility and every balance', () => {
   const campaign = createCampaign(content), before = serializeCampaign(campaign);
-  const battle = { encounterId: quest, outcome: 'victory' };
+  const battle = { encounterId: quest, outcome: 'victory',rewardRandom:()=>0 };
   assert.throws(() => claimBattleReward(campaign, battle, content, () => { throw new Error('quota'); }));
   assert.equal(serializeCampaign(campaign), before);
   assert.equal(battle.rewardClaimed, undefined);

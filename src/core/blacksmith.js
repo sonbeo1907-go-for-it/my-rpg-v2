@@ -1,6 +1,7 @@
+import {gearDismantleYield} from './gear-rules.js';
 import { gearLocation } from './equipment.js';
 import { validateGear } from './economy.js';
-import { blacksmithRules, FORGE_STATS, exclusiveRollRange } from './blacksmith-rules.js';
+import { blacksmithRules, FORGE_STATS, exclusiveRollRange, exclusiveCraftUnlocked } from './blacksmith-rules.js';
 import { normalizeBlacksmithState } from './blacksmith-state.js';
 
 const count = value => Number.isSafeInteger(value)&&value>=0;
@@ -19,10 +20,10 @@ export function dismantleQuote(campaign,content,ids) {
   if(!Array.isArray(ids)||ids.length<1||ids.length>rules.maxDismantle||new Set(ids).size!==ids.length)throw new Error('Chọn từ 1 đến 99 trang bị khác nhau.');
   const selected=ids.map(id=>{
     const gear=campaign.gear.find(item=>item.id===id);
-    if(!gear||!validateGear(gear,content)||gearLocation(campaign,id)||!Object.hasOwn(rules.dismantleYield,gear.typeId))throw new Error('Có trang bị không tồn tại, đang được sử dụng hoặc không thể phân rã.');
+    if(!gear||!validateGear(gear,content)||gearLocation(campaign,id)||campaign.pendingGearReforge?.gearId===id||!Object.hasOwn(rules.dismantleYield,gear.typeId))throw new Error('Có trang bị không tồn tại, đang được sử dụng hoặc không thể phân rã.');
     return gear;
   });
-  const yields=selected.reduce((sum,item)=>sum+rules.dismantleYield[item.typeId],0);
+  const yields=selected.reduce((sum,item)=>sum+gearDismantleYield(content,item),0);
   return {count:selected.length,fragments:yields,groups:Object.fromEntries(Object.keys(rules.dismantleYield).map(type=>[type,selected.filter(item=>item.typeId===type).length])),after:add(campaign.prismaFragments??0,yields)};
 }
 export function dismantleGear(campaign,content,ids) {
@@ -34,15 +35,16 @@ export function dismantleGear(campaign,content,ids) {
 export function craftExclusive(campaign,content,id,random=Math.random) {
   const next=normalized(campaign,content),template=templateFor(content,id),rules=blacksmithRules(content);
   if(template.source?.type==='quest')throw new Error('Trấn Phái này chỉ nhận từ phần thưởng nhiệm vụ.');
+  if(!exclusiveCraftUnlocked(next,template))throw new Error('Hoàn thành chương truyện để mở công thức Trấn Phái.');
   if(!template.enabled)throw new Error('Mẫu Trấn Phái này chưa mở chế tạo.');
   if(!next.unlockedCharacterIds.includes(template.characterId))throw new Error('Cần sở hữu nhân vật trước khi chế tạo Trấn Phái.');
   if(next.exclusiveGear.some(item=>item.templateId===id))throw new Error('Mẫu Trấn Phái này đã được chế tạo.');
   for(const[key,cost]of Object.entries(rules.craftCost))next[key]=add(next[key],-cost);
-  next.exclusiveGear.push({templateId:id,...rollExclusiveStat(content,random)});revision(next);return next;
+  next.exclusiveGear.push({templateId:id,...(template.initialStat??rollExclusiveStat(content,random))});revision(next);return next;
 }
 export function beginReforge(campaign,content,id,random=Math.random) {
   const next=normalized(campaign,content);templateFor(content,id);const item=ownedFor(next,id);
-  if(next.pendingReforge)throw new Error('Hãy chọn kết quả tái rèn đang chờ trước.');
+  if(next.pendingReforge||next.pendingGearReforge)throw new Error('Hãy chọn kết quả tái rèn đang chờ trước.');
   next.originalPrisma=add(next.originalPrisma,-blacksmithRules(content).reforgeCost);
   const stat=rollExclusiveStat(content,random);
   next.pendingReforge={id:revision(next),templateId:id,previousStatKey:item.statKey,previousStatValue:item.statValue,nextStatKey:stat.statKey,nextStatValue:stat.statValue};return next;
