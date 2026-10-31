@@ -82,5 +82,29 @@
       "/bgm/bgm_revenge.mp3"
     ],
     "loop": true
+  },
+  {
+    "id": "east",
+    "name": "Giao chiến phương Đông",
+    "tracks": [
+      "/bgm/bt1_east.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "ryoga",
+    "name": "Tướng cướp Ryoga",
+    "tracks": [
+      "/bgm/boss_ryoga.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "ogrebane",
+    "name": "Hắc ảnh Arthur · Ogre’s Bane",
+    "tracks": [
+      "/bgm/spboss_ogrebane.mp3"
+    ],
+    "loop": true
   }
 ]

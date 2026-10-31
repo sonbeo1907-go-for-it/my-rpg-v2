@@ -16,10 +16,10 @@ Tân cử nhân Học Viện Ma Pháp gia nhập Hội Thợ Săn với lòng nh
 - **Quang quyền khai thức** — 4 MP, 150% ATK, đơn mục tiêu. Lựa chọn tiết kiệm.
 - **Quyền phá kết giới** — 12 MP, 260% ATK, xuyên 25% RES. Lựa chọn xuyên kháng phép.
 - **Chấn quang phong thuật** — 9 MP, 160% ATK, giảm 20% MAG trong 2 lượt chính của địch. Lựa chọn bảo vệ đội trước pháp sư.
-- **Quang quyền bừng sáng** — 12 MP, CD 2 theo quy ước engine, combatMode 3 vòng tính cả vòng dùng: +35% MAG, +20% SPD, giảm 12% MP cho ba chiêu công kích trên. Không thể gọi chồng khi đang ở dạng này. Ba kỹ năng công kích không có CD. Dùng chuyển dạng ở vòng 1: dạng hết cuối vòng 3, dùng lại ngay lượt kế tiếp ở vòng 4; không có vòng nghỉ bắt buộc.
+- **Quang quyền bừng sáng** — 12 MP, CD 2 theo quy ước engine, combatMode 3 vòng tính cả vòng dùng: +35% ATK, +20% SPD, giảm 12% MP cho ba chiêu công kích trên. Không thể gọi chồng khi đang ở dạng này. Ba kỹ năng công kích không có CD. Dùng chuyển dạng ở vòng 1: dạng hết cuối vòng 3, dùng lại ngay lượt kế tiếp ở vòng 4; không có vòng nghỉ bắt buộc.
 - **Ngọn lửa ngày ra trường** — khi dạng kết thúc, hồi 20% MP tối đa, một lần theo sự kiện rời dạng.
 
-Chi phí giảm làm tròn lên: 4 → 4, 12 → 11, 9 → 8 MP. Không giảm chi phí chuyển dạng, đánh thường hoặc Phòng thủ. Buff MAG được giữ đúng yêu cầu và **không thay thế/tăng ATK scaling**, vì thế nó không tự tăng sát thương quyền thuật. ATK buff từ đồng đội vẫn tăng sát thương bình thường.
+Chi phí giảm làm tròn lên: 4 → 4, 12 → 11, 9 → 8 MP. Không giảm chi phí chuyển dạng, đánh thường hoặc Phòng thủ. CombatMode tăng **35% ATK**, trực tiếp tăng sát thương quyền thuật. MAG không bị tăng; sát thương vẫn thuộc loại ma pháp Quang và tính qua RES. ATK buff từ đồng đội cộng theo quy tắc chỉ số hiện có.
 
 ## Karin — Cuồng đao tuyệt lộ
 

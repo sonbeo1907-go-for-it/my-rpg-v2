@@ -340,10 +340,11 @@ export function validateContent(content) {
   for (const [id, encounter] of Object.entries(content.encounters)) {
     if (encounter.requires !== undefined &&
       (!encounter.requires || typeof encounter.requires !== 'object' || Array.isArray(encounter.requires)
-        || !(typeof encounter.requires.storyFlag === 'string' && encounter.requires.storyFlag.trim() || typeof encounter.requires.firstClear === 'string' && content.encounters[encounter.requires.firstClear])
+        || !(typeof encounter.requires.storyFlag === 'string' && encounter.requires.storyFlag.trim() || typeof encounter.requires.firstClear === 'string' && content.encounters[encounter.requires.firstClear] || Array.isArray(encounter.requires.firstClears) && encounter.requires.firstClears.length>0)
         || (encounter.requires.storyFlag !== undefined && (typeof encounter.requires.storyFlag !== 'string' || !encounter.requires.storyFlag.trim()))
         || (encounter.requires.firstClear !== undefined && (!content.encounters[encounter.requires.firstClear] || encounter.requires.firstClear === id))))
       fail(`${id}: invalid quest unlock requirement`);
+    if (encounter.requires?.firstClears!==undefined && (!Array.isArray(encounter.requires.firstClears)||!encounter.requires.firstClears.length||new Set(encounter.requires.firstClears).size!==encounter.requires.firstClears.length||encounter.requires.firstClears.some(key=>key===id||!content.encounters[key]))) fail(id+': invalid prerequisite chapters');
     if (encounter.requiredPartyIds !== undefined && (!Array.isArray(encounter.requiredPartyIds) || !encounter.requiredPartyIds.length || new Set(encounter.requiredPartyIds).size !== encounter.requiredPartyIds.length || encounter.requiredPartyIds.some(characterId=>!content.characters[characterId]))) fail(`${id}: invalid required party`);
     if (encounter.waves !== undefined) {
       if (!encounter.travelerStory || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');

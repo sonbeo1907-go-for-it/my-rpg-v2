@@ -518,5 +518,125 @@
         "characterId": "fiona"
       }
     ]
+  },
+  {
+    "id": "takeshi_story_justice",
+    "name": "Gươm qua bụi đỏ",
+    "description": "Thanh gươm trượng nghĩa. Trên đường lữ thứ phương Đông, Takeshi rút kiếm cứu một đoàn xe khỏi ba tên cướp và thủ lĩnh của chúng.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_vanguard",
+      "bandit_vanguard",
+      "bandit_chief"
+    ],
+    "bgm": "east",
+    "rewardTier": "normal",
+    "travelerStory": "takeshi",
+    "requiredPartyIds": [
+      "takeshi"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "gear_slot",
+        "characterId": "takeshi"
+      }
+    ]
+  },
+  {
+    "id": "takeshi_story_wanderer",
+    "name": "Kiếm theo gió ngàn",
+    "description": "Thanh kiếm lãng du. Ba đợt phục kích nối nhau giữa đèo xa; mỗi lần cứu người, Takeshi lại tự hỏi lưỡi kiếm của mình đang đi về đâu.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_archer",
+      "bandit_chief"
+    ],
+    "waves": [
+      [
+        "bandit_vanguard",
+        "bandit_archer",
+        "bandit_chief"
+      ],
+      [
+        "bandit_brute",
+        "bandit_mage",
+        "bandit_vanguard"
+      ],
+      [
+        "bandit_chief",
+        "bandit_archer",
+        "bandit_mage",
+        "bandit_brute"
+      ]
+    ],
+    "bgm": "east",
+    "rewardTier": "normal",
+    "travelerStory": "takeshi",
+    "requiredPartyIds": [
+      "takeshi"
+    ],
+    "requires": {
+      "firstClear": "takeshi_story_justice"
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_slot",
+        "characterId": "takeshi"
+      }
+    ]
+  },
+  {
+    "id": "takeshi_story_horizon",
+    "name": "Qua biển, tìm mình",
+    "description": "Người phương xa vượt biển tìm kiếm chính mình. Trước chuyến tàu sang phương Tây, Takeshi đối mặt Ryoga — một lãng khách đã chọn sống bằng máu người.",
+    "enemies": [
+      "ryoga"
+    ],
+    "bgm": "ryoga",
+    "rewardTier": "boss",
+    "travelerStory": "takeshi",
+    "requiredPartyIds": [
+      "takeshi"
+    ],
+    "requires": {
+      "firstClear": "takeshi_story_wanderer"
+    },
+    "firstClearRewards": [
+      {
+        "type": "gear_slot",
+        "characterId": "takeshi"
+      },
+      {
+        "type": "upgrade",
+        "upgradeId": "takeshi.swordsman_eye"
+      }
+    ]
+  },
+  {
+    "id": "epilogue_unfinished",
+    "name": "Câu chuyện đang dang dở...",
+    "description": "Ba hành trình hội tụ bên bờ một bình minh khác. Arthur đối diện hắc ảnh của chính mình và tiếng gọi từ Ogre’s Bane. Chỉ khi làm chủ thanh kiếm, cậu mới có thể bước tiếp cùng những người bạn.",
+    "enemies": [
+      "shadow_arthur"
+    ],
+    "bgm": "ogrebane",
+    "rewardTier": "super",
+    "travelerStory": "epilogue",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "requiredPartyIds": [
+      "arthur"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "arthur.complete_control"
+      }
+    ]
   }
 ]

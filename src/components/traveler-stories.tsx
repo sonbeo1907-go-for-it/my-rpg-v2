@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGame } from "../runtime/game-context";
-import { travelerChapters, travelerStoryPage } from "../core/traveler-stories.js";
+import { travelerChapters, travelerStoryPage, storyPrerequisites } from "../core/traveler-stories.js";
 import { victoryCoinReward } from "../core/economy.js";
 import { gearSlotCapacity } from "../core/gear-slots.js";
 import { ELEMENT_NAMES } from "../core/content.js";
@@ -34,16 +34,17 @@ export function TravelerStoriesPage() {
     <PageHeader title="Câu chuyện lữ hành" subtitle="Mỗi người đồng hành đều mang theo một câu chuyện" />
     <div className="story-shelf" aria-label="Những câu chuyện đồng hành">
       {shelf.stories.map((story:any)=>{
+        const requirements=storyPrerequisites(content,campaign,story.id),locked=requirements.some((r:any)=>!r.completed);
         const cleared=story.chapters.filter((id:string)=>campaign.claimedFirstClearRewards.includes(id)).length;
-        return <Link className={`story-book story-book-${story.id}`} href={`/stories/${story.id}`} key={story.id}>
+        return <Link className={`story-book story-book-${story.id}${locked?" story-book-locked":""}`} href={`/stories/${story.id}`} key={story.id}>
           <img src={story.art} alt="" />
           <span className="story-book-spine" aria-hidden="true" />
           <div className="story-book-copy">
             <span className="eyebrow">{story.subtitle}</span>
             <h2>{story.name}</h2>
             <p>{story.description}</p>
-            <span className="story-book-status"><Icon name={story.chapters.length?"book":"door"}/>{story.chapters.length?`${cleared}/${story.chapters.length} chương đã hoàn thành` : "Nội dung đang được viết"}</span>
-            <strong>{story.chapters.length?"Mở trang sách":"Xem bìa truyện"}<span aria-hidden="true">↗</span></strong>
+            <span className="story-book-status"><Icon name={locked?"door":story.chapters.length?"book":"door"}/>{locked?`Chưa mở · ${requirements.filter((r:any)=>r.completed).length}/${requirements.length} hành trình đã khép`:story.chapters.length?`${cleared}/${story.chapters.length} chương đã hoàn thành` : "Nội dung đang được viết"}</span>
+            <strong>{locked?"Xem điều kiện mở khóa":story.chapters.length?"Mở trang sách":"Xem bìa truyện"}<span aria-hidden="true">↗</span></strong>
           </div>
         </Link>;
       })}
@@ -65,6 +66,7 @@ export function TravelerStoryPage({id}:{id:string}) {
   const chapters:any[]=travelerChapters(content,campaign,id);
   const selected=chapters.find(chapter=>chapter.id===filters.selected)??chapters.find(chapter=>!chapter.cleared&&chapter.unlocked)??chapters[0];
   const missing=selected?.requiredPartyIds?.filter((characterId:string)=>!campaign.party.includes(characterId))??[];
+  const prerequisites=storyPrerequisites(content,campaign,id),storyLocked=prerequisites.some((r:any)=>!r.completed);
   const canStart=selected?.unlocked&&!missing.length&&!busy;
   useEffect(()=>setConfirm(false),[selected?.id]);
   return <main className="quest-page story-quest-page">
@@ -79,11 +81,11 @@ export function TravelerStoryPage({id}:{id:string}) {
           <p className="first-clear">{selected.cleared?"✓ Đã nhận phần thưởng lần đầu":`Thưởng lần đầu: ${chapterReward(content,selected)}`}</p></>}
       </QuestIllustration>
       <section className="quest-board story-chapter-board" aria-label="Các chương truyện">
-        {!chapters.length?<EmptyState>Câu chuyện này chưa khai mở. Các nâng cấp của nhân vật vẫn chờ những chương tiếp theo.</EmptyState>:<>
+        {storyLocked?<div className="story-prerequisites"><span className="eyebrow">VĨ THANH CHƯA KHAI MỞ</span><h2>Ba hành trình, một lời hẹn</h2><p>Hoàn thành toàn bộ câu chuyện của Iris, Fiona và Takeshi để viết tiếp trang này.</p><ul>{prerequisites.map((r:any)=><li key={r.id}><Icon name={r.completed?'check':'door'}/><Link href={r.storyId?'/stories/'+r.storyId:'/quests?selected='+r.id}>{r.name}</Link><strong>{r.completed?'Đã hoàn thành':'Chưa hoàn thành'}</strong></li>)}</ul></div>:!chapters.length?<EmptyState>Câu chuyện này chưa khai mở. Các nâng cấp của nhân vật vẫn chờ những chương tiếp theo.</EmptyState>:<>
           <div className="story-board-heading"><span className="eyebrow">NHỮNG TRANG ĐỜI ĐỒNG HÀNH</span><h2>Hành trình của {content.characters[story.characterId].name}</h2><p>{gearSlotCapacity(campaign,content,story.characterId)}/6 ô trang bị đã mở · Phần thưởng đặc biệt chỉ nhận một lần.</p></div>
           <div className="quest-list story-chapter-list">
             {chapters.map((chapter,index)=><button key={chapter.id} data-encounter-id={chapter.id} className={`quest-card ${selected.id===chapter.id?"selected":""}`} aria-pressed={selected.id===chapter.id} onClick={()=>setFilters({...filters,selected:chapter.id})}>
-              <span className="quest-card-icon"><Icon name={!chapter.unlocked?"door":chapter.cleared?"check":"scroll"}/></span>
+              <span className="quest-card-icon"><Icon name={!chapter.unlocked?"door":chapter.cleared?"check":chapter.rewardTier==="super"?"skull":"scroll"}/></span>
               <span><strong>{String(index+1).padStart(2,"0")} · {chapter.name}</strong><small>{!chapter.unlocked?"Hoàn thành chương trước để mở khóa":chapter.cleared?"Đã hoàn thành · Có thể đánh lại":chapterReward(content,chapter)}</small></span><span aria-hidden="true">›</span>
             </button>)}
           </div>

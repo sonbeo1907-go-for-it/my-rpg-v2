@@ -19,9 +19,13 @@
     "order": 2,
     "name": "Thanh gươm vượt biển",
     "subtitle": "Takeshi · Lời hẹn phía chân trời",
-    "description": "Hai lưỡi kiếm, một hành trình vượt qua giới hạn của chính mình.",
+    "description": "Từ bụi đỏ đường xa đến bờ biển phương Tây, Takeshi dùng kiếm cứu người và đi tìm bản ngã.",
     "art": "/art/story-takeshi.svg",
-    "chapters": []
+    "chapters": [
+      "takeshi_story_justice",
+      "takeshi_story_wanderer",
+      "takeshi_story_horizon"
+    ]
   },
   {
     "id": "fiona",
@@ -35,6 +39,18 @@
       "fiona_story_eins",
       "fiona_story_zwei",
       "fiona_story_drei"
+    ]
+  },
+  {
+    "id": "epilogue",
+    "characterId": "arthur",
+    "order": 4,
+    "name": "Một hành trình kết thúc, một hành trình mới mở ra",
+    "subtitle": "Vĩ thanh · Arthur và Ogre’s Bane",
+    "description": "Khi ba câu chuyện đã khép, thanh kiếm còn một lời chưa nói.",
+    "art": "/art/story-epilogue.svg",
+    "chapters": [
+      "epilogue_unfinished"
     ]
   }
 ]

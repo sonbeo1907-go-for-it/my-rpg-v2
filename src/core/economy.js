@@ -93,6 +93,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
   if (encounter?.waves && (battle.storyWave?.totalWaves!==encounter.waves.length || battle.storyWave?.waveIndex!==encounter.waves.length-1)) return campaign;
   if (encounter?.travelerStory) {
     if (encounter.requires?.firstClear && !campaign.claimedFirstClearRewards?.includes(encounter.requires.firstClear)) throw new Error('Chương truyện trước chưa hoàn thành.');
+    if (encounter.requires?.firstClears?.some(id=>!campaign.claimedFirstClearRewards?.includes(id))) throw new Error('Hãy hoàn thành đủ các câu chuyện bắt buộc trước khi nhận thưởng vĩ thanh.');
     if (encounter.requiredPartyIds?.some(id => !battle.actors?.some(actor => actor.team === 'party' && (actor.definitionId ?? actor.id) === id))) throw new Error('Đội tham chiến thiếu nhân vật bắt buộc.');
   }
   const next = structuredClone(campaign);

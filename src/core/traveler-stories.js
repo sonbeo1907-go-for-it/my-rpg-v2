@@ -15,6 +15,10 @@ export function travelerChapters(content, campaign, storyId) {
     return {...encounter, cleared:campaign.claimedFirstClearRewards.includes(id), unlocked:isQuestUnlocked(encounter,campaign)};
   });
 }
+export function storyPrerequisites(content,campaign,storyId) {
+  const story=content.travelerStories?.[storyId],first=content.encounters[story?.chapters?.[0]];
+  return (first?.requires?.firstClears??[]).map(id=>({id,storyId:content.encounters[id].travelerStory,name:content.travelerStories[content.encounters[id].travelerStory]?.name??content.encounters[id].name,completed:campaign.claimedFirstClearRewards.includes(id)}));
+}
 export function validateTravelerStories(content) {
   const errors=[];
   for (const story of Object.values(content.travelerStories ?? {})) {

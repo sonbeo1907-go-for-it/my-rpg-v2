@@ -1432,7 +1432,7 @@ function resolveAction(
 function executeBossTurn(battle, actor) {
   battle.events = [];
   const oldStatuses = [...actor.statuses];
-  const jobs = bossTurnJobs(battle, actor);
+  const jobs = bossTurnJobs(battle, actor, id=>abilityAvailability(battle,actor,battle.content.abilities[id]).ok);
   let heavyUsed = false;
   for (const [index, job] of jobs.entries()) {
     if (battle.outcome || !living(actor)) break;

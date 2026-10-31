@@ -1777,8 +1777,8 @@
         "durationRounds": 3,
         "baseStatBonuses": {},
         "statModifiers": {
-          "magic": 0.35,
-          "speed": 0.2
+          "speed": 0.2,
+          "attack": 0.35
         },
         "mpCostReduction": 0.12,
         "discountAbilityIds": [
@@ -1802,8 +1802,8 @@
           "yufina.daze",
           "$defend"
         ],
-        "summary": "+35% MAG · +20% SPD · Chiêu công kích −12% MP",
-        "description": "Ở lại 3 vòng tính cả vòng dùng; kết thúc hồi 20% MP tối đa. MAG không thay ATK khi tính sát thương quyền thuật."
+        "summary": "+35% ATK · +20% SPD · Chiêu công kích −12% MP",
+        "description": "Ở lại 3 vòng tính cả vòng dùng; kết thúc hồi 20% MP tối đa. Quyền thuật dùng ATK và gây sát thương phép qua RES."
       }
     }
   },

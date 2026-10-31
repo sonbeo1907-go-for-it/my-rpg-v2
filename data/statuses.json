@@ -722,5 +722,41 @@
     "modifiers": {
       "defense": -0.2
     }
+  },
+  {
+    "id": "arthur_complete_control",
+    "name": "Kiểm soát hoàn toàn",
+    "kind": "buff",
+    "persistent": true,
+    "modifiers": {
+      "attack": 0.2
+    },
+    "description": "Tăng 20% ATK đến hết trận. Không cộng dồn; có thể bị xóa và được cấp lại."
+  },
+  {
+    "id": "bandit_pressure",
+    "name": "Bị áp sát",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.15
+    }
+  },
+  {
+    "id": "ryoga_evasion",
+    "name": "Bộ pháp đồ tể",
+    "kind": "buff",
+    "modifiers": {
+      "evasion": 0.45
+    }
+  },
+  {
+    "id": "ryoga_slow",
+    "name": "Vết đao níu bước",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.15
+    }
   }
 ]

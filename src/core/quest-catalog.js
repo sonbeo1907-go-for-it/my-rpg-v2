@@ -2,13 +2,14 @@ import { encounterTier, victoryCoinReward } from './economy.js';
 
 export const SINISTER_UNLOCK_FLAG = 'illusion.sinister_unlocked';
 export function questUnlockFlag(encounter) {
-  return encounter?.requires?.storyFlag ?? (encounterTier(encounter) === 'super' ? SINISTER_UNLOCK_FLAG : null);
+  return encounter?.requires?.storyFlag ?? (encounterTier(encounter) === 'super' && !encounter.travelerStory ? SINISTER_UNLOCK_FLAG : null);
 }
 export function isQuestUnlocked(encounter, campaign) {
   if (!encounter) return false;
   const flag = questUnlockFlag(encounter);
   return (!flag || Boolean(campaign?.storyFlags?.includes(flag)))
-    && (!encounter.requires?.firstClear || Boolean(campaign?.claimedFirstClearRewards?.includes(encounter.requires.firstClear)));
+    && (!encounter.requires?.firstClear || Boolean(campaign?.claimedFirstClearRewards?.includes(encounter.requires.firstClear)))
+    && (encounter.requires?.firstClears??[]).every(id=>campaign?.claimedFirstClearRewards?.includes(id));
 }
 export function assertQuestUnlocked(encounter, campaign) {
   if (!isQuestUnlocked(encounter, campaign))

@@ -13,7 +13,8 @@ function setup(encounter, party = ['arthur'], random = () => .99) {
   campaign.party = party;
   if (content.encounters[encounter].travelerStory) {
     campaign.claimedFirstClearRewards = content.travelerStories[content.encounters[encounter].travelerStory].chapters.slice(0,-1);
-    if (content.encounters[encounter].requiredPartyIds?.includes('iris') && !campaign.party.includes('iris')) campaign.party = [...party.slice(0,3),'iris'];
+    const required=content.encounters[encounter].requiredPartyIds??[];campaign.party=[...required,...party.filter(id=>!required.includes(id))].slice(0,4);
+    campaign.claimedFirstClearRewards.push(...(content.encounters[encounter].requires?.firstClears??[]));
   }
   campaign.unlockedCharacterIds = Object.keys(content.characters);
   return createBattle(content, campaign, encounter, random);

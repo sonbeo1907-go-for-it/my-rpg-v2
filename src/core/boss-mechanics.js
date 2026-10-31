@@ -46,11 +46,13 @@ export function transitionBossPhases(battle, { write, restoreMp }) {
 }
 
 // Due telegraphs take a slot in the next turn, never add a third move.
-export function bossTurnJobs(battle, actor) {
+export function bossTurnJobs(battle, actor, available = () => false) {
   const state = actor.bossState, phase = bossPhase(actor);
   const due = state.pendingMoves.filter(move => move.readyRound <= battle.round);
   state.pendingMoves = state.pendingMoves.filter(move => move.readyRound > battle.round);
   const rotation = phase.rotation[state.rotationStep++ % phase.rotation.length];
+  const burst=phase.resourceBurst;
+  if (!due.length && burst && available(burst)) return [{abilityId:burst},...rotation.map(abilityId=>({abilityId}))].slice(0,phase.actionsPerTurn);
   return [...due, ...rotation.map(abilityId => ({ abilityId }))].slice(0, phase.actionsPerTurn);
 }
 
@@ -69,6 +71,10 @@ export function validateBossDefinition(actor, content, fail) {
       || (generic ? ![1,2].includes(phase.actionsPerTurn) : phase.actionsPerTurn !== (index === 2 ? 2 : 1))
       || (phase.damageMultiplier!==undefined && (!Number.isFinite(phase.damageMultiplier)||phase.damageMultiplier<1||phase.damageMultiplier>3))
       || !Array.isArray(phase.rotation) || !phase.rotation.length) { fail(`${id}: invalid boss phase ${index + 1}`); return; }
+    if (phase.resourceBurst!==undefined) {
+      const skill=content.abilities[phase.resourceBurst],cost=skill?.cost?.resource;
+      if (!actor.abilities?.includes(phase.resourceBurst) || !skill?.effects?.some(effect=>effect.type==='damage') || !['enemy','all_enemies'].includes(skill.target) || !cost || !actor.resources?.[cost.id] || (cost.amount??cost.min??0)<1 || (cost.amount??cost.min)>actor.resources[cost.id].max) fail(id+': invalid boss resource burst');
+    }
     for (const moves of phase.rotation) {
       if (!Array.isArray(moves) || moves.length !== phase.actionsPerTurn
         || moves.some(skill => !abilityExists(skill) || !actor.abilities?.includes(skill)

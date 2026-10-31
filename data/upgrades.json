@@ -118,5 +118,30 @@
         }
       }
     ]
+  },
+  {
+    "id": "arthur.complete_control",
+    "characterId": "arthur",
+    "name": "Kiểm soát hoàn toàn & Thiểm Quang Kiếm",
+    "order": 20,
+    "requires": {
+      "storyFlag": "arthur.full_control_story_cleared"
+    },
+    "changes": [
+      {
+        "type": "replace_ability",
+        "from": "arthur.ogres_bane",
+        "to": "arthur.ogres_bane_mastered"
+      },
+      {
+        "type": "replace_ability",
+        "from": "arthur.ogres_bane_controlled",
+        "to": "arthur.ogres_bane_mastered"
+      },
+      {
+        "type": "unlock_ability",
+        "ability": "arthur.ogres_bane_flash"
+      }
+    ]
   }
 ]

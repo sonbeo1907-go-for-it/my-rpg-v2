@@ -4105,7 +4105,7 @@
     "id": "yufina.ignite",
     "name": "Quang quyền bừng sáng",
     "target": "self",
-    "description": "Bùng cháy nhiệt huyết, tăng tốc và tiết kiệm MP công kích.",
+    "description": "Bùng cháy nhiệt huyết, tăng ATK, tốc độ và tiết kiệm MP công kích.",
     "cost": {
       "mp": 12
     },
@@ -4368,6 +4368,406 @@
         "damageType": "physical",
         "element": "earth",
         "multiplier": 1.1
+      }
+    ]
+  },
+  {
+    "id": "arthur.ogres_bane_mastered",
+    "name": "Ogre’s Bane — Kiểm soát hoàn toàn",
+    "description": "Giải phóng toàn lực thanh kiếm, rồi duy trì sức mạnh đến hết trận.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10,
+      "resource": {
+        "id": "resonance",
+        "amount": 3
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 6
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "arthur_complete_control"
+      }
+    ],
+    "rules": [
+      "Sau khi đánh: +20% ATK đến hết trận, không cộng dồn.",
+      "Buff có thể bị xóa; thi triển lại sẽ cấp lại buff.",
+      "Không gây Kiệt sức hoặc Dư chấn."
+    ]
+  },
+  {
+    "id": "arthur.ogres_bane_flash",
+    "name": "Ogre’s Bane — Thiểm Quang Kiếm",
+    "description": "Quét kiếm Quang qua toàn đội hình địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10,
+      "resource": {
+        "id": "resonance",
+        "amount": 3
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 2.8
+      }
+    ]
+  },
+  {
+    "id": "bandit.advance",
+    "name": "Chém áp sát",
+    "description": "Áp sát và chém một đối thủ.",
+    "target": "enemy",
+    "cost": {
+      "mp": 4
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1.15
+      }
+    ]
+  },
+  {
+    "id": "bandit.arrow",
+    "name": "Tên rình đường",
+    "description": "Bắn tên vào một sơ hở trong giáp.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1.2,
+        "penetration": 0.2
+      }
+    ]
+  },
+  {
+    "id": "bandit.crush",
+    "name": "Bổ chùy nặng",
+    "description": "Nghiền giáp một đối thủ bằng trọng chùy.",
+    "target": "enemy",
+    "cost": {
+      "mp": 7
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.5,
+        "onHitStatus": {
+          "status": "bandit_pressure",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "bandit.flame",
+    "name": "Lửa phục kích",
+    "description": "Phóng lửa qua toàn đội hình đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 0.65
+      }
+    ]
+  },
+  {
+    "id": "bandit.firebolt",
+    "name": "Hỏa tiễn tà thuật",
+    "description": "Phóng một tia lửa phép vào đối thủ.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "multiplier": 1.2
+      }
+    ]
+  },
+  {
+    "id": "bandit.command_cut",
+    "name": "Đao lệnh cướp đường",
+    "description": "Tướng cướp bổ đao vào một mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1.45
+      }
+    ]
+  },
+  {
+    "id": "bandit.command_sweep",
+    "name": "Đao quét đoàn xe",
+    "description": "Quét đao qua cả đội hình địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 0.75
+      }
+    ]
+  },
+  {
+    "id": "ryoga.stance",
+    "name": "Một bước, một mạng",
+    "description": "Giữ bộ pháp né 45% đòn vật lí trong 2 lượt; né sẽ phản đao tối đa một lần/vòng.",
+    "target": "self",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "ryoga_evasion",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "ryoga.cut",
+    "name": "Đao qua bụi đỏ",
+    "description": "Chém ghìm bước một đối thủ.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.4,
+        "onHitStatus": {
+          "status": "ryoga_slow",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "ryoga.finish",
+    "name": "Đồ tể đoạn lộ",
+    "description": "Tiêu Sơ hở để tung một đao mạnh.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10,
+      "resource": {
+        "id": "opening",
+        "all": true,
+        "min": 1
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.6,
+        "perResource": 0.4
+      }
+    ]
+  },
+  {
+    "id": "ryoga.counter",
+    "name": "Lưỡi đao sau lưng",
+    "description": "Né thành công rồi phản đao vào người tấn công.",
+    "activation": "passive",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.25
+      }
+    ]
+  },
+  {
+    "id": "shadow_arthur.slash",
+    "name": "Kiếm quang tàn lụi",
+    "description": "Chém Ám và tích 1 Cộng hưởng.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.1
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "resonance",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "shadow_arthur.sweep",
+    "name": "Dư ảnh ngang trời",
+    "description": "Quét kiếm Ám qua toàn địch và tích 1 Cộng hưởng.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 0.65
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "resonance",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "shadow_arthur.unbound",
+    "name": "Ogre’s Bane — Tiếng vọng bất kham",
+    "description": "Dồn 3 Cộng hưởng, báo trước một vòng rồi giải phóng kiếm lực Ám.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10,
+      "resource": {
+        "id": "resonance",
+        "amount": 3
+      }
+    },
+    "bossHeavy": true,
+    "windup": {
+      "rounds": 1,
+      "message": "Một đòn kiếm cực mạnh sắp tới. Bảo vệ người bị nhắm!"
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 3.6
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "exhausted",
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "shadow_arthur.controlled",
+    "name": "Ogre’s Bane — Bóng tối chế ngự",
+    "description": "Dồn 3 Cộng hưởng, báo trước một vòng rồi giải phóng kiếm lực Ám.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10,
+      "resource": {
+        "id": "resonance",
+        "amount": 3
+      }
+    },
+    "bossHeavy": true,
+    "windup": {
+      "rounds": 1,
+      "message": "Một đòn kiếm cực mạnh sắp tới. Bảo vệ người bị nhắm!"
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 4.2
+      }
+    ]
+  },
+  {
+    "id": "shadow_arthur.eclipse",
+    "name": "Ogre’s Bane — Thiểm Ảnh Kiếm",
+    "description": "Dồn 3 Cộng hưởng, báo trước một vòng rồi giải phóng kiếm lực Ám.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10,
+      "resource": {
+        "id": "resonance",
+        "amount": 3
+      }
+    },
+    "bossHeavy": true,
+    "windup": {
+      "rounds": 1,
+      "message": "Kiếm lực sắp quét toàn đội. Dựng khiên hoặc phòng thủ!"
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 2.8
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "arthur_complete_control"
+      }
+    ]
+  },
+  {
+    "id": "ryoga.sweep",
+    "name": "Đao phong tuyệt lộ",
+    "description": "Quét đao Ám qua toàn đội hình đối phương.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 9
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 0.85
       }
     ]
   }

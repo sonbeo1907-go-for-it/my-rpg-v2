@@ -1067,5 +1067,252 @@
         }
       ]
     }
+  },
+  {
+    "id": "bandit_vanguard",
+    "name": "Cướp — Tiên phong",
+    "role": "Cướp cận chiến",
+    "element": "plain",
+    "stats": {
+      "maxHp": 130,
+      "maxMp": 45,
+      "attack": 25,
+      "magic": 8,
+      "defense": 16,
+      "resistance": 12,
+      "speed": 21
+    },
+    "weaknesses": [
+      "wind",
+      "fire"
+    ],
+    "abilities": [
+      "bandit.advance"
+    ]
+  },
+  {
+    "id": "bandit_archer",
+    "name": "Cướp — Xạ thủ",
+    "role": "Cướp tầm xa",
+    "element": "wind",
+    "stats": {
+      "maxHp": 115,
+      "maxMp": 50,
+      "attack": 25,
+      "magic": 8,
+      "defense": 12,
+      "resistance": 14,
+      "speed": 24
+    },
+    "weaknesses": [
+      "wind",
+      "earth"
+    ],
+    "abilities": [
+      "bandit.arrow"
+    ]
+  },
+  {
+    "id": "bandit_brute",
+    "name": "Cướp — Lực lưỡng",
+    "role": "Cướp trọng chùy",
+    "element": "earth",
+    "stats": {
+      "maxHp": 210,
+      "maxMp": 50,
+      "attack": 31,
+      "magic": 8,
+      "defense": 22,
+      "resistance": 12,
+      "speed": 9
+    },
+    "weaknesses": [
+      "wind",
+      "water"
+    ],
+    "abilities": [
+      "bandit.crush"
+    ]
+  },
+  {
+    "id": "bandit_mage",
+    "name": "Cướp — Pháp sư",
+    "role": "Cướp dùng tà thuật",
+    "element": "fire",
+    "stats": {
+      "maxHp": 130,
+      "maxMp": 80,
+      "attack": 9,
+      "magic": 27,
+      "defense": 10,
+      "resistance": 20,
+      "speed": 15
+    },
+    "weaknesses": [
+      "wind",
+      "water"
+    ],
+    "abilities": [
+      "bandit.flame",
+      "bandit.firebolt"
+    ]
+  },
+  {
+    "id": "bandit_chief",
+    "name": "Cướp — Tướng cướp",
+    "role": "Thủ lĩnh cướp đường",
+    "element": "plain",
+    "stats": {
+      "maxHp": 260,
+      "maxMp": 70,
+      "attack": 31,
+      "magic": 10,
+      "defense": 22,
+      "resistance": 16,
+      "speed": 16
+    },
+    "weaknesses": [
+      "wind",
+      "light"
+    ],
+    "abilities": [
+      "bandit.command_cut",
+      "bandit.command_sweep"
+    ]
+  },
+  {
+    "id": "ryoga",
+    "name": "Tướng Cướp Đồ Tể Ryoga",
+    "role": "Lãng khách lạc lối · Né / phản đòn",
+    "element": "dark",
+    "stats": {
+      "maxHp": 1200,
+      "maxMp": 100,
+      "attack": 40,
+      "magic": 12,
+      "defense": 24,
+      "resistance": 22,
+      "speed": 26
+    },
+    "weaknesses": [
+      "wind"
+    ],
+    "resources": {
+      "opening": {
+        "name": "Sơ hở",
+        "max": 3
+      }
+    },
+    "passive": {
+      "type": "dodge_counter",
+      "name": "Lưỡi đao rình bóng",
+      "resource": "opening",
+      "counterAbility": "ryoga.counter"
+    },
+    "abilities": [
+      "ryoga.stance",
+      "ryoga.cut",
+      "ryoga.finish",
+      "ryoga.sweep"
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "when": "missing_status",
+          "abilityId": "ryoga.stance",
+          "statusId": "ryoga_evasion"
+        }
+      ]
+    }
+  },
+  {
+    "id": "shadow_arthur",
+    "name": "Hắc ảnh Arthur",
+    "role": "Siêu trùm · Tiếng vọng Ogre’s Bane",
+    "element": "dark",
+    "stats": {
+      "maxHp": 3000,
+      "maxMp": 180,
+      "attack": 46,
+      "magic": 24,
+      "defense": 32,
+      "resistance": 32,
+      "speed": 19
+    },
+    "weaknesses": [
+      "light"
+    ],
+    "resources": {
+      "resonance": {
+        "name": "Cộng hưởng",
+        "max": 3
+      }
+    },
+    "abilities": [
+      "shadow_arthur.slash",
+      "shadow_arthur.sweep",
+      "shadow_arthur.unbound",
+      "shadow_arthur.controlled",
+      "shadow_arthur.eclipse"
+    ],
+    "boss": {
+      "type": "phased",
+      "restorePartyMpOnTransition": false,
+      "phases": [
+        {
+          "name": "Thanh kiếm chưa thuần",
+          "atHpRatio": 1,
+          "actionsPerTurn": 1,
+          "resourceBurst": "shadow_arthur.unbound",
+          "rotation": [
+            [
+              "shadow_arthur.slash"
+            ],
+            [
+              "shadow_arthur.sweep"
+            ],
+            [
+              "shadow_arthur.slash"
+            ]
+          ]
+        },
+        {
+          "name": "Bóng tối mang tên ta",
+          "atHpRatio": 0.6666666666666666,
+          "actionsPerTurn": 1,
+          "damageMultiplier": 1.1,
+          "resourceBurst": "shadow_arthur.controlled",
+          "rotation": [
+            [
+              "shadow_arthur.sweep"
+            ],
+            [
+              "shadow_arthur.slash"
+            ],
+            [
+              "shadow_arthur.slash"
+            ]
+          ]
+        },
+        {
+          "name": "Bình minh sau lưỡi kiếm",
+          "atHpRatio": 0.3333333333333333,
+          "actionsPerTurn": 1,
+          "damageMultiplier": 1.2,
+          "resourceBurst": "shadow_arthur.eclipse",
+          "rotation": [
+            [
+              "shadow_arthur.slash"
+            ],
+            [
+              "shadow_arthur.sweep"
+            ],
+            [
+              "shadow_arthur.slash"
+            ]
+          ]
+        }
+      ]
+    }
   }
 ]

@@ -31,10 +31,11 @@
     "passive": {
       "type": "skill_penetration",
       "name": "Phá vỡ giới hạn",
-      "description": "Hai biến thể Ogre’s Bane xuyên thêm 25% DEF.",
+      "description": "Các chiêu Ogre’s Bane đơn mục tiêu xuyên thêm 25% DEF.",
       "abilityIds": [
         "arthur.ogres_bane",
-        "arthur.ogres_bane_controlled"
+        "arthur.ogres_bane_controlled",
+        "arthur.ogres_bane_mastered"
       ],
       "ratio": 0.25,
       "rules": []

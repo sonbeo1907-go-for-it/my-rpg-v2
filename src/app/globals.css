@@ -2950,3 +2950,5 @@ h1[tabindex='-1']:focus { outline: none; }
 .summon-state-radiant_fists{border-color:#c9b77f;background:#29251be8;color:#fff0b4}.mode-scene-radiant_fists .summon-eye-halo{inset:10% 0 8% 45%;background:radial-gradient(ellipse,#ffdc8a35,transparent 65%);animation:cosmic-breathe 3s ease-in-out infinite alternate}
 
 .story-wave-scouting{display:grid;gap:1rem}.story-wave-scouting h4{margin:.35rem 0 .55rem;color:var(--gold,#ddbf78)}.story-wave-scouting .quest-enemies{margin:0}
+
+.story-book-locked img{filter:saturate(.55) brightness(.7)}.story-prerequisites{padding:clamp(1.25rem,3vw,2.5rem)}.story-prerequisites ul{list-style:none;padding:0;display:grid;gap:1rem}.story-prerequisites li{display:grid;grid-template-columns:1.4rem 1fr;gap:.65rem;align-items:start;padding:1rem;background:#0c1a23b3;border:1px solid #bda26d44}.story-prerequisites li strong{grid-column:2;font-size:.8rem;color:var(--gold,#ddbf78)}

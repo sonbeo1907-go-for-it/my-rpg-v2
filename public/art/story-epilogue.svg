@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Ogre’s Bane — Bình minh sau lưỡi kiếm</title>
+  <desc id="desc">Thanh đại kiếm đen đỏ hình lưỡi liềm, trái tim ma lực tím hồng và xích đứt, nằm giữa màn đêm cùng bình minh trên biển.</desc>
+  <defs>
+    <linearGradient id="sky" x2="1" y2="1"><stop stop-color="#080c20"/><stop offset=".52" stop-color="#342347"/><stop offset="1" stop-color="#9c5c43"/></linearGradient>
+    <linearGradient id="dawn" y2="1" x2="0"><stop stop-color="#ffe4b0" stop-opacity=".75"/><stop offset="1" stop-color="#e98857" stop-opacity="0"/></linearGradient>
+    <linearGradient id="steel" x2=".9" y2="1"><stop stop-color="#41414e"/><stop offset=".32" stop-color="#15151f"/><stop offset=".65" stop-color="#391a31"/><stop offset="1" stop-color="#0b111d"/></linearGradient>
+    <linearGradient id="edge" x2="1" y2="1"><stop stop-color="#ffb8da"/><stop offset=".35" stop-color="#f02764"/><stop offset="1" stop-color="#631931"/></linearGradient>
+    <radialGradient id="core"><stop stop-color="#fff9ff"/><stop offset=".18" stop-color="#ffb6f4"/><stop offset=".5" stop-color="#fb3bba"/><stop offset="1" stop-color="#8c174f" stop-opacity="0"/></radialGradient>
+    <radialGradient id="halo"><stop stop-color="#bc389b" stop-opacity=".35"/><stop offset="1" stop-color="#6f205f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="shade" x2="0" y2="1"><stop offset=".38" stop-color="#07121b" stop-opacity="0"/><stop offset="1" stop-color="#07121b"/></linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="6"/></filter>
+    <pattern id="stars" width="113" height="137" patternUnits="userSpaceOnUse"><circle cx="20" cy="26" r="1" fill="#f6d6ff" opacity=".65"/><circle cx="82" cy="94" r=".7" fill="#fff1bd" opacity=".55"/></pattern>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h600v900H0z"/>
+  <path fill="url(#stars)" d="M0 0h600v670H0z"/>
+  <path fill="#0c1725" opacity=".7" d="M0 481 67 438 97 459 141 390 193 454 233 411 274 482v166H0z"/>
+  <path fill="url(#dawn)" d="M345 112 600 42v662H311z"/>
+  <path fill="#f6b473" opacity=".16" d="m594 63-61 565H260zM600 172 390 627H214z"/>
+  <path fill="#141b30" d="M0 590q145-31 295 3t305-15v322H0z"/>
+  <g fill="none" stroke="#f8c78e" opacity=".25"><path d="M302 602h242m-281 19h211m-158 20h219m-270 22h330m-278 24h198"/><path d="M362 604 318 800m90-192 46 192" opacity=".45"/></g>
+  <ellipse cx="330" cy="356" rx="265" ry="264" fill="url(#halo)"/>
+  <g transform="rotate(9 310 335)">
+    <!-- An asymmetric crescent blade, carved from dark steel rather than a straight sword. -->
+    <path d="M444 259C365 341 264 382 177 337 117 306 82 253 63 178c-5 117 24 276 119 358 86 74 204 70 294-28-65 5-101-33-80-74 18-36 57-39 92-56l-15-79z" fill="#070c16" stroke="#090c16" stroke-width="12"/>
+    <path d="M444 259C365 341 264 382 177 337 117 306 82 253 63 178c-5 117 24 276 119 358 86 74 204 70 294-28-65 5-101-33-80-74 18-36 57-39 92-56l-15-79z" fill="url(#steel)" stroke="url(#edge)" stroke-width="3"/>
+    <path d="M75 220c15 144 79 282 198 308 69 15 120 2 175-12-71 71-162 73-234 18C126 466 82 344 75 220z" fill="#a41d46" opacity=".68"/>
+    <path d="M81 254c21 139 72 236 159 269 71 27 131 18 185 2" fill="none" stroke="#ff537c" stroke-width="3"/>
+    <path d="m165 328-13-92 73 71-11-88 61 87 38-69 6 93" fill="#15131f" stroke="#a12653" stroke-width="3"/>
+    <path d="m410 391-49 43 15 34-53-4-16 36-40-25-38 11-13-44-45-24 17-29" fill="none" stroke="#8e2a4c" stroke-width="5"/>
+    <g fill="none" stroke="#ea457c" stroke-width="2" opacity=".7"><path d="m132 350 52 40-15 23 48 31-2 28 47 15m-94-127 63 29 44-12 43 28 36-19m-82 80 16-28 37 5 13-26"/><path d="m185 493 7 17m39-3 10 17m38-5 8 18m42-6 1 15"/></g>
+    <!-- Thorned guard and the living magenta heart. -->
+    <path d="m428 277-39-51 53 17-15-59 44 42 35-21-5 57 51 3-45 33 13 48-49-16-27 47-9-50-47 4z" fill="#171420" stroke="#dc336c" stroke-width="4"/>
+    <path d="m473 249-10-109 26-16 22 12-18 112z" fill="#171725" stroke="#8c6583" stroke-width="3"/>
+    <path d="m469 172 29 10m-31 8 28 10m-30 8 26 10m-27 8 24 9" stroke="#dd3769" stroke-width="4"/>
+    <path d="m462 143 17-36 29 12 13 29-25-4-10 19z" fill="#171725" stroke="#ed5486" stroke-width="3"/>
+    <ellipse cx="464" cy="292" rx="70" ry="72" fill="url(#core)" filter="url(#glow)"/>
+    <path d="m460 247 32 29-8 37-34 20-24-33 11-33z" fill="#641348" stroke="#ff7dd7" stroke-width="3"/>
+    <path d="m457 258 19 22-9 27-25 14 10-28-7-16z" fill="#ff96df"/>
+    <path d="m461 268 3 26-14 17 6-27z" fill="#fff4ff"/>
+    <g fill="none" stroke="#fc60b9" stroke-width="3"><path d="M441 282c-53-69-103 19-155-13s8-64-31-91M479 308c43 61-17 91-3 124s55 16 66 54"/><path d="M455 271c-38-22-12-76-48-95"/></g>
+    <g fill="none" stroke="#b8375a" stroke-width="5"><ellipse cx="423" cy="148" rx="9" ry="16" transform="rotate(-28 423 148)"/><ellipse cx="410" cy="124" rx="9" ry="16" transform="rotate(-28 410 124)"/><ellipse cx="399" cy="96" rx="9" ry="16" transform="rotate(-9 399 96)"/><ellipse cx="399" cy="67" rx="9" ry="16" transform="rotate(12 399 67)"/></g>
+    <path d="m397 47 3-12m7 19 7-8m-2 24 11 1" stroke="#ffb5cb" stroke-width="2"/>
+  </g>
+  <g fill="#ffd7df"><path d="m180 156 3 10 10 3-10 3-3 10-3-10-10-3 10-3z"/><path d="m522 406 3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><circle cx="116" cy="438" r="2"/><circle cx="349" cy="172" r="2"/></g>
+  <path fill="url(#shade)" d="M0 0h600v900H0z"/>
+  <g fill="none" stroke="#cbb58a" stroke-width="1" opacity=".65"><path d="M20 128V20h108m344 0h108v108M20 772v108h108m344 0h108V772"/><path d="M29 104V29h75m392 0h75v75"/></g>
+  <path d="m300 25 5 10-5 10-5-10z" fill="#efcb8f"/>
+</svg>
