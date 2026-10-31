@@ -199,7 +199,7 @@ test('feedback preserves hit then shield-break healing even when net HP increase
   assert.ok(arthur.hp > before);
   const feedback=battle.events.filter(event=>['damage','heal'].includes(event.type));
   assert.deepEqual(feedback.map(event => event.type), ['damage', 'heal']);
-  assert.deepEqual(feedback[0], { type: 'damage', targetId: 'arthur', sourceId: 'enemy_0', amount: 1, absorbed: 19, element: 'plain', weakness: false, damageType:'physical',abilityId:'enemy.slash',area:false,reaction:false,hitIndex:0,primary:true });
+  assert.deepEqual(feedback[0], { type: 'damage', targetId: 'arthur', sourceId: 'enemy_0', amount: 1, absorbed: 19, element: 'plain', weakness: false, weaknessMultiplier:1, damageType:'physical',abilityId:'enemy.slash',area:false,reaction:false,hitIndex:0,primary:true });
   assert.equal(feedback[1].amount, 11);
 });
 

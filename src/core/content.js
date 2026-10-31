@@ -240,8 +240,11 @@ export function validateContent(content) {
       }
       if (effect.onHitStatus !== undefined) {
         exists('statuses',effect.onHitStatus?.status,id);
-        if (effect.type !== 'damage' || !Number.isInteger(effect.onHitStatus?.duration) || effect.onHitStatus.duration < 1) fail(id + ': invalid on-hit status');
+        const onHit = content.statuses[effect.onHitStatus?.status];
+        if (effect.type !== 'damage' || ((!onHit?.persistent || effect.onHitStatus.duration !== undefined) && (!Number.isInteger(effect.onHitStatus?.duration) || effect.onHitStatus.duration < 1))) fail(id + ': invalid on-hit status');
+        if (effect.onHitStatus?.stacks !== undefined && (!onHit?.exposedElement || !Number.isInteger(effect.onHitStatus?.stacks) || effect.onHitStatus?.stacks < 1 || effect.onHitStatus?.stacks > onHit.maxStacks)) fail(id + ': invalid on-hit exposure stacks');
       }
+      if (effect.stacks !== undefined && (effect.type !== 'status' || !content.statuses[effect.status]?.exposedElement || !Number.isInteger(effect.stacks) || effect.stacks < 1 || effect.stacks > content.statuses[effect.status].maxStacks)) fail(id + ': invalid exposure stacks');
       if (effect.extraStacksIfPresent !== undefined && (effect.type !== 'status' || !Number.isInteger(effect.extraStacksIfPresent) || effect.extraStacksIfPresent < 1 || !content.statuses[effect.status]?.maxStacks)) fail(`${id}: invalid conditional status stacks`);
       if (effect.type === 'formula_field' && (skill.target!=='self' || typeof effect.name!=='string' || !effect.name.trim() || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1 || !Array.isArray(effect.sequence) || effect.sequence.length!==3 || new Set(effect.sequence).size!==3 || effect.sequence.some(tag=>!['lead','break','strike'].includes(tag)) || !/^\/art\/[a-z0-9_-]+\.svg$/.test(effect.background))) fail(id+': invalid formula field');
       if (effect.type === 'edit_formula' && (skill.target!=='self' || skill.requiresFormula!==true || !skill.minFormulaEntries)) fail(id+': invalid formula edit');
@@ -280,6 +283,8 @@ export function validateContent(content) {
   }
   for (const [id, status] of Object.entries(content.statuses)) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
+    if (status.weaknessMultiplier !== undefined && (status.kind !== 'buff' || !Number.isFinite(status.weaknessMultiplier) || status.weaknessMultiplier <= WEAKNESS_MULTIPLIER || status.weaknessMultiplier > 2 || status.modifiersPerStack || status.consumeOnAttack)) fail(id + ': invalid weakness multiplier');
+    if (status.exposedElement !== undefined && (status.kind !== 'debuff' || !ELEMENTS.includes(status.exposedElement) || status.maxStacks !== 3 || status.modifiersPerStack || status.damageOverTime || status.consumeOnAttack)) fail(id + ': invalid elemental exposure');
     if (status.modifiersPerStack !== undefined && (status.modifiersPerStack !== true || !Number.isInteger(status.maxStacks) || status.maxStacks < 1)) fail(id + ': invalid stack modifiers');
     if (status.modifierGroup !== undefined && (typeof status.modifierGroup !== 'string' || !status.modifierGroup)) fail(id + ': invalid modifier group');
     if (status.durationClock !== undefined && !['main_turn','round'].includes(status.durationClock)) fail(id + ': invalid duration clock');

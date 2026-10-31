@@ -1,3 +1,4 @@
+import { captureExposures, availableExposureStacks, resolveWeakness, reserveExposure, finishExposures } from './weakness.js';
 import {prepareCombatMode,prepareCompanion,roundSummons,expireRoundSummons} from './combat-summons.js';
 import {periodicPotency} from './periodic-damage.js';
 import { activeFormula, formulaAvailability, formulaSnapshot, formulaDamage, validateFormulaEdit, editedFormulaEntries, openFormula, closeFormula, expireFormulaFields, recordFormulaAction } from "./formula-field.js";
@@ -9,7 +10,6 @@ import { enemyStatMultipliers, scaleEnemyStats } from "./enemy-scaling.js";
 import { resolveCharacter } from "./progression.js";
 import { seededRandom } from "./random.js";
 import {
-  WEAKNESS_MULTIPLIER,
   ELEMENT_NAMES,
   DAMAGE_TYPE_NAMES,
 } from "./content.js";
@@ -201,6 +201,7 @@ function attackContext(battle, actor) {
   );
   return {
     weaknessTargets: new Set(),
+    exposures: captureExposures(battle),
     consumedTargets: new Map(),
     newlyMarkedTargets: new Set(),
     shieldBreakBuffs: new Set(),
@@ -216,6 +217,10 @@ function attackContext(battle, actor) {
 }
 
 function finishAttackContext(battle, actor, context) {
+  finishExposures(battle, context, (target, statusId, remaining) => {
+    emitEvent(battle, {type:"status_consumed", sourceId:actor.id, targetId:target.id, statusId, amount:1, remaining});
+    write(battle, `${target.name}: tiêu 1 tầng ${battle.content.statuses[statusId].name}, còn ${remaining} tầng.`);
+  });
   for (const [sourceId, proc] of context.supportMpSources ?? []) {
     const source = getActor(battle, sourceId);
     if (source && living(source)) {
@@ -770,7 +775,9 @@ function resolveHit(
           }
         }
         finishAttackContext(battle, target, context);
-      } else hit(
+      } else {
+        const context = attackContext(battle, target);
+        hit(
         battle,
         target,
         attacker,
@@ -782,8 +789,10 @@ function resolveHit(
           unavoidable: true,
         },
         0,
-        { reaction: true },
+        { reaction: true, actionContext: context },
       );
+        finishAttackContext(battle, target, context);
+      }
     }
     return;
   }
@@ -828,10 +837,9 @@ function resolveHit(
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
-  const elementWeakness = target.weaknesses?.includes(effect.element) ?? false;
-  const typeWeakness =
-    target.damageTypeWeaknesses?.includes(effect.damageType) ?? false;
-  // Element and damage type are alternative triggers of the same +50% bonus.
+  const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier } =
+    resolveWeakness(battle.content, attacker, target, effect, actionContext);
+  // Element and damage type share one weakness multiplier, never additive bonuses.
   const weakness = elementWeakness || typeWeakness;
   const weaknessReason = [
     elementWeakness ? ELEMENT_NAMES[effect.element] : null,
@@ -854,7 +862,7 @@ function resolveHit(
           defense * 0.55,
       ) *
         (target.resistances?.[effect.element] ?? 1) *
-        (weakness ? WEAKNESS_MULTIPLIER : 1) *
+        weaknessMultiplier *
         bossFireMultiplier(attacker, effect) * (attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier ?? 1) *
         Math.max(
           0.1,
@@ -886,6 +894,7 @@ function resolveHit(
     amount,
   );
   target.hp -= lostHp;
+  if (lostHp + absorbed > 0) reserveExposure(target, effect.element, actionContext);
   if(!reaction && attacker.team!==target.team && lostHp+absorbed>0) actionContext.damagedAllyHits.add(target.id);
   // Reserve before nested reactions; settle after the whole attack so a later
   // weak target/hit can upgrade 3 MP to 5 MP. Shield damage and kills count.
@@ -911,6 +920,7 @@ function resolveHit(
     absorbed,
     element: effect.element,
     weakness,
+    weaknessMultiplier,
     damageType: effect.damageType,
     abilityId: actionContext.skillId ?? actionContext.skill?.id,
     area, reaction, hitIndex: actionContext.hitIndex ?? 0,
@@ -919,7 +929,7 @@ function resolveHit(
   });
   write(
     battle,
-    `${attacker.name} → ${target.name}: ${lostHp} sát thương${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+50%)` : ""}.`,
+    `${attacker.name} → ${target.name}: ${lostHp} sát thương${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
   );
   if (living(target) && weakness && lostHp + absorbed > 0)
     suppressOnWeakness(
@@ -979,11 +989,11 @@ function resolveHit(
       }
     }
     if (effect.onHitStatus) {
-      const applied = applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id);
+      const applied = applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:effect.onHitStatus.stacks??1});
       if (applied && !actionContext.preMarkedTargets?.has(target.id + ":" + applied.id)) actionContext.newlyMarkedTargets.add(target.id + ":" + applied.id);
     }
   } else if (living(target) && effect.damageType !== "magical" && lostHp + absorbed > 0 && effect.onHitStatus) {
-    applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id);
+    applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:effect.onHitStatus.stacks??1});
   }
   if (living(target) && attacker.team!==target.team && lostHp+absorbed>0 && attacker.passive?.type==="attack_status") {
     if (applyStatus(battle,target,attacker.passive.statusId,attacker.passive.duration,attacker.id)) announcePassive(battle,attacker,target.id);
@@ -1011,7 +1021,7 @@ function applyStatus(
   statusId,
   duration,
   sourceId,
-  { silent = false } = {},
+  { silent = false, stacks = 1 } = {},
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
@@ -1044,12 +1054,14 @@ function applyStatus(
     }
   }
   const previous = target.statuses.find((status) => status.id === statusId);
-  target.statuses = target.statuses.filter((status) => status.id !== statusId);
+  const previousStacks = definition.exposedElement ? availableExposureStacks(previous) : previous?.stacks ?? 0;
+  target.statuses = target.statuses.filter((status) => status.id !== statusId &&
+    !(definition.exposedElement && battle.content.statuses[status.id].exposedElement));
   const applied = {
     id: statusId,
     remaining: duration ?? (definition.persistent ? null : duration),
     sourceId,
-    stacks: Math.min(definition.maxStacks ?? 1, (previous?.stacks ?? 0) + 1),
+    stacks: Math.min(definition.maxStacks ?? 1, previousStacks + stacks),
     ...(previous?.refreshedRound !== undefined ? { refreshedRound: previous.refreshedRound } : {}),
   };
   if (definition.durationClock === "round") applied.expiresAfterRound=battle.round+duration-1;
@@ -1160,10 +1172,11 @@ function applyEffect(
         actor.id,
       );
     if (effect.type === "status") {
-      const count = 1 + (effect.extraStacksIfPresent && actionContext.preMarkedTargets?.has(target.id + ":" + effect.status) ? effect.extraStacksIfPresent : 0);
+      const count = (effect.stacks ?? 1) + (effect.extraStacksIfPresent && actionContext.preMarkedTargets?.has(target.id + ":" + effect.status) ? effect.extraStacksIfPresent : 0);
       const extension = exclusivePassive(actor,"skill_status_duration",actionContext.skillId);
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
-      for (let i = 0; i < count; i++) {
+      if (battle.content.statuses[effect.status].exposedElement) applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count});
+      else for (let i = 0; i < count; i++) {
         const applied = applyStatus(battle, target, effect.status, duration, actor.id);
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }

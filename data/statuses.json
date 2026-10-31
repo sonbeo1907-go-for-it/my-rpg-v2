@@ -743,14 +743,6 @@
     }
   },
   {
-    "id": "ryoga_evasion",
-    "name": "Bộ pháp đồ tể",
-    "kind": "buff",
-    "modifiers": {
-      "evasion": 0.45
-    }
-  },
-  {
     "id": "ryoga_slow",
     "name": "Vết đao níu bước",
     "kind": "debuff",
@@ -758,5 +750,102 @@
     "modifiers": {
       "speed": -0.15
     }
+  },
+  {
+    "id": "weakness_exploitation",
+    "name": "Khai phá điểm yếu",
+    "kind": "buff",
+    "weaknessMultiplier": 2,
+    "description": "Đánh trúng điểm yếu gây thêm 100% sát thương thay vì 50%. Không cộng dồn."
+  },
+  {
+    "id": "exposure_plain",
+    "name": "Sơ hở — Thường",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "plain",
+    "description": "Yếu Thường. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_fire",
+    "name": "Sơ hở — Hỏa",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "fire",
+    "description": "Yếu Hỏa. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_water",
+    "name": "Sơ hở — Thủy",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "water",
+    "description": "Yếu Thủy. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_earth",
+    "name": "Sơ hở — Thổ",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "earth",
+    "description": "Yếu Thổ. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_wind",
+    "name": "Sơ hở — Phong",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "wind",
+    "description": "Yếu Phong. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_thunder",
+    "name": "Sơ hở — Lôi",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "thunder",
+    "description": "Yếu Lôi. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_light",
+    "name": "Sơ hở — Quang",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "light",
+    "description": "Yếu Quang. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_dark",
+    "name": "Sơ hở — Ám",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "dark",
+    "description": "Yếu Ám. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "ryoga_overextended",
+    "name": "Đà đao bỏ ngỏ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "damageTakenBonus": 0.35
+    },
+    "description": "Nhận thêm 35% sát thương sau khi dồn lực tung đao. Hiệu lực bắt đầu trước đòn chém."
   }
 ]

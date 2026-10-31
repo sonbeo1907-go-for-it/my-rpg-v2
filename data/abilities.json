@@ -4548,22 +4548,6 @@
     ]
   },
   {
-    "id": "ryoga.stance",
-    "name": "Một bước, một mạng",
-    "description": "Giữ bộ pháp né 45% đòn vật lí trong 2 lượt; né sẽ phản đao tối đa một lần/vòng.",
-    "target": "self",
-    "cost": {
-      "mp": 6
-    },
-    "effects": [
-      {
-        "type": "status",
-        "status": "ryoga_evasion",
-        "duration": 2
-      }
-    ]
-  },
-  {
     "id": "ryoga.cut",
     "name": "Đao qua bụi đỏ",
     "description": "Chém ghìm bước một đối thủ.",
@@ -4587,39 +4571,29 @@
   {
     "id": "ryoga.finish",
     "name": "Đồ tể đoạn lộ",
-    "description": "Tiêu Sơ hở để tung một đao mạnh.",
+    "description": "Liều mạng tung một đao mạnh, để lộ sơ hở cho đối thủ phản công.",
     "target": "enemy",
     "cost": {
-      "mp": 10,
-      "resource": {
-        "id": "opening",
-        "all": true,
-        "min": 1
-      }
+      "mp": 10
     },
     "effects": [
       {
-        "type": "damage",
-        "damageType": "physical",
-        "element": "dark",
-        "multiplier": 1.6,
-        "perResource": 0.4
-      }
-    ]
-  },
-  {
-    "id": "ryoga.counter",
-    "name": "Lưỡi đao sau lưng",
-    "description": "Né thành công rồi phản đao vào người tấn công.",
-    "activation": "passive",
-    "target": "enemy",
-    "effects": [
+        "type": "status",
+        "to": "self",
+        "status": "ryoga_overextended",
+        "duration": 1
+      },
       {
         "type": "damage",
         "damageType": "physical",
         "element": "dark",
-        "multiplier": 1.25
+        "multiplier": 2.1
       }
+    ],
+    "cooldown": 2,
+    "rules": [
+      "Tự nhận thêm 35% sát thương trước khi chém, đến hết lượt kế tiếp của Ryoga.",
+      "Đòn vật lí có thể né; phản công xảy ra ngay trong cửa sổ sơ hở."
     ]
   },
   {

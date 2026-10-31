@@ -55,7 +55,9 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(status.onAttackResource)facts.push(`Sau tấn công: ${pct(status.onAttackResource.chance)} nhận +${status.onAttackResource.amount??1} ${resourceName(actor,status.onAttackResource.resource)}`);
     if(status.blockResourceGain)facts.push(prefix+'Không tích tài nguyên'+turns);
     if(status.skipTurn)facts.push('Choáng'+turns);
-    if(status.maxStacks)facts.push(`+1 ${status.name} · tối đa ${status.maxStacks} tầng`+turns);
+    if(status.weaknessMultiplier){facts.push(prefix+`Đánh trúng điểm yếu: +${pct(status.weaknessMultiplier-1)} sát thương`+turns);rules.push('Thay mức +50% mặc định; nhiều nguồn lấy mức mạnh nhất, không cộng dồn.','Liên kích và phản công xét buff của người gây sát thương.');}
+    if(status.exposedElement){facts.push(prefix+`Yếu ${ELEMENT_NAMES[status.exposedElement]} · +${effect.stacks??1} tầng · tối đa 3`+turns);rules.push('Cùng hệ cộng tầng; khác hệ thay Sơ hở cũ. Giữ nguyên điểm yếu tự nhiên.','Mỗi chiêu trúng đúng hệ tiêu 1 tầng/mục tiêu, dù nhiều hit. Liên kích và phản công tính riêng.','Né không tiêu tầng; đánh trúng khiên vẫn tiêu. Không tính Độc hoặc mất HP do chi phí.','Sơ hở mới tạo trong chiêu chỉ dùng từ chiêu kế tiếp; có thể bị giải hoặc Hộ ấn chặn.');}
+    if(status.maxStacks&&!status.exposedElement)facts.push(`+1 ${status.name} · tối đa ${status.maxStacks} tầng`+turns);
     if(effect.extraStacksIfPresent)facts.push(`Địch đã có ${status.name} trước chiêu: thêm ${effect.extraStacksIfPresent} tầng`);
     if(status.durationClock==='round')rules.push('Tính cả vòng thi triển; thời hạn giảm sau toàn bộ Vòng Phụ, không theo lượt riêng của người nhận.');
     if(status.durationClock==='main_turn')rules.push('Thời hạn giảm theo lượt Vòng Chính của người nhận; Vòng Phụ không giảm thời hạn.');
@@ -73,9 +75,10 @@ export function skillPresentation(skill,actor,content,choices={}) {
     }
     if(status.modifierGroup)rules.push('Các mức giảm SPD cùng nhóm lấy mức mạnh nhất.');
     if(status.magicRefresh)rules.push(`Phép của phe người gắn dấu làm mới ${status.name}, tối đa một lần/vòng/mục tiêu.`);
-    if(status.persistent&&!status.effectImmunity&&!status.consumeOnAttack){
+    if(status.persistent&&!status.effectImmunity&&!status.consumeOnAttack&&!status.exposedElement){
       rules.push(status.expiresOnShieldGain?'Hiệu ứng kết thúc khi nhận khiên mới.':linked?'Hiệu ứng đi kèm được gỡ khi tắt trạng thái chính.':'Duy trì đến khi tắt hoặc kết thúc trận.');
     }
+    if(status.exposedElement&&effect.duration===undefined)rules.push('Duy trì đến khi hết tầng, bị giải hoặc kết thúc trận; giữ qua phòng theo luật của hầm ngục.');
     if(status.modifiers?.damageVsShielded)rules.push('Xét khiên ở đầu từng hit; tăng cả sát thương tràn vào HP.');
     for(const id of effect.linkedStatuses??[])statusFacts({type:'status',status:id},true);
   }
@@ -102,7 +105,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
         const ratio=damageMultiplier(effect,{spent,stacks:choices.stacks??0,hpRatio:(choices.hpPercent??100)/100,buffs:choices.buffCount??0});
         facts.push(`${choices.live?'Hiện tại':'Giả định'}: ${effect.hits>1?effect.hits+' × ':''}${pct(ratio)} ${label}${speed?' + '+pct(speed)+' SPD':''}`);
       }
-      if(effect.onHitStatus){statusFacts({type:'status',status:effect.onHitStatus.status,duration:effect.onHitStatus.duration});if(content.statuses[effect.onHitStatus.status].maxStacks)rules.push('Mỗi hit trúng gắn một tầng; né không gắn hiệu ứng.');}
+      if(effect.onHitStatus){statusFacts({type:'status',status:effect.onHitStatus.status,duration:effect.onHitStatus.duration,stacks:effect.onHitStatus.stacks});if(content.statuses[effect.onHitStatus.status].maxStacks)rules.push(`Mỗi hit trúng gắn ${effect.onHitStatus.stacks??1} tầng; né không gắn hiệu ứng.`);}
       if(effect.unavoidable)facts.push('Không thể né');
     }
     if(effect.type==='heal'||effect.type==='shield'){

@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { basicAbility, DEFEND, abilityAvailability, targetsFor } from "../core/battle.js";
+import { weaknessElements } from "../core/weakness.js";
 import { activeStatuses } from "../core/status-state.js";
 import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from "../core/content.js";
 import { bossPhase, bossFireMultiplier } from "../core/boss-mechanics.js";
@@ -73,7 +74,7 @@ function StatusBadge({ status, actor }: { status: any; actor: any }) {
         onClick={(event) => event.stopPropagation()}
       >
         {definition.name}
-        {status.stacks > 1 ? ` ×${status.stacks}` : ""} (
+        {status.stacks > 1 || definition.exposedElement ? ` ×${status.stacks}` : ""} (
         {definition.effectImmunity
           ? `${status.charges} lần`
           : status.remaining === null
@@ -103,7 +104,7 @@ export function CombatantCard({
   legal: boolean;
   onSelect: () => void;
 }) {
-  const { battle } = useGame();
+  const { battle, content } = useGame();
   const acting = battle.activeId === actor.id && !battle.outcome;
   return (
     <article
@@ -133,14 +134,14 @@ export function CombatantCard({
       <ElementBadge element={actor.element} />
       <h3>{actor.name}</h3>
       <small>{actor.role ?? (actor.boss ? "Siêu trùm" : "Đối thủ")}</small>
-      {actor.team === "enemy" &&
+      {(actor.team === "enemy" || actor.statuses.some((status:any)=>content.statuses[status.id].exposedElement)) &&
         Boolean(
-          actor.weaknesses?.length || actor.damageTypeWeaknesses?.length,
+          weaknessElements(content,actor).length || actor.damageTypeWeaknesses?.length,
         ) && (
           <p className="weakness">
             Yếu:{" "}
             {[
-              ...(actor.weaknesses?.map(
+              ...(weaknessElements(content,actor).map(
                 (element: string) => (ELEMENT_NAMES as any)[element],
               ) ?? []),
               ...(actor.damageTypeWeaknesses?.map(

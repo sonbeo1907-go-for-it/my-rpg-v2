@@ -32,13 +32,14 @@ Chương hai dùng story-waves.js hiện có; giữ HP, MP, trạng thái, khiê
 
 HP 1200, MP 100, ATK 40, DEF 24, RES 22, SPD 26, hệ Ám, yếu Phong.
 
-- **Một bước, một mạng:** 6 MP, né 45% đòn vật lí trong 2 lượt. AI ưu tiên khi chưa có thế né.
-- **Lưỡi đao sau lưng:** né thành công sẽ phản đao 125% ATK và tích 1 Sơ hở, tối đa 3; chỉ một lần/vòng. Đòn phản công không tạo vòng lặp phản công.
-- **Đao qua bụi đỏ:** 6 MP, 140% ATK, giảm 15% SPD trong 2 lượt chính.
-- **Đồ tể đoạn lộ:** 10 MP và toàn bộ Sơ hở (ít nhất 1), 160% ATK + 40% mỗi tầng.
-- **Đao phong tuyệt lộ:** 9 MP, 85% ATK diện rộng.
+Mục tiêu: thưởng người chơi né và phản công, đặc biệt Takeshi chưa có Tâm nhãn kiếm sĩ. Ryoga không còn né/phản đòn hay dùng tài nguyên Sơ hở. Mọi lượt đều có cơ hội tấn công thay vì dành lượt dựng thế né. Toàn bộ kỹ năng gây sát thương vật lí có thể né; đòn đơn mục tiêu tuân theo Khiêu khích của Thế né. Phép không phải điều kiện bắt buộc để đánh trúng boss.
 
-Né chỉ áp dụng đòn vật lí; phép vẫn là đường đối phó. Ryoga có đòn diện rộng để trận không chỉ là hai người đứng né nhau; HP thấp hơn Vua Chằn để hạn chế kéo dài do xác suất né.
+- **Đao qua bụi đỏ:** 6 MP, 140% ATK, giảm 15% SPD trong 2 lượt chính nếu đánh trúng. Né thành công tránh cả giảm SPD.
+- **Đồ tể đoạn lộ:** 10 MP, hồi chiêu 2, 210% ATK một mục tiêu. Trước khi chém, tự nhận **Đà đao bỏ ngỏ**: tăng 35% sát thương nhận đến hết lượt chính kế tiếp của Ryoga. Vì hiệu lực bắt đầu trước hit, phản công do né hưởng lợi ngay; đồng đội cũng có thể tận dụng cửa sổ này. Không còn yêu cầu tài nguyên lấy từ né của boss.
+- **Đao phong tuyệt lộ:** 9 MP, 85% ATK diện rộng, gây áp lực cho đồng đội nhưng Takeshi vẫn có thể né phần đòn của mình và phản công theo hạn mức sẵn có.
+- Hết MP vẫn dùng đánh thường vật lí. Giữ giới hạn phản công một lần/vòng của Takeshi; không có chuỗi phản công từ Ryoga.
+
+Giữ nguyên độ yếu Phong, HP và các chỉ số, yêu cầu Takeshi tham chiến, phần thưởng Tâm nhãn kiếm sĩ và một ô trang bị, nhạc `boss_ryoga.mp3`. Chỉ thay dữ liệu boss, không thêm luật hardcode vào engine.
 
 ## Vĩ thanh
 
@@ -84,7 +85,7 @@ Không tự mở qua migration, đăng nhập, thắng các chương trước ho
 - Encounter requires.firstClears: mọi encounter trong danh sách đều phải được ghi nhận đã thắng. Có validator cho ID thiếu, rỗng, trùng và tự phụ thuộc.
 - storyPrerequisites: dữ liệu danh sách điều kiện để dựng sách khóa/checklist, không lưu thêm cờ phái sinh có thể lệch tiến trình.
 - Boss phase resourceBurst: ID kỹ năng ưu tiên khi abilityAvailability xác nhận dùng được; vẫn tuân theo hàng telegraph, MP, tài nguyên và số hành động phase. Các boss không khai báo thuộc tính này giữ rotation cũ.
-- Ryoga dùng dodge_counter và schema resource hiện có; không thêm cơ chế phản công riêng theo ID boss.
+- Ryoga dùng các đòn vật lí có thể né và debuff tự tăng sát thương nhận trước đòn mạnh; không thêm cơ chế riêng theo ID boss.
 
 ## Kiểm tra cân bằng ban đầu
 
@@ -94,7 +95,7 @@ Mô phỏng 5 seed bằng engine, chính sách đơn giản, không dùng nhân 
 | --- | --- | --- |
 | Gươm qua bụi đỏ | Thắng 5/5, 6 vòng | Thắng 5/5, 4–5 vòng |
 | Kiếm theo gió ngàn | Thắng 5/5, 22–24 vòng cho cả ba wave | Thắng 5/5, 12–15 vòng |
-| Ryoga | Thắng 5/5, 15–26 vòng | Thắng 5/5, 11–18 vòng |
+| Ryoga (thiết kế cũ, đã thay) | Kết quả cũ không đại diện cho bản bỏ né/phản đòn | Cần đánh giá lại với bộ chiêu mới |
 | Hắc ảnh Arthur | Thua 5/5, boss còn 223–581 HP | Thắng 3/5 ở vòng 20; hai lần thua boss còn 391 HP |
 
 Đây là smoke test độ khó và khả năng hoàn thành, không phải tỷ lệ thắng đại diện cho mọi người chơi. UI test dùng trang bị mạnh hơn để kiểm tra trọn ba phase, nhận thưởng/lưu và hiện hai kỹ năng mới; không dùng kết quả đó để kết luận cân bằng.

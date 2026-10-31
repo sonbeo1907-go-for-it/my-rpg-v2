@@ -1183,7 +1183,7 @@
   {
     "id": "ryoga",
     "name": "Tướng Cướp Đồ Tể Ryoga",
-    "role": "Lãng khách lạc lối · Né / phản đòn",
+    "role": "Đồ tể liều mạng · Áp lực vật lí",
     "element": "dark",
     "stats": {
       "maxHp": 1200,
@@ -1197,33 +1197,11 @@
     "weaknesses": [
       "wind"
     ],
-    "resources": {
-      "opening": {
-        "name": "Sơ hở",
-        "max": 3
-      }
-    },
-    "passive": {
-      "type": "dodge_counter",
-      "name": "Lưỡi đao rình bóng",
-      "resource": "opening",
-      "counterAbility": "ryoga.counter"
-    },
     "abilities": [
-      "ryoga.stance",
       "ryoga.cut",
       "ryoga.finish",
       "ryoga.sweep"
-    ],
-    "ai": {
-      "priorities": [
-        {
-          "when": "missing_status",
-          "abilityId": "ryoga.stance",
-          "statusId": "ryoga_evasion"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "shadow_arthur",

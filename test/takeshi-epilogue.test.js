@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave,encodeGameSave,decodeGameSave} from '../src/core/game-save.js';
 import {completeStoryEvent,resolveCharacter} from '../src/core/progression.js';
-import {createBattle,executeAction,executeEnemyTurn,getActor,abilityAvailability} from '../src/core/battle.js';
+import {createBattle,executeAction,executeEnemyTurn,getActor,abilityAvailability,targetsFor} from '../src/core/battle.js';
 import {createStoryRun,advanceStoryWave,isFinalStoryWave} from '../src/core/story-waves.js';
 import {claimBattleReward} from '../src/core/economy.js';
 import {gearSlotCapacity} from '../src/core/gear-slots.js';
@@ -32,13 +32,43 @@ test('Takeshi chapters grant three capped slots and the awakened counter exactly
  c=win(c,ids[2]);assert.equal(gearSlotCapacity(c,content,'takeshi'),6);assert.equal(resolveCharacter(content,c,'takeshi').passive.counterAbility,'takeshi.counter_awakened');const before=c.recruitmentShards;c=win(c,ids[2]);assert.equal(gearSlotCapacity(c,content,'takeshi'),6);assert.equal(c.recruitmentShards,before);assert.equal(c.characters.takeshi.upgradeIds.filter(id=>id==='takeshi.swordsman_eye').length,1);assert.deepEqual(decodeGameSave(encodeGameSave(c,content),content),c);
 });
 
-test('Ryoga uses a real evasion skill and counters at most once per round, never creates a counter loop',()=>{
- const c=save();c.claimedFirstClearRewards=content.travelerStories.takeshi.chapters.slice(0,2);const b=createBattle(content,c,'takeshi_story_horizon',()=>0),r=getActor(b,'enemy_0');
- b.queue=[r.id,'arthur'];b.cursor=0;executeEnemyTurn(b);assert.ok(r.statuses.some(s=>s.id==='ryoga_evasion'));
- const t=getActor(b,'takeshi');t.statuses.push({id:'evasive',remaining:3,stacks:1,sourceId:t.id});use(b,t.id,'takeshi.slash');assert.equal(r.resourceValues.opening,1);assert.equal(b.events.filter(e=>e.type==='reaction'&&e.sourceId===r.id).length,1);assert.equal(b.events.filter(e=>e.type==='reaction'&&e.sourceId===t.id).length,0);
- use(b,'arthur','$attack');assert.equal(r.resourceValues.opening,1);assert.equal(b.events.some(e=>e.type==='reaction'),false);
- const hp=r.hp;use(b,'fiona','fiona.shard');assert.ok(r.hp<hp);assert.equal(b.events.some(e=>e.type==='dodge'),false);b.round++;use(b,'arthur','$attack');assert.equal(r.resourceValues.opening,2);
+test('Ryoga attacks instead of evading/countering, keeps Wind weakness and requires no stolen opening stacks',()=>{
+ const r=content.enemies.ryoga;assert.deepEqual(r.weaknesses,['wind']);assert.equal(r.passive,undefined);assert.equal(r.resources,undefined);assert.equal(r.ai,undefined);
+ assert.ok(r.abilities.every(id=>{const skill=content.abilities[id];return skill.effects.some(e=>e.type==='damage')&&skill.effects.filter(e=>e.type==='damage').every(e=>e.damageType==='physical'&&!e.unavoidable);}));
+ assert.equal(content.abilities['ryoga.stance'],undefined);assert.equal(content.abilities['ryoga.counter'],undefined);assert.equal(content.statuses.ryoga_evasion,undefined);
+ const c=save();c.claimedFirstClearRewards=content.travelerStories.takeshi.chapters.slice(0,2);const b=createBattle(content,c,'takeshi_story_horizon',()=>0),boss=getActor(b,'enemy_0');
+ assert.equal(abilityAvailability(b,boss,content.abilities['ryoga.finish']).ok,true);b.queue=[boss.id,'arthur','takeshi','iris','fiona'];b.cursor=0;executeEnemyTurn(b);
+ assert.ok(b.events.some(e=>e.type==='damage'&&e.sourceId===boss.id));assert.equal(b.events.some(e=>e.type==='reaction'&&e.sourceId===boss.id),false);
+ const hp=boss.hp;use(b,'takeshi','takeshi.slash');assert.ok(boss.hp<hp);assert.equal(b.events.some(e=>e.type==='dodge'||e.type==='reaction'),false);
 });
+
+function ryogaFight(random=()=>0){const c=save();c.claimedFirstClearRewards=content.travelerStories.takeshi.chapters.slice(0,2);const b=createBattle(content,c,'takeshi_story_horizon',random);return {b,t:getActor(b,'takeshi'),boss:getActor(b,'enemy_0')};}
+
+test('Takeshi can taunt Ryoga physical skills, dodge, counter and gain his own opening before awakening',()=>{
+ for(const id of content.enemies.ryoga.abilities){
+  const {b,t,boss}=ryogaFight();use(b,t.id,'takeshi.stance',t.id);assert.equal(t.passive.counterAbility,undefined);
+  const skill=content.abilities[id];if(skill.target==='enemy')assert.deepEqual(targetsFor(b,boss,skill).map(a=>a.id),[t.id]);const before=t.hp,bossBefore=boss.hp;
+  use(b,boss.id,id,t.id);assert.equal(t.hp,before);assert.equal(t.resourceValues.opening,1);assert.ok(boss.hp<bossBefore);
+  assert.equal(b.events.filter(e=>e.type==='reaction'&&e.sourceId===t.id).length,1);assert.equal(b.events.some(e=>e.type==='reaction'&&e.sourceId===boss.id),false);
+  assert.equal(t.statuses.some(s=>s.id==='ryoga_slow'),false);
+ }
+});
+
+test('Ryoga heavy strike exposes him before the incoming dodge counter and still threatens players who fail to evade',()=>{
+ const light=ryogaFight(),heavy=ryogaFight();for(const {b,t}of[light,heavy])use(b,t.id,'takeshi.stance',t.id);
+ use(light.b,light.boss.id,'ryoga.cut',light.t.id);use(heavy.b,heavy.boss.id,'ryoga.finish',heavy.t.id);
+ const hit=b=>b.events.find(e=>e.type==='damage'&&e.sourceId==='takeshi').amount;assert.ok(hit(heavy.b)>hit(light.b));
+ const events=heavy.b.events;assert.ok(events.findIndex(e=>e.type==='status'&&e.statusId==='ryoga_overextended')<events.findIndex(e=>e.type==='reaction'&&e.sourceId==='takeshi'));
+ assert.equal(heavy.boss.statuses.find(s=>s.id==='ryoga_overextended').remaining,1);
+ const failed=ryogaFight(()=>.99);use(failed.b,failed.t.id,'takeshi.stance',failed.t.id);const hp=failed.t.hp;use(failed.b,failed.boss.id,'ryoga.finish',failed.t.id);assert.ok(failed.t.hp<=hp-70);assert.equal(failed.t.resourceValues.opening,0);assert.ok(failed.boss.cooldowns['ryoga.finish']>0);
+});
+
+test('Takeshi dodge counter stays limited to once per round; Ryoga opening window expires on his next main turn',()=>{
+ const {b,t,boss}=ryogaFight();use(b,t.id,'takeshi.stance',t.id);use(b,boss.id,'ryoga.finish',t.id);assert.equal(t.resourceValues.opening,1);
+ use(b,boss.id,'ryoga.cut',t.id);assert.equal(t.resourceValues.opening,1);assert.equal(b.events.some(e=>e.type==='reaction'),false);assert.equal(boss.statuses.some(s=>s.id==='ryoga_overextended'),false);
+ b.round++;use(b,boss.id,'ryoga.cut',t.id);assert.equal(t.resourceValues.opening,2);
+});
+
 
 test('epilogue requires all three completed stories, cannot be opened by the old sinister flag, and requires Arthur',()=>{
  const c=save(),encounter=content.encounters[epilogue];c.storyFlags.push('illusion.sinister_unlocked');
