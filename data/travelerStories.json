@@ -31,6 +31,10 @@
     "subtitle": "Fiona · Original Prisma",
     "description": "Trong ánh sáng nguyên sơ, những bí mật của sự sống vẫn đang ngủ yên.",
     "art": "/art/story-fiona.svg",
-    "chapters": []
+    "chapters": [
+      "fiona_story_eins",
+      "fiona_story_zwei",
+      "fiona_story_drei"
+    ]
   }
 ]

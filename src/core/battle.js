@@ -46,7 +46,7 @@ import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
 import { checkCombatMode, enterCombatMode, modeAvailability } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
-import { mpCost, resourceCost, debuffTypeCount, debuffDamageBonus, targetsAsGroup } from "./conditional-combat.js";
+import { mpCost, hpCost, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus, targetsAsGroup } from "./conditional-combat.js";
 const modeIO = { write, emit: emitEvent, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
   apply:(battle,actor,effects)=>{for(const effect of effects) applyEffect(battle,actor,[actor],effect,0,false);}
 };
@@ -63,6 +63,7 @@ export function createBattle(
   if (options.continuesOnVictory !== undefined && typeof options.continuesOnVictory !== "boolean") throw new Error("Thiết lập chuyển trận không hợp lệ.");
   const encounter = content.encounters[encounterId];
   if (!encounter) throw new Error(`Unknown encounter ${encounterId}`);
+  if (options.storyWaveIndex !== undefined && (!encounter.waves || !Number.isInteger(options.storyWaveIndex) || options.storyWaveIndex < 0 || options.storyWaveIndex >= encounter.waves.length)) throw new Error('Đợt truyện không hợp lệ.');
   assertQuestUnlocked(encounter, campaign);
   assertEncounterParty(encounter, campaign, content);
   if (!isValidParty(campaign.party, content.characters))
@@ -101,7 +102,7 @@ export function createBattle(
           .map((id) =>
             makeActor(resolveCharacter(content, campaign, id), "party", id),
           )),
-    ...encounter.enemies.map((id, index) => {
+    ...(encounter.waves?.[options.storyWaveIndex ?? 0] ?? encounter.enemies).map((id, index) => {
       const definition = structuredClone(content.enemies[id]);
       definition.stats = scaleEnemyStats(definition.stats, scale);
       return makeActor(
@@ -141,7 +142,8 @@ export function createBattle(
     queue: [],
     cursor: 0,
     outcome: null,
-    continuesOnVictory: options.continuesOnVictory === true,
+    storyWave: encounter.waves ? {waveIndex:options.storyWaveIndex ?? 0,totalWaves:encounter.waves.length} : null,
+    continuesOnVictory: options.continuesOnVictory === true || Boolean(encounter.waves && (options.storyWaveIndex ?? 0) < encounter.waves.length-1),
     log: [...(options.log ?? [])],
     events: [],
     actionCount: 0,
@@ -203,6 +205,7 @@ function attackContext(battle, actor) {
     newlyMarkedTargets: new Set(),
     shieldBreakBuffs: new Set(),
     shieldedAllyHits: new Set(),
+    damagedAllyHits: new Set(),
     attackBuffs: buffs,
     multiplier: buffs.reduce(
       (value, status) =>
@@ -230,6 +233,7 @@ function finishAttackContext(battle, actor, context) {
     for (const statusId of context.shieldBreakBuffs)
       applyStatus(battle, actor, statusId, undefined, actor.id);
   triggerShieldSurvivalFollowups(battle,actor,context);
+  triggerAllySkillCounters(battle,actor,context);
 }
 
 function startRound(battle) {
@@ -550,6 +554,7 @@ export function abilityAvailability(battle, actor, skill) {
       ok: false,
       reason: `Hồi chiêu: ${actor.cooldowns[skill.id]} vòng.`,
     };
+  if (actor.hp<=hpCost(skill,actor)) return {ok:false,reason:"Không đủ HP; không thể tự hạ gục bằng chi phí kỹ năng."};
   if (actor.mp < mpCost(skill,actor))
     return { ok: false, reason: "Không đủ MP." };
   if (skill.target === "adjacent_allies" && !targetsFor(battle,actor,skill).length) return {ok:false,reason:"Không có đồng đội còn sống ở hai ô kề."};
@@ -657,6 +662,23 @@ function triggerShieldSurvivalFollowups(battle,attacker,context) {
     const reactionContext=attackContext(battle,owner);
     reactionContext.skillId=ability.id;reactionContext.skill=ability;reactionContext.reaction=true;
     for (const effect of ability.effects) applyEffect(battle,owner,enemies,effect,0,true,reactionContext);
+    finishAttackContext(battle,owner,reactionContext);
+  }
+}
+
+function triggerAllySkillCounters(battle,attacker,context) {
+  if(!living(attacker)||!context.damagedAllyHits?.size||!context.skillId||context.skillId.startsWith("$")||context.reaction||context.automatic||context.skill?.activation==="passive") return;
+  for(const owner of battle.actors) {
+    const p=owner.passive;
+    if(p?.type!=="ally_skill_counter" || !living(owner)||owner.team===attacker.team||!procAvailable(battle,owner,"ally_skill_counter"))continue;
+    const harmed=battle.actors.some(ally=>ally.team===owner.team&&ally.id!==owner.id&&context.damagedAllyHits.has(ally.id));
+    if(!harmed||!living(attacker))continue;
+    markProc(battle,owner,"ally_skill_counter");announcePassive(battle,owner,attacker.id);
+    const ability=battle.content.abilities[p.counterAbility],reactionContext=attackContext(battle,owner);
+    reactionContext.skill=ability;reactionContext.skillId=ability.id;reactionContext.reaction=true;
+    write(battle,owner.name+" phản đòn: "+ability.name+".");
+    emitEvent(battle,{type:"reaction",kind:"counter",label:REACTION_LABELS.counter,sourceId:owner.id,targetId:attacker.id,abilityId:ability.id});
+    for(const effect of ability.effects) applyEffect(battle,owner,[attacker],effect,0,false,reactionContext);
     finishAttackContext(battle,owner,reactionContext);
   }
 }
@@ -800,6 +822,7 @@ function resolveHit(
     spent,
     stacks,
     hpRatio: attacker.hp / attacker.stats.maxHp,
+    buffs: buffTypeCount(battle.content,target),
   });
   let reduction = modifier(battle, target, "damageReduction");
   if (target.passive?.type === "damage_reduction" &&
@@ -832,11 +855,11 @@ function resolveHit(
       ) *
         (target.resistances?.[effect.element] ?? 1) *
         (weakness ? WEAKNESS_MULTIPLIER : 1) *
-        bossFireMultiplier(attacker, effect) *
+        bossFireMultiplier(attacker, effect) * (attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier ?? 1) *
         Math.max(
           0.1,
           1 +
-            modifier(battle, attacker, "damageBonus", actionContext.automatic) + (attacker.passive?.type==="shielded_damage_bonus" && attacker.shield>0 ? attacker.passive.ratio : 0) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)),
+            modifier(battle, attacker, "damageBonus", actionContext.automatic) + (attacker.passive?.type==="shielded_damage_bonus" && attacker.shield>0 ? attacker.passive.ratio : 0) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -863,6 +886,7 @@ function resolveHit(
     amount,
   );
   target.hp -= lostHp;
+  if(!reaction && attacker.team!==target.team && lostHp+absorbed>0) actionContext.damagedAllyHits.add(target.id);
   // Reserve before nested reactions; settle after the whole attack so a later
   // weak target/hit can upgrade 3 MP to 5 MP. Shield damage and kills count.
   if (attacker.team !== target.team && lostHp + absorbed > 0) {
@@ -1175,6 +1199,12 @@ function applyEffect(
           applied.linkedStatuses = [...effect.linkedStatuses];
       }
     }
+    if (effect.type === "dispel") {
+      const buffs=target.statuses.filter(status=>battle.content.statuses[status.id].kind==="buff");
+      const removed=effect.all?buffs:buffs.slice(0,effect.count);
+      if(removed.length){target.statuses=target.statuses.filter(status=>!removed.includes(status));emitEvent(battle,{type:"dispel",sourceId:actor.id,targetId:target.id,amount:removed.length});}
+      write(battle,target.name+": bị xóa "+removed.length+" hiệu ứng có lợi.");
+    }
     if (effect.type === "cleanse") {
       if (target.statuses.some(status=>battle.content.statuses[status.id].kind==="debuff")) emitEvent(battle,{type:"cleanse",sourceId:actor.id,targetId:target.id});
       target.statuses = target.statuses.filter(
@@ -1285,6 +1315,8 @@ function resolveAction(
   const oldStatuses = [...actor.statuses];
   emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
   actor.mp -= mpCost(skill,actor);
+  const paidHp=hpCost(skill,actor);
+  if(paidHp){actor.hp-=paidHp;emitEvent(battle,{type:"hp_spent",sourceId:actor.id,targetId:actor.id,amount:paidHp});write(battle,actor.name+" tiêu "+paidHp+" HP.");}
   let spent = 0;
   const selectedResource = resourceCost(skill,actor);
   const deferredResource = selectedResource?.consumeAt === "after";
@@ -1303,6 +1335,7 @@ function resolveAction(
   actionContext.formulaEdit = formulaEdit;
   actionContext.primaryTargetId = targetId;
   actionContext.baseStatBonuses = skillBaseStatBonuses(battle,actor,skill,targets);
+  if (actor.passive?.type === 'detonation_base_growth' && actionContext.baseStatBonuses[actor.passive.stat]) actor.detonationBonus = actionContext.baseStatBonuses[actor.passive.stat];
   if (theorem?.baseMagic) actionContext.baseStatBonuses.magic=(actionContext.baseStatBonuses.magic??0)+theorem.baseMagic;
   if (theorem) emitEvent(battle,{type:'formula_burst',sourceId:actor.id,targetId,correct:theorem.correct,perfect:theorem.perfect,baseMagic:theorem.baseMagic});
   for (const [key,amount] of Object.entries(actionContext.baseStatBonuses)) {

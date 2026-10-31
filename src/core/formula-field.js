@@ -10,6 +10,7 @@ export function classifyFormulaSkill(content,skill) {
   if (!skill || !skill.id || skill.id.startsWith('$') || skill.activation==='passive' || skill.formulaTag==='none') return null;
   if (skill.formulaTag) return skill.formulaTag;
   if (skill.effects.some(effect=>effect.type==='damage')) return 'strike';
+  if(skill.effects.some(effect=>effect.type==='dispel'))return 'break';
   if (['enemy','all_enemies','random_enemies'].includes(skill.target) && skill.effects.some(effect=>['status','toggle_status'].includes(effect.type) && content.statuses[effect.status]?.kind==='debuff' && effect.to!=='self')) return 'break';
   return 'lead';
 }

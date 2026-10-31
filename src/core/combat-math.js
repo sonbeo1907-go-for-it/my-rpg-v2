@@ -15,14 +15,15 @@ export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) 
   const field = actor.passive?.type === 'field_growth' && actor.passive.stat === key
     ? actor.statuses?.find(status => status.id === actor.passive.statusId) : null;
   const fieldBonus = field ? Math.min(actor.passive.maxStacks, field.growth ?? 0) * actor.passive.ratio : 0;
-  return base * Math.max(0.1, 1 + permanent + (actor.exclusiveModifiers?.[key] ?? 0) + resourceBonus + fieldBonus + temporaryModifier);
+  return base * Math.max(0.1, 1 + permanent + (actor.exclusiveModifiers?.[key] ?? 0) + resourceBonus + fieldBonus + (actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0) + temporaryModifier);
 }
 
-export function damageMultiplier(effect, { spent = 0, stacks = 0, hpRatio = 1 } = {}) {
+export function damageMultiplier(effect, { spent = 0, stacks = 0, hpRatio = 1, buffs = 0 } = {}) {
   return (effect.multiplier ?? 1)
     + spent * (effect.perResource ?? 0)
     + stacks * (effect.perStack ?? 0)
-    + (effect.lowHpBonus ?? 0) * (1 - hpRatio);
+    + (effect.lowHpBonus ?? 0) * (1 - hpRatio)
+    + (effect.perTargetBuff??0)*Math.min(effect.maxTargetBuffs??0,buffs);
 }
 
 export function shieldedDamageMultiplier(shield, bonus = 0) {

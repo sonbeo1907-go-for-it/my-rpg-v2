@@ -15,7 +15,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion'];
+export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -70,8 +70,12 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if (native?.type==='detonation_base_growth' && !validReactivePassive(native,content,actor)) fail(id+': invalid detonation growth');
+    if (native?.type==='low_hp_damage' && (!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1)) fail(id+': invalid low HP damage');
+    if (native?.type==='target_buff_damage' && (!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||!Number.isFinite(native.cap)||native.cap<=0||native.cap>2)) fail(id+': invalid target buff damage');
+    if (native?.type==='ally_skill_counter') {const a=content.abilities[native.counterAbility];if(!native.name||!native.description||native.oncePerRound!==true||a?.activation!=='passive'||a.target!=='enemy'||a.cost||a.cooldown||!a.effects?.length||a.effects.some(e=>e.type!=='damage'))fail(id+': invalid ally skill counter');}
     if (native?.type === 'formula_scholar' && (!native.name || !native.description || !Number.isInteger(native.amount) || native.amount<1 || native.amount>10 || !Number.isInteger(native.maxSources) || native.maxSources<1 || native.maxSources>3)) fail(id+': invalid formula scholar');
     if (native?.type === 'shielded_damage_bonus' && (!native.name || !native.description || !Number.isFinite(native.ratio) || native.ratio<=0 || native.ratio>1)) fail(id+': invalid shielded damage bonus');
     if (native?.type === 'debuff_received_heal' && (!native.name || !native.description || !Number.isFinite(native.multiplier) || native.multiplier<=0 || native.multiplier>2 || native.oncePerRecipientPerRound!==true)) fail(id+': invalid debuff healing passive');
@@ -201,6 +205,7 @@ export function validateContent(content) {
     if (!['enemy', 'enemy_splash', 'all_enemies', 'random_enemies', 'adjacent_allies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
     if (!Number.isInteger(skill.cooldown ?? 0) || (skill.cooldown ?? 0) < 0) fail(`${id}: invalid cooldown`);
     if (!Number.isFinite(skill.cost?.mp ?? 0) || (skill.cost?.mp ?? 0) < 0) fail(`${id}: invalid MP cost`);
+    if(skill.cost?.hpMaxRatio!==undefined && (!Number.isFinite(skill.cost.hpMaxRatio)||skill.cost.hpMaxRatio<=0||skill.cost.hpMaxRatio>=1))fail(id+': invalid HP cost');
     if (skill.cost?.preferResource) {
       const preferred=skill.cost.preferResource;
       if (skill.cost.resource || !Number.isFinite(skill.cost.mp) || skill.cost.mp<=0 || typeof preferred.id!=='string' || !preferred.id || !Number.isInteger(preferred.amount) || preferred.amount<1 || !['before','after'].includes(preferred.consumeAt) || Object.keys(preferred).some(key=>!['id','amount','consumeAt'].includes(key))) fail(id+': invalid preferred resource cost');
@@ -245,6 +250,9 @@ export function validateContent(content) {
       if (effect.formulaScaling!==undefined && (effect.type!=='damage' || skill.requiresFormula!==true || skill.minFormulaEntries!==3 || !Number.isFinite(effect.formulaScaling.perCorrect) || effect.formulaScaling.perCorrect<=0 || effect.formulaScaling.perCorrect>2 || !Number.isFinite(effect.formulaScaling.perfectPenetration) || effect.formulaScaling.perfectPenetration<0 || effect.formulaScaling.perfectPenetration>1)) fail(id+': invalid formula scaling');
       if (effect.type === 'turn_order_field' && (skill.target !== 'self' || typeof effect.name !== 'string' || !effect.name || !Number.isInteger(effect.durationRounds) || effect.durationRounds < 1)) fail(id + ': invalid turn-order field');
       if (['enter_mode','prepare_mode'].includes(effect.type) && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
+      if(effect.type==='dispel' && (!['enemy','all_enemies','enemy_splash'].includes(skill.target)||!(effect.all===true&&effect.count===undefined||effect.all===undefined&&Number.isInteger(effect.count)&&effect.count>0))) fail(id+': invalid dispel');
+      if(effect.perTargetBuff!==undefined && (effect.type!=='damage'||!Number.isFinite(effect.perTargetBuff)||effect.perTargetBuff<=0||!Number.isInteger(effect.maxTargetBuffs)||effect.maxTargetBuffs<1||effect.maxTargetBuffs>10))fail(id+': invalid target buff scaling');
+      if(effect.maxTargetBuffs!==undefined&&effect.perTargetBuff===undefined)fail(id+': missing target buff scaling');
       if (effect.type==='summon_companion' && (typeof effect.companion!=='string' || !effect.companion || skill.target!=='self')) fail(id+': invalid companion summon');
       if (effect.primaryMultiplier !== undefined && (effect.type !== 'damage' || !['all_enemies','enemy_splash'].includes(skill.target) || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
       if (effect.type === 'damage') {
@@ -337,6 +345,12 @@ export function validateContent(content) {
         || (encounter.requires.firstClear !== undefined && (!content.encounters[encounter.requires.firstClear] || encounter.requires.firstClear === id))))
       fail(`${id}: invalid quest unlock requirement`);
     if (encounter.requiredPartyIds !== undefined && (!Array.isArray(encounter.requiredPartyIds) || !encounter.requiredPartyIds.length || new Set(encounter.requiredPartyIds).size !== encounter.requiredPartyIds.length || encounter.requiredPartyIds.some(characterId=>!content.characters[characterId]))) fail(`${id}: invalid required party`);
+    if (encounter.waves !== undefined) {
+      if (!encounter.travelerStory || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
+      else for(const wave of encounter.waves) {
+        if (!Array.isArray(wave) || !wave.length || wave.length>4 || wave.some(enemy=>!content.enemies[enemy]) || (wave.length!==1 && wave.some(enemy=>content.enemies[enemy]?.boss))) fail(id+': invalid story wave enemies');
+      }
+    }
     if (!encounter.enemies?.length) fail(`${id}: requires enemies`);
     for (const enemy of encounter.enemies ?? []) exists('enemies', enemy, id);
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);

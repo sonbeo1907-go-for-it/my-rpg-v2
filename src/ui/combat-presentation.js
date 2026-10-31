@@ -1,6 +1,6 @@
 import { formulaSnapshot, formulaDamage } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
-import { targetsAsGroup, resourceCost, debuffTypeCount, debuffDamageBonus } from '../core/conditional-combat.js';
+import { targetsAsGroup, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus } from '../core/conditional-combat.js';
 import { targetsFor, selectedTargets } from '../core/battle.js';
 import { damageMultiplier, supportAmount, speedDamageRatio } from '../core/combat-math.js';
 import { battleStat } from '../core/stat-values.js';
@@ -32,7 +32,7 @@ export function liveSkillChoices(skill, actor, target, battle) {
   const theorem=battle && skill.effects.some(effect=>effect.formulaScaling)?formulaSnapshot(battle,actor):null;
   const baseStatBonuses=battle?skillBaseStatBonuses(battle,actor,skill,selected):{};
   if(theorem?.baseMagic) baseStatBonuses.magic=(baseStatBonuses.magic??0)+theorem.baseMagic;
-  return { live: true, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
+  return { live: true, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
     stacks: effect ? target?.statuses?.find(status => status.id === effect.consumeStatus)?.stacks ?? 0 : 0,
     hpPercent: actor.hp / actor.stats.maxHp * 100,
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
@@ -44,7 +44,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
     const effect=formulaDamage(authoredEffect,{correct:choices.formulaCorrect});
     if (effect.type === 'damage') {
       const label = scalingLabel(effect,statNames);
-      const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp });
+      const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp,buffs:choices.buffCount });
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
       if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} ${label} chính / ${percent(effect.multiplier)} ${label} ${skill.target==='enemy_splash'?'ô kề':'còn lại'}`;
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
@@ -75,12 +75,15 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
     else if (effect.type === 'grant_extra_turn') parts.push(skill.target==='adjacent_allies'?'+1 Lượt Thêm / ô kề':'+1 Lượt Thêm');
     else if (effect.type === 'formula_field') parts.push('Đại Đồ Thức · '+effect.durationRounds+' vòng');
     else if (effect.type === 'edit_formula') parts.push('Đổi chỗ / viết lại dấu');
+    else if(effect.type==='dispel')parts.push('Xóa '+(effect.all?'toàn bộ':effect.count)+' buff địch');
     else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
   }
   for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');
   if(skill.target==='random_enemies')parts.push('mục tiêu ngẫu nhiên');
   if(actor.passive?.type==='shielded_damage_bonus' && actor.shield>0 && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(actor.passive.ratio)+' ST từ khiên');
   if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(debuffDamageBonus(actor.passive,choices.debuffCount))+' ST theo debuff');
+  if(actor.passive?.type==='target_buff_damage'&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(buffDamageBonus(actor.passive,choices.buffCount))+' ST theo buff địch');
+  if(actor.passive?.type==='low_hp_damage'&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(lowHpDamageBonus(actor.passive,actor.hp/actor.stats.maxHp))+' ST từ HP đã mất');
   const damageCount = skill.effects.filter(effect => effect.type === 'damage').length;
   return parts.join(damageCount > 1 && parts.length === damageCount ? ' + ' : ' · ');
 }

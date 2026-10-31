@@ -1,17 +1,85 @@
 [
-  {"id":"tavern","name":"Quán trọ","tracks":["/bgm/tavern.mp3"],"loop":true},
-  {"id":"shop","name":"Tiệm phù thủy","tracks":["/bgm/shop.mp3"],"loop":true},
-  {"id":"normal","name":"Trận thường","tracks":["/bgm/bt1.mp3","/bgm/bt2.mp3"]},
-  {"id":"boss","name":"Trận thủ lĩnh","tracks":["/bgm/boss_1.mp3"]},
-  {"id":"wyvern","name":"Trận phi long","tracks":["/bgm/boss_wyvern.mp3"]},
-  {"id":"victory","name":"Chiến thắng","tracks":["/bgm/victory.mp3"],"loop":false},
-  {"id":"alice","name":"Siêu trùm Alice","tracks":["/bgm/spboss_alice.mp3"]},
-  {"id":"miraebolis","name":"Siêu trùm Miraebolis","tracks":["/bgm/spboss_miraebolis.mp3"]},
+  {
+    "id": "tavern",
+    "name": "Quán trọ",
+    "tracks": [
+      "/bgm/tavern.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "shop",
+    "name": "Tiệm phù thủy",
+    "tracks": [
+      "/bgm/shop.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "normal",
+    "name": "Trận thường",
+    "tracks": [
+      "/bgm/bt1.mp3",
+      "/bgm/bt2.mp3"
+    ]
+  },
+  {
+    "id": "boss",
+    "name": "Trận thủ lĩnh",
+    "tracks": [
+      "/bgm/boss_1.mp3"
+    ]
+  },
+  {
+    "id": "wyvern",
+    "name": "Trận phi long",
+    "tracks": [
+      "/bgm/boss_wyvern.mp3"
+    ]
+  },
+  {
+    "id": "victory",
+    "name": "Chiến thắng",
+    "tracks": [
+      "/bgm/victory.mp3"
+    ],
+    "loop": false
+  },
+  {
+    "id": "alice",
+    "name": "Siêu trùm Alice",
+    "tracks": [
+      "/bgm/spboss_alice.mp3"
+    ]
+  },
+  {
+    "id": "miraebolis",
+    "name": "Siêu trùm Miraebolis",
+    "tracks": [
+      "/bgm/spboss_miraebolis.mp3"
+    ]
+  },
   {
     "id": "astoria",
     "name": "Magnamut · Cộng hưởng thời không",
     "tracks": [
       "/bgm/bgm_astoria.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "ogre_king",
+    "name": "Vua Chằn",
+    "tracks": [
+      "/bgm/bgm_ogreking.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "revenge",
+    "name": "Sự trả thù",
+    "tracks": [
+      "/bgm/bgm_revenge.mp3"
     ],
     "loop": true
   }

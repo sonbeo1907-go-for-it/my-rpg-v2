@@ -677,5 +677,50 @@
       "defense": 0.15,
       "speed": 0.15
     }
+  },
+  {
+    "id": "yufina_dazed",
+    "name": "Chao đảo ma lực",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": -0.2
+    }
+  },
+  {
+    "id": "karin_oath",
+    "name": "Huyết thệ cuồng đao",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "damageBonus": 0.25
+    }
+  },
+  {
+    "id": "yumia_watch",
+    "name": "Không rời tầm mắt",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.25
+    }
+  },
+  {
+    "id": "yumia_shelter",
+    "name": "Ở lại bên tôi",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": 0.15
+    }
+  },
+  {
+    "id": "ogre_king_fracture",
+    "name": "Giáp nứt",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.2
+    }
   }
 ]

@@ -600,3 +600,5 @@
   .shop-page .character-card h3 { font-size: 1.05rem; }
   .shop-page .exchange-rate { gap: 1rem; }
 }
+
+.original-exchange{margin-top:1rem;padding:1.4rem}.original-exchange h2{margin:.6rem 0}.original-exchange-wallet{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}.original-exchange .exchange-rate{flex-wrap:wrap}.original-exchange-quota{color:var(--gold);font-weight:700}.original-exchange>button{margin-top:.5rem}.original-exchange .muted{font-size:.85rem}

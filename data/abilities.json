@@ -4041,5 +4041,334 @@
         "scalingStat": "defense"
       }
     ]
+  },
+  {
+    "id": "yufina.jab",
+    "name": "Quang quyền khai thức",
+    "target": "enemy",
+    "description": "Cú quyền phép tiết kiệm MP để duy trì áp lực.",
+    "cost": {
+      "mp": 4
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 1.5,
+        "scalingStat": "attack"
+      }
+    ]
+  },
+  {
+    "id": "yufina.pierce",
+    "name": "Quyền phá kết giới",
+    "target": "enemy",
+    "description": "Dồn lực xuyên qua lớp kháng phép của một đối thủ.",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 2.6,
+        "scalingStat": "attack",
+        "penetration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "yufina.daze",
+    "name": "Chấn quang phong thuật",
+    "target": "enemy",
+    "description": "Đánh rối dòng ma lực để giảm sức công kích phép của địch.",
+    "cost": {
+      "mp": 9
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 1.6,
+        "scalingStat": "attack",
+        "onHitStatus": {
+          "status": "yufina_dazed",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "yufina.ignite",
+    "name": "Quang quyền bừng sáng",
+    "target": "self",
+    "description": "Bùng cháy nhiệt huyết, tăng tốc và tiết kiệm MP công kích.",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "radiant_fists"
+      }
+    ],
+    "cooldown": 2
+  },
+  {
+    "id": "karin.sweep",
+    "name": "Hoành kiếm liều mạng",
+    "target": "all_enemies",
+    "description": "Quét đao qua toàn địch; thương tích làm từng nhát chém mạnh hơn.",
+    "cost": {
+      "mp": 7
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 0.9,
+        "lowHpBonus": 0.8
+      }
+    ]
+  },
+  {
+    "id": "karin.last_stand",
+    "name": "Cuồng trảm tuyệt lộ",
+    "target": "all_enemies",
+    "description": "Tung thế đao dữ dội khi bị dồn đến đường cùng.",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1.4,
+        "lowHpBonus": 1.4
+      }
+    ]
+  },
+  {
+    "id": "karin.blood_oath",
+    "name": "Huyết thệ cuồng đao",
+    "target": "self",
+    "description": "Đổi HP để cường hóa các đòn đánh kế tiếp.",
+    "cost": {
+      "mp": 6,
+      "hpMaxRatio": 0.2
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "karin_oath",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "elise.scripture",
+    "name": "Thủy kinh Mikaielis",
+    "target": "enemy",
+    "description": "Dẫn dòng nước thánh trừng phạt một đối thủ.",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.7
+      }
+    ]
+  },
+  {
+    "id": "elise.absolve",
+    "name": "Rửa tội những đặc ân",
+    "target": "enemy",
+    "description": "Gây sát thương rồi xóa một buff của địch.",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.4
+      },
+      {
+        "type": "dispel",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "id": "elise.judgment",
+    "name": "Thánh triều phán quyết",
+    "target": "enemy",
+    "description": "Trút phán quyết mạnh hơn theo số đặc ân trên mục tiêu.",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 2.4,
+        "perTargetBuff": 0.4,
+        "maxTargetBuffs": 3
+      }
+    ]
+  },
+  {
+    "id": "yumia.watch",
+    "name": "Đừng rời khỏi tầm mắt",
+    "target": "enemy",
+    "description": "Chém ghìm bước chân của một đối thủ.",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.2,
+        "onHitStatus": {
+          "status": "yumia_watch",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "yumia.strip",
+    "name": "Không ai che chở ngươi",
+    "target": "enemy",
+    "description": "Xóa toàn bộ buff của một đối thủ.",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "dispel",
+        "all": true
+      }
+    ]
+  },
+  {
+    "id": "yumia.shelter",
+    "name": "Ở lại bên tôi",
+    "target": "all_allies",
+    "description": "Gia tăng kháng phép cho toàn đội.",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "yumia_shelter",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "yumia.counter",
+    "name": "Ngươi vừa chạm vào ai?",
+    "target": "enemy",
+    "activation": "passive",
+    "description": "Phản đòn thật mạnh vào kẻ vừa dùng kỹ năng làm hại đồng đội khác.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 4.2
+      }
+    ]
+  },
+  {
+    "id": "ogre_king.strike",
+    "name": "Vương chùy",
+    "description": "Giáng chùy vào một kẻ địch.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.15
+      }
+    ]
+  },
+  {
+    "id": "ogre_king.sunder",
+    "name": "Búa đá khai sơn",
+    "description": "Đập mạnh và giảm 20% DEF mục tiêu trong 2 lượt chính.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.6,
+        "onHitStatus": {
+          "status": "ogre_king_fracture",
+          "duration": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "ogre_king.quake",
+    "name": "Chấn địa vương quyền",
+    "description": "Chấn động gây sát thương toàn đội địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 0.75
+      }
+    ]
+  },
+  {
+    "id": "ogre_king.ruin",
+    "name": "Thiên băng địa liệt",
+    "description": "Chuẩn bị một lượt, rồi giáng chùy xuống toàn đội địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 14
+    },
+    "windup": {
+      "rounds": 1,
+      "message": "Đòn chấn động toàn đội sắp tới. Hãy dựng khiên hoặc phòng thủ!"
+    },
+    "bossHeavy": true,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1.1
+      }
+    ]
   }
 ]

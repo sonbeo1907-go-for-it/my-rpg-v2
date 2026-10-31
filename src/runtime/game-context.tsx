@@ -34,6 +34,9 @@ import {
   isFinalDungeonWave,
 } from "../core/dungeon.js";
 
+import {createStoryRun,advanceStoryWave,isFinalStoryWave} from '../core/story-waves.js';
+const isFinalRun=(run:any)=>run.kind==='story'?isFinalStoryWave(run):isFinalDungeonWave(run);
+const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(content,run):advanceDungeonWave(content,run);
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
@@ -189,6 +192,7 @@ export function GameProvider({
             actors: structuredClone(current.actors),
             sourceActors: structuredClone(current.sourceActors ?? []),
             dungeon: structuredClone(current.dungeon ?? null),
+            storyWave: structuredClone(current.storyWave ?? null),
             turnOrderField: structuredClone(current.turnOrderField),
             mainTurnOrder: [...current.mainTurnOrder],
             queue: [...current.queue],
@@ -330,7 +334,7 @@ export function GameProvider({
       runtime.current.rewardClaimed
     )
       return;
-    if (saveLock.current) return;
+    if (runtime.current.continuesOnVictory || saveLock.current) return;
     saveLock.current = true;
     setBusy(true);
     try {
@@ -345,7 +349,7 @@ export function GameProvider({
       await persist(next);
       currentBattle.rewardClaimed = claimBattle.rewardClaimed;
       currentBattle.firstClearRewards = claimBattle.firstClearRewards;
-      if (run) run.claimed = claimRun.claimed;
+      if (run) run.claimed = run.kind==='story' ? claimBattle.rewardClaimed : claimRun.claimed;
       campaignRef.current = next;
       setCampaign(next);
       publish();
@@ -371,7 +375,7 @@ export function GameProvider({
         !(
           dungeonRun.current &&
           runtime.current.outcome === "victory" &&
-          !isFinalDungeonWave(dungeonRun.current)
+          !isFinalRun(dungeonRun.current)
         ))
     )
       return;
@@ -396,9 +400,9 @@ export function GameProvider({
         if (
           dungeonRun.current &&
           runtime.current.outcome === "victory" &&
-          !isFinalDungeonWave(dungeonRun.current)
+          !isFinalRun(dungeonRun.current)
         ) {
-          runtime.current = advanceDungeonWave(content, dungeonRun.current);
+          runtime.current = advanceRun(content, dungeonRun.current);
           music.current?.start(
             content.encounters[runtime.current.encounterId].bgm ?? "normal",
             { preserveOverride: true },
@@ -432,7 +436,7 @@ export function GameProvider({
     if (
       runtime.current?.outcome === "victory" &&
       !runtime.current.rewardClaimed &&
-      !(dungeonRun.current && !isFinalDungeonWave(dungeonRun.current))
+      !(dungeonRun.current && !isFinalRun(dungeonRun.current))
     ) {
       notify("Hãy nhận thưởng trận trước để tiếp tục.");
       return false;
@@ -442,7 +446,7 @@ export function GameProvider({
       (!runtime.current.outcome ||
         (dungeonRun.current &&
           runtime.current.outcome === "victory" &&
-          !isFinalDungeonWave(dungeonRun.current))) &&
+          !isFinalRun(dungeonRun.current))) &&
       !confirmed
     ) {
       setPendingDungeon(null);
@@ -450,13 +454,9 @@ export function GameProvider({
       return false;
     }
     try {
-      runtime.current = createBattle(
-        content,
-        campaignRef.current,
-        id,
-        seededRandom(20261027),
-      );
-      dungeonRun.current = null;
+      const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(20261027)) : null;
+      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(20261027));
+      dungeonRun.current = storyRun;
       battleSerial.current += 1;
       setBattleUI({ allyId: "", enemyId: "", skillId: "$attack" });
       publish();
@@ -474,7 +474,7 @@ export function GameProvider({
     if (
       runtime.current?.outcome === "victory" &&
       !runtime.current.rewardClaimed &&
-      !(dungeonRun.current && !isFinalDungeonWave(dungeonRun.current))
+      !(dungeonRun.current && !isFinalRun(dungeonRun.current))
     ) {
       notify("Hãy nhận thưởng trận trước để tiếp tục.");
       return false;
@@ -484,7 +484,7 @@ export function GameProvider({
       (!runtime.current.outcome ||
         (dungeonRun.current &&
           runtime.current.outcome === "victory" &&
-          !isFinalDungeonWave(dungeonRun.current))) &&
+          !isFinalRun(dungeonRun.current))) &&
       !confirmed
     ) {
       setPendingBattleId(null);
@@ -566,7 +566,7 @@ export function GameProvider({
     if (
       runtime.current?.outcome === "victory" &&
       !runtime.current.rewardClaimed &&
-      !(dungeonRun.current && !isFinalDungeonWave(dungeonRun.current))
+      !(dungeonRun.current && !isFinalRun(dungeonRun.current))
     ) {
       notify("Hãy nhận thưởng trước khi đổi hồ sơ.");
       return false;

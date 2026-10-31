@@ -2,7 +2,7 @@ import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { damageMultiplier, supportAmount, effectiveStat, speedDamageBonus, speedDamageRatio, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
-import { mpCost, resourceCost } from '../core/conditional-combat.js';
+import { mpCost, hpCost, resourceCost } from '../core/conditional-combat.js';
 import { battleStat } from '../core/stat-values.js';
 
 // Shared presentation for preparation previews and combat commands.
@@ -34,6 +34,7 @@ export function skillCost(skill, actor) {
     const name = actor.resources[cost.id].name;
     costs.push(`${cost.all ? `Toàn bộ ${name} (ít nhất ${cost.min})` : `${cost.amount} ${name}`}${cost.consumeAt === 'after' ? ' · Tiêu sau khi thi triển' : ''}`);
   }
+  if(skill.cost?.hpMaxRatio)costs.push(hpCost(skill,actor)+' HP ('+Math.round(skill.cost.hpMaxRatio*100)+'% HP tối đa)');
   if (skill.requiresFormula) costs.push('Cần Đại Đồ Thức'+(skill.minFormulaEntries?' · '+skill.minFormulaEntries+' dấu':''));
   if (skill.requiresResource) costs.push('Cần '+skill.requiresResource.min+' '+actor.resources[skill.requiresResource.id].name);
   if (skill.cooldown) costs.push(`Hồi chiêu: ${skill.cooldown} vòng`);
@@ -48,7 +49,8 @@ export const TARGET_NAMES = {
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if (!passive) return null;
-  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar','dot_potency_bonus','attack_status','shield_survival_followup'].includes(passive.type)) return passive.name+': '+passive.description;
+  if (['kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar','dot_potency_bonus','attack_status','shield_survival_followup','low_hp_damage','target_buff_damage','ally_skill_counter'].includes(passive.type)) return passive.name+': '+passive.description;
+  if (passive.type==='detonation_base_growth') return passive.name+': '+passive.description;
   if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
   if (["extra_mp_damage","marked_ally_magic","hp_difference_damage","ally_heal_mp","stat_conversion","end_round_lowest_mp"].includes(passive.type)) return `${passive.name}: ${passive.description}`;
@@ -97,6 +99,7 @@ export function skillPreviewOptions(skill, actor, content) {
   const controls = [];
   if (skill.effects.some(effect=>effect.formulaScaling)) controls.push({key:'formulaCorrect',label:'Số dấu đúng vị trí giả định',min:0,max:3},{key:'formulaContributors',label:'Đồng đội góp dấu khác nhau',min:0,max:actor.passive?.maxSources??3});
   if (actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage')) controls.push({key:'debuffCount',label:'Số loại debuff trên mục tiêu',min:0,max:Math.ceil(actor.passive.cap/actor.passive.ratio)});
+  if((actor.passive?.type==='target_buff_damage'||skill.effects.some(e=>e.perTargetBuff))&&skill.effects.some(e=>e.type==='damage'))controls.push({key:'buffCount',label:'Số loại buff đang có trên mục tiêu',min:0,max:Math.max(...skill.effects.map(e=>e.maxTargetBuffs??0),actor.passive?.type==='target_buff_damage'?Math.ceil(actor.passive.cap/actor.passive.ratio):0)});
   if (actor.passive?.type === 'field_growth' && skill.effects.some(effect => effect.type === 'damage')) controls.push({ key: 'fieldStacks', label: 'Uy lôi giả định', min: 0, max: actor.passive.maxStacks });
   if (skill.effects.some(effect => effect.perResource) && skill.cost?.resource?.all) {
     const resource = skill.cost.resource;
@@ -104,7 +107,7 @@ export function skillPreviewOptions(skill, actor, content) {
   }
   const mark = skill.effects.find(effect => effect.consumeStatus && effect.perStack);
   if (mark) controls.push({ key: 'stacks', label: `${content.statuses[mark.consumeStatus].name} trên mỗi mục tiêu`, min: 0, max: content.statuses[mark.consumeStatus].maxStacks ?? 1 });
-  if (skill.effects.some(effect => effect.lowHpBonus)) controls.push({ key: 'hpPercent', label: 'HP người dùng (%)', min: 1, max: 100 });
+  if (skill.effects.some(effect => effect.lowHpBonus) || actor.passive?.type==='low_hp_damage' && skill.effects.some(effect=>effect.type==='damage')) controls.push({ key: 'hpPercent', label: 'HP người dùng (%)', min: 1, max: 100 });
   return controls;
 }
 
@@ -126,6 +129,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       let formula = effect.primaryMultiplier !== undefined ? `${percent(effect.primaryMultiplier)} ${stat} mục tiêu chính / ${percent(effect.multiplier)} ${stat} còn lại` : `${percent(effect.multiplier ?? 1)} ${stat}`;
       if (effect.perResource) formula += ` + ${percent(effect.perResource)} ${stat} mỗi ${resourceName} đã tiêu`;
       if (effect.perStack) formula += ` + ${percent(effect.perStack)} ${stat} mỗi ${content.statuses[effect.consumeStatus].name}`;
+      if(effect.perTargetBuff)formula+=' + '+percent(effect.perTargetBuff)+' '+stat+' mỗi buff địch (tối đa '+effect.maxTargetBuffs+')';
       if (effect.lowHpBonus) formula += ` + tối đa ${percent(effect.lowHpBonus)} ${stat} theo tỷ lệ HP đã mất`;
       const speedRatio = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speedRatio > 0) formula += ` + ${percent(speedRatio)} SPD`;
@@ -140,9 +144,9 @@ export function skillScaling(skill, actor, content, choices = {}) {
         lines.push(`Giả định ${growth} ${passive.name}: +${percent(growth * passive.ratio)} ${label} → ${number(effectiveStat(assumed, passive.stat))} ${label} trước buff/debuff khác.`);
       }
       if (speedRatio > 0) lines.push(`Phần cộng từ tốc độ ${choices.live ? 'hiện tại' : 'chuẩn bị'}: ${number(speedDamageBonus(actor, effect.damageType, valueOf('speed'), effect.speedMultiplier ?? 0))} sát thương mỗi nhát, trước phòng thủ${effect.speedMultiplier && actor.passive?.type === 'speed_damage' ? ', đã gồm nội tại' : ''}.`);
-      if (effect.perResource || effect.perStack || effect.lowHpBonus) {
+      if (effect.perResource || effect.perStack || effect.lowHpBonus || effect.perTargetBuff) {
         const stacks = choices.stacks ?? (content.statuses[effect.consumeStatus]?.maxStacks ?? 0);
-        const multiplier = damageMultiplier(effect, { spent, stacks, hpRatio: (choices.hpPercent ?? 100) / 100 });
+        const multiplier = damageMultiplier(effect, { spent, stacks, hpRatio: (choices.hpPercent ?? 100) / 100,buffs:choices.buffCount??0 });
         lines.push(`Hệ số ${choices.live ? 'với trạng thái hiện tại' : 'theo giả định'}: ${effect.hits > 1 ? `${effect.hits} hit × ` : ''}${percent(multiplier)} ${stat}.`);
         if (actor.passive?.type === 'resource_stat_boost' && actor.passive.resource === cost?.id && !choices.live) {
           const passive = actor.passive;
@@ -180,6 +184,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (mark.modifiers && !mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>(n<0?'−':'+')+percent(Math.abs(n))+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'}[key]??key)).join(' · '));
       if (mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>percent(n)+' '+(key==='resistance'?'RES':key)+' mỗi tầng').join(', '));
     }
+    if(effect.type==='dispel')lines.push('Xóa '+(effect.all?'toàn bộ':effect.count)+' buff địch; không xóa khiên hay combatMode.');
     if (effect.type === 'cleanse') lines.push('Giải toàn bộ hiệu ứng bất lợi trên người nhận.');
     if (['status', 'toggle_status'].includes(effect.type)) {
       const status = content.statuses[effect.status];

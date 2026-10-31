@@ -12,14 +12,14 @@ export function bossHealthFloor(actor) {
 }
 
 export function bossFireMultiplier(actor, effect) {
-  if (!actor.boss || actor.bossState.phase !== 3 || effect.element !== 'fire') return 1;
+  if (!actor.boss?.suppression || actor.bossState.phase !== 3 || effect.element !== 'fire') return 1;
   const rule = actor.boss.suppression;
   const stacks = actor.statuses.find(status => status.id === rule.statusId)?.stacks ?? 0;
   return rule.fireMultipliers[stacks];
 }
 
 export function suppressOnWeakness(battle, attacker, target, context, write, apply) {
-  if (!target.boss || context.weaknessTargets.has(target.id)) return;
+  if (!target.boss?.suppression || context.weaknessTargets.has(target.id)) return;
   context.weaknessTargets.add(target.id);
   const rule = target.boss.suppression;
   const status = apply(rule.statusId, rule.durations[target.bossState.phase - 1]);
@@ -36,10 +36,12 @@ export function transitionBossPhases(battle, { write, restoreMp }) {
     state.rotationStep = 0; state.pendingMoves = [];
     const phase = bossPhase(actor);
     write(battle, `${actor.name} chuyển Giai đoạn ${state.phase}: ${phase.name}!`);
-    const suppression = actor.statuses.find(status => status.id === actor.boss.suppression.statusId);
+    const suppression = actor.statuses.find(status => status.id === actor.boss.suppression?.statusId);
     if (suppression) suppression.remaining = Math.min(suppression.remaining, actor.boss.suppression.durations[state.phase - 1]);
-    for (const ally of battle.actors.filter(item => item.team !== actor.team && item.hp > 0)) restoreMp(battle, ally, 'mp', ally.stats.maxMp, actor.id);
-    write(battle, 'Chuyển giai đoạn: hồi đầy MP cho toàn đội còn sống.');
+    if (actor.boss.restorePartyMpOnTransition !== false) {
+      for (const ally of battle.actors.filter(item => item.team !== actor.team && item.hp > 0)) restoreMp(battle, ally, 'mp', ally.stats.maxMp, actor.id);
+      write(battle, 'Chuyển giai đoạn: hồi đầy MP cho toàn đội còn sống.');
+    }
   }
 }
 
@@ -56,14 +58,16 @@ export function validateBossDefinition(actor, content, fail) {
   if (!actor.boss) return;
   const boss = actor.boss, id = actor.id;
   const abilityExists = skill => typeof skill === 'string' && Object.hasOwn(content.abilities, skill);
-  if (boss.type !== 'three_phase_dragon' || !Array.isArray(boss.phases) || boss.phases.length !== 3) {
+  const generic=boss.type==='phased';
+  if ((!generic && boss.type!=='three_phase_dragon') || !Array.isArray(boss.phases) || (generic ? boss.phases.length<2 || boss.phases.length>5 : boss.phases.length!==3)) {
     fail(`${id}: invalid boss phases`); return;
   }
   boss.phases.forEach((phase, index) => {
     if (!phase || typeof phase.name !== 'string' || !phase.name
       || !Number.isFinite(phase.atHpRatio) || phase.atHpRatio <= 0 || phase.atHpRatio > 1
       || (index === 0 ? phase.atHpRatio !== 1 : phase.atHpRatio >= boss.phases[index - 1]?.atHpRatio)
-      || phase.actionsPerTurn !== (index === 2 ? 2 : 1)
+      || (generic ? ![1,2].includes(phase.actionsPerTurn) : phase.actionsPerTurn !== (index === 2 ? 2 : 1))
+      || (phase.damageMultiplier!==undefined && (!Number.isFinite(phase.damageMultiplier)||phase.damageMultiplier<1||phase.damageMultiplier>3))
       || !Array.isArray(phase.rotation) || !phase.rotation.length) { fail(`${id}: invalid boss phase ${index + 1}`); return; }
     for (const moves of phase.rotation) {
       if (!Array.isArray(moves) || moves.length !== phase.actionsPerTurn
@@ -73,11 +77,12 @@ export function validateBossDefinition(actor, content, fail) {
     }
   });
   const rule = boss.suppression;
-  if (!rule || !Object.hasOwn(content.statuses, rule.statusId ?? '') || rule.maxStacks !== 2
+  if ((!generic || rule) && (!rule || !Object.hasOwn(content.statuses, rule.statusId ?? '') || rule.maxStacks !== 2
     || content.statuses[rule.statusId]?.maxStacks !== rule.maxStacks || content.statuses[rule.statusId]?.kind !== 'debuff'
     || JSON.stringify(rule.durations) !== '[3,3,2]'
     || !Array.isArray(rule.fireMultipliers) || rule.fireMultipliers.length !== rule.maxStacks + 1
-    || rule.fireMultipliers.some((value, index) => !Number.isFinite(value) || value < 1 || (index > 0 && value > rule.fireMultipliers[index - 1]))) fail(`${id}: invalid boss suppression`);
+    || rule.fireMultipliers.some((value, index) => !Number.isFinite(value) || value < 1 || (index > 0 && value > rule.fireMultipliers[index - 1])))) fail(`${id}: invalid boss suppression`);
+  if (boss.restorePartyMpOnTransition!==undefined && typeof boss.restorePartyMpOnTransition!=='boolean') fail(id+': invalid phase MP rule');
   const fallback = content.abilities[boss.phases[0]?.rotation?.[0]?.[0]];
   if (!fallback || fallback.cost?.mp || fallback.cost?.resource || fallback.cooldown || fallback.windup) fail(`${id}: boss requires a free fallback attack`);
 }

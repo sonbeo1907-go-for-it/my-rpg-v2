@@ -155,6 +155,7 @@ export function CharacterDetail({ id }: { id: string }) {
     ...actor.abilities.map((ability: string) => content.abilities[ability]),
     DEFEND,
   ];
+  if(actor.passive?.type==='ally_skill_counter')skills.push(content.abilities[actor.passive.counterAbility]);
   if (actor.passive?.followUpAbility)
     skills.push(content.abilities[actor.passive.followUpAbility]);
   if (actor.passive?.type === "field_growth")

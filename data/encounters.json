@@ -395,7 +395,7 @@
       "traveler_sunny",
       "traveler_amy"
     ],
-    "bgm": "boss",
+    "bgm": "revenge",
     "rewardTier": "boss",
     "travelerStory": "iris",
     "requires": {
@@ -408,6 +408,114 @@
       {
         "type": "upgrade",
         "upgradeId": "iris.field_conclusions"
+      }
+    ]
+  },
+  {
+    "id": "fiona_story_eins",
+    "name": "Eins",
+    "description": "Prisma thức tỉnh giữa ba đợt truy đuổi của quỷ lùn và chiến binh chằn. Giữ sức để vượt toàn bộ chuỗi.",
+    "enemies": [
+      "goblin",
+      "goblin",
+      "goblin_shaman"
+    ],
+    "waves": [
+      [
+        "goblin",
+        "goblin",
+        "goblin_shaman"
+      ],
+      [
+        "goblin_warrior",
+        "goblin_warrior",
+        "goblin_shaman"
+      ],
+      [
+        "ogre_warrior",
+        "goblin_warrior",
+        "goblin"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "fiona",
+    "requiredPartyIds": [
+      "fiona"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "fiona.complete_refraction"
+      },
+      {
+        "type": "gear_slot",
+        "characterId": "fiona"
+      }
+    ]
+  },
+  {
+    "id": "fiona_story_zwei",
+    "name": "Zwei",
+    "description": "Hai đợt chằn cản đường Fiona. Gom Prisma, chọn đúng lúc hội tụ để mở lối.",
+    "enemies": [
+      "ogre_warrior",
+      "ogre_warrior"
+    ],
+    "waves": [
+      [
+        "ogre_warrior",
+        "ogre_warrior"
+      ],
+      [
+        "ogre_warrior",
+        "ogre_underling"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "fiona",
+    "requiredPartyIds": [
+      "fiona"
+    ],
+    "requires": {
+      "firstClear": "fiona_story_eins"
+    },
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "fiona.prisma_convergence"
+      },
+      {
+        "type": "gear_slot",
+        "characterId": "fiona"
+      }
+    ]
+  },
+  {
+    "id": "fiona_story_drei",
+    "name": "Drei",
+    "description": "Đối mặt Vua Chằn trong hai giai đoạn. Hắn nổi giận khi còn nửa HP; sức mạnh Ám là chìa khóa vượt qua.",
+    "enemies": [
+      "ogre_king"
+    ],
+    "bgm": "ogre_king",
+    "rewardTier": "boss",
+    "travelerStory": "fiona",
+    "requiredPartyIds": [
+      "fiona"
+    ],
+    "requires": {
+      "firstClear": "fiona_story_zwei"
+    },
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "fiona.faint_light"
+      },
+      {
+        "type": "gear_slot",
+        "characterId": "fiona"
       }
     ]
   }

@@ -186,6 +186,7 @@ export function CombatantCard({
           </p>
         ),
       )}
+      {actor.passive?.type==='detonation_base_growth' && <p className="resource-value">Tia sáng: +{actor.detonationBonus??0} / {actor.passive.cap} MAG</p>}
       <div className="status-list">
         {activeStatuses(actor).map((status: any) => (
           <StatusBadge key={status.id} status={status} actor={actor} />
@@ -303,7 +304,7 @@ function BossPhasePanel({ boss }: { boss: any }) {
   const phase = bossPhase(boss);
   if (!phase) return null;
   const suppression = boss.statuses.find(
-    (status: any) => status.id === boss.boss.suppression.statusId,
+    (status: any) => status.id === boss.boss.suppression?.statusId,
   );
   return (
     <section className="boss-phase-panel">
@@ -313,12 +314,12 @@ function BossPhasePanel({ boss }: { boss: any }) {
         </span>
         <h3>{phase.name}</h3>
       </div>
-      <span>
+      {boss.boss.suppression && <span>
         Kìm hãm {suppression?.stacks ?? 0}/{boss.boss.suppression.maxStacks}
         {suppression ? ` · ${suppression.remaining} lượt boss` : ""}
-      </span>
+      </span>}
       <span>
-        Sát thương Hỏa ×{bossFireMultiplier(boss, { element: "fire" })} ·{" "}
+        {boss.boss.suppression ? `Sát thương Hỏa ×${bossFireMultiplier(boss, {element:'fire'})}` : `Sát thương ×${phase.damageMultiplier??1}`} ·{" "}
         {phase.actionsPerTurn} hành động/lượt
       </span>
       {boss.bossState.pendingMoves?.map((move: any, index: number) => (
@@ -361,10 +362,11 @@ function BattleResultControls() {
     runBattle,
   } = useGame();
   const dungeon = battle.dungeon;
+  const progress = dungeon ?? battle.storyWave;
   const betweenWaves =
-    dungeon &&
+    progress &&
     battle.outcome === "victory" &&
-    dungeon.waveIndex + 1 < dungeon.totalWaves;
+    progress.waveIndex + 1 < progress.totalWaves;
   const remaining = dungeon
     ? (dungeonDailyState(campaign, content, dungeon.typeId).remaining ?? 0)
     : 1;
@@ -372,15 +374,15 @@ function BattleResultControls() {
     return (
       <>
         <h2>
-          Đã vượt {(dungeon.stageLabel ?? "Đợt").toLocaleLowerCase("vi")}{" "}
-          {dungeon.waveIndex + 1}
+          Đã vượt {(progress.stageLabel ?? "Đợt").toLocaleLowerCase("vi")}{" "}
+          {progress.waveIndex + 1}
         </h2>
         <p>
           Đội đang tiến sang màn tiếp theo, giữ nguyên thể trạng và hiệu ứng.
         </p>
         <button className="gold" disabled={busy} onClick={() => runBattle()}>
-          Tiếp tục {(dungeon.stageLabel ?? "Đợt").toLocaleLowerCase("vi")}{" "}
-          {dungeon.waveIndex + 2}
+          Tiếp tục {(progress.stageLabel ?? "Đợt").toLocaleLowerCase("vi")}{" "}
+          {progress.waveIndex + 2}
         </button>
       </>
     );
@@ -720,7 +722,7 @@ export function BattlePage() {
         subtitle={
           battle.dungeon
             ? `${battle.dungeon.stageLabel ?? "Đợt"} ${battle.dungeon.waveIndex + 1}/${battle.dungeon.totalWaves}${battle.dungeon.revealRooms ? "" : ` · ${content.encounters[battle.encounterId].name}`} · Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}`
-            : `Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}`
+            : `${battle.storyWave ? 'Đợt '+(battle.storyWave.waveIndex+1)+'/'+battle.storyWave.totalWaves+' · ' : ''}Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}`
         }
         back={
           battle.dungeon
@@ -743,6 +745,7 @@ export function BattlePage() {
           </button>
         </div>
       </PageHeader>
+      {battle.storyWave && <section className="dungeon-wave-progress" aria-label="Tiến độ chương truyện"><div aria-live="polite"><strong>Đợt {battle.storyWave.waveIndex+1}/{battle.storyWave.totalWaves}</strong><span>Giữ HP, MP và trạng thái qua các đợt · Thắng toàn chương mới nhận thưởng</span></div></section>}
       {battle.dungeon && (
         <section
           className="dungeon-wave-progress"
@@ -834,7 +837,9 @@ export function BattlePage() {
                   : battle.dungeon &&
                       battle.dungeon.waveIndex + 1 < battle.dungeon.totalWaves
                     ? `Đã vượt ${(battle.dungeon.stageLabel ?? "Đợt").toLocaleLowerCase("vi")} ${battle.dungeon.waveIndex + 1} · Đang tiến vào ${(battle.dungeon.stageLabel ?? "đợt").toLocaleLowerCase("vi")} tiếp theo`
-                    : "Chiến thắng · Chưa nhận thưởng"
+                    : battle.storyWave && battle.storyWave.waveIndex+1 < battle.storyWave.totalWaves
+                      ? 'Đã vượt đợt '+(battle.storyWave.waveIndex+1)+' · Đang tiến vào đợt tiếp theo'
+                      : "Chiến thắng · Chưa nhận thưởng"
                 : battle.outcome === "defeat"
                   ? "Đội hình đã gục ngã"
                   : "Cuộc giao tranh tạm dừng"}

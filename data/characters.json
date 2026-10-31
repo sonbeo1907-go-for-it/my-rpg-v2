@@ -1725,5 +1725,192 @@
         "summary": "Golem · Liên kích toàn địch đầu và cuối vòng · 3 vòng"
       }
     }
+  },
+  {
+    "id": "yufina",
+    "name": "Yufina",
+    "title": "Quang quyền tân tinh",
+    "affiliation": "Hội Thợ Săn / Học Viện Ma Pháp",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "light",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 1,
+        "scalingStat": "attack"
+      }
+    ],
+    "description": "Dùng ATK tung quyền gây sát thương phép; chuyển dạng để tăng tốc và tiết kiệm MP.",
+    "biography": "Vừa tốt nghiệp Học Viện Ma Pháp, Yufina gia nhập Hội Thợ Săn với nguồn nhiệt huyết không vơi. Cô thích đưa ma thuật đến gần đối thủ bằng chính nắm đấm của mình.",
+    "tags": [
+      "hunter_guild",
+      "magic_academy"
+    ],
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 100,
+      "attack": 33,
+      "magic": 22,
+      "defense": 17,
+      "resistance": 23,
+      "speed": 22
+    },
+    "abilities": [
+      "yufina.jab",
+      "yufina.pierce",
+      "yufina.daze",
+      "yufina.ignite"
+    ],
+    "passive": {
+      "type": "combat_mode",
+      "name": "Ngọn lửa ngày ra trường",
+      "description": "Khi Quang quyền bừng sáng kết thúc, hồi 20% MP tối đa."
+    },
+    "combatModes": {
+      "radiant_fists": {
+        "name": "Quang quyền bừng sáng",
+        "lifetime": "rounds",
+        "durationRounds": 3,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "magic": 0.35,
+          "speed": 0.2
+        },
+        "mpCostReduction": 0.12,
+        "discountAbilityIds": [
+          "yufina.jab",
+          "yufina.pierce",
+          "yufina.daze"
+        ],
+        "exitMpRatio": 0.2,
+        "background": "/art/yufina-radiance.svg",
+        "allowedAbilities": [
+          "$attack",
+          "yufina.jab",
+          "yufina.pierce",
+          "yufina.daze",
+          "$defend"
+        ],
+        "commandAbilities": [
+          "$attack",
+          "yufina.jab",
+          "yufina.pierce",
+          "yufina.daze",
+          "$defend"
+        ],
+        "summary": "+35% MAG · +20% SPD · Chiêu công kích −12% MP",
+        "description": "Ở lại 3 vòng tính cả vòng dùng; kết thúc hồi 20% MP tối đa. MAG không thay ATK khi tính sát thương quyền thuật."
+      }
+    }
+  },
+  {
+    "id": "karin",
+    "name": "Karin",
+    "title": "Cuồng đao tuyệt lộ",
+    "affiliation": "Hội Thợ Săn",
+    "role": "DPS vật lí diện rộng",
+    "roleGroup": "physical_dps",
+    "element": "plain",
+    "description": "HP càng thấp, kiếm quét càng mạnh; có thể chủ động đổi máu lấy sức công phá.",
+    "biography": "Karin lao vào những trận đánh mà người khác muốn tránh. Khi thương tích chồng chất, lưỡi đao của cô càng quyết liệt và khó ngăn cản.",
+    "tags": [
+      "hunter_guild"
+    ],
+    "stats": {
+      "maxHp": 225,
+      "maxMp": 75,
+      "attack": 33,
+      "magic": 8,
+      "defense": 16,
+      "resistance": 14,
+      "speed": 18
+    },
+    "abilities": [
+      "karin.sweep",
+      "karin.last_stand",
+      "karin.blood_oath"
+    ],
+    "passive": {
+      "type": "low_hp_damage",
+      "name": "Cơn cuồng chiến",
+      "description": "Mất càng nhiều tỷ lệ HP, sát thương trực tiếp càng tăng.",
+      "ratio": 0.6
+    }
+  },
+  {
+    "id": "elise",
+    "name": "Elise",
+    "title": "Tông đồ Mikaielis",
+    "affiliation": "Giáo đoàn Mikaielis",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "water",
+    "basicDamageType": "magical",
+    "description": "Trừng phạt địch đang được cường hóa; càng nhiều loại buff, phép Thủy càng mạnh.",
+    "biography": "Một tông đồ đến từ miền đất xa xôi, Elise mang theo lời nguyện dành cho Mikaielis. Cô nhìn những đặc ân của kẻ thù như điều cần được phán xét.",
+    "tags": [
+      "hunter_guild",
+      "mikaielis"
+    ],
+    "stats": {
+      "maxHp": 145,
+      "maxMp": 110,
+      "attack": 9,
+      "magic": 35,
+      "defense": 13,
+      "resistance": 28,
+      "speed": 19
+    },
+    "abilities": [
+      "elise.scripture",
+      "elise.absolve",
+      "elise.judgment"
+    ],
+    "passive": {
+      "type": "target_buff_damage",
+      "name": "Phán xét những đặc ân",
+      "description": "Mỗi loại buff trên mục tiêu làm tăng sát thương của bản thân.",
+      "ratio": 0.2,
+      "cap": 0.6
+    }
+  },
+  {
+    "id": "yumia",
+    "name": "Yumia",
+    "title": "Người chẳng chịu buông tay",
+    "affiliation": "Hội Thợ Săn",
+    "role": "DPS vật lí phản đòn",
+    "roleGroup": "physical_dps",
+    "element": "dark",
+    "description": "Bào mòn lợi thế của địch và tung phản đòn mạnh khi kỹ năng của chúng làm hại đồng đội khác.",
+    "biography": "Yumia sống nặng tình và luôn muốn giữ những người thân thiết trong tầm mắt. Sự che chở chân thành của cô đôi khi trở nên ngột ngạt, nhất là khi ai đó chạm đến họ.",
+    "tags": [
+      "hunter_guild"
+    ],
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 85,
+      "attack": 32,
+      "magic": 12,
+      "defense": 17,
+      "resistance": 20,
+      "speed": 23
+    },
+    "abilities": [
+      "yumia.watch",
+      "yumia.strip",
+      "yumia.shelter"
+    ],
+    "passive": {
+      "type": "ally_skill_counter",
+      "name": "Đừng chạm vào người của tôi",
+      "description": "Sau kỹ năng địch đánh trúng đồng đội khác, phản đòn vào kẻ tấn công.",
+      "counterAbility": "yumia.counter",
+      "oncePerRound": true
+    }
   }
 ]

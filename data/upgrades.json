@@ -95,5 +95,28 @@
         }
       }
     ]
+  },
+  {
+    "id": "fiona.faint_light",
+    "characterId": "fiona",
+    "name": "Tia sáng le lói",
+    "order": 40,
+    "requires": {
+      "storyFlag": "fiona.life_origin_story_cleared"
+    },
+    "changes": [
+      {
+        "type": "set_passive",
+        "passive": {
+          "type": "detonation_base_growth",
+          "name": "Tia sáng le lói",
+          "description": "Mỗi chiêu kích nổ Prisma tăng thêm 2 MAG căn bản cho các chiêu kích nổ, tối đa +10 trong chương/trận. Áp dụng ngay cho chiêu đó.",
+          "statusId": "prisma",
+          "stat": "magic",
+          "increment": 2,
+          "cap": 10
+        }
+      }
+    ]
   }
 ]

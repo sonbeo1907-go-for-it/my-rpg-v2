@@ -956,5 +956,116 @@
       ]
     },
     "basicDamageType": "magical"
+  },
+  {
+    "id": "goblin_warrior",
+    "name": "Chiến binh quỷ lùn",
+    "element": "plain",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 60,
+      "attack": 29,
+      "magic": 8,
+      "defense": 19,
+      "resistance": 14,
+      "speed": 14
+    },
+    "weaknesses": [
+      "fire",
+      "dark"
+    ],
+    "abilities": [
+      "enemy.slash"
+    ]
+  },
+  {
+    "id": "ogre_warrior",
+    "name": "Chiến binh chằn",
+    "element": "earth",
+    "stats": {
+      "maxHp": 360,
+      "maxMp": 70,
+      "attack": 35,
+      "magic": 16,
+      "defense": 24,
+      "resistance": 20,
+      "speed": 10
+    },
+    "weaknesses": [
+      "light",
+      "dark"
+    ],
+    "abilities": [
+      "enemy.smash"
+    ]
+  },
+  {
+    "id": "ogre_king",
+    "name": "Vua Chằn",
+    "role": "Trùm cốt truyện",
+    "element": "earth",
+    "stats": {
+      "maxHp": 1800,
+      "maxMp": 180,
+      "attack": 48,
+      "magic": 26,
+      "defense": 30,
+      "resistance": 26,
+      "speed": 14
+    },
+    "weaknesses": [
+      "dark"
+    ],
+    "abilities": [
+      "ogre_king.strike",
+      "ogre_king.sunder",
+      "ogre_king.quake",
+      "ogre_king.ruin"
+    ],
+    "boss": {
+      "type": "phased",
+      "restorePartyMpOnTransition": false,
+      "phases": [
+        {
+          "name": "Uy quyền dưới lòng đất",
+          "atHpRatio": 1,
+          "actionsPerTurn": 1,
+          "rotation": [
+            [
+              "ogre_king.strike"
+            ],
+            [
+              "ogre_king.sunder"
+            ],
+            [
+              "ogre_king.quake"
+            ],
+            [
+              "ogre_king.strike"
+            ]
+          ]
+        },
+        {
+          "name": "Cơn thịnh nộ của vua chằn",
+          "atHpRatio": 0.5,
+          "actionsPerTurn": 1,
+          "damageMultiplier": 1.15,
+          "rotation": [
+            [
+              "ogre_king.strike"
+            ],
+            [
+              "ogre_king.sunder"
+            ],
+            [
+              "ogre_king.quake"
+            ],
+            [
+              "ogre_king.ruin"
+            ]
+          ]
+        }
+      ]
+    }
   }
 ]

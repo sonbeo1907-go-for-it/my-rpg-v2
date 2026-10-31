@@ -20,7 +20,7 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
    continue;
   }
   if(event.type==='passive'||event.type==='skill_base_bonus'||event.type==='mode_exit') {const label=event.label??content.characters[event.sourceId]?.passive?.name??'Nội tại',key=event.sourceId+':'+label;if(!passives.has(key)){passives.add(key);add(event,'passive',Math.max(cursor,lastImpact+35),{label});}continue;}
-  if(!['damage','dodge','heal','mp_restore','shield','status','effect_blocked','cleanse'].includes(event.type))continue;
+  if(!['damage','dodge','heal','mp_restore','shield','status','effect_blocked','cleanse','dispel','hp_spent'].includes(event.type))continue;
   const action=actions.get(event.sourceId);
   let at=Math.max(cursor,action? action.start+lead+(event.hitIndex??0)*step:0);
   if(['heal','mp_restore'].includes(event.type)&&lastImpact>=0)at=Math.max(at,lastImpact+step/2);

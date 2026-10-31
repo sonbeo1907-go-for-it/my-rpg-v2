@@ -1,3 +1,4 @@
+import {emptyShopDaily,normalizeShopDaily} from './shop-daily.js';
 import {emptyDailyCommissions,normalizeDailyCommissions} from './daily-commissions.js';
 import { isValidParty } from "./party.js";
 import { effectiveStat } from "./combat-math.js";
@@ -37,6 +38,7 @@ export function createCampaign(content) {
     gacha: { totalPulls: 0, pity: {}, lastSummon: null },
     dungeonDaily: { day: null, clears: {} },
     dailyCommissions: emptyDailyCommissions(),
+    shopDaily: emptyShopDaily(),
     illusion: emptyIllusionState(),
     ...emptyBlacksmithState(),
   };
@@ -137,6 +139,7 @@ export function serializeCampaign(campaign) {
     claimedFirstClearRewards,
     dungeonDaily: campaign.dungeonDaily ?? { day: null, clears: {} },
     dailyCommissions: normalizeDailyCommissions(campaign.dailyCommissions),
+    shopDaily: normalizeShopDaily(campaign.shopDaily),
     prismaFragments: campaign.prismaFragments ?? 0,
     originalPrisma: campaign.originalPrisma ?? 0,
     exclusiveGear: campaign.exclusiveGear ?? [],
@@ -170,6 +173,7 @@ export function deserializeCampaign(raw, content) {
   const result = createCampaign(content);
   result.illusion = normalizeIllusionState(input.illusion);
   result.dailyCommissions = normalizeDailyCommissions(input.dailyCommissions);
+  result.shopDaily = normalizeShopDaily(input.shopDaily);
   result.dungeonDaily = normalizeDungeonDaily(input.dungeonDaily, content);
   result.party = [...input.party];
   result.storyFlags = [...new Set(input.storyFlags)];

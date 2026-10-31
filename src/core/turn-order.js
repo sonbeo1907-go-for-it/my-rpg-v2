@@ -38,8 +38,14 @@ export function applyTurnOrderField(battle,actor,effect,io) {
 }
 export function skillBaseStatBonuses(battle,actor,skill,targets) {
   const passive=actor.passive;
+  if (passive?.type==='detonation_base_growth') {
+    if (skill.id?.startsWith('$') || skill.activation==='passive') return {};
+    const firstDamage=skill.effects.find(effect=>effect.type==='damage');
+    if (firstDamage?.damageType!=='magical' || firstDamage.consumeStatus!==passive.statusId || !targets.some(target=>target.hp>0 && target.team!==actor.team && target.statuses.some(status=>status.id===passive.statusId && status.stacks>0))) return {};
+    return {[passive.stat]:Math.min(passive.cap,(actor.detonationBonus??0)+passive.increment)};
+  }
   if (passive?.type!=='later_target_base_stat' || skill.id?.startsWith('$') || skill.activation==='passive' || !skill.effects.some(effect=>effect.type==='damage')) return {};
   const order=battle.mainTurnOrder??[],rank=order.indexOf(actor.id);
   if (rank<0 || !targets.some(target=>target.hp>0 && target.team!==actor.team && order.indexOf(target.id)>rank)) return {};
-  return {[passive.stat]:passive.amount}; // One grant per cast, even for AoE / multi-hit.
+  return {[passive.stat]:passive.amount};
 }

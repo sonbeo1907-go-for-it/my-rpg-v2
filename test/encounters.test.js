@@ -12,7 +12,7 @@ function setup(encounter, party = ['arthur'], random = () => .99) {
   campaign.storyFlags.push('illusion.sinister_unlocked');
   campaign.party = party;
   if (content.encounters[encounter].travelerStory) {
-    campaign.claimedFirstClearRewards = ['iris_story_growth','iris_story_pride'];
+    campaign.claimedFirstClearRewards = content.travelerStories[content.encounters[encounter].travelerStory].chapters.slice(0,-1);
     if (content.encounters[encounter].requiredPartyIds?.includes('iris') && !campaign.party.includes('iris')) campaign.party = [...party.slice(0,3),'iris'];
   }
   campaign.unlockedCharacterIds = Object.keys(content.characters);

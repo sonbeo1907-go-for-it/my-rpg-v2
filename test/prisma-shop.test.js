@@ -49,7 +49,7 @@ test('every encounter pays its data-driven tier once, independent of BGM and fir
     const expected = { normal: 50, boss: 150, super: 1000 }[encounter.rewardTier];
     assert.equal(victoryCoinReward(content, encounter.id), expected);
     encounter.bgm = 'normal';
-    const battle = { encounterId: encounter.id, outcome: 'victory', actors:(encounter.requiredPartyIds??[]).map(id=>({id,team:'party'})) };
+    const battle = { encounterId: encounter.id, ...(encounter.waves?{storyWave:{waveIndex:encounter.waves.length-1,totalWaves:encounter.waves.length}}:{}), outcome: 'victory', actors:(encounter.requiredPartyIds??[]).map(id=>({id,team:'party'})) };
     const campaign=createGameSave(content);
     if(encounter.travelerStory)campaign.claimedFirstClearRewards=withoutMusic.travelerStories[encounter.travelerStory].chapters.slice(0,withoutMusic.travelerStories[encounter.travelerStory].chapters.indexOf(encounter.id));
     const next = claimBattleReward(campaign, battle, withoutMusic);

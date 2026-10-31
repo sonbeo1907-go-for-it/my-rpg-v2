@@ -6,10 +6,20 @@ export function resourceCost(skill,actor) {
   return preferred && (actor?.resourceValues?.[preferred.id]??0)>=preferred.amount ? preferred : skill.cost?.resource??null;
 }
 export function mpCost(skill,actor) {
-  const base=skill.cost?.preferResource && resourceCost(skill,actor)===skill.cost.preferResource ? 0 : skill.cost?.mp??0,passive=actor?.passive;
-  if (base<=0 || passive?.type!=='kill_mp_discount' || !(actor.statuses??[]).some(status=>status.id===passive.statusId && (status.remaining==null || status.remaining>0))) return base;
-  return Math.max(1,Math.ceil(base*(1-passive.ratio)));
+  const base=skill.cost?.preferResource && resourceCost(skill,actor)===skill.cost.preferResource ? 0 : skill.cost?.mp??0;
+  if(base<=0)return base;
+  const p=actor?.passive,mode=actor?.combatModes?.[actor.activeMode];
+  const native=p?.type==='kill_mp_discount' && (actor.statuses??[]).some(s=>s.id===p.statusId && (s.remaining==null||s.remaining>0)) ? 1-p.ratio : 1;
+  const discount=mode?.mpCostReduction && mode.discountAbilityIds.includes(skill.id) ? 1-mode.mpCostReduction : 1;
+  return Math.max(1,Math.ceil(base*native*discount));
 }
+export function hpCost(skill,actor) {return skill.cost?.hpMaxRatio ? Math.ceil(actor.stats.maxHp*skill.cost.hpMaxRatio) : 0;}
+export function buffTypeCount(content,target) {
+  if(!target)return 0;
+  return new Set(activeStatuses({...target,statuses:target.statuses??[]}).filter(s=>content.statuses[s.id]?.kind==='buff'&&(s.remaining==null||s.remaining>0)&&(s.stacks??1)>0).map(s=>s.id)).size;
+}
+export function buffDamageBonus(passive,count) {return passive?.type==='target_buff_damage' ? Math.min(passive.cap,Math.max(0,count)*passive.ratio) : 0;}
+export function lowHpDamageBonus(passive,hpRatio) {return passive?.type==='low_hp_damage' ? passive.ratio*(1-Math.max(0,Math.min(1,hpRatio))) : 0;}
 export function debuffTypeCount(content,target) {
   if (!target) return 0;
   return new Set(activeStatuses({...target,statuses:target.statuses??[]}).filter(status=>

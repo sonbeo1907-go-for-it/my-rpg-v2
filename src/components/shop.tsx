@@ -1,4 +1,5 @@
 "use client";
+import {OriginalPrismaExchange} from './original-prisma-exchange';
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useRef } from "react";
@@ -108,6 +109,7 @@ export function ShopPage() {
             </Link>
           </nav>
           {tab === "prisma" ? (
+            <>
             <section className="panel prisma-exchange">
               <div className="shop-prisma-art" aria-hidden="true">
                 <Icon name="prism" />
@@ -173,6 +175,8 @@ export function ShopPage() {
                 </button>
               </div>
             </section>
+            <OriginalPrismaExchange/>
+            </>
           ) : (
             <section className="shop-recruitment">
               <div className="panel shop-recruitment-heading">

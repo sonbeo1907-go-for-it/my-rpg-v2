@@ -2946,3 +2946,7 @@ h1[tabindex='-1']:focus { outline: none; }
 .summon-pending span{color:#acc1b6}
 @media(max-width:600px){.summon-state::after{opacity:.5}.summon-state span{max-width:100%}.summon-state{font-size:.86rem}.summon-pending{font-size:.8rem}}
 @media(prefers-reduced-motion:reduce){.mode-scene,.mode-scene *{animation:none!important;transition:none!important}}
+
+.summon-state-radiant_fists{border-color:#c9b77f;background:#29251be8;color:#fff0b4}.mode-scene-radiant_fists .summon-eye-halo{inset:10% 0 8% 45%;background:radial-gradient(ellipse,#ffdc8a35,transparent 65%);animation:cosmic-breathe 3s ease-in-out infinite alternate}
+
+.story-wave-scouting{display:grid;gap:1rem}.story-wave-scouting h4{margin:.35rem 0 .55rem;color:var(--gold,#ddbf78)}.story-wave-scouting .quest-enemies{margin:0}
