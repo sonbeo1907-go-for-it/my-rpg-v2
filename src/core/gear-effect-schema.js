@@ -2,6 +2,7 @@ const HOOKS={direct_reduction:'before_direct_hit',impact_shield:'after_direct_hi
 export function validGearEffect(recipe,content){
  const e=recipe.effect,ratio=n=>Number.isFinite(n)&&n>0&&n<=1,whole=n=>Number.isSafeInteger(n)&&n>0;
  if(!e)return false;
+ if(e.type==='mp_stat_conversion')return recipe.hook==='base_stats'&&recipe.cooldownRounds===0&&recipe.oncePerRound===undefined&&recipe.oncePerEncounter===undefined&&recipe.condition===undefined&&['attack','magic'].includes(e.stat)&&e.ratio===.05&&e.cap===25;
  if(['status','heal','mp'].includes(e.type)){
   if(recipe.hook&&recipe.hook!=='round_start')return false;
   if(!['no_ward','missing_hp','missing_mp','missing_status'].includes(recipe.condition)||!whole(recipe.cooldownRounds))return false;
@@ -19,6 +20,6 @@ export function validGearEffect(recipe,content){
  if(['ally_buff_mp','emergency_heal','healed_mp','ally_weakness_shield'].includes(e.type)&&recipe.oncePerRound!==true)return false;
  return true;
 }
-export function gearEffectTiming(recipe){return recipe.oncePerEncounter?'1 lần / trận':recipe.oncePerRound?'1 lần / vòng':recipe.cooldownRounds?`${recipe.cooldownRounds} vòng`:'Không hồi chiêu';}
+export function gearEffectTiming(recipe){return recipe.hook==='base_stats'?'Luôn hoạt động':recipe.oncePerEncounter?'1 lần / trận':recipe.oncePerRound?'1 lần / vòng':recipe.cooldownRounds?`${recipe.cooldownRounds} vòng`:'Không hồi chiêu';}
 export function gearRecipeRequirement(content,recipe){return recipe.requires?.firstClear?`Thắng ${content.encounters[recipe.requires.firstClear]?.name??'Truy Nã'} lần đầu để mở.`:recipe.requires?.storyFlag?'Hoàn thành vĩ thanh Arthur để mở công thức.':'Công thức đã sẵn sàng.';}
 export function gearRecipeSource(recipe){return recipe.requires?.firstClear?`/quests?tab=bounty&selected=${recipe.requires.firstClear}`:'/stories/epilogue';}

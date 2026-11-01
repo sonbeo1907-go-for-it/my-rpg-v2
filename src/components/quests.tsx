@@ -85,7 +85,7 @@ export function QuestPage() {
           {selected && <div className="quest-rewards">
             <Icon name="coin" />
             <span>
-              {victoryRewardPreview(content, selected?.id,difficulty?.id)} khi chiến thắng
+              {victoryRewardPreview(content, selected?.id,difficulty?.id,campaign)} khi chiến thắng
             </span>
           </div>}
           {selected?.firstClearRewards?.length > 0 && (
@@ -165,7 +165,7 @@ export function QuestPage() {
                 <span>
                   <strong>{encounter.name}</strong>
                   <small>
-                    {encounter.enemies.length} đối thủ · {victoryRewardPreview(content, encounter.id,difficultyId)}
+                    {encounter.enemies.length} đối thủ · {victoryRewardPreview(content, encounter.id,difficultyId,campaign)}
                     {campaign.claimedFirstClearRewards.includes(encounter.id)
                       ? " · Đã nhận thưởng lần đầu"
                       : encounter.firstClearRewards?.length

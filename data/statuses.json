@@ -929,5 +929,23 @@
     "modifiers": {
       "speed": -0.15
     }
+  },
+  {
+    "id": "freya_exclusive_heat",
+    "name": "Hồng tâm tích nhiệt",
+    "kind": "buff",
+    "modifiers": {
+      "magic": 0.08
+    },
+    "maxStacks": 3,
+    "modifiersPerStack": true
+  },
+  {
+    "id": "kai_exclusive_resistance",
+    "name": "Tập giữ hàng · Kháng phép",
+    "kind": "buff",
+    "modifiers": {
+      "resistance": 0.15
+    }
   }
 ]

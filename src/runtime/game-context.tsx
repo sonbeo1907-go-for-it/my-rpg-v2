@@ -354,7 +354,7 @@ export function GameProvider({
       const run = dungeonRun.current;
       const currentBattle = runtime.current;
       // Compute rewards on a shallow transaction copy; live claimed flags move only after disk commit.
-      if(!currentBattle.dungeon)prepareVictoryReward(currentBattle,content);
+      if(!currentBattle.dungeon)prepareVictoryReward(currentBattle,content,currentBattle.rewardRandom??Math.random,campaignRef.current);
       const claimBattle = { ...currentBattle };
       const claimRun = run ? { ...run, battle: claimBattle } : null;
       const next = currentBattle.dungeon

@@ -382,5 +382,37 @@
       "ratio": 0.05
     },
     "oncePerRound": true
+  },
+  {
+    "id": "mana_attack_conversion",
+    "name": "Chiến Ấn Mạch Nguồn",
+    "description": "Luôn hoạt động: +1 ATK căn bản mỗi 20 MP tối đa, tối đa +25 tại 500 MP. Không phụ thuộc MP còn lại.",
+    "costClass": "common",
+    "effectGroup": "gear_mana_attack",
+    "hook": "base_stats",
+    "dismantleYield": 240,
+    "effect": {
+      "type": "mp_stat_conversion",
+      "stat": "attack",
+      "ratio": 0.05,
+      "cap": 25
+    },
+    "cooldownRounds": 0
+  },
+  {
+    "id": "mana_magic_conversion",
+    "name": "Pháp Ấn Mạch Nguồn",
+    "description": "Luôn hoạt động: +1 MAG căn bản mỗi 20 MP tối đa, tối đa +25 tại 500 MP. Không phụ thuộc MP còn lại.",
+    "costClass": "common",
+    "effectGroup": "gear_mana_magic",
+    "hook": "base_stats",
+    "dismantleYield": 240,
+    "effect": {
+      "type": "mp_stat_conversion",
+      "stat": "magic",
+      "ratio": 0.05,
+      "cap": 25
+    },
+    "cooldownRounds": 0
   }
 ]

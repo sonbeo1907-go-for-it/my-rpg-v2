@@ -176,8 +176,8 @@
     ],
     "bgm": "boss",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -204,8 +204,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -217,8 +217,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -230,8 +230,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -243,8 +243,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -256,8 +256,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -269,8 +269,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -282,8 +282,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -295,8 +295,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -308,8 +308,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -321,8 +321,8 @@
     ],
     "bgm": "wyvern",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -337,8 +337,8 @@
     ],
     "bgm": "boss",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -350,8 +350,8 @@
     ],
     "bgm": "boss",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -395,8 +395,8 @@
     ],
     "bgm": "boss",
     "rewardTier": "boss",
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -426,8 +426,8 @@
         "characterId": "takeshi"
       }
     ],
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -774,8 +774,8 @@
         "recipeId": "shield_hook"
       }
     ],
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -813,8 +813,8 @@
         "recipeId": "execution_blade"
       }
     ],
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -852,8 +852,8 @@
         "recipeId": "rest_bell"
       }
     ],
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -887,8 +887,8 @@
         "recipeId": "armor_pin"
       }
     ],
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {
@@ -926,8 +926,8 @@
         "recipeId": "observer_medal"
       }
     ],
-    "defaultDifficulty": "medium",
-    "enemyLevel": 25,
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
     "referenceLevel": 1
   },
   {

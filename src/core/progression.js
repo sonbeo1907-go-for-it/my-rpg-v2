@@ -1,3 +1,4 @@
+import {applySpecialLoadout} from './exclusive-loadout.js';
 import {validateCharacterSkillRanks,skillRules} from './skill-rules.js';
 import {normalizeLevelState,allocationBonuses,levelCap} from './leveling.js';
 import {normalizeTrainingCharges} from './training-charges.js';
@@ -106,9 +107,10 @@ export function resolveCharacter(content, campaign, characterId) {
   character.teamBonusSources = team.sources;
   for (const [key, amount] of Object.entries(team.bonuses))
     character.stats[key] += amount;
-  if (["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers) {
+  applySpecialLoadout(content,campaign,character);
+  if (["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers || character.exclusiveTeamModifiers) {
     character.baseStats = structuredClone(character.stats);
-    for (const key of new Set([...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
+    for (const key of new Set([...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...Object.keys(character.exclusiveTeamModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
       character.stats[key] = effectiveStat(character, key);
   }
   return character;
@@ -153,6 +155,7 @@ export function serializeCampaign(campaign) {
     shopDaily: normalizeShopDaily(campaign.shopDaily),
     prismaFragments: campaign.prismaFragments ?? 0,
     originalPrisma: campaign.originalPrisma ?? 0,
+    blueprints:campaign.blueprints===undefined?0:campaign.blueprints,unlockedExclusiveRecipes:campaign.unlockedExclusiveRecipes===undefined?[]:campaign.unlockedExclusiveRecipes,
     exclusiveGear: campaign.exclusiveGear ?? [],
     equippedExclusiveGear: campaign.equippedExclusiveGear ?? {},
     pendingReforge: campaign.pendingReforge ?? null,

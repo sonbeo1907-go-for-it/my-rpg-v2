@@ -1,3 +1,4 @@
+import {applySpecialSkillModifiers} from './exclusive-specials.js';
 import {skillRules,skillLineId,getActorSkillRank,coefficientFactor,statBuffFactor,outputMpFactor,GROWING_STATS,skillGrowthGroups} from './skill-rules.js';
 
 export function rankedModifiers(modifiers,factor){return Object.fromEntries(Object.entries(modifiers??{}).map(([key,n])=>[key,GROWING_STATS.includes(key)&&n>0?n*factor:n]));}
@@ -24,7 +25,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
   if(groups.includes('stat_buff')&&source.growthAdapter==='mode_stat_buff'&&effect.type==='enter_mode')next.modeAppliedModifiers=rankedModifiers(actor.combatModes[effect.mode].statModifiers,f05);
   return next;
  });
- return resolved;
+ return applySpecialSkillModifiers(content,actor,resolved,f05);
 }
 
 export function modeModifiersForPreview(content,actor,mode){

@@ -59,6 +59,27 @@
     "prismaCoinCost": 300,
     "coinRewardChance": 0.5,
     "normalFragmentReward": 5,
-    "bossFragmentReward": 15
+    "bossFragmentReward": 15,
+    "blueprintRecipeCost": 10,
+    "bountyBlueprintRewards": {
+      "minLevel": 25,
+      "coinChance": 0.4,
+      "fragmentChance": 0.4,
+      "blueprintChance": 0.2,
+      "amountByLevel": [
+        {
+          "level": 25,
+          "amount": 1
+        },
+        {
+          "level": 35,
+          "amount": 3
+        },
+        {
+          "level": 45,
+          "amount": 5
+        }
+      ]
+    }
   }
 ]

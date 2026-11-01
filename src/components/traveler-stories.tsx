@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import {levelScaledEnemyStats} from '../core/enemy-scaling.js';
 import {firstClearRewardLabel} from "../core/first-clear-labels.js";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ function chapterReward(content:any,encounter:any) {
 function StoryOpponents({content,encounter}:{content:any,encounter:any}) {
   return <div className="story-wave-scouting">{(encounter.waves??[encounter.enemies]).map((wave:string[],waveIndex:number)=><section key={waveIndex}>
     {encounter.waves&&<h4>Đợt {waveIndex+1}/{encounter.waves.length}</h4>}
-    <div className="quest-enemies">{wave.map((enemyId,index)=>{const enemy=content.enemies[enemyId];return <div key={enemyId+'-'+index}><ElementBadge element={enemy.element}/><strong>{enemy.name}</strong><small>{enemy.role??'Sinh vật hoang dã'} · HP {enemy.stats.maxHp}{enemy.boss?' · '+enemy.boss.phases.length+' giai đoạn':''}</small><small>Yếu: {enemy.weaknesses?.map((element:string)=>(ELEMENT_NAMES as any)[element]).join(', ')||'Không có'}</small></div>;})}</div>
+    <div className="quest-enemies">{wave.map((enemyId,index)=>{const enemy=content.enemies[enemyId],stats=levelScaledEnemyStats(enemy,encounter.enemyLevel,content,1,encounter);return <div key={enemyId+'-'+index}><ElementBadge element={enemy.element}/><strong>{enemy.name}</strong><small>{enemy.role??'Sinh vật hoang dã'} · Level {encounter.enemyLevel} · HP {stats.maxHp}{enemy.boss?' · '+enemy.boss.phases.length+' giai đoạn':''}</small><small>Yếu: {enemy.weaknesses?.map((element:string)=>(ELEMENT_NAMES as any)[element]).join(', ')||'Không có'}</small></div>;})}</div>
   </section>)}</div>;
 }
 
@@ -86,7 +87,7 @@ export function TravelerStoryPage({id}:{id:string}) {
           <div className="quest-list story-chapter-list">
             {chapters.map((chapter,index)=><button key={chapter.id} data-encounter-id={chapter.id} className={`quest-card ${selected.id===chapter.id?"selected":""}`} aria-pressed={selected.id===chapter.id} onClick={()=>setFilters({...filters,selected:chapter.id})}>
               <span className="quest-card-icon"><Icon name={!chapter.unlocked?"door":chapter.cleared?"check":chapter.rewardTier==="super"?"skull":"scroll"}/></span>
-              <span><strong>{String(index+1).padStart(2,"0")} · {chapter.name}</strong><small>{!chapter.unlocked?"Hoàn thành chương trước để mở khóa":chapter.cleared?"Đã hoàn thành · Có thể đánh lại":chapterReward(content,chapter)}</small></span><span aria-hidden="true">›</span>
+              <span><strong>{String(index+1).padStart(2,"0")} · {chapter.name}</strong><small>Level {chapter.enemyLevel} · {!chapter.unlocked?"Hoàn thành chương trước để mở khóa":chapter.cleared?"Đã hoàn thành · Có thể đánh lại":chapterReward(content,chapter)}</small></span><span aria-hidden="true">›</span>
             </button>)}
           </div>
           <div className="quest-details">
@@ -100,7 +101,7 @@ export function TravelerStoryPage({id}:{id:string}) {
       </section>
     </QuestLayout>
     {confirm&&selected&&<Modal title="Sẵn sàng viết tiếp câu chuyện?" onClose={()=>setConfirm(false)} footer={<><button onClick={()=>setConfirm(false)}>Hủy</button><button className="gold" disabled={!canStart} onClick={()=>{setConfirm(false);if(startBattle(selected.id))router.push("/battle");}}>Xuất chiến</button></>}>
-      <h3>{selected.name}</h3><p>{selected.description}</p>{selected.waves&&<><p>Giữ HP, MP, khiên, hiệu ứng và hồi chiêu qua các đợt. Thắng toàn bộ chuỗi mới nhận thưởng.</p><StoryOpponents content={content} encounter={selected}/></>}<p>Đội hình: {campaign.party.filter(Boolean).map((characterId:string)=>content.characters[characterId].name).join(" · ")}</p><p>{selected.cleared?"Phần thưởng đặc biệt đã nhận; trận đánh lại vẫn nhận Coin.":chapterReward(content,selected)}</p>
+      <h3>{selected.name} · Level {selected.enemyLevel}</h3><p>{selected.description}</p>{selected.waves&&<><p>Giữ HP, MP, khiên, hiệu ứng và hồi chiêu qua các đợt. Thắng toàn bộ chuỗi mới nhận thưởng.</p></>}<StoryOpponents content={content} encounter={selected}/><p>Đội hình: {campaign.party.filter(Boolean).map((characterId:string)=>content.characters[characterId].name).join(" · ")}</p><p>{selected.cleared?"Phần thưởng đặc biệt đã nhận; trận đánh lại vẫn nhận Coin.":chapterReward(content,selected)}</p>
     </Modal>}
   </main>;
 }

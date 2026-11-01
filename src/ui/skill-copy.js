@@ -1,3 +1,4 @@
+import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive-specials.js';
 import {resolveRankedAbility,modeModifiersForPreview} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
@@ -6,7 +7,7 @@ import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 // Public copy contract: docs/SKILL_COPY_AND_UX_SPEC.md
-import { debuffDamageBonus, buffDamageBonus, lowHpDamageBonus, hpCost, resourceCost } from '../core/conditional-combat.js';
+import { debuffDamageBonus, buffDamageBonus, lowHpDamageBonus, hpCost, resourceCost,mpCost } from '../core/conditional-combat.js';
 import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from '../core/content.js';
 import { STAT_LABELS } from '../core/catalog.js';
 import { effectiveStat, damageMultiplier, speedDamageRatio, supportAmount, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
@@ -28,7 +29,8 @@ export function skillPresentation(skill,actor,content,choices={}) {
   let assumed=actor;
   if (!choices.live && actor.passive?.type==='field_growth' && choices.fieldStacks!==undefined) assumed={...assumed,statuses:[{id:actor.passive.statusId,growth:choices.fieldStacks}]};
   if (!choices.live && cost && actor.passive?.type==='resource_stat_boost' && actor.passive.resource===cost.id) assumed={...assumed,resourceValues:{...actor.resourceValues,[cost.id]:spent}};
-  const value=key=>choices.live?battleStat(content,actor,key,false,0,choices.baseStatBonuses?.[key]??0):effectiveStat(assumed,key);
+  const bonuses=specialSkillStatBonuses(actor,skill,{spentResource:cost?.id,spent,fullExtraPayment:actor.passive?.type==='extra_mp_damage'&&skill.cost?.mp>0&&skill.effects.some(e=>e.type==='damage')&&(actor.mp===undefined||actor.mp>=mpCost(skill,actor)+Math.ceil(skill.cost.mp*actor.passive.extraCostRatio))});
+  const value=key=>choices.live?battleStat(content,actor,key,false,bonuses[key]??0,choices.baseStatBonuses?.[key]??0):effectiveStat(assumed,key,bonuses[key]??0);
   function statusFacts(effect,linked=false) {
     const status=content.statuses[effect.status];
     const self=effect.to==='self'||skill.target==='self';
@@ -155,7 +157,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
   for(const exclusive of exclusivePassives(actor)){
   const relatedExclusive=exclusive && (exclusive.abilityIds ? exclusive.abilityIds.includes(skill.id) : skill.effects.some(effect=>{
     const status=content.statuses[effect.status];
-    return exclusive.type==='dodge_heal'&&status?.modifiers?.evasion || exclusive.type==='shield_break_heal_bonus'&&effect.type==='shield' || exclusive.type==='cover_damage_reduction'&&status?.cover;
+    return SPECIAL_EXCLUSIVE_TYPES.includes(exclusive.type)&&(exclusive.type==='resource_skill_stat'&&cost?.id===exclusive.resourceId||exclusive.type==='heal_threshold'&&effect.type==='heal'||exclusive.type==='resource_stat_status'&&(cost?.id===exclusive.resourceId||effect.resource===exclusive.resourceId)||exclusive.type==='defend_recovery'&&skill.id==='$defend'||exclusive.type==='extra_payment_stat'&&effect.type==='damage'&&skill.cost?.mp>0||exclusive.type==='brace_chance'&&(effect.type==='damage'||effect.status===exclusive.statusId)||['team_tag_power','shield_break_mp'].includes(exclusive.type)&&effect.type==='damage'||exclusive.type==='ward_shield'&&status?.effectImmunity) || exclusive.type==='dodge_heal'&&status?.modifiers?.evasion || exclusive.type==='shield_break_heal_bonus'&&effect.type==='shield' || exclusive.type==='cover_damage_reduction'&&status?.cover;
   }));
   if(relatedExclusive){
     const p=exclusive,tag='Trấn Phái: ';
@@ -174,6 +176,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(p.type==='dodge_heal')facts.push(tag+`Né vật lí: hồi ${pct(p.ratio)} HP tối đa · 1 lần/vòng`);
     if(p.type==='shield_break_heal_bonus')facts.push(tag+`+${pct(p.ratio)} lượng hồi từ vỡ khiên`);
     if(p.type==='cover_damage_reduction')facts.push(tag+`Nhận đòn thay: giảm thêm ${pct(p.ratio)} sát thương`);
+    if(SPECIAL_EXCLUSIVE_TYPES.includes(p.type))facts.push(tag+p.description);
     rules.push(...(p.rules??[]));
   }
   }

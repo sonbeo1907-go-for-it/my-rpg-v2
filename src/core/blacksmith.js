@@ -35,7 +35,7 @@ export function dismantleGear(campaign,content,ids) {
 export function craftExclusive(campaign,content,id,random=Math.random) {
   const next=normalized(campaign,content),template=templateFor(content,id),rules=blacksmithRules(content);
   if(template.source?.type==='quest')throw new Error('Trấn Phái này chỉ nhận từ phần thưởng nhiệm vụ.');
-  if(!exclusiveCraftUnlocked(next,template))throw new Error('Hoàn thành chương truyện để mở công thức Trấn Phái.');
+  if(!exclusiveCraftUnlocked(next,template))throw new Error(template.requires?.blueprint?'Đổi Bản Thiết Kế tại Shop để mở công thức Trấn Phái.':'Hoàn thành chương truyện để mở công thức Trấn Phái.');
   if(!template.enabled)throw new Error('Mẫu Trấn Phái này chưa mở chế tạo.');
   if(!next.unlockedCharacterIds.includes(template.characterId))throw new Error('Cần sở hữu nhân vật trước khi chế tạo Trấn Phái.');
   if(next.exclusiveGear.some(item=>item.templateId===id))throw new Error('Mẫu Trấn Phái này đã được chế tạo.');

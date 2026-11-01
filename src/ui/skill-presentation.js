@@ -1,3 +1,4 @@
+import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive-specials.js';
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
@@ -119,10 +120,11 @@ export function skillPreviewOptions(skill, actor, content) {
 export function skillScaling(skill, actor, content, choices = {}) {
   skill=resolveRankedAbility(content,actor,skill);
   const lines = [];
-  const valueOf = key => choices.live ? battleStat(content, actor, key,false,0,choices.baseStatBonuses?.[key]??0) : effectiveStat(actor, key);
+  const valueOf = key => choices.live ? battleStat(content, actor, key,false,bonuses[key]??0,choices.baseStatBonuses?.[key]??0) : effectiveStat(actor, key,bonuses[key]??0);
   const cost = resourceCost(skill,actor);
   const resourceName = cost ? actor.resources[cost.id].name : '';
   const spent = choices.spent ?? (cost?.all ? actor.resources[cost.id].max : cost?.amount ?? 0);
+  const bonuses=specialSkillStatBonuses(actor,skill,{spentResource:cost?.id,spent,fullExtraPayment:actor.passive?.type==='extra_mp_damage'&&skill.cost?.mp>0&&skill.effects.some(e=>e.type==='damage')&&(actor.mp===undefined||actor.mp>=mpCost(skill,actor)+Math.ceil(skill.cost.mp*actor.passive.extraCostRatio))});
   const perPerson = skill.target === 'all_allies' ? '/người' : '';
   for (const authoredEffect of skill.effects) {
     const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0}));

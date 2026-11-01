@@ -602,3 +602,7 @@
 }
 
 .original-exchange{margin-top:1rem;padding:1.4rem}.original-exchange h2{margin:.6rem 0}.original-exchange-wallet{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}.original-exchange .exchange-rate{flex-wrap:wrap}.original-exchange-quota{color:var(--gold);font-weight:700}.original-exchange>button{margin-top:.5rem}.original-exchange .muted{font-size:.85rem}
+
+.blueprint-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.blueprint-shop>.panel{margin-bottom:1rem}.blueprint-shop h2{display:flex;align-items:center;gap:.5rem}.currency-blueprint{color:#9fcee8}.blueprint-grid .exclusive-card{min-width:0;display:flex;flex-direction:column;align-items:flex-start}.blueprint-grid .exclusive-card p{flex:1}.blueprint-grid button,.blueprint-grid .button{width:100%}@media(max-width:640px){.blueprint-grid{grid-template-columns:1fr}}
+
+.shop-page .shop-tabs{flex-wrap:wrap}.shop-page .shop-tabs a{min-width:0}@media(max-width:640px){.shop-page .shop-tabs a{flex-basis:calc(50% - .5rem);overflow-wrap:anywhere}}

@@ -39,6 +39,8 @@ export function validateEconomyContent(content) {
   }
   if(!Number.isFinite(rules.coinRewardChance)||rules.coinRewardChance<=0||rules.coinRewardChance>=1||!positiveInt(rules.normalFragmentReward)||!positiveInt(rules.bossFragmentReward))errors.push('economy: invalid Quest reward split');
   for (const encounter of Object.values(content.encounters)) if (!['normal', 'boss', 'super'].includes(encounterTier(encounter))) errors.push(`encounters: invalid rewardTier ${encounter.id}`);
+  const br=rules.bountyBlueprintRewards;
+  if(rules.blueprintRecipeCost!==10||!br||br.minLevel!==25||br.coinChance!==.4||br.fragmentChance!==.4||br.blueprintChance!==.2||JSON.stringify(br.amountByLevel)!==JSON.stringify([{level:25,amount:1},{level:35,amount:3},{level:45,amount:5}]))errors.push('economy: invalid Blueprint rules');
   if (!positiveInt(rules.baseGearSlots) || !positiveInt(rules.maxGearSlots) || rules.maxGearSlots < rules.baseGearSlots) errors.push('economy: invalid gear slot limits');
   if (!Array.isArray(rules.starterCharacters) || !rules.starterCharacters.length
     || new Set(rules.starterCharacters).size !== rules.starterCharacters.length
@@ -107,7 +109,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     if (encounter.requiredPartyIds?.some(id => !battle.actors?.some(actor => actor.team === 'party' && (actor.definitionId ?? actor.id) === id))) throw new Error('Đội tham chiến thiếu nhân vật bắt buộc.');
   }
   const next = structuredClone(campaign);
-  for(const[field,n]of Object.entries(prepareVictoryReward(battle,content))) next[field]=checkedAdd(next[field]??0,n);
+  for(const[field,n]of Object.entries(prepareVictoryReward(battle,content,battle.rewardRandom??Math.random,campaign))) next[field]=checkedAdd(next[field]??0,n);
   next.victories = checkedAdd(next.victories, 1);
   if (encounter && !encounter.travelerStory && ["normal","boss"].includes(encounterTier(encounter))) recordDailyClear(next,"quest",now);
   next.claimedFirstClearRewards ??= [];
@@ -130,6 +132,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     }
     next.claimedFirstClearRewards.push(battle.encounterId);
   }
+  if(encounter?.category==='bounty'&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
   const amount=questExperience(content,encounter,battle.questDifficulty);
   const recipients=battle.actors?.filter(a=>a.team==="party").map(a=>a.definitionId??a.id)??campaign.party.filter(Boolean);
   const xpAwards=amount?grantPartyXp(next,content,recipients,amount):[];

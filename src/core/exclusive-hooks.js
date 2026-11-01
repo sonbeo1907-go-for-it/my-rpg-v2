@@ -1,3 +1,4 @@
+import {validateSpecialPassive,SPECIAL_EXCLUSIVE_TYPES,specialPassives,hasLiveStatus} from './exclusive-specials.js';
 export function exclusivePassives(actor){const p=actor.exclusiveGear?.template?.passive;return p?.type==='bundle'?p.effects:p?[p]:[];}
 export function exclusiveStatModifiers(actor){const mods={};for(const p of exclusivePassives(actor).filter(p=>p.type==='stat_boost'))for(const[k,n]of Object.entries(p.modifiers))mods[k]=(mods[k]??0)+n;return mods;}
 // Hooks are selected by reusable passive type and authored ability/status IDs, never translated names.
@@ -9,6 +10,7 @@ export function markProc(battle,actor,key) { (actor.procRounds ??= {})[key] = ba
 
 export function validateExclusivePassive(passive,content) {
   if (!passive || !passive.description?.trim()) return false;
+  if(SPECIAL_EXCLUSIVE_TYPES.includes(passive.type))return validateSpecialPassive(passive,content);
   if(passive.type==='bundle')return Boolean(passive.name?.trim()&&Array.isArray(passive.effects)&&passive.effects.length>=2&&passive.effects.length<=4&&new Set(passive.effects.map(p=>p?.type)).size===passive.effects.length&&passive.effects.every(p=>p?.type!=='bundle'&&validateExclusivePassive(p,content)));
   const types = ['field_duration','field_stat_boost','shield_break_restore_hp','share_shielded_passive','stat_boost','skill_scaling_override','skill_damage','skill_penetration','after_skill_status','skill_resource_bonus','dodge_heal','fresh_mark_bonus','consumed_targets_mp','shield_break_heal_bonus','skill_status_duration','cover_damage_reduction','next_turn_heal'];
   if (!types.includes(passive.type)) return false;
@@ -41,5 +43,7 @@ export function exclusiveDamageEffect(actor,skillId,effect){
   for(const key of ['multiplier','primaryMultiplier','perResource','perStack','lowHpBonus','perTargetBuff','speedMultiplier'])if(result[key]!==undefined)result[key]*=effect.rankDamageFactor;
   result.rankDamageApplied=true;
  }
+ const speed=specialPassives(actor,'skill_speed_damage').find(p=>p.abilityIds.includes(skillId)&&hasLiveStatus(actor,p.requiresStatus));
+ if(speed){result.speedMultiplier=(result.speedMultiplier??0)+speed.ratio;result.rankDamageApplied=true;}
  return result;
 }

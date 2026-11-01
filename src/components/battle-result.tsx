@@ -7,7 +7,7 @@ import {xpResultProgress} from '../ui/battle-result-model.js';
 import {victoryRewardText} from '../core/quest-rewards.js';
 import {dungeonRewardText} from '../ui/dungeon-presentation.js';
 import {CurrencyAmount,Icon,fmt} from './ui';
-const currencies:Record<string,any>={coins:'coin',prisma:'prisma',recruitmentShards:'pure',prismaFragments:'fragments',originalPrisma:'original',limitBreakStones:'breakthrough'};
+const currencies:Record<string,any>={coins:'coin',prisma:'prisma',recruitmentShards:'pure',prismaFragments:'fragments',originalPrisma:'original',limitBreakStones:'breakthrough',blueprints:'blueprint'};
 function firstClearLabel(content:any,r:any){
  if(r.characterId&&r.type===undefined){const c=content.characters[r.characterId];return `${r.duplicate?'Bản trùng':'Đồng đội mới'} · ${c.name}${r.slotUnlocked?' · Mở thêm ô trang bị':''}${r.shards?' · +'+r.shards+' Pure Prisma':''}`;}
  return firstClearRewardLabel(content,r);

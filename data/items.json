@@ -47,5 +47,12 @@
     "field": "sweepTickets",
     "kind": "ticket",
     "description": "Quét một chuyến hầm ngục ở mức đã chiến thắng. Tiêu 1 thẻ và 1 lượt; nhận đầy đủ thưởng cho đội đang chọn."
+  },
+  {
+    "id": "blueprints",
+    "field": "blueprints",
+    "kind": "blueprint",
+    "name": "Bản Thiết Kế",
+    "description": "Rơi khi đánh lại Truy Nã từ Lv25. Đổi 10 bản tại Shop để mở một công thức Trấn Phái."
   }
 ]

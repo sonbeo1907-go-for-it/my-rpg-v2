@@ -1,3 +1,5 @@
+import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked} from './exclusive-runtime.js';
+import {specialPassives,specialSkillStatBonuses} from './exclusive-specials.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 import {questDifficulty} from './quest-difficulty.js';
 import {shieldedDamageBonus} from './exclusive-field.js';
@@ -56,6 +58,7 @@ import { mpCost, hpCost, resourceCost, debuffTypeCount, debuffDamageBonus, buffT
 const modeIO = { write, emit: emitEvent, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
   apply:(battle,actor,effects)=>{for(const effect of effects) applyEffect(battle,actor,[actor],effect,0,false);}
 };
+const specialIO={restore:gainResource,heal:healHp,status:applyStatus,stat,emit:emitEvent,write,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId)??t,[t],{type:'shield',flat},0,false)};
 const gearIO={status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write,shield:(battle,actor,flat)=>applyEffect(battle,actor,[actor],{type:'shield',flat},0,false)};
 const living = (actor) => actor.hp > 0;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -429,6 +432,7 @@ function beginTurn(battle) {
             actionContext: context,
           });
     }
+    exclusiveAutomaticHit(battle,actor,skill.id,context.gearImpacts?.some(h=>h.lostHp+h.absorbed>0),specialIO);
     finishAttackContext(battle, actor, context);
     transitionBossPhases(battle, { write, restoreMp: gainResource });
     if (checkOutcome(battle)) return;
@@ -617,11 +621,13 @@ function gainResource(battle, actor, id, amount, sourceId = actor.id) {
   if (!actor.resources?.[id]) return;
   // Exhaustion prevents resource generation, but does not remove stored resources.
   if (amount > 0 && flag(battle, actor, "blockResourceGain")) return;
+  const beforeResource=actor.resourceValues[id]??0;
   actor.resourceValues[id] = clamp(
     (actor.resourceValues[id] ?? 0) + amount,
     0,
     actor.resources[id].max,
   );
+  exclusiveResourceChanged(battle,actor,id,actor.resourceValues[id]-beforeResource,specialIO);
 }
 
 function coverTarget(battle, target) {
@@ -822,12 +828,12 @@ function resolveHit(
   if (effect.damageType === "magical") {
     for (const ally of battle.actors.filter(candidate => living(candidate) && candidate.team === attacker.team && candidate.id !== attacker.id)) {
       const passive = ally.passive;
-      if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += passive.ratio;
+      if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += specialPassives(ally,'marked_ally_ratio').find(p=>p.statusId===passive.statusId&&(target.statuses.find(s=>s.id===p.statusId)?.stacks??0)>=p.stacks)?.ratio??passive.ratio;
     }
   }
-  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,key==="magic"?hitMagicBonus:0,actionContext.baseStatBonuses?.[key]??0));
+  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus:0)+(actionContext.statRatioBonuses?.[key]??0),actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
-  const extraPenetration = penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0;
+  const extraPenetration = (penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0);
   const defense =
     stat(
       battle,
@@ -855,7 +861,7 @@ function resolveHit(
     hpRatio: attacker.hp / attacker.stats.maxHp,
     buffs: buffTypeCount(battle.content,target),
   });
-  let reduction = modifier(battle, target, "damageReduction")+gearGuardReduction(target);
+  let reduction = modifier(battle, target, "damageReduction")+gearGuardReduction(target)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0);
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
@@ -975,6 +981,7 @@ function resolveHit(
     attacker.passive?.type === "shield_break_attack_buff"
   )
     actionContext.shieldBreakBuffs.add(attacker.passive.statusId);
+  if(absorbed&&target.shield===0&&attacker.team!==target.team)exclusiveShieldBreak(battle,attacker,specialIO);
   if (absorbed && target.shield === 0 && living(target)) {
     const healer = getActor(battle, target.shieldSourceId);
     if (healer?.passive?.type === "shield_break_heal" && living(healer)) {
@@ -1059,6 +1066,7 @@ function applyStatus(
       );
     });
     if (ward) {
+      const wardOwner=getActor(battle,ward.sourceId);
       ward.charges =
         (ward.charges ??
           battle.content.statuses[ward.id].effectImmunity.charges) - 1;
@@ -1074,6 +1082,7 @@ function applyStatus(
         sourceId,
         statusId,
       });
+      exclusiveWardBlocked(battle,wardOwner,target,specialIO);
       return null;
     }
   }
@@ -1163,7 +1172,7 @@ function applyEffect(
     if (effect.type === "prepare_mode") prepareCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if (effect.type === "heal") {
-      const healed=healHp(battle,target,supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD),actor.id);
+      const healed=healHp(battle,target,supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO),actor.id);
       gearSkillHealed(battle,actor,target,healed,actionContext,gearIO);
     }
     if (effect.type === "shield") {
@@ -1365,7 +1374,7 @@ function resolveAction(
   if (selectedResource) {
     const cost = selectedResource;
     spent = cost.all ? actor.resourceValues[cost.id] : cost.amount;
-    if (!deferredResource) actor.resourceValues[cost.id] -= spent;
+    if (!deferredResource){actor.resourceValues[cost.id]-=spent;exclusiveResourceChanged(battle,actor,cost.id,-spent,specialIO);}
   }
   if (skill.cooldown) actor.cooldowns[skill.id] = skill.cooldown + 1;
   write(battle, `${actor.name} dùng ${skill.name}.`);
@@ -1385,6 +1394,8 @@ function resolveAction(
     write(battle,actor.name+": "+actor.passive.name+" +"+amount+" "+(key==="magic"?"MAG":"ATK")+" căn bản cho chiêu này.");
     emitEvent(battle,{type:"skill_base_bonus",sourceId:actor.id,abilityId:skill.id,stat:key,amount});
   }
+  actionContext.startStatusIds=new Set(oldStatuses.map(s=>s.id));
+  actionContext.statRatioBonuses=specialSkillStatBonuses(actor,skill,{spentResource:selectedResource?.id,spent});
   actionContext.preMarkedTargets = new Set(battle.actors.flatMap(target => target.statuses.map(mark => target.id + ":" + mark.id)));
   const damageBonus = exclusivePassive(actor,"skill_damage",skill.id);
   if (damageBonus) actionContext.multiplier *= 1 + damageBonus.ratio;
@@ -1392,6 +1403,7 @@ function resolveAction(
     const cap = Math.ceil(skill.cost.mp * actor.passive.extraCostRatio);
     const extra = Math.min(actor.mp,cap);
     actor.mp -= extra;
+    if(cap>0&&extra===cap)for(const[key,n]of Object.entries(specialSkillStatBonuses(actor,skill,{fullExtraPayment:true})))actionContext.statRatioBonuses[key]=(actionContext.statRatioBonuses[key]??0)+n;
     actionContext.multiplier *= 1 + (cap ? actor.passive.maxDamageBonus * extra / cap : 0);
     write(battle, `${actor.name}: ${actor.passive.name}, tiêu thêm ${extra}/${cap} MP.`);
   }
@@ -1428,12 +1440,14 @@ function resolveAction(
     if (exclusive.type === "consumed_targets_mp" && (actionContext.consumedTargets.get(exclusive.statusId)?.size ?? 0) >= exclusive.minTargets) gainResource(battle,actor,"mp",exclusive.amount);
     if (exclusive.type === "next_turn_heal") actor.pendingExclusiveHeal = { ratio: exclusive.ratio, sourceId: actor.id, name: exclusive.name };
   }
+  exclusiveAfterSkill(battle,actor,skill,actionContext,specialIO);
   if (deferredResource) {
     const resourceId = selectedResource.id;
     actor.resourceValues[resourceId] = Math.max(
       0,
       actor.resourceValues[resourceId] - spent,
     );
+    exclusiveResourceChanged(battle,actor,resourceId,-spent,specialIO);
   }
   const offensive = skill.effects.some((effect) => effect.type === "damage");
   // Once per attack action, after its damage and resource cost. New points belong to the next attack.
@@ -1447,7 +1461,7 @@ function resolveAction(
         actor.resourceValues[trigger.resource] >= resource.max
       )
         continue;
-      if (battle.random() < trigger.chance) {
+      if (battle.random() < exclusiveAttackResourceChance(actor,status.id,trigger,key=>stat(battle,actor,key))) {
         const before = actor.resourceValues[trigger.resource];
         gainResource(battle, actor, trigger.resource, trigger.amount ?? 1);
         const gained = actor.resourceValues[trigger.resource] - before;

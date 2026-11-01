@@ -376,5 +376,411 @@
         "Hiệu lực cùng loại lấy mức cao nhất, không cộng dồn."
       ]
     }
+  },
+  {
+    "id": "dain.resolve_blade",
+    "characterId": "dain",
+    "name": "Trọng Kiếm Bất Khuất",
+    "description": "Trấn Phái riêng của Dain. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "brace_chance",
+      "statusId": "braced",
+      "resourceId": "resolve",
+      "stat": "attack",
+      "atStat": 200,
+      "bonusChance": 0.5,
+      "name": "Trọng Kiếm Bất Khuất",
+      "description": "Gồng mình cộng thêm 0,25 điểm % cơ hội tạo Quyết Tâm mỗi ATK hiện tại; từ 50%, tối đa 100% tại 200 ATK.",
+      "rules": []
+    }
+  },
+  {
+    "id": "rowan.windbow",
+    "characterId": "rowan",
+    "name": "Cung Dấu Chân Gió",
+    "description": "Trấn Phái riêng của Rowan. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "resource_skill_stat",
+      "resourceId": "aim",
+      "stat": "attack",
+      "ratio": 0.4,
+      "name": "Cung Dấu Chân Gió",
+      "description": "Kỹ năng tiêu Điểm Ngắm nhận thêm 40% ATK cho chính kỹ năng đó.",
+      "rules": []
+    }
+  },
+  {
+    "id": "freya.ember_heart",
+    "characterId": "freya",
+    "name": "Hồng Tâm Viêm Trượng",
+    "description": "Trấn Phái riêng của Freya. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "resource_stat_status",
+      "resourceId": "heat",
+      "statusId": "freya_exclusive_heat",
+      "duration": 4,
+      "name": "Hồng Tâm Viêm Trượng",
+      "description": "Tạo hoặc tiêu Nhiệt: +8% MAG trong 4 lượt, tối đa 3 tầng. Làm mới thời hạn khi nhận tầng.",
+      "rules": []
+    }
+  },
+  {
+    "id": "galliard.frontline",
+    "characterId": "galliard",
+    "name": "Lũy Thép Tiền Phong",
+    "description": "Trấn Phái riêng của Galliard. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "after_skill_shield",
+      "abilityIds": [
+        "galliard.taunt"
+      ],
+      "target": "self",
+      "stat": "defense",
+      "ratio": 1.2,
+      "name": "Lũy Thép Tiền Phong",
+      "description": "Dùng Khiêu khích: tạo khiên cho bản thân bằng 120% DEF hiện tại.",
+      "rules": []
+    }
+  },
+  {
+    "id": "armie.aid_bag",
+    "characterId": "armie",
+    "name": "Túi Cứu Thương Phương Bắc",
+    "description": "Trấn Phái riêng của Armie. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "heal_threshold",
+      "threshold": 0.5,
+      "stat": "magic",
+      "ratio": 0.5,
+      "name": "Túi Cứu Thương Phương Bắc",
+      "description": "Kỹ năng hồi HP cho đồng đội dưới 50% HP được hồi thêm 50% MAG. Xét HP trước khi hồi.",
+      "rules": []
+    }
+  },
+  {
+    "id": "rhett.thunder_core",
+    "characterId": "rhett",
+    "name": "Lõi Sấm Tái Nạp",
+    "description": "Trấn Phái riêng của Rhett. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "defend_recovery",
+      "resourceId": "charge",
+      "amount": 1,
+      "hpRatio": 0.05,
+      "name": "Lõi Sấm Tái Nạp",
+      "description": "Phòng thủ tạo 1 Điện tích và hồi 5% HP tối đa.",
+      "rules": []
+    }
+  },
+  {
+    "id": "fran.moonless_chart",
+    "characterId": "fran",
+    "name": "Tinh Đồ Đêm Không Trăng",
+    "description": "Trấn Phái riêng của Fran. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "skill_status_strength",
+      "abilityIds": [
+        "fran.night"
+      ],
+      "statusId": "starless",
+      "ratio": 1.75,
+      "extraDuration": 1,
+      "mpMultiplier": 1.5,
+      "name": "Tinh Đồ Đêm Không Trăng",
+      "description": "Đêm không che chở: hiệu quả giảm DEF/RES mạnh thêm 75%, dài thêm 1 lượt; MP tiêu hao tăng 50%.",
+      "rules": []
+    }
+  },
+  {
+    "id": "kai.village_guard",
+    "characterId": "kai",
+    "name": "Khiên Tập Sự Giữ Làng",
+    "description": "Trấn Phái riêng của Kai. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "skill_extra_buff",
+      "abilityIds": [
+        "kai.formation"
+      ],
+      "statusId": "kai_exclusive_resistance",
+      "duration": 2,
+      "rankGrowth": "stat_buff",
+      "name": "Khiên Tập Sự Giữ Làng",
+      "description": "Tập giữ hàng tăng thêm 15% RES toàn đội ở Rank 1; phần buff này tăng theo Rank kỹ năng.",
+      "rules": []
+    }
+  },
+  {
+    "id": "lisbeth.pride_staff",
+    "characterId": "lisbeth",
+    "name": "Quang Trượng Kiêu Hãnh",
+    "description": "Trấn Phái riêng của Lisbeth Ranoc. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "after_skill_mp",
+      "abilityIds": [
+        "lisbeth.judgment"
+      ],
+      "requiresStatus": "ranoc_pride",
+      "amount": 8,
+      "name": "Quang Trượng Kiêu Hãnh",
+      "description": "Phán quyết kiêu hãnh hoàn lại 8 MP sau khi thi triển nếu đã có Kiêu hãnh Ranoc khi bắt đầu chiêu.",
+      "rules": []
+    }
+  },
+  {
+    "id": "benard.windcutters",
+    "characterId": "benard",
+    "name": "Song Kiếm Xé Gió",
+    "description": "Trấn Phái riêng của Benard. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "skill_speed_damage",
+      "abilityIds": [
+        "benard.twin_blades"
+      ],
+      "requiresStatus": "benard_gale",
+      "ratio": 0.25,
+      "name": "Song Kiếm Xé Gió",
+      "description": "Khi có Nhịp gió, mỗi hit Song kiếm cuồng phong thêm sát thương bằng 25% SPD hiện tại, trước phòng thủ.",
+      "rules": []
+    }
+  },
+  {
+    "id": "lanceveil.guarding_flame",
+    "characterId": "lanceveil",
+    "name": "Hồng Diễm Hộ Quân",
+    "description": "Trấn Phái riêng của Lanceveil. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "after_skill_shield",
+      "abilityIds": [
+        "lanceveil.bulwark"
+      ],
+      "target": "lowest_hp_ally",
+      "stat": "defense",
+      "ratio": 1,
+      "name": "Hồng Diễm Hộ Quân",
+      "description": "Khiên lửa hộ quân tạo khiên bằng 100% DEF cho đồng đội sống có tỷ lệ HP thấp nhất. Khiên không cộng dồn.",
+      "rules": []
+    }
+  },
+  {
+    "id": "gahallad.siegeblade",
+    "characterId": "gahallad",
+    "name": "Hắc Kiếm Nghiền Khiên",
+    "description": "Trấn Phái riêng của Gahallad. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "shield_break_mp",
+      "amount": 5,
+      "oncePerRound": true,
+      "name": "Hắc Kiếm Nghiền Khiên",
+      "description": "Tự đánh vỡ khiên của địch: hồi 5 MP, tối đa một lần mỗi vòng.",
+      "rules": []
+    }
+  },
+  {
+    "id": "gawain.stormcaller",
+    "characterId": "gawain",
+    "name": "Đại Kiếm Triệu Lôi",
+    "description": "Trấn Phái riêng của Gawain. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "automatic_damage_mp",
+      "abilityIds": [
+        "gawain.cloud_pulse"
+      ],
+      "amount": 3,
+      "oncePerRound": true,
+      "name": "Đại Kiếm Triệu Lôi",
+      "description": "Mây giông tự động gây sát thương lên ít nhất một địch: hồi 3 MP, tối đa một lần mỗi vòng.",
+      "rules": []
+    }
+  },
+  {
+    "id": "lucien.crest_codex",
+    "characterId": "lucien",
+    "name": "Pháp Điển Gia Huy",
+    "description": "Trấn Phái riêng của Lucien Valmont. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "after_skill_mp",
+      "abilityIds": [
+        "lucien.ward"
+      ],
+      "amount": 4,
+      "perAlly": true,
+      "tag": "valmont",
+      "name": "Pháp Điển Gia Huy",
+      "description": "Kết giới gia huy hồi 4 MP cho Lucien với mỗi đồng đội Valmont còn sống, gồm bản thân.",
+      "rules": []
+    }
+  },
+  {
+    "id": "seraphine.heir_seal",
+    "characterId": "seraphine",
+    "name": "Ấn Kiếm Người Thừa Kế",
+    "description": "Trấn Phái riêng của Seraphine Valmont. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "team_tag_power",
+      "tag": "valmont",
+      "modifiers": {
+        "attack": 0.15,
+        "magic": 0.15
+      },
+      "fullTeamPenetration": 0.15,
+      "name": "Ấn Kiếm Người Thừa Kế",
+      "description": "Mỗi đồng đội Valmont khác tăng 15% ATK/MAG. Nếu mọi đồng đội khác đều là Valmont, đòn đánh xuyên thêm 15% DEF/RES.",
+      "rules": []
+    }
+  },
+  {
+    "id": "lyon.inviolable_aegis",
+    "characterId": "lyon",
+    "name": "Bất Xâm Gia Thuẫn",
+    "description": "Trấn Phái riêng của Lyon. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "ward_shield",
+      "stat": "defense",
+      "ratio": 1,
+      "name": "Bất Xâm Gia Thuẫn",
+      "description": "Hộ Ấn của Lyon thực sự chặn hiệu ứng bất lợi từ địch: người được bảo vệ nhận khiên bằng 100% DEF hiện tại của Lyon.",
+      "rules": []
+    }
+  },
+  {
+    "id": "cedric.reinforcement",
+    "characterId": "cedric",
+    "name": "Hiệu Kỳ Tiếp Viện",
+    "description": "Trấn Phái riêng của Cedric. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "heal_buff_count",
+      "abilityIds": [
+        "cedric.aid"
+      ],
+      "statusId": "valmont_rally",
+      "stat": "attack",
+      "ratio": 0.25,
+      "name": "Hiệu Kỳ Tiếp Viện",
+      "description": "Tiếp viện chiến trường hồi thêm 25% ATK cho mỗi đồng đội sống đang có Hiệu lệnh gia tộc.",
+      "rules": []
+    }
+  },
+  {
+    "id": "helena.winter_parasol",
+    "characterId": "helena",
+    "name": "Dù Đêm Đông Kiêu Hãnh",
+    "description": "Trấn Phái riêng của Helena Ranoc. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "extra_payment_stat",
+      "stat": "magic",
+      "ratio": 0.35,
+      "name": "Dù Đêm Đông Kiêu Hãnh",
+      "description": "Kỹ năng trả đủ MP phụ trội của Cái giá của sự kiêu hãnh nhận thêm 35% MAG cho chính kỹ năng đó.",
+      "rules": []
+    }
+  },
+  {
+    "id": "leonardo.elder_blade",
+    "characterId": "leonardo",
+    "name": "Thủ Kiếm Người Anh Cả",
+    "description": "Trấn Phái riêng của Leonardo Ranoc. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "team_mp_magic_guard",
+      "atMp": 800,
+      "cap": 0.3,
+      "name": "Thủ Kiếm Người Anh Cả",
+      "description": "Trong đội: giảm sát thương phép toàn đội dựa trên tổng MP tối đa, tối đa 30% tại 800 MP. Tính cả đồng đội đã gục.",
+      "rules": []
+    }
+  },
+  {
+    "id": "kyle.paradox_box",
+    "characterId": "kyle",
+    "name": "Hộp Đồ Chơi Nghịch Lý",
+    "description": "Trấn Phái riêng của Kyle Ranoc. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "marked_ally_ratio",
+      "statusId": "mischief",
+      "stacks": 3,
+      "ratio": 0.25,
+      "name": "Hộp Đồ Chơi Nghịch Lý",
+      "description": "Địch đủ 3 tầng Trò quậy: MAG cộng cho đồng đội khác đánh phép vào địch đó tăng từ 15% lên 25%.",
+      "rules": []
+    }
   }
 ]

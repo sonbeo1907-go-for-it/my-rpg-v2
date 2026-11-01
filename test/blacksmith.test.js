@@ -20,9 +20,9 @@ function funded(c=content){const save=createGameSave(c);Object.assign(save,{coin
 function gearSave(){const save=funded();save.gear=['t1','t2','t3_focused','t3_dual'].map((typeId,i)=>({id:`gear_${i+1}`,typeId,stats:typeId==='t3_dual'?{attack:2,magic:2}:{attack:typeId==='t1'?1:typeId==='t2'?3:5}}));save.gacha.totalPulls=4;return save;}
 function rng(...values){return()=>values.shift()??0;}
 
-test('shipping content contains 17 authored exclusive templates; removed illusion is absent',()=>{
- assert.equal(Object.keys(content.exclusiveGear).length,17);assert.equal(Object.hasOwn(content.dungeons,'illusion'),false);
- assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets']);
+test('shipping content contains 37 authored exclusive templates; removed illusion is absent',()=>{
+ assert.equal(Object.keys(content.exclusiveGear).length,37);assert.equal(Object.hasOwn(content.dungeons,'illusion'),false);
+ assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets','blueprints']);
 });
 test('v4 migrates to the current envelope without losing presets, ordinary gear, currencies, progression or daily quota',()=>{
  let original=selectPreset(gearSave(),'party-3');original=renamePreset(original,'Đội đã lưu');original.dungeonDaily={day:'2026-10-29',clears:{gold_mine:2}};

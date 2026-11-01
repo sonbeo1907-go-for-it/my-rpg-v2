@@ -1,4 +1,5 @@
 "use client";
+import {BlueprintShop} from './blueprint-shop';
 import {OriginalPrismaExchange} from './original-prisma-exchange';
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -34,8 +35,8 @@ const keeperGreetings = [
 
 export function ShopPage() {
   const { content, campaign, transact, busy } = useGame();
-  const tab =
-    useSearchParams().get("tab") === "recruitment" ? "recruitment" : "prisma";
+  const params=useSearchParams();
+  const tab=params.get("tab")==="blueprints"?"blueprints":params.get("tab")==="recruitment"?"recruitment":"prisma";
   const rules = economyRules(content);
   const [quantity, setQuantity] = useState("1");
   const [confirm, setConfirm] = useState<any>(null);
@@ -107,8 +108,9 @@ export function ShopPage() {
               <Icon name="party" />
               Chiêu Mộ
             </Link>
+            <Link href="/shop?tab=blueprints" className={tab==="blueprints"?"selected":""} aria-current={tab==="blueprints"?"page":undefined}><Icon name="scroll"/>Công thức Trấn Phái</Link>
           </nav>
-          {tab === "prisma" ? (
+          {tab === "blueprints" ? <BlueprintShop/> : tab === "prisma" ? (
             <>
             <section className="panel prisma-exchange">
               <div className="shop-prisma-art" aria-hidden="true">

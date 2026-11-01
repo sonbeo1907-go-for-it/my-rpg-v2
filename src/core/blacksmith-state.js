@@ -1,11 +1,12 @@
+import {normalizeBlueprintState} from './blueprint-shop.js';
 import {validT4Gear,GEAR_STAT_KEYS} from './gear-rules.js';
 import { validExclusiveStat } from './blacksmith-rules.js';
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
 export function emptyBlacksmithState() {
-  return { prismaFragments:0, originalPrisma:0, exclusiveGear:[], equippedExclusiveGear:{}, pendingReforge:null, blacksmithRevision:0, craftedGearSerial:0, pendingGearReforge:null };
+  return { blueprints:0,unlockedExclusiveRecipes:[],prismaFragments:0, originalPrisma:0, exclusiveGear:[], equippedExclusiveGear:{}, pendingReforge:null, blacksmithRevision:0, craftedGearSerial:0, pendingGearReforge:null };
 }
 export function normalizeBlacksmithState(input, content, campaign) {
-  const state=emptyBlacksmithState();
+  const state={...emptyBlacksmithState(),...normalizeBlueprintState(input,content)};
   for(const key of ['prismaFragments','originalPrisma','blacksmithRevision','craftedGearSerial']) {
     const value=input[key]===undefined?0:input[key];
     if(!Number.isSafeInteger(value)||value<0) throw new Error('Số dư hoặc phiên bản Thợ Rèn không hợp lệ.');
