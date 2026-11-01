@@ -35,6 +35,7 @@ export function encodeGameSave(campaign, content) {
   return text;
 }
 export function selectPreset(campaign, id) {
+  if(campaign.chronicles?.activeSession)throw Error('Đội hình và trang bị đã khóa trong phiên pháo đài. Hãy rời qua cổng để thay đổi.');
   const preset = campaign.partyPresets.find(item => item.id === id);
   if (!preset) throw new Error('Đội hình không tồn tại.');
   const next = structuredClone(campaign);
@@ -45,6 +46,7 @@ export function selectPreset(campaign, id) {
   return next;
 }
 export function changePresetSlot(campaign, slot, characterId) {
+  if(campaign.chronicles?.activeSession)throw Error('Đội hình và trang bị đã khóa trong phiên pháo đài. Hãy rời qua cổng để thay đổi.');
   const next = structuredClone(campaign);
   next.party = characterId === null ? removePartySlot(next.party, slot) : assignPartySlot(next.party, slot, characterId, next);
   next.partyPresets.find(item => item.id === next.activePartyPresetId).slots = [...next.party];

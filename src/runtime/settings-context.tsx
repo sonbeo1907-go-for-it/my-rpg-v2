@@ -16,6 +16,7 @@ import {
 } from "../ui/preferences.js";
 type Preferences = {
   battleLogs:boolean;
+  chronicleLogs:boolean;
   logoStyle: "en" | "jp";
   controlMode: "mouse" | "gamepad";
   musicEnabled: boolean;

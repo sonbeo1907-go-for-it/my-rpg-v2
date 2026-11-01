@@ -1,4 +1,5 @@
 "use client";
+import {assertFortressLoadoutUnchanged} from '../core/fortress-session.js';
 import {enterFortress,moveFortress,leaveFortress,beginFortressEvent,performFortressService,actFortressEvent} from '../core/fortress.js';
 import {beginChronicleEvent,actChronicle} from '../core/chronicles.js';
 import {activeChronicleSnapshot,createChronicleBattle,restoreChronicleBattle,snapshotChronicleBattle,checkpointChronicleBattle,advanceChronicleWave,finishChronicleBattle} from '../core/chronicle-combat.js';
@@ -331,6 +332,7 @@ export function GameProvider({
     setBusy(true);
     try {
       const next = operation(campaignRef.current);
+      assertFortressLoadoutUnchanged(campaignRef.current,next,content);
       await persist(next);
       campaignRef.current = next;
       setCampaign(next);
@@ -504,6 +506,7 @@ export function GameProvider({
     }
   }
   function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number) {
+    if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài qua cổng trước khi bắt đầu nội dung khác.');return false;}
     if(content.encounters[id]?.category==='chronicle'){notify('Hãy bắt đầu từ địa điểm trong Biên Niên Ký.');return false;}
     if(runtime.current?.chronicle&&!runtime.current.outcome){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
     if (lock.current || saveLock.current || activeProfileId.current === null)
@@ -549,6 +552,7 @@ export function GameProvider({
     }
   }
   function startDungeon(id: string, difficultyId: string, confirmed = false) {
+    if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài qua cổng trước khi bắt đầu nội dung khác.');return false;}
     if(runtime.current?.chronicle&&!runtime.current.outcome){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
     if (lock.current || saveLock.current || activeProfileId.current === null)
       return false;
@@ -658,11 +662,11 @@ export function GameProvider({
   const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
     fortressCommand,visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,
-    progressionLocked:inAdventure(),
-    upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure(),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),
-    updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()}),"Đã lưu điểm phân bổ."),
-    breakCharacterLimit:id=>transact(c=>limitBreak(c,content,id,{battleActive:inAdventure()}),"Đã Đột Phá giới hạn."),
-    sweepDungeon:(id,difficultyId)=>transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu."),
+    progressionLocked:inAdventure()||Boolean(campaign?.chronicles?.activeSession),
+    upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),
+    updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã lưu điểm phân bổ."),
+    breakCharacterLimit:id=>transact(c=>limitBreak(c,content,id,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã Đột Phá giới hạn."),
+    sweepDungeon:(id,difficultyId)=>transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu."),
     dailyNow,refreshCommissions,
     claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
     setAstoriaEnabled: (enabled) => transact(current => configureAstoria(current,enabled,{battleActive:Boolean(runtime.current && !runtime.current.outcome) || Boolean(dungeonRun.current && !runtime.current?.outcome)}), enabled ? "Đã bật Astoria · bản trùng 0." : "Đã tắt Astoria."),

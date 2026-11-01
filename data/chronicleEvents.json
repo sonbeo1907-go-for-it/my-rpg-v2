@@ -3151,12 +3151,12 @@
       },
       {
         "id": "s2",
-        "narration": "kiểm tra grate và dòng chảy",
+        "narration": "kiểm tra song chắn và dòng chảy",
         "locationId": "j",
         "actions": [
           {
             "id": "s2-act",
-            "label": "kiểm tra grate và dòng chảy",
+            "label": "kiểm tra song chắn và dòng chảy",
             "next": "s3"
           }
         ]
@@ -4648,7 +4648,7 @@
         "actions": [
           {
             "id": "s0-act",
-            "label": "Đối chiếu shift_order_signed với forged_order_copy",
+            "label": "Đối chiếu Lệnh đổi phiên gác có xác nhận với Bản sao văn bản nghi giả",
             "next": "s1"
           }
         ]
@@ -4947,12 +4947,12 @@
       },
       {
         "id": "s1",
-        "narration": "đối chiếu seal_reference tại thư khố",
+        "narration": "đối chiếu Mẫu dấu niêm chính thức tại thư khố",
         "locationId": "f",
         "actions": [
           {
             "id": "s1-act",
-            "label": "đối chiếu seal_reference tại thư khố",
+            "label": "đối chiếu Mẫu dấu niêm chính thức tại thư khố",
             "next": "s2"
           }
         ]
@@ -5246,12 +5246,12 @@
       },
       {
         "id": "s1",
-        "narration": "đối chiếu forged_order_copy với medical_manifest_note",
+        "narration": "đối chiếu Bản sao văn bản nghi giả với Ghi chú lô thuốc sai dấu",
         "locationId": "g",
         "actions": [
           {
             "id": "s1-act",
-            "label": "đối chiếu forged_order_copy với medical_manifest_note",
+            "label": "đối chiếu Bản sao văn bản nghi giả với Ghi chú lô thuốc sai dấu",
             "next": "s2"
           }
         ]
@@ -5646,7 +5646,7 @@
         "actions": [
           {
             "id": "s0-act",
-            "label": "Đối chiếu shift_order_signed hoặc hỏi bàn trực",
+            "label": "Đối chiếu Lệnh đổi phiên gác có xác nhận hoặc hỏi bàn trực",
             "next": "s1"
           }
         ]
@@ -5775,7 +5775,7 @@
         "actions": [
           {
             "id": "s0-act",
-            "label": "Đem meal_stub và roland_verification đối chiếu",
+            "label": "Đem Phiếu ăn không khớp và Biên bản xác nhận Roland đối chiếu",
             "next": "s1"
           }
         ]

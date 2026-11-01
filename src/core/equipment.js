@@ -47,6 +47,7 @@ export function equippedGear(campaign, characterId) {
 }
 
 function requireSlot(campaign, content, characterId, slot) {
+  if(campaign.chronicles?.activeSession)throw Error('Đội hình và trang bị đã khóa trong phiên pháo đài. Hãy rời qua cổng để thay đổi.');
   if (!Object.hasOwn(content.characters, characterId) || !ownsCharacter(campaign, characterId)) throw new Error('Chỉ có thể trang bị cho nhân vật đã mở khóa.');
   assertValidEquipment(campaign, content);
   if (!Number.isInteger(slot) || slot < 0 || slot >= gearSlotCapacity(campaign, content, characterId)) throw new Error('Ô trang bị chưa mở hoặc không hợp lệ.');

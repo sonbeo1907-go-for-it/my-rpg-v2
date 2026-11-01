@@ -107,6 +107,7 @@ export function InventoryPage() {
 }
 export function EquipmentPage({ id }: { id: string }) {
   const { content, campaign, transact, busy } = useGame();
+  const sessionLocked=Boolean(campaign.chronicles.activeSession);
   const [filters, setFilters] = useRouteFilters();
   const [slot, setSlot] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -153,6 +154,7 @@ export function EquipmentPage({ id }: { id: string }) {
         <ElementBadge element={actor.element} />
       </PageHeader>
       <CharacterTabs id={id} active="equipment" back={filters.back??"/characters"}/>
+      {sessionLocked&&<p className="warning">Trang bị đã khóa trong phiên pháo đài. Chỉ có thể xem; rời qua cổng để thay đổi.</p>}
       <div className="equipment-layout">
         <section>
           <GearFilters filters={filters} onChange={values=>setFilters({...values,page:"1"})} />
@@ -260,7 +262,7 @@ export function EquipmentPage({ id }: { id: string }) {
           <div className="stack-actions">
             <button
               className="gold"
-              disabled={!owned || busy || !chosen || Boolean(same) || Boolean(equipError)}
+              disabled={sessionLocked || !owned || busy || !chosen || Boolean(same) || Boolean(equipError)}
               onClick={() =>
                 chosen &&
                 transact(
@@ -276,7 +278,7 @@ export function EquipmentPage({ id }: { id: string }) {
                   : "Trang bị vào ô này"}
             </button>
             <button
-              disabled={!owned || busy || !current}
+              disabled={sessionLocked || !owned || busy || !current}
               onClick={() =>
                 transact(
                   (current) => unequipGear(current, content, id, slot),

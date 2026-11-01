@@ -1,3 +1,4 @@
+import {createFortressParty,assertFortressParty,restFortressParty,appendFortressLog} from './fortress-session.js';
 import {emptyFortressBook} from './fortress-state.js';
 import {seededRandom} from './random.js';
 import {fortressBook,fortressUnlocked,fortressToken,fortressRequireSession,fortressLocationOpen,fortressEventReady,fortressRequirement,fortressChooseEvent,fortressCleared,fortressWeeklyReward,chroniclePartyLevel} from './fortress-rules.js';
@@ -8,7 +9,7 @@ export function enterFortress(c,content,{random=Math.random,now=new Date()}={}){
  if(c.chronicles.activeBattle)throw Error('Hãy hoàn tất trận chiến đang diễn ra.');
  if(c.chronicles.activeSession)return structuredClone(c);
  const next=structuredClone(c),s=next.chronicles;s.books??={};s.books.book2??=emptyFortressBook();s.inventory??=[];s.nextSessionId??=1;
- s.activeSession={sessionId:'fortress-'+s.nextSessionId++,bookId:'book2',status:'active',currentLocation:'a',startedAt:now.toISOString(),actionRevision:0,rngState:randomSeed(random),activeEvent:fortressBook(next).suspendedEvent};fortressBook(next).suspendedEvent=null;return next;
+ s.activeSession={...createFortressParty(next,content),sessionId:'fortress-'+s.nextSessionId++,bookId:'book2',status:'active',currentLocation:'a',startedAt:now.toISOString(),actionRevision:0,rngState:randomSeed(random),activeEvent:fortressBook(next).suspendedEvent};fortressBook(next).suspendedEvent=null;return next;
 }
 export function moveFortress(c,content,{token,locationId}){
  const next=structuredClone(c),a=fortressRequireSession(next,content,token);if(!fortressLocationOpen(next,content,locationId))throw Error('Khu vực chưa được phép tiếp cận.');a.currentLocation=locationId;a.actionRevision++;return next;
@@ -29,6 +30,7 @@ export function beginFortressEvent(c,content,{token,hiddenId=null,finale=false},
 function grantItem(c,content,id,provenance,now){const s=c.chronicles,d=content.chronicles.book2.items[id];if(!d)throw Error('Vật phẩm không tồn tại.');if(s.inventory.some(i=>i.bookId==='book2'&&i.itemId===id))return;s.inventory.push({bookId:'book2',itemId:id,status:'owned',custody:d.military?'carried':'archive',scope:d.scope,provenance,acquiredAt:now.toISOString()});}
 function incident(c,p,type,severity,now){const b=fortressBook(c),id=p.instanceId+':'+type;if(!b.incidentLedger.some(i=>i.id===id))b.incidentLedger.push({id,severity,resolved:false,createdAt:now.toISOString()});b.securityConcern=Math.min(3,b.incidentLedger.filter(i=>!i.resolved).reduce((n,i)=>n+i.severity,0));}
 function applyEffects(c,content,effects={},source,now){
+ if(effects.restParty)restFortressParty(c);
  const b=fortressBook(c),f=b.supportFlags;
  for(const id of effects.grantItems??[])grantItem(c,content,id,source,now);
  for(const id of effects.handOverItems??[]){const i=c.chronicles.inventory.find(i=>i.bookId==='book2'&&i.itemId===id&&i.status==='owned'&&i.custody==='carried');if(!i)throw Error('Vật tư chưa được nhận lại hoặc đã bàn giao.');i.status='handed_over';i.custody='delivered';}
@@ -42,7 +44,7 @@ export function fortressServiceOptions(c,content){const a=c.chronicles?.activeSe
 export function performFortressService(c,content,{token,serviceId},now=new Date()){
  const next=structuredClone(c),a=fortressRequireSession(next,content,token),s=content.chronicles.book2.services.find(x=>x.id===serviceId);
  if(!s||!fortressRequirement(next,content,{...s.requires,location:s.locationId}))throw Error('Không đủ giấy tờ, vật tư hoặc quyền thực hiện công việc này.');
- applyEffects(next,content,s.effects,s.label,now);a.actionRevision++;fortressBook(next).lastCompletion={serviceId,ending:s.result,reward:{}};return next;
+ applyEffects(next,content,s.effects,s.label,now);a.actionRevision++;fortressBook(next).lastCompletion={serviceId,locationId:a.currentLocation,ending:s.result,reward:{}};appendFortressLog(next,s.result,{kind:s.effects?.restParty?'rest':'service',now});return next;
 }
 export function getFortressPending(c,content,instanceId){const a=c.chronicles?.activeSession,p=a?.activeEvent,e=content.chronicleEvents[p?.eventId],step=e?.steps.find(s=>s.id===p.stepId);if(!a||!p||instanceId&&p.instanceId!==instanceId||!step)throw Error('Công việc đã thay đổi. Hãy mở lại phiên pháo đài.');return {session:a,pending:p,event:e,step};}
 export function actFortressEvent(c,content,{token,instanceId,stepId,actionId},now=new Date()){
@@ -53,7 +55,7 @@ export function actFortressEvent(c,content,{token,instanceId,stepId,actionId},no
  if(action.branch)p.selectedBranchId=action.branch;else p.selectedBranchId??='interact';
  p.choiceHistory.push({stepId:step.id,actionId:action.id,party:[...next.party]});
  let destination=action.next;
- if(action.kind==='chance'){const random=seededRandom(a.rngState),success=random()<.5;p.chanceResults.sneak=success;a.rngState=random.getState();if(!success)incident(next,p,'sneak',1,now);destination=success?action.success:action.failure;}
+ if(action.kind==='chance'){const random=seededRandom(a.rngState),success=random()<.5;p.chanceResults.sneak=success;a.rngState=random.getState();if(!success)incident(next,p,'sneak',1,now);appendFortressLog(next,success?'Bạn đã lén qua lúc đổi ca.':'Lính gác phát hiện lần lén qua. Sự việc được ghi vào biên bản.',{kind:'activity',now});destination=success?action.success:action.failure;}
  if(action.incident)incident(next,p,'force',2,now);
  applyEffects(next,content,action.effects,action.label,now);p.committedEffects.push(p.instanceId+':'+p.choiceHistory.length+':'+action.id);a.actionRevision++;
  if(destination!=='complete'){p.stepId=destination;p.status='scene';return next;}
@@ -65,5 +67,5 @@ export function actFortressEvent(c,content,{token,instanceId,stepId,actionId},no
  if(!e.intro&&!e.hidden&&!e.finale){b.lastEventIdsByLocation[e.locationId]=[e.id,...(b.lastEventIdsByLocation[e.locationId]??[]).filter(id=>id!==e.id)].slice(0,2);b.noNewEventStreakByLocation[e.locationId]=wasNew?0:Math.min(2,(b.noNewEventStreakByLocation[e.locationId]??0)+1);}
  const reward=!e.intro&&!e.hidden&&!e.finale?fortressWeeklyReward(next,p,now):{};
  for(const [key,amount]of Object.entries(reward)){if(!Number.isSafeInteger(next[key]+amount))throw Error('Số dư vượt giới hạn.');next[key]+=amount;}
- b.lastCompletion={instanceId:p.instanceId,eventId:e.id,ending:e.ending,reward};a.activeEvent=null;return next;
+ b.lastCompletion={instanceId:p.instanceId,eventId:e.id,locationId:a.currentLocation,ending:e.ending,reward};appendFortressLog(next,e.ending,{reward,now});a.activeEvent=null;return next;
 }

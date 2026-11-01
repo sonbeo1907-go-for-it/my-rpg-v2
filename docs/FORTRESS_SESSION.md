@@ -22,10 +22,14 @@ Pháo: giao thùng + thay linh kiện + khôi phục báo hiệu + hiệu chuẩ
 
 Các trận `category:chronicle`, `bookId:book2`, `chronicleKind:fortress_defense` nhận snapshot modifier. Pháo ATK/MAG +20%; quân nhu ATK/RES +10%; cộng cùng nhóm thành ATK +30%, MAG +20%, RES +10%. Modifier nằm ngoài status, không dispel và không đếm là buff. Không áp dụng nội chiến/tỷ thí, Quest, Dungeon hoặc Hiểm Ác. Giữ qua pha và snapshot, không cập nhật giữa trận.
 
-Các trận độc lập bắt đầu HP/MP đầy. Thua/rút lui giữ instance và seed để thử lại. Không thưởng EXP, nhiệm vụ ngày hay tiền tệ từ combat Chronicle. Thưởng hoạt động thường chỉ khi kết thúc scene; quota 28/tuần dùng chung toàn bộ Chronicle, chốt theo tuần lúc hoàn thành.
+Đội hình và trang bị khóa khi vào phiên. Chỉ HP/MP giữ xuyên mọi trận thắng, thua hoặc rút lui trong phiên; trạng thái, khiên và hồi chiêu bắt đầu mới mỗi encounter. Trạm quân y có một lần nghỉ hồi đầy HP/MP, gồm người gục ngã, mỗi phiên. Reload không làm mới lượt nghỉ. Thua/rút lui giữ instance và seed để thử lại. Không thưởng EXP, nhiệm vụ ngày hay tiền tệ từ combat Chronicle. Thưởng hoạt động thường chỉ khi kết thúc scene; quota 28/tuần dùng chung toàn bộ Chronicle, chốt theo tuần lúc hoàn thành.
 
 ## Artwork và kiểm thử
 
 35 SVG gốc: bìa, 10 cảnh, 4 biến thể, 19 đạo cụ, 1 overlay. Không nhân vật vẽ cố định; không script, text nhúng, ảnh hay tham chiếu mạng ngoài. Nút và chữ là HTML, tương thích chuột, bàn phím và tay cầm. LB/RB di chuyển lựa chọn khu; B về kệ nhưng giữ phiên.
 
 `test/fortress.test.js` kiểm tra phiên, scope, nhiều nhánh G01, dịch vụ, suspend/custody, idempotency, migration, quota, battle snapshot và hỗ trợ qua pha. Bộ UI test kiểm tra kệ/xác nhận, move không bốc event, drawer/focus, reload, thủ tục kho, ra cổng và mobile. Cân bằng hệ số quân nhu vẫn là cấu hình playtest như GDD.
+
+## Rà soát trải nghiệm
+
+Bìa sách đặt ảnh phủ đúng origin, danh sách khu vực dùng ô đánh dấu cố định và căn trái. Đội hình mở modal chỉ đọc; đường dẫn chỉnh đội hình/trang bị cũng bị khóa ở core/transaction. Nhật ký tách khỏi tường thuật địa điểm và bật/tắt trong Thiết lập → Giao diện; chuyển phòng không lặp lời hoàn thành cũ. Chuỗi hiển thị được Việt hóa; ID máy giữ nguyên, ghi chép save cũ cũng được định dạng khi hiển thị. X đưa focus đến công việc, Y xem đội hình, LB/RB đổi khu, LT/RT chuyển vùng điều khiển, B về danh sách khu rồi kệ sách. Không cướp focus vào tiêu đề khi dùng tay cầm.

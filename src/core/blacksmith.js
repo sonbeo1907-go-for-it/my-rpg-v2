@@ -57,11 +57,13 @@ export function finishReforge(campaign,content,pendingId,useNew) {
   next.pendingReforge=null;revision(next);return next;
 }
 export function equipExclusive(campaign,content,characterId,id) {
+  if(campaign.chronicles?.activeSession)throw Error('Đội hình và trang bị đã khóa trong phiên pháo đài. Hãy rời qua cổng để thay đổi.');
   const next=normalized(campaign,content),template=templateFor(content,id);ownedFor(next,id);
   if(!Object.hasOwn(content.characters,characterId)||!next.unlockedCharacterIds.includes(characterId)||template.characterId!==characterId)throw new Error('Trấn Phái không dành cho nhân vật này.');
   next.equippedExclusiveGear[characterId]=id;return next;
 }
 export function unequipExclusive(campaign,content,characterId) {
+  if(campaign.chronicles?.activeSession)throw Error('Đội hình và trang bị đã khóa trong phiên pháo đài. Hãy rời qua cổng để thay đổi.');
   const next=normalized(campaign,content);
   if(!Object.hasOwn(content.characters,characterId)||!next.unlockedCharacterIds.includes(characterId))throw new Error('Nhân vật chưa được sở hữu.');
   delete next.equippedExclusiveGear[characterId];return next;

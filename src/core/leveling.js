@@ -30,7 +30,7 @@ export function grantCharacterXp(campaign,content,id,amount){
  return {characterId:id,fromXp:oldXp,toXp:state.xp,fromLevel:before,toLevel:state.level,amount,lost,accepted:amount-lost,points:state.level-before,capped:state.level===levelCap(state,content)};
 }
 export function grantPartyXp(campaign,content,ids,amount){if(!whole(amount))throw Error('EXP không hợp lệ.');return [...new Set(ids)].map(id=>grantCharacterXp(campaign,content,id,amount));}
-function editable(campaign,id,options){if(options?.battleActive)throw Error('Hãy kết thúc trận hoặc chuyến hầm ngục trước khi thay đổi tiến trình.');if(!campaign.unlockedCharacterIds.includes(id))throw Error('Chưa sở hữu nhân vật này.');}
+function editable(campaign,id,options){if(campaign.chronicles?.activeSession)throw Error('Đội hình và trang bị đã khóa trong phiên pháo đài. Hãy rời qua cổng để thay đổi.');if(options?.battleActive)throw Error('Hãy kết thúc trận hoặc chuyến hầm ngục trước khi thay đổi tiến trình.');if(!campaign.unlockedCharacterIds.includes(id))throw Error('Chưa sở hữu nhân vật này.');}
 export function allocatePoints(campaign,content,id,allocations,options={}){editable(campaign,id,options);const next=structuredClone(campaign);next.characters[id]=normalizeLevelState(content,{...next.characters[id],allocations});return next;}
 export function resetAllocations(campaign,content,id,options={}){return allocatePoints(campaign,content,id,{},options);}
 export function limitBreak(campaign,content,id,options={}){

@@ -94,8 +94,8 @@ export function ExclusiveSlot({ characterId }: { characterId: string }) {
     </> : <p>{items.length ? `Có ${items.length} Trấn Phái sẵn sàng. Chọn một món phù hợp với lối chơi.` : "Chưa sở hữu Trấn Phái cho nhân vật này. Tìm mẫu tại Thợ Rèn."}</p>}
     <p className="exclusive-slot-note">Ô riêng, không chiếm 3–6 ô trang bị thường.</p>
     <div className="exclusive-slot-actions">
-      {items.length > 0 && <button className="gold" disabled={busy || !owned} onClick={() => setOpen(true)}>{current ? items.length > 1 ? "Đổi Trấn Phái" : "Xem Trấn Phái" : "Trang bị Trấn Phái"}</button>}
-      {current && <button disabled={busy} onClick={() => transact(save => unequipExclusive(save, content, characterId), "Đã tháo Trấn Phái.")}>Tháo Trấn Phái</button>}
+      {items.length > 0 && <button className="gold" disabled={busy || !owned || Boolean(campaign.chronicles.activeSession)} onClick={() => setOpen(true)}>{current ? items.length > 1 ? "Đổi Trấn Phái" : "Xem Trấn Phái" : "Trang bị Trấn Phái"}</button>}
+      {current && <button disabled={busy || Boolean(campaign.chronicles.activeSession)} onClick={() => transact(save => unequipExclusive(save, content, characterId), "Đã tháo Trấn Phái.")}>Tháo Trấn Phái</button>}
       <Link className="button exclusive-forge-link" href={`/blacksmith?tab=exclusive&character=${characterId}`}>Đến Thợ Rèn →</Link>
     </div>
     {open && <ExclusivePicker characterId={characterId} onClose={() => setOpen(false)}/>}

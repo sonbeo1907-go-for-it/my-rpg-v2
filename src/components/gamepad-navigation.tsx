@@ -39,8 +39,9 @@ const keyFor = (element: HTMLElement) =>
   element.getAttribute("aria-label") ||
   `${element.tagName}:${element.className}:${element.textContent?.trim().slice(0, 90)}`;
 function initial(root: ParentNode, path: string) {
+  if(root instanceof Element&&root.matches('dialog'))return root.querySelector<HTMLElement>('[role=tab][aria-selected=true]')??root.querySelector<HTMLElement>('footer button:not(:disabled)')??controls(root)[0];
   if(path==='/chronicles')return root.querySelector<HTMLElement>('.chronicle-book-cover');
-  if(path==='/chronicles/book2')return root.querySelector<HTMLElement>('.chronicle-scene-actions .gold,.fortress-area-list .selected');
+  if(path==='/chronicles/book2')return root.querySelector<HTMLElement>('[data-fortress-primary]:not(:disabled),.fortress-area-list .selected');
   if(path.startsWith('/chronicles/'))return root.querySelector<HTMLElement>('.chronicle-hotspot,.chronicle-scene-actions .gold,.chronicle-location-list .selected');
   if (path === "/stories") return root.querySelector<HTMLElement>(".story-book");
   if (path.startsWith("/stories/")) return root.querySelector<HTMLElement>(".quest-card.selected,.quest-card:not(:disabled)");
@@ -100,7 +101,7 @@ function hintList(
   root: Element,
   active: Element | null,
 ): [string, string][] {
-  if(path==='/chronicles/book2'&&!root.matches('dialog'))return [['A','Tương tác'],['LB / RB','Khu vực'],['B','Kệ sách · Giữ phiên'],['RS','Cuộn']];
+  if(path==='/chronicles/book2'&&!root.matches('dialog'))return [['A','Chọn'],['X','Công việc'],['Y','Đội hình'],['LB / RB','Khu vực'],['LT / RT','Đổi vùng'],['B','Khu vực / Kệ sách'],['RS','Cuộn']];
   if(path.startsWith('/chronicles')&&!root.matches('dialog'))return root.querySelector('.chronicle-location-list')?[['A','Chọn'],['LB / RB','Địa điểm'],['B','Trở về'],['RS','Cuộn']]:[['A','Tương tác'],['B','Trở về'],['RS','Cuộn']];
   if (root.matches("dialog")) {
     if (root.querySelector(".settings-tabs"))

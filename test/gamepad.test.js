@@ -30,6 +30,6 @@ test('preferences tolerate unavailable/corrupt storage and normalize only suppor
   assert.deepEqual(readSettings({getItem(){throw new Error('blocked')}}),DEFAULT_SETTINGS);
   assert.deepEqual(readSettings({getItem(){return 'broken'}}),DEFAULT_SETTINGS);
   const parsed=normalizeSettings({controlMode:'gamepad',musicEnabled:false,musicVolume:.6,rumble:false,showHints:false,campaign:{coins:999}});
-  assert.deepEqual(parsed,{controlMode:'gamepad',musicEnabled:false,musicVolume:.6,rumble:false,showHints:false,logoStyle:'en',battleLogs:true});
+  assert.deepEqual(parsed,{controlMode:'gamepad',musicEnabled:false,musicVolume:.6,rumble:false,showHints:false,logoStyle:'en',battleLogs:true,chronicleLogs:true});
   assert.equal(normalizeSettings({musicVolume:5,controlMode:'unknown'}).musicVolume,.35);
 });

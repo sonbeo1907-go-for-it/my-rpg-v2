@@ -1,5 +1,5 @@
 export const SETTINGS_KEY = 'northern-prisma.settings.v1';
-export const DEFAULT_SETTINGS = Object.freeze({ controlMode: 'mouse', musicEnabled: true, musicVolume: .35, rumble: true, showHints: true, logoStyle: 'en', battleLogs: true });
+export const DEFAULT_SETTINGS = Object.freeze({ controlMode: 'mouse', musicEnabled: true, musicVolume: .35, rumble: true, showHints: true, logoStyle: 'en', battleLogs: true, chronicleLogs: true });
 export function normalizeSettings(value) {
   const input = value && typeof value === 'object' ? value : {};
   return {
@@ -9,7 +9,8 @@ export function normalizeSettings(value) {
     rumble: typeof input.rumble === 'boolean' ? input.rumble : true,
     showHints: typeof input.showHints === 'boolean' ? input.showHints : true,
     logoStyle: input.logoStyle === 'jp' ? 'jp' : 'en',
-    battleLogs: typeof input.battleLogs === 'boolean' ? input.battleLogs : true
+    battleLogs: typeof input.battleLogs === 'boolean' ? input.battleLogs : true,
+    chronicleLogs: typeof input.chronicleLogs === 'boolean' ? input.chronicleLogs : true
   };
 }
 export function readSettings(storage) {

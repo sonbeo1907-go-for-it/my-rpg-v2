@@ -7,6 +7,7 @@ import {CharacterTabs} from "./wide-tabs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
+import {FortressPartyPage} from './fortress-party';
 import { ExclusiveSlot } from "./exclusive-equipment";
 import { characterCatalog } from "../core/catalog.js";
 import { resolveCharacter } from "../core/progression.js";
@@ -276,6 +277,7 @@ export function PartyPage() {
     )
       setSlot(null);
   };
+  if(campaign.chronicles.activeSession)return <FortressPartyPage/>;
   return (
     <main className="page party-page">
       <PageHeader

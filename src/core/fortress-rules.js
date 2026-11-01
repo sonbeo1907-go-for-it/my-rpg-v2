@@ -1,3 +1,4 @@
+import {assertFortressParty} from './fortress-session.js';
 import {chroniclePartyLevel,chronicleWeek} from './chronicle-rules.js';
 export const fortressBook=c=>c.chronicles.books.book2;
 export const fortressUnlocked=c=>Boolean(c.chronicles?.firstClearIds.includes('book1.intro.f10'));
@@ -5,9 +6,10 @@ export const fortressToken=c=>{const a=c.chronicles.activeSession;return a?a.ses
 export const fortressCleared=(c,id)=>{const b=fortressBook(c);return b.firstClearIds.includes(id)||b.eventClearIds.includes(id);};
 export function fortressLocationOpen(c,content,id){const l=content.chronicles.book2.locations.find(x=>x.id===id);return Boolean(l&&fortressUnlocked(c)&&l.requires.every(req=>fortressCleared(c,req)));}
 export function fortressEventReady(c,content,e){return Boolean(e?.bookId==='book2'&&e.requires.every(id=>fortressCleared(c,id))&&fortressLocationOpen(c,content,e.locationId)&&(e.intro||fortressBook(c).firstClearIds.length===10)&&(!e.hidden||!fortressCleared(c,e.id)));}
-export function fortressRequireSession(c,content,token){const a=c.chronicles?.activeSession;if(!fortressUnlocked(c)||!a||a.bookId!=='book2')throw Error('Hãy tiến vào pháo đài từ kệ sách.');if(token!==fortressToken(c))throw Error('Thao tác đã thay đổi. Hãy thử lại từ cảnh hiện tại.');if(c.chronicles.activeBattle||a.activeEvent?.status==='battle')throw Error('Hãy tiếp tục hoặc rút khỏi trận chiến.');return a;}
+export function fortressRequireSession(c,content,token){const a=c.chronicles?.activeSession;if(!fortressUnlocked(c)||!a||a.bookId!=='book2')throw Error('Hãy tiến vào pháo đài từ kệ sách.');assertFortressParty(c);if(token!==fortressToken(c))throw Error('Thao tác đã thay đổi. Hãy thử lại từ cảnh hiện tại.');if(c.chronicles.activeBattle||a.activeEvent?.status==='battle')throw Error('Hãy tiếp tục hoặc rút khỏi trận chiến.');return a;}
 export function fortressRequirement(c,content,requires={}){
  const a=c.chronicles.activeSession,b=fortressBook(c),inventory=c.chronicles.inventory;
+ if(requires.unrested&&a?.restUsed)return false;
  if(requires.location&&a?.currentLocation!==requires.location)return false;
  if(requires.flags?.some(k=>!b.supportFlags[k])||requires.notFlags?.some(k=>b.supportFlags[k])||requires.cleared?.some(id=>!fortressCleared(c,id)))return false;
  if(requires.event&&a?.activeEvent?.eventId!==requires.event||requires.eventAny&&!requires.eventAny.includes(a?.activeEvent?.eventId))return false;

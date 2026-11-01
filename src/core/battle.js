@@ -1,4 +1,5 @@
 
+import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
 import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,expireAgony} from './actor-life.js';
 import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
@@ -79,6 +80,7 @@ export function createBattle(
   if (!encounter) throw new Error(`Unknown encounter ${encounterId}`);
   if (options.storyWaveIndex !== undefined && (!encounter.waves || !Number.isInteger(options.storyWaveIndex) || options.storyWaveIndex < 0 || options.storyWaveIndex >= encounter.waves.length)) throw new Error('Đợt truyện không hợp lệ.');
   if(encounter.category==='chronicle'&&encounter.bookId!=='book2'&&campaign.chronicles?.activeSession)throw Error('Hãy rời phiên pháo đài trước.');
+  if(campaign.chronicles?.activeSession&&encounter.bookId!=='book2')throw Error('Hãy rời phiên pháo đài trước khi bắt đầu nội dung khác.');
   assertQuestUnlocked(encounter, campaign);
   if(encounter.bookId==='book2'&&(!campaign.chronicles?.firstClearIds.includes('book1.intro.f10')||campaign.chronicles.activeSession?.currentLocation!==content.chronicleEvents[encounter.chronicleEventId]?.steps.find(s=>s.battle)?.locationId))throw Error('Hãy đến đúng khu vực trong phiên pháo đài.');
   if(encounter.category==='chronicle'&&![...Object.values(campaign.chronicles.pendingByLocation),campaign.chronicles.activeSession?.activeEvent].filter(Boolean).some(p=>p.instanceId===options.chronicleInstanceId&&p.eventId===encounter.chronicleEventId&&p.level===options.enemyLevel&&p.stepId===p.battleStepId))throw Error('Hãy bắt đầu trận từ địa điểm đang khám phá.');
@@ -139,6 +141,7 @@ export function createBattle(
     const slot=campaign.party.indexOf(actor.id);
     actor.formationSlot=slot>=0?slot:actors.filter(item=>item.team==='party').indexOf(actor);
   }
+  if(encounter.bookId==='book2')restoreFortressVitals(campaign,actors);
   const encounterSupport=fortressSupport(campaign,content,encounter,options.chronicleInstanceId);
   if(encounterSupport)for(const actor of actors.filter(a=>a.team==='party'))actor.encounterModifiers={...encounterSupport.modifiers};
   const enemies = actors.filter((actor) => actor.team === "enemy");

@@ -1,11 +1,13 @@
+import {createFortressParty} from './fortress-session.js';
 // Book II is additive: Book I's pending locations and weekly ledger keep their format.
 export const FORTRESS_FLAGS=['powderTransferDelegation','assignedMedicalTransfer','transferRequested','medicalCrateReceived','medicalCrateDelivered','supplyManifestVerified','supplySupportReady','gunpowderReceived','gunpowderDelivered','fuseReplaced','signalReady','cannonCalibrated','cannonSupportReady','spyInvestigationResolved'];
-export const emptyFortressBook=()=>({firstClearIds:[],eventClearIds:[],lastEventIdsByLocation:{},noNewEventStreakByLocation:{},evidenceNotes:[],incidentLedger:[],securityConcern:0,supportFlags:Object.fromEntries(FORTRESS_FLAGS.map(k=>[k,false])),finaleCleared:false,suspendedEvent:null,lastCompletion:null});
+export const emptyFortressBook=()=>({firstClearIds:[],eventClearIds:[],lastEventIdsByLocation:{},noNewEventStreakByLocation:{},evidenceNotes:[],incidentLedger:[],securityConcern:0,supportFlags:Object.fromEntries(FORTRESS_FLAGS.map(k=>[k,false])),finaleCleared:false,suspendedEvent:null,lastCompletion:null,activityLog:[]});
 const record=x=>x&&typeof x==='object'&&!Array.isArray(x),uint=x=>Number.isSafeInteger(x)&&x>=0,unique=a=>Array.isArray(a)&&new Set(a).size===a.length,date=x=>typeof x==='string'&&Number.isFinite(Date.parse(x));
 export function normalizeFortressState(s,content,campaign){
  const fail=()=>{throw Error('Dữ liệu phiên pháo đài không hợp lệ.');};
  s.books??={};s.books.book2??=emptyFortressBook();s.inventory??=[];s.activeSession??=null;s.nextSessionId??=1;
  const book=s.books.book2,definition=content.chronicles.book2;
+ book.activityLog??=[];
  if(!definition||!record(s.books)||!record(book)||!uint(s.nextSessionId)||s.nextSessionId<1||!Array.isArray(s.inventory)||s.inventory.length>100)fail();
  for(const[field,intro]of [['firstClearIds',true],['eventClearIds',false]])if(!unique(book[field])||book[field].some(id=>content.chronicleEvents[id]?.bookId!=='book2'||content.chronicleEvents[id]?.intro!==intro))fail();
  if(!record(book.supportFlags)||FORTRESS_FLAGS.some(k=>typeof book.supportFlags[k]!=='boolean')||Object.keys(book.supportFlags).some(k=>!FORTRESS_FLAGS.includes(k)))fail();
@@ -31,7 +33,12 @@ export function normalizeFortressState(s,content,campaign){
   if(p.battleSnapshot!==null){const b=p.battleSnapshot;if(!record(b)||b.encounterId!==e.encounterId||!uint(b.rngState)||b.rngState>4294967295||typeof b.state!=='string'||b.state.length>2e6)fail();let state;try{state=JSON.parse(b.state);}catch{fail();}if(!state||state.encounterId!==e.encounterId||state.enemyLevel!==p.level||state.chronicle?.bookId!=='book2'||state.chronicle?.instanceId!==p.instanceId||!Array.isArray(state.actors)||state.actors.length>8||state.actors.some(a=>!record(a)||!record(a.stats)||!Number.isFinite(a.hp)||a.hp<0||a.hp>a.stats.maxHp||!content.characters[a.definitionId]&&!content.enemies[a.definitionId]))fail();}
   if(p.status==='battle'&&!p.battleSnapshot||p.battleWon&&p.selectedBranchId!=='combat')fail();
  }
- if(s.activeSession!==null){const a=s.activeSession;if(!record(a)||a.bookId!=='book2'||a.status!=='active'||!/^fortress-[1-9]\d*$/.test(a.sessionId)||!definition.locations.some(l=>l.id===a.currentLocation)||!date(a.startedAt)||!uint(a.rngState)||a.rngState>4294967295||!uint(a.actionRevision)||!s.firstClearIds.includes('book1.intro.f10')||book.suspendedEvent!==null)fail();if(a.activeEvent!==null)pending(a.activeEvent);}
+ if(!Array.isArray(book.activityLog)||book.activityLog.length>200||!unique(book.activityLog.map(x=>x?.id)))fail();
+ for(const log of book.activityLog)if(!record(log)||typeof log.id!=='string'||!/^fortress-[1-9]\d*$/.test(log.sessionId)||!definition.locations.some(l=>l.id===log.locationId)||!['activity','service','battle','rest','travel'].includes(log.kind)||typeof log.message!=='string'||!log.message||log.message.length>2000||!date(log.at)||!record(log.reward)||Object.entries(log.reward).some(([k,v])=>!['coins','prismaFragments','recruitmentShards'].includes(k)||!uint(v)))fail();
+ if(s.activeSession!==null){const a=s.activeSession;
+ if(a.partyIds===undefined&&a.partyVitals===undefined&&a.restUsed===undefined){const initial=createFortressParty(campaign,content,a.activeEvent?.battleSnapshot);Object.assign(a,initial);}
+ if(!Array.isArray(a.partyIds)||JSON.stringify(a.partyIds)!==JSON.stringify(campaign.party)||!record(a.partyVitals)||typeof a.restUsed!=='boolean'||Object.keys(a.partyVitals).length!==a.partyIds.filter(Boolean).length||a.partyIds.filter(Boolean).some(id=>{const v=a.partyVitals[id];return !record(v)||!['hp','mp','maxHp','maxMp'].every(k=>uint(v[k]))||v.maxHp<1||v.hp>v.maxHp||v.mp>v.maxMp||v.maxHp>1e9||v.maxMp>1e9;}))fail();
+ if(!record(a)||a.bookId!=='book2'||a.status!=='active'||!/^fortress-[1-9]\d*$/.test(a.sessionId)||!definition.locations.some(l=>l.id===a.currentLocation)||!date(a.startedAt)||!uint(a.rngState)||a.rngState>4294967295||!uint(a.actionRevision)||!s.firstClearIds.includes('book1.intro.f10')||book.suspendedEvent!==null)fail();if(a.activeEvent!==null)pending(a.activeEvent);}
  if(book.suspendedEvent!==null){if(s.activeSession!==null)fail();pending(book.suspendedEvent);if(book.suspendedEvent.status==='battle')fail();}
  if(s.activeBattle==='book2'&&(!s.activeSession?.activeEvent?.battleSnapshot||s.activeSession.activeEvent.status!=='battle'))fail();
  if(s.activeSession&&s.activeBattle&&s.activeBattle!=='book2')fail();

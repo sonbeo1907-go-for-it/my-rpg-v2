@@ -804,6 +804,18 @@
           ]
         },
         "result": "Chelsea chỉ kiểm tra hành trình chuyển phát; quyền xem hồ sơ và lệnh quân sự giữ nguyên."
+      },
+      {
+        "id": "infirmary_rest",
+        "locationId": "f",
+        "label": "Nghỉ tại trạm quân y",
+        "requires": {
+          "unrested": true
+        },
+        "effects": {
+          "restParty": true
+        },
+        "result": "Cả đội đã được chăm sóc, hồi đầy HP và MP. Lần nghỉ trong phiên này đã được sử dụng."
       }
     ]
   }

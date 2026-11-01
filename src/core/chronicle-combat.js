@@ -1,3 +1,4 @@
+import {assertFortressParty,captureFortressVitals,appendFortressLog} from './fortress-session.js';
 import {getFortressPending,fortressLocationOpen} from './fortress.js';
 import {createBattle} from './battle.js';
 import {seededRandom} from './random.js';
@@ -31,18 +32,23 @@ export function finishChronicleBattle(campaign,content,battle){
 export function activeChronicleSnapshot(campaign){const s=campaign?.chronicles,id=s?.activeBattle;return id==='book2'?s.activeSession?.activeEvent?.battleSnapshot:id?s.pendingByLocation[id]?.battleSnapshot:null;}
 function createFortressBattle(content,campaign,instanceId){
  const {session:a,pending:p,event:e,step}=getFortressPending(campaign,content,instanceId);
+ assertFortressParty(campaign);
  if(!step.battle||p.selectedBranchId!=='combat'||a.currentLocation!==step.locationId||!fortressLocationOpen(campaign,content,step.locationId)||campaign.chronicles.activeBattle&&campaign.chronicles.activeBattle!=='book2')throw Error('Chưa tới bước chiến đấu hợp lệ.');
  if(p.battleSnapshot&&p.status!=='retry')return restoreChronicleBattle(content,p.battleSnapshot);
+ if(!Object.values(a.partyVitals).some(v=>v.hp>0))throw Error('Cả đội đã gục ngã. Hãy nghỉ tại trạm quân y hoặc rời phiên qua cổng.');
  const b=createBattle(content,campaign,e.encounterId,seededRandom(p.seed),{enemyLevel:p.level,chronicleInstanceId:p.instanceId});b.chronicle={bookId:'book2',locationId:'book2',instanceId:p.instanceId,sessionId:a.sessionId};return b;
 }
 function checkpointFortressBattle(campaign,content,battle){
  const next=structuredClone(campaign),s=next.chronicles,{session:a,pending:p,event:e,step}=getFortressPending(next,content,battle.chronicle.instanceId);
  if(!step.battle||a.sessionId!==battle.chronicle.sessionId||e.encounterId!==battle.encounterId)throw Error('Trận chiến không thuộc công việc hiện tại.');
+ captureFortressVitals(a,battle);
+ if(battle.outcome==='defeat'&&p.status!=='retry'){a.actionRevision++;appendFortressLog(next,'Trận chiến chưa thành công. HP và MP còn lại được giữ nguyên.',{kind:'battle'});}
  p.battleSnapshot=snapshotChronicleBattle(battle);p.status=battle.outcome==='defeat'?'retry':'battle';s.activeBattle=battle.outcome==='defeat'?null:'book2';return next;
 }
 function finishFortressBattle(campaign,content,battle){
  if(battle.outcome!=='victory'||battle.continuesOnVictory||battle.rewardClaimed)return campaign;
  const next=structuredClone(campaign),{session:a,pending:p,event:e,step}=getFortressPending(next,content,battle.chronicle.instanceId);
  if(!step.battle||a.sessionId!==battle.chronicle.sessionId||e.encounterId!==battle.encounterId)throw Error('Trận chiến không thuộc công việc hiện tại.');
- p.stepId=step.after;p.battleWon=true;p.status='scene';p.battleSnapshot=null;a.actionRevision++;next.chronicles.activeBattle=null;return next;
+ captureFortressVitals(a,battle);
+ p.stepId=step.after;p.battleWon=true;p.status='scene';p.battleSnapshot=null;a.actionRevision++;appendFortressLog(next,'Đã thắng trận. HP và MP còn lại tiếp tục được giữ trong phiên.',{kind:'battle'});next.chronicles.activeBattle=null;return next;
 }
