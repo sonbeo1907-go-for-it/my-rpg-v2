@@ -1,3 +1,4 @@
+import {validateCharacterSkillRanks,skillRules} from './skill-rules.js';
 import {normalizeLevelState,allocationBonuses,levelCap} from './leveling.js';
 import {normalizeTrainingCharges} from './training-charges.js';
 import {exclusiveStatModifiers} from './exclusive-hooks.js';
@@ -26,7 +27,7 @@ export function createCampaign(content) {
     characters: Object.fromEntries(
       Object.keys(content.characters).map((id) => [
         id,
-        { level: 1, xp:0, allocations:{}, limitBreakRank:0, upgradeIds: [] },
+        { level: 1, xp:0, allocations:{}, limitBreakRank:0, skillRanks:{}, upgradeIds: [] },
       ]),
     ),
     storyFlags: [],
@@ -78,6 +79,7 @@ export function resolveCharacter(content, campaign, characterId) {
         character.passive = structuredClone(change.passive);
     }
   }
+  character.skillRanks=structuredClone(state.skillRanks??{});character.skillProgression=structuredClone(skillRules(content));
   character.level=state.level;character.levelCap=levelCap(state,content);character.xp=state.xp;character.limitBreakRank=state.limitBreakRank;
   character.levelBonuses=allocationBonuses(content,state);
   for(const[key,n]of Object.entries(character.levelBonuses))character.stats[key]+=n;
@@ -332,5 +334,6 @@ export function deserializeCampaign(raw, content) {
   if (input.version !== 1)
     result.gacha = normalizeGachaState(input.gacha, result, content);
   Object.assign(result, normalizeBlacksmithState(input, content, result));
+  for(const id of Object.keys(result.characters)) result.characters[id].skillRanks=validateCharacterSkillRanks(content,result,id);
   return result;
 }

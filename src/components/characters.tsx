@@ -1,4 +1,6 @@
 "use client";
+import {SkillUpgrade} from './skill-upgrade';
+import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {CharacterProgression} from "./character-progression";
 import Link from "next/link";
 import {CharacterTabs} from "./wide-tabs";
@@ -111,6 +113,7 @@ export function CharactersPage() {
 export function SkillCard({ skill, actor }: { skill: any; actor: any }) {
   const { content } = useGame();
   const [choices, setChoices] = useState<any>({});
+  skill=resolveRankedAbility(content,actor,skill);
   const controls = skillPreviewOptions(skill, actor, content);
   return (
     <article className="skill-card">
@@ -129,6 +132,7 @@ export function SkillCard({ skill, actor }: { skill: any; actor: any }) {
           <input type="range" min={control.min} max={control.max} value={choices[control.key]??control.min} onChange={event=>setChoices({...choices,[control.key]:Number(event.target.value)})}/>
         </label>) : undefined}
       </RulesDisclosure>
+      <SkillUpgrade skill={skill} actor={actor}/>
     </article>
   );
 }

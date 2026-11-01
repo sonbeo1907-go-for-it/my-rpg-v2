@@ -9,6 +9,7 @@ import { getActor,activeActor,basicAbility,targetsFor,executeAction,executeEnemy
 import { claimBattleReward } from '../src/core/economy.js';
 import { statusDetails } from '../src/ui/combat-presentation.js';
 import { seededRandom } from '../src/core/random.js';
+import {levelScaledEnemyStats} from '../src/core/enemy-scaling.js';
 const content=await loadContent();
 const now=new Date('2026-10-29T05:00:00Z');
 const run=(save=createGameSave(content),difficulty='easy')=>createDungeonRun(content,save,'gold_mine',difficulty,{now,random:()=>0});
@@ -17,16 +18,16 @@ function finish(current) { while(true){clearWave(current);if(isFinalDungeonWave(
 
 test('all gold difficulties apply their HP, MP, ATK and MAG scales on every wave without mutating source or party',()=>{
   const original=JSON.stringify(content),save=createGameSave(content);
-  for(const [id,waves,hp,mp,power] of [['easy',3,1.1,1.5,1],['medium',4,1.75,2.25,1.25],['hard',4,1.9,2.25,1.6]]){
+  for(const [id,waves,hp,mp,power] of [['easy',3,1,1.5,1],['medium',4,1,2.25,1],['hard',4,1,2.25,1]]){
     const current=run(save,id);assert.equal(current.waveIds.length,waves);assert.equal(new Set(current.waveIds).size,waves);
     assert.ok(current.waveIds.every(id=>dungeonQuestPool(content).includes(id)));
     for(let wave=0;wave<waves;wave++){
       for(const actor of current.battle.actors.filter(actor=>actor.team==='enemy')){
         const base=content.enemies[actor.definitionId];
-        assert.equal(actor.stats.maxHp,Math.round(base.stats.maxHp*hp));assert.equal(actor.hp,actor.stats.maxHp);
-        assert.equal(actor.stats.maxMp,Math.round(base.stats.maxMp*mp));assert.equal(actor.mp,actor.stats.maxMp);
-        for(const key of ['attack','magic'])assert.equal(actor.stats[key],Math.round(base.stats[key]*power));
-        for(const key of ['defense','resistance','speed'])assert.equal(actor.stats[key],base.stats[key]);
+        const definition=content.dungeons.gold_mine.difficulties.find(d=>d.id===id);
+        assert.equal(definition.enemyLevel,{easy:15,medium:30,hard:45}[id]);
+        assert.deepEqual(actor.stats,levelScaledEnemyStats(base,definition.enemyLevel,content,{maxHp:hp,maxMp:mp,attack:power,magic:power},content.encounters[current.battle.encounterId]));
+        assert.equal(actor.hp,actor.stats.maxHp);assert.equal(actor.mp,actor.stats.maxMp);
       }
       assert.equal(getActor(current.battle,'arthur').stats.maxHp,190);
       if(wave<waves-1){clearWave(current);advanceDungeonWave(content,current);}

@@ -7,10 +7,11 @@ export function commandAbilityIds(actor) {
   if (!mode && actor.preModeAbility) return [actor.preModeAbility,'$defend'];
   return ['$attack',...(actor.normalAbilities && !mode ? actor.normalAbilities : actor.abilities),'$defend'];
 }
-export function enterCombatMode(battle,actor,id,io) {
+export function enterCombatMode(battle,actor,id,io,appliedModifiers) {
   if (actor.activeMode || !actor.combatModes?.[id]) throw new Error('Không thể chuyển dạng.');
   const mode=actor.combatModes[id];
   actor.activeMode=id;
+  if(appliedModifiers)actor.modeAppliedModifiers={...appliedModifiers};else delete actor.modeAppliedModifiers;
   if (modeLifetime(mode)==='rounds') actor.modeExpiresAfterRound=battle.round+mode.durationRounds-1;
   io.write(battle,actor.name+' triển khai '+mode.name+'.');
   io.emit(battle,{type:'mode_enter',sourceId:actor.id,mode:id});
@@ -20,7 +21,7 @@ export function leaveCombatMode(battle,actor,reason,io) {
   const mode=activeCombatMode(actor);
   if (!mode) return false;
   const id=actor.activeMode;
-  delete actor.activeMode;delete actor.modeExpiresAfterRound;
+  delete actor.activeMode;delete actor.modeExpiresAfterRound;delete actor.modeAppliedModifiers;
   for (const [key,state] of Object.entries(actor.companionStates??{})) {
     if (actor.companions[key].requiresMode===id) {delete actor.companionStates[key];io.emit(battle,{type:'companion_exit',sourceId:actor.id,companionId:key,reason});}
   }

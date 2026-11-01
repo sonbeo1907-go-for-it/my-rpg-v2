@@ -14,7 +14,7 @@ function setup(stat = 'speed') {
   campaign.extraGearSlots.benard = 1; campaign.gacha.totalPulls = 4;
   campaign.gear = Array.from({ length: 4 }, (_, i) => ({ id: `gear_${i + 1}`, typeId: 't2', stats: { [stat]: 3 } }));
   for (let i = 0; i < 4; i++) campaign = equipGear(campaign, content, 'benard', `gear_${i + 1}`, i);
-  return { campaign, battle: createBattle(content, campaign, 'wyvern_trial_5', () => .99) };
+  return { campaign, battle: createBattle(content, campaign, 'wyvern_trial_5', () => .99, {enemyLevel:1}) };
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);

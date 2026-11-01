@@ -12,7 +12,8 @@ function setup(party, encounter = 'alice_superboss', random = () => .99) {
   campaign.storyFlags.push('illusion.sinister_unlocked');
   campaign.party = party;
   campaign.unlockedCharacterIds = Object.keys(content.characters);
-  return createBattle(content, campaign, encounter, random);
+  const source=structuredClone(content);source.encounters[encounter].enemyLevel=1;
+  return createBattle(source, campaign, encounter, random,{enemyLevel:1});
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);
@@ -111,7 +112,7 @@ test('Lanceveil starts locked, is recruitable and round-trips through old saves 
   const old = createCampaign(content); delete old.characters.lanceveil;
   const restored = deserializeCampaign(serializeCampaign(old), content);
   assert.deepEqual(restored.party, old.party);
-  assert.deepEqual(restored.characters.lanceveil, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
+  assert.deepEqual(restored.characters.lanceveil, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, skillRanks: {}, upgradeIds: [] });
   assert.equal(restored.unlockedCharacterIds.includes('lanceveil'), false);
   restored.coins = 100; restored.prisma = 10;
   const pool = content.banners.standard.characterPool;

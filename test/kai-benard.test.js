@@ -14,7 +14,7 @@ const quest = 'goblin_forest_ambush';
 function setup(party) {
   const campaign = createCampaign(content); campaign.party = party;
   campaign.unlockedCharacterIds = Object.keys(content.characters);
-  return createBattle(content, campaign, quest, () => .99);
+  return createBattle(content, campaign, quest, () => .99,{enemyLevel:1});
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);
@@ -77,7 +77,7 @@ test('older v3 saves gain locked character states and an empty first-clear ledge
   const old = createCampaign(content); delete old.claimedFirstClearRewards; delete old.characters.kai; delete old.characters.benard;
   const restored = deserializeCampaign(JSON.stringify(old), content);
   assert.deepEqual(restored.claimedFirstClearRewards, []);
-  assert.deepEqual(restored.characters.kai, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
+  assert.deepEqual(restored.characters.kai, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, skillRanks: {}, upgradeIds: [] });
   assert.equal(restored.unlockedCharacterIds.includes('kai'), false);
   for (const ledger of [[quest], ['missing'], [quest, quest], 'bad']) {
     const invalid = createCampaign(content); invalid.claimedFirstClearRewards = ledger;
@@ -146,7 +146,7 @@ test('Benard speed from gear and buffs increases each physical hit and basic att
   let campaign = createCampaign(content); campaign.unlockedCharacterIds.push('benard'); campaign.party = ['benard'];
   campaign.gacha.totalPulls = 1; campaign.gear = [{ id: 'gear_1', typeId: 't3_focused', stats: { speed: 5 } }];
   campaign = equipGear(campaign, content, 'benard', 'gear_1');
-  const battle = createBattle(content, campaign, quest);
+  const battle = createBattle(content, campaign, quest,undefined,{enemyLevel:1});
   const enemy = getActor(battle, 'enemy_0'); enemy.hp = 1000; enemy.stats.maxHp = 1000; enemy.stats.defense = 0;
   use(battle, 'benard', 'benard.twin_blades', 'enemy_0');
   assert.deepEqual(battle.events.filter(event => event.type === 'damage').map(event => event.amount), [54, 54]);

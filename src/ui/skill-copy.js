@@ -1,3 +1,4 @@
+import {resolveRankedAbility,modeModifiersForPreview} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
 import {exclusiveDamageEffect,exclusivePassive,exclusivePassives} from '../core/exclusive-hooks.js';
@@ -20,6 +21,7 @@ const resourceName=(actor,id)=>id==='mp'?'MP':actor.resources?.[id]?.name??id;
 
 // Public copy is built from mechanical values. Prose states intent; facts own numbers and timing.
 export function skillPresentation(skill,actor,content,choices={}) {
+  skill=resolveRankedAbility(content,actor,skill);
   const facts=[],rules=[...(skill.rules??[])];
   const cost=resourceCost(skill,actor);
   const spent=choices.spent??(cost?.all?cost.min??1:cost?.amount??0);
@@ -34,7 +36,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     const durationPassive=exclusivePassive(actor,'skill_status_duration',skill.id),extension=durationPassive?.statusId===effect.status?durationPassive.extraDuration:0;
     const turns=effect.duration===undefined?'':status.durationClock==='round'?` · ${effect.duration+extension} vòng`:` · ${effect.duration+extension} lượt${status.durationClock==='main_turn'?' chính của mục tiêu':self?' kế tiếp':''}`;
     const mods=[];
-    for(const[key,n]of Object.entries(status.modifiers??{})) {
+    for(const[key,n]of Object.entries(effect.appliedModifiers??status.modifiers??{})) {
       if(key==='damageVsShielded')mods.push(`Địch có khiên: sát thương ×${number(1+n)}`);
       else if(key==='attackMultiplier')mods.push(`Đòn tấn công kế: sát thương ×${number(n)}`);
       else if(key==='damageTakenBonus')mods.push(`${signed(n)} sát thương nhận`);
@@ -81,7 +83,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     }
     if(status.exposedElement&&effect.duration===undefined)rules.push('Duy trì đến khi hết tầng, bị giải hoặc kết thúc trận; giữ qua phòng theo luật của hầm ngục.');
     if(status.modifiers?.damageVsShielded)rules.push('Xét khiên ở đầu từng hit; tăng cả sát thương tràn vào HP.');
-    for(const id of effect.linkedStatuses??[])statusFacts({type:'status',status:id},true);
+    for(const id of effect.linkedStatuses??[])statusFacts({type:'status',status:id,appliedModifiers:effect.linkedAppliedModifiers?.[id]},true);
   }
   for(const authoredEffect of skill.effects) {
     const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(authoredEffect,{correct:choices.formulaCorrect??0}));
@@ -121,7 +123,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     }
     if(effect.type==='status'||effect.type==='toggle_status')statusFacts(effect);
     if(effect.type==='resource')facts.push(`${prefix}${effect.resource==='mp'?'Hồi':'Tạo'} ${effect.maxMpRatio?(effect.amount?effect.amount+' + ':'')+pct(effect.maxMpRatio)+' MP tối đa':effect.amount+' '+resourceName(actor,effect.resource)}`);
-    if(['enter_mode','prepare_mode'].includes(effect.type)) {const mode=actor.combatModes[effect.mode];facts.push((effect.type==='prepare_mode'?'Đầu vòng sau: ':'Triển khai ')+mode.name);for(const [key,n]of Object.entries(mode.baseStatBonuses)) facts.push('+'+n+' '+statName(key)+' căn bản');for(const [key,n]of Object.entries(mode.statModifiers??{}))facts.push(signed(n)+' '+statName(key));if(mode.mpCostReduction)facts.push('Chiêu công kích: −'+pct(mode.mpCostReduction)+' MP');if(mode.entryEffects) facts.push('Khi lên giáp: khiên '+pct(mode.entryEffects[0].multiplier)+' HP tối đa → '+Math.round(actor.stats.maxHp*mode.entryEffects[0].multiplier));if(mode.durationRounds) facts.push(mode.durationRounds+' vòng, tính cả vòng gọi');rules.push(mode.description);}
+    if(['enter_mode','prepare_mode'].includes(effect.type)) {const mode=actor.combatModes[effect.mode];facts.push((effect.type==='prepare_mode'?'Đầu vòng sau: ':'Triển khai ')+mode.name);for(const [key,n]of Object.entries(mode.baseStatBonuses)) facts.push('+'+n+' '+statName(key)+' căn bản');for(const [key,n]of Object.entries(effect.modeAppliedModifiers??mode.statModifiers??{}))facts.push(signed(n)+' '+statName(key));if(mode.mpCostReduction)facts.push('Chiêu công kích: −'+pct(mode.mpCostReduction)+' MP');if(mode.entryEffects) facts.push('Khi lên giáp: khiên '+pct(mode.entryEffects[0].multiplier)+' HP tối đa → '+Math.round(actor.stats.maxHp*mode.entryEffects[0].multiplier));if(mode.durationRounds) facts.push(mode.durationRounds+' vòng, tính cả vòng gọi');rules.push(mode.description);}
     if(effect.type==='summon_companion'){const c=actor.companions[effect.companion];facts.push('Đầu vòng sau: '+c.name+' · '+c.durationRounds+' vòng');facts.push('Đầu/cuối vòng: '+pct(content.abilities[c.roundStartAbility].effects[0].multiplier)+' DEF · Thổ · toàn địch');rules.push('Tính một lần mỗi đầu và cuối vòng, sau Vòng Phụ; không chiếm lượt hay ô đội hình.','Là Liên kích theo thời điểm, không được kích hoạt thêm bởi đòn của Drake, đồng đội hoặc Liên kích khác.');}
     if(effect.type==='turn_order_field') {facts.push('Đồng minh trước · đối thủ sau · '+extendedFieldDuration(actor,skill.id,effect)+' vòng');rules.push('Vòng thi triển được tính là vòng đầu; kết thúc sau Vòng Phụ.');}
     if(effect.type==='cleanse')facts.push('Giải toàn bộ hiệu ứng bất lợi');
@@ -214,7 +216,7 @@ export function passivePresentation(actor,content) {
     case 'target_debuff_damage':summary='Biến hiệu ứng bất lợi trên mục tiêu thành sức mạnh của bản nhạc.';facts.push('+'+pct(p.ratio)+' sát thương mỗi loại debuff · tối đa +'+pct(p.cap));rules.push('Đếm số loại hiệu ứng khác nhau; nhiều tầng hoặc nhiều chỉ số trong cùng một hiệu ứng vẫn chỉ tính một loại.','Đếm lại ở từng hit, bất kể người gây debuff. Áp dụng cho đánh thường và đòn đánh trực tiếp.','Cộng với các buff tăng sát thương cùng nhóm; giới hạn chỉ áp dụng cho nội tại này.');break;
     case 'detonation_base_growth':summary='Kích nổ Prisma để nuôi dưỡng tia sáng.';facts.push('+'+p.increment+' MAG căn bản mỗi chiêu kích nổ · tối đa +'+p.cap);rules.push('Dùng chung tiến độ cho các chiêu kích nổ; cộng trước buff MAG% và áp dụng ngay cho chiêu đang dùng.','Cần tiêu ít nhất một Prisma; diện rộng hoặc nhiều tầng vẫn chỉ tăng một lần mỗi chiêu.','Chỉ tăng sức mạnh chiêu kích nổ. Giữ qua các đợt trong một chương và các giai đoạn của trùm; đặt lại khi bắt đầu trận/chương mới.');break;
     case 'later_target_base_stat':summary='Khai thác đối thủ đứng sau mình trong thứ tự lượt.';facts.push('+'+number(p.amount)+' '+statName(p.stat)+' căn bản cho kỹ năng đủ điều kiện');rules.push('Cần ít nhất một mục tiêu đứng sau trong thứ tự Vòng Chính; Vòng Phụ dùng lại bảng này.','Chốt lúc thi triển; cộng trước buff %. Chỉ cộng một lần cho cả chiêu, không nhân theo số địch hoặc số hit.','Không áp dụng cho đánh thường, phản công và liên kích.');break;
-    case 'combat_mode': {summary=p.description;for(const mode of Object.values(actor.combatModes??{})){for(const [key,n]of Object.entries(mode.baseStatBonuses)) facts.push('+'+number(n)+' '+statName(key)+' căn bản khi '+mode.name+' hiện diện');for(const [key,n]of Object.entries(mode.statModifiers??{}))facts.push(signed(n)+' '+statName(key)+' khi chuyển dạng');if(mode.mpCostReduction)facts.push('Giảm '+pct(mode.mpCostReduction)+' MP chiêu công kích');if(mode.exitMpRatio>0) facts.push(mode.name+' rời sân: hồi '+pct(mode.exitMpRatio)+' MP tối đa');if(mode.durationRounds) facts.push(mode.name+': '+mode.durationRounds+' vòng, tính cả vòng gọi');if(mode.entryEffects) facts.push('Lên giáp: khiên '+pct(mode.entryEffects[0].multiplier)+' HP tối đa');if((mode.lifetime??'resource')==='resource') rules.push('Hết tầng: kiểm tra đầu mọi lượt của người triệu hồi và cuối vòng sau Vòng Phụ.','Khi rời sân, hồi MP đúng một lần; không mất lượt hiện tại.');else rules.push(mode.description);}break;}
+    case 'combat_mode': {summary=p.description;for(const mode of Object.values(actor.combatModes??{})){for(const [key,n]of Object.entries(mode.baseStatBonuses)) facts.push('+'+number(n)+' '+statName(key)+' căn bản khi '+mode.name+' hiện diện');for(const [key,n]of Object.entries(modeModifiersForPreview(content,actor,mode)))facts.push(signed(n)+' '+statName(key)+' khi chuyển dạng');if(mode.mpCostReduction)facts.push('Giảm '+pct(mode.mpCostReduction)+' MP chiêu công kích');if(mode.exitMpRatio>0) facts.push(mode.name+' rời sân: hồi '+pct(mode.exitMpRatio)+' MP tối đa');if(mode.durationRounds) facts.push(mode.name+': '+mode.durationRounds+' vòng, tính cả vòng gọi');if(mode.entryEffects) facts.push('Lên giáp: khiên '+pct(mode.entryEffects[0].multiplier)+' HP tối đa');if((mode.lifetime??'resource')==='resource') rules.push('Hết tầng: kiểm tra đầu mọi lượt của người triệu hồi và cuối vòng sau Vòng Phụ.','Khi rời sân, hồi MP đúng một lần; không mất lượt hiện tại.');else rules.push(mode.description);}break;}
     case 'damage_reduction':summary=p.requiresStatus?`Bền bỉ khi đang có ${content.statuses[p.requiresStatus].name}.`:'Bền bỉ trước mọi đòn đánh.';facts.push(`Giảm ${pct(p.amount)} sát thương nhận${p.requiresStatus?` · cần ${content.statuses[p.requiresStatus].name}`:''}`);break;
     case 'shield_break_heal':summary='Khi khiên do mình tạo bị phá, hồi HP cho người mang khiên.';facts.push(`Hồi ${pct(p.multiplier*(1+(exclusivePassive(actor,'shield_break_heal_bonus')?.ratio??0)))} MAG`);rules.push('Cả người tạo và người mang khiên phải còn sống.');break;
     case 'dodge_counter':{

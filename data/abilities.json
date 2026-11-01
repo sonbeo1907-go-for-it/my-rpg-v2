@@ -17,6 +17,12 @@
         "resource": "resonance",
         "amount": 1
       }
+    ],
+    "skillLineId": "arthur.light_slash",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -42,6 +48,12 @@
     ],
     "rules": [
       "Sát thương tăng theo số Cộng hưởng thực tiêu."
+    ],
+    "skillLineId": "arthur.release",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -72,7 +84,13 @@
     ],
     "rules": [
       "Kiệt sức chặn tích Cộng hưởng đến hết lượt kế tiếp."
-    ]
+    ],
+    "fixedByStory": true,
+    "skillLineId": "arthur.ogres_bane",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
+    "growthGroups": []
   },
   {
     "id": "arthur.ogres_bane_controlled",
@@ -102,7 +120,13 @@
     ],
     "rules": [
       "Dư chấn giảm ATK đến hết lượt kế tiếp."
-    ]
+    ],
+    "fixedByStory": true,
+    "skillLineId": "arthur.ogres_bane_controlled",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
+    "growthGroups": []
   },
   {
     "id": "arthur.partial_release",
@@ -122,6 +146,12 @@
         "element": "light",
         "multiplier": 1.7
       }
+    ],
+    "skillLineId": "arthur.partial_release",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -144,6 +174,12 @@
         "resource": "data",
         "amount": 1
       }
+    ],
+    "skillLineId": "iris.formula",
+    "growthProfile": "output_buff_mp",
+    "rankable": true,
+    "growthGroups": [
+      "output_buff_mp"
     ]
   },
   {
@@ -166,6 +202,12 @@
         "resource": "data",
         "amount": 1
       }
+    ],
+    "skillLineId": "iris.calibrate",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -187,6 +229,12 @@
         "status": "empowered",
         "duration": 3
       }
+    ],
+    "skillLineId": "iris.assault",
+    "growthProfile": "output_buff_mp",
+    "rankable": true,
+    "growthGroups": [
+      "output_buff_mp"
     ]
   },
   {
@@ -203,7 +251,12 @@
         "status": "evasive",
         "duration": 1
       }
-    ]
+    ],
+    "skillLineId": "takeshi.stance",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "takeshi.slash",
@@ -217,6 +270,12 @@
         "element": "wind",
         "multiplier": 1.15
       }
+    ],
+    "skillLineId": "takeshi.slash",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -239,6 +298,12 @@
         "multiplier": 1.2,
         "perResource": 0.8
       }
+    ],
+    "skillLineId": "takeshi.riposte",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -261,6 +326,12 @@
         "status": "prisma",
         "duration": 4
       }
+    ],
+    "skillLineId": "fiona.shard",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -283,6 +354,12 @@
         "status": "prisma",
         "duration": 4
       }
+    ],
+    "skillLineId": "fiona.refraction",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -303,6 +380,12 @@
         "consumeStatus": "prisma",
         "perStack": 0.8
       }
+    ],
+    "skillLineId": "fiona.collapse",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -318,6 +401,12 @@
         "type": "shield",
         "multiplier": 1.8
       }
+    ],
+    "skillLineId": "elaine.shield",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -334,6 +423,12 @@
         "status": "water_veil",
         "duration": 2
       }
+    ],
+    "skillLineId": "elaine.veil",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -350,6 +445,12 @@
         "type": "shield",
         "multiplier": 1.1
       }
+    ],
+    "skillLineId": "elaine.sanctuary",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -366,7 +467,12 @@
         "status": "cover",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "garrek.cover",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "garrek.fortress",
@@ -383,7 +489,12 @@
         "status": "fortress",
         "duration": 1
       }
-    ]
+    ],
+    "skillLineId": "garrek.fortress",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "garrek.resolve",
@@ -406,7 +517,12 @@
         "status": "steadfast",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "garrek.resolve",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "dain.strike",
@@ -420,6 +536,12 @@
         "element": "plain",
         "multiplier": 1.2
       }
+    ],
+    "skillLineId": "dain.strike",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -436,7 +558,12 @@
         "status": "braced",
         "duration": 3
       }
-    ]
+    ],
+    "skillLineId": "dain.brace",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "dain.crush",
@@ -465,6 +592,12 @@
     "rules": [
       "Quyết tâm vẫn tăng ATK trong đòn này; chỉ tiêu sau khi gây sát thương.",
       "Điểm tạo từ Gồng mình sau đòn đánh được giữ lại."
+    ],
+    "skillLineId": "dain.crush",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -478,7 +611,12 @@
         "resource": "aim",
         "amount": 2
       }
-    ]
+    ],
+    "skillLineId": "rowan.aim",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "rowan.pierce",
@@ -500,6 +638,12 @@
         "multiplier": 2.1,
         "penetration": 0.6
       }
+    ],
+    "skillLineId": "rowan.pierce",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -517,6 +661,12 @@
         "element": "wind",
         "multiplier": 0.9
       }
+    ],
+    "skillLineId": "rowan.volley",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -540,6 +690,12 @@
         "resource": "heat",
         "amount": 1
       }
+    ],
+    "skillLineId": "freya.fireball",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -563,6 +719,12 @@
         "multiplier": 0.8,
         "perResource": 0.4
       }
+    ],
+    "skillLineId": "freya.inferno",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -582,7 +744,12 @@
         "resource": "mp",
         "amount": 12
       }
-    ]
+    ],
+    "skillLineId": "freya.cool",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "arden.poultice",
@@ -598,7 +765,12 @@
         "status": "regen",
         "duration": 3
       }
-    ]
+    ],
+    "skillLineId": "arden.poultice",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "arden.tonic",
@@ -614,6 +786,12 @@
         "status": "tonic",
         "duration": 3
       }
+    ],
+    "skillLineId": "arden.tonic",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -631,7 +809,12 @@
         "status": "regen",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "arden.garden",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "rhett.charge",
@@ -644,7 +827,12 @@
         "resource": "charge",
         "amount": 2
       }
-    ]
+    ],
+    "skillLineId": "rhett.charge",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "rhett.shot",
@@ -664,6 +852,12 @@
         "element": "thunder",
         "multiplier": 1.9
       }
+    ],
+    "skillLineId": "rhett.shot",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -688,6 +882,12 @@
         "multiplier": 0.8,
         "perResource": 0.55
       }
+    ],
+    "skillLineId": "rhett.overload",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -704,7 +904,12 @@
         "status": "taunt",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "galliard.taunt",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "galliard.wall",
@@ -721,7 +926,12 @@
         "status": "formation",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "galliard.wall",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "galliard.hold",
@@ -737,6 +947,12 @@
         "status": "hold",
         "duration": 2
       }
+    ],
+    "skillLineId": "galliard.hold",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -752,6 +968,12 @@
         "type": "heal",
         "multiplier": 1.8
       }
+    ],
+    "skillLineId": "armie.first_aid",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
     ]
   },
   {
@@ -770,6 +992,12 @@
         "type": "heal",
         "multiplier": 0.6
       }
+    ],
+    "skillLineId": "armie.treatment",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
     ]
   },
   {
@@ -787,6 +1015,12 @@
         "multiplier": 2.2,
         "emergency": true
       }
+    ],
+    "skillLineId": "armie.emergency",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
     ]
   },
   {
@@ -803,7 +1037,12 @@
         "status": "eroded",
         "duration": 3
       }
-    ]
+    ],
+    "skillLineId": "fran.erode",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "fran.fracture",
@@ -819,7 +1058,12 @@
         "status": "fractured",
         "duration": 3
       }
-    ]
+    ],
+    "skillLineId": "fran.fracture",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "fran.night",
@@ -836,7 +1080,12 @@
         "status": "starless",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "fran.night",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "aurora.spark",
@@ -853,6 +1102,12 @@
         "element": "thunder",
         "multiplier": 1
       }
+    ],
+    "skillLineId": "aurora.spark",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -869,6 +1124,12 @@
         "status": "aurora_amplified",
         "duration": 2
       }
+    ],
+    "skillLineId": "aurora.amplify",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -887,6 +1148,12 @@
         "element": "thunder",
         "multiplier": 1
       }
+    ],
+    "skillLineId": "aurora.storm",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -902,7 +1169,12 @@
         "element": "thunder",
         "multiplier": 0.8
       }
-    ]
+    ],
+    "skillLineId": "aurora.follow_up",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "lisbeth.pride",
@@ -919,6 +1191,12 @@
         "status": "ranoc_pride",
         "duration": 3
       }
+    ],
+    "skillLineId": "lisbeth.pride",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -936,6 +1214,12 @@
         "element": "light",
         "multiplier": 1.9
       }
+    ],
+    "skillLineId": "lisbeth.lance",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -954,6 +1238,12 @@
         "element": "light",
         "multiplier": 2.8
       }
+    ],
+    "skillLineId": "lisbeth.judgment",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -971,7 +1261,12 @@
         "multiplier": 1.3
       }
     ],
-    "description": "Chém lén một đối thủ."
+    "description": "Chém lén một đối thủ.",
+    "skillLineId": "enemy.slash",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.splash",
@@ -989,7 +1284,12 @@
         "multiplier": 0.9
       }
     ],
-    "description": "Gọi sóng nước đánh toàn đội đối phương."
+    "description": "Gọi sóng nước đánh toàn đội đối phương.",
+    "skillLineId": "enemy.splash",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.double_hit",
@@ -1007,7 +1307,12 @@
         "hits": 2
       }
     ],
-    "description": "Quật một đối thủ hai nhịp."
+    "description": "Quật một đối thủ hai nhịp.",
+    "skillLineId": "enemy.double_hit",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.smash",
@@ -1029,7 +1334,12 @@
         "duration": 2
       }
     ],
-    "description": "Đập mạnh một đối thủ và làm suy yếu ATK."
+    "description": "Đập mạnh một đối thủ và làm suy yếu ATK.",
+    "skillLineId": "enemy.smash",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.quake",
@@ -1047,7 +1357,12 @@
         "multiplier": 1.1
       }
     ],
-    "description": "Chấn động mặt đất, đánh toàn đội đối phương."
+    "description": "Chấn động mặt đất, đánh toàn đội đối phương.",
+    "skillLineId": "enemy.quake",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.shaman_ember",
@@ -1064,7 +1379,12 @@
         "element": "fire",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "enemy.shaman_ember",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.shaman_hex",
@@ -1082,7 +1402,12 @@
         "element": "dark",
         "multiplier": 0.75
       }
-    ]
+    ],
+    "skillLineId": "enemy.shaman_hex",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.wyvern_bite",
@@ -1099,7 +1424,12 @@
         "element": "plain",
         "multiplier": 1.35
       }
-    ]
+    ],
+    "skillLineId": "enemy.wyvern_bite",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.wyvern_wings",
@@ -1117,7 +1447,12 @@
         "element": "wind",
         "multiplier": 0.85
       }
-    ]
+    ],
+    "skillLineId": "enemy.wyvern_wings",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.wyvern_breath",
@@ -1135,7 +1470,12 @@
         "element": "wind",
         "multiplier": 1.1
       }
-    ]
+    ],
+    "skillLineId": "enemy.wyvern_breath",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.wolf_pounce",
@@ -1152,7 +1492,12 @@
         "element": "plain",
         "multiplier": 1.5
       }
-    ]
+    ],
+    "skillLineId": "enemy.wolf_pounce",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.wolf_rend",
@@ -1170,7 +1515,12 @@
         "multiplier": 0.65,
         "hits": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.wolf_rend",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.wolf_bite",
@@ -1187,7 +1537,12 @@
         "element": "plain",
         "multiplier": 1.15
       }
-    ]
+    ],
+    "skillLineId": "enemy.wolf_bite",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.pangolin_roll",
@@ -1205,7 +1560,12 @@
         "element": "earth",
         "multiplier": 1.05
       }
-    ]
+    ],
+    "skillLineId": "enemy.pangolin_roll",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.pangolin_tail",
@@ -1222,7 +1582,12 @@
         "element": "earth",
         "multiplier": 1.45
       }
-    ]
+    ],
+    "skillLineId": "enemy.pangolin_tail",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "kai.poison",
@@ -1242,7 +1607,12 @@
     "rules": [
       "Độc bỏ qua DEF, RES và khiên; không hưởng điểm yếu.",
       "Lượng độc chốt khi dùng chiêu; dùng lại làm mới thời hạn và lượng độc."
-    ]
+    ],
+    "skillLineId": "kai.poison",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "kai.shield",
@@ -1258,6 +1628,12 @@
         "flat": 8,
         "multiplier": 0.9
       }
+    ],
+    "skillLineId": "kai.shield",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -1275,6 +1651,12 @@
         "status": "kai_formation",
         "duration": 2
       }
+    ],
+    "skillLineId": "kai.formation",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -1293,6 +1675,12 @@
         "multiplier": 0.7,
         "hits": 2
       }
+    ],
+    "skillLineId": "benard.twin_blades",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1312,6 +1700,12 @@
         "multiplier": 0.7,
         "speedMultiplier": 1
       }
+    ],
+    "skillLineId": "benard.flash",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1332,7 +1726,12 @@
     ],
     "rules": [
       "SPD tăng ngay; thứ tự hành động đổi khi lập hàng lượt mới."
-    ]
+    ],
+    "skillLineId": "benard.gale",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "lanceveil.thrust",
@@ -1349,6 +1748,12 @@
         "element": "fire",
         "multiplier": 1.35
       }
+    ],
+    "skillLineId": "lanceveil.thrust",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1368,6 +1773,12 @@
         "multiplier": 2.2,
         "penetration": 0.25
       }
+    ],
+    "skillLineId": "lanceveil.breakthrough",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1385,7 +1796,12 @@
         "status": "lanceveil_bulwark",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "lanceveil.bulwark",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "enemy.alice_curse",
@@ -1408,7 +1824,12 @@
         "status": "alice_withering",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.alice_curse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.alice_grasp",
@@ -1431,7 +1852,12 @@
         "status": "alice_chains",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.alice_grasp",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.alice_judgment",
@@ -1459,7 +1885,12 @@
         "status": "fractured",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.alice_judgment",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.alice_blade",
@@ -1476,7 +1907,12 @@
         "element": "dark",
         "multiplier": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.alice_blade",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_fang",
@@ -1490,7 +1926,12 @@
         "element": "plain",
         "multiplier": 1.4
       }
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_fang",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_tail",
@@ -1507,7 +1948,12 @@
         "element": "plain",
         "multiplier": 0.8
       }
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_tail",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_fireball",
@@ -1524,7 +1970,12 @@
         "element": "fire",
         "multiplier": 1.5
       }
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_fireball",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_breath",
@@ -1547,7 +1998,12 @@
         "element": "fire",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_breath",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_sweep",
@@ -1570,7 +2026,12 @@
         "element": "fire",
         "multiplier": 1.3
       }
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_sweep",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_crush",
@@ -1588,7 +2049,12 @@
         "multiplier": 0.85,
         "hits": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_crush",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_blast",
@@ -1610,7 +2076,12 @@
         "element": "fire",
         "multiplier": 1.8
       }
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_blast",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_whitefire",
@@ -1633,7 +2104,12 @@
     ],
     "rules": [
       "Kìm hãm làm yếu lửa ở giai đoạn 3."
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_whitefire",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.miraebolis_doom",
@@ -1659,7 +2135,12 @@
     ],
     "rules": [
       "Có báo trước; chuẩn bị phòng thủ và duy trì Kìm hãm."
-    ]
+    ],
+    "skillLineId": "enemy.miraebolis_doom",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "gahallad.mount",
@@ -1677,6 +2158,12 @@
     ],
     "rules": [
       "Bật hoặc tắt tốn một lượt."
+    ],
+    "skillLineId": "gahallad.mount",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -1694,6 +2181,12 @@
         "element": "dark",
         "multiplier": 1.35
       }
+    ],
+    "skillLineId": "gahallad.trample",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1712,6 +2205,12 @@
         "element": "dark",
         "multiplier": 2.4
       }
+    ],
+    "skillLineId": "gahallad.charge",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1728,7 +2227,12 @@
         "type": "shield",
         "flat": 140
       }
-    ]
+    ],
+    "skillLineId": "enemy.spider_cocoon",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.spider_bite",
@@ -1745,7 +2249,12 @@
         "element": "plain",
         "multiplier": 1.35
       }
-    ]
+    ],
+    "skillLineId": "enemy.spider_bite",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.spider_web",
@@ -1763,7 +2272,12 @@
         "element": "earth",
         "multiplier": 0.8
       }
-    ]
+    ],
+    "skillLineId": "enemy.spider_web",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "gawain.cloud",
@@ -1784,7 +2298,12 @@
     "rules": [
       "Mây bắt đầu đánh từ đầu lượt kế tiếp.",
       "Gọi lại ngay khi hết hồi chiêu có một vòng thiếu Uy lôi; Lượt Thêm vẫn tính là lượt thực."
-    ]
+    ],
+    "skillLineId": "gawain.cloud",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "gawain.sweep",
@@ -1801,6 +2320,12 @@
         "element": "thunder",
         "multiplier": 0.9
       }
+    ],
+    "skillLineId": "gawain.sweep",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1819,6 +2344,12 @@
         "element": "thunder",
         "multiplier": 1.45
       }
+    ],
+    "skillLineId": "gawain.judgment",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1837,7 +2368,12 @@
     ],
     "rules": [
       "Đòn mây không dùng lượt hoặc MP và không hưởng hay tiêu buff đòn kế tiếp."
-    ]
+    ],
+    "skillLineId": "gawain.cloud_pulse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "lucien.sweep",
@@ -1854,6 +2390,12 @@
         "element": "plain",
         "multiplier": 1.05
       }
+    ],
+    "skillLineId": "lucien.sweep",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1872,6 +2414,12 @@
         "element": "plain",
         "multiplier": 1.65
       }
+    ],
+    "skillLineId": "lucien.tempest",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1889,6 +2437,12 @@
         "status": "valmont_resistance",
         "duration": 2
       }
+    ],
+    "skillLineId": "lucien.ward",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -1906,6 +2460,12 @@
         "status": "valmont_heir",
         "duration": 3
       }
+    ],
+    "skillLineId": "seraphine.crest",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -1932,6 +2492,12 @@
     ],
     "rules": [
       "Phần vật lí tính DEF; phần phép tính RES riêng."
+    ],
+    "skillLineId": "seraphine.blade",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1959,6 +2525,12 @@
     ],
     "rules": [
       "Phần vật lí tính DEF; phần phép tính RES riêng."
+    ],
+    "skillLineId": "seraphine.spell",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -1976,6 +2548,12 @@
         "scalingStat": "defense",
         "multiplier": 1.5
       }
+    ],
+    "skillLineId": "lyon.shield",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -1992,6 +2570,12 @@
         "status": "valmont_defense",
         "duration": 2
       }
+    ],
+    "skillLineId": "lyon.formation",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -2013,7 +2597,12 @@
       "Chặn một hiệu ứng, không chặn trọn kỹ năng có nhiều hiệu ứng.",
       "Không giải hiệu ứng đã có hoặc chặn hình phạt tự gây.",
       "Dùng lại làm mới một lần chặn, không cộng dồn."
-    ]
+    ],
+    "skillLineId": "lyon.ward",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "cedric.rally",
@@ -2029,6 +2618,12 @@
         "status": "valmont_rally",
         "duration": 2
       }
+    ],
+    "skillLineId": "cedric.rally",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -2047,6 +2642,12 @@
         "flat": 8,
         "multiplier": 1
       }
+    ],
+    "skillLineId": "cedric.aid",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
     ]
   },
   {
@@ -2064,6 +2665,12 @@
         "element": "wind",
         "multiplier": 1.3
       }
+    ],
+    "skillLineId": "cedric.strike",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -2081,7 +2688,12 @@
         "element": "earth",
         "multiplier": 1.25
       }
-    ]
+    ],
+    "skillLineId": "enemy.boar_charge",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.rat_gnaw",
@@ -2098,7 +2710,12 @@
         "element": "plain",
         "multiplier": 1.1
       }
-    ]
+    ],
+    "skillLineId": "enemy.rat_gnaw",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.beetle_shell",
@@ -2114,7 +2731,12 @@
         "type": "shield",
         "flat": 20
       }
-    ]
+    ],
+    "skillLineId": "enemy.beetle_shell",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.beetle_bite",
@@ -2131,7 +2753,12 @@
         "element": "earth",
         "multiplier": 1.1
       }
-    ]
+    ],
+    "skillLineId": "enemy.beetle_bite",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.bat_flurry",
@@ -2149,7 +2776,12 @@
         "multiplier": 0.55,
         "hits": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.bat_flurry",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.snake_fang",
@@ -2172,7 +2804,12 @@
         "status": "kai_poison",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.snake_fang",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.crab_pinch",
@@ -2189,7 +2826,12 @@
         "element": "water",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "enemy.crab_pinch",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.spider_nip",
@@ -2207,7 +2849,12 @@
         "multiplier": 0.55,
         "hits": 2
       }
-    ]
+    ],
+    "skillLineId": "enemy.spider_nip",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.mushroom_spores",
@@ -2225,7 +2872,12 @@
         "element": "earth",
         "multiplier": 0.65
       }
-    ]
+    ],
+    "skillLineId": "enemy.mushroom_spores",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.wisp_flare",
@@ -2242,7 +2894,12 @@
         "element": "fire",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "enemy.wisp_flare",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "enemy.slime_bump",
@@ -2259,7 +2916,12 @@
         "element": "earth",
         "multiplier": 0.95
       }
-    ]
+    ],
+    "skillLineId": "enemy.slime_bump",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "helena.rain",
@@ -2277,7 +2939,13 @@
         "multiplier": 0.95
       }
     ],
-    "description": "Gọi mưa phép Thủy lên toàn địch."
+    "description": "Gọi mưa phép Thủy lên toàn địch.",
+    "skillLineId": "helena.rain",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "helena.parasol",
@@ -2293,7 +2961,13 @@
         "multiplier": 1.5
       }
     ],
-    "description": "Dựng ô ma lực thành khiên bảo vệ bản thân."
+    "description": "Dựng ô ma lực thành khiên bảo vệ bản thân.",
+    "skillLineId": "helena.parasol",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
+    ]
   },
   {
     "id": "helena.ball",
@@ -2311,7 +2985,13 @@
         "multiplier": 1.8
       }
     ],
-    "description": "Nhấn chìm toàn địch trong vũ hội mưa phép."
+    "description": "Nhấn chìm toàn địch trong vũ hội mưa phép.",
+    "skillLineId": "helena.ball",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "leonardo.cover",
@@ -2334,7 +3014,13 @@
         "to": "self"
       }
     ],
-    "description": "Nhận đòn thay một đồng đội và tự tăng kháng phép."
+    "description": "Nhận đòn thay một đồng đội và tự tăng kháng phép.",
+    "skillLineId": "leonardo.cover",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
   },
   {
     "id": "leonardo.home",
@@ -2351,7 +3037,13 @@
         "duration": 3
       }
     ],
-    "description": "Dựng kết giới kháng phép cho cả đội."
+    "description": "Dựng kết giới kháng phép cho cả đội.",
+    "skillLineId": "leonardo.home",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
   },
   {
     "id": "leonardo.cleanse",
@@ -2366,7 +3058,12 @@
         "type": "cleanse"
       }
     ],
-    "description": "Thanh tẩy toàn bộ hiệu ứng bất lợi của cả đội."
+    "description": "Thanh tẩy toàn bộ hiệu ứng bất lợi của cả đội.",
+    "skillLineId": "leonardo.cleanse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "kyle.mischief",
@@ -2389,7 +3086,13 @@
         }
       }
     ],
-    "description": "Đánh ba hit, mỗi hit gắn thêm một tầng Trò quậy."
+    "description": "Đánh ba hit, mỗi hit gắn thêm một tầng Trò quậy.",
+    "skillLineId": "kyle.mischief",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "kyle.wind",
@@ -2410,6 +3113,12 @@
     "description": "Đánh phép Phong vào một địch.",
     "rules": [
       "Phép có thể duy trì Trò quậy sẵn có; không tạo dấu mới."
+    ],
+    "skillLineId": "kyle.wind",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -2431,6 +3140,12 @@
     "description": "Gọi gió phép quét qua toàn địch.",
     "rules": [
       "Chỉ làm mới Trò quậy trên địch đã có dấu."
+    ],
+    "skillLineId": "kyle.escape",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -2450,7 +3165,13 @@
         "penetration": 0.1
       }
     ],
-    "description": "Đâm quang thương xuyên giáp một địch."
+    "description": "Đâm quang thương xuyên giáp một địch.",
+    "skillLineId": "iwayn.advance",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "iwayn.oath",
@@ -2467,7 +3188,13 @@
         "duration": 3
       }
     ],
-    "description": "Lập lời thề, tăng ATK bản thân."
+    "description": "Lập lời thề, tăng ATK bản thân.",
+    "skillLineId": "iwayn.oath",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
   },
   {
     "id": "iwayn.victory",
@@ -2486,7 +3213,13 @@
         "penetration": 0.1
       }
     ],
-    "description": "Dồn sức vào một đòn quang thương xuyên giáp."
+    "description": "Dồn sức vào một đòn quang thương xuyên giáp.",
+    "skillLineId": "iwayn.victory",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "percival.undertow",
@@ -2509,7 +3242,13 @@
         "duration": 2
       }
     ],
-    "description": "Đập chùy Thủy, làm chậm một địch."
+    "description": "Đập chùy Thủy, làm chậm một địch.",
+    "skillLineId": "percival.undertow",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "percival.stillness",
@@ -2526,7 +3265,12 @@
         "duration": 2
       }
     ],
-    "description": "Giảm sát thương nhận và tự hồi HP mỗi đầu lượt."
+    "description": "Giảm sát thương nhận và tự hồi HP mỗi đầu lượt.",
+    "skillLineId": "percival.stillness",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "percival.sea",
@@ -2549,7 +3293,13 @@
         "duration": 2
       }
     ],
-    "description": "Giáng trọng chùy, làm chậm một địch."
+    "description": "Giáng trọng chùy, làm chậm một địch.",
+    "skillLineId": "percival.sea",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "mandred.axe",
@@ -2567,7 +3317,13 @@
         "multiplier": 1.45
       }
     ],
-    "description": "Bổ chiến phủ Thổ vào một địch."
+    "description": "Bổ chiến phủ Thổ vào một địch.",
+    "skillLineId": "mandred.axe",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "mandred.sweep",
@@ -2585,7 +3341,13 @@
         "multiplier": 0.95
       }
     ],
-    "description": "Quét chiến phủ Thổ qua toàn địch."
+    "description": "Quét chiến phủ Thổ qua toàn địch.",
+    "skillLineId": "mandred.sweep",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "mandred.roar",
@@ -2602,7 +3364,13 @@
         "duration": 2
       }
     ],
-    "description": "Tăng ATK và khả năng chịu đòn của bản thân."
+    "description": "Tăng ATK và khả năng chịu đòn của bản thân.",
+    "skillLineId": "mandred.roar",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
   },
   {
     "id": "lionel.oath",
@@ -2619,7 +3387,13 @@
         "duration": 2
       }
     ],
-    "description": "Cường hóa sức tấn công vật lí và phép cho một đồng đội."
+    "description": "Cường hóa sức tấn công vật lí và phép cho một đồng đội.",
+    "skillLineId": "lionel.oath",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
   },
   {
     "id": "lionel.encore",
@@ -2638,7 +3412,12 @@
     "rules": [
       "Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.",
       "Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu."
-    ]
+    ],
+    "skillLineId": "lionel.encore",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "lionel.light",
@@ -2656,7 +3435,13 @@
         "multiplier": 1.15
       }
     ],
-    "description": "Chiếu ánh nước tấn công một địch."
+    "description": "Chiếu ánh nước tấn công một địch.",
+    "skillLineId": "lionel.light",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   },
   {
     "id": "giant_boar.gore",
@@ -2679,7 +3464,12 @@
         "duration": 2
       }
     ],
-    "description": "Húc nanh, làm giảm DEF của một đối thủ."
+    "description": "Húc nanh, làm giảm DEF của một đối thủ.",
+    "skillLineId": "giant_boar.gore",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "giant_boar.stampede",
@@ -2697,7 +3487,12 @@
         "multiplier": 0.95
       }
     ],
-    "description": "Càn quét toàn đội đối phương."
+    "description": "Càn quét toàn đội đối phương.",
+    "skillLineId": "giant_boar.stampede",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "fiona.refraction_complete",
@@ -2723,6 +3518,12 @@
     ],
     "rules": [
       "Xét dấu trước khi thi triển; tối đa 3 Mảnh Prisma trên mỗi địch."
+    ],
+    "skillLineId": "fiona.refraction",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -2747,6 +3548,12 @@
     ],
     "rules": [
       "Cần ít nhất 1 Mảnh Prisma. Hồi chiêu 1 vòng: bỏ qua vòng kế tiếp."
+    ],
+    "skillLineId": "fiona.convergence",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -2768,7 +3575,12 @@
         "status": "sword_eye_slow",
         "duration": 1
       }
-    ]
+    ],
+    "skillLineId": "takeshi.counter_awakened",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.keith",
@@ -2788,7 +3600,12 @@
         "hits": 2,
         "penetration": 0.2
       }
-    ]
+    ],
+    "skillLineId": "traveler.keith",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.sunny",
@@ -2807,7 +3624,12 @@
         "multiplier": 1.6,
         "hits": 1
       }
-    ]
+    ],
+    "skillLineId": "traveler.sunny",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.sunny_wave",
@@ -2826,7 +3648,12 @@
         "multiplier": 0.8,
         "hits": 1
       }
-    ]
+    ],
+    "skillLineId": "traveler.sunny_wave",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.mac_taunt",
@@ -2842,7 +3669,12 @@
         "status": "taunt",
         "duration": 1
       }
-    ]
+    ],
+    "skillLineId": "traveler.mac_taunt",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.mac_shield",
@@ -2860,7 +3692,12 @@
         "multiplier": 0.8,
         "flat": 8
       }
-    ]
+    ],
+    "skillLineId": "traveler.mac_shield",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.amy_heal",
@@ -2877,7 +3714,12 @@
         "multiplier": 0.55,
         "flat": 6
       }
-    ]
+    ],
+    "skillLineId": "traveler.amy_heal",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.amy_ward",
@@ -2894,7 +3736,12 @@
         "status": "traveler_ward",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "traveler.amy_ward",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "traveler.mac_defense",
@@ -2911,7 +3758,12 @@
         "status": "traveler_mac_defense",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "traveler.mac_defense",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "astoria.slash",
@@ -2936,6 +3788,12 @@
         "resource": "space_rift",
         "amount": 1
       }
+    ],
+    "skillLineId": "astoria.slash",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -2966,6 +3824,12 @@
         "resource": "space_rift",
         "amount": 2
       }
+    ],
+    "skillLineId": "astoria.rift",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -2993,7 +3857,12 @@
     "rules": [
       "Cần 5 Vết nứt; triệu hồi không tiêu tầng.",
       "Khi hết tầng: Magnamut rời sân vào cuối vòng (sau Vòng Phụ), hoặc đầu lượt Astoria kế tiếp. Lượt hiện tại vẫn được giữ."
-    ]
+    ],
+    "skillLineId": "astoria.summon",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "astoria.command",
@@ -3017,6 +3886,13 @@
         "multiplier": 2,
         "primaryMultiplier": 3.6
       }
+    ],
+    "skillLineId": "astoria.command",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3039,6 +3915,12 @@
         "status": "time_weakened",
         "duration": 1
       }
+    ],
+    "skillLineId": "monica.formula",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3058,6 +3940,12 @@
         "multiplier": 3.2,
         "penetration": 0.25
       }
+    ],
+    "skillLineId": "monica.loophole",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3080,7 +3968,12 @@
       "Chỉ sắp xếp lượt chưa thực hiện; không cấp thêm lượt.",
       "Trong từng phe vẫn xếp theo SPD. Vòng Phụ được sắp xếp riêng.",
       "Vòng thi triển được tính vào thời hạn; dùng lại làm mới, không cộng dồn."
-    ]
+    ],
+    "skillLineId": "monica.distortion",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "charlemagnes.charge",
@@ -3099,6 +3992,12 @@
         "multiplier": 2,
         "hits": 2
       }
+    ],
+    "skillLineId": "charlemagnes.charge",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3118,6 +4017,12 @@
         "multiplier": 1.8,
         "hits": 4
       }
+    ],
+    "skillLineId": "charlemagnes.campaign",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3135,7 +4040,12 @@
         "status": "commanders_breach",
         "duration": 3
       }
-    ]
+    ],
+    "skillLineId": "charlemagnes.breach",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "kreider.prelude",
@@ -3152,6 +4062,12 @@
         "element": "dark",
         "multiplier": 1.2
       }
+    ],
+    "skillLineId": "kreider.prelude",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3169,7 +4085,12 @@
         "status": "orchestra_dissonance",
         "duration": 3
       }
-    ]
+    ],
+    "skillLineId": "kreider.dissonance",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "kreider.finale",
@@ -3187,6 +4108,12 @@
         "element": "dark",
         "multiplier": 3
       }
+    ],
+    "skillLineId": "kreider.finale",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3207,7 +4134,12 @@
     ],
     "rules": [
       "Thứ tự lượt đã xếp không đổi; SPD mới áp dụng khi xếp Vòng Phụ hoặc vòng tiếp theo."
-    ]
+    ],
+    "skillLineId": "roland.haste",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "roland.march",
@@ -3222,7 +4154,12 @@
       {
         "type": "grant_extra_turn"
       }
-    ]
+    ],
+    "skillLineId": "roland.march",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "roland.standard",
@@ -3239,6 +4176,12 @@
         "status": "dawn_standard",
         "duration": 2
       }
+    ],
+    "skillLineId": "roland.standard",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -3257,6 +4200,12 @@
         "scalingStat": "magic",
         "multiplier": 1.6
       }
+    ],
+    "skillLineId": "lumine.edict",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3274,6 +4223,12 @@
         "status": "council_armament",
         "duration": 3
       }
+    ],
+    "skillLineId": "lumine.armament",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -3294,6 +4249,12 @@
         "multiplier": 2.8,
         "penetration": 0.2
       }
+    ],
+    "skillLineId": "lumine.verdict",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3314,6 +4275,12 @@
         ],
         "multiplier": 1.2
       }
+    ],
+    "skillLineId": "victorina.petals",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -3331,6 +4298,12 @@
         "status": "rose_bastion",
         "duration": 3
       }
+    ],
+    "skillLineId": "victorina.thorns",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -3348,6 +4321,12 @@
         "status": "rose_sanctuary",
         "duration": 3
       }
+    ],
+    "skillLineId": "victorina.vow",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -3371,6 +4350,12 @@
         "resource": "sword_art",
         "amount": 1
       }
+    ],
+    "skillLineId": "sieg.opening",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3404,6 +4389,13 @@
     "rules": [
       "Vòng thi triển là vòng đầu. Bảo hộ hết sau Vòng Phụ của vòng thứ ba; có hai vòng trống trước khi dùng lại.",
       "Khiên hết thời hạn không tính là bị đánh vỡ."
+    ],
+    "skillLineId": "sieg.sanctuary",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield",
+      "stat_buff"
     ]
   },
   {
@@ -3432,6 +4424,12 @@
         "resource": "sword_art",
         "amount": 1
       }
+    ],
+    "skillLineId": "sieg.break_form",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3459,6 +4457,12 @@
           "duration": 2
         }
       }
+    ],
+    "skillLineId": "sieg.still_sea",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3475,7 +4479,12 @@
         "type": "status",
         "status": "effect_ward"
       }
-    ]
+    ],
+    "skillLineId": "minerva.ward",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "minerva.cleanse",
@@ -3490,7 +4499,12 @@
       {
         "type": "cleanse"
       }
-    ]
+    ],
+    "skillLineId": "minerva.cleanse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "minerva.herbs",
@@ -3505,6 +4519,12 @@
         "type": "heal",
         "multiplier": 0.9
       }
+    ],
+    "skillLineId": "minerva.herbs",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
     ]
   },
   {
@@ -3532,7 +4552,12 @@
       {
         "type": "grant_extra_turn"
       }
-    ]
+    ],
+    "skillLineId": "auguste.lecture",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "auguste.rebuttal",
@@ -3554,6 +4579,12 @@
           "duration": 2
         }
       }
+    ],
+    "skillLineId": "auguste.rebuttal",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3571,7 +4602,12 @@
       {
         "type": "edit_formula"
       }
-    ]
+    ],
+    "skillLineId": "auguste.edit",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "auguste.theorem",
@@ -3600,7 +4636,12 @@
         "type": "end_formula",
         "to": "self"
       }
-    ]
+    ],
+    "skillLineId": "auguste.theorem",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "logia.fang",
@@ -3621,6 +4662,12 @@
           "duration": 3
         }
       }
+    ],
+    "skillLineId": "logia.fang",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3643,6 +4690,12 @@
           "duration": 3
         }
       }
+    ],
+    "skillLineId": "logia.miasma",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3666,6 +4719,12 @@
           "duration": 3
         }
       }
+    ],
+    "skillLineId": "logia.agony",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3683,7 +4742,12 @@
         "status": "frost_curtain",
         "duration": 3
       }
-    ]
+    ],
+    "skillLineId": "amelia.curtain",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "amelia.bastion",
@@ -3700,6 +4764,12 @@
         "multiplier": 1.2,
         "flat": 12
       }
+    ],
+    "skillLineId": "amelia.bastion",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -3717,6 +4787,12 @@
         "element": "water",
         "multiplier": 1.6
       }
+    ],
+    "skillLineId": "amelia.shard",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3736,7 +4812,12 @@
           "duration": 1
         }
       }
-    ]
+    ],
+    "skillLineId": "amelia.echo",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "chloe.claws",
@@ -3759,6 +4840,12 @@
           "duration": 2
         }
       }
+    ],
+    "skillLineId": "chloe.claws",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3780,6 +4867,13 @@
         "status": "chloe_comfort",
         "duration": 2
       }
+    ],
+    "skillLineId": "chloe.care",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal",
+      "stat_buff"
     ]
   },
   {
@@ -3797,6 +4891,12 @@
         "element": "plain",
         "multiplier": 1.8
       }
+    ],
+    "skillLineId": "chloe.pounce",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3814,6 +4914,12 @@
         "element": "fire",
         "multiplier": 1.5
       }
+    ],
+    "skillLineId": "sylva.flare",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3830,6 +4936,12 @@
         "multiplier": 1.1,
         "flat": 8
       }
+    ],
+    "skillLineId": "sylva.care",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
     ]
   },
   {
@@ -3846,6 +4958,12 @@
         "status": "sylva_bond",
         "duration": 2
       }
+    ],
+    "skillLineId": "sylva.bond",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -3862,7 +4980,12 @@
         "type": "enter_mode",
         "mode": "azurius"
       }
-    ]
+    ],
+    "skillLineId": "sylva.call",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "sylva.breath",
@@ -3881,6 +5004,13 @@
         "multiplier": 1.1,
         "primaryMultiplier": 2.2
       }
+    ],
+    "skillLineId": "sylva.breath",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3899,6 +5029,13 @@
         "multiplier": 1,
         "flat": 8
       }
+    ],
+    "skillLineId": "sylva.wings",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -3918,6 +5055,13 @@
         "element": "fire",
         "multiplier": 3.2
       }
+    ],
+    "skillLineId": "sylva.dive",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -3933,7 +5077,12 @@
         "type": "prepare_mode",
         "mode": "earth_armor"
       }
-    ]
+    ],
+    "skillLineId": "drake.armor",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "drake.ward",
@@ -3951,6 +5100,13 @@
         "multiplier": 1,
         "flat": 12
       }
+    ],
+    "skillLineId": "drake.ward",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "shield"
     ]
   },
   {
@@ -3969,6 +5125,13 @@
         "status": "drake_rampart",
         "duration": 3
       }
+    ],
+    "skillLineId": "drake.rampart",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -3986,7 +5149,12 @@
         "type": "summon_companion",
         "companion": "stone_guardian"
       }
-    ]
+    ],
+    "skillLineId": "drake.golem",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Triệu hồi / hiệu ứng bàn đấu hoặc công thức đặc biệt giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "drake.stone",
@@ -4008,6 +5176,13 @@
           "duration": 2
         }
       }
+    ],
+    "skillLineId": "drake.stone",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4024,7 +5199,12 @@
         "multiplier": 1,
         "scalingStat": "defense"
       }
-    ]
+    ],
+    "skillLineId": "drake.golem_start",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "drake.golem_end",
@@ -4040,7 +5220,12 @@
         "multiplier": 1,
         "scalingStat": "defense"
       }
-    ]
+    ],
+    "skillLineId": "drake.golem_end",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "yufina.jab",
@@ -4058,6 +5243,12 @@
         "multiplier": 1.5,
         "scalingStat": "attack"
       }
+    ],
+    "skillLineId": "yufina.jab",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4077,6 +5268,12 @@
         "scalingStat": "attack",
         "penetration": 0.25
       }
+    ],
+    "skillLineId": "yufina.pierce",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4099,6 +5296,12 @@
           "duration": 2
         }
       }
+    ],
+    "skillLineId": "yufina.daze",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4115,7 +5318,14 @@
         "mode": "radiant_fists"
       }
     ],
-    "cooldown": 2
+    "cooldown": 2,
+    "growthAdapter": "mode_stat_buff",
+    "skillLineId": "yufina.ignite",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
   },
   {
     "id": "karin.sweep",
@@ -4133,6 +5343,12 @@
         "multiplier": 0.9,
         "lowHpBonus": 0.8
       }
+    ],
+    "skillLineId": "karin.sweep",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4152,6 +5368,12 @@
         "multiplier": 1.4,
         "lowHpBonus": 1.4
       }
+    ],
+    "skillLineId": "karin.last_stand",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4169,6 +5391,12 @@
         "status": "karin_oath",
         "duration": 2
       }
+    ],
+    "skillLineId": "karin.blood_oath",
+    "growthProfile": "output_buff_mp",
+    "rankable": true,
+    "growthGroups": [
+      "output_buff_mp"
     ]
   },
   {
@@ -4186,6 +5414,12 @@
         "element": "water",
         "multiplier": 1.7
       }
+    ],
+    "skillLineId": "elise.scripture",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4207,6 +5441,12 @@
         "type": "dispel",
         "count": 1
       }
+    ],
+    "skillLineId": "elise.absolve",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4227,6 +5467,12 @@
         "perTargetBuff": 0.4,
         "maxTargetBuffs": 3
       }
+    ],
+    "skillLineId": "elise.judgment",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4248,6 +5494,12 @@
           "duration": 2
         }
       }
+    ],
+    "skillLineId": "yumia.watch",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -4263,7 +5515,12 @@
         "type": "dispel",
         "all": true
       }
-    ]
+    ],
+    "skillLineId": "yumia.strip",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
+    "growthGroups": []
   },
   {
     "id": "yumia.shelter",
@@ -4280,6 +5537,12 @@
         "status": "yumia_shelter",
         "duration": 3
       }
+    ],
+    "skillLineId": "yumia.shelter",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -4295,7 +5558,12 @@
         "element": "dark",
         "multiplier": 4.2
       }
-    ]
+    ],
+    "skillLineId": "yumia.counter",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "ogre_king.strike",
@@ -4309,7 +5577,12 @@
         "element": "earth",
         "multiplier": 1.15
       }
-    ]
+    ],
+    "skillLineId": "ogre_king.strike",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "ogre_king.sunder",
@@ -4330,7 +5603,12 @@
           "duration": 2
         }
       }
-    ]
+    ],
+    "skillLineId": "ogre_king.sunder",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "ogre_king.quake",
@@ -4347,7 +5625,12 @@
         "element": "earth",
         "multiplier": 0.75
       }
-    ]
+    ],
+    "skillLineId": "ogre_king.quake",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "ogre_king.ruin",
@@ -4369,7 +5652,12 @@
         "element": "earth",
         "multiplier": 1.1
       }
-    ]
+    ],
+    "skillLineId": "ogre_king.ruin",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "arthur.ogres_bane_mastered",
@@ -4401,7 +5689,13 @@
       "Buff có thể bị xóa; thi triển lại sẽ cấp lại buff.",
       "Không gây Kiệt sức hoặc Dư chấn."
     ],
-    "presentation": "hero_mastered"
+    "presentation": "hero_mastered",
+    "fixedByStory": true,
+    "skillLineId": "arthur.ogres_bane_mastered",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
+    "growthGroups": []
   },
   {
     "id": "arthur.ogres_bane_flash",
@@ -4423,7 +5717,13 @@
         "multiplier": 2.8
       }
     ],
-    "presentation": "hero_flash"
+    "presentation": "hero_flash",
+    "fixedByStory": true,
+    "skillLineId": "arthur.ogres_bane_flash",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
+    "growthGroups": []
   },
   {
     "id": "bandit.advance",
@@ -4440,7 +5740,12 @@
         "element": "plain",
         "multiplier": 1.15
       }
-    ]
+    ],
+    "skillLineId": "bandit.advance",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bandit.arrow",
@@ -4458,7 +5763,12 @@
         "multiplier": 1.2,
         "penetration": 0.2
       }
-    ]
+    ],
+    "skillLineId": "bandit.arrow",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bandit.crush",
@@ -4479,7 +5789,12 @@
           "duration": 2
         }
       }
-    ]
+    ],
+    "skillLineId": "bandit.crush",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bandit.flame",
@@ -4496,7 +5811,12 @@
         "element": "fire",
         "multiplier": 0.65
       }
-    ]
+    ],
+    "skillLineId": "bandit.flame",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bandit.firebolt",
@@ -4513,7 +5833,12 @@
         "element": "fire",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "bandit.firebolt",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bandit.command_cut",
@@ -4530,7 +5855,12 @@
         "element": "plain",
         "multiplier": 1.45
       }
-    ]
+    ],
+    "skillLineId": "bandit.command_cut",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bandit.command_sweep",
@@ -4547,7 +5877,12 @@
         "element": "plain",
         "multiplier": 0.75
       }
-    ]
+    ],
+    "skillLineId": "bandit.command_sweep",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "ryoga.cut",
@@ -4568,7 +5903,12 @@
           "duration": 2
         }
       }
-    ]
+    ],
+    "skillLineId": "ryoga.cut",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "ryoga.finish",
@@ -4596,7 +5936,12 @@
     "rules": [
       "Tự nhận thêm 35% sát thương trước khi chém, đến hết lượt kế tiếp của Ryoga.",
       "Đòn vật lí có thể né; phản công xảy ra ngay trong cửa sổ sơ hở."
-    ]
+    ],
+    "skillLineId": "ryoga.finish",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "shadow_arthur.slash",
@@ -4616,7 +5961,12 @@
         "resource": "resonance",
         "amount": 1
       }
-    ]
+    ],
+    "skillLineId": "shadow_arthur.slash",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "shadow_arthur.sweep",
@@ -4639,7 +5989,12 @@
         "resource": "resonance",
         "amount": 1
       }
-    ]
+    ],
+    "skillLineId": "shadow_arthur.sweep",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "shadow_arthur.unbound",
@@ -4671,7 +6026,12 @@
         "status": "exhausted",
         "duration": 1
       }
-    ]
+    ],
+    "skillLineId": "shadow_arthur.unbound",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "shadow_arthur.controlled",
@@ -4697,7 +6057,12 @@
         "element": "dark",
         "multiplier": 4.2
       }
-    ]
+    ],
+    "skillLineId": "shadow_arthur.controlled",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "shadow_arthur.eclipse",
@@ -4728,7 +6093,12 @@
         "to": "self",
         "status": "arthur_complete_control"
       }
-    ]
+    ],
+    "skillLineId": "shadow_arthur.eclipse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "ryoga.sweep",
@@ -4745,7 +6115,12 @@
         "element": "dark",
         "multiplier": 0.85
       }
-    ]
+    ],
+    "skillLineId": "ryoga.sweep",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.guardian.strike",
@@ -4759,7 +6134,12 @@
         "element": "earth",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "bounty.guardian.strike",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.guardian.armor",
@@ -4775,7 +6155,12 @@
         "type": "shield",
         "flat": 90
       }
-    ]
+    ],
+    "skillLineId": "bounty.guardian.armor",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.guardian.echo",
@@ -4793,7 +6178,12 @@
         "element": "earth",
         "multiplier": 0.75
       }
-    ]
+    ],
+    "skillLineId": "bounty.guardian.echo",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.guardian.crack",
@@ -4815,7 +6205,12 @@
           "duration": 2
         }
       }
-    ]
+    ],
+    "skillLineId": "bounty.guardian.crack",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.swordsman.strike",
@@ -4829,7 +6224,12 @@
         "element": "wind",
         "multiplier": 1.1
       }
-    ]
+    ],
+    "skillLineId": "bounty.swordsman.strike",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.swordsman.cloak",
@@ -4846,7 +6246,12 @@
         "status": "bounty_ash_evasion",
         "duration": 2
       }
-    ]
+    ],
+    "skillLineId": "bounty.swordsman.cloak",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.swordsman.delay",
@@ -4868,7 +6273,12 @@
           "duration": 2
         }
       }
-    ]
+    ],
+    "skillLineId": "bounty.swordsman.delay",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.swordsman.sweep",
@@ -4886,7 +6296,12 @@
         "element": "wind",
         "multiplier": 0.7
       }
-    ]
+    ],
+    "skillLineId": "bounty.swordsman.sweep",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.witch.needle",
@@ -4900,7 +6315,12 @@
         "element": "water",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "bounty.witch.needle",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.witch.mist",
@@ -4922,7 +6342,12 @@
           "duration": 2
         }
       }
-    ]
+    ],
+    "skillLineId": "bounty.witch.mist",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.witch.vortex",
@@ -4940,7 +6365,12 @@
         "element": "water",
         "multiplier": 1.4
       }
-    ]
+    ],
+    "skillLineId": "bounty.witch.vortex",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.witch.prayer",
@@ -4957,7 +6387,12 @@
         "flat": 55
       }
     ],
-    "requiresHpBelow": 0.35
+    "requiresHpBelow": 0.35,
+    "skillLineId": "bounty.witch.prayer",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.bull.horn",
@@ -4971,7 +6406,12 @@
         "element": "plain",
         "multiplier": 1.2
       }
-    ]
+    ],
+    "skillLineId": "bounty.bull.horn",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.bull.stomp",
@@ -4990,7 +6430,12 @@
         "multiplier": 0.75,
         "hits": 2
       }
-    ]
+    ],
+    "skillLineId": "bounty.bull.stomp",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.bull.furnace",
@@ -5008,7 +6453,12 @@
         "element": "fire",
         "multiplier": 0.8
       }
-    ]
+    ],
+    "skillLineId": "bounty.bull.furnace",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.bull.charge",
@@ -5026,7 +6476,12 @@
         "element": "fire",
         "multiplier": 1.45
       }
-    ]
+    ],
+    "skillLineId": "bounty.bull.charge",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.cleric.staff",
@@ -5040,7 +6495,12 @@
         "element": "dark",
         "multiplier": 1.1
       }
-    ]
+    ],
+    "skillLineId": "bounty.cleric.staff",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.cleric.mark",
@@ -5063,7 +6523,12 @@
         "status": "exposure_dark",
         "stacks": 1
       }
-    ]
+    ],
+    "skillLineId": "bounty.cleric.mark",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.cleric.pin",
@@ -5081,7 +6546,12 @@
         "element": "dark",
         "multiplier": 1.35
       }
-    ]
+    ],
+    "skillLineId": "bounty.cleric.pin",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "bounty.cleric.scripture",
@@ -5099,7 +6569,12 @@
         "element": "dark",
         "multiplier": 0.65
       }
-    ]
+    ],
+    "skillLineId": "bounty.cleric.scripture",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "chelsea.urgent",
@@ -5116,6 +6591,12 @@
         "status": "chelsea_urgent",
         "duration": 2
       }
+    ],
+    "skillLineId": "chelsea.urgent",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
     ]
   },
   {
@@ -5133,6 +6614,12 @@
         "element": "light",
         "damageType": "physical"
       }
+    ],
+    "skillLineId": "chelsea.seal",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -5152,6 +6639,12 @@
         "damageType": "physical",
         "bonusVsExposure": 0.3
       }
+    ],
+    "skillLineId": "chelsea.delivery",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
     ]
   },
   {
@@ -5171,7 +6664,12 @@
         }
       }
     ],
-    "activation": "passive"
+    "activation": "passive",
+    "skillLineId": "chelsea.counter",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "vesper.knife",
@@ -5185,7 +6683,12 @@
         "element": "wind",
         "damageType": "physical"
       }
-    ]
+    ],
+    "skillLineId": "vesper.knife",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "vesper.ink",
@@ -5203,7 +6706,12 @@
         "element": "dark",
         "damageType": "magical"
       }
-    ]
+    ],
+    "skillLineId": "vesper.ink",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "vesper.seal",
@@ -5219,7 +6727,12 @@
         "type": "shield",
         "flat": 70
       }
-    ]
+    ],
+    "skillLineId": "vesper.seal",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "vesper.warrant",
@@ -5241,7 +6754,12 @@
           "duration": 2
         }
       }
-    ]
+    ],
+    "skillLineId": "vesper.warrant",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "rauth.hammer",
@@ -5255,7 +6773,12 @@
         "element": "earth",
         "damageType": "physical"
       }
-    ]
+    ],
+    "skillLineId": "rauth.hammer",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "rauth.quake",
@@ -5273,7 +6796,12 @@
     "cost": {
       "mp": 10
     },
-    "cooldown": 2
+    "cooldown": 2,
+    "skillLineId": "rauth.quake",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "rauth.break_line",
@@ -5291,7 +6819,12 @@
     "cost": {
       "mp": 12
     },
-    "cooldown": 3
+    "cooldown": 3,
+    "skillLineId": "rauth.break_line",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "rauth.crush",
@@ -5313,7 +6846,12 @@
     "windup": {
       "rounds": 1,
       "message": "Cả đội sẽ chịu đòn chùy diện rộng ở lượt chính kế tiếp. Hãy dựng khiên hoặc Phòng thủ!"
-    }
+    },
+    "skillLineId": "rauth.crush",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "prototype07.tick",
@@ -5327,7 +6865,12 @@
         "element": "thunder",
         "damageType": "magical"
       }
-    ]
+    ],
+    "skillLineId": "prototype07.tick",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "prototype07.reverse",
@@ -5345,7 +6888,12 @@
     "cost": {
       "mp": 9
     },
-    "cooldown": 2
+    "cooldown": 2,
+    "skillLineId": "prototype07.reverse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "prototype07.offbeat",
@@ -5362,7 +6910,12 @@
     "cost": {
       "mp": 10
     },
-    "cooldown": 3
+    "cooldown": 3,
+    "skillLineId": "prototype07.offbeat",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "prototype07.overload",
@@ -5380,7 +6933,12 @@
     "cost": {
       "mp": 14
     },
-    "cooldown": 3
+    "cooldown": 3,
+    "skillLineId": "prototype07.overload",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "river_guardian.fist",
@@ -5394,7 +6952,12 @@
         "element": "earth",
         "damageType": "physical"
       }
-    ]
+    ],
+    "skillLineId": "river_guardian.fist",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "river_guardian.quake",
@@ -5412,7 +6975,12 @@
     "cost": {
       "mp": 9
     },
-    "cooldown": 2
+    "cooldown": 2,
+    "skillLineId": "river_guardian.quake",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "river_guardian.rubble",
@@ -5431,7 +6999,12 @@
     "cost": {
       "mp": 8
     },
-    "cooldown": 2
+    "cooldown": 2,
+    "skillLineId": "river_guardian.rubble",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "river_guardian.flood",
@@ -5449,7 +7022,12 @@
     "cost": {
       "mp": 12
     },
-    "cooldown": 3
+    "cooldown": 3,
+    "skillLineId": "river_guardian.flood",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "time_enemy.quill",
@@ -5463,7 +7041,12 @@
         "element": "wind",
         "damageType": "magical"
       }
-    ]
+    ],
+    "skillLineId": "time_enemy.quill",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "time_enemy.sand",
@@ -5477,7 +7060,12 @@
         "element": "thunder",
         "damageType": "magical"
       }
-    ]
+    ],
+    "skillLineId": "time_enemy.sand",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "time_enemy.echo",
@@ -5491,7 +7079,12 @@
         "element": "dark",
         "damageType": "magical"
       }
-    ]
+    ],
+    "skillLineId": "time_enemy.echo",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "time_enemy.echo_wave",
@@ -5509,7 +7102,12 @@
     "cost": {
       "mp": 8
     },
-    "cooldown": 2
+    "cooldown": 2,
+    "skillLineId": "time_enemy.echo_wave",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "time_enemy.axis",
@@ -5523,7 +7121,12 @@
         "element": "thunder",
         "damageType": "magical"
       }
-    ]
+    ],
+    "skillLineId": "time_enemy.axis",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   },
   {
     "id": "time_enemy.axis_wave",
@@ -5541,6 +7144,11 @@
     "cost": {
       "mp": 8
     },
-    "cooldown": 2
+    "cooldown": 2,
+    "skillLineId": "time_enemy.axis_wave",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
+    "growthGroups": []
   }
 ]

@@ -1,5 +1,5 @@
 import {trainingChargeState} from './training-charges.js';
-import { enemyStatMultipliers } from "./enemy-scaling.js";
+import { enemyStatMultipliers,enemyHpFactor,enemyHpProfile } from "./enemy-scaling.js";
 export const DUNGEON_TIME_ZONE = "Asia/Ho_Chi_Minh";
 export function dungeonDay(now = new Date()) {
   const parts = new Intl.DateTimeFormat("en-GB", {
@@ -59,6 +59,10 @@ export function validateDungeonContent(content) {
         errors.push(`Invalid dungeon difficulty ${dungeon.id}`);
       ids.add(difficulty.id);
       if(difficulty.enemyLevel!==undefined&&(!Number.isInteger(difficulty.enemyLevel)||difficulty.enemyLevel<1||difficulty.enemyLevel>60))errors.push("Invalid dungeon enemy level "+dungeon.id);
+      if(difficulty.enemyLevel!==undefined)try {
+        for(const encounter of Object.values(content.encounters??{}).filter(e=>!e.travelerStory&&e.category!=='bounty'&&e.rewardTier===(dungeon.encounterTier??'normal')))
+          enemyHpFactor(difficulty.enemyLevel,enemyHpProfile(encounter),content);
+      } catch { errors.push('Unsupported dungeon HP level '+dungeon.id); }
       const rewards = Object.entries(difficulty.reward ?? {});
       const expectedReward={gold_mine:'coins',dangerous:'recruitmentShards',training_grounds:'characterXp',breakthrough_trial:'limitBreakStones'}[dungeon.id];
       if(expectedReward&&!Object.hasOwn(difficulty.reward??{},expectedReward))errors.push('Invalid reward kind '+dungeon.id);

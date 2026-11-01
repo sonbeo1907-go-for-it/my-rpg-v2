@@ -24,7 +24,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "forest_patrol",
@@ -38,7 +39,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "boar_field",
@@ -52,7 +54,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "granary_rats",
@@ -66,7 +69,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "beetle_orchard",
@@ -79,7 +83,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "bat_roost",
@@ -93,7 +98,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "riverbank_pests",
@@ -107,7 +113,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "marsh_trail",
@@ -120,7 +127,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "mushroom_grove",
@@ -134,7 +142,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "flickering_woods",
@@ -148,7 +157,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "ogre_trial",
@@ -167,7 +177,8 @@
     "bgm": "boss",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "goblin_cave",
@@ -181,7 +192,8 @@
     "bgm": "normal",
     "rewardTier": "normal",
     "defaultDifficulty": "very_easy",
-    "enemyLevel": 5
+    "enemyLevel": 5,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_1",
@@ -193,7 +205,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_2",
@@ -205,7 +218,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_3",
@@ -217,7 +231,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_4",
@@ -229,7 +244,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_5",
@@ -241,7 +257,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_6",
@@ -253,7 +270,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_7",
@@ -265,7 +283,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_8",
@@ -277,7 +296,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_9",
@@ -289,7 +309,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wyvern_trial_10",
@@ -301,7 +322,8 @@
     "bgm": "wyvern",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "wolf_pack",
@@ -316,7 +338,8 @@
     "bgm": "boss",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "giant_pangolin_lair",
@@ -328,7 +351,8 @@
     "bgm": "boss",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "alice_superboss",
@@ -342,7 +366,9 @@
     "requires": {
       "storyFlag": "illusion.sinister_unlocked"
     },
-    "enemyLevel": 60
+    "enemyLevel": 60,
+    "hpReferenceLevel": 1,
+    "referenceLevel": 1
   },
   {
     "id": "miraebolis_superboss",
@@ -356,7 +382,9 @@
     "requires": {
       "storyFlag": "illusion.sinister_unlocked"
     },
-    "enemyLevel": 60
+    "enemyLevel": 60,
+    "hpReferenceLevel": 1,
+    "referenceLevel": 1
   },
   {
     "id": "giant_spider_lair",
@@ -368,7 +396,8 @@
     "bgm": "boss",
     "rewardTier": "boss",
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "giant_boar_trial",
@@ -398,7 +427,8 @@
       }
     ],
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "iris_story_growth",
@@ -418,7 +448,8 @@
       }
     ],
     "rewardTier": "normal",
-    "enemyLevel": 5
+    "enemyLevel": 10,
+    "referenceLevel": 1
   },
   {
     "id": "iris_story_pride",
@@ -439,7 +470,8 @@
         "characterId": "iris"
       }
     ],
-    "enemyLevel": 15
+    "enemyLevel": 20,
+    "referenceLevel": 1
   },
   {
     "id": "iris_story_revenge",
@@ -466,7 +498,8 @@
         "upgradeId": "iris.field_conclusions"
       }
     ],
-    "enemyLevel": 20
+    "enemyLevel": 30,
+    "referenceLevel": 1
   },
   {
     "id": "fiona_story_eins",
@@ -510,7 +543,8 @@
         "characterId": "fiona"
       }
     ],
-    "enemyLevel": 5
+    "enemyLevel": 10,
+    "referenceLevel": 1
   },
   {
     "id": "fiona_story_zwei",
@@ -549,7 +583,8 @@
         "characterId": "fiona"
       }
     ],
-    "enemyLevel": 15
+    "enemyLevel": 20,
+    "referenceLevel": 1
   },
   {
     "id": "fiona_story_drei",
@@ -577,7 +612,8 @@
         "characterId": "fiona"
       }
     ],
-    "enemyLevel": 20
+    "enemyLevel": 30,
+    "referenceLevel": 1
   },
   {
     "id": "takeshi_story_justice",
@@ -601,7 +637,8 @@
         "characterId": "takeshi"
       }
     ],
-    "enemyLevel": 5
+    "enemyLevel": 10,
+    "referenceLevel": 1
   },
   {
     "id": "takeshi_story_wanderer",
@@ -645,7 +682,8 @@
         "characterId": "takeshi"
       }
     ],
-    "enemyLevel": 15
+    "enemyLevel": 20,
+    "referenceLevel": 1
   },
   {
     "id": "takeshi_story_horizon",
@@ -673,7 +711,8 @@
         "upgradeId": "takeshi.swordsman_eye"
       }
     ],
-    "enemyLevel": 20
+    "enemyLevel": 30,
+    "referenceLevel": 1
   },
   {
     "id": "epilogue_unfinished",
@@ -701,7 +740,8 @@
         "upgradeId": "arthur.complete_control"
       }
     ],
-    "enemyLevel": 30
+    "enemyLevel": 30,
+    "referenceLevel": 1
   },
   {
     "id": "bounty_bell_lock_guardian",
@@ -735,7 +775,8 @@
       }
     ],
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "bounty_ash_cloaked_swordsman",
@@ -773,7 +814,8 @@
       }
     ],
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "bounty_salt_marsh_witch",
@@ -811,7 +853,8 @@
       }
     ],
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "bounty_slag_iron_bull",
@@ -845,7 +888,8 @@
       }
     ],
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "bounty_black_script_cleric",
@@ -883,7 +927,8 @@
       }
     ],
     "defaultDifficulty": "medium",
-    "enemyLevel": 25
+    "enemyLevel": 25,
+    "referenceLevel": 1
   },
   {
     "id": "chelsea_story_daily",
@@ -916,7 +961,8 @@
         "amount": 500
       }
     ],
-    "enemyLevel": 15
+    "enemyLevel": 10,
+    "referenceLevel": 1
   },
   {
     "id": "chelsea_story_arrows",
@@ -971,7 +1017,8 @@
         "templateId": "chelsea.compass"
       }
     ],
-    "enemyLevel": 20
+    "enemyLevel": 20,
+    "referenceLevel": 1
   },
   {
     "id": "chelsea_story_unsigned",
@@ -1003,7 +1050,8 @@
         "amount": 1
       }
     ],
-    "enemyLevel": 25
+    "enemyLevel": 30,
+    "referenceLevel": 1
   },
   {
     "id": "victorina_story_1",
@@ -1036,7 +1084,8 @@
         "amount": 500
       }
     ],
-    "enemyLevel": 15
+    "enemyLevel": 10,
+    "referenceLevel": 1
   },
   {
     "id": "victorina_story_2",
@@ -1091,7 +1140,8 @@
         "templateId": "victorina.rose_shield"
       }
     ],
-    "enemyLevel": 20
+    "enemyLevel": 20,
+    "referenceLevel": 1
   },
   {
     "id": "victorina_story_3",
@@ -1123,7 +1173,8 @@
         "amount": 1
       }
     ],
-    "enemyLevel": 25
+    "enemyLevel": 30,
+    "referenceLevel": 1
   },
   {
     "id": "monica_story_1",
@@ -1156,7 +1207,8 @@
         "amount": 500
       }
     ],
-    "enemyLevel": 15
+    "enemyLevel": 10,
+    "referenceLevel": 1
   },
   {
     "id": "monica_story_2",
@@ -1211,7 +1263,8 @@
         "templateId": "monica.silver_watch"
       }
     ],
-    "enemyLevel": 20
+    "enemyLevel": 20,
+    "referenceLevel": 1
   },
   {
     "id": "monica_story_3",
@@ -1243,7 +1296,8 @@
         "amount": 1
       }
     ],
-    "enemyLevel": 25
+    "enemyLevel": 30,
+    "referenceLevel": 1
   },
   {
     "id": "sieg_story_1",
@@ -1276,7 +1330,8 @@
         "amount": 500
       }
     ],
-    "enemyLevel": 15
+    "enemyLevel": 10,
+    "referenceLevel": 1
   },
   {
     "id": "sieg_story_2",
@@ -1332,7 +1387,8 @@
         "templateId": "sieg.silver_tide"
       }
     ],
-    "enemyLevel": 20
+    "enemyLevel": 20,
+    "referenceLevel": 1
   },
   {
     "id": "sieg_story_3",
@@ -1364,6 +1420,7 @@
         "amount": 1
       }
     ],
-    "enemyLevel": 25
+    "enemyLevel": 30,
+    "referenceLevel": 1
   }
 ]

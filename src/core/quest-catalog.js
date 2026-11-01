@@ -23,7 +23,7 @@ export function assertEncounterParty(encounter, campaign, content) {
 }
 export function encounterReturnPath(content, id,difficultyId) {
   const story = content.encounters[id]?.travelerStory;
-  return story ? `/stories/${story}?selected=${id}` : content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
+  return story ? `/stories/${story}?selected=${id}` : content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
 }
 export function questCategory(filters = {}) {
   if(filters.tab==='bounty')return 'bounty';

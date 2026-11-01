@@ -18,11 +18,11 @@ function setup(encounter, party = ['arthur'], random = () => .99) {
   }
   if(content.encounters[encounter].category==='bounty')campaign.claimedFirstClearRewards.push(...content.encounters[encounter].requires.firstClears);
   campaign.unlockedCharacterIds = Object.keys(content.characters);
-  return createBattle(content, campaign, encounter, random);
+  return createBattle(content, campaign, encounter, random,{enemyLevel:content.encounters[encounter].referenceLevel??content.encounters[encounter].enemyLevel});
 }
 function strike(encounter, element, damageType, shield = 0, source = content) {
   const campaign = createCampaign(source); campaign.party = ['arthur'];
-  const battle = createBattle(source, campaign, encounter);
+  const battle = createBattle(source, campaign, encounter,undefined,{enemyLevel:source.encounters[encounter].referenceLevel??source.encounters[encounter].enemyLevel});
   const actor = getActor(battle, 'arthur'), target = getActor(battle, 'enemy_0');
   actor.stats.attack = 40; actor.stats.magic = 40; actor.element = element; actor.basicDamageType = damageType;
   target.stats.defense = 0; target.stats.resistance = 0; target.shield = shield;

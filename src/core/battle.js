@@ -1,3 +1,4 @@
+import {resolveRankedAbility} from './skill-resolver.js';
 import {questDifficulty} from './quest-difficulty.js';
 import {shieldedDamageBonus} from './exclusive-field.js';
 import {evasionChance} from './evasion.js';
@@ -112,8 +113,10 @@ export function createBattle(
           )),
     ...(encounter.waves?.[options.storyWaveIndex ?? 0] ?? encounter.enemies).map((id, index) => {
       const definition = structuredClone(content.enemies[id]);
+      definition.referenceLevel=encounter.referenceLevel??definition.referenceLevel;
       const level=requestedLevel??definition.referenceLevel;
-      definition.stats = levelScaledEnemyStats(definition,level,content,scale);definition.level=level;
+      definition.stats = levelScaledEnemyStats(definition,level,content,scale,encounter);definition.level=level;
+      definition.pendingSuperLevelBalance=level>content.progressionRules.default.enemyStatGrowthTargets.offense.atLevel;
       return makeActor(
         definition,
         "enemy",
@@ -1042,7 +1045,7 @@ function applyStatus(
   statusId,
   duration,
   sourceId,
-  { silent = false, stacks = 1 } = {},
+  { silent = false, stacks = 1, appliedModifiers, linkedAppliedModifiers } = {},
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
@@ -1080,6 +1083,8 @@ function applyStatus(
     !(definition.exposedElement && battle.content.statuses[status.id].exposedElement));
   const applied = {
     id: statusId,
+    ...(appliedModifiers?{appliedModifiers:{...appliedModifiers}}:{}),
+    ...(linkedAppliedModifiers?{linkedAppliedModifiers:structuredClone(linkedAppliedModifiers)}:{}),
     remaining: duration ?? (definition.persistent ? null : duration),
     sourceId,
     stacks: Math.min(definition.maxStacks ?? 1, previousStacks + stacks),
@@ -1154,7 +1159,7 @@ function applyEffect(
     }
     if (effect.type === "end_formula") closeFormula(battle,target,modeIO,"theorem");
     if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO,actionContext.skillId);
-    if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO);
+    if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO,effect.modeAppliedModifiers);
     if (effect.type === "prepare_mode") prepareCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if (effect.type === "heal") {
@@ -1200,7 +1205,7 @@ function applyEffect(
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
       if (battle.content.statuses[effect.status].exposedElement) applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count});
       else for (let i = 0; i < count; i++) {
-        const applied = applyStatus(battle, target, effect.status, duration, actor.id);
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers});
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }
     }
@@ -1230,6 +1235,7 @@ function applyEffect(
           effect.status,
           effect.duration,
           actor.id,
+          {appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers},
         );
         if (applied && effect.linkedStatuses)
           applied.linkedStatuses = [...effect.linkedStatuses];
@@ -1326,12 +1332,12 @@ function resolveAction(
   const actor = activeActor(battle);
   if (!actor || actor.id !== actorId)
     throw new Error("Chưa đến lượt nhân vật này.");
-  const skill =
+  const skill = resolveRankedAbility(battle.content,actor,
     abilityId === "$attack"
       ? basicAbility(actor)
       : abilityId === "$defend"
         ? DEFEND
-        : battle.content.abilities[abilityId];
+        : battle.content.abilities[abilityId]);
   if (
     !skill ||
     (!abilityId.startsWith("$") && !actor.abilities.includes(abilityId))

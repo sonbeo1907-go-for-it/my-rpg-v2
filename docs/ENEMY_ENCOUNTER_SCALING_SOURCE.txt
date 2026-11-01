@@ -1,0 +1,136 @@
+﻿NORTHERN PRISMA V2
+ĐẶC TẢ TRIỂN KHAI — ENEMY & ENCOUNTER LEVEL SCALING
+Phiên bản: Implementation Baseline v1.0 | Ngày: 01/11/2026 | Trạng thái: Chốt thông số đưa vào playtest; chưa chứng minh cân bằng.
+Mục tiêu tài liệu: Bàn giao thiết kế, công thức, quy tắc migration và tiêu chí nghiệm thu cho lập trình viên/QA. Không tự ý suy diễn thêm loại quái hay tăng trưởng vượt phạm vi quy định.
+0. TÓM TẮT QUYẾT ĐỊNH
+• HP Scale theo Encounter (rewardTier / profile override), KHÔNG phân loại enemy thành Normal/Elite/Boss.
+• Normal Encounter: +1,8% HP/Lv cho bước lên Lv2–30; +2,5% HP/Lv từ bước Lv30→31 đến Lv50.
+• Boss Encounter: +4% HP/Lv cho bước lên Lv2–30; +7% HP/Lv từ bước Lv30→31 đến Lv50.
+• Superboss: +1,5% HP/Lv lên đến Lv50; +2,5% HP/Lv từ Lv51–80; +3% HP/Lv từ Lv81–90 (chuẩn bị cho Super Level về sau).
+• ATK/MAG: tại Lv50 có hệ số ×2,25 so với Lv1 của cùng đường cong; DEF/RES: ×1,50. Một đường cong chung cho mọi Encounter; không dùng lại milestone cộng dồn cũ đối với 4 chỉ số này.
+• Giữ nguyên kỹ năng, Gear, Team Synergy, cơ chế chiến đấu và giới hạn phân bổ điểm phía player; MP/SPD chưa thay đổi trong đợt này.
+• Superboss Alice/Miraebolis dùng hpReferenceLevel=1, đồng thời giữ referenceLevel chỉ số khác ở Lv60 trong vòng playtest đầu tiên.
+• Không nhân đúp multiplier Dungeon cũ lên Level Scaling mới mà không có quyết định cân bằng rõ ràng.
+1. BỐI CẢNH & NGUYÊN NHÂN
+1.1. Mốc dữ liệu từ hai commit
+Commit n−1: ed9d462dbfaad726f09814f3b5c635bab0256b31 (trước khi có hệ Level). Commit n: 0ae296b946dba2ea33758921237aa79aa0cb5a6e (thêm Level 1–50).
+Đối chiếu data/enemies.json xác nhận 59/59 enemy giữ nguyên bộ stats ở hai commit; commit n gán referenceLevel. Bộ chỉ số n−1 vốn được thiết kế trong game CHƯA có hệ Level, không mặc định là chỉ số tối ưu cho Lv25 hay Lv60.
+Theo xác nhận của người thiết kế: toàn bộ Encounter và Superboss ở bản n−1 đều đã có thể vượt qua bằng Gear + phối hợp đội hình đúng. Đây là bằng chứng thực tế về tính khả thi của build, nhưng CHƯA phải báo cáo tỉ lệ thắng tự động / thời lượng trung bình của mọi đội hình.
+Vấn đề sau migration: hàm levelScaledEnemyStats() đang chuẩn hóa toàn bộ chỉ số theo referenceLevel và enemyGrowth tuyến tính cộng milestone. Kẻ địch dưới referenceLevel có thể yếu hơn bản cũ; HP cao cấp tăng quá chậm. Mặt khác, nếu đổi referenceLevel của Superboss từ 60 xuống 1 sẽ vô tình kéo cả ATK/MAG/DEF/RES/MP/SPD đi lên.
+1.2. Baseline F2P: Hầm ngục Mỏ Vàng — Khó, commit n−1
+Gold Mine (gold_mine / hard) cũ: 4 wave; enemyScale.maxHp = ×1,90; maxMp = ×2,25; attack = ×1,60; magic = ×1,60; DEF/RES/SPD = ×1,00; phần thưởng = 3.000 Coins.
+Wave lấy từ encounterTier normal, mỗi wave rút một Quest không trùng; HP/MP, trạng thái, nhân vật ngã xuống được mang sang wave sau. Theo xác nhận của người thiết kế, team F2P có Gear hợp lý và Team Synergy chuẩn đã vượt được mức Khó bình thường.
+Đây là mốc để kiểm tra curve mới có vô tình phá vỡ độ khó F2P không. Không kết luận team nào cũng thắng: độ khó phụ thuộc wave roll, chiến thuật, Gear và AI.
+2. PHẠM VI THIẾT KẾ
+Trong phạm vi: HP Curve theo Encounter; curve ATK/MAG; curve DEF/RES; chuẩn hóa mốc tham chiếu; Dungeon integration; dữ liệu/validator; regression và balance smoke tests.
+Ngoài phạm vi: thay đổi skill coefficient, cơ chế né, Guard/Barrier, DoT, enemy AI, MP/SPD Curve, tăng Player Level Cap vượt 50, hệ Super Level; không thay đổi chỉ số gốc của 59 enemy trong đợt đầu.
+3. ÁNH XẠ HP PROFILE THEO ENCOUNTER
+rewardTier = normal  → hpScalingProfile = normal.
+rewardTier = boss    → hpScalingProfile = boss (bao gồm Bounty, vì Bounty hiện dùng rewardTier boss).
+rewardTier = super   → hpScalingProfile = superboss, TRỪ Encounter có override tường minh.
+Vì rewardTier chủ yếu mô tả thưởng/nhóm nội dung, nên cho phép encounter.hpScalingProfile ghi đè khi cần: ví dụ epilogue_unfinished (Hắc ảnh Arthur Level 30, rewardTier super) có thể chủ động dùng boss thay vì superboss nếu đó là mục tiêu thiết kế.
+Không thêm trường enemyRank, enemyClass hoặc phân loại từng quái. Cùng một enemy có thể được scale khác nhau nếu xuất hiện trong Encounter khác profile.
+4. HP GROWTH — THÔNG SỐ & ĐỊNH NGHĨA
+4.1. Định nghĩa bước tăng và công thức
+Level 1 có F_HP(1)=1. 'Đến Level 30' nghĩa là khi lên Level 30 vẫn dùng tỷ lệ giai đoạn 1 (29 lần nhân từ Level 1); bước Level 30→31 mới dùng tỷ lệ giai đoạn 2.
+Normal:    F(L) = 1.018^(min(L,30)-1) × 1.025^(max(0,L-30))      [1 ≤ L ≤ 50]
+Boss:      F(L) = 1.04^(min(L,30)-1)  × 1.07^(max(0,L-30))       [1 ≤ L ≤ 50]
+Superboss: F(L) = 1.015^(min(L,50)-1) × 1.025^(max(0,min(L,80)-50)) × 1.03^(max(0,L-80))  [1 ≤ L ≤ 90]
+HP chuẩn hóa: finalMaxHp = round(template.maxHp × F_profile(enemyLevel) / F_profile(hpReferenceLevel) × encounterOrDungeonHpMultiplier). Làm tròn 1 lần sau khi nhân tất cả hệ số, HP không nhỏ hơn 1.
+Khi level == hpReferenceLevel và multiplier == 1, kết quả phải đúng bằng template.maxHp. Không scale tiếp trên actor đã được scale; luôn bắt đầu từ enemy template bất biến.
+4.2. Ví dụ định lượng Normal & Boss
+Goblin (HP gốc 120, hpReferenceLevel 5, profile normal): Lv5=120; Lv15=143; Lv25=171; Lv30=187; Lv35=212; Lv45=271; Lv50=307 HP.
+Giáo Sĩ Hắc Văn (HP gốc 1.120, hpReferenceLevel 25, profile boss): Lv5=511; Lv15=757; Lv25=1.120; Lv30=1.363; Lv35=1.911; Lv45=3.760; Lv50=5.273 HP.
+CHÚ Ý: Với quyết định Boss 4%→7% và ref25, Giáo Sĩ Lv45 đạt ~3.760 HP, KHÔNG phải ~5.000 HP như mục tiêu thảo luận cũ. KHÔNG tự tăng growth để ép HP gần 5.000; nếu playtest cho thấy chưa đủ, trình designer duyệt lại.
+4.3. Superboss & tương lai Super Level
+Alice: HP template 2.400, hpReferenceLevel=1. Miraebolis: HP template 3.600, hpReferenceLevel=1. Giữ referenceLevel=60 đối với chỉ số không phải HP trong vòng thử nghiệm đầu tiên.
+Superboss HP tại Lv50: Alice 4.978 / Miraebolis 7.467; Lv60: 6.372 / 9.558; Lv80: 10.442 / 15.662; Lv90: 14.033 / 21.049.
+Mốc Lv81–90 chỉ là khả năng mở rộng curve, KHÔNG có nghĩa bản hiện tại phải cho người chơi đánh Superboss Lv90 khi player cap vẫn 50. Không tự mở nội dung Lv90 hoặc giả định ATK/DEF tiếp tục tăng nếu chưa có đặc tả Super Level.
+5. ATK/MAG & DEF/RES GROWTH — CHỐT MỤC TIÊU Lv50
+5.1. Công thức chung
+ATK/MAG có hệ số ×2,25 tại Lv50 so với Lv1. DEF/RES có hệ số ×1,50 tại Lv50 so với Lv1. Không chia theo Encounter; các profile chỉ khác nhau ở HP.
+F_offense(L) = 2.25^((L-1)/49), 1 ≤ L ≤ 50    (~+1.6687299% mỗi bước Level)
+F_defense(L) = 1.50^((L-1)/49), 1 ≤ L ≤ 50    (~+0.8309129% mỗi bước Level)
+Một số mốc: Lv1 [ATK/MAG ×1; DEF/RES ×1]; Lv25 [×1,488; ×1,220]; Lv35 [×1,755; ×1,325]; Lv45 [×2,071; ×1,439]; Lv50 [×2,250; ×1,500].
+Chuẩn hóa mọi template không thuộc HP bằng referenceLevel hiện tại: finalAttack = round(template.attack × F_offense(L)/F_offense(referenceLevel) × explicitAttackMultiplier). MAG tương tự; DEF/RES dùng F_defense.
+Không gộp old milestone cộng dồn vào F_offense/F_defense mới; nếu vẫn giữ data.milestones cho tương thích, phải tránh để engine áp chúng lần thứ hai.
+5.2. Xử lý Level trên 50
+Trong bản triển khai hiện tại, chỉ định nghĩa ATK/MAG/DEF/RES Growth đến Level 50. Đề xuất an toàn: dùng F_stat(min(level,50)) làm fallback tạm cho enemy trên Lv50, và ghi rõ cờ 'pending Super Level balance'. Nhờ đó Alice/Miraebolis có referenceLevel=60 sẽ giữ chỉ số tấn công/phòng thủ gốc ở Lv60.
+Khi triển khai Super Level thật, cần một quyết định thiết kế mới cho ATK/MAG/DEF/RES ở Lv51–90, không được tự kéo dài công thức 1–50 vô hạn.
+5.3. Tương tác với Player Stat Allocation
+Level 50: player có 49 điểm phân bổ. ATK/MAG giới hạn +17 cho mỗi chỉ số; DEF/RES cũng +17; SPD giới hạn +9 nhưng tốn 2 điểm/đơn vị; HP được +5 mỗi lượt phân bổ, tối đa 17 lượt = +85 HP.
+Khi người chơi tối đa hóa ATK/MAG, điểm còn lại có thể đầu tư HP/DEF/RES/MP/SPD, nhưng KHÔNG tự giả định mọi người đều chọn phòng thủ. Gear và Team Synergy vẫn phải có ảnh hưởng thực sự.
+Theo battle.js, damage trực tiếp có bước trừ 0,55 × DEF hoặc RES trước các modifier khác. Vì là giảm trừ phẳng chứ không phải phần trăm, chỉ tăng DEF/RES ×1,5 không đồng nghĩa với tỷ lệ giảm sát thương cố định; cần đánh giá theo hệ số skill, pen, DoT, Guard và Khiên.
+6. CHIẾN LƯỢC MIGRATION & DUNGEON INTEGRATION
+6.1. Tránh thay đổi ngoài ý muốn
+Giữ nguyên bộ base stats của 59 enemy tại commit n−1; giữ referenceLevel hiện có cho ATK/MAG/DEF/RES/MP/SPD, trừ khi designer xác nhận sửa cụ thể. Tạo hpReferenceLevel độc lập để không gây buff các chỉ số không thuộc HP.
+Không đổi HP template của Alice/Miraebolis: chỉ cấu hình hpReferenceLevel=1 ở Encounter; referenceLevel mặc định của hai enemy vẫn là 60.
+Rà soát wyvern_thunder: referenceLevel=15 nhưng các Phi long khác chủ yếu =25 dù có cùng base stats; không tự đồng nhất bằng thay đổi nhân vật/truyện. Nếu cần, thêm hpReferenceLevel hoặc override theo Encounter để đảm bảo cân bằng Story và Quest.
+6.2. Mỏ Vàng — Khó: double scaling
+Trạng thái code hiện tại: gold_mine/hard vẫn có HP ×1,9 và ATK/MAG ×1,6 nhưng KHÔNG định nghĩa enemyLevel riêng. Ngược lại, training_grounds và breakthrough_trial đã có enemyLevel. Không được gắn gold_mine/hard.enemyLevel=45 rồi giữ tất cả multiplier cũ mà không kiểm thử.
+Phương án triển khai được ưu tiên: Hầm ngục sử dụng Level tương ứng độ khó và enemyScale HP/ATK/MAG tạm bằng 1 (theo từng stat), sau đó cân bằng lại phần thưởng và số wave nếu cần. Chỉ triển khai sau khi có regression về khả năng clear F2P; chưa coi việc xóa multiplier cũ là quyết định đã tự động phê duyệt.
+Ví dụ wave Forest Patrol: bản không Level có tổng HP 490; Mỏ Vàng — Khó n−1 ×1,9 có 931 HP. Với profile normal tại Lv45 (referenceLevel 5), tổng HP wave là 1.108, chưa tính multiplier Dungeon khác. Đây là khoảng +19% HP so với mốc Khó cũ; ATK/MAG Lv45 khoảng ×1,94 so với Lv5, cao hơn ngưỡng cũ ×1,6.
+Quan trọng: so sánh trên có tính định hướng, không đảm bảo toàn bộ Mỏ Vàng cân bằng; vì random wave, cơ chế combat, MP và Gear có thể tạo chênh lệch rất lớn.
+7. CẤU HÌNH TRIỂN KHAI (SCHEMA ĐỀ XUẤT)
+enemyHpCurves: { normal: [{untilLevel:30,growth:0.018},{untilLevel:50,growth:0.025}],
+  boss: [{untilLevel:30,growth:0.04},{untilLevel:50,growth:0.07}],
+  superboss: [{untilLevel:50,growth:0.015},{untilLevel:80,growth:0.025},{untilLevel:90,growth:0.03}] }
+enemyStatGrowthTargets: {offense:{atLevel:50,multiplier:2.25}, defense:{atLevel:50,multiplier:1.5}}
+encounter.hpScalingProfile?: 'normal' | 'boss' | 'superboss'
+encounter.hpReferenceLevel?: 1..99; // override only HP normalization
+Đây là schema đề xuất, không phải key đang tồn tại. Có thể đặt vào data/progressionRules.json và/hoặc encounter JSON theo kiến trúc content loader thực tế; bắt buộc bổ sung validation để không silently fallback khi profile/range invalid.
+7.1. Pseudocode tính hệ số và chỉ số
+function segmentedFactor(level, segments) {
+  let factor = 1; let lowerBound = 1;
+  for (const {untilLevel, growth} of segments) {
+    const count = Math.max(0, Math.min(level, untilLevel) - lowerBound);
+    factor *= (1 + growth) ** count;
+    lowerBound = untilLevel;
+  }
+  return factor; // reject levels above the supported last untilLevel
+}
+hpRef = encounter.hpReferenceLevel ?? enemy.hpReferenceLevel ?? enemy.referenceLevel ?? 5;
+otherRef = enemy.referenceLevel ?? 5;
+HP = round(enemy.stats.maxHp * F_hp(level,profile)/F_hp(hpRef,profile) * scale.maxHp);
+ATK = round(enemy.stats.attack * F_off(level)/F_off(otherRef) * scale.attack);
+MAG = round(enemy.stats.magic * F_off(level)/F_off(otherRef) * scale.magic);
+DEF = round(enemy.stats.defense * F_def(level)/F_def(otherRef) * scale.defense);
+RES = round(enemy.stats.resistance * F_def(level)/F_def(otherRef) * scale.resistance);
+MP/SPD tiếp tục dùng quy tắc hiện tại (trừ khi có quyết định riêng); không dùng các curve mới để vô tình tác động lên tài nguyên hay SPD. Tất cả hệ số chỉ được áp dụng một lần trên template, kiểm tra Number.isSafeInteger và giới hạn HP tối thiểu là 1.
+8. DANH SÁCH ĐẦU VIỆC TRIỂN KHAI
+P0 — Mở rộng progressRules/content validation cho ba HP profile, mục tiêu ×2,25/×1,5 và mức Level hỗ trợ; không phát sinh loại enemy mới.
+P0 — Refactor levelScaledEnemyStats() để nhận context từ Encounter và hpReferenceLevel độc lập; bảo toàn rounding và overrides.
+P0 — Trong createBattle(), xác định profile từ rewardTier/override, truyền xuống scaling; hỗ trợ context Dungeon và Story Wave.
+P0 — Kiểm thử regression cho mọi 59 enemy, mọi Quest difficulty và Story/Superboss; đảm bảo không double scale.
+P1 — Thiết lập cấu hình riêng Alice/Miraebolis: hpReferenceLevel=1, other stat referenceLevel=60; ghi rõ ở Encounter và test Level 60.
+P1 — Audit gold_mine/hard và dungeon khác; triển khai level/multiplier migration có kiểm soát.
+P1 — Chạy benchmark F2P; điều chỉnh các hệ số chỉ sau khi có báo cáo và xác nhận của designer.
+9. TEST CASES & TIÊU CHÍ NGHIỆM THU
+9.1. Unit / Integration tests bắt buộc
+• Breakpoints: Level 1/5/25/30/31/45/50/51/60/80/81/90; kiểm tra chuẩn xác tỷ lệ tăng tại các bước 30→31, 50→51 và 80→81.
+• Identity: stat tại refLevel phải bằng base stat tương ứng; ngoại lệ hpReferenceLevel khác otherRef được tính độc lập.
+• Exact cap: F_off(50)=2,25; F_def(50)=1,50; F_off(1)=F_def(1)=1.
+• Reference: Alice/Miraebolis tại Lv60 ra đúng HP 6.372/9.558, còn ATK/MAG/DEF/RES không bị tăng do đổi HP ref.
+• Boss target: Giáo Sĩ Hắc Văn Lv45 = 3.760 HP với Boss 4%→7%, ref25; giữ nguyên 1.120 HP tại Lv25.
+• Encounter context: cùng enemy dùng các profile khác nhau khi được gọi bởi encounter khác nhau; không phụ thuộc vào id tên 'boss' hay class quái.
+• Dungeon: không apply lần hai maxHp/attack/magic override; verify carried HP/MP/status, số wave, phần thưởng, save/load.
+• Legacy saves: không đòi hỏi thay format save nếu chỉ sửa content scaling; kiểm tra migrate khi schema bổ sung.
+9.2. Balance playtest — không tự nhận là đã pass
+Benchmark dùng đội F2P thật, ưu tiên 4 starter Arthur / Iris / Elaine / Garrek hoặc phương án F2P tương đương, Gear có thể kiếm trong game, không sử dụng nhân vật gacha bắt buộc.
+Đối chứng A: Mỏ Vàng — Khó n−1 với Gear + synergy chuẩn, ghi số wave, tổng lượt, tài nguyên HP/MP, số KO; đây là mốc lịch sử về 'có thể clear', không phải số liệu định lượng có sẵn.
+Đối chứng B: Mỏ Vàng sau migration, đội Lv35/Lv45/Lv50 cùng tier Gear, tối thiểu 30 seed mỗi kịch bản; báo cáo tỷ lệ thắng, số lượt, HP/MP, số KO, độ nhạy theo wave RNG.
+Đối chứng C: Quest Boss/Bounty Lv25/35/45, cùng đội Gear và synergy chuẩn để xác định độ dốc 4%→7%; benchmark Superboss Lv60 riêng.
+Không cân bằng theo đội hình synergy tối ưu tuyệt đối làm mốc duy nhất; đồng thời không buff enemy chỉ vì đội hình thiếu role/synergy. Đội F2P có build hợp lý phải có khả năng clear nội dung được chủ đích thiết kế cho Level tương ứng.
+Tiêu chí sản phẩm: Level có ý nghĩa, Gear + Team Synergy vẫn là điều kiện quan trọng; độ khó đến từ HP, áp lực ATK/MAG, mechanics và quản lý tài nguyên, không chỉ kéo dài trận.
+10. OPEN ITEMS / CẦN DESIGNER DUYỆT
+[A] Giữ đúng Boss 4%→7% (Giáo Sĩ Lv45 ~3.760 HP) hay có mục tiêu HP-specific trong tương lai? Chưa được phép tự ép về 5.000.
+[B] Mỏ Vàng — Khó sau migration dùng enemyLevel=45 và reset multiplier, hay cần hệ số tuning bổ sung dựa trên thực nghiệm? Đề xuất ưu tiên cách thứ nhất để benchmark.
+[C] Story boss 'epilogue_unfinished' rewardTier super có dùng superboss HP Curve hay override boss? Phải chốt bằng Encounter ID.
+[D] Normal/Boss curve >Lv50 chưa được quy định; phải từ chối cấu hình hoặc yêu cầu đặc tả mới, không tự kéo dài.
+[E] Super Level >Lv50: ATK/MAG/DEF/RES Growth hiện chỉ chốt tới Lv50; quy tắc sau Lv50 chưa quyết định.
+[F] Wyvern Thunder cùng base HP với các Phi long khác nhưng referenceLevel=15 thay vì 25; cần thiết kế xử lý khác biệt giữa phiên bản Story và Quest.
+11. NGUỒN DỮ LIỆU / THAM CHIẾU KỸ THUẬT
+Commit n−1: https://github.com/sonbeo1907-go-for-it/my-rpg-v2/commit/ed9d462dbfaad726f09814f3b5c635bab0256b31
+Commit n (Level): https://github.com/sonbeo1907-go-for-it/my-rpg-v2/commit/0ae296b946dba2ea33758921237aa79aa0cb5a6e
+Các tệp: data/enemies.json; data/encounters.json; data/dungeons.json; data/progressionRules.json; src/core/enemy-scaling.js; src/core/battle.js; src/core/leveling.js; src/core/dungeon.js; src/core/combat-math.js; test/level-progression.test.js.
+Lưu ý: số liệu từ GitHub đã được kiểm tra trên đúng hai SHA nói trên. Các hệ số growth và chiến lược migration trong tài liệu là yêu cầu/đề xuất của đợt triển khai này; kết quả playtest và tỷ lệ thắng mới chưa được đo.

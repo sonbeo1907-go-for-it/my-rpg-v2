@@ -55,14 +55,14 @@ test('v4-v6 saves migrate isolated levels and preserve old gear/quests; max lega
 test('modern corrupt progression, quotas and unknown future versions reject before replacing a save',()=>{
  const base=JSON.parse(encodeGameSave(fresh(),content));for(const change of [s=>s.version=GAME_SAVE_VERSION+1,s=>delete s.levelProgressionVersion,s=>s.characters.arthur.xp=80,s=>s.characters.arthur.allocations={attack:1},s=>s.characters.arthur.limitBreakRank=3,s=>s.trainingCharges={charges:10,lastSlot:1},s=>s.sweepTickets=-1,s=>s.sweepTickets=null,s=>s.limitBreakStones=null,s=>s.dungeonClearedDifficulties=null,s=>s.dungeonClearedDifficulties={gold_mine:['invalid']},s=>s.characters.arthur=state(50,3,1)]){const s=structuredClone(base);change(s);assert.throws(()=>decodeGameSave(JSON.stringify(s),content));}
 });
-test('five Quest levels normalize once and apply additive milestones, reference level is exact identity',()=>{
+test('five Quest levels normalize once using encounter curves, reference level is exact identity',()=>{
  const e=content.enemies.goblin;assert.deepEqual(levelScaledEnemyStats(e,e.referenceLevel,content),e.stats);
  for(const [id,level]of [['very_easy',5],['easy',15],['medium',25],['hard',35],['very_hard',45]]){const b=createBattle(content,fresh(),'forest_patrol',undefined,{questDifficulty:id});assert.equal(b.enemyLevel,level);assert.deepEqual(getActor(b,'enemy_0').stats,levelScaledEnemyStats(e,level,content));}
- const base={stats:{maxHp:100,maxMp:100,attack:100,magic:100,defense:100,resistance:100,speed:100},referenceLevel:1};const s=levelScaledEnemyStats(base,60,content);assert.equal(s.attack,201);assert.equal(s.defense,161);assert.equal(s.maxHp,277);assert.throws(()=>levelScaledEnemyStats(e,0,content));
+ const base={stats:{maxHp:100,maxMp:100,attack:100,magic:100,defense:100,resistance:100,speed:100},referenceLevel:1};const s=levelScaledEnemyStats(base,50,content);assert.equal(s.attack,200);assert.equal(s.defense,125);assert.equal(s.maxHp,Math.round(100*1.018**29*1.025**20));assert.throws(()=>levelScaledEnemyStats(e,0,content));
 });
-test('superboss and story levels stay fixed despite difficulty overrides; old dungeon multipliers do not double-scale',()=>{
- for(const [id,level]of [['alice_superboss',60],['miraebolis_superboss',60],['iris_story_growth',5]])if(content.encounters[id]){const c=fresh();c.storyFlags.push('illusion.sinister_unlocked');const b=createBattle(content,c,id,undefined,{questDifficulty:'very_easy',enemyLevel:5});assert.equal(b.enemyLevel,level);}
- const r=run(fresh(),'gold_mine','medium');const e=getActor(r.battle,'wave_1_enemy_0');assert.deepEqual(e.stats,scaleEnemyStats(content.enemies[e.definitionId].stats,content.dungeons.gold_mine.difficulties[1].enemyScale));
+test('superboss and story levels stay fixed despite difficulty overrides; dungeon multipliers apply once',()=>{
+ for(const [id,level]of [['alice_superboss',60],['miraebolis_superboss',60],['iris_story_growth',10]])if(content.encounters[id]){const c=fresh();c.storyFlags.push('illusion.sinister_unlocked');const b=createBattle(content,c,id,undefined,{questDifficulty:'very_easy',enemyLevel:5});assert.equal(b.enemyLevel,level);}
+ const r=run(fresh(),'gold_mine','medium');const e=getActor(r.battle,'wave_1_enemy_0');assert.deepEqual(e.stats,levelScaledEnemyStats(content.enemies[e.definitionId],30,content,content.dungeons.gold_mine.difficulties[1].enemyScale,content.encounters[r.battle.encounterId]));
 });
 test('Quest XP differs by Normal/Boss/Bounty; no XP from story or super',()=>{
  const bounty=Object.values(content.encounters).find(e=>e.category==='bounty');for(const [id,n]of [['forest_patrol',965],['ogre_trial',1930],[bounty.id,2895],['iris_story_growth',0],['alice_superboss',0]])assert.equal(questExperience(content,content.encounters[id],'very_hard'),n);

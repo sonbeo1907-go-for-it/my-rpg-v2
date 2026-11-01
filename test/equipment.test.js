@@ -81,7 +81,7 @@ test('gear contributes before permanent and temporary percentages without accumu
     assert.ok(Math.abs(actor.stats.magic - 56.4) < 1e-9);
     assert.ok(Math.abs(effectiveStat(actor, 'magic', .5) - 79.9) < 1e-9);
     assert.equal(campaign.characters.lisbeth.stats, undefined);
-    const battle = createBattle(content, campaign, 'ogre_trial', undefined, {enemyLevel:content.enemies.ogre_underling.referenceLevel});
+    const battle = createBattle(content, campaign, 'ogre_trial', undefined, {enemyLevel:content.encounters.ogre_trial.referenceLevel});
     executeAction(battle, { actorId: 'lisbeth', abilityId: 'lisbeth.pride', targetId: 'lisbeth' });
     battle.cursor = battle.queue.indexOf('lisbeth');
     executeAction(battle, { actorId: 'lisbeth', abilityId: 'lisbeth.judgment', targetId: 'enemy_0' });

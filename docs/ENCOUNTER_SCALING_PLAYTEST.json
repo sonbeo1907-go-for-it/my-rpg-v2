@@ -1,0 +1,6996 @@
+{
+  "note": "Tuning 01/11/2026: all 59 enemy templates and all 55 encounters use base Level 1, including story and Superboss. Normal HP 1.8% to30/2.5% after; Boss 3%/4%; Superboss unchanged. Offense target 2, defense 1.25 at50; log growth weight doubles after30. F2P Arthur/Iris/Garrek/Elaine, same three T3 +5 stat items each, starter-story upgrades, no gacha, exclusives, effect gear or consumables. Fixed heuristic allocations and action policy, not proof of optimal balance. Legacy control uses raw templates and old Gold Mine multipliers; current engine, not the historical executable. Each seed records its wave roll, outcome, HP/MP and KOs. Bounds: 2500 actions/120 global rounds; engine retains 60 per encounter.",
+  "seeds": 30,
+  "rows": [
+    {
+      "id": "legacy_gold_hard",
+      "partyLevel": 1,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 28.27,
+      "meanKOs": 0,
+      "meanEndHp": 746.33,
+      "meanEndMp": 94.6,
+      "minEndHp": 654,
+      "maxEndHp": 770,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "mushroom_grove",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 14,
+          "shieldAbsorbed": 413,
+          "endHp": 770,
+          "endMp": 100
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "marsh_trail",
+            "forest_patrol",
+            "boar_field",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 164,
+          "shieldAbsorbed": 624,
+          "endHp": 654,
+          "endMp": 112
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "riverbank_pests",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 17,
+          "shieldAbsorbed": 492,
+          "endHp": 770,
+          "endMp": 117
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "marsh_trail",
+            "forest_patrol",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 95,
+          "shieldAbsorbed": 637,
+          "endHp": 744,
+          "endMp": 102
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 132,
+          "shieldAbsorbed": 846,
+          "endHp": 720,
+          "endMp": 56
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "beetle_orchard",
+            "forest_patrol",
+            "goblin_cave",
+            "boar_field"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 34,
+          "kos": 0,
+          "hpDamage": 167,
+          "shieldAbsorbed": 1088,
+          "endHp": 740,
+          "endMp": 66
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "beetle_orchard",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 117,
+          "shieldAbsorbed": 816,
+          "endHp": 737,
+          "endMp": 69
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "marsh_trail",
+            "riverbank_pests",
+            "flickering_woods",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 106,
+          "shieldAbsorbed": 905,
+          "endHp": 742,
+          "endMp": 49
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "boar_field",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 62,
+          "shieldAbsorbed": 647,
+          "endHp": 743,
+          "endMp": 85
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "marsh_trail",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 102,
+          "shieldAbsorbed": 683,
+          "endHp": 716,
+          "endMp": 91
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "goblin_forest_ambush",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 42,
+          "shieldAbsorbed": 333,
+          "endHp": 748,
+          "endMp": 116
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "bat_roost",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 34,
+          "kos": 0,
+          "hpDamage": 8,
+          "shieldAbsorbed": 528,
+          "endHp": 770,
+          "endMp": 110
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "goblin_cave",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 32,
+          "kos": 0,
+          "hpDamage": 26,
+          "shieldAbsorbed": 598,
+          "endHp": 770,
+          "endMp": 111
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 22,
+          "kos": 0,
+          "hpDamage": 30,
+          "shieldAbsorbed": 293,
+          "endHp": 744,
+          "endMp": 120
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "mushroom_grove",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 15,
+          "shieldAbsorbed": 372,
+          "endHp": 770,
+          "endMp": 112
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "granary_rats",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 0,
+          "shieldAbsorbed": 418,
+          "endHp": 770,
+          "endMp": 108
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "mushroom_grove",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 66,
+          "shieldAbsorbed": 781,
+          "endHp": 739,
+          "endMp": 80
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 105,
+          "shieldAbsorbed": 697,
+          "endHp": 736,
+          "endMp": 105
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 61,
+          "shieldAbsorbed": 942,
+          "endHp": 749,
+          "endMp": 53
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "marsh_trail",
+            "bat_roost",
+            "goblin_cave",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 96,
+          "shieldAbsorbed": 485,
+          "endHp": 730,
+          "endMp": 100
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "bat_roost",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 47,
+          "shieldAbsorbed": 792,
+          "endHp": 770,
+          "endMp": 62
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "flickering_woods",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 80,
+          "shieldAbsorbed": 661,
+          "endHp": 757,
+          "endMp": 98
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "boar_field",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 67,
+          "shieldAbsorbed": 483,
+          "endHp": 766,
+          "endMp": 101
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "mushroom_grove",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 32,
+          "kos": 0,
+          "hpDamage": 39,
+          "shieldAbsorbed": 448,
+          "endHp": 744,
+          "endMp": 112
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "boar_field",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 35,
+          "shieldAbsorbed": 356,
+          "endHp": 744,
+          "endMp": 108
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "bat_roost",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 43,
+          "shieldAbsorbed": 255,
+          "endHp": 728,
+          "endMp": 130
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "goblin_cave",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 13,
+          "shieldAbsorbed": 442,
+          "endHp": 770,
+          "endMp": 107
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "beetle_orchard",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 16,
+          "shieldAbsorbed": 363,
+          "endHp": 770,
+          "endMp": 110
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "flickering_woods",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 130,
+          "shieldAbsorbed": 806,
+          "endHp": 716,
+          "endMp": 76
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "granary_rats",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 33,
+          "kos": 0,
+          "hpDamage": 88,
+          "shieldAbsorbed": 799,
+          "endHp": 763,
+          "endMp": 72
+        }
+      ]
+    },
+    {
+      "id": "gold_mine_hard",
+      "partyLevel": 35,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 27.5,
+      "meanKOs": 0,
+      "meanEndHp": 958.93,
+      "meanEndMp": 135.57,
+      "minEndHp": 869,
+      "maxEndHp": 990,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "mushroom_grove",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 27,
+          "kos": 0,
+          "hpDamage": 0,
+          "shieldAbsorbed": 469,
+          "endHp": 990,
+          "endMp": 135
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "marsh_trail",
+            "forest_patrol",
+            "boar_field",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 153,
+          "shieldAbsorbed": 803,
+          "endHp": 923,
+          "endMp": 145
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "riverbank_pests",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 11,
+          "shieldAbsorbed": 569,
+          "endHp": 990,
+          "endMp": 144
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "marsh_trail",
+            "forest_patrol",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 25,
+          "kos": 0,
+          "hpDamage": 188,
+          "shieldAbsorbed": 584,
+          "endHp": 869,
+          "endMp": 152
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 165,
+          "shieldAbsorbed": 1001,
+          "endHp": 921,
+          "endMp": 85
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "beetle_orchard",
+            "forest_patrol",
+            "goblin_cave",
+            "boar_field"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 33,
+          "kos": 0,
+          "hpDamage": 149,
+          "shieldAbsorbed": 1234,
+          "endHp": 950,
+          "endMp": 139
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "beetle_orchard",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 108,
+          "shieldAbsorbed": 872,
+          "endHp": 920,
+          "endMp": 118
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "marsh_trail",
+            "riverbank_pests",
+            "flickering_woods",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 150,
+          "shieldAbsorbed": 995,
+          "endHp": 959,
+          "endMp": 109
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "boar_field",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 81,
+          "shieldAbsorbed": 716,
+          "endHp": 956,
+          "endMp": 136
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "marsh_trail",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 147,
+          "shieldAbsorbed": 732,
+          "endHp": 906,
+          "endMp": 168
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "goblin_forest_ambush",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 48,
+          "shieldAbsorbed": 393,
+          "endHp": 975,
+          "endMp": 164
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "bat_roost",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 34,
+          "kos": 0,
+          "hpDamage": 5,
+          "shieldAbsorbed": 608,
+          "endHp": 990,
+          "endMp": 137
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "goblin_cave",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 36,
+          "shieldAbsorbed": 635,
+          "endHp": 972,
+          "endMp": 132
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 22,
+          "kos": 0,
+          "hpDamage": 48,
+          "shieldAbsorbed": 298,
+          "endHp": 960,
+          "endMp": 166
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "mushroom_grove",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 27,
+          "kos": 0,
+          "hpDamage": 9,
+          "shieldAbsorbed": 392,
+          "endHp": 990,
+          "endMp": 130
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "granary_rats",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 4,
+          "shieldAbsorbed": 466,
+          "endHp": 990,
+          "endMp": 136
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "mushroom_grove",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 86,
+          "shieldAbsorbed": 827,
+          "endHp": 957,
+          "endMp": 111
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 82,
+          "shieldAbsorbed": 787,
+          "endHp": 956,
+          "endMp": 135
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 112,
+          "shieldAbsorbed": 958,
+          "endHp": 954,
+          "endMp": 118
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "marsh_trail",
+            "bat_roost",
+            "goblin_cave",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 81,
+          "shieldAbsorbed": 533,
+          "endHp": 941,
+          "endMp": 176
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "bat_roost",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 93,
+          "shieldAbsorbed": 855,
+          "endHp": 941,
+          "endMp": 98
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "flickering_woods",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 50,
+          "shieldAbsorbed": 711,
+          "endHp": 990,
+          "endMp": 152
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "boar_field",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 27,
+          "kos": 0,
+          "hpDamage": 60,
+          "shieldAbsorbed": 580,
+          "endHp": 951,
+          "endMp": 137
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "mushroom_grove",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 32,
+          "kos": 0,
+          "hpDamage": 32,
+          "shieldAbsorbed": 529,
+          "endHp": 960,
+          "endMp": 139
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "boar_field",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 25,
+          "kos": 0,
+          "hpDamage": 31,
+          "shieldAbsorbed": 404,
+          "endHp": 960,
+          "endMp": 143
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "bat_roost",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 41,
+          "shieldAbsorbed": 277,
+          "endHp": 979,
+          "endMp": 178
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "goblin_cave",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 26,
+          "shieldAbsorbed": 453,
+          "endHp": 984,
+          "endMp": 139
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "beetle_orchard",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 13,
+          "shieldAbsorbed": 390,
+          "endHp": 990,
+          "endMp": 127
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "flickering_woods",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 108,
+          "shieldAbsorbed": 969,
+          "endHp": 954,
+          "endMp": 115
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "granary_rats",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 56,
+          "shieldAbsorbed": 874,
+          "endHp": 990,
+          "endMp": 103
+        }
+      ]
+    },
+    {
+      "id": "dangerous_hard",
+      "partyLevel": 35,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 4,
+      "draws": 4,
+      "meanWinRounds": 62.5,
+      "meanKOs": 3.17,
+      "meanEndHp": 148.17,
+      "meanEndMp": 30.13,
+      "minEndHp": 0,
+      "maxEndHp": 915,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 70,
+          "kos": 4,
+          "hpDamage": 1602,
+          "shieldAbsorbed": 3966,
+          "endHp": 0,
+          "endMp": 25
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 61,
+          "kos": 4,
+          "hpDamage": 1558,
+          "shieldAbsorbed": 3704,
+          "endHp": 0,
+          "endMp": 23
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 55,
+          "kos": 4,
+          "hpDamage": 1389,
+          "shieldAbsorbed": 2860,
+          "endHp": 0,
+          "endMp": 13
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 62,
+          "kos": 4,
+          "hpDamage": 1515,
+          "shieldAbsorbed": 3448,
+          "endHp": 0,
+          "endMp": 8
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 4,
+          "hpDamage": 1546,
+          "shieldAbsorbed": 3046,
+          "endHp": 0,
+          "endMp": 6
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 62,
+          "kos": 4,
+          "hpDamage": 1496,
+          "shieldAbsorbed": 3249,
+          "endHp": 0,
+          "endMp": 18
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 83,
+          "kos": 0,
+          "hpDamage": 574,
+          "shieldAbsorbed": 3137,
+          "endHp": 915,
+          "endMp": 138
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "wyvern_trial_3",
+            "ogre_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 43,
+          "kos": 4,
+          "hpDamage": 1416,
+          "shieldAbsorbed": 2762,
+          "endHp": 0,
+          "endMp": 17
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_1"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 70,
+          "kos": 1,
+          "hpDamage": 1397,
+          "shieldAbsorbed": 3761,
+          "endHp": 145,
+          "endMp": 21
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_2"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 59,
+          "kos": 4,
+          "hpDamage": 1476,
+          "shieldAbsorbed": 3220,
+          "endHp": 0,
+          "endMp": 22
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_4"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 68,
+          "kos": 4,
+          "hpDamage": 1442,
+          "shieldAbsorbed": 3612,
+          "endHp": 0,
+          "endMp": 21
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 4,
+          "hpDamage": 1533,
+          "shieldAbsorbed": 3605,
+          "endHp": 0,
+          "endMp": 10
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 56,
+          "kos": 2,
+          "hpDamage": 1148,
+          "shieldAbsorbed": 3424,
+          "endHp": 296,
+          "endMp": 6
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 52,
+          "kos": 4,
+          "hpDamage": 1393,
+          "shieldAbsorbed": 2827,
+          "endHp": 0,
+          "endMp": 25
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 71,
+          "kos": 4,
+          "hpDamage": 1535,
+          "shieldAbsorbed": 3914,
+          "endHp": 0,
+          "endMp": 27
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 36,
+          "kos": 4,
+          "hpDamage": 1252,
+          "shieldAbsorbed": 2059,
+          "endHp": 0,
+          "endMp": 8
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 36,
+          "kos": 4,
+          "hpDamage": 1325,
+          "shieldAbsorbed": 2052,
+          "endHp": 0,
+          "endMp": 25
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 83,
+          "kos": 0,
+          "hpDamage": 674,
+          "shieldAbsorbed": 3401,
+          "endHp": 909,
+          "endMp": 138
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "wyvern_trial_3",
+            "ogre_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 32,
+          "kos": 4,
+          "hpDamage": 1338,
+          "shieldAbsorbed": 2206,
+          "endHp": 0,
+          "endMp": 16
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_1"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 74,
+          "kos": 4,
+          "hpDamage": 1528,
+          "shieldAbsorbed": 4015,
+          "endHp": 0,
+          "endMp": 14
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_2"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 52,
+          "kos": 4,
+          "hpDamage": 1436,
+          "shieldAbsorbed": 3083,
+          "endHp": 0,
+          "endMp": 6
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_4"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 66,
+          "kos": 4,
+          "hpDamage": 1478,
+          "shieldAbsorbed": 3649,
+          "endHp": 0,
+          "endMp": 17
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 49,
+          "kos": 4,
+          "hpDamage": 1513,
+          "shieldAbsorbed": 2997,
+          "endHp": 0,
+          "endMp": 9
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 58,
+          "kos": 1,
+          "hpDamage": 1024,
+          "shieldAbsorbed": 3511,
+          "endHp": 497,
+          "endMp": 12
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 66,
+          "kos": 4,
+          "hpDamage": 1571,
+          "shieldAbsorbed": 3837,
+          "endHp": 0,
+          "endMp": 6
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 83,
+          "kos": 2,
+          "hpDamage": 1378,
+          "shieldAbsorbed": 4438,
+          "endHp": 256,
+          "endMp": 32
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 66,
+          "kos": 1,
+          "hpDamage": 932,
+          "shieldAbsorbed": 3435,
+          "endHp": 531,
+          "endMp": 62
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 51,
+          "kos": 4,
+          "hpDamage": 1508,
+          "shieldAbsorbed": 2972,
+          "endHp": 0,
+          "endMp": 16
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 83,
+          "kos": 0,
+          "hpDamage": 592,
+          "shieldAbsorbed": 3116,
+          "endHp": 896,
+          "endMp": 137
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_boar_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 49,
+          "kos": 4,
+          "hpDamage": 1445,
+          "shieldAbsorbed": 2797,
+          "endHp": 0,
+          "endMp": 26
+        }
+      ]
+    },
+    {
+      "id": "gold_mine_hard",
+      "partyLevel": 45,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 27.07,
+      "meanKOs": 0,
+      "meanEndHp": 1031.47,
+      "meanEndMp": 145.1,
+      "minEndHp": 950,
+      "maxEndHp": 1060,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "mushroom_grove",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 27,
+          "kos": 0,
+          "hpDamage": 0,
+          "shieldAbsorbed": 463,
+          "endHp": 1060,
+          "endMp": 147
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "marsh_trail",
+            "forest_patrol",
+            "boar_field",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 135,
+          "shieldAbsorbed": 812,
+          "endHp": 985,
+          "endMp": 157
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "riverbank_pests",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 5,
+          "shieldAbsorbed": 560,
+          "endHp": 1060,
+          "endMp": 143
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "marsh_trail",
+            "forest_patrol",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 24,
+          "kos": 0,
+          "hpDamage": 202,
+          "shieldAbsorbed": 574,
+          "endHp": 950,
+          "endMp": 158
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 143,
+          "shieldAbsorbed": 978,
+          "endHp": 1008,
+          "endMp": 117
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "beetle_orchard",
+            "forest_patrol",
+            "goblin_cave",
+            "boar_field"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 32,
+          "kos": 0,
+          "hpDamage": 86,
+          "shieldAbsorbed": 1260,
+          "endHp": 1053,
+          "endMp": 138
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "beetle_orchard",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 101,
+          "shieldAbsorbed": 884,
+          "endHp": 1025,
+          "endMp": 120
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "marsh_trail",
+            "riverbank_pests",
+            "flickering_woods",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 77,
+          "shieldAbsorbed": 1038,
+          "endHp": 1060,
+          "endMp": 121
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "boar_field",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 117,
+          "shieldAbsorbed": 679,
+          "endHp": 1021,
+          "endMp": 106
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "marsh_trail",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 131,
+          "shieldAbsorbed": 735,
+          "endHp": 963,
+          "endMp": 180
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "goblin_forest_ambush",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 38,
+          "shieldAbsorbed": 393,
+          "endHp": 1045,
+          "endMp": 176
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "bat_roost",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 32,
+          "kos": 0,
+          "hpDamage": 9,
+          "shieldAbsorbed": 566,
+          "endHp": 1060,
+          "endMp": 138
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "goblin_cave",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 43,
+          "shieldAbsorbed": 612,
+          "endHp": 1042,
+          "endMp": 143
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 22,
+          "kos": 0,
+          "hpDamage": 42,
+          "shieldAbsorbed": 299,
+          "endHp": 1030,
+          "endMp": 178
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "mushroom_grove",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 7,
+          "shieldAbsorbed": 388,
+          "endHp": 1060,
+          "endMp": 139
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "granary_rats",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 1,
+          "shieldAbsorbed": 458,
+          "endHp": 1060,
+          "endMp": 137
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "mushroom_grove",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 86,
+          "shieldAbsorbed": 748,
+          "endHp": 1017,
+          "endMp": 127
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 97,
+          "shieldAbsorbed": 754,
+          "endHp": 1024,
+          "endMp": 142
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 114,
+          "shieldAbsorbed": 937,
+          "endHp": 1034,
+          "endMp": 130
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "marsh_trail",
+            "bat_roost",
+            "goblin_cave",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 97,
+          "shieldAbsorbed": 507,
+          "endHp": 1014,
+          "endMp": 188
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "bat_roost",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 56,
+          "shieldAbsorbed": 875,
+          "endHp": 1036,
+          "endMp": 110
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "flickering_woods",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 25,
+          "kos": 0,
+          "hpDamage": 40,
+          "shieldAbsorbed": 698,
+          "endHp": 1060,
+          "endMp": 163
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "boar_field",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 27,
+          "kos": 0,
+          "hpDamage": 53,
+          "shieldAbsorbed": 582,
+          "endHp": 1048,
+          "endMp": 148
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "mushroom_grove",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 63,
+          "shieldAbsorbed": 445,
+          "endHp": 1013,
+          "endMp": 150
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "boar_field",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 25,
+          "kos": 0,
+          "hpDamage": 66,
+          "shieldAbsorbed": 370,
+          "endHp": 1007,
+          "endMp": 155
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "bat_roost",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 37,
+          "shieldAbsorbed": 278,
+          "endHp": 1030,
+          "endMp": 190
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "goblin_cave",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 40,
+          "shieldAbsorbed": 441,
+          "endHp": 1042,
+          "endMp": 151
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "beetle_orchard",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 5,
+          "shieldAbsorbed": 386,
+          "endHp": 1060,
+          "endMp": 139
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "flickering_woods",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 106,
+          "shieldAbsorbed": 878,
+          "endHp": 1017,
+          "endMp": 134
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "granary_rats",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 47,
+          "shieldAbsorbed": 895,
+          "endHp": 1060,
+          "endMp": 128
+        }
+      ]
+    },
+    {
+      "id": "dangerous_hard",
+      "partyLevel": 45,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 15,
+      "draws": 4,
+      "meanWinRounds": 61.53,
+      "meanKOs": 1.8,
+      "meanEndHp": 388.7,
+      "meanEndMp": 33.93,
+      "minEndHp": 0,
+      "maxEndHp": 1016,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 60,
+          "kos": 4,
+          "hpDamage": 1718,
+          "shieldAbsorbed": 3773,
+          "endHp": 0,
+          "endMp": 12
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 49,
+          "kos": 0,
+          "hpDamage": 1189,
+          "shieldAbsorbed": 3476,
+          "endHp": 438,
+          "endMp": 18
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 65,
+          "kos": 0,
+          "hpDamage": 1084,
+          "shieldAbsorbed": 4243,
+          "endHp": 736,
+          "endMp": 23
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 65,
+          "kos": 0,
+          "hpDamage": 1424,
+          "shieldAbsorbed": 3909,
+          "endHp": 287,
+          "endMp": 13
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 2,
+          "hpDamage": 1190,
+          "shieldAbsorbed": 3083,
+          "endHp": 323,
+          "endMp": 23
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 1,
+          "hpDamage": 1254,
+          "shieldAbsorbed": 4861,
+          "endHp": 481,
+          "endMp": 11
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 0,
+          "hpDamage": 462,
+          "shieldAbsorbed": 3011,
+          "endHp": 1016,
+          "endMp": 139
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "wyvern_trial_3",
+            "ogre_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 55,
+          "kos": 4,
+          "hpDamage": 1489,
+          "shieldAbsorbed": 3233,
+          "endHp": 0,
+          "endMp": 24
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_1"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 65,
+          "kos": 0,
+          "hpDamage": 733,
+          "shieldAbsorbed": 4080,
+          "endHp": 887,
+          "endMp": 23
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_2"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 70,
+          "kos": 1,
+          "hpDamage": 1407,
+          "shieldAbsorbed": 4297,
+          "endHp": 379,
+          "endMp": 12
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_4"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 65,
+          "kos": 0,
+          "hpDamage": 852,
+          "shieldAbsorbed": 4175,
+          "endHp": 890,
+          "endMp": 28
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 65,
+          "kos": 2,
+          "hpDamage": 1713,
+          "shieldAbsorbed": 3996,
+          "endHp": 32,
+          "endMp": 1
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 49,
+          "kos": 1,
+          "hpDamage": 956,
+          "shieldAbsorbed": 3392,
+          "endHp": 606,
+          "endMp": 13
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 69,
+          "kos": 4,
+          "hpDamage": 1717,
+          "shieldAbsorbed": 3868,
+          "endHp": 0,
+          "endMp": 10
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 67,
+          "kos": 1,
+          "hpDamage": 1387,
+          "shieldAbsorbed": 4309,
+          "endHp": 367,
+          "endMp": 23
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 1,
+          "hpDamage": 710,
+          "shieldAbsorbed": 3415,
+          "endHp": 790,
+          "endMp": 84
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 58,
+          "kos": 4,
+          "hpDamage": 1630,
+          "shieldAbsorbed": 3422,
+          "endHp": 0,
+          "endMp": 22
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 0,
+          "hpDamage": 647,
+          "shieldAbsorbed": 3140,
+          "endHp": 949,
+          "endMp": 139
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "wyvern_trial_3",
+            "ogre_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 39,
+          "kos": 4,
+          "hpDamage": 1587,
+          "shieldAbsorbed": 2966,
+          "endHp": 0,
+          "endMp": 22
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_1"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 66,
+          "kos": 1,
+          "hpDamage": 1324,
+          "shieldAbsorbed": 3986,
+          "endHp": 351,
+          "endMp": 29
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_2"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 65,
+          "kos": 4,
+          "hpDamage": 1756,
+          "shieldAbsorbed": 4164,
+          "endHp": 0,
+          "endMp": 7
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_4"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 65,
+          "kos": 0,
+          "hpDamage": 1279,
+          "shieldAbsorbed": 4194,
+          "endHp": 379,
+          "endMp": 23
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 53,
+          "kos": 4,
+          "hpDamage": 1592,
+          "shieldAbsorbed": 3123,
+          "endHp": 0,
+          "endMp": 14
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 49,
+          "kos": 0,
+          "hpDamage": 707,
+          "shieldAbsorbed": 3200,
+          "endHp": 889,
+          "endMp": 13
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 66,
+          "kos": 4,
+          "hpDamage": 1638,
+          "shieldAbsorbed": 3870,
+          "endHp": 0,
+          "endMp": 11
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 69,
+          "kos": 4,
+          "hpDamage": 1693,
+          "shieldAbsorbed": 3907,
+          "endHp": 0,
+          "endMp": 14
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 57,
+          "kos": 0,
+          "hpDamage": 697,
+          "shieldAbsorbed": 3306,
+          "endHp": 882,
+          "endMp": 78
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 66,
+          "kos": 4,
+          "hpDamage": 1642,
+          "shieldAbsorbed": 3868,
+          "endHp": 0,
+          "endMp": 25
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 0,
+          "hpDamage": 510,
+          "shieldAbsorbed": 2713,
+          "endHp": 979,
+          "endMp": 139
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_boar_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 54,
+          "kos": 4,
+          "hpDamage": 1583,
+          "shieldAbsorbed": 3216,
+          "endHp": 0,
+          "endMp": 25
+        }
+      ]
+    },
+    {
+      "id": "gold_mine_hard",
+      "partyLevel": 50,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 27.07,
+      "meanKOs": 0,
+      "meanEndHp": 1061.07,
+      "meanEndMp": 153.83,
+      "minEndHp": 970,
+      "maxEndHp": 1090,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "mushroom_grove",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 27,
+          "kos": 0,
+          "hpDamage": 0,
+          "shieldAbsorbed": 461,
+          "endHp": 1090,
+          "endMp": 155
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "marsh_trail",
+            "forest_patrol",
+            "boar_field",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 125,
+          "shieldAbsorbed": 816,
+          "endHp": 1023,
+          "endMp": 165
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "riverbank_pests",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 29,
+          "kos": 0,
+          "hpDamage": 13,
+          "shieldAbsorbed": 558,
+          "endHp": 1090,
+          "endMp": 140
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "marsh_trail",
+            "forest_patrol",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 24,
+          "kos": 0,
+          "hpDamage": 188,
+          "shieldAbsorbed": 579,
+          "endHp": 970,
+          "endMp": 166
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 100,
+          "shieldAbsorbed": 1010,
+          "endHp": 1080,
+          "endMp": 125
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "beetle_orchard",
+            "forest_patrol",
+            "goblin_cave",
+            "boar_field"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 32,
+          "kos": 0,
+          "hpDamage": 82,
+          "shieldAbsorbed": 1273,
+          "endHp": 1090,
+          "endMp": 143
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "beetle_orchard",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 118,
+          "shieldAbsorbed": 836,
+          "endHp": 1059,
+          "endMp": 143
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "marsh_trail",
+            "riverbank_pests",
+            "flickering_woods",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 93,
+          "shieldAbsorbed": 929,
+          "endHp": 1069,
+          "endMp": 153
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "boar_field",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 99,
+          "shieldAbsorbed": 694,
+          "endHp": 1080,
+          "endMp": 114
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "marsh_trail",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 124,
+          "shieldAbsorbed": 735,
+          "endHp": 996,
+          "endMp": 188
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "goblin_forest_ambush",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 36,
+          "shieldAbsorbed": 389,
+          "endHp": 1060,
+          "endMp": 184
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "bat_roost",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 33,
+          "kos": 0,
+          "hpDamage": 16,
+          "shieldAbsorbed": 574,
+          "endHp": 1090,
+          "endMp": 143
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "goblin_cave",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 31,
+          "kos": 0,
+          "hpDamage": 35,
+          "shieldAbsorbed": 613,
+          "endHp": 1077,
+          "endMp": 151
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "bat_roost"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 22,
+          "kos": 0,
+          "hpDamage": 51,
+          "shieldAbsorbed": 290,
+          "endHp": 1060,
+          "endMp": 179
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "mushroom_grove",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 3,
+          "shieldAbsorbed": 391,
+          "endHp": 1090,
+          "endMp": 147
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "granary_rats",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 0,
+          "shieldAbsorbed": 454,
+          "endHp": 1090,
+          "endMp": 145
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "mushroom_grove",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 97,
+          "shieldAbsorbed": 733,
+          "endHp": 1050,
+          "endMp": 140
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 76,
+          "shieldAbsorbed": 766,
+          "endHp": 1036,
+          "endMp": 150
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "flickering_woods",
+            "bat_roost",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 95,
+          "shieldAbsorbed": 946,
+          "endHp": 1064,
+          "endMp": 145
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "marsh_trail",
+            "bat_roost",
+            "goblin_cave",
+            "flickering_woods"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 23,
+          "kos": 0,
+          "hpDamage": 86,
+          "shieldAbsorbed": 513,
+          "endHp": 1047,
+          "endMp": 196
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "beetle_orchard",
+            "granary_rats",
+            "bat_roost",
+            "goblin_cave"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 129,
+          "shieldAbsorbed": 798,
+          "endHp": 1014,
+          "endMp": 119
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "forest_patrol",
+            "flickering_woods",
+            "mushroom_grove"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 25,
+          "kos": 0,
+          "hpDamage": 26,
+          "shieldAbsorbed": 701,
+          "endHp": 1090,
+          "endMp": 171
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "marsh_trail",
+            "flickering_woods",
+            "boar_field",
+            "riverbank_pests"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 27,
+          "kos": 0,
+          "hpDamage": 45,
+          "shieldAbsorbed": 585,
+          "endHp": 1060,
+          "endMp": 156
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "beetle_orchard",
+            "riverbank_pests",
+            "mushroom_grove",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 57,
+          "shieldAbsorbed": 457,
+          "endHp": 1060,
+          "endMp": 148
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "beetle_orchard",
+            "boar_field",
+            "marsh_trail"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 25,
+          "kos": 0,
+          "hpDamage": 62,
+          "shieldAbsorbed": 371,
+          "endHp": 1037,
+          "endMp": 163
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "marsh_trail",
+            "goblin_forest_ambush",
+            "bat_roost",
+            "beetle_orchard"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 35,
+          "shieldAbsorbed": 278,
+          "endHp": 1060,
+          "endMp": 198
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "beetle_orchard",
+            "flickering_woods",
+            "goblin_cave",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 10,
+          "shieldAbsorbed": 465,
+          "endHp": 1090,
+          "endMp": 159
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "goblin_forest_ambush",
+            "riverbank_pests",
+            "beetle_orchard",
+            "granary_rats"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 26,
+          "kos": 0,
+          "hpDamage": 1,
+          "shieldAbsorbed": 384,
+          "endHp": 1090,
+          "endMp": 147
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "marsh_trail",
+            "granary_rats",
+            "flickering_woods",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 28,
+          "kos": 0,
+          "hpDamage": 73,
+          "shieldAbsorbed": 878,
+          "endHp": 1030,
+          "endMp": 142
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "beetle_orchard",
+            "goblin_forest_ambush",
+            "granary_rats",
+            "forest_patrol"
+          ],
+          "outcome": "victory",
+          "waves": 4,
+          "rounds": 30,
+          "kos": 0,
+          "hpDamage": 38,
+          "shieldAbsorbed": 827,
+          "endHp": 1090,
+          "endMp": 140
+        }
+      ]
+    },
+    {
+      "id": "dangerous_hard",
+      "partyLevel": 50,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 20,
+      "draws": 4,
+      "meanWinRounds": 59.25,
+      "meanKOs": 1.03,
+      "meanEndHp": 548.83,
+      "meanEndMp": 35.27,
+      "minEndHp": 0,
+      "maxEndHp": 1090,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 67,
+          "kos": 1,
+          "hpDamage": 1395,
+          "shieldAbsorbed": 4494,
+          "endHp": 458,
+          "endMp": 27
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 47,
+          "kos": 0,
+          "hpDamage": 814,
+          "shieldAbsorbed": 3574,
+          "endHp": 838,
+          "endMp": 20
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 931,
+          "shieldAbsorbed": 4316,
+          "endHp": 810,
+          "endMp": 15
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 1138,
+          "shieldAbsorbed": 4087,
+          "endHp": 607,
+          "endMp": 15
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 55,
+          "kos": 0,
+          "hpDamage": 900,
+          "shieldAbsorbed": 3419,
+          "endHp": 697,
+          "endMp": 52
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 74,
+          "kos": 4,
+          "hpDamage": 1720,
+          "shieldAbsorbed": 4106,
+          "endHp": 0,
+          "endMp": 23
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 0,
+          "hpDamage": 327,
+          "shieldAbsorbed": 3132,
+          "endHp": 1090,
+          "endMp": 148
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "wyvern_trial_3",
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 52,
+          "kos": 1,
+          "hpDamage": 1442,
+          "shieldAbsorbed": 3501,
+          "endHp": 319,
+          "endMp": 21
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_1"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 623,
+          "shieldAbsorbed": 4112,
+          "endHp": 1075,
+          "endMp": 10
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_2"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 1,
+          "hpDamage": 1332,
+          "shieldAbsorbed": 4013,
+          "endHp": 457,
+          "endMp": 19
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_4"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 695,
+          "shieldAbsorbed": 4182,
+          "endHp": 1007,
+          "endMp": 34
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 64,
+          "kos": 1,
+          "hpDamage": 1423,
+          "shieldAbsorbed": 4099,
+          "endHp": 329,
+          "endMp": 18
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 47,
+          "kos": 0,
+          "hpDamage": 845,
+          "shieldAbsorbed": 3315,
+          "endHp": 745,
+          "endMp": 20
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 66,
+          "kos": 1,
+          "hpDamage": 1380,
+          "shieldAbsorbed": 4403,
+          "endHp": 468,
+          "endMp": 8
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 1262,
+          "shieldAbsorbed": 4225,
+          "endHp": 458,
+          "endMp": 15
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 55,
+          "kos": 0,
+          "hpDamage": 720,
+          "shieldAbsorbed": 3450,
+          "endHp": 853,
+          "endMp": 47
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 1,
+          "hpDamage": 1699,
+          "shieldAbsorbed": 5079,
+          "endHp": 264,
+          "endMp": 18
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 0,
+          "hpDamage": 522,
+          "shieldAbsorbed": 3162,
+          "endHp": 1045,
+          "endMp": 144
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "wyvern_trial_3",
+            "ogre_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 38,
+          "kos": 4,
+          "hpDamage": 1578,
+          "shieldAbsorbed": 2924,
+          "endHp": 0,
+          "endMp": 21
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_1"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 1081,
+          "shieldAbsorbed": 4101,
+          "endHp": 712,
+          "endMp": 10
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_2"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 1495,
+          "shieldAbsorbed": 4349,
+          "endHp": 382,
+          "endMp": 10
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_4"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 0,
+          "hpDamage": 1050,
+          "shieldAbsorbed": 4171,
+          "endHp": 642,
+          "endMp": 15
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_6"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 57,
+          "kos": 4,
+          "hpDamage": 1739,
+          "shieldAbsorbed": 3353,
+          "endHp": 0,
+          "endMp": 28
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_7"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 47,
+          "kos": 0,
+          "hpDamage": 613,
+          "shieldAbsorbed": 3154,
+          "endHp": 964,
+          "endMp": 30
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_8"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 71,
+          "kos": 4,
+          "hpDamage": 1703,
+          "shieldAbsorbed": 3897,
+          "endHp": 0,
+          "endMp": 18
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wyvern_trial_9"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 1,
+          "hpDamage": 1522,
+          "shieldAbsorbed": 4157,
+          "endHp": 290,
+          "endMp": 7
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "wyvern_trial_3",
+            "wolf_pack"
+          ],
+          "outcome": "victory",
+          "waves": 2,
+          "rounds": 55,
+          "kos": 0,
+          "hpDamage": 623,
+          "shieldAbsorbed": 3317,
+          "endHp": 940,
+          "endMp": 62
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_pangolin_lair"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 79,
+          "kos": 4,
+          "hpDamage": 1900,
+          "shieldAbsorbed": 4898,
+          "endHp": 0,
+          "endMp": 15
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_spider_lair"
+          ],
+          "outcome": "draw",
+          "waves": 2,
+          "rounds": 81,
+          "kos": 0,
+          "hpDamage": 409,
+          "shieldAbsorbed": 2805,
+          "endHp": 1015,
+          "endMp": 156
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "wyvern_trial_3",
+            "giant_boar_trial"
+          ],
+          "outcome": "defeat",
+          "waves": 2,
+          "rounds": 63,
+          "kos": 4,
+          "hpDamage": 1722,
+          "shieldAbsorbed": 3885,
+          "endHp": 0,
+          "endMp": 32
+        }
+      ]
+    },
+    {
+      "id": "ogre_trial",
+      "partyLevel": 25,
+      "difficulty": "medium",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 10,
+      "meanKOs": 0,
+      "meanEndHp": 857.7,
+      "meanEndMp": 179.4,
+      "minEndHp": 750,
+      "maxEndHp": 924,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 204,
+          "shieldAbsorbed": 655,
+          "endHp": 813,
+          "endMp": 178
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 161,
+          "shieldAbsorbed": 702,
+          "endHp": 858,
+          "endMp": 174
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 159,
+          "shieldAbsorbed": 499,
+          "endHp": 866,
+          "endMp": 188
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 213,
+          "shieldAbsorbed": 700,
+          "endHp": 823,
+          "endMp": 188
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 145,
+          "shieldAbsorbed": 731,
+          "endHp": 881,
+          "endMp": 160
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 123,
+          "shieldAbsorbed": 520,
+          "endHp": 842,
+          "endMp": 216
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 110,
+          "shieldAbsorbed": 594,
+          "endHp": 909,
+          "endMp": 178
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 79,
+          "shieldAbsorbed": 685,
+          "endHp": 900,
+          "endMp": 188
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 138,
+          "shieldAbsorbed": 632,
+          "endHp": 849,
+          "endMp": 188
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 279,
+          "shieldAbsorbed": 648,
+          "endHp": 757,
+          "endMp": 164
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 128,
+          "shieldAbsorbed": 693,
+          "endHp": 913,
+          "endMp": 174
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 151,
+          "shieldAbsorbed": 713,
+          "endHp": 893,
+          "endMp": 164
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 84,
+          "shieldAbsorbed": 460,
+          "endHp": 884,
+          "endMp": 202
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 145,
+          "shieldAbsorbed": 734,
+          "endHp": 877,
+          "endMp": 164
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 294,
+          "shieldAbsorbed": 743,
+          "endHp": 750,
+          "endMp": 174
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 114,
+          "shieldAbsorbed": 693,
+          "endHp": 911,
+          "endMp": 160
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 223,
+          "shieldAbsorbed": 710,
+          "endHp": 849,
+          "endMp": 150
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 253,
+          "shieldAbsorbed": 636,
+          "endHp": 788,
+          "endMp": 174
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 128,
+          "shieldAbsorbed": 718,
+          "endHp": 878,
+          "endMp": 150
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 82,
+          "shieldAbsorbed": 520,
+          "endHp": 924,
+          "endMp": 212
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 175,
+          "shieldAbsorbed": 586,
+          "endHp": 850,
+          "endMp": 198
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 73,
+          "shieldAbsorbed": 362,
+          "endHp": 910,
+          "endMp": 226
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 187,
+          "shieldAbsorbed": 708,
+          "endHp": 865,
+          "endMp": 150
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 74,
+          "shieldAbsorbed": 748,
+          "endHp": 921,
+          "endMp": 178
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 179,
+          "shieldAbsorbed": 635,
+          "endHp": 852,
+          "endMp": 178
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 197,
+          "shieldAbsorbed": 614,
+          "endHp": 810,
+          "endMp": 174
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 152,
+          "shieldAbsorbed": 620,
+          "endHp": 873,
+          "endMp": 192
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 211,
+          "shieldAbsorbed": 605,
+          "endHp": 806,
+          "endMp": 184
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 173,
+          "shieldAbsorbed": 623,
+          "endHp": 862,
+          "endMp": 192
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 10,
+          "kos": 0,
+          "hpDamage": 205,
+          "shieldAbsorbed": 744,
+          "endHp": 817,
+          "endMp": 164
+        }
+      ]
+    },
+    {
+      "id": "bounty_black_script_cleric",
+      "partyLevel": 25,
+      "difficulty": "medium",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 12,
+      "meanKOs": 0,
+      "meanEndHp": 926.97,
+      "meanEndMp": 223.2,
+      "minEndHp": 917,
+      "maxEndHp": 930,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 43,
+          "shieldAbsorbed": 310,
+          "endHp": 925,
+          "endMp": 229
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 58,
+          "shieldAbsorbed": 323,
+          "endHp": 926,
+          "endMp": 219
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 7,
+          "shieldAbsorbed": 350,
+          "endHp": 930,
+          "endMp": 227
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 65,
+          "shieldAbsorbed": 343,
+          "endHp": 917,
+          "endMp": 219
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 15,
+          "shieldAbsorbed": 357,
+          "endHp": 930,
+          "endMp": 229
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 18,
+          "shieldAbsorbed": 362,
+          "endHp": 930,
+          "endMp": 219
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 56,
+          "shieldAbsorbed": 319,
+          "endHp": 917,
+          "endMp": 219
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 14,
+          "shieldAbsorbed": 365,
+          "endHp": 930,
+          "endMp": 229
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 36,
+          "shieldAbsorbed": 359,
+          "endHp": 930,
+          "endMp": 221
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 22,
+          "shieldAbsorbed": 305,
+          "endHp": 927,
+          "endMp": 229
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 35,
+          "shieldAbsorbed": 369,
+          "endHp": 930,
+          "endMp": 221
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 22,
+          "shieldAbsorbed": 317,
+          "endHp": 927,
+          "endMp": 229
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 58,
+          "shieldAbsorbed": 265,
+          "endHp": 926,
+          "endMp": 221
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 35,
+          "shieldAbsorbed": 327,
+          "endHp": 919,
+          "endMp": 229
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 48,
+          "shieldAbsorbed": 314,
+          "endHp": 919,
+          "endMp": 219
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 5,
+          "shieldAbsorbed": 314,
+          "endHp": 930,
+          "endMp": 229
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 16,
+          "shieldAbsorbed": 382,
+          "endHp": 930,
+          "endMp": 227
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 15,
+          "shieldAbsorbed": 357,
+          "endHp": 930,
+          "endMp": 229
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 15,
+          "shieldAbsorbed": 314,
+          "endHp": 930,
+          "endMp": 227
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 45,
+          "shieldAbsorbed": 345,
+          "endHp": 930,
+          "endMp": 213
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 42,
+          "shieldAbsorbed": 342,
+          "endHp": 930,
+          "endMp": 221
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 15,
+          "shieldAbsorbed": 354,
+          "endHp": 930,
+          "endMp": 227
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 44,
+          "shieldAbsorbed": 276,
+          "endHp": 930,
+          "endMp": 213
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 14,
+          "shieldAbsorbed": 339,
+          "endHp": 930,
+          "endMp": 229
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 18,
+          "shieldAbsorbed": 374,
+          "endHp": 930,
+          "endMp": 219
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 15,
+          "shieldAbsorbed": 357,
+          "endHp": 930,
+          "endMp": 229
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 48,
+          "shieldAbsorbed": 314,
+          "endHp": 919,
+          "endMp": 219
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 56,
+          "shieldAbsorbed": 294,
+          "endHp": 917,
+          "endMp": 219
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 15,
+          "shieldAbsorbed": 364,
+          "endHp": 930,
+          "endMp": 209
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 7,
+          "shieldAbsorbed": 381,
+          "endHp": 930,
+          "endMp": 227
+        }
+      ]
+    },
+    {
+      "id": "ogre_trial",
+      "partyLevel": 35,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 11.2,
+      "meanKOs": 0,
+      "meanEndHp": 849.77,
+      "meanEndMp": 190.1,
+      "minEndHp": 691,
+      "maxEndHp": 960,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 195,
+          "shieldAbsorbed": 818,
+          "endHp": 835,
+          "endMp": 201
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 251,
+          "shieldAbsorbed": 813,
+          "endHp": 839,
+          "endMp": 201
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 193,
+          "shieldAbsorbed": 644,
+          "endHp": 877,
+          "endMp": 211
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 297,
+          "shieldAbsorbed": 806,
+          "endHp": 793,
+          "endMp": 186
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 291,
+          "shieldAbsorbed": 986,
+          "endHp": 814,
+          "endMp": 149
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 94,
+          "shieldAbsorbed": 782,
+          "endHp": 936,
+          "endMp": 189
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 185,
+          "shieldAbsorbed": 706,
+          "endHp": 885,
+          "endMp": 201
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 187,
+          "shieldAbsorbed": 769,
+          "endHp": 855,
+          "endMp": 196
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 187,
+          "shieldAbsorbed": 777,
+          "endHp": 878,
+          "endMp": 186
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 376,
+          "shieldAbsorbed": 751,
+          "endHp": 734,
+          "endMp": 186
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 208,
+          "shieldAbsorbed": 778,
+          "endHp": 914,
+          "endMp": 196
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 203,
+          "shieldAbsorbed": 885,
+          "endHp": 887,
+          "endMp": 171
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 119,
+          "shieldAbsorbed": 553,
+          "endHp": 899,
+          "endMp": 226
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 216,
+          "shieldAbsorbed": 972,
+          "endHp": 894,
+          "endMp": 164
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 411,
+          "shieldAbsorbed": 846,
+          "endHp": 691,
+          "endMp": 196
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 171,
+          "shieldAbsorbed": 852,
+          "endHp": 899,
+          "endMp": 171
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 334,
+          "shieldAbsorbed": 883,
+          "endHp": 776,
+          "endMp": 164
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 336,
+          "shieldAbsorbed": 919,
+          "endHp": 774,
+          "endMp": 159
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 197,
+          "shieldAbsorbed": 866,
+          "endHp": 896,
+          "endMp": 171
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 12,
+          "kos": 0,
+          "hpDamage": 131,
+          "shieldAbsorbed": 661,
+          "endHp": 947,
+          "endMp": 199
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 253,
+          "shieldAbsorbed": 676,
+          "endHp": 823,
+          "endMp": 206
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 104,
+          "shieldAbsorbed": 455,
+          "endHp": 937,
+          "endMp": 251
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 230,
+          "shieldAbsorbed": 822,
+          "endHp": 877,
+          "endMp": 171
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 128,
+          "shieldAbsorbed": 878,
+          "endHp": 960,
+          "endMp": 201
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 229,
+          "shieldAbsorbed": 780,
+          "endHp": 821,
+          "endMp": 186
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 300,
+          "shieldAbsorbed": 700,
+          "endHp": 790,
+          "endMp": 186
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 223,
+          "shieldAbsorbed": 739,
+          "endHp": 807,
+          "endMp": 216
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 297,
+          "shieldAbsorbed": 713,
+          "endHp": 761,
+          "endMp": 206
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 231,
+          "shieldAbsorbed": 757,
+          "endHp": 836,
+          "endMp": 201
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 11,
+          "kos": 0,
+          "hpDamage": 221,
+          "shieldAbsorbed": 940,
+          "endHp": 858,
+          "endMp": 156
+        }
+      ]
+    },
+    {
+      "id": "bounty_black_script_cleric",
+      "partyLevel": 35,
+      "difficulty": "hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 16,
+      "meanKOs": 0,
+      "meanEndHp": 976.17,
+      "meanEndMp": 213.03,
+      "minEndHp": 953,
+      "maxEndHp": 990,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 61,
+          "shieldAbsorbed": 559,
+          "endHp": 975,
+          "endMp": 205
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 82,
+          "shieldAbsorbed": 515,
+          "endHp": 968,
+          "endMp": 215
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 45,
+          "shieldAbsorbed": 594,
+          "endHp": 972,
+          "endMp": 211
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 28,
+          "shieldAbsorbed": 583,
+          "endHp": 983,
+          "endMp": 219
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 51,
+          "shieldAbsorbed": 525,
+          "endHp": 960,
+          "endMp": 219
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 39,
+          "shieldAbsorbed": 593,
+          "endHp": 990,
+          "endMp": 211
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 28,
+          "shieldAbsorbed": 552,
+          "endHp": 983,
+          "endMp": 211
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 46,
+          "shieldAbsorbed": 586,
+          "endHp": 990,
+          "endMp": 210
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 78,
+          "shieldAbsorbed": 509,
+          "endHp": 983,
+          "endMp": 219
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 94,
+          "shieldAbsorbed": 482,
+          "endHp": 956,
+          "endMp": 203
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 69,
+          "shieldAbsorbed": 537,
+          "endHp": 978,
+          "endMp": 219
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 55,
+          "shieldAbsorbed": 476,
+          "endHp": 975,
+          "endMp": 218
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 43,
+          "shieldAbsorbed": 531,
+          "endHp": 987,
+          "endMp": 219
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 78,
+          "shieldAbsorbed": 474,
+          "endHp": 953,
+          "endMp": 219
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 28,
+          "shieldAbsorbed": 552,
+          "endHp": 983,
+          "endMp": 211
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 51,
+          "shieldAbsorbed": 466,
+          "endHp": 960,
+          "endMp": 218
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 45,
+          "shieldAbsorbed": 571,
+          "endHp": 972,
+          "endMp": 219
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 51,
+          "shieldAbsorbed": 525,
+          "endHp": 960,
+          "endMp": 219
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 24,
+          "shieldAbsorbed": 564,
+          "endHp": 987,
+          "endMp": 201
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 45,
+          "shieldAbsorbed": 575,
+          "endHp": 983,
+          "endMp": 202
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 34,
+          "shieldAbsorbed": 553,
+          "endHp": 990,
+          "endMp": 213
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 25,
+          "shieldAbsorbed": 549,
+          "endHp": 990,
+          "endMp": 205
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 51,
+          "shieldAbsorbed": 489,
+          "endHp": 960,
+          "endMp": 218
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 58,
+          "shieldAbsorbed": 489,
+          "endHp": 978,
+          "endMp": 218
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 24,
+          "shieldAbsorbed": 645,
+          "endHp": 990,
+          "endMp": 201
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 51,
+          "shieldAbsorbed": 537,
+          "endHp": 960,
+          "endMp": 219
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 28,
+          "shieldAbsorbed": 618,
+          "endHp": 983,
+          "endMp": 211
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 28,
+          "shieldAbsorbed": 597,
+          "endHp": 983,
+          "endMp": 218
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 30,
+          "shieldAbsorbed": 611,
+          "endHp": 981,
+          "endMp": 201
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 45,
+          "shieldAbsorbed": 547,
+          "endHp": 972,
+          "endMp": 219
+        }
+      ]
+    },
+    {
+      "id": "ogre_trial",
+      "partyLevel": 45,
+      "difficulty": "very_hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 16.27,
+      "meanKOs": 0.23,
+      "meanEndHp": 729.83,
+      "meanEndMp": 132.5,
+      "minEndHp": 508,
+      "maxEndHp": 938,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 429,
+          "shieldAbsorbed": 1318,
+          "endHp": 869,
+          "endMp": 148
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 522,
+          "shieldAbsorbed": 1395,
+          "endHp": 788,
+          "endMp": 138
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 496,
+          "shieldAbsorbed": 1305,
+          "endHp": 767,
+          "endMp": 123
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 1,
+          "hpDamage": 663,
+          "shieldAbsorbed": 1336,
+          "endHp": 640,
+          "endMp": 135
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 566,
+          "shieldAbsorbed": 1491,
+          "endHp": 728,
+          "endMp": 106
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 370,
+          "shieldAbsorbed": 1386,
+          "endHp": 894,
+          "endMp": 123
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 563,
+          "shieldAbsorbed": 1314,
+          "endHp": 734,
+          "endMp": 103
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 412,
+          "shieldAbsorbed": 1421,
+          "endHp": 890,
+          "endMp": 123
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 485,
+          "shieldAbsorbed": 1420,
+          "endHp": 846,
+          "endMp": 108
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 1,
+          "hpDamage": 778,
+          "shieldAbsorbed": 1649,
+          "endHp": 593,
+          "endMp": 123
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 535,
+          "shieldAbsorbed": 1158,
+          "endHp": 764,
+          "endMp": 148
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 530,
+          "shieldAbsorbed": 1266,
+          "endHp": 786,
+          "endMp": 133
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 293,
+          "shieldAbsorbed": 1189,
+          "endHp": 936,
+          "endMp": 178
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 574,
+          "shieldAbsorbed": 1507,
+          "endHp": 792,
+          "endMp": 123
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 710,
+          "shieldAbsorbed": 1387,
+          "endHp": 572,
+          "endMp": 118
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 556,
+          "shieldAbsorbed": 1330,
+          "endHp": 697,
+          "endMp": 138
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 729,
+          "shieldAbsorbed": 1410,
+          "endHp": 582,
+          "endMp": 108
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 1,
+          "hpDamage": 810,
+          "shieldAbsorbed": 1524,
+          "endHp": 547,
+          "endMp": 112
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 499,
+          "shieldAbsorbed": 1510,
+          "endHp": 812,
+          "endMp": 108
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 254,
+          "shieldAbsorbed": 1177,
+          "endHp": 938,
+          "endMp": 153
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 552,
+          "shieldAbsorbed": 1208,
+          "endHp": 745,
+          "endMp": 158
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 348,
+          "shieldAbsorbed": 1133,
+          "endHp": 897,
+          "endMp": 163
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 717,
+          "shieldAbsorbed": 1279,
+          "endHp": 598,
+          "endMp": 123
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 521,
+          "shieldAbsorbed": 1298,
+          "endHp": 781,
+          "endMp": 133
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 524,
+          "shieldAbsorbed": 1124,
+          "endHp": 724,
+          "endMp": 163
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 1,
+          "hpDamage": 773,
+          "shieldAbsorbed": 1419,
+          "endHp": 522,
+          "endMp": 143
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 654,
+          "shieldAbsorbed": 1305,
+          "endHp": 628,
+          "endMp": 148
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 2,
+          "hpDamage": 686,
+          "shieldAbsorbed": 1095,
+          "endHp": 508,
+          "endMp": 159
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 1,
+          "hpDamage": 575,
+          "shieldAbsorbed": 1622,
+          "endHp": 736,
+          "endMp": 128
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "ogre_trial"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 16,
+          "kos": 0,
+          "hpDamage": 717,
+          "shieldAbsorbed": 1538,
+          "endHp": 581,
+          "endMp": 108
+        }
+      ]
+    },
+    {
+      "id": "bounty_black_script_cleric",
+      "partyLevel": 45,
+      "difficulty": "very_hard",
+      "seeds": 30,
+      "wins": 30,
+      "draws": 0,
+      "meanWinRounds": 20,
+      "meanKOs": 0,
+      "meanEndHp": 1047.2,
+      "meanEndMp": 196.7,
+      "minEndHp": 988,
+      "maxEndHp": 1060,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 77,
+          "shieldAbsorbed": 912,
+          "endHp": 1058,
+          "endMp": 208
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 183,
+          "shieldAbsorbed": 788,
+          "endHp": 988,
+          "endMp": 194
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 40,
+          "shieldAbsorbed": 963,
+          "endHp": 1060,
+          "endMp": 193
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 103,
+          "shieldAbsorbed": 946,
+          "endHp": 1031,
+          "endMp": 203
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 67,
+          "shieldAbsorbed": 941,
+          "endHp": 1044,
+          "endMp": 203
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 65,
+          "shieldAbsorbed": 1005,
+          "endHp": 1060,
+          "endMp": 188
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 69,
+          "shieldAbsorbed": 976,
+          "endHp": 1058,
+          "endMp": 188
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 87,
+          "shieldAbsorbed": 905,
+          "endHp": 1060,
+          "endMp": 193
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 65,
+          "shieldAbsorbed": 937,
+          "endHp": 1033,
+          "endMp": 206
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 127,
+          "shieldAbsorbed": 855,
+          "endHp": 1046,
+          "endMp": 198
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 91,
+          "shieldAbsorbed": 936,
+          "endHp": 1056,
+          "endMp": 203
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 68,
+          "shieldAbsorbed": 914,
+          "endHp": 1060,
+          "endMp": 196
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 189,
+          "shieldAbsorbed": 737,
+          "endHp": 997,
+          "endMp": 208
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 80,
+          "shieldAbsorbed": 934,
+          "endHp": 1047,
+          "endMp": 203
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 69,
+          "shieldAbsorbed": 976,
+          "endHp": 1056,
+          "endMp": 188
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 56,
+          "shieldAbsorbed": 849,
+          "endHp": 1060,
+          "endMp": 203
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 70,
+          "shieldAbsorbed": 920,
+          "endHp": 1060,
+          "endMp": 188
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 69,
+          "shieldAbsorbed": 931,
+          "endHp": 1035,
+          "endMp": 203
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 138,
+          "shieldAbsorbed": 818,
+          "endHp": 1017,
+          "endMp": 195
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 85,
+          "shieldAbsorbed": 971,
+          "endHp": 1060,
+          "endMp": 197
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 163,
+          "shieldAbsorbed": 871,
+          "endHp": 1007,
+          "endMp": 199
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 55,
+          "shieldAbsorbed": 878,
+          "endHp": 1060,
+          "endMp": 199
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 54,
+          "shieldAbsorbed": 848,
+          "endHp": 1060,
+          "endMp": 206
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 76,
+          "shieldAbsorbed": 906,
+          "endHp": 1060,
+          "endMp": 196
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 32,
+          "shieldAbsorbed": 1024,
+          "endHp": 1060,
+          "endMp": 188
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 64,
+          "shieldAbsorbed": 965,
+          "endHp": 1049,
+          "endMp": 188
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 46,
+          "shieldAbsorbed": 1026,
+          "endHp": 1058,
+          "endMp": 188
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 57,
+          "shieldAbsorbed": 953,
+          "endHp": 1056,
+          "endMp": 203
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 35,
+          "shieldAbsorbed": 990,
+          "endHp": 1060,
+          "endMp": 188
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "bounty_black_script_cleric"
+          ],
+          "outcome": "victory",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 0,
+          "hpDamage": 66,
+          "shieldAbsorbed": 1010,
+          "endHp": 1060,
+          "endMp": 188
+        }
+      ]
+    },
+    {
+      "id": "alice_superboss",
+      "partyLevel": 50,
+      "difficulty": "very_hard",
+      "seeds": 30,
+      "wins": 0,
+      "draws": 0,
+      "meanWinRounds": null,
+      "meanKOs": 4,
+      "meanEndHp": 0,
+      "meanEndMp": 116.4,
+      "minEndHp": 0,
+      "maxEndHp": 0,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 17,
+          "kos": 4,
+          "hpDamage": 1176,
+          "shieldAbsorbed": 800,
+          "endHp": 0,
+          "endMp": 195
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 23,
+          "kos": 4,
+          "hpDamage": 1400,
+          "shieldAbsorbed": 1490,
+          "endHp": 0,
+          "endMp": 152
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1426,
+          "shieldAbsorbed": 1905,
+          "endHp": 0,
+          "endMp": 90
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 20,
+          "kos": 4,
+          "hpDamage": 1432,
+          "shieldAbsorbed": 1723,
+          "endHp": 0,
+          "endMp": 124
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 27,
+          "kos": 4,
+          "hpDamage": 1564,
+          "shieldAbsorbed": 2389,
+          "endHp": 0,
+          "endMp": 86
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 30,
+          "kos": 4,
+          "hpDamage": 1591,
+          "shieldAbsorbed": 2357,
+          "endHp": 0,
+          "endMp": 70
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 27,
+          "kos": 4,
+          "hpDamage": 1571,
+          "shieldAbsorbed": 2164,
+          "endHp": 0,
+          "endMp": 99
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 21,
+          "kos": 4,
+          "hpDamage": 1389,
+          "shieldAbsorbed": 1540,
+          "endHp": 0,
+          "endMp": 95
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 33,
+          "kos": 4,
+          "hpDamage": 1576,
+          "shieldAbsorbed": 2426,
+          "endHp": 0,
+          "endMp": 82
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 17,
+          "kos": 4,
+          "hpDamage": 1229,
+          "shieldAbsorbed": 957,
+          "endHp": 0,
+          "endMp": 192
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 19,
+          "kos": 4,
+          "hpDamage": 1317,
+          "shieldAbsorbed": 1277,
+          "endHp": 0,
+          "endMp": 139
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 29,
+          "kos": 4,
+          "hpDamage": 1590,
+          "shieldAbsorbed": 2249,
+          "endHp": 0,
+          "endMp": 113
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1547,
+          "shieldAbsorbed": 1892,
+          "endHp": 0,
+          "endMp": 64
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 18,
+          "kos": 4,
+          "hpDamage": 1277,
+          "shieldAbsorbed": 1310,
+          "endHp": 0,
+          "endMp": 161
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1393,
+          "shieldAbsorbed": 1853,
+          "endHp": 0,
+          "endMp": 142
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 17,
+          "kos": 4,
+          "hpDamage": 1295,
+          "shieldAbsorbed": 1231,
+          "endHp": 0,
+          "endMp": 162
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 29,
+          "kos": 4,
+          "hpDamage": 1477,
+          "shieldAbsorbed": 2167,
+          "endHp": 0,
+          "endMp": 117
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1554,
+          "shieldAbsorbed": 2043,
+          "endHp": 0,
+          "endMp": 63
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 18,
+          "kos": 4,
+          "hpDamage": 1297,
+          "shieldAbsorbed": 1197,
+          "endHp": 0,
+          "endMp": 161
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 19,
+          "kos": 4,
+          "hpDamage": 1234,
+          "shieldAbsorbed": 924,
+          "endHp": 0,
+          "endMp": 169
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 29,
+          "kos": 4,
+          "hpDamage": 1524,
+          "shieldAbsorbed": 2251,
+          "endHp": 0,
+          "endMp": 86
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1376,
+          "shieldAbsorbed": 1522,
+          "endHp": 0,
+          "endMp": 122
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 24,
+          "kos": 4,
+          "hpDamage": 1453,
+          "shieldAbsorbed": 2024,
+          "endHp": 0,
+          "endMp": 93
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 26,
+          "kos": 4,
+          "hpDamage": 1383,
+          "shieldAbsorbed": 1783,
+          "endHp": 0,
+          "endMp": 98
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 31,
+          "kos": 4,
+          "hpDamage": 1464,
+          "shieldAbsorbed": 2332,
+          "endHp": 0,
+          "endMp": 104
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1431,
+          "shieldAbsorbed": 2148,
+          "endHp": 0,
+          "endMp": 77
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 30,
+          "kos": 4,
+          "hpDamage": 1588,
+          "shieldAbsorbed": 2300,
+          "endHp": 0,
+          "endMp": 110
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1490,
+          "shieldAbsorbed": 2147,
+          "endHp": 0,
+          "endMp": 81
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 33,
+          "kos": 4,
+          "hpDamage": 1510,
+          "shieldAbsorbed": 2393,
+          "endHp": 0,
+          "endMp": 100
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "alice_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 25,
+          "kos": 4,
+          "hpDamage": 1349,
+          "shieldAbsorbed": 1698,
+          "endHp": 0,
+          "endMp": 145
+        }
+      ]
+    },
+    {
+      "id": "miraebolis_superboss",
+      "partyLevel": 50,
+      "difficulty": "very_hard",
+      "seeds": 30,
+      "wins": 0,
+      "draws": 0,
+      "meanWinRounds": null,
+      "meanKOs": 4,
+      "meanEndHp": 0,
+      "meanEndMp": 253.17,
+      "minEndHp": 0,
+      "maxEndHp": 0,
+      "trials": [
+        {
+          "seed": 1,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1748,
+          "shieldAbsorbed": 3314,
+          "endHp": 0,
+          "endMp": 241
+        },
+        {
+          "seed": 2,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 33,
+          "kos": 4,
+          "hpDamage": 1483,
+          "shieldAbsorbed": 2052,
+          "endHp": 0,
+          "endMp": 254
+        },
+        {
+          "seed": 3,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 40,
+          "kos": 4,
+          "hpDamage": 1688,
+          "shieldAbsorbed": 3362,
+          "endHp": 0,
+          "endMp": 256
+        },
+        {
+          "seed": 4,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1711,
+          "shieldAbsorbed": 3361,
+          "endHp": 0,
+          "endMp": 229
+        },
+        {
+          "seed": 5,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 31,
+          "kos": 4,
+          "hpDamage": 1465,
+          "shieldAbsorbed": 2150,
+          "endHp": 0,
+          "endMp": 231
+        },
+        {
+          "seed": 6,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1643,
+          "shieldAbsorbed": 3087,
+          "endHp": 0,
+          "endMp": 265
+        },
+        {
+          "seed": 7,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 39,
+          "kos": 4,
+          "hpDamage": 1690,
+          "shieldAbsorbed": 3510,
+          "endHp": 0,
+          "endMp": 244
+        },
+        {
+          "seed": 8,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 34,
+          "kos": 4,
+          "hpDamage": 1624,
+          "shieldAbsorbed": 2946,
+          "endHp": 0,
+          "endMp": 297
+        },
+        {
+          "seed": 9,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 34,
+          "kos": 4,
+          "hpDamage": 1598,
+          "shieldAbsorbed": 2928,
+          "endHp": 0,
+          "endMp": 284
+        },
+        {
+          "seed": 10,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 40,
+          "kos": 4,
+          "hpDamage": 1690,
+          "shieldAbsorbed": 3474,
+          "endHp": 0,
+          "endMp": 231
+        },
+        {
+          "seed": 11,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1795,
+          "shieldAbsorbed": 3524,
+          "endHp": 0,
+          "endMp": 247
+        },
+        {
+          "seed": 12,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 33,
+          "kos": 4,
+          "hpDamage": 1549,
+          "shieldAbsorbed": 2479,
+          "endHp": 0,
+          "endMp": 254
+        },
+        {
+          "seed": 13,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 43,
+          "kos": 4,
+          "hpDamage": 1679,
+          "shieldAbsorbed": 3341,
+          "endHp": 0,
+          "endMp": 270
+        },
+        {
+          "seed": 14,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 41,
+          "kos": 4,
+          "hpDamage": 1839,
+          "shieldAbsorbed": 3876,
+          "endHp": 0,
+          "endMp": 182
+        },
+        {
+          "seed": 15,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 34,
+          "kos": 4,
+          "hpDamage": 1708,
+          "shieldAbsorbed": 3155,
+          "endHp": 0,
+          "endMp": 296
+        },
+        {
+          "seed": 16,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 37,
+          "kos": 4,
+          "hpDamage": 1734,
+          "shieldAbsorbed": 3503,
+          "endHp": 0,
+          "endMp": 230
+        },
+        {
+          "seed": 17,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 41,
+          "kos": 4,
+          "hpDamage": 1953,
+          "shieldAbsorbed": 4164,
+          "endHp": 0,
+          "endMp": 181
+        },
+        {
+          "seed": 18,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1498,
+          "shieldAbsorbed": 2468,
+          "endHp": 0,
+          "endMp": 265
+        },
+        {
+          "seed": 19,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1710,
+          "shieldAbsorbed": 3439,
+          "endHp": 0,
+          "endMp": 241
+        },
+        {
+          "seed": 20,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 36,
+          "kos": 4,
+          "hpDamage": 1448,
+          "shieldAbsorbed": 2598,
+          "endHp": 0,
+          "endMp": 296
+        },
+        {
+          "seed": 21,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1729,
+          "shieldAbsorbed": 3630,
+          "endHp": 0,
+          "endMp": 247
+        },
+        {
+          "seed": 22,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 30,
+          "kos": 4,
+          "hpDamage": 1483,
+          "shieldAbsorbed": 2105,
+          "endHp": 0,
+          "endMp": 308
+        },
+        {
+          "seed": 23,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 40,
+          "kos": 4,
+          "hpDamage": 1839,
+          "shieldAbsorbed": 3627,
+          "endHp": 0,
+          "endMp": 236
+        },
+        {
+          "seed": 24,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 34,
+          "kos": 4,
+          "hpDamage": 1747,
+          "shieldAbsorbed": 3192,
+          "endHp": 0,
+          "endMp": 265
+        },
+        {
+          "seed": 25,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 34,
+          "kos": 4,
+          "hpDamage": 1532,
+          "shieldAbsorbed": 2827,
+          "endHp": 0,
+          "endMp": 296
+        },
+        {
+          "seed": 26,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 39,
+          "kos": 4,
+          "hpDamage": 1734,
+          "shieldAbsorbed": 3638,
+          "endHp": 0,
+          "endMp": 220
+        },
+        {
+          "seed": 27,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 37,
+          "kos": 4,
+          "hpDamage": 1776,
+          "shieldAbsorbed": 3560,
+          "endHp": 0,
+          "endMp": 224
+        },
+        {
+          "seed": 28,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 34,
+          "kos": 4,
+          "hpDamage": 1652,
+          "shieldAbsorbed": 3016,
+          "endHp": 0,
+          "endMp": 290
+        },
+        {
+          "seed": 29,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1755,
+          "shieldAbsorbed": 3531,
+          "endHp": 0,
+          "endMp": 248
+        },
+        {
+          "seed": 30,
+          "waveIds": [
+            "miraebolis_superboss"
+          ],
+          "outcome": "defeat",
+          "waves": 1,
+          "rounds": 35,
+          "kos": 4,
+          "hpDamage": 1731,
+          "shieldAbsorbed": 3225,
+          "endHp": 0,
+          "endMp": 267
+        }
+      ]
+    }
+  ]
+}

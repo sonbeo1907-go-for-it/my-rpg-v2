@@ -204,7 +204,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
           </h2>
           <p>
             {selected.enabled
-              ? `${selected.waves} ${stageLabel.toLocaleLowerCase("vi")}, chọn ngẫu nhiên từ ${definition.encounterTier === "boss" ? "nhóm trùm" : "Quest thường"}, không trùng trong cùng chuyến. Chỉ số quái: ${selected.enemyLevel?"Level "+selected.enemyLevel:enemyScaleSummary(selected.enemyScale)}.`
+              ? `${selected.waves} ${stageLabel.toLocaleLowerCase("vi")}, chọn ngẫu nhiên từ ${definition.encounterTier === "boss" ? "nhóm trùm" : "Quest thường"}, không trùng trong cùng chuyến. Chỉ số quái: ${selected.enemyLevel?"Level "+selected.enemyLevel+" · "+enemyScaleSummary(selected.enemyScale):enemyScaleSummary(selected.enemyScale)}.`
               : "Mức độ này sẽ được bổ sung ở hành trình sau."}
           </p>
           <div className="dungeon-reward-preview">{reward(selected)}</div>
@@ -234,7 +234,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
                   <strong>{item.name}</strong>
                   <small>
                     {item.enabled
-                      ? `${item.waves} ${stageLabel.toLocaleLowerCase("vi")} · ${item.enemyLevel?"Level "+item.enemyLevel:enemyScaleSummary(item.enemyScale)}`
+                      ? `${item.waves} ${stageLabel.toLocaleLowerCase("vi")} · ${item.enemyLevel?"Level "+item.enemyLevel+" · "+enemyScaleSummary(item.enemyScale):enemyScaleSummary(item.enemyScale)}`
                       : "Chưa mở"}
                   </small>
                 </span>
@@ -340,7 +340,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
           <section className="dungeon-entry-method" aria-label="Cách vào hầm ngục"><div className="result-section-title"><h3>Cách xuất phát</h3><CurrencyAmount kind="ticket" amount={campaign.sweepTickets}/></div><div className="entry-method-options"><button className={entryMethod==='battle'?'active':''} aria-pressed={entryMethod==='battle'} onClick={()=>setEntryMethod('battle')}>Đánh trực tiếp</button><button className="sweep-button" aria-pressed={entryMethod==='sweep'} disabled={!canSweep} onClick={()=>setEntryMethod('sweep')}>Dùng Thẻ Quét</button></div><p>{entryMethod==='sweep'?'Tiêu 1 Thẻ Quét và 1 lượt nhận thưởng cho cả chuyến. Nhận đủ phần thưởng; EXP dành cho đội hiện tại.':!cleared?'Chiến thắng mức này một lần để mở Quét.':progressionLocked?'Kết thúc trận hoặc chuyến đang chơi trước khi Quét.':campaign.sweepTickets<1?'Chưa có Thẻ Quét. Có thể nhận từ Ủy Thác Hằng Ngày.':'Có thể dùng 1 Thẻ Quét để nhận thưởng cả chuyến.'}</p><XpCapWarning amount={selected.reward.characterXp??0}/></section>
           <p className="scouting-run-info">
             {selected.waves} {stageLabel.toLocaleLowerCase("vi")} liên tiếp ·{" "}
-            {selected.enemyLevel?"Level "+selected.enemyLevel:enemyScaleSummary(selected.enemyScale)}.
+            {selected.enemyLevel?"Level "+selected.enemyLevel+" · "+enemyScaleSummary(selected.enemyScale):enemyScaleSummary(selected.enemyScale)}.
           </p>
           <p>Thưởng hoàn thành: {reward(selected)}</p>
           <p>

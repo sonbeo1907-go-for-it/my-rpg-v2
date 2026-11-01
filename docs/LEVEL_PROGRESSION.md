@@ -41,18 +41,38 @@ Thưởng farm giữ xác suất 50% Coin / 50% Vụn, làm tròn sau hệ số.
 
 Story không nhận EXP. Iris/Fiona/Takeshi lần lượt có cấp chương 5/15/20; truyện nhân vật gacha có 15/20/25. Hắc ảnh Arthur cấp 30, Alice/Miraebolis cấp 60 và không nhận EXP. Không có phạt chênh lệch cấp.
 
-Mỗi enemy giữ `referenceLevel`: chỉ số JSON là chỉ số đúng ở cấp đó. Quái thường gắn với nội dung ban đầu, enemy riêng truyện gắn với cấp chương, boss riêng gắn với thử thách. Quái dùng chung nhiều nội dung lấy mốc sớm nhất; đây là baseline cần playtest tiếp, không tự thay chỉ số gốc.
+### Enemy & Encounter Scaling — tune 01/11/2026
 
-`Stat(L) = round(templateStat × F(L)/F(referenceLevel) × override)`; chỉ làm tròn một lần. Tăng trưởng HP 3%, MP 1%, ATK/MAG 1,2%, DEF/RES 0,8%, SPD 0,15% mỗi L−1. Milestone cộng vào F tại 20/30/40/50/60: offense 4/5/6/7/8%, defense 2/2/3/3/4%. Không nhân chồng milestone.
+Quyết định mới của designer thay các mốc tham chiếu cũ: toàn bộ 59 template và 55 encounter dùng referenceLevel=1, bao gồm quái thường, truyện và siêu trùm. Giữ nguyên bảy stats gốc; chúng nay là chỉ số ở Lv1. Không còn ngoại lệ referenceLevel=60 cho Alice/Miraebolis hoặc ref15 cho Phi long Lôi.
 
-Mỏ Vàng và Hiểm Trở giữ hệ số hiện tại và dùng đúng chỉ số ở referenceLevel, không chồng scale Level lên hệ số cũ. Rèn Luyện/Phá Giới dùng cấp cố định bên dưới; trinh sát và combat dùng cùng hàm scale.
+HP chọn profile theo Encounter: rewardTier normal/boss/super → normal/boss/superboss; encounter.hpScalingProfile có thể ghi đè. Không phân loại Enemy thành Normal/Elite/Boss. Truy Nã dùng Boss, Hắc ảnh Arthur dùng Superboss như đã chốt.
+
+| Chỉ số | Bước tăng |
+| --- | --- |
+| HP Normal | 1,8% đến Lv30; 2,5% từ bước 30→31; hỗ trợ đến Lv50 |
+| HP Boss | 3% đến Lv30; 4% từ bước 30→31; hỗ trợ đến Lv50 |
+| HP Superboss | 1,5% đến Lv50; 2,5% ở Lv51–80; 3% ở Lv81–90 |
+| ATK/MAG | Đạt ×2 ở Lv50; trọng số tăng trưởng gấp đôi từ bước 30→31 |
+| DEF/RES | Đạt ×1,25 ở Lv50; trọng số tăng trưởng gấp đôi từ bước 30→31 |
+
+ATK/MAG và DEF/RES dùng F(L)=T^(w(L)/69), với L tạm giới hạn ở50, w(L)=min(L,30)−1+2×max(0,L−30). 69=29+2×20. T=2 hoặc1,25. Mỗi bước trước Lv31 tăng khoảng 1,009624%/0,323920%; từ Lv31 tăng khoảng 2,029441%/0,648889%. F(1)=1, F(50)=T chính xác. Trên Lv50 giữ hệ số Lv50, gắn pendingSuperLevelBalance; chưa mở Super Level.
+
+MP/SPD giữ đường tăng cũ 1+growth×(L−1), growth 1%/0,15%; nay cũng chuẩn hóa từ Lv1. Các trường enemyGrowth cũ khác và milestones được giữ cho tương thích dữ liệu, không cộng vào curve mới.
+
+Chỉ số cuối = round(templateStat × F(level)/F(referenceLevel) × explicitMultiplier), chỉ làm tròn một lần. HP có thể cấu hình hpReferenceLevel riêng nhưng nội dung hiện hành đều là1. Không scale trên actor đã scale. Validator chặn curve/level/reference sai; Normal/Boss không tự kéo dài quá50.
+
+Giáo Sĩ Lv45: HP4.753 thay cho9.637 ở bản Boss4%/7%. Alice/Miraebolis Lv60 vẫn HP6.372/9.558; các chỉ số khác nay tăng từ Lv1 (ATK/MAG×2, DEF/RES×1,25; MP/SPD theo curve cũ).
+
+Mỏ Vàng/Hiểm Nguy giữ Lv15/30/45, HP/ATK/MAG override=1 và hệ số MP cũ, không chồng hệ số cũ. Rèn Luyện/Phá Giới, số wave, quota, phần thưởng, EXP và carry-over không đổi. Truy Nã trở về giữ boss và độ khó. Preview/trinh sát/combat dùng cùng hàm và context.
+
+Chi tiết công thức: [ENEMY_SCALING_TUNING.md](ENEMY_SCALING_TUNING.md). Báo cáo [ENCOUNTER_SCALING_PLAYTEST.md](ENCOUNTER_SCALING_PLAYTEST.md) chỉ là smoke test tự động; không khẳng định cân bằng cuối.
 
 ## Bốn loại hầm ngục
 
 | Loại | Dễ | Trung bình | Khó | Giới hạn |
 | --- | --- | --- | --- | --- |
-| Mỏ vàng | Giữ hiện tại | Giữ hiện tại | Giữ hiện tại | 3/ngày |
-| Hiểm trở | Giữ hiện tại | Giữ hiện tại | Giữ hiện tại | 1/ngày |
+| Mỏ vàng | Lv15, 3 đợt, 1.000 Coin | Lv30, 4 đợt, 2.000 Coin | Lv45, 4 đợt, 3.000 Coin | 3/ngày |
+| Hiểm trở | Lv15, 1 phòng, 1 Pure | Lv30, 2 phòng, 3 Pure | Lv45, 2 phòng, 5 Pure | 1/ngày |
 | Rèn Luyện | Lv15, 3 đợt, 360 EXP/người | Lv30, 4 đợt, 900 EXP/người | Lv45, 5 đợt, 1.900 EXP/người | Tích tối đa 9 |
 | Phá Giới | Lv20, 1 phòng, 1 Tinh Thạch | Lv30, 2 phòng, 2 Tinh Thạch | Lv40, 3 phòng, 3 Tinh Thạch | 2/ngày |
 
@@ -88,3 +108,5 @@ Save trước hệ Level giữ Level cũ tối đa50, rank phù hợp, EXP0, ph�
 Các giao dịch clone trạng thái → kiểm tra → lưu → mới thay trạng thái đang chạy. Nếu ghi đĩa lỗi, giữ EXP, vật liệu, quota, thẻ, cờ thưởng cũ; retry không quay lại RNG hay trả thưởng hai lần.
 
 Cấu hình playtest nằm ở `data/progressionRules.json`, `data/dungeons.json`, `data/enemies.json` và `data/encounters.json`. Logic dùng lại: `leveling.js`, `quest-difficulty.js`, `training-charges.js`, `enemy-scaling.js`, `dungeon.js`. Các giá trị EXP/thưởng đã được người thiết kế duyệt để playtest, chưa phải cân bằng cuối cùng.
+
+Truy Nã: nút Trở về chọn trận giữ cả boss và độ khó đang chơi, không trở về mặc định Lv25.

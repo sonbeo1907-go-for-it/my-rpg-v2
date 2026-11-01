@@ -1,3 +1,4 @@
+import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
 import {exclusiveDamageEffect,exclusivePassive} from '../core/exclusive-hooks.js';
@@ -116,6 +117,7 @@ export function skillPreviewOptions(skill, actor, content) {
 }
 
 export function skillScaling(skill, actor, content, choices = {}) {
+  skill=resolveRankedAbility(content,actor,skill);
   const lines = [];
   const valueOf = key => choices.live ? battleStat(content, actor, key,false,0,choices.baseStatBonuses?.[key]??0) : effectiveStat(actor, key);
   const cost = resourceCost(skill,actor);
@@ -200,7 +202,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);
       if (effect.type === 'toggle_status') lines.push(`Bật/tắt ${status.name}; dùng lại để xuống ngựa, không cộng dồn.`);
       const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', evasion: 'khả năng né đòn vật lí' };
-      for (const [key, value] of Object.entries(status.modifiers ?? {})) {
+      for (const [key, value] of Object.entries(effect.appliedModifiers ?? status.modifiers ?? {})) {
         if (key === 'damageVsShielded') lines.push(`Gây thêm ${percent(value)} sát thương nếu mục tiêu có khiên lúc từng hit bắt đầu; nhân riêng, áp dụng cả khiên và sát thương tràn vào HP · ${duration}.`);
         else if (key === 'attackMultiplier') lines.push(`Đòn tấn công kế tiếp gây ${percent(value)} sát thương, nhân riêng với buff khác · ${duration}.`);
         else if (key === 'damageTakenBonus') lines.push(`Nhận thêm ${percent(value)} sát thương · ${duration}.`);
@@ -229,7 +231,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (status.consumeOnAttack) lines.push('Tiêu hiệu ứng sau hành động tấn công tiếp theo.');
       for (const statusId of effect.linkedStatuses ?? []) {
         lines.push(`Buff đi kèm: ${content.statuses[statusId].name} (gỡ cùng trạng thái chính nếu do trạng thái này cấp).`);
-        lines.push(...skillScaling({ target: skill.target, effects: [{ type: 'status', status: statusId }] }, actor, content, choices));
+        lines.push(...skillScaling({ target: skill.target, effects: [{ type: 'status', status: statusId, appliedModifiers:effect.linkedAppliedModifiers?.[statusId] }] }, actor, content, choices));
       }
     }
   }

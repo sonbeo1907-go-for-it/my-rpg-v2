@@ -34,4 +34,12 @@ export function validateExclusivePassive(passive,content) {
   return true;
 }
 
-export function exclusiveDamageEffect(actor,skillId,effect){const p=exclusivePassive(actor,'skill_scaling_override',skillId);return p&&effect.type==='damage'?{...effect,multiplier:p.multiplier}:effect;}
+export function exclusiveDamageEffect(actor,skillId,effect){
+ if(effect.type!=='damage'||effect.rankDamageApplied)return effect;
+ const p=exclusivePassive(actor,'skill_scaling_override',skillId),result=p?{...effect,multiplier:p.multiplier}:{...effect};
+ if(effect.rankDamageFactor!==undefined){
+  for(const key of ['multiplier','primaryMultiplier','perResource','perStack','lowHpBonus','perTargetBuff','speedMultiplier'])if(result[key]!==undefined)result[key]*=effect.rankDamageFactor;
+  result.rankDamageApplied=true;
+ }
+ return result;
+}

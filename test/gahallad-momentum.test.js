@@ -9,7 +9,8 @@ import { validateContent } from '../src/core/content.js';
 const content = await loadContent();
 function setup(party = ['gahallad', 'iris'], source = content, encounter = 'giant_spider_lair') {
   const campaign = createCampaign(source); campaign.party = party; campaign.unlockedCharacterIds = Object.keys(source.characters);
-  return createBattle(source, campaign, encounter, () => .99);
+  // Isolate kit/shield arithmetic at the encounter base level; scaling has separate coverage.
+  return createBattle(source, campaign, encounter, () => .99,{enemyLevel:source.encounters[encounter].referenceLevel??source.encounters[encounter].enemyLevel});
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);

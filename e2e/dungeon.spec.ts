@@ -6,6 +6,7 @@ async function seed(page:Page,used=0) {
   const save=createGameSave(content);save.party=['lisbeth','iris','elaine','garrek'];save.partyPresets[0].slots=[...save.party];save.unlockedCharacterIds.push('lisbeth');
   for(const id of ['lisbeth','iris','elaine']){save.extraGearSlots[id]=3;save.equipment[id]=[];for(let i=0;i<6;i++){const gear={id:`gear_${save.gear.length+1}`,typeId:'t3_focused',stats:{magic:5}};save.gear.push(gear);save.equipment[id].push(gear.id);}}
   save.gacha.totalPulls=save.gear.length;
+ for(const id of save.party){Object.assign(save.characters[id],{level:45,xp:0,limitBreakRank:3,allocations:id==='garrek'?{defense:15,maxHp:15,resistance:14}:{magic:15,maxHp:15,maxMp:14}});}
   if(used)save.dungeonDaily={day:'2026-10-29',clears:{gold_mine:used}};
   await page.addInitScript(raw=>{
     if(!localStorage.getItem('northern-prisma.campaign.v4'))localStorage.setItem('northern-prisma.campaign.v4',raw);
@@ -23,8 +24,8 @@ test('four illustrated doors and Quest-style difficulty boards show current scop
   await page.screenshot({path:'test-results/visual-dungeon-doors.png',fullPage:true});
   await page.locator('a.dungeon-choice[href="/dungeon/gold_mine"]').click();
   await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.quest-card.selected')).toContainText('Dễ');await expect(page.locator('.quest-illustration')).toContainText('1.000');
-  await page.getByRole('button',{name:/Trung bình/}).click();await expect(page.locator('.quest-illustration')).toContainText('HP ×1,75');await expect(page.locator('.quest-illustration')).toContainText('ATK ×1,25');await expect(page.locator('.quest-illustration')).toContainText('MAG ×1,25');
-  await page.getByRole('button',{name:/Khó/}).click();await expect(page.locator('.embark')).toBeEnabled();await expect(page.locator('.quest-illustration')).toContainText('HP ×1,9');await expect(page.locator('.quest-illustration')).toContainText('ATK ×1,6');
+  await page.getByRole('button',{name:/Trung bình/}).click();await expect(page.locator('.quest-illustration')).toContainText('Level 30');await expect(page.locator('.quest-illustration')).toContainText('MP ×2,25');await expect(page.locator('.quest-illustration')).not.toContainText('ATK ×1,25');
+  await page.getByRole('button',{name:/Khó/}).click();await expect(page.locator('.embark')).toBeEnabled();await expect(page.locator('.quest-illustration')).toContainText('Level 45');await expect(page.locator('.quest-illustration')).not.toContainText('ATK ×1,6');
   await page.goto('/dungeon/dangerous');await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.embark')).toBeEnabled();await expect(page.locator('.quest-card').last()).toContainText('5');await expect(page.locator('.dungeon-room-card')).toHaveCount(0);await page.locator('.embark').click();await expect(page.getByRole('dialog').locator('.dungeon-room-card')).toHaveCount(1);
   await page.setViewportSize({width:390,height:844});
   for(const route of ['/dungeon','/dungeon/gold_mine','/dungeon/dangerous']){await page.goto(route);await expect(page.locator('main')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),route).toBe(true);}

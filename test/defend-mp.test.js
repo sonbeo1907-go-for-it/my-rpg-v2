@@ -14,7 +14,7 @@ function setup() {
   campaign.gacha.totalPulls = 1;
   campaign.gear = [{ id: 'gear_1', typeId: 't1', stats: { maxMp: 2 } }];
   campaign = equipGear(campaign, content, 'iris', 'gear_1');
-  return { campaign, battle: createBattle(content, campaign, 'forest_patrol', () => .99) };
+  return { campaign, battle: createBattle(content, campaign, 'forest_patrol', () => .99,{enemyLevel:1}) };
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);
@@ -76,7 +76,7 @@ test('defend preview shows the same geared amount and fixed MP skills retain the
 
 test('MP percentage effects validate only finite positive ratios up to 100% and cannot target other resource types', () => {
   const custom = structuredClone(content);
-  custom.abilities['test.defend'] = { ...structuredClone(DEFEND), id: 'test.defend' };
+  custom.abilities['test.defend'] = { ...structuredClone(DEFEND), id: 'test.defend', skillLineId:'test.defend', growthProfile:'fixed', rankable:false, fixedReason:'Test utility' };
   assert.deepEqual(validateContent(custom), []);
   for (const value of [-.1, 0, 1.1, NaN, Infinity, '0.05', null]) {
     const invalid = structuredClone(custom);

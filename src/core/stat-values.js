@@ -8,7 +8,7 @@ export function statusModifier(content, actor, key, ignoreConsumables = false) {
   for (const status of activeStatuses(actor)) {
     const definition = content.statuses[status.id];
     if (ignoreConsumables && definition.consumeOnAttack) continue;
-    const value = (definition.modifiers?.[key] ?? 0) * (definition.modifiersPerStack ? status.stacks ?? 1 : 1);
+    const value = (status.appliedModifiers?.[key] ?? definition.modifiers?.[key] ?? 0) * (definition.modifiersPerStack ? status.stacks ?? 1 : 1);
     if (definition.modifierGroup) {
       const old = groups.get(definition.modifierGroup) ?? 0;
       if (Math.abs(value) > Math.abs(old)) groups.set(definition.modifierGroup,value);

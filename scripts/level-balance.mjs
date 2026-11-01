@@ -1,3 +1,4 @@
+import {pathToFileURL} from 'node:url';
 import {loadContent} from './load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
 import {claimBattleReward} from '../src/core/economy.js';
@@ -5,12 +6,12 @@ import {createBattle,activeActor,executeEnemyTurn,executeAction,abilityAvailabil
 import {allocationLimit,unspentPoints} from '../src/core/leveling.js';
 import {seededRandom} from '../src/core/random.js';
 const content=await loadContent(),seeds=Number(process.argv[2]??20),bosses=Object.values(content.encounters).filter(e=>e.category==='bounty');
-function campaign(dps,tier){let c=createGameSave(content);for(const story of Object.values(content.travelerStories).filter(s=>['iris','takeshi','fiona'].includes(s.id)))for(const id of story.chapters){const e=content.encounters[id];c=claimBattleReward(c,{encounterId:id,outcome:'victory',rewardRandom:()=>0,actors:(e.requiredPartyIds??[]).map(id=>({id,team:'party'})),...(e.waves?{storyWave:{waveIndex:e.waves.length-1,totalWaves:e.waves.length}}:{})},content);}
+export function campaign(dps,tier){let c=createGameSave(content);for(const story of Object.values(content.travelerStories).filter(s=>['iris','takeshi','fiona'].includes(s.id)))for(const id of story.chapters){const e=content.encounters[id];c=claimBattleReward(c,{encounterId:id,outcome:'victory',rewardRandom:()=>0,actors:(e.requiredPartyIds??[]).map(id=>({id,team:'party'})),...(e.waves?{storyWave:{waveIndex:e.waves.length-1,totalWaves:e.waves.length}}:{})},content);}
  c=claimBattleReward(c,{encounterId:'ogre_trial',outcome:'victory',rewardRandom:()=>0},content);c.party=[dps,'iris','garrek','elaine'];c.partyPresets[0].slots=[...c.party];
  if(tier){for(const id of c.party){const stat=id===dps?(dps==='fiona'?'magic':'attack'):id==='garrek'?'defense':'magic';c.equipment[id]=[];for(let i=0;i<3;i++){const gear={id:'gear_'+(c.gear.length+1),typeId:tier===2?'t2':'t3_focused',stats:{[stat]:tier===2?3:5}};c.gear.push(gear);c.equipment[id].push(gear.id);}}c.gacha.totalPulls=c.gear.length;}
  return c;
 }
-function command(b,a,dps){const team=b.actors.filter(t=>t.team==='party'&&t.hp>0),enemy=b.actors.find(t=>t.team==='enemy'&&t.hp>0),carry=team.find(t=>t.id===dps)??team[0];
+export function command(b,a,dps){const team=b.actors.filter(t=>t.team==='party'&&t.hp>0),enemy=b.actors.find(t=>t.team==='enemy'&&t.hp>0),carry=team.find(t=>t.id===dps)??team[0];
  const has=(t,id)=>t.statuses.some(s=>s.id===id),ok=id=>a.abilities.includes(id)&&abilityAvailability(b,a,content.abilities[id]).ok;
  const choose=(id,target)=>({actorId:a.id,abilityId:id,targetId:target?.id??a.id});
  if(a.id==='arthur'){for(const id of ['arthur.ogres_bane_controlled','arthur.light_slash','arthur.release'])if(ok(id))return choose(id,enemy);}
@@ -21,6 +22,7 @@ function command(b,a,dps){const team=b.actors.filter(t=>t.team==='party'&&t.hp>0
  return choose('$attack',enemy);
 }
 
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
 console.log('Automatic starter-team smoke benchmark. Fixed simple policy; not optimal player balance proof.');
 console.log('difficulty,quest,gear,seeds,wins,meanWinRound,meanEndMP,meanKOs');
 const levels={very_easy:5,easy:15,medium:25,hard:35,very_hard:45};
@@ -37,4 +39,6 @@ for(const[difficulty,level]of Object.entries(levels))for(const quest of ['forest
  }
  const wins=results.filter(r=>r.win),mean=key=>(results.reduce((n,r)=>n+r[key],0)/results.length).toFixed(1);
  console.log([difficulty,quest,tier,seeds,wins.length,wins.length?(wins.reduce((n,r)=>n+r.round,0)/wins.length).toFixed(1):'-',mean('mp'),mean('kos')].join(','));
+}
+
 }

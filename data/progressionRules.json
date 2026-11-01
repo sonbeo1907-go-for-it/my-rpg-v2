@@ -134,6 +134,76 @@
         "offense": 0.08,
         "defense": 0.04
       }
-    ]
+    ],
+    "enemyHpCurves": {
+      "normal": [
+        {
+          "untilLevel": 30,
+          "growth": 0.018
+        },
+        {
+          "untilLevel": 50,
+          "growth": 0.025
+        }
+      ],
+      "boss": [
+        {
+          "untilLevel": 30,
+          "growth": 0.03
+        },
+        {
+          "untilLevel": 50,
+          "growth": 0.04
+        }
+      ],
+      "superboss": [
+        {
+          "untilLevel": 50,
+          "growth": 0.015
+        },
+        {
+          "untilLevel": 80,
+          "growth": 0.025
+        },
+        {
+          "untilLevel": 90,
+          "growth": 0.03
+        }
+      ]
+    },
+    "enemyStatGrowthTargets": {
+      "offense": {
+        "atLevel": 50,
+        "multiplier": 2,
+        "accelerateAfterLevel": 30,
+        "lateGrowthWeight": 2
+      },
+      "defense": {
+        "atLevel": 50,
+        "multiplier": 1.25,
+        "accelerateAfterLevel": 30,
+        "lateGrowthWeight": 2
+      },
+      "aboveCap": "freeze"
+    },
+    "enemyBaselineLevel": 1,
+    "skillProgression": {
+      "maxRank": 5,
+      "characterLevelRequired": [
+        1,
+        15,
+        30,
+        40,
+        50
+      ],
+      "coins": {
+        "base": 400,
+        "multiplier": 2
+      },
+      "coefficientGrowthPerRank": 1.1,
+      "statBuffGrowthPerRank": 1.05,
+      "outputBuffMpMultiplierPerRank": 0.9,
+      "outputBuffMpCostFloorRatio": 0.7
+    }
   }
 ]

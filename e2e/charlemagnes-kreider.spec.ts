@@ -10,7 +10,7 @@ async function cast(page:Page,id:string,target?:string){await expect(page.locato
 async function ready(page:Page,name:string){for(let i=0;i<12;i++){await expect(page.locator('.execute')).toBeEnabled();if((await page.locator('.command-panel h2').textContent())?.includes(name))return;await cast(page,'$defend');}throw Error('Turn did not reach '+name);}
 
 test('Charlemagnes shows random hit targeting and switches costs after his first kill',async({page})=>{
- const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page,['charlemagnes','iris','elaine','garrek']);await page.goto('/quests?selected=ogre_trial');await page.getByRole('button',{name:/Xuất chiến/}).click();await ready(page,'Charlemagnes');
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page,['charlemagnes','iris','elaine','garrek']);await page.goto('/quests?selected=ogre_trial&difficulty=very_easy');await page.getByRole('button',{name:/Xuất chiến/}).click();await ready(page,'Charlemagnes');
  await page.locator('[data-gamepad-skill="charlemagnes.campaign"]').click();await page.keyboard.press('Escape');await expect(page.locator('.command-panel')).toContainText('Ngẫu nhiên · 4 đòn');await expect(page.locator('.command-panel')).toContainText('2 đối thủ có thể bị chọn');await expect(page.locator('[data-gamepad-skill="charlemagnes.campaign"]')).toContainText('4 × 180% ATK');await page.screenshot({path:'test-results/charlemagnes-random-targets.png',fullPage:true});await page.locator('.execute').click();
  // Ensure a personal kill regardless of the random spread. The ogre remains alive.
  for(let i=0;i<6;i++){

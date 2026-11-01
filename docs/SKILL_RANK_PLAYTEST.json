@@ -1,0 +1,1568 @@
+{
+  "description": "Synthetic fixed-policy comparison, not a reproduction of the user 28-round clear. Same party/gear/allocations/random seeds; only paid legal skill ranks differ. No Trấn Phái, T4 or consumables; 120-round bound is not proof of infinite sustain.",
+  "boss": "Giáo Sĩ Hắc Văn Lv45",
+  "bossHp": 4753,
+  "party": [
+    "yufina",
+    "chloe",
+    "victorina",
+    "elaine"
+  ],
+  "gear": "Exactly three T3 focused +5 each: Yufina ATK/ATK/ATK, Chloe MAG/MAG/ATK, Victorina DEF/DEF/RES, Elaine MAG/MAG/MAG. All available level points allocated by documented policy.",
+  "rows": [
+    {
+      "levels": [
+        16,
+        1,
+        1,
+        20
+      ],
+      "ranked": false,
+      "coinsSpent": 0,
+      "seeds": 30,
+      "wins": 30,
+      "bounded": 0,
+      "meanWinRound": 32.1,
+      "meanHp": 704.2,
+      "meanMp": 54.7,
+      "meanKOs": 0,
+      "results": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "round": 33,
+          "kos": 0,
+          "hp": 719,
+          "mp": 39
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 695,
+          "mp": 42
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "round": 31,
+          "kos": 0,
+          "hp": 731,
+          "mp": 64
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "round": 33,
+          "kos": 0,
+          "hp": 651,
+          "mp": 34
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 686,
+          "mp": 58
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 739,
+          "mp": 55
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 737,
+          "mp": 39
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 716,
+          "mp": 70
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 573,
+          "mp": 96
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 761,
+          "mp": 50
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 694,
+          "mp": 55
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 703,
+          "mp": 47
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 745,
+          "mp": 55
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "round": 33,
+          "kos": 0,
+          "hp": 759,
+          "mp": 38
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 716,
+          "mp": 77
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 735,
+          "mp": 72
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 716,
+          "mp": 44
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "round": 33,
+          "kos": 0,
+          "hp": 738,
+          "mp": 33
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 702,
+          "mp": 53
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 724,
+          "mp": 59
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 688,
+          "mp": 57
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "round": 33,
+          "kos": 0,
+          "hp": 610,
+          "mp": 43
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 604,
+          "mp": 61
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 713,
+          "mp": 71
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 656,
+          "mp": 80
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "round": 33,
+          "kos": 0,
+          "hp": 723,
+          "mp": 39
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 725,
+          "mp": 60
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 740,
+          "mp": 32
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "round": 31,
+          "kos": 0,
+          "hp": 690,
+          "mp": 62
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "round": 32,
+          "kos": 0,
+          "hp": 736,
+          "mp": 57
+        }
+      ]
+    },
+    {
+      "levels": [
+        16,
+        1,
+        1,
+        20
+      ],
+      "ranked": true,
+      "coinsSpent": 3600,
+      "seeds": 30,
+      "wins": 30,
+      "bounded": 0,
+      "meanWinRound": 28.8,
+      "meanHp": 711.5,
+      "meanMp": 59.7,
+      "meanKOs": 0,
+      "results": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 662,
+          "mp": 65
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "round": 28,
+          "kos": 0,
+          "hp": 705,
+          "mp": 59
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "round": 28,
+          "kos": 0,
+          "hp": 736,
+          "mp": 64
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 721,
+          "mp": 53
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 691,
+          "mp": 62
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 703,
+          "mp": 76
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 713,
+          "mp": 63
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 739,
+          "mp": 63
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 693,
+          "mp": 62
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 702,
+          "mp": 55
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 713,
+          "mp": 64
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 697,
+          "mp": 56
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 696,
+          "mp": 76
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "round": 28,
+          "kos": 0,
+          "hp": 752,
+          "mp": 55
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 696,
+          "mp": 63
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 754,
+          "mp": 63
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 745,
+          "mp": 46
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "round": 28,
+          "kos": 0,
+          "hp": 689,
+          "mp": 61
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 734,
+          "mp": 40
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 710,
+          "mp": 74
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 757,
+          "mp": 60
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 697,
+          "mp": 68
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 661,
+          "mp": 74
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 708,
+          "mp": 61
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 688,
+          "mp": 77
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 711,
+          "mp": 51
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 754,
+          "mp": 40
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 657,
+          "mp": 39
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "round": 27,
+          "kos": 0,
+          "hp": 727,
+          "mp": 60
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "round": 29,
+          "kos": 0,
+          "hp": 734,
+          "mp": 42
+        }
+      ]
+    },
+    {
+      "levels": [
+        45,
+        45,
+        45,
+        45
+      ],
+      "ranked": false,
+      "coinsSpent": 0,
+      "seeds": 30,
+      "wins": 30,
+      "bounded": 0,
+      "meanWinRound": 26,
+      "meanHp": 959.8,
+      "meanMp": 119.4,
+      "meanKOs": 0,
+      "results": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 124
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 959,
+          "mp": 112
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 942,
+          "mp": 125
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 937,
+          "mp": 125
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 971,
+          "mp": 99
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 973,
+          "mp": 97
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 937,
+          "mp": 125
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 946,
+          "mp": 127
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 975,
+          "mp": 112
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 938,
+          "mp": 125
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 972,
+          "mp": 99
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 944,
+          "mp": 140
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 960,
+          "mp": 114
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 990,
+          "mp": 112
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 945,
+          "mp": 125
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 945,
+          "mp": 127
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 943,
+          "mp": 114
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 975,
+          "mp": 114
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 953,
+          "mp": 127
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 958,
+          "mp": 114
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 945,
+          "mp": 140
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 959,
+          "mp": 108
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 966,
+          "mp": 127
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 959,
+          "mp": 114
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 954,
+          "mp": 129
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 124
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 952,
+          "mp": 127
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 975,
+          "mp": 114
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 970,
+          "mp": 114
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 952,
+          "mp": 127
+        }
+      ]
+    },
+    {
+      "levels": [
+        45,
+        45,
+        45,
+        45
+      ],
+      "ranked": true,
+      "coinsSpent": 47600,
+      "seeds": 30,
+      "wins": 30,
+      "bounded": 0,
+      "meanWinRound": 18,
+      "meanHp": 993,
+      "meanMp": 152.1,
+      "meanKOs": 0,
+      "results": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 134
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 992,
+          "mp": 163
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 991,
+          "mp": 163
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 991,
+          "mp": 163
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 991,
+          "mp": 163
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 134
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 992,
+          "mp": 163
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 978,
+          "mp": 150
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 992,
+          "mp": 163
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 992,
+          "mp": 163
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 977,
+          "mp": 150
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 990,
+          "mp": 163
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 134
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 977,
+          "mp": 150
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 978,
+          "mp": 150
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 991,
+          "mp": 163
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 991,
+          "mp": 163
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 977,
+          "mp": 150
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 991,
+          "mp": 163
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "round": 18,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 147
+        }
+      ]
+    },
+    {
+      "levels": [
+        50,
+        50,
+        50,
+        50
+      ],
+      "ranked": false,
+      "coinsSpent": 0,
+      "seeds": 30,
+      "wins": 30,
+      "bounded": 0,
+      "meanWinRound": 26,
+      "meanHp": 999,
+      "meanMp": 113.4,
+      "meanKOs": 0,
+      "results": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 988,
+          "mp": 129
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1002,
+          "mp": 100
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 999,
+          "mp": 111
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1006,
+          "mp": 129
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1008,
+          "mp": 100
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 999,
+          "mp": 111
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1005,
+          "mp": 113
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 986,
+          "mp": 130
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 963,
+          "mp": 145
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1006,
+          "mp": 129
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1009,
+          "mp": 100
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 992,
+          "mp": 129
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1011,
+          "mp": 99
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1005,
+          "mp": 96
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 967,
+          "mp": 129
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 991,
+          "mp": 113
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 989,
+          "mp": 99
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1016,
+          "mp": 100
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1001,
+          "mp": 113
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1010,
+          "mp": 99
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 993,
+          "mp": 129
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1014,
+          "mp": 102
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1020,
+          "mp": 99
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1011,
+          "mp": 99
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1010,
+          "mp": 114
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 987,
+          "mp": 129
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1000,
+          "mp": 113
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 974,
+          "mp": 146
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 1010,
+          "mp": 84
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "round": 26,
+          "kos": 0,
+          "hp": 999,
+          "mp": 113
+        }
+      ]
+    },
+    {
+      "levels": [
+        50,
+        50,
+        50,
+        50
+      ],
+      "ranked": true,
+      "coinsSpent": 102000,
+      "seeds": 30,
+      "wins": 30,
+      "bounded": 0,
+      "meanWinRound": 15,
+      "meanHp": 1018.4,
+      "meanMp": 202.8,
+      "meanKOs": 0,
+      "results": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1009,
+          "mp": 212
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 182
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1009,
+          "mp": 212
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1013,
+          "mp": 212
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1010,
+          "mp": 212
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1009,
+          "mp": 212
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1012,
+          "mp": 212
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 182
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1010,
+          "mp": 212
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1013,
+          "mp": 212
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1009,
+          "mp": 212
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1014,
+          "mp": 212
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 182
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1009,
+          "mp": 212
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 201
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1009,
+          "mp": 212
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1014,
+          "mp": 212
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1022,
+          "mp": 201
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1025,
+          "mp": 197
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "round": 15,
+          "kos": 0,
+          "hp": 1014,
+          "mp": 212
+        }
+      ]
+    }
+  ]
+}

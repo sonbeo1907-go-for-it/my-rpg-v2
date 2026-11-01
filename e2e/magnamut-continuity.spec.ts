@@ -9,7 +9,7 @@ test('Magnamut crosses dangerous dungeon rooms without exiting, refunding MP or 
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  const save=setAstoriaEnabled(createGameSave(content),true);
  save.unlockedCharacterIds.push('lyon');save.party=['astoria','elaine','lyon','garrek'];save.partyPresets[0].slots=[...save.party];save.equipment.astoria=[];
- for(let i=0;i<3;i++){const gear={id:`gear_${i+1}`,typeId:'t3_focused',stats:{magic:5}};save.gear.push(gear);save.equipment.astoria.push(gear.id);}save.gacha.totalPulls=3;
+ for(let i=0;i<3;i++){const gear={id:`rune_${i+1}`,typeId:'t4_stats',primaryStat:'magic',secondaryStat:'magic',stats:{magic:8}};save.gear.push(gear);save.equipment.astoria.push(gear.id);}save.craftedGearSerial=3;Object.assign(save.characters.astoria,{level:30,xp:0,limitBreakRank:1,allocations:{magic:10,maxHp:10,defense:9}});
  await page.clock.install({time:new Date('2026-10-30T05:00:00Z')});
  await page.addInitScript(raw=>{
   if(!localStorage.getItem('northern-prisma.campaign.v6'))localStorage.setItem('northern-prisma.campaign.v6',raw);
@@ -19,7 +19,7 @@ test('Magnamut crosses dangerous dungeon rooms without exiting, refunding MP or 
   document.createElement=function(...args:any[]){const element=(create as any)(...args);if(args[0]==='audio'){const src=Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype,'src')!;Object.defineProperty(element,'src',{configurable:true,get(){return src.get!.call(element);},set(value){(window as any).__tracks.push(new URL(value,location.href).pathname);src.set!.call(element,value);}});}return element;} as typeof document.createElement;
  },encodeGameSave(save,content));
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/dungeon/dangerous?selected=medium');await page.locator('.embark').click();await page.getByRole('dialog').getByRole('button',{name:'Bắt đầu thám hiểm',exact:true}).click();
- let expectedCarry=0;
+ let expectedCarry=0,expectedMp=0;
  const card=page.locator('.combatant[data-actor-id=astoria]');
  const available=async(id:string)=>{const button=page.locator(`[data-gamepad-skill="${id}"]`);return await button.count()>0&&await button.getAttribute('aria-disabled')==='false';};
  for(let i=0;i<70;i++){
@@ -28,7 +28,7 @@ test('Magnamut crosses dangerous dungeon rooms without exiting, refunding MP or 
   const actor=await page.locator('.command-panel h2').textContent();let skill='$defend';
   if(actor?.includes('Astoria')){
    if(await available('astoria.command')){
-    skill='astoria.command';const text=await card.innerText(),match=/Vết nứt không gian:\s*(\d)\s*\/\s*5/.exec(text);expect(match).not.toBeNull();expectedCarry=Number(match![1])-1;
+    skill='astoria.command';expectedMp=await card.locator('.mp-bar').evaluate(node=>(node as HTMLProgressElement).value);const text=await card.innerText(),match=/Vết nứt không gian:\s*(\d)\s*\/\s*5/.exec(text);expect(match).not.toBeNull();expectedCarry=Number(match![1])-1;
    }else if(await available('astoria.summon'))skill='astoria.summon';else if(await available('astoria.rift'))skill='astoria.rift';else skill='astoria.slash';
   }else if(actor?.includes('Elaine')){if(await available('elaine.sanctuary'))skill='elaine.sanctuary';else if(await available('elaine.shield'))skill='elaine.shield';}
   else if(actor?.includes('Lyon')&&await available('lyon.shield'))skill='lyon.shield';
@@ -39,7 +39,7 @@ test('Magnamut crosses dangerous dungeon rooms without exiting, refunding MP or 
  }
  await expect(page.locator('.battle-page')).toHaveAttribute('data-dungeon-wave','2');expect(expectedCarry).toBeGreaterThan(0);
  await expect(page.locator('.battle-page')).toHaveAttribute('data-combat-mode','magnamut');await expect(card).toContainText(new RegExp(`Vết nứt không gian:\\s*${expectedCarry}\\s*/\\s*5`));
- await expect(page.locator('.battle-log')).not.toContainText('Magnamut rời sân.');await expect(card).toContainText(/MP\s*78\s*\/\s*120/);
+ await expect(page.locator('.battle-log')).not.toContainText('Magnamut rời sân.');expect(await card.locator('.mp-bar').evaluate(node=>(node as HTMLProgressElement).value)).toBe(expectedMp);
  for(let i=0;i<5;i++){await expect(page.locator('.execute')).toBeEnabled();if((await page.locator('.command-panel h2').textContent())?.includes('Astoria'))break;await page.locator('[data-gamepad-skill="$defend"]').click();await page.keyboard.press('Escape');await page.locator('.execute').click();}
  await expect(page.locator('[data-gamepad-skill="astoria.command"]')).toHaveAttribute('aria-disabled','false');await expect(page.locator('[data-gamepad-skill="$attack"]')).toHaveAttribute('aria-disabled','true');await expect(page.locator('.skill-command.selected')).toHaveAttribute('data-gamepad-skill','astoria.command');
  const tracks=await page.evaluate(()=>(window as any).__tracks);expect(tracks.filter((path:string)=>path==='/bgm/bgm_astoria.mp3')).toHaveLength(1);expect(tracks).not.toContain('/bgm/victory.mp3');expect(errors).toEqual([]);

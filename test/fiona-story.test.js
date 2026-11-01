@@ -76,7 +76,7 @@ test('live preview uses next accumulated bonus without changing actor or consumi
 
 test('Ogre King cannot skip phase, stays one action/turn, keeps player state without free MP; telegraph is real',()=>{
  const b=createBattle(content,complete(save(),2),chapters[2],()=>.99),boss=getActor(b,'enemy_0'),f=getActor(b,'fiona');f.detonationBonus=8;f.mp=10;f.stats.magic=10000;
- use(b,'fiona','$attack');assert.equal(boss.hp,900);assert.equal(boss.bossState.phase,2);assert.equal(f.detonationBonus,8);assert.equal(f.mp,10);assert.equal(boss.statuses.some(s=>s.id==='suppression'),false);assert.ok(boss.weaknesses.includes('dark'));assert.equal(b.events.some(e=>e.type==='mp_restore'),false);
+ use(b,'fiona','$attack');assert.equal(boss.hp,Math.ceil(boss.stats.maxHp*boss.boss.phases[1].atHpRatio));assert.equal(boss.bossState.phase,2);assert.equal(f.detonationBonus,8);assert.equal(f.mp,10);assert.equal(boss.statuses.some(s=>s.id==='suppression'),false);assert.ok(boss.weaknesses.includes('dark'));assert.equal(b.events.some(e=>e.type==='mp_restore'),false);
  for(const a of b.actors.filter(a=>a.team==='party')){a.hp=a.stats.maxHp=10000;}
  for(let i=0;i<5;i++){b.queue=['enemy_0','fiona'];b.cursor=0;b.round=10+i;const before=b.actionCount;executeEnemyTurn(b);assert.equal(b.actionCount,before+1);}
  assert.ok(b.log.some(s=>s.includes('vận sức: Thiên băng địa liệt')));assert.ok(b.log.some(s=>s.includes('dùng Thiên băng địa liệt')));assert.equal(boss.boss.phases[1].damageMultiplier,1.15);

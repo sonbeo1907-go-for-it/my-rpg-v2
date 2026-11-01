@@ -115,7 +115,7 @@ test('enemy AI can use a data-defined grant skill and acts in extra without open
  executeEnemyTurn(b);assert.equal(b.round,2);assert.equal(b.phase,'main');
 });
 test('a multi-move boss extra turn remains one actor turn for durations and end-round effects',()=>{
- const c=structuredClone(content);c.encounters.forest_patrol.enemies=['miraebolis'];
+ const c=structuredClone(content);c.encounters.forest_patrol.enemies=['miraebolis'];c.encounters.forest_patrol.hpScalingProfile='superboss';
  const b=setup(['lionel','garrek'],c);const enemy=getActor(b,'enemy_0');enemy.bossState.phase=3;enemy.hp=3000;
  for(const a of b.actors.filter(a=>a.team==='party'))a.hp=a.stats.maxHp=5000;
  b.extraTurnGrants=new Set(['enemy_0','garrek']);b.extraPhaseRequired=true;

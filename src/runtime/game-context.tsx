@@ -1,4 +1,5 @@
 "use client";
+import {upgradeSkill} from '../core/skill-progression.js';
 import {allocatePoints,limitBreak} from '../core/leveling.js';
 import {sweepDungeon as sweepDungeonAction} from '../core/dungeon.js';
 import {combatFeedbackDuration} from "../ui/combat-timeline.js";
@@ -80,6 +81,7 @@ type GameContextValue = {
   ) => Promise<boolean>;
   startBattle: (id: string,difficultyId?:string) => boolean;
   progressionLocked:boolean;
+  upgradeCharacterSkill:(id:string,line:string,expectedRank:number)=>Promise<boolean>;
   updateAllocations:(id:string,allocations:Record<string,number>)=>Promise<boolean>;
   breakCharacterLimit:(id:string)=>Promise<boolean>;
   sweepDungeon:(id:string,difficultyId:string)=>Promise<boolean>;
@@ -587,9 +589,10 @@ export function GameProvider({
     }
     return true;
   }
-  const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&!runtime.current.rewardClaimed));
+  const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
     progressionLocked:inAdventure(),
+    upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure(),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),
     updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()}),"Đã lưu điểm phân bổ."),
     breakCharacterLimit:id=>transact(c=>limitBreak(c,content,id,{battleActive:inAdventure()}),"Đã Đột Phá giới hạn."),
     sweepDungeon:(id,difficultyId)=>transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu."),

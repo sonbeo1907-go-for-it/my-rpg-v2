@@ -1,3 +1,5 @@
+import {resolveRankedAbility} from '../core/skill-resolver.js';
+import {exclusiveDamageEffect} from '../core/exclusive-hooks.js';
 import { formulaSnapshot, formulaDamage } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { targetsAsGroup, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus } from '../core/conditional-combat.js';
@@ -38,10 +40,11 @@ export function liveSkillChoices(skill, actor, target, battle) {
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
 }
 export function compactSkillScaling(skill, actor, target, content, battle) {
+  skill=resolveRankedAbility(content,actor,skill);
   const choices = liveSkillChoices(skill, actor, target, battle ? {...battle,content} : undefined);
   const parts = [];
   for (const authoredEffect of skill.effects) {
-    const effect=formulaDamage(authoredEffect,{correct:choices.formulaCorrect});
+    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(authoredEffect,{correct:choices.formulaCorrect}));
     if (effect.type === 'damage') {
       const label = scalingLabel(effect,statNames);
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp,buffs:choices.buffCount });
@@ -58,7 +61,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       parts.push(`${formula || '0'} → ${amount} ${effect.type === 'shield' ? 'khiên' : 'HP'}${effect.durationRounds?' · '+effect.durationRounds+' vòng':''}`);
     } else if (effect.type === 'status' || effect.type === 'toggle_status') {
       const status = content.statuses[effect.status];
-      const modifiers = Object.entries(status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `Địch có khiên: ST ×${compactNumber(1+Number(value))}` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? key}`);
+      const modifiers = Object.entries(effect.appliedModifiers ?? status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `Địch có khiên: ST ×${compactNumber(1+Number(value))}` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? key}`);
       parts.push(...modifiers);
       for (const id of effect.linkedStatuses??[]) parts.push(content.statuses[id].name);
       if (status.taunt) parts.push('Khiêu khích');
@@ -93,7 +96,7 @@ export function combatSkillDetails(skill, actor, target, content) {
 export function statusDetails(status, actor, battle, content) {
   const definition = content.statuses[status.id];
   const source = battle.actors.find(item => item.id === status.sourceId) ?? battle.sourceActors?.find(item => item.id === status.sourceId) ?? actor;
-  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
+  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
   const lines = [...presentation.facts, ...presentation.rules];
   if (status.potency !== undefined) {
     const index = lines.findIndex(line => line.startsWith('Độc:'));

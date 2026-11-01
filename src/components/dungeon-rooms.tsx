@@ -66,7 +66,7 @@ export function DungeonRooms({
             {roomEnemies(content, id).map((enemy) => {
               const actor = {
                 ...enemy,
-                stats: enemyLevel?levelScaledEnemyStats(enemy,enemyLevel,content,scale):scaleEnemyStats(enemy.stats, scale),
+                stats: enemyLevel?levelScaledEnemyStats(enemy,enemyLevel,content,scale,content.encounters[id]):scaleEnemyStats(enemy.stats, scale),
               };
               const weaknesses = [
                 ...(enemy.weaknesses?.length === 8

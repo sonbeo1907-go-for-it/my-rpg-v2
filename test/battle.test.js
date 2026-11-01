@@ -11,7 +11,7 @@ function setup(party, random = () => 0.99) {
   const campaign = createCampaign(content);
   campaign.party = party;
   campaign.unlockedCharacterIds = Object.keys(content.characters);
-  return createBattle(content, campaign, 'forest_patrol', random);
+  return createBattle(content, campaign, 'forest_patrol', random,{enemyLevel:1});
 }
 // Unit tests position the turn cursor directly to isolate individual rules.
 function turn(battle, id) { battle.cursor = battle.queue.indexOf(id); assert.ok(battle.cursor >= 0); }

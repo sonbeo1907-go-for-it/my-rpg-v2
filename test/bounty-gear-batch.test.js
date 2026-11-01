@@ -110,7 +110,7 @@ test('observer medal includes wearer and any ally weakness, only once per round 
 });
 test('bounty AI restores guardian shield, witch healing strictly below 35%, cleric prefers exposed legal target',()=>{
  const c=createGameSave(content);c.claimedFirstClearRewards=[...BOUNTY_PREREQUISITES];
- for(const id of ['bell_lock_guardian','salt_marsh_witch','black_script_cleric']){const b=createBattle(content,c,'bounty_'+id,()=>.99),boss=actor(b,'enemy_0');b.queue=['enemy_0','arthur'];b.cursor=0;
+ for(const id of ['bell_lock_guardian','salt_marsh_witch','black_script_cleric']){const b=createBattle(content,c,'bounty_'+id,()=>.99,{enemyLevel:1}),boss=actor(b,'enemy_0');b.queue=['enemy_0','arthur'];b.cursor=0;
   if(id==='bell_lock_guardian'){executeEnemyTurn(b);assert.equal(boss.shield,90);}
   if(id==='salt_marsh_witch'){const s=content.abilities['bounty.witch.prayer'];boss.hp=350;assert.equal(abilityAvailability(b,boss,s).ok,false);boss.hp=349;assert.equal(abilityAvailability(b,boss,s).ok,true);executeEnemyTurn(b);assert.equal(boss.hp,404);}
   if(id==='black_script_cleric'){const iris=actor(b,'iris');iris.statuses.push({id:'exposure_dark',remaining:null,stacks:1,sourceId:boss.id});executeEnemyTurn(b);assert.ok(b.events.some(e=>e.type==='damage'&&e.targetId==='iris'&&e.weakness));}
@@ -137,4 +137,11 @@ test('once-per-encounter use survives story wave and boss phase, resets even for
  const room=createBattle(content,c,'forest_patrol',()=>.99,{partyActors:next.actors.filter(a=>a.team==='party'),roundOffset:next.round});const p=getActor(room,'arthur');assert.deepEqual(p.gearEffectEncounterUses,{});p.gearEffectEncounterUses.gear_life_charm=true;
  const repeat=createBattle(content,c,'forest_patrol',()=>.99,{partyActors:room.actors.filter(a=>a.team==='party'),roundOffset:room.round});assert.deepEqual(getActor(repeat,'arthur').gearEffectEncounterUses,{});
  c.storyFlags.push('illusion.sinister_unlocked');const phase=createBattle(content,c,'miraebolis_superboss',()=>.99),hero=getActor(phase,'arthur');hero.gearEffects=[structuredClone(content.gearEffects.life_charm)];hero.gearEffectEncounterUses={gear_life_charm:true};getActor(phase,'enemy_0').hp=2341;use(phase,'arthur','arthur.light_slash','enemy_0');assert.equal(getActor(phase,'enemy_0').bossState.phase,2);assert.equal(hero.gearEffectEncounterUses.gear_life_charm,true);
+});
+
+test('Bounty return routes preserve every chosen difficulty instead of falling back to Level 25',()=>{
+ for(const e of bounties)for(const difficulty of Object.keys(content.progressionRules.default.questDifficulties)){
+  const route=new URL(encounterReturnPath(content,e.id,difficulty),'https://game.local');
+  assert.equal(route.searchParams.get('tab'),'bounty');assert.equal(route.searchParams.get('selected'),e.id);assert.equal(route.searchParams.get('difficulty'),difficulty);
+ }
 });

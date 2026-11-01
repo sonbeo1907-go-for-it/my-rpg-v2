@@ -1,3 +1,4 @@
+import {getActorSkillRank,outputMpFactor} from './skill-rules.js';
 import {activeStatuses} from './status-state.js';
 
 // Preferred resource replaces MP only when the full authored amount is available.
@@ -11,7 +12,7 @@ export function mpCost(skill,actor) {
   const p=actor?.passive,mode=actor?.combatModes?.[actor.activeMode];
   const native=p?.type==='kill_mp_discount' && (actor.statuses??[]).some(s=>s.id===p.statusId && (s.remaining==null||s.remaining>0)) ? 1-p.ratio : 1;
   const discount=mode?.mpCostReduction && mode.discountAbilityIds.includes(skill.id) ? 1-mode.mpCostReduction : 1;
-  return Math.max(1,Math.ceil(base*native*discount));
+  return Math.max(1,Math.ceil(base*native*discount*(skill.rankMpMultiplier??((skill.growthGroups?.includes('output_buff_mp')||skill.growthProfile==='output_buff_mp')&&actor?.team!=='enemy'?outputMpFactor(getActorSkillRank(actor,skill),actor?.skillProgression):1))));
 }
 export function hpCost(skill,actor) {return skill.cost?.hpMaxRatio ? Math.ceil(actor.stats.maxHp*skill.cost.hpMaxRatio) : 0;}
 export function buffTypeCount(content,target) {

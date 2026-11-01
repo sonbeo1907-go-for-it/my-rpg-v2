@@ -93,8 +93,8 @@ test('shadow Arthur gains resonance on attacks, telegraphs a resource-ready burs
 
 test('shadow phase boundaries cannot be skipped and preserve MP/resonance; final burst is an AoE and can grant its ATK buff',()=>{
  const b=createBattle(content,allStories(),epilogue,()=>.99),boss=getActor(b,'enemy_0'),a=getActor(b,'arthur');a.stats.attack=100000;boss.resourceValues.resonance=2;boss.mp=123;
- use(b,'arthur','$attack');assert.equal(boss.hp,2000);assert.equal(boss.bossState.phase,2);assert.equal(boss.resourceValues.resonance,2);assert.equal(boss.mp,123);assert.equal(b.events.some(e=>e.type==='mp_restore'),false);
- use(b,'arthur','$attack');assert.equal(boss.hp,1000);assert.equal(boss.bossState.phase,3);assert.equal(boss.resourceValues.resonance,2);boss.resourceValues.resonance=3;
+ use(b,'arthur','$attack');assert.equal(boss.hp,Math.ceil(boss.stats.maxHp*boss.boss.phases[1].atHpRatio));assert.equal(boss.bossState.phase,2);assert.equal(boss.resourceValues.resonance,2);assert.equal(boss.mp,123);assert.equal(b.events.some(e=>e.type==='mp_restore'),false);
+ use(b,'arthur','$attack');assert.equal(boss.hp,Math.ceil(boss.stats.maxHp*boss.boss.phases[2].atHpRatio));assert.equal(boss.bossState.phase,3);assert.equal(boss.resourceValues.resonance,2);boss.resourceValues.resonance=3;
  for(const ally of b.actors.filter(a=>a.team==='party'))ally.hp=ally.stats.maxHp=10000;
  bossTurn(b,10);assert.equal(boss.bossState.pendingMoves[0].abilityId,'shadow_arthur.eclipse');bossTurn(b,11);assert.equal(b.events.filter(e=>e.type==='damage'&&e.sourceId===boss.id).length,4);assert.equal(boss.resourceValues.resonance,0);assert.equal(boss.statuses.find(s=>s.id==='arthur_complete_control').remaining,null);assert.equal(boss.boss.phases.every(p=>p.actionsPerTurn===1),true);
 });

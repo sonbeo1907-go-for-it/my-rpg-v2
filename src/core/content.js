@@ -1,3 +1,5 @@
+import {validateSkillProgression} from './skill-rules.js';
+import {enemyHpFactor,enemyHpProfile} from './enemy-scaling.js';
 import {validateLevelRules} from './leveling.js';
 import {validEvasion} from './evasion.js';
 import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
@@ -35,8 +37,10 @@ export function validateContent(content) {
     if (!content[key] || typeof content[key] !== 'object') fail(`Missing collection: ${key}`);
   }
   if (errors.length) return errors;
+  errors.push(...validateSkillProgression(content));
   for (const [id, actor] of Object.entries({ ...content.characters, ...content.enemies })) {
     if(content.enemies[id]===actor&&(!Number.isInteger(actor.referenceLevel)||actor.referenceLevel<1||actor.referenceLevel>99))fail(id+': invalid reference level');
+    if(content.enemies[id]===actor&&actor.hpReferenceLevel!==undefined&&(!Number.isInteger(actor.hpReferenceLevel)||actor.hpReferenceLevel<1||actor.hpReferenceLevel>99))fail(id+': invalid HP reference level');
     if (!ELEMENTS.includes(actor.element)) fail(`${id}: invalid element`);
     if (actor.basicAttack !== undefined && (!Array.isArray(actor.basicAttack) || !actor.basicAttack.length || actor.basicAttack.some(effect => !effect
       || effect.type !== 'damage' || !['physical', 'magical'].includes(effect.damageType) || !ELEMENTS.includes(effect.element)
@@ -353,6 +357,15 @@ export function validateContent(content) {
   }
   for (const [id, encounter] of Object.entries(content.encounters)) {
     if(!Number.isInteger(encounter.enemyLevel)||encounter.enemyLevel<1||encounter.enemyLevel>99)fail(id+": invalid encounter level");
+    if(encounter.referenceLevel!==undefined&&(!Number.isInteger(encounter.referenceLevel)||encounter.referenceLevel<1||encounter.referenceLevel>99))fail(id+': invalid encounter reference level');
+    if(encounter.hpReferenceLevel!==undefined&&(!Number.isInteger(encounter.hpReferenceLevel)||encounter.hpReferenceLevel<1||encounter.hpReferenceLevel>99))fail(id+': invalid HP reference level');
+    try {
+      const profile=enemyHpProfile(encounter);
+      enemyHpFactor(encounter.enemyLevel,profile,content);
+      for(const enemyId of new Set([...(encounter.enemies??[]),...(encounter.waves??[]).flat()])) {
+        const enemy=content.enemies[enemyId];if(enemy)enemyHpFactor(encounter.hpReferenceLevel??enemy.hpReferenceLevel??encounter.referenceLevel??enemy.referenceLevel,profile,content);
+      }
+    } catch { fail(id+': invalid encounter HP scaling'); }
     if(encounter.defaultDifficulty!==undefined&&!content.progressionRules?.default?.questDifficulties[encounter.defaultDifficulty])fail(id+": invalid default difficulty");
     if (encounter.requires !== undefined &&
       (!encounter.requires || typeof encounter.requires !== 'object' || Array.isArray(encounter.requires)

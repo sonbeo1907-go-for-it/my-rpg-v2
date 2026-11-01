@@ -7,6 +7,7 @@ import { createDungeonPreviewCache } from '../src/runtime/dungeon-preview.js';
 import { dungeonDailyState, validateDungeonContent } from '../src/core/dungeon-rules.js';
 import { encounterTier, victoryCoinReward, claimBattleReward } from '../src/core/economy.js';
 import { getActor } from '../src/core/battle.js';
+import {levelScaledEnemyStats} from '../src/core/enemy-scaling.js';
 const content=await loadContent(),now=new Date('2026-10-29T05:00:00Z');
 const preview=(level='medium')=>createDungeonPreview(content,'dangerous',level,{random:()=>0,now});
 const run=(level='medium',save=createGameSave(content))=>createDungeonRun(content,save,'dangerous',level,{preview:preview(level),random:()=>0,now});
@@ -17,11 +18,11 @@ test('scouting chooses only distinct 150-Coin bosses; all levels start exactly t
  const original=JSON.stringify(content),pool=dungeonQuestPool(content,'dangerous');assert.ok(pool.length>=2);
  assert.ok(pool.every(id=>encounterTier(content.encounters[id])==='boss'&&victoryCoinReward(content,id)===150));
  assert.ok(!pool.includes('alice_superboss'));assert.ok(pool.every(id=>!content.encounters[id].enemies.some(e=>content.enemies[e].boss)));
- for(const[level,count,hp,power]of[['easy',1,1.2,1],['medium',2,1.6,1.25],['hard',2,2,1.5]]){
+ for(const[level,count,mp,power]of[['easy',1,1.2,1],['medium',2,1.6,1],['hard',2,2,1]]){
   const plan=preview(level),current=run(level);assert.equal(plan.waveIds.length,count);assert.equal(new Set(plan.waveIds).size,count);assert.deepEqual(current.waveIds,plan.waveIds);
   for(let i=0;i<count;i++){
    assert.equal(current.battle.encounterId,plan.waveIds[i]);assert.equal(current.battle.dungeon.stageLabel,'Phòng');assert.equal(current.battle.dungeon.revealRooms,true);
-   for(const actor of current.battle.actors.filter(a=>a.team==='enemy')){const base=content.enemies[actor.definitionId];assert.equal(actor.hp,Math.round(base.stats.maxHp*hp));assert.equal(actor.mp,Math.round(base.stats.maxMp*hp));for(const key of ['attack','magic'])assert.equal(actor.stats[key],Math.round(base.stats[key]*power));for(const key of ['defense','resistance','speed'])assert.equal(actor.stats[key],base.stats[key]);}
+   for(const actor of current.battle.actors.filter(a=>a.team==='enemy')){const base=content.enemies[actor.definitionId];assert.deepEqual(actor.stats,levelScaledEnemyStats(base,{easy:15,medium:30,hard:45}[level],content,{maxHp:1,maxMp:mp,attack:power,magic:power},content.encounters[plan.waveIds[i]]));assert.equal(actor.hp,actor.stats.maxHp);assert.equal(actor.mp,actor.stats.maxMp);}
    if(i<count-1){clear(current);advanceDungeonWave(content,current);}
   }
  }

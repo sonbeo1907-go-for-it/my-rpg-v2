@@ -24,5 +24,5 @@ test('invalid per-stat dungeon scaling is rejected before a run starts', () => {
 });
 test('preview reports all independently changed factors with Vietnamese number formatting', () => {
   const summary = enemyScaleSummary(content.dungeons.gold_mine.difficulties[1].enemyScale);
-  assert.equal(summary, 'HP ×1,75 · MP ×2,25 · ATK ×1,25 · MAG ×1,25');
+  assert.equal(summary, 'MP ×2,25');
 });

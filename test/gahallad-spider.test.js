@@ -12,7 +12,8 @@ import { activeStatuses } from '../src/core/status-state.js';
 const content = await loadContent();
 function setup(party = ['gahallad', 'iris', 'elaine'], source = content, encounter = 'giant_spider_lair') {
   const campaign = createCampaign(source); campaign.party = party; campaign.unlockedCharacterIds = Object.keys(source.characters);
-  return createBattle(source, campaign, encounter, () => .99);
+  // Isolate kit/shield arithmetic at the encounter base level; scaling has separate coverage.
+  return createBattle(source, campaign, encounter, () => .99,{enemyLevel:source.encounters[encounter].referenceLevel??source.encounters[encounter].enemyLevel});
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);
@@ -62,7 +63,7 @@ test('mounted bonus applies to shield damage and overflow, while spider exposure
 
 test('shield bonus is reusable on another ally and another character, not coupled to Gahallad IDs', () => {
   const source = structuredClone(content);
-  source.abilities['test.cavalry'] = { id: 'test.cavalry', name: 'Test buff', target: 'ally', effects: [{ type: 'status', status: 'siegebreaker', duration: 2 }] };
+  source.abilities['test.cavalry'] = { id: 'test.cavalry', skillLineId:'test.cavalry', growthProfile:'fixed', rankable:false, fixedReason:'Test utility', name: 'Test buff', target: 'ally', effects: [{ type: 'status', status: 'siegebreaker', duration: 2 }] };
   source.characters.iris.abilities.push('test.cavalry');
   assert.deepEqual(validateContent(source), []);
   for (const [recipient, expected] of [['arthur', 82], ['aurora', 64]]) {
@@ -132,7 +133,7 @@ test('preview presents persistent cavalry, shield multiplier and damage formulas
 test('Gahallad is locked in old saves, recruitable and uses the normal duplicate/save flow', () => {
   const old = createCampaign(content); delete old.characters.gahallad;
   let campaign = deserializeCampaign(serializeCampaign(old), content);
-  assert.deepEqual(campaign.characters.gahallad, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
+  assert.deepEqual(campaign.characters.gahallad, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, skillRanks: {}, upgradeIds: [] });
   assert.equal(campaign.unlockedCharacterIds.includes('gahallad'), false);
   campaign.coins = 200; campaign.prisma = 10;
   const pool = content.banners.standard.characterPool;

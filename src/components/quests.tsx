@@ -185,7 +185,7 @@ export function QuestPage() {
               <h3>Đối thủ</h3>
               <div className="quest-enemies">
                 {selected.enemies.map((id: string, index: number) => {
-                  const template=content.enemies[id],enemy={...template,stats:levelScaledEnemyStats(template,difficulty?.level??selected.enemyLevel,content)};
+                  const template=content.enemies[id],enemy={...template,stats:levelScaledEnemyStats(template,difficulty?.level??selected.enemyLevel,content,1,selected)};
                   return (
                     <div key={`${id}-${index}`}>
                       <ElementBadge element={enemy.element} />

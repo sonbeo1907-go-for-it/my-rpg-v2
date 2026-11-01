@@ -1,4 +1,5 @@
 "use client";
+import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {BattleResult} from "./battle-result";
 import {isBattleFinished} from "../ui/battle-result-model.js";
 import {commandAbilityIds} from '../core/combat-modes.js';
@@ -462,7 +463,7 @@ export function BattlePage() {
   const actor = battle?.actors.find((item: any) => item.id === battle.activeId);
   const commandActor = actor?.team === "party" ? actor : null;
   const skills = commandActor
-    ? commandAbilityIds(commandActor).map((id:string)=>id==="$attack"?basicAbility(commandActor):id==="$defend"?DEFEND:content.abilities[id])
+    ? commandAbilityIds(commandActor).map((id:string)=>resolveRankedAbility(content,commandActor,id==="$attack"?basicAbility(commandActor):id==="$defend"?DEFEND:content.abilities[id]))
     : [];
   const skill =
     skills.find((item: any) => item.id === battleUI.skillId) ??

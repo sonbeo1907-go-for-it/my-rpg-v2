@@ -1,3 +1,5 @@
+import {normalizeSkillRanks,skillRules} from './skill-rules.js';
+import {validateEnemyScalingRules} from './enemy-scaling.js';
 // Character progression is flat base growth; equipment and percentage buffs apply afterwards.
 export const ALLOCATION_STATS=['maxHp','maxMp','attack','magic','defense','resistance','speed'];
 export const levelRules=content=>content.progressionRules.default;
@@ -13,7 +15,7 @@ export function normalizeLevelState(content,state,{legacy=false}={}){
  const xp=legacy?0:state.xp,allocations=legacy?{}:state.allocations;
  if(!Number.isInteger(rank)||rank<0||rank>3||level>levelRules(content).caps[rank]||rank>0&&level<levelRules(content).caps[rank-1]||!whole(xp)||!allocations||typeof allocations!=='object'||Array.isArray(allocations))throw Error('Tiến trình cấp độ không hợp lệ.');
  for(const [key,count]of Object.entries(allocations))if(!ALLOCATION_STATS.includes(key)||!whole(count)||count>allocationLimit(content,level,key))throw Error('Điểm phân bổ vượt giới hạn.');
- const result={level,xp,allocations:{...allocations},limitBreakRank:rank,upgradeIds:[...(state.upgradeIds??[])]};
+ const result={level,xp,allocations:{...allocations},limitBreakRank:rank,skillRanks:normalizeSkillRanks(state.skillRanks,level,skillRules(content)),upgradeIds:[...(state.upgradeIds??[])]};
  if(unspentPoints(content,result)<0||level===levelRules(content).maxLevel&&xp!==0||level<levelRules(content).maxLevel&&(xp>xpRequired(content,level)||level<levelCap(result,content)&&xp===xpRequired(content,level)))throw Error('EXP hoặc số điểm phân bổ không hợp lệ.');
  return result;
 }
@@ -43,5 +45,5 @@ export function validateLevelRules(content){
  for(const key of ALLOCATION_STATS){const a=r.allocations?.[key];if(!a||!['gain','cost','max','everyLevels'].every(k=>whole(a[k])&&a[k]>0))errors.push('Invalid allocation '+key);}
  if(!r.questDifficulties||Object.keys(r.questDifficulties).length!==5||Object.values(r.questDifficulties).some(d=>!d.name||!Number.isInteger(d.level)||d.level<1||d.level>50||!whole(d.xp)||!Number.isFinite(d.rewardMultiplier)||d.rewardMultiplier<1))errors.push('Invalid quest difficulty rules');
  if(['normal','boss','bounty'].some(k=>!whole(r.questXpMultipliers?.[k])||r.questXpMultipliers[k]<1))errors.push('Invalid quest XP multipliers');if(!r.enemyGrowth||ALLOCATION_STATS.some(k=>!Number.isFinite(r.enemyGrowth[k])||r.enemyGrowth[k]<0))errors.push('Invalid enemy growth');
- if(!Array.isArray(r.milestones)||r.milestones.some((m,i)=>!Number.isInteger(m.level)||m.level<1||m.level>99||i>0&&m.level<=r.milestones[i-1].level||['offense','defense'].some(k=>!Number.isFinite(m[k])||m[k]<0)))errors.push('Invalid enemy milestones');return errors;
+ if(!Array.isArray(r.milestones)||r.milestones.some((m,i)=>!Number.isInteger(m.level)||m.level<1||m.level>99||i>0&&m.level<=r.milestones[i-1].level||['offense','defense'].some(k=>!Number.isFinite(m[k])||m[k]<0)))errors.push('Invalid enemy milestones');errors.push(...validateEnemyScalingRules(content));return errors;
 }

@@ -12,7 +12,7 @@ function setup(party = ['lisbeth']) {
   const campaign = createCampaign(content);
   campaign.party = party;
   campaign.unlockedCharacterIds.push('lisbeth', 'aurora');
-  return createBattle(content, campaign, 'ogre_trial', () => 0.99, {enemyLevel:content.enemies.ogre_underling.referenceLevel});
+  return createBattle(content, campaign, 'ogre_trial', () => 0.99, {enemyLevel:content.encounters.ogre_trial.referenceLevel});
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);
@@ -107,7 +107,7 @@ test('preview reports innate MAG and skill scaling, and old saves gain Lisbeth s
   assert.match(skillScaling(content.abilities['lisbeth.judgment'], actor, content).join('\n'), /280% MAG/);
   delete campaign.characters.lisbeth;
   const restored = deserializeCampaign(serializeCampaign(campaign), content);
-  assert.deepEqual(restored.characters.lisbeth, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, upgradeIds: [] });
+  assert.deepEqual(restored.characters.lisbeth, { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, skillRanks: {}, upgradeIds: [] });
   assert.deepEqual(restored.party, campaign.party);
 });
 

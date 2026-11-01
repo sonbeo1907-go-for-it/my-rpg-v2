@@ -8,12 +8,13 @@ import { createBattle, getActor, activeActor, executeAction, executeEnemyTurn, a
 import { bossFireMultiplier } from '../src/core/boss-mechanics.js';
 import { validateContent } from '../src/core/content.js';
 
-const content = await loadContent();
+const content = await loadContent(), globalContent=content;
 function setup(party = ['arthur', 'iris', 'elaine', 'garrek'], random = () => .99, source = content) {
   const campaign = createCampaign(source); campaign.party = party;
   campaign.storyFlags.push('illusion.sinister_unlocked');
   campaign.unlockedCharacterIds = Object.keys(source.characters);
-  return createBattle(source, campaign, 'miraebolis_superboss', random);
+  const base=structuredClone(source);base.encounters.miraebolis_superboss.enemyLevel=1;
+  return createBattle(base, campaign, 'miraebolis_superboss', random);
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
   battle.cursor = battle.queue.indexOf(actorId);
@@ -23,7 +24,7 @@ const boss = battle => getActor(battle, 'enemy_0');
 const mark = battle => boss(battle).statuses.find(status => status.id === 'dragon_suppressed');
 function stageThree(battle) {
   const enemy = boss(battle);
-  enemy.hp = 1260; enemy.bossState.phase = 3;
+  enemy.hp = Math.ceil(enemy.stats.maxHp*.35); enemy.bossState.phase = 3;
   enemy.bossState.rotationStep = 0; enemy.bossState.pendingMoves = [];
 }
 function bossTurn(battle) { battle.cursor = battle.queue.indexOf('enemy_0'); executeEnemyTurn(battle); }
@@ -102,18 +103,18 @@ test('phase transitions gate overflow damage and restore only living allies MP e
   const arthur = getActor(battle, 'arthur'); arthur.hp = 50; arthur.stats.attack = 100000;
   arthur.resourceValues.resonance = 2; arthur.cooldowns.test = 4;
   use(battle, 'arthur', '$attack', 'enemy_0');
-  assert.equal(enemy.hp, 2340); assert.equal(enemy.bossState.phase, 2);
+  assert.equal(enemy.hp, Math.ceil(enemy.stats.maxHp*.65)); assert.equal(enemy.bossState.phase, 2);
   assert.equal(arthur.mp, 40); assert.equal(arthur.hp, 50);
   assert.equal(arthur.resourceValues.resonance, 2); assert.equal(arthur.cooldowns.test, 4);
   assert.equal(getActor(battle, 'iris').hp, 0); assert.equal(getActor(battle, 'iris').mp, 0);
   arthur.mp = 1;
   use(battle, 'arthur', '$attack', 'enemy_0');
-  assert.equal(enemy.hp, 1260); assert.equal(enemy.bossState.phase, 3); assert.equal(arthur.mp, 40);
+  assert.equal(enemy.hp, Math.ceil(enemy.stats.maxHp*.35)); assert.equal(enemy.bossState.phase, 3); assert.equal(arthur.mp, 40);
   assert.equal(battle.log.filter(line => line.includes('hồi đầy MP')).length, 2);
 });
 
 test('phase two immediately continues normal round order with a real boss turn and no extra end-round attack', () => {
-  const battle = setup(); boss(battle).hp = 2341;
+  const battle = setup(); boss(battle).hp = Math.ceil(boss(battle).stats.maxHp*.65)+1;
   use(battle, 'arthur', '$attack', 'enemy_0');
   assert.equal(boss(battle).bossState.phase, 2);
   while (battle.round === 1) {
@@ -135,13 +136,13 @@ test('phase two immediately continues normal round order with a real boss turn a
 });
 
 test('phase three starts immediately at 35%, refills MP again and clamps suppression without changing HP', () => {
-  const battle = setup(); boss(battle).hp = 2341;
+  const battle = setup(); boss(battle).hp = Math.ceil(boss(battle).stats.maxHp*.65)+1;
   use(battle, 'arthur', '$attack', 'enemy_0');
   for (const actor of battle.actors.filter(actor => actor.team === 'party')) { actor.mp = 0; actor.hp -= 10; }
   const hp = battle.actors.filter(actor => actor.team === 'party').map(actor => actor.hp);
-  boss(battle).hp = 1261;
+  boss(battle).hp = Math.ceil(boss(battle).stats.maxHp*.35)+1;
   use(battle, 'arthur', '$attack', 'enemy_0');
-  assert.equal(boss(battle).bossState.phase, 3); assert.equal(boss(battle).hp, 1260);
+  assert.equal(boss(battle).bossState.phase, 3); assert.equal(boss(battle).hp, Math.ceil(boss(battle).stats.maxHp*.35));
   assert.equal(mark(battle).remaining, 2);
   assert.deepEqual(battle.actors.filter(actor => actor.team === 'party').map(actor => actor.mp), [40, 90, 100, 45]);
   assert.deepEqual(battle.actors.filter(actor => actor.team === 'party').map(actor => actor.hp), hp);
@@ -185,7 +186,7 @@ test('a lethal counter cancels the second move and surviving counters remain cap
 
 test('transition triggered by a counter does not grant retroactive extra moves', () => {
   const battle = setup(['takeshi', 'arthur'], () => 0), enemy = boss(battle);
-  enemy.hp = 1261; enemy.bossState.phase = 2; enemy.bossState.rotationStep = 1;
+  enemy.hp = Math.ceil(enemy.stats.maxHp*.35)+1; enemy.bossState.phase = 2; enemy.bossState.rotationStep = 1;
   getActor(battle, 'takeshi').element = 'light';
   use(battle, 'takeshi', 'takeshi.stance'); bossTurn(battle);
   assert.equal(enemy.bossState.phase, 3);
@@ -209,7 +210,8 @@ test('boss definitions reject bad thresholds, rotations, suppression, telegraphs
   }
 });
 
-test('a prepared starter party can defeat all three phases through real turn order and MP cycles', () => {
+test('historical base-HP starter clear still exercises all phases, turn order and MP cycles', () => {
+  const content=structuredClone(globalContent);content.encounters.miraebolis_superboss.hpReferenceLevel=1;content.encounters.miraebolis_superboss.enemyLevel=1;
   let campaign = createCampaign(content);
   campaign.storyFlags.push('illusion.sinister_unlocked');
   campaign.party = ['arthur', 'iris', 'garrek', 'elaine'];
