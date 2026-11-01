@@ -1,3 +1,4 @@
+import {validateChronicleContent} from './chronicle-rules.js';
 import {validateSkillProgression} from './skill-rules.js';
 import {enemyHpFactor,enemyHpProfile} from './enemy-scaling.js';
 import {validateLevelRules} from './leveling.js';
@@ -376,7 +377,7 @@ export function validateContent(content) {
     if (encounter.requires?.firstClears!==undefined && (!Array.isArray(encounter.requires.firstClears)||!encounter.requires.firstClears.length||new Set(encounter.requires.firstClears).size!==encounter.requires.firstClears.length||encounter.requires.firstClears.some(key=>key===id||!content.encounters[key]))) fail(id+': invalid prerequisite chapters');
     if (encounter.requiredPartyIds !== undefined && (!Array.isArray(encounter.requiredPartyIds) || !encounter.requiredPartyIds.length || new Set(encounter.requiredPartyIds).size !== encounter.requiredPartyIds.length || encounter.requiredPartyIds.some(characterId=>!content.characters[characterId]))) fail(`${id}: invalid required party`);
     if (encounter.waves !== undefined) {
-      if (!encounter.travelerStory || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
+      if ((!encounter.travelerStory && encounter.category!=='chronicle') || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
       else for(const wave of encounter.waves) {
         if (!Array.isArray(wave) || !wave.length || wave.length>4 || wave.some(enemy=>!content.enemies[enemy]) || (wave.length!==1 && wave.some(enemy=>content.enemies[enemy]?.boss))) fail(id+': invalid story wave enemies');
       }
@@ -385,7 +386,9 @@ export function validateContent(content) {
     for (const enemy of encounter.enemies ?? []) exists('enemies', enemy, id);
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);
     exists('music', encounter.bgm ?? 'normal', id);
-    if(encounter.category!==undefined&&encounter.category!=='bounty') fail(id+': invalid quest category');
+    if(encounter.category!==undefined&&!['bounty','chronicle'].includes(encounter.category)) fail(id+': invalid quest category');
+    if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
+    if(encounter.superLevels!==undefined&&(id!=='alice_superboss'||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');
     if (encounter.firstClearRewards !== undefined) {
       if (!Array.isArray(encounter.firstClearRewards) || !encounter.firstClearRewards.length) fail(`${id}: invalid first clear rewards`);
@@ -417,6 +420,7 @@ export function validateContent(content) {
   errors.push(...validateDungeonContent(content));
   errors.push(...validateBlacksmithContent(content));
   errors.push(...validateTravelerStories(content));
+  errors.push(...validateChronicleContent(content));
   return errors;
 }
 
@@ -435,4 +439,4 @@ export function assembleContent(collections) {
   return content;
 }
 
-export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects', 'progressionRules'];
+export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects', 'progressionRules', 'chronicles', 'chronicleEvents'];

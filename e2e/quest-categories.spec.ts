@@ -41,7 +41,7 @@ test('locked Hiểm Ác never reveals boss names/stats/reward or a departure but
  await expect(page.locator('a[href="/dungeon/illusion"]')).toHaveCount(0);
 });
 test('persisted illusion flag reveals 1000 Coin quests, supports scoped search and starts the selected super boss',async({page})=>{
- await seed(page,true);await page.goto('/quests?tab=sinister');await expect(page.locator('.quest-card')).toHaveCount(2);expect(await rewards(page)).toEqual([1000,1000]);await expect(page.locator('.quest-locked')).toHaveCount(0);
+ await seed(page,true);await page.goto('/quests?tab=sinister');await expect(page.locator('.quest-card')).toHaveCount(1);expect(await rewards(page)).toEqual([1000]);await expect(page.locator('main')).not.toContainText('Alice');await expect(page.locator('.quest-locked')).toHaveCount(0);
  await expect(page.locator('.quest-background')).toHaveCSS('background-image',/quest-sinister.svg/);
  await page.screenshot({path:'test-results/quest-sinister-unlocked-desktop.png',fullPage:true});
  await page.getByLabel('Tìm nhiệm vụ',{exact:true}).fill('Miraebolis');await expect(page.locator('.quest-card')).toHaveCount(1);await expect(page.locator('.quest-illustration h2')).toContainText('Miraebolis');

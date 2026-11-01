@@ -61,7 +61,7 @@ test('five Quest levels normalize once using encounter curves, reference level i
  const base={stats:{maxHp:100,maxMp:100,attack:100,magic:100,defense:100,resistance:100,speed:100},referenceLevel:1};const s=levelScaledEnemyStats(base,50,content);assert.equal(s.attack,200);assert.equal(s.defense,125);assert.equal(s.maxHp,Math.round(100*1.018**29*1.025**20));assert.throws(()=>levelScaledEnemyStats(e,0,content));
 });
 test('superboss and story levels stay fixed despite difficulty overrides; dungeon multipliers apply once',()=>{
- for(const [id,level]of [['alice_superboss',60],['miraebolis_superboss',60],['iris_story_growth',10]])if(content.encounters[id]){const c=fresh();c.storyFlags.push('illusion.sinister_unlocked');const b=createBattle(content,c,id,undefined,{questDifficulty:'very_easy',enemyLevel:5});assert.equal(b.enemyLevel,level);}
+ for(const [id,level]of [['alice_superboss',60],['miraebolis_superboss',60],['iris_story_growth',10]])if(content.encounters[id]){const c=fresh();c.storyFlags.push('illusion.sinister_unlocked');c.chronicles.aliceFirstEncounterCleared=true;c.chronicles.eventClearIds.push('book1.j04');const b=createBattle(content,c,id,undefined,{questDifficulty:'very_easy'});assert.equal(b.enemyLevel,level);}
  const r=run(fresh(),'gold_mine','medium');const e=getActor(r.battle,'wave_1_enemy_0');assert.deepEqual(e.stats,levelScaledEnemyStats(content.enemies[e.definitionId],30,content,content.dungeons.gold_mine.difficulties[1].enemyScale,content.encounters[r.battle.encounterId]));
 });
 test('Quest XP differs by Normal/Boss/Bounty; no XP from story or super',()=>{

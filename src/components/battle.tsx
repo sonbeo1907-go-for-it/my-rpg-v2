@@ -13,6 +13,7 @@ import { CosmicEffects } from "./cosmic-effects";
 import { targetsAsGroup, randomTargetLabel, resourceCost } from "../core/conditional-combat.js";
 import { encounterReturnPath } from "../core/quest-catalog.js";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import {firstClearRewardLabel} from "../core/first-clear-labels.js";
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
@@ -356,6 +357,9 @@ function BattleLog() {
     </section>
   );
 }
+
+function ChronicleResultControls(){const {battle,content,busy,claimReward,startChronicleFight}=useGame();const router=useRouter();return <div className="stack-actions result-actions">{battle.outcome==='victory'?<>{!battle.rewardClaimed?<button className="gold" disabled={busy} onClick={claimReward}>Lưu tiến trình trận chiến</button>:<Link className="button gold" href={encounterReturnPath(content,battle.encounterId)}>Tiếp tục câu chuyện →</Link>}</>:<button className="gold" disabled={busy} onClick={async()=>{if(await startChronicleFight(battle.chronicle.locationId,battle.chronicle.instanceId))router.push('/battle');}}>Thử lại trận chiến</button>}<Link className="button" href={encounterReturnPath(content,battle.encounterId)}>Trở về địa điểm</Link></div>;}
+function ChronicleRetreat(){const {battle,busy,retreatChronicleFight}=useGame();const router=useRouter();return <button className="button chronicle-retreat" disabled={busy} onClick={async()=>{const path='/chronicles/book1?location='+battle.chronicle.locationId+'&scene=1';if(await retreatChronicleFight())router.push(path);}}>Rút về địa điểm</button>;}
 function BattleResultControls() {
   const {
     battle,
@@ -418,7 +422,7 @@ function BattleResultControls() {
           onClick={() =>
             dungeon
               ? startDungeon(dungeon.typeId, dungeon.difficultyId)
-              : startBattle(battle.encounterId,battle.questDifficulty??undefined)
+              : startBattle(battle.encounterId,battle.questDifficulty??undefined,content.encounters[battle.encounterId].superLevels?battle.enemyLevel:undefined)
           }
         >
           {dungeon ? "↻ Thám hiểm lại" : "↻ Đánh lại"}
@@ -428,7 +432,7 @@ function BattleResultControls() {
           href={
             dungeon
               ? `/dungeon/${dungeon.typeId}?selected=${dungeon.difficultyId}`
-              : encounterReturnPath(content, battle.encounterId,battle.questDifficulty)
+              : encounterReturnPath(content, battle.encounterId,battle.questDifficulty,battle.enemyLevel)
           }
         >
           {dungeon ? "↑ Trở về chọn mức độ" : "↑ Trở về chọn trận"}
@@ -709,7 +713,7 @@ export function BattlePage() {
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
-  if(isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty)}/><BattleResult><BattleResultControls/></BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
+  if(isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel)}/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
   return (
     <main
       className="page battle-page"
@@ -796,7 +800,7 @@ export function BattlePage() {
       <AcademicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
       <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
 
-      <div className="battle-layout">
+      {battle.chronicle&&<ChronicleRetreat/>}<div className="battle-layout">
         <section className={`battlefield panel ${hasFormulaField?"has-academic-field":""}`}>
           <FormulaScene battle={{...battle,content}} content={content}/>
           <div className="battle-reactions" aria-live="polite">

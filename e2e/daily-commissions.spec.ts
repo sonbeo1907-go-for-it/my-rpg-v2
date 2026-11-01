@@ -5,7 +5,7 @@ import {visitDailyCommissions,recordDailyClear} from '../src/core/daily-commissi
 const content:any=await loadContent(),now=new Date('2026-10-31T12:00:00Z');
 async function seed(page:Page,complete=false,time=now){
  let save=createGameSave(content);if(complete){save=visitDailyCommissions(save,time);for(let i=0;i<5;i++)recordDailyClear(save,'quest',time);recordDailyClear(save,'training',time);}
- await page.clock.install({time});await page.emulateMedia({reducedMotion:'reduce'});
+ await page.clock.install({time});await page.clock.pauseAt(time);await page.emulateMedia({reducedMotion:'reduce'});
  await page.addInitScript(raw=>{if(!localStorage.getItem('northern-prisma.campaign.v6'))localStorage.setItem('northern-prisma.campaign.v6',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false,controlMode:'mouse'}));localStorage.setItem('northern-prisma.combat.speed','fast');},encodeGameSave(save,content));
  await page.goto('/home');await expect(page.locator('.daily-launcher')).toBeVisible();
 }

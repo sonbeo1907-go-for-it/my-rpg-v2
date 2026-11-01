@@ -47,4 +47,4 @@ test('claim overflow is rejected without spending claim flags or changing any ba
  const c=full();c.coins=Number.MAX_SAFE_INTEGER;const before=structuredClone(c);assert.throws(()=>claimDailyCommissions(c,undefined,day));assert.deepEqual(c,before);
 });
 
- test('super-boss clears do not advance the 50/150 Coin commission',()=>{const c=fresh();c.storyFlags.push('illusion.sinister_unlocked');const b=createBattle(content,c,'alice_superboss');b.outcome='victory';const n=claimBattleReward(c,b,content,()=>{},day);assert.equal(n.coins,1000);assert.equal(n.dailyCommissions.questClears,0);});
+ test('super-boss clears do not advance the 50/150 Coin commission',()=>{const c=fresh();c.storyFlags.push('illusion.sinister_unlocked');c.chronicles.aliceFirstEncounterCleared=true;c.chronicles.eventClearIds.push('book1.j04');const b=createBattle(content,c,'alice_superboss');b.outcome='victory';const n=claimBattleReward(c,b,content,()=>{},day);assert.equal(n.coins,0);assert.equal(n.dailyCommissions.questClears,0);});

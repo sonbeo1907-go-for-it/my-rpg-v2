@@ -17,7 +17,7 @@ test('default board contains normal then boss quests, stable within reward group
   assert.deepEqual(rewards, [...rewards].sort((a,b)=>a-b));
   assert.deepEqual([...new Set(rewards)], [50, 150]);
   for(const tier of ['normal','boss']) {
-    assert.deepEqual(questCatalog(content,save,{type:tier}).map(e=>e.id),Object.values(content.encounters).filter(e=>!e.travelerStory&&e.category!=='bounty'&&encounterTier(e)===tier).map(e=>e.id));
+    assert.deepEqual(questCatalog(content,save,{type:tier}).map(e=>e.id),Object.values(content.encounters).filter(e=>!e.travelerStory&&!['bounty','chronicle'].includes(e.category)&&encounterTier(e)===tier).map(e=>e.id));
   }
   assert.equal(questCatalog(content,save,{q:'LỢN RỪNG'})[0].id,'boar_field');
   assert.ok(questCatalog(content,save,{tab:'extermination',selected:'alice_superboss'}).every(e=>encounterTier(e)!=='super'));
@@ -38,7 +38,7 @@ test('illusion flag persists per profile and unlocks battles without modifying h
   const loaded=decodeGameSave(encodeGameSave(save,content),content);
   assert.deepEqual(loaded.storyFlags,[SINISTER_UNLOCK_FLAG]);assert.equal(loaded.coins,850);assert.equal(loaded.victories,7);
   assert.deepEqual(loaded.claimedFirstClearRewards,['goblin_forest_ambush']);
-  const entries=questCatalog(content,loaded,{tab:'sinister'});assert.equal(entries.length,2);
+  const entries=questCatalog(content,loaded,{tab:'sinister'});assert.equal(entries.length,1);assert.equal(entries[0].id,'miraebolis_superboss');
   for(const entry of entries)assert.equal(createBattle(content,loaded,entry.id).encounterId,entry.id);
   assert.deepEqual(questCatalog(content,createGameSave(content),{tab:'sinister'}),[]);
 });

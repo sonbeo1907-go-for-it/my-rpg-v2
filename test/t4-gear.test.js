@@ -81,5 +81,5 @@ test('ordinary and boss Quest rewards split exactly at 0.5, preserve daily count
 
 test('failed disk commit does not reroll or pay twice; super bosses and traveler stories retain their fixed Coin reward',()=>{
  let calls=0;const c=funded(),b={encounterId:'forest_patrol',outcome:'victory',rewardRandom:()=>{calls++;return .8;}};assert.throws(()=>claimBattleReward(c,b,content,()=>{throw Error('disk');}));assert.equal(b.rewardClaimed,undefined);assert.deepEqual(b.victoryReward,{prismaFragments:5});const next=claimBattleReward(c,b,content);assert.equal(calls,1);assert.equal(next.prismaFragments,c.prismaFragments+5);
- for(const id of ['alice_superboss','iris_story_growth'])if(content.encounters[id]){const battle={encounterId:id,rewardRandom:()=>{throw Error('must not roll');}};const reward=prepareVictoryReward(battle,content);assert.ok(reward.coins);assert.equal(reward.prismaFragments,undefined);}
+ for(const id of ['miraebolis_superboss','iris_story_growth'])if(content.encounters[id]){const battle={encounterId:id,rewardRandom:()=>{throw Error('must not roll');}};const reward=prepareVictoryReward(battle,content);assert.ok(reward.coins);assert.equal(reward.prismaFragments,undefined);}
 });

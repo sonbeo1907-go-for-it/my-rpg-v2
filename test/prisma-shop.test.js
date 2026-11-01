@@ -46,7 +46,7 @@ test('Pure Prisma selects one locked hero for 120, leaves other currencies and p
 test('every encounter pays its data-driven tier once, independent of BGM and first-clear rewards', () => {
   const withoutMusic = structuredClone(content);
   for (const encounter of Object.values(withoutMusic.encounters)) {
-    const expected = { normal: 50, boss: 150, super: 1000 }[encounter.rewardTier];
+    const expected = encounter.rewardPolicy==='none'?0:{ normal: 50, boss: 150, super: 1000 }[encounter.rewardTier];
     assert.equal(victoryCoinReward(content, encounter.id), expected);
     encounter.bgm = 'normal';
     const battle = { questDifficulty:'very_easy', rewardRandom:()=>0, encounterId: encounter.id, ...(encounter.waves?{storyWave:{waveIndex:encounter.waves.length-1,totalWaves:encounter.waves.length}}:{}), outcome: 'victory', actors:(encounter.requiredPartyIds??[]).map(id=>({id,team:'party'})) };

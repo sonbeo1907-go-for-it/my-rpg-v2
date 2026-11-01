@@ -9,10 +9,10 @@ import { skillScaling } from '../src/ui/skill-presentation.js';
 const content = await loadContent();
 function setup(party, encounter = 'alice_superboss', random = () => .99) {
   const campaign = createCampaign(content);
-  campaign.storyFlags.push('illusion.sinister_unlocked');
+  campaign.storyFlags.push('illusion.sinister_unlocked');campaign.chronicles.aliceFirstEncounterCleared=true;campaign.chronicles.eventClearIds.push('book1.j04');
   campaign.party = party;
   campaign.unlockedCharacterIds = Object.keys(content.characters);
-  const source=structuredClone(content);source.encounters[encounter].enemyLevel=1;
+  const source=structuredClone(content);source.encounters[encounter].enemyLevel=1;source.encounters[encounter].superLevels=[1];
   return createBattle(source, campaign, encounter, random,{enemyLevel:1});
 }
 function use(battle, actorId, abilityId, targetId = actorId) {

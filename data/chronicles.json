@@ -1,0 +1,124 @@
+[
+  {
+    "id": "book1",
+    "name": "Mái Nhà Giữa Gió Bắc",
+    "subtitle": "QUYỂN I · BIÊN NIÊN KÝ",
+    "description": "Những việc nhỏ giữ ấm một ngôi làng giữa rừng phương Bắc.",
+    "art": "/art/chronicles/book1/cover-chronicle-v01.svg",
+    "locations": [
+      {
+        "id": "a",
+        "name": "Cổng làng",
+        "description": "Ngọn đèn đầu tiên trên con đường về nhà.",
+        "introId": "book1.intro.f01",
+        "requires": [],
+        "art": "scene-a-gate.svg",
+        "npcWeight": 0.6
+      },
+      {
+        "id": "b",
+        "name": "Quảng trường",
+        "description": "Những bước chân gặp nhau bên giếng làng.",
+        "introId": "book1.intro.f02",
+        "requires": [
+          "book1.intro.f01"
+        ],
+        "art": "scene-b-square.svg",
+        "npcWeight": 0.75
+      },
+      {
+        "id": "c",
+        "name": "Lò rèn Tobin",
+        "description": "Tiếng búa vẫn đều giữa những công việc nhỏ.",
+        "introId": "book1.intro.f03",
+        "requires": [
+          "book1.intro.f01"
+        ],
+        "art": "scene-c-forge.svg",
+        "npcWeight": 0.7
+      },
+      {
+        "id": "f",
+        "name": "Những thửa ruộng",
+        "description": "Mùa màng nối những mái nhà với khu rừng.",
+        "introId": "book1.intro.f04",
+        "requires": [
+          "book1.intro.f02"
+        ],
+        "art": "scene-f-fields.svg",
+        "restoredArt": "scene-f-fields-restored.svg",
+        "npcWeight": 0.5
+      },
+      {
+        "id": "d",
+        "name": "Nhà nguyện",
+        "description": "Một ngọn nến dành cho người đi xa.",
+        "introId": "book1.intro.f05",
+        "requires": [
+          "book1.intro.f04"
+        ],
+        "art": "scene-d-chapel.svg",
+        "npcWeight": 0.8
+      },
+      {
+        "id": "e",
+        "name": "Trạm xá Armie",
+        "description": "Băng sạch, thảo dược và những bàn tay bận rộn.",
+        "introId": "book1.intro.f06",
+        "requires": [
+          "book1.intro.f05"
+        ],
+        "art": "scene-e-infirmary.svg",
+        "npcWeight": 0.8
+      },
+      {
+        "id": "g",
+        "name": "Bờ suối phía Bắc",
+        "description": "Lắng nghe dòng nước giữa những viên đá.",
+        "introId": "book1.intro.f07",
+        "requires": [
+          "book1.intro.f06"
+        ],
+        "art": "scene-g-creek.svg",
+        "restoredArt": "scene-g-creek-restored.svg",
+        "npcWeight": 0.45
+      },
+      {
+        "id": "h",
+        "name": "Đường rừng cũ",
+        "description": "Những cột mốc cũ vẫn chờ người qua.",
+        "introId": "book1.intro.f08",
+        "requires": [
+          "book1.intro.f07"
+        ],
+        "art": "scene-h-old-trail.svg",
+        "restoredArt": "scene-h-old-trail-restored.svg",
+        "npcWeight": 0.35
+      },
+      {
+        "id": "i",
+        "name": "Rừng biên giới",
+        "description": "Bên kia lối mòn là lãnh thổ của muôn thú.",
+        "introId": "book1.intro.f09",
+        "requires": [
+          "book1.intro.f08"
+        ],
+        "art": "scene-i-border-forest.svg",
+        "npcWeight": 0.25
+      },
+      {
+        "id": "j",
+        "name": "Khu rừng Astraea",
+        "description": "Dưới tán cây già, mọi dấu chân đều để lại điều gì đó.",
+        "introId": "book1.intro.f10",
+        "requires": [
+          "book1.intro.f09"
+        ],
+        "art": "scene-j-astraea-forest.svg",
+        "restoredArt": "scene-j-astraea-forest-restored.svg",
+        "npcWeight": 0.6
+      }
+    ],
+    "weeklyRewards": 28
+  }
+]

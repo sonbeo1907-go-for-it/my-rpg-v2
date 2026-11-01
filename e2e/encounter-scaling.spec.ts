@@ -4,7 +4,7 @@ import {claimBattleReward} from '../src/core/economy.js';
 import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
 const content:any=await loadContent();
 async function seed(page:Page,solo=false){
- let c=createGameSave(content);c.storyFlags.push('illusion.sinister_unlocked');
+ let c=createGameSave(content);c.storyFlags.push('illusion.sinister_unlocked');c.chronicles.eventClearIds.push('book1.j04');c.chronicles.aliceFirstEncounterCleared=true;
  for(const story of ['iris','fiona','takeshi'])for(const id of content.travelerStories[story].chapters){const e=content.encounters[id];c=claimBattleReward(c,{encounterId:id,outcome:'victory',rewardRandom:()=>0,actors:(e.requiredPartyIds??[]).map((id:string)=>({id,team:'party'})),...(e.waves?{storyWave:{waveIndex:e.waves.length-1,totalWaves:e.waves.length}}:{})},content);}
  if(solo){c.party=['arthur',null,null,null];c.partyPresets[0].slots=[...c.party];}
  await page.addInitScript(raw=>{localStorage.setItem('northern-prisma.campaign.v6',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false,controlMode:'mouse'}));},encodeGameSave(c,content));

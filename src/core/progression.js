@@ -1,3 +1,4 @@
+import {emptyChronicleState,normalizeChronicleState} from './chronicle-state.js';
 import {applySpecialLoadout} from './exclusive-loadout.js';
 import {validateCharacterSkillRanks,skillRules} from './skill-rules.js';
 import {normalizeLevelState,allocationBonuses,levelCap} from './leveling.js';
@@ -45,6 +46,7 @@ export function createCampaign(content) {
     dungeonDaily: { day: null, clears: {} },
     dailyCommissions: emptyDailyCommissions(),
     shopDaily: emptyShopDaily(),
+    chronicles:emptyChronicleState(),
     illusion: emptyIllusionState(),
     ...emptyBlacksmithState(),
   };
@@ -163,6 +165,7 @@ export function serializeCampaign(campaign) {
     craftedGearSerial: campaign.craftedGearSerial ?? 0,
     pendingGearReforge: campaign.pendingGearReforge ?? null,
     illusion: campaign.illusion ?? emptyIllusionState(),
+    chronicles:campaign.chronicles??emptyChronicleState(),
   });
 }
 
@@ -286,7 +289,7 @@ export function deserializeCampaign(raw, content) {
       (id) =>
         typeof id !== "string" ||
         !Object.hasOwn(content.encounters, id) ||
-        !content.encounters[id].firstClearRewards?.length,
+        (!content.encounters[id].firstClearRewards?.length&&id!=='alice_superboss'),
     )
   )
     throw new Error("Thưởng lần đầu trong save không hợp lệ.");
@@ -316,7 +319,7 @@ export function deserializeCampaign(raw, content) {
   }
   grantEligibleUpgrades(result, content);
   for (const id of claimed)
-    for (const reward of content.encounters[id].firstClearRewards) {
+    for (const reward of content.encounters[id].firstClearRewards??[]) {
       if (reward.type === "upgrade") {
         const upgrade = content.upgrades[reward.upgradeId];
         if (
@@ -337,6 +340,7 @@ export function deserializeCampaign(raw, content) {
   if (input.version !== 1)
     result.gacha = normalizeGachaState(input.gacha, result, content);
   Object.assign(result, normalizeBlacksmithState(input, content, result));
+  result.chronicles=normalizeChronicleState(input.chronicles,content,result);
   for(const id of Object.keys(result.characters)) result.characters[id].skillRanks=validateCharacterSkillRanks(content,result,id);
   return result;
 }

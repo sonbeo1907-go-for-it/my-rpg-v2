@@ -62,9 +62,9 @@ test('current Normal and Boss numerical examples use the same Level 1 baseline',
 });
 
 test('Alice and Miraebolis use the global Lv1 base; fixed encounter levels and HP curve stay authored',()=>{
- const save=createGameSave(content);save.storyFlags.push('illusion.sinister_unlocked');
+ const save=createGameSave(content);save.storyFlags.push('illusion.sinister_unlocked');save.chronicles.aliceFirstEncounterCleared=true;save.chronicles.eventClearIds.push('book1.j04');
  for(const [quest,id,hpExpected]of [['alice_superboss','dark_holy_blade_alice',6372],['miraebolis_superboss','miraebolis',9558]]){
-  const b=createBattle(content,save,quest,()=>.9,{questDifficulty:'very_easy',enemyLevel:5}),a=getActor(b,'enemy_0');
+  const b=createBattle(content,save,quest,()=>.9,{questDifficulty:'very_easy'}),a=getActor(b,'enemy_0');
   assert.equal(a.level,60);assert.equal(a.pendingSuperLevelBalance,true);assert.equal(a.stats.maxHp,hpExpected);
   const base=content.enemies[id];assert.equal(base.referenceLevel,1);assert.equal(content.encounters[quest].hpReferenceLevel,1);
   for(const k of ['maxMp','attack','magic','defense','resistance','speed'])assert.equal(a.stats[k],Math.round(base.stats[k]*enemyStatFactor(k,60,content)));
@@ -106,8 +106,9 @@ test('malformed curves, profiles, unsupported encounter/dungeon levels and HP re
 test('all authored encounters and five selectable difficulties wire the same immutable scaling into battle',()=>{
  const save=createGameSave(content);save.unlockedCharacterIds=Object.keys(content.characters);
  save.claimedFirstClearRewards=Object.keys(content.encounters);
+ save.chronicles.aliceFirstEncounterCleared=true;save.chronicles.eventClearIds.push('book1.j04');
  save.storyFlags.push('illusion.sinister_unlocked',...Object.values(content.encounters).map(e=>e.requires?.storyFlag).filter(Boolean));
- for(const encounter of Object.values(content.encounters)){
+ for(const encounter of Object.values(content.encounters).filter(e=>e.category!=='chronicle')){
   save.party=encounter.requiredPartyIds?.length?[...encounter.requiredPartyIds]:['arthur','iris','elaine','garrek'];
   const selectable=!encounter.travelerStory&&encounter.rewardTier!=='super';
   for(const difficulty of selectable?Object.keys(content.progressionRules.default.questDifficulties):['medium']){
@@ -129,7 +130,7 @@ test('Superboss HP extension is available to 90 without opening content or extra
 test('every non-story Boss and Bounty uses encounter reference 1 for all seven stats without affecting shared normal/story enemies',()=>{
  const save=createGameSave(content);save.claimedFirstClearRewards=Object.keys(content.encounters);
  const before=JSON.stringify(content.enemies);
- for(const e of Object.values(content.encounters).filter(e=>e.rewardTier==='boss'&&!e.travelerStory)){
+ for(const e of Object.values(content.encounters).filter(e=>e.rewardTier==='boss'&&!e.travelerStory&&e.category!=='chronicle')){
   assert.equal(e.referenceLevel,1,e.id);
   const raw=createBattle(content,save,e.id,()=>.99,{enemyLevel:1});
   for(const actor of raw.actors.filter(a=>a.team==='enemy')){assert.equal(actor.referenceLevel,1);assert.deepEqual(actor.stats,content.enemies[actor.definitionId].stats);}

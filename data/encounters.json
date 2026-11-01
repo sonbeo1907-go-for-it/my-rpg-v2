@@ -357,18 +357,22 @@
   {
     "id": "alice_superboss",
     "name": "Siêu trùm — Alice, Hắc Thánh Kiếm",
-    "description": "Dark Holy Blade Alice: 2.400 HP, 90 kháng phép, yếu Quang (+50% sát thương). Kiếm chú diện rộng làm yếu ATK/MAG, giảm tốc độ và phá DEF/RES. Chuẩn bị giải bất lợi, hồi phục và đòn Quang vật lí; có thể giảm RES để dùng phép. Thử thách dành cho đội hình đã được trang bị.",
+    "description": "Kiếm chú phủ khắp chiến trường. Chuẩn bị giải hiệu ứng và những đòn Quang để đối mặt Hắc Thánh Kiếm. Các mức thử thách được chọn tự do.",
     "enemies": [
       "dark_holy_blade_alice"
     ],
     "bgm": "alice",
     "rewardTier": "super",
-    "requires": {
-      "storyFlag": "illusion.sinister_unlocked"
-    },
     "enemyLevel": 60,
     "hpReferenceLevel": 1,
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "superLevels": [
+      60,
+      70,
+      80,
+      90
+    ],
+    "rewardPolicy": "none"
   },
   {
     "id": "miraebolis_superboss",
@@ -1422,5 +1426,296 @@
     ],
     "enemyLevel": 30,
     "referenceLevel": 1
+  },
+  {
+    "id": "chronicle_book1_intro_f04",
+    "name": "Những thửa ruộng",
+    "description": "Dân làng báo lợn rừng phá hoa màu. Trong quá trình đánh đuổi, nhận ra thú đói và kiệt sức.",
+    "enemies": [
+      "forest_rat",
+      "forest_rat"
+    ],
+    "waves": [
+      [
+        "forest_rat",
+        "forest_rat"
+      ],
+      [
+        "wild_boar",
+        "forest_rat"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.intro.f04",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_intro_f05",
+    "name": "Nhà nguyện",
+    "description": "Elaine đưa người đi đường bị thương vào nơi trú, trong lúc quỷ lùn truy đuổi sát cổng.",
+    "enemies": [
+      "small_goblin",
+      "small_goblin",
+      "goblin"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.intro.f05",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_intro_f07",
+    "name": "Bờ suối phía Bắc",
+    "description": "Nhiều vũng nước nhỏ bị tách khỏi dòng chính. Sinh vật đầm lầy bị dồn vào một khoảng bờ cạn.",
+    "enemies": [
+      "pond_crab",
+      "pond_crab",
+      "moss_slime"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.intro.f07",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_intro_f08",
+    "name": "Đường rừng cũ",
+    "description": "Tuyến đường bị cành cây chắn và quỷ lùn chiếm dụng. Sau trận, người chơi thấy các cột mốc bị sạt xuống dốc.",
+    "enemies": [
+      "goblin",
+      "goblin",
+      "small_goblin"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.intro.f08",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_intro_f09",
+    "name": "Rừng biên giới",
+    "description": "Astraea quan sát dấu chân; bầy sói cảnh giác trước người lạ đi vào lãnh thổ bị thu hẹp.",
+    "enemies": [
+      "wolf",
+      "wolf"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.intro.f09",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_intro_f10",
+    "name": "Khu rừng Astraea",
+    "description": "Dòng nước bị thân cây lớn và đất đá chắn. Bầy sói giữ vùng trú ẩn; dân làng chỉ có thể dọn đá khi thú rút.",
+    "enemies": [
+      "wolf_leader",
+      "wolf",
+      "wolf"
+    ],
+    "bgm": "normal",
+    "rewardTier": "boss",
+    "category": "chronicle",
+    "chronicleEventId": "book1.intro.f10",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_a03",
+    "name": "Kẻ bám đoàn xe",
+    "description": "Hai tên cướp theo sau xe chở rau tới cửa làng.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_archer"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.a03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_b03",
+    "name": "Kho thóc náo loạn",
+    "description": "Chuột rừng cắn bao thóc ở kho cạnh quảng trường.",
+    "enemies": [
+      "forest_rat",
+      "forest_rat",
+      "forest_rat"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.b03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_c03",
+    "name": "Trộm vật liệu",
+    "description": "Quỷ lùn kéo bao kim loại ra khỏi kho.",
+    "enemies": [
+      "goblin",
+      "goblin",
+      "small_goblin"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.c03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_d03",
+    "name": "Khách hành hương gặp cướp",
+    "description": "Hai tên cướp chặn lối về nhà nguyện.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_vanguard"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.d03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_e03",
+    "name": "Thu thập dược liệu",
+    "description": "Lối đi đến bụi thuốc bị rắn và nấm độc chiếm.",
+    "enemies": [
+      "marsh_snake",
+      "marsh_snake",
+      "wild_mushroom"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.e03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_f03",
+    "name": "Lợn rừng trở lại",
+    "description": "Thú hoang phá hàng rào khi trời trở gió.",
+    "enemies": [
+      "wild_boar",
+      "forest_rat",
+      "forest_rat"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.f03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_g03",
+    "name": "Tranh chấp vũng nước",
+    "description": "Cua đồng và nhầy rêu tụ tại vùng nước nông.",
+    "enemies": [
+      "pond_crab",
+      "pond_crab",
+      "moss_slime"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.g03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_h03",
+    "name": "Thuế đường rừng",
+    "description": "Hai tên cướp đòi phí khi người dân vận hàng.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_archer"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.h03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_i03",
+    "name": "Đàn sói giữ lối",
+    "description": "Hai sói săn mồi chắn đường đi sâu hơn vào rừng.",
+    "enemies": [
+      "wolf",
+      "wolf"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.i03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "chronicle_book1_j03",
+    "name": "Sinh vật lấn đất cây non",
+    "description": "Nấm độc và nhầy rêu chiếm luống cây mới.",
+    "enemies": [
+      "wild_mushroom",
+      "wild_mushroom",
+      "moss_slime"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "category": "chronicle",
+    "chronicleEventId": "book1.j03",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
+  },
+  {
+    "id": "alice_intro_lv1",
+    "name": "Dưới tán lá",
+    "description": "Một góc rừng xuất hiện sự khác biệt rất nhỏ ở cảnh nền: gió lặng, dấu cỏ rạp, mặt đất trống lạ thường. Không có nhãn, icon, lời đồn, dấu chấm hay thông báo mới.",
+    "enemies": [
+      "dark_holy_blade_alice"
+    ],
+    "bgm": "alice",
+    "rewardTier": "super",
+    "category": "chronicle",
+    "chronicleEventId": "book1.j04",
+    "enemyLevel": 1,
+    "referenceLevel": 1,
+    "rewardPolicy": "none"
   }
 ]

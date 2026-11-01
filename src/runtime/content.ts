@@ -1,3 +1,5 @@
+import chronicles from '../../data/chronicles.json';
+import chronicleEvents from '../../data/chronicleEvents.json';
 import { assembleContent } from "../core/content.js";
 import progressionRules from "../../data/progressionRules.json";
 import characters from "../../data/characters.json";
@@ -18,6 +20,7 @@ import items from "../../data/items.json";
 import travelerStories from "../../data/travelerStories.json";
 export function getContent(): any {
   return assembleContent({
+    chronicles,chronicleEvents,
     progressionRules,
     characters,
     abilities,

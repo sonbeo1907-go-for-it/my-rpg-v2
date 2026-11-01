@@ -56,7 +56,7 @@ for(const [difficulty,waves,reward] of [['easy',3,1000],['medium',4,2000],['hard
   });
 }
 test('shared daily quota survives reload and unlocks both levels at Vietnam midnight',async({page})=>{
-  await page.clock.install({time:new Date('2026-10-29T16:59:59.000Z')});await seed(page,3);await page.goto('/dungeon/gold_mine');
+  await page.clock.install({time:new Date('2026-10-29T16:59:59.000Z')});await page.clock.pauseAt(new Date('2026-10-29T16:59:59.000Z'));await seed(page,3);await page.goto('/dungeon/gold_mine');
   await expect(page.locator('.embark')).toBeDisabled();await expect(page.locator('.page-header')).toContainText('0/3');
   await page.clock.runFor(1500);await expect(page.locator('.page-header')).toContainText('3/3');await expect(page.locator('.embark')).toBeEnabled();
   await page.getByRole('button',{name:/Trung bình/}).click();await expect(page.locator('.embark')).toBeEnabled();

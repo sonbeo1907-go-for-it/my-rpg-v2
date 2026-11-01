@@ -1,4 +1,6 @@
 "use client";
+import {beginChronicleEvent,actChronicle} from '../core/chronicles.js';
+import {createChronicleBattle,restoreChronicleBattle,snapshotChronicleBattle,checkpointChronicleBattle,advanceChronicleWave,finishChronicleBattle} from '../core/chronicle-combat.js';
 import {upgradeSkill} from '../core/skill-progression.js';
 import {allocatePoints,limitBreak} from '../core/leveling.js';
 import {sweepDungeon as sweepDungeonAction} from '../core/dungeon.js';
@@ -44,6 +46,11 @@ const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(cont
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
+  visitChronicle:(locationId:string,observe?:boolean)=>Promise<boolean>;
+  actChronicleScene:(locationId:string,instanceId:string,stepId:string,actionId:string)=>Promise<boolean>;
+  startChronicleFight:(locationId:string,instanceId:string)=>Promise<boolean>;
+  retreatChronicleFight:()=>Promise<boolean>;
+
   dailyNow: number;
   claimCommissions: (keys?: string[]) => Promise<boolean>;
   refreshCommissions: () => Promise<boolean>;
@@ -79,7 +86,7 @@ type GameContextValue = {
     operation: (current: any) => any,
     message?: string,
   ) => Promise<boolean>;
-  startBattle: (id: string,difficultyId?:string) => boolean;
+  startBattle: (id: string,difficultyId?:string,superLevel?:number) => boolean;
   progressionLocked:boolean;
   upgradeCharacterSkill:(id:string,line:string,expectedRank:number)=>Promise<boolean>;
   updateAllocations:(id:string,allocations:Record<string,number>)=>Promise<boolean>;
@@ -152,6 +159,7 @@ export function GameProvider({
   const [entered, setEntered] = useState(false);
   const [busy, setBusy] = useState(false);
   const pendingQuestDifficulty=useRef<string|undefined>(undefined);
+  const pendingSuperLevel=useRef<number|undefined>(undefined);
   const [pendingBattleId, setPendingBattleId] = useState<string | null>(null);
   const [pendingDungeon, setPendingDungeon] = useState<{
     typeId: string;
@@ -198,6 +206,7 @@ export function GameProvider({
         ? {
             presentation: battlePresentation(current.actors),
             encounterId: current.encounterId,
+            chronicle:structuredClone(current.chronicle??null),
             questDifficulty:current.questDifficulty,enemyLevel:current.enemyLevel,xpAwards:structuredClone(current.xpAwards??[]),
             sessionId: battleSerial.current,
             actors: structuredClone(current.actors),
@@ -269,6 +278,7 @@ export function GameProvider({
         if(!alive)return;
         campaignRef.current = loaded;
         setCampaign(loaded);
+        restoreChronicleRuntime(loaded);
         activeProfileId.current = chosen?.id ?? null;
         setActiveProfile(chosen);
         setEntered(Boolean(chosen));
@@ -340,7 +350,47 @@ export function GameProvider({
     if(!ready||!entered||busy||activeProfileId.current===null||!campaignRef.current||!needsDailyVisit(campaignRef.current,new Date(dailyNow)))return;
     const key=activeProfileId.current+":"+dungeonDay(new Date(dailyNow));if(dailyAttempt.current===key)return;dailyAttempt.current=key;void refreshCommissions();
   },[ready,entered,busy,activeProfile?.id,dailyNow]);
+
+  function restoreChronicleRuntime(current:any){
+    const id=current?.chronicles?.activeBattle,snapshot=id?current.chronicles.pendingByLocation[id]?.battleSnapshot:null;
+    if(snapshot){runtime.current=restoreChronicleBattle(content,snapshot);dungeonRun.current=null;battleSerial.current++;publish();music.current?.start(content.encounters[runtime.current.encounterId].bgm??'normal');}
+  }
+  async function visitChronicle(locationId:string,observe=false){
+    if(inAdventure()){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
+    return transact(c=>beginChronicleEvent(c,content,locationId,{observe}),'');
+  }
+  async function actChronicleScene(locationId:string,instanceId:string,stepId:string,actionId:string){
+    return transact(c=>actChronicle(c,content,{locationId,instanceId,stepId,actionId}),'');
+  }
+  async function startChronicleFight(locationId:string,instanceId:string){
+    if(lock.current||saveLock.current||activeProfileId.current===null)return false;
+    if(inAdventure()&&runtime.current?.chronicle?.instanceId!==instanceId){notify('Đang có trận chiến khác.');return false;}
+    saveLock.current=true;setBusy(true);
+    try{
+      const nextBattle=createChronicleBattle(content,campaignRef.current,locationId,instanceId),next=checkpointChronicleBattle(campaignRef.current,content,nextBattle);
+      await persist(next);campaignRef.current=next;setCampaign(next);runtime.current=nextBattle;dungeonRun.current=null;battleSerial.current++;setBattleUI({allyId:'',enemyId:'',skillId:'$attack'});publish();music.current?.start(content.encounters[nextBattle.encounterId].bgm??'normal');return true;
+    }catch(error){notify((error as Error).message);return false;}finally{saveLock.current=false;setBusy(false);}
+  }
+  async function retreatChronicleFight(){
+    if(lock.current||saveLock.current||!runtime.current?.chronicle)return false;
+    saveLock.current=true;setBusy(true);
+    try{const b=restoreChronicleBattle(content,snapshotChronicleBattle(runtime.current));b.outcome='defeat';const next=checkpointChronicleBattle(campaignRef.current,content,b);await persist(next);campaignRef.current=next;setCampaign(next);clearRuntime();return true;}
+    catch(error){notify((error as Error).message);return false;}finally{saveLock.current=false;setBusy(false);}
+  }
+  async function performCombatStep(operation:(b:any)=>void){
+    if(!runtime.current.chronicle){operation(runtime.current);return;}
+    const trial=restoreChronicleBattle(content,snapshotChronicleBattle(runtime.current));operation(trial);
+    const next=checkpointChronicleBattle(campaignRef.current,content,trial);await persist(next);campaignRef.current=next;setCampaign(next);runtime.current=trial;
+  }
+  async function claimChronicleFight(){
+    if(!runtime.current?.chronicle||runtime.current.outcome!=='victory'||runtime.current.rewardClaimed||saveLock.current)return;
+    saveLock.current=true;setBusy(true);
+    try{const next=finishChronicleBattle(campaignRef.current,content,runtime.current);await persist(next);campaignRef.current=next;setCampaign(next);runtime.current.rewardClaimed=true;runtime.current.victoryReward={};publish();notify('Trận chiến đã được lưu. Tiếp tục câu chuyện tại địa điểm.');}
+    catch(error){notify('Chưa lưu được tiến trình: '+(error as Error).message);publish();}finally{saveLock.current=false;if(!lock.current)setBusy(false);}
+  }
+
   async function claimReward() {
+    if(runtime.current?.chronicle){await claimChronicleFight();return;}
     if (
       !runtime.current ||
       runtime.current.outcome !== "victory" ||
@@ -399,7 +449,7 @@ export function GameProvider({
     const delay = () => combatFeedbackDuration(runtime.current?.events??[],content,speedRef.current,document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     try {
       if (command) {
-        executeAction(runtime.current, command);
+        await performCombatStep(b=>executeAction(b,command));
         publish();
         await sleep(delay());
       }
@@ -408,9 +458,13 @@ export function GameProvider({
           !runtime.current.outcome &&
           activeActor(runtime.current)?.team === "enemy"
         ) {
-          executeEnemyTurn(runtime.current);
+          await performCombatStep(b=>executeEnemyTurn(b));
           publish();
           await sleep(delay());
+        }
+        if(runtime.current.chronicle&&runtime.current.outcome==='victory'&&runtime.current.continuesOnVictory){
+          const trial=advanceChronicleWave(content,campaignRef.current,restoreChronicleBattle(content,snapshotChronicleBattle(runtime.current))),next=checkpointChronicleBattle(campaignRef.current,content,trial);
+          await persist(next);campaignRef.current=next;setCampaign(next);runtime.current=trial;battleSerial.current++;publish();await sleep(delay());continue;
         }
         if (
           dungeonRun.current &&
@@ -441,7 +495,9 @@ export function GameProvider({
       setBusy(saveLock.current);
     }
   }
-  function startBattle(id: string, confirmed = false,difficultyId?:string) {
+  function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number) {
+    if(content.encounters[id]?.category==='chronicle'){notify('Hãy bắt đầu từ địa điểm trong Biên Niên Ký.');return false;}
+    if(runtime.current?.chronicle&&!runtime.current.outcome){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
     if (lock.current || saveLock.current || activeProfileId.current === null)
       return false;
     if (!isQuestUnlocked(content.encounters[id], campaignRef.current)) {
@@ -465,13 +521,13 @@ export function GameProvider({
       !confirmed
     ) {
       setPendingDungeon(null);
-      pendingQuestDifficulty.current=difficultyId;
+      pendingQuestDifficulty.current=difficultyId;pendingSuperLevel.current=superLevel;
       setPendingBattleId(id);
       return false;
     }
     try {
       const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(20261027)) : null;
-      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(20261027),{questDifficulty:difficultyId});
+      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(20261027),{questDifficulty:difficultyId,...(content.encounters[id].superLevels&&superLevel!==undefined?{enemyLevel:superLevel}:{})});
       dungeonRun.current = storyRun;
       battleSerial.current += 1;
       setBattleUI({ allyId: "", enemyId: "", skillId: "$attack" });
@@ -485,6 +541,7 @@ export function GameProvider({
     }
   }
   function startDungeon(id: string, difficultyId: string, confirmed = false) {
+    if(runtime.current?.chronicle&&!runtime.current.outcome){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
     if (lock.current || saveLock.current || activeProfileId.current === null)
       return false;
     if (
@@ -565,6 +622,7 @@ export function GameProvider({
     activeProfileId.current = profile.id;
     campaignRef.current = profile.campaign;
     setCampaign(profile.campaign);
+    restoreChronicleRuntime(profile.campaign);
     setActiveProfile(profile);
     setEntered(true);
     setProfileError("");
@@ -591,6 +649,7 @@ export function GameProvider({
   }
   const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
+    visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,
     progressionLocked:inAdventure(),
     upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure(),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),
     updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()}),"Đã lưu điểm phân bổ."),
@@ -689,7 +748,7 @@ export function GameProvider({
       if (!pendingBattleId && !pendingDungeon) return false;
       const ok = pendingDungeon
         ? startDungeon(pendingDungeon.typeId, pendingDungeon.difficultyId, true)
-        : startBattle(pendingBattleId!, true,pendingQuestDifficulty.current);
+        : startBattle(pendingBattleId!, true,pendingQuestDifficulty.current,pendingSuperLevel.current);
       if (ok) {
         setPendingBattleId(null);
         setPendingDungeon(null);
@@ -710,7 +769,7 @@ export function GameProvider({
       } catch {}
     },
     transact,
-    startBattle:(id,difficultyId)=>startBattle(id,false,difficultyId),
+    startBattle:(id,difficultyId,superLevel)=>startBattle(id,false,difficultyId,superLevel),
     startDungeon,
     prepareDungeonPreview: (id, difficultyId, now = new Date()) =>
       scoutingCache().prepare(activeProfileId.current, id, difficultyId, now),

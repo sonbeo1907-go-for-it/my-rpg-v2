@@ -34,7 +34,7 @@ export function QuestPage() {
   const router = useRouter();
   const [filters, setFilters] = useRouteFilters();
   const tab = questCategory(filters);
-  const sinisterLocked = tab === "sinister" && !campaign.storyFlags.includes(SINISTER_UNLOCK_FLAG);
+  const sinisterLocked = tab === "sinister" && !campaign.storyFlags.includes(SINISTER_UNLOCK_FLAG)&&!campaign.chronicles?.aliceFirstEncounterCleared;
   const bountyLocked=tab==="bounty"&&!bountyUnlocked(campaign);
   const encounters: any[] = questCatalog(content, campaign, filters);
   const selected =
@@ -42,6 +42,7 @@ export function QuestPage() {
     encounters[0];
   const difficultyId=Object.hasOwn(content.progressionRules.default.questDifficulties,filters.difficulty)?filters.difficulty:undefined;
   const difficulty=selected?questDifficulty(content,selected,difficultyId):null;
+  const selectedLevel=selected?.superLevels?(selected.superLevels.includes(Number(filters.superLevel))?Number(filters.superLevel):selected.superLevels[0]):difficulty?.level??selected?.enemyLevel;
   const list = useRef<HTMLDivElement>(null);
   const tabMemory = useRef<Record<string, Record<string, string>>>({});
   const scrollKey = `quest-list-scroll:${tab}`;
@@ -77,7 +78,7 @@ export function QuestPage() {
       <QuestLayout>
         <QuestIllustration
           art={tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
-          header={difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{Object.entries(content.progressionRules.default.questDifficulties).map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
+          header={selected?.superLevels?<section className="quest-difficulty-selector" aria-label="Cấp thử thách"><strong>Cấp thử thách</strong><div className="quest-difficulty-buttons">{selected.superLevels.map((level:number)=><button key={level} aria-pressed={selectedLevel===level} className={selectedLevel===level?'active':''} onClick={()=>setFilters({...filters,superLevel:String(level)})}>Level {level}</button>)}</div><p>Thử thách tùy chọn · Không cấp tiền tệ hoặc EXP.</p></section>:difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{Object.entries(content.progressionRules.default.questDifficulties).map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
         >
           <span className="eyebrow">{tab === "bounty" ? "NHỮNG KHẾ ƯỚC TRÊN BẢNG TRUY NÃ" : tab === "sinister" ? "SAU CÁNH CỬA KHÔNG ÁNH SÁNG" : "NHỮNG NẺO ĐƯỜNG PHƯƠNG BẮC"}</span>
           <h2>{selected?.name ?? (bountyLocked ? "Lời mời của Hội Thợ Săn" : sinisterLocked ? "Cánh cửa chưa thức giấc" : "Những miền đất chưa biết")}</h2>
@@ -185,13 +186,13 @@ export function QuestPage() {
               <h3>Đối thủ</h3>
               <div className="quest-enemies">
                 {selected.enemies.map((id: string, index: number) => {
-                  const template=content.enemies[id],enemy={...template,stats:levelScaledEnemyStats(template,difficulty?.level??selected.enemyLevel,content,1,selected)};
+                  const template=content.enemies[id],enemy={...template,stats:levelScaledEnemyStats(template,selectedLevel,content,1,selected)};
                   return (
                     <div key={`${id}-${index}`}>
                       <ElementBadge element={enemy.element} />
                       <strong>{enemy.name}</strong>
                       <small>
-                        Level {difficulty?.level??selected.enemyLevel} · HP {enemy.stats.maxHp} · Yếu:{" "}
+                        Level {selectedLevel} · HP {enemy.stats.maxHp} · Yếu:{" "}
                         {[...(enemy.weaknesses??[]).map((element:string)=>(ELEMENT_NAMES as any)[element]),...(enemy.damageTypeWeaknesses??[]).map((type:string)=>(DAMAGE_TYPE_NAMES as any)[type])].join(", ") ||
                           "Không có"}
                       </small>
@@ -205,7 +206,7 @@ export function QuestPage() {
                 onClick={() => {
                   if (preferences.controlMode === "gamepad")
                     setConfirmId(selected.id);
-                  else if (startBattle(selected.id,difficulty?.id)) router.push("/battle");
+                  else if (startBattle(selected.id,difficulty?.id,selected?.superLevels?selectedLevel:undefined)) router.push("/battle");
                 }}
               >
                 <Icon name="sword" />
@@ -229,7 +230,7 @@ export function QuestPage() {
                 onClick={() => {
                   const id = confirmId;
                   setConfirmId(null);
-                  if (startBattle(id,difficulty?.id)) router.push("/battle");
+                  if (startBattle(id,difficulty?.id,selected?.superLevels?selectedLevel:undefined)) router.push("/battle");
                 }}
               >
                 Xuất chiến
@@ -237,7 +238,7 @@ export function QuestPage() {
             </>
           }
         >
-          <p>{content.encounters[confirmId].name} · {difficulty?.name??"Cấp độ cố định"} · Level {difficulty?.level??content.encounters[confirmId].enemyLevel}</p>
+          <p>{content.encounters[confirmId].name} · {difficulty?.name??"Cấp độ cố định"} · Level {selectedLevel}</p>
           <p>Đội hình hiện tại sẽ bắt đầu một trận mới.</p>
         </Modal>
       )}

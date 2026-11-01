@@ -9,7 +9,7 @@ import { seededRandom } from '../src/core/random.js';
 const content = await loadContent();
 function setup(encounter, party = ['arthur'], random = () => .99) {
   const campaign = createCampaign(content);
-  campaign.storyFlags.push('illusion.sinister_unlocked');
+  campaign.storyFlags.push('illusion.sinister_unlocked');campaign.chronicles.aliceFirstEncounterCleared=true;campaign.chronicles.eventClearIds.push('book1.j04');
   campaign.party = party;
   if (content.encounters[encounter].travelerStory) {
     campaign.claimedFirstClearRewards = content.travelerStories[content.encounters[encounter].travelerStory].chapters.slice(0,-1);
@@ -18,7 +18,7 @@ function setup(encounter, party = ['arthur'], random = () => .99) {
   }
   if(content.encounters[encounter].category==='bounty')campaign.claimedFirstClearRewards.push(...content.encounters[encounter].requires.firstClears);
   campaign.unlockedCharacterIds = Object.keys(content.characters);
-  return createBattle(content, campaign, encounter, random,{enemyLevel:content.encounters[encounter].referenceLevel??content.encounters[encounter].enemyLevel});
+  return createBattle(content, campaign, encounter, random,{enemyLevel:content.encounters[encounter].superLevels?.[0]??content.encounters[encounter].referenceLevel??content.encounters[encounter].enemyLevel});
 }
 function strike(encounter, element, damageType, shield = 0, source = content) {
   const campaign = createCampaign(source); campaign.party = ['arthur'];
@@ -142,7 +142,7 @@ test('enemy AI can select every new move with its authored cost and effect', () 
 });
 
 test('every new encounter runs legal enemy AI to a bounded outcome with finite HP and MP', () => {
-  const newEncounters = Object.keys(content.encounters).filter(id => !['forest_patrol', 'ogre_trial'].includes(id));
+  const newEncounters = Object.keys(content.encounters).filter(id => content.encounters[id].category!=='chronicle'&&!['forest_patrol', 'ogre_trial'].includes(id));
   for (const encounter of newEncounters) {
     const battle = setup(encounter, ['arthur', 'fiona', 'elaine', 'garrek'], seededRandom(42));
     while (!battle.outcome && battle.actionCount < 2000) {

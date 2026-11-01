@@ -15,6 +15,7 @@ export const economyRules = content => content.economy.default;
 export const encounterTier = encounter => encounter?.rewardTier === undefined ? 'normal' : encounter.rewardTier;
 export function victoryCoinReward(content, encounterId) {
   const rules = economyRules(content);
+  if(content.encounters[encounterId]?.rewardPolicy==='none')return 0;
   return { normal: rules.victoryCoins, boss: rules.bossVictoryCoins, super: rules.superVictoryCoins }[encounterTier(content.encounters[encounterId])];
 }
 export function prismaConversionCost(content, quantity) {
@@ -99,7 +100,7 @@ export function grantCharacterCopy(campaign, content, characterId) {
 
 // A failed persistence callback leaves both campaign and claim unchanged for a retry.
 export function claimBattleReward(campaign, battle, content, persist = () => {}, now = new Date()) {
-  if (battle.dungeon) return campaign; // Wave clears never grant Quest rewards or first-clear unlocks.
+  if (battle.dungeon||content.encounters[battle.encounterId]?.category==='chronicle') return campaign; // Wave clears never grant Quest rewards or first-clear unlocks.
   if (battle.outcome !== 'victory' || battle.rewardClaimed) return campaign;
   const encounter = content.encounters[battle.encounterId];
   if (encounter?.waves && (battle.storyWave?.totalWaves!==encounter.waves.length || battle.storyWave?.waveIndex!==encounter.waves.length-1)) return campaign;
@@ -111,6 +112,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
   const next = structuredClone(campaign);
   for(const[field,n]of Object.entries(prepareVictoryReward(battle,content,battle.rewardRandom??Math.random,campaign))) next[field]=checkedAdd(next[field]??0,n);
   next.victories = checkedAdd(next.victories, 1);
+  if(encounter?.superLevels&&next.chronicles?.aliceFirstEncounterCleared&&!next.chronicles.aliceDifficultyClears.includes(battle.enemyLevel))next.chronicles.aliceDifficultyClears.push(battle.enemyLevel);
   if (encounter && !encounter.travelerStory && ["normal","boss"].includes(encounterTier(encounter))) recordDailyClear(next,"quest",now);
   next.claimedFirstClearRewards ??= [];
   const rewards = content.encounters[battle.encounterId]?.firstClearRewards;

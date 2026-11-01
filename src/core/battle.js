@@ -75,6 +75,8 @@ export function createBattle(
   if (!encounter) throw new Error(`Unknown encounter ${encounterId}`);
   if (options.storyWaveIndex !== undefined && (!encounter.waves || !Number.isInteger(options.storyWaveIndex) || options.storyWaveIndex < 0 || options.storyWaveIndex >= encounter.waves.length)) throw new Error('Đợt truyện không hợp lệ.');
   assertQuestUnlocked(encounter, campaign);
+  if(encounter.category==='chronicle'&&!Object.values(campaign.chronicles.pendingByLocation).some(p=>p.instanceId===options.chronicleInstanceId&&p.eventId===encounter.chronicleEventId&&p.level===options.enemyLevel&&p.stepId===p.battleStepId))throw Error('Hãy bắt đầu trận từ địa điểm đang khám phá.');
+  if(encounter.superLevels&&options.enemyLevel!==undefined&&!encounter.superLevels.includes(options.enemyLevel))throw Error('Cấp thử thách không hợp lệ.');
   assertEncounterParty(encounter, campaign, content);
   if (!isValidParty(campaign.party, content.characters))
     throw new Error("Invalid party");
@@ -83,7 +85,7 @@ export function createBattle(
   normalizeBlacksmithState(campaign, content, campaign);
   const scale = enemyStatMultipliers(options.enemyScale ?? 1);
   const difficulty=questDifficulty(content,encounter,options.questDifficulty);
-  const requestedLevel=difficulty?(Object.hasOwn(options,"enemyLevel")?options.enemyLevel:difficulty.level):encounter.enemyLevel;
+  const requestedLevel=difficulty?(Object.hasOwn(options,"enemyLevel")?options.enemyLevel:difficulty.level):encounter.superLevels?(options.enemyLevel??encounter.superLevels[0]):encounter.category==='chronicle'?options.enemyLevel:encounter.enemyLevel;
   if (
     !Number.isSafeInteger(options.roundOffset ?? 0) ||
     (options.roundOffset ?? 0) < 0

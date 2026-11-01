@@ -1,0 +1,2410 @@
+[
+  {
+    "id": "book1.intro.f01",
+    "bookId": "book1",
+    "code": "F01_INTRO",
+    "locationId": "a",
+    "name": "Cổng làng",
+    "description": "Người gác cổng cho kiểm tra đoàn xe bị kẹt ngoài hàng rào. Arthur và Garrek nhận thấy nhiều khách lạ phải dừng vì thú rừng xuống đường.",
+    "hidden": false,
+    "intro": true,
+    "requires": [],
+    "prop": "cart-wheel",
+    "ending": "Người gác cổng cho kiểm tra đoàn xe bị kẹt ngoài hàng rào. Arthur và Garrek nhận thấy nhiều khách lạ phải dừng vì thú rừng xuống đường.",
+    "firstReward": {
+      "coins": 25
+    },
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Người gác cổng cho kiểm tra đoàn xe bị kẹt ngoài hàng rào. Arthur và Garrek nhận thấy nhiều khách lạ phải dừng vì thú rừng xuống đường.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đỡ đoàn xe",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Người gác cổng cho kiểm tra đoàn xe bị kẹt ngoài hàng rào. Arthur và Garrek nhận thấy nhiều khách lạ phải dừng vì thú rừng xuống đường.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dựng mốc cảnh báo",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f02",
+    "bookId": "book1",
+    "code": "F02_INTRO",
+    "locationId": "b",
+    "name": "Quảng trường",
+    "description": "Garrek hướng dẫn Kai dùng khiên gỗ; người chơi quan sát động tác sai, giúp điều chỉnh tư thế và dựng lại cọc tập.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f01"
+    ],
+    "prop": "training-shield",
+    "ending": "Garrek hướng dẫn Kai dùng khiên gỗ; người chơi quan sát động tác sai, giúp điều chỉnh tư thế và dựng lại cọc tập.",
+    "firstReward": {
+      "coins": 25
+    },
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Garrek hướng dẫn Kai dùng khiên gỗ; người chơi quan sát động tác sai, giúp điều chỉnh tư thế và dựng lại cọc tập.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Giữ khiên gỗ",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Sửa chân trụ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Sửa chân trụ",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Garrek hướng dẫn Kai dùng khiên gỗ; người chơi quan sát động tác sai, giúp điều chỉnh tư thế và dựng lại cọc tập.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dựng lại cọc tập",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f03",
+    "bookId": "book1",
+    "code": "F03_INTRO",
+    "locationId": "c",
+    "name": "Lò rèn Tobin",
+    "description": "Lò rèn phải xử lý cuốc, bánh xe và then cửa cùng lúc. Tobin cho người chơi phụ mang đinh và giữ dụng cụ.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f01"
+    ],
+    "prop": "forge-tools",
+    "ending": "Lò rèn phải xử lý cuốc, bánh xe và then cửa cùng lúc. Tobin cho người chơi phụ mang đinh và giữ dụng cụ.",
+    "firstReward": {
+      "coins": 25
+    },
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Lò rèn phải xử lý cuốc, bánh xe và then cửa cùng lúc. Tobin cho người chơi phụ mang đinh và giữ dụng cụ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Mang đinh",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Thổi bễ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thổi bễ",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Lò rèn phải xử lý cuốc, bánh xe và then cửa cùng lúc. Tobin cho người chơi phụ mang đinh và giữ dụng cụ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thử then cửa",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f04",
+    "bookId": "book1",
+    "code": "F04_INTRO",
+    "locationId": "f",
+    "name": "Những thửa ruộng",
+    "description": "Dân làng báo lợn rừng phá hoa màu. Trong quá trình đánh đuổi, nhận ra thú đói và kiệt sức.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f02"
+    ],
+    "prop": "harvest-baskets",
+    "ending": "Dân làng báo lợn rừng phá hoa màu. Trong quá trình đánh đuổi, nhận ra thú đói và kiệt sức.",
+    "firstReward": {
+      "coins": 25
+    },
+    "encounterId": "chronicle_book1_intro_f04",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Dân làng báo lợn rừng phá hoa màu. Trong quá trình đánh đuổi, nhận ra thú đói và kiệt sức.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra luống rau",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Dân làng báo lợn rừng phá hoa màu. Trong quá trình đánh đuổi, nhận ra thú đói và kiệt sức.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dựng lại hàng rào",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f05",
+    "bookId": "book1",
+    "code": "F05_INTRO",
+    "locationId": "d",
+    "name": "Nhà nguyện",
+    "description": "Elaine đưa người đi đường bị thương vào nơi trú, trong lúc quỷ lùn truy đuổi sát cổng.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f04"
+    ],
+    "prop": "chapel-candles",
+    "ending": "Elaine đưa người đi đường bị thương vào nơi trú, trong lúc quỷ lùn truy đuổi sát cổng.",
+    "firstReward": {
+      "coins": 25
+    },
+    "encounterId": "chronicle_book1_intro_f05",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Elaine đưa người đi đường bị thương vào nơi trú, trong lúc quỷ lùn truy đuổi sát cổng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đưa người bị thương vào trong",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Elaine đưa người đi đường bị thương vào nơi trú, trong lúc quỷ lùn truy đuổi sát cổng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đặt lại nến",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f06",
+    "bookId": "book1",
+    "code": "F06_INTRO",
+    "locationId": "e",
+    "name": "Trạm xá Armie",
+    "description": "Armie kiểm tra các thương tích của thợ săn; nhận ra động vật vùng rừng có dấu hiệu phản ứng phòng vệ và thiếu thức ăn.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f05"
+    ],
+    "prop": "medicine-tray",
+    "ending": "Armie kiểm tra các thương tích của thợ săn; nhận ra động vật vùng rừng có dấu hiệu phản ứng phòng vệ và thiếu thức ăn.",
+    "firstReward": {
+      "coins": 25
+    },
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Armie kiểm tra các thương tích của thợ săn; nhận ra động vật vùng rừng có dấu hiệu phản ứng phòng vệ và thiếu thức ăn.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát vết thương",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Xếp hồ sơ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Xếp hồ sơ",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Armie kiểm tra các thương tích của thợ săn; nhận ra động vật vùng rừng có dấu hiệu phản ứng phòng vệ và thiếu thức ăn.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đối chiếu đường thú đi",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f07",
+    "bookId": "book1",
+    "code": "F07_INTRO",
+    "locationId": "g",
+    "name": "Bờ suối phía Bắc",
+    "description": "Nhiều vũng nước nhỏ bị tách khỏi dòng chính. Sinh vật đầm lầy bị dồn vào một khoảng bờ cạn.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f06"
+    ],
+    "prop": "fishing-paperboat",
+    "ending": "Nhiều vũng nước nhỏ bị tách khỏi dòng chính. Sinh vật đầm lầy bị dồn vào một khoảng bờ cạn.",
+    "firstReward": {
+      "coins": 25
+    },
+    "encounterId": "chronicle_book1_intro_f07",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Nhiều vũng nước nhỏ bị tách khỏi dòng chính. Sinh vật đầm lầy bị dồn vào một khoảng bờ cạn.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Khảo sát mực nước",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Nhiều vũng nước nhỏ bị tách khỏi dòng chính. Sinh vật đầm lầy bị dồn vào một khoảng bờ cạn.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát dấu đá lở",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f08",
+    "bookId": "book1",
+    "code": "F08_INTRO",
+    "locationId": "h",
+    "name": "Đường rừng cũ",
+    "description": "Tuyến đường bị cành cây chắn và quỷ lùn chiếm dụng. Sau trận, người chơi thấy các cột mốc bị sạt xuống dốc.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f07"
+    ],
+    "prop": "signpost-luggage",
+    "ending": "Tuyến đường bị cành cây chắn và quỷ lùn chiếm dụng. Sau trận, người chơi thấy các cột mốc bị sạt xuống dốc.",
+    "firstReward": {
+      "coins": 25
+    },
+    "encounterId": "chronicle_book1_intro_f08",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Tuyến đường bị cành cây chắn và quỷ lùn chiếm dụng. Sau trận, người chơi thấy các cột mốc bị sạt xuống dốc.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dọn cành chắn lối",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Tuyến đường bị cành cây chắn và quỷ lùn chiếm dụng. Sau trận, người chơi thấy các cột mốc bị sạt xuống dốc.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra cột mốc",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f09",
+    "bookId": "book1",
+    "code": "F09_INTRO",
+    "locationId": "i",
+    "name": "Rừng biên giới",
+    "description": "Astraea quan sát dấu chân; bầy sói cảnh giác trước người lạ đi vào lãnh thổ bị thu hẹp.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f08"
+    ],
+    "prop": "forest-traces",
+    "ending": "Astraea quan sát dấu chân; bầy sói cảnh giác trước người lạ đi vào lãnh thổ bị thu hẹp.",
+    "firstReward": {
+      "coins": 25
+    },
+    "encounterId": "chronicle_book1_intro_f09",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Astraea quan sát dấu chân; bầy sói cảnh giác trước người lạ đi vào lãnh thổ bị thu hẹp.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát dấu chân",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Astraea quan sát dấu chân; bầy sói cảnh giác trước người lạ đi vào lãnh thổ bị thu hẹp.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Theo hướng Astraea chỉ",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.intro.f10",
+    "bookId": "book1",
+    "code": "F10_INTRO",
+    "locationId": "j",
+    "name": "Khu rừng Astraea",
+    "description": "Dòng nước bị thân cây lớn và đất đá chắn. Bầy sói giữ vùng trú ẩn; dân làng chỉ có thể dọn đá khi thú rút.",
+    "hidden": false,
+    "intro": true,
+    "requires": [
+      "book1.intro.f09"
+    ],
+    "prop": "herbs-seedling",
+    "ending": "Dòng nước lại chảy về làng. Những mái nhà sáng đèn giữa gió Bắc.",
+    "firstReward": {
+      "coins": 25
+    },
+    "encounterId": "chronicle_book1_intro_f10",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Dòng nước bị thân cây lớn và đất đá chắn. Bầy sói giữ vùng trú ẩn; dân làng chỉ có thể dọn đá khi thú rút.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Khảo sát cây đổ",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Công việc tiếp tục, từng chút một. Dọn đất đá.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dọn đất đá",
+            "next": "step-3"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-3",
+        "narration": "Dòng nước lại chảy về làng. Những mái nhà sáng đèn giữa gió Bắc.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Khai thông dòng nước",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.a01",
+    "bookId": "book1",
+    "code": "A01",
+    "locationId": "a",
+    "name": "Chuyến xe không chịu lăn",
+    "description": "Xe hàng kẹt ở bậc đá ngay cửa làng.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "cart-wheel",
+    "ending": "Bánh xe lăn qua bậc đá. Đoàn xe lại tiếp tục hành trình.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Xe hàng kẹt ở bậc đá ngay cửa làng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đỡ bánh xe",
+            "next": "step-1"
+          },
+          {
+            "id": "action-1",
+            "label": "Kê đá",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Bánh xe lăn qua bậc đá. Đoàn xe lại tiếp tục hành trình.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đẩy xe",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.a02",
+    "bookId": "book1",
+    "code": "A02",
+    "locationId": "a",
+    "name": "Bưu kiện của người phương Bắc",
+    "description": "Một người đưa thư nhờ chỉ đường tới Trạm xá.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "parcel-letter",
+    "ending": "Armie đặt bưu kiện ngay ngắn trên bàn. Tuyến giao hàng đã được ghi lại.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Một người đưa thư nhờ chỉ đường tới Trạm xá.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra bảng chỉ đường",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Armie đặt bưu kiện ngay ngắn trên bàn. Tuyến giao hàng đã được ghi lại.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Chuyển bưu kiện",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.a03",
+    "bookId": "book1",
+    "code": "A03",
+    "locationId": "a",
+    "name": "Kẻ bám đoàn xe",
+    "description": "Hai tên cướp theo sau xe chở rau tới cửa làng.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "road-barrier",
+    "ending": "Thanh chắn được nâng lên. Đoàn xe bình yên đi qua cổng.",
+    "encounterId": "chronicle_book1_a03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Hai tên cướp theo sau xe chở rau tới cửa làng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Hạ thanh chắn",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Thanh chắn được nâng lên. Đoàn xe bình yên đi qua cổng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra đoàn xe",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.a04",
+    "bookId": "book1",
+    "code": "A04",
+    "locationId": "a",
+    "name": "Bùn lạ dưới chân cột mốc",
+    "description": "Trong lúc sửa lối đi, người chơi phát hiện một rãnh bùn lẫn sỏi từ một con đường không còn trên biển chỉ hướng.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.g02",
+      "book1.h01"
+    ],
+    "prop": "stones-watercourse",
+    "ending": "Đất bùn và sỏi giữ lại dấu của một lối đi cũ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Trong lúc sửa lối đi, người chơi phát hiện một rãnh bùn lẫn sỏi từ một con đường không còn trên biển chỉ hướng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát rãnh bánh xe",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Đất bùn và sỏi giữ lại dấu của một lối đi cũ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đối chiếu đất bùn",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.b01",
+    "bookId": "book1",
+    "code": "B01",
+    "locationId": "b",
+    "name": "Khiên gỗ của Kai",
+    "description": "Kai đang tập gác khiên trước bia gỗ.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "training-shield",
+    "ending": "Kai đứng vững sau khi đổi chân trụ. Chiếc khiên gỗ không còn chao đảo.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Kai đang tập gác khiên trước bia gỗ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Giữ bia tập",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Kai đứng vững sau khi đổi chân trụ. Chiếc khiên gỗ không còn chao đảo.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đổi chân trụ",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.b02",
+    "bookId": "book1",
+    "code": "B02",
+    "locationId": "b",
+    "name": "Phiên chợ nhỏ",
+    "description": "Các quầy hàng lẫn hộp rau, đinh và lọ thuốc.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "market-sacks",
+    "ending": "Phiên chợ lại gọn gàng. Những sọt rau đã về đúng chỗ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Các quầy hàng lẫn hộp rau, đinh và lọ thuốc.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Gom hàng hóa",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Phiên chợ lại gọn gàng. Những sọt rau đã về đúng chỗ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Sắp lại quầy",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.b03",
+    "bookId": "book1",
+    "code": "B03",
+    "locationId": "b",
+    "name": "Kho thóc náo loạn",
+    "description": "Chuột rừng cắn bao thóc ở kho cạnh quảng trường.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "market-sacks",
+    "ending": "Lỗ thủng được vá kín. Bao thóc được chuyển lên cao.",
+    "encounterId": "chronicle_book1_b03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Chuột rừng cắn bao thóc ở kho cạnh quảng trường.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dọn lối vào",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Lỗ thủng được vá kín. Bao thóc được chuyển lên cao.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Vá lỗ chân tường",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.b04",
+    "bookId": "book1",
+    "code": "B04",
+    "locationId": "b",
+    "name": "Dấu khắc dưới giàn đèn",
+    "description": "Khi hỗ trợ dọn giàn đèn, người chơi nhận ra ký hiệu cũ ở mặt dưới thanh gỗ.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.a02",
+      "book1.f02"
+    ],
+    "prop": "hanging-lantern",
+    "ending": "Ba vết khắc vẫn nằm im dưới thanh gỗ cũ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Khi hỗ trợ dọn giàn đèn, người chơi nhận ra ký hiệu cũ ở mặt dưới thanh gỗ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Xoay tấm bảng",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Ba vết khắc vẫn nằm im dưới thanh gỗ cũ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát vết khắc",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.c01",
+    "bookId": "book1",
+    "code": "C01",
+    "locationId": "c",
+    "name": "Chiếc cuốc cong",
+    "description": "Nông dân mang dụng cụ hỏng đến lò rèn.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "forge-tools",
+    "ending": "Tobin thử lại lưỡi cuốc. Người nông dân có thể trở về ruộng.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Nông dân mang dụng cụ hỏng đến lò rèn.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Giữ cán cuốc",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Thổi bễ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thổi bễ",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Tobin thử lại lưỡi cuốc. Người nông dân có thể trở về ruộng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra lưỡi cuốc",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.c02",
+    "bookId": "book1",
+    "code": "C02",
+    "locationId": "c",
+    "name": "Thanh sắt làm lại",
+    "description": "Tobin thả một thanh sắt cong vào thùng phế liệu.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "forge-tools",
+    "ending": "Thanh sắt cong đã có một hình dáng mới.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Tobin thả một thanh sắt cong vào thùng phế liệu.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Nhặt thanh sắt",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Đặt vào lò.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đặt vào lò",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Thanh sắt cong đã có một hình dáng mới.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thử nhịp búa",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.c03",
+    "bookId": "book1",
+    "code": "C03",
+    "locationId": "c",
+    "name": "Trộm vật liệu",
+    "description": "Quỷ lùn kéo bao kim loại ra khỏi kho.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "recovered-metal",
+    "ending": "Vật liệu được mang về lò. Tiếng búa lại vang lên.",
+    "encounterId": "chronicle_book1_c03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Quỷ lùn kéo bao kim loại ra khỏi kho.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Chặn lối sân sau",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Vật liệu được mang về lò. Tiếng búa lại vang lên.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thu hồi vật liệu",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.c04",
+    "bookId": "book1",
+    "code": "C04",
+    "locationId": "c",
+    "name": "Mảnh hợp kim không nhận dạng",
+    "description": "Trong chỗ vật liệu thu hồi, một mảnh hợp kim nhỏ có vết mòn khác thường.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.a04",
+      "book1.b04"
+    ],
+    "prop": "recovered-metal",
+    "ending": "Mảnh hợp kim được đặt cạnh bản khắc. Nguồn gốc của nó vẫn chưa rõ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Trong chỗ vật liệu thu hồi, một mảnh hợp kim nhỏ có vết mòn khác thường.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Cân mảnh kim loại",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Mảnh hợp kim được đặt cạnh bản khắc. Nguồn gốc của nó vẫn chưa rõ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đối chiếu hoa văn",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.d01",
+    "bookId": "book1",
+    "code": "D01",
+    "locationId": "d",
+    "name": "Ngọn nến trước chuyến đi",
+    "description": "Một người thân chuẩn bị tiễn con rời làng.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "chapel-candles",
+    "ending": "Ngọn nến mới cháy đều. Bậc cửa đã sạch bụi.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Một người thân chuẩn bị tiễn con rời làng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thay nến",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Quét bậc đá.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quét bậc đá",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Ngọn nến mới cháy đều. Bậc cửa đã sạch bụi.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thắp nến",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.d02",
+    "bookId": "book1",
+    "code": "D02",
+    "locationId": "d",
+    "name": "Những tấm chăn được trao đi",
+    "description": "Người phụ việc phân loại chăn và áo khoác cứu trợ.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "donated-blankets",
+    "ending": "Những tấm chăn được mang tới trạm xá trước khi trời lạnh.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Người phụ việc phân loại chăn và áo khoác cứu trợ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Phân loại chăn",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Những tấm chăn được mang tới trạm xá trước khi trời lạnh.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Chuyển đồ cứu trợ",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.d03",
+    "bookId": "book1",
+    "code": "D03",
+    "locationId": "d",
+    "name": "Khách hành hương gặp cướp",
+    "description": "Hai tên cướp chặn lối về nhà nguyện.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "chapel-candles",
+    "ending": "Người hành hương đã có chỗ nghỉ bên ánh nến.",
+    "encounterId": "chronicle_book1_d03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Hai tên cướp chặn lối về nhà nguyện.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đưa khách vào nơi trú",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Người hành hương đã có chỗ nghỉ bên ánh nến.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra lối về",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.d04",
+    "bookId": "book1",
+    "code": "D04",
+    "locationId": "d",
+    "name": "Trang sổ trong hộp quyên góp",
+    "description": "Sau khi xe chở hàng và kho thóc được sửa, Tobin hoàn tất các đơn rèn bằng vật liệu thu hồi; món cuối cùng là bộ bản lề của hộp quyên góp ở Nhà nguyện.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.a01",
+      "book1.b03",
+      "book1.c01",
+      "book1.c03"
+    ],
+    "prop": "donation-ledger",
+    "ending": "Một trang sổ rơi khỏi khung gỗ. Những ngày vận chuyển cũ hiện ra dưới lớp bụi.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Sau khi xe chở hàng và kho thóc được sửa, Tobin hoàn tất các đơn rèn bằng vật liệu thu hồi; món cuối cùng là bộ bản lề của hộp quyên góp ở Nhà nguyện.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Mang hộp tới nhà nguyện",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Lắp bản lề.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Lắp bản lề",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Một trang sổ rơi khỏi khung gỗ. Những ngày vận chuyển cũ hiện ra dưới lớp bụi.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Nâng nắp hộp",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.e01",
+    "bookId": "book1",
+    "code": "E01",
+    "locationId": "e",
+    "name": "Băng sạch và băng bẩn",
+    "description": "Armie kiểm kê dụng cụ, các khay bị xếp lẫn.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "medicine-tray",
+    "ending": "Băng sạch và dụng cụ đã sẵn sàng cho người bệnh tiếp theo.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Armie kiểm kê dụng cụ, các khay bị xếp lẫn.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Tách băng sạch",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Băng sạch và dụng cụ đã sẵn sàng cho người bệnh tiếp theo.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Sắp khay dụng cụ",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.e02",
+    "bookId": "book1",
+    "code": "E02",
+    "locationId": "e",
+    "name": "Bệnh nhân quen mặt",
+    "description": "Một người lính gác trở lại băng lại vết thương cũ.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "medicine-tray",
+    "ending": "Armie cất hồ sơ. Người lính gác nhẹ nhàng cử động cánh tay.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Một người lính gác trở lại băng lại vết thương cũ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Chuẩn bị thuốc",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Armie cất hồ sơ. Người lính gác nhẹ nhàng cử động cánh tay.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Ghi lại thương tích",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.e03",
+    "bookId": "book1",
+    "code": "E03",
+    "locationId": "e",
+    "name": "Thu thập dược liệu",
+    "description": "Lối đi đến bụi thuốc bị rắn và nấm độc chiếm.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "herbs-seedling",
+    "ending": "Bó dược liệu còn đọng sương được mang về trạm xá.",
+    "encounterId": "chronicle_book1_e03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Lối đi đến bụi thuốc bị rắn và nấm độc chiếm.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Mở lối tới bụi thuốc",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Bó dược liệu còn đọng sương được mang về trạm xá.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Hái dược liệu",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.e04",
+    "bookId": "book1",
+    "code": "E04",
+    "locationId": "e",
+    "name": "Con số không có người nhận",
+    "description": "Khi đối chiếu bảng thuốc cũ với trang ghi chép ở nhà nguyện, phát hiện một dòng định lượng bị xóa.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.d04",
+      "book1.e02"
+    ],
+    "prop": "donation-ledger",
+    "ending": "Những con số còn lại đã trở về đúng thứ tự trên bảng lưu trữ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Khi đối chiếu bảng thuốc cũ với trang ghi chép ở nhà nguyện, phát hiện một dòng định lượng bị xóa.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đối chiếu bảng thuốc",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Những con số còn lại đã trở về đúng thứ tự trên bảng lưu trữ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đặt lại sổ lưu trữ",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.f01",
+    "bookId": "book1",
+    "code": "F01",
+    "locationId": "f",
+    "name": "Ngày gặt chung",
+    "description": "Gia đình nông dân đang chuyển những sọt rau lên xe.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "harvest-baskets",
+    "ending": "Những sọt rau được đưa tới chợ. Cánh đồng yên trong gió.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Gia đình nông dân đang chuyển những sọt rau lên xe.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Gom sọt rau",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Buộc dây.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Buộc dây",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Những sọt rau được đưa tới chợ. Cánh đồng yên trong gió.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kéo xe tới chợ",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.f02",
+    "bookId": "book1",
+    "code": "F02",
+    "locationId": "f",
+    "name": "Bù nhìn của Kai",
+    "description": "Kai dựng một con bù nhìn quá cao, chao đảo trong gió.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "scarecrow-fence",
+    "ending": "Con bù nhìn đứng vững. Kai kéo thử sợi dây rồi gật đầu.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Kai dựng một con bù nhìn quá cao, chao đảo trong gió.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dựng cọc chống",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Con bù nhìn đứng vững. Kai kéo thử sợi dây rồi gật đầu.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Buộc lại dây",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.f03",
+    "bookId": "book1",
+    "code": "F03",
+    "locationId": "f",
+    "name": "Lợn rừng trở lại",
+    "description": "Thú hoang phá hàng rào khi trời trở gió.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "scarecrow-fence",
+    "ending": "Hàng rào đã được vá. Người dân thu dọn hoa màu còn lại.",
+    "encounterId": "chronicle_book1_f03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Thú hoang phá hàng rào khi trời trở gió.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra hàng rào",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Hàng rào đã được vá. Người dân thu dọn hoa màu còn lại.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Vá lại hàng rào",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.f04",
+    "bookId": "book1",
+    "code": "F04",
+    "locationId": "f",
+    "name": "Luống đất sâu bất thường",
+    "description": "Khi dọn ruộng, lớp đất dưới một luống cây mới trồng có độ ẩm khác thường.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.e01",
+      "book1.j01"
+    ],
+    "prop": "stones-watercourse",
+    "ending": "Nước ngầm rỉ qua lớp đất vừa mở, hướng về phía bờ suối.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Khi dọn ruộng, lớp đất dưới một luống cây mới trồng có độ ẩm khác thường.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đào rãnh nhỏ",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Nước ngầm rỉ qua lớp đất vừa mở, hướng về phía bờ suối.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát tầng đất",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.g01",
+    "bookId": "book1",
+    "code": "G01",
+    "locationId": "g",
+    "name": "Người câu cá im lặng",
+    "description": "Một người dân đang câu cá dù suối không còn nhiều cá.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "fishing-paperboat",
+    "ending": "Mặt nước khẽ động. Đồ câu được thu lại trước khi chiều xuống.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Một người dân đang câu cá dù suối không còn nhiều cá.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Chọn chỗ ngồi",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Quan sát mặt nước.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát mặt nước",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Mặt nước khẽ động. Đồ câu được thu lại trước khi chiều xuống.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thu dọn đồ câu",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.g02",
+    "bookId": "book1",
+    "code": "G02",
+    "locationId": "g",
+    "name": "Chiếc thuyền giấy",
+    "description": "Kai làm thuyền giấy, một chiếc mắc ở bụi cỏ.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "fishing-paperboat",
+    "ending": "Chiếc thuyền giấy rời bụi cỏ, trôi về phía khoảng nước rộng.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Kai làm thuyền giấy, một chiếc mắc ở bụi cỏ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đổi góc đứng",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Lấy thuyền giấy.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Lấy thuyền giấy",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Chiếc thuyền giấy rời bụi cỏ, trôi về phía khoảng nước rộng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thả lại thuyền",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.g03",
+    "bookId": "book1",
+    "code": "G03",
+    "locationId": "g",
+    "name": "Tranh chấp vũng nước",
+    "description": "Cua đồng và nhầy rêu tụ tại vùng nước nông.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "stones-watercourse",
+    "ending": "Một lạch nước nhỏ đã có thể chảy qua bờ cạn.",
+    "encounterId": "chronicle_book1_g03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Cua đồng và nhầy rêu tụ tại vùng nước nông.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dọn bờ cạn",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Một lạch nước nhỏ đã có thể chảy qua bờ cạn.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Mở lối nước nhỏ",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.g04",
+    "bookId": "book1",
+    "code": "G04",
+    "locationId": "g",
+    "name": "Những viên sỏi xếp ngược dòng",
+    "description": "Một dải sỏi có hình rãnh lạ xuất hiện khi nước xuống thấp.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.f04",
+      "book1.h02"
+    ],
+    "prop": "stones-watercourse",
+    "ending": "Các rãnh trên đá nối thành hướng của một dòng nước cũ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Một dải sỏi có hình rãnh lạ xuất hiện khi nước xuống thấp.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát rãnh đá",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Các rãnh trên đá nối thành hướng của một dòng nước cũ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Xếp lại những viên sỏi",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.h01",
+    "bookId": "book1",
+    "code": "H01",
+    "locationId": "h",
+    "name": "Biển chỉ đường xoay ngược",
+    "description": "Cột mốc bị gió xoay khiến khách đi đường lạc hướng.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "signpost-luggage",
+    "ending": "Tấm biển quay về đúng hướng. Người qua đường không còn phải dừng lại.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Cột mốc bị gió xoay khiến khách đi đường lạc hướng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra hướng nắng",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Tấm biển quay về đúng hướng. Người qua đường không còn phải dừng lại.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dựng lại biển chỉ đường",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.h02",
+    "bookId": "book1",
+    "code": "H02",
+    "locationId": "h",
+    "name": "Hành trang thất lạc",
+    "description": "Người lữ hành đánh rơi một cuốn sổ mỏng và túi dụng cụ.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "signpost-luggage",
+    "ending": "Người lữ hành nhận lại cuốn sổ và buộc chắc túi đồ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Người lữ hành đánh rơi một cuốn sổ mỏng và túi dụng cụ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Nhặt túi hành trang",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Người lữ hành nhận lại cuốn sổ và buộc chắc túi đồ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Buộc lại túi",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.h03",
+    "bookId": "book1",
+    "code": "H03",
+    "locationId": "h",
+    "name": "Thuế đường rừng",
+    "description": "Hai tên cướp đòi phí khi người dân vận hàng.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "road-barrier",
+    "ending": "Đường rừng lại mở cho những chuyến hàng.",
+    "encounterId": "chronicle_book1_h03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Hai tên cướp đòi phí khi người dân vận hàng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dọn lối cho người đi đường",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Đường rừng lại mở cho những chuyến hàng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dựng lại cột mốc",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.h04",
+    "bookId": "book1",
+    "code": "H04",
+    "locationId": "h",
+    "name": "Ngã rẽ không có trên bản đồ",
+    "description": "Từ dấu khắc và đường nước cũ, người chơi phát hiện một lối đi mờ bị cỏ phủ.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.b04",
+      "book1.g04"
+    ],
+    "prop": "signpost-luggage",
+    "ending": "Dây leo được gạt sang một bên. Lối cũ nằm sâu dưới lớp cỏ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Từ dấu khắc và đường nước cũ, người chơi phát hiện một lối đi mờ bị cỏ phủ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Dọn dây leo",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Dây leo được gạt sang một bên. Lối cũ nằm sâu dưới lớp cỏ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra cột mốc",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.i01",
+    "bookId": "book1",
+    "code": "I01",
+    "locationId": "i",
+    "name": "Bẫy cũ bị bỏ quên",
+    "description": "Chiếc bẫy săn gỉ sét nằm sát đường đi.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "forest-traces",
+    "ending": "Chiếc bẫy đã được tháo. Không còn cạnh sắc bên lối đi.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Chiếc bẫy săn gỉ sét nằm sát đường đi.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Tháo lẫy bẫy",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Chiếc bẫy đã được tháo. Không còn cạnh sắc bên lối đi.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thu dọn kim loại sắc",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.i02",
+    "bookId": "book1",
+    "code": "I02",
+    "locationId": "i",
+    "name": "Những dấu chân mệt mỏi",
+    "description": "Astraea theo dõi dấu chân của một con thú bị thương.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "forest-traces",
+    "ending": "Bát nước nằm yên bên gốc cây. Mọi người rời đi để con thú được nghỉ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Astraea theo dõi dấu chân của một con thú bị thương.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra dấu chân",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Đặt bát nước.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đặt bát nước",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Bát nước nằm yên bên gốc cây. Mọi người rời đi để con thú được nghỉ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Lùi khỏi nơi trú",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.i03",
+    "bookId": "book1",
+    "code": "I03",
+    "locationId": "i",
+    "name": "Đàn sói giữ lối",
+    "description": "Hai sói săn mồi chắn đường đi sâu hơn vào rừng.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "forest-traces",
+    "ending": "Bầy sói lui về dưới tán cây. Lối đi được trả lại trong im lặng.",
+    "encounterId": "chronicle_book1_i03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Hai sói săn mồi chắn đường đi sâu hơn vào rừng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát lối rừng",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Bầy sói lui về dưới tán cây. Lối đi được trả lại trong im lặng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Lùi khỏi vùng trú ẩn",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.i04",
+    "bookId": "book1",
+    "code": "I04",
+    "locationId": "i",
+    "name": "Vết cắt dưới lớp rêu",
+    "description": "Một thân cây cũ có vết cắt chìm dưới rêu tương ứng hoa văn mảnh kim loại.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.c04",
+      "book1.h04"
+    ],
+    "prop": "forest-traces",
+    "ending": "Vết cắt dưới lớp rêu khớp với hoa văn trên mảnh kim loại.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Một thân cây cũ có vết cắt chìm dưới rêu tương ứng hoa văn mảnh kim loại.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Lau lớp rêu",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Vết cắt dưới lớp rêu khớp với hoa văn trên mảnh kim loại.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đối chiếu vết cắt",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.j01",
+    "bookId": "book1",
+    "code": "J01",
+    "locationId": "j",
+    "name": "Hạt mầm cho ngày mai",
+    "description": "Astraea hướng dẫn trồng một hạt giống ở khoảng đất trống.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "herbs-seedling",
+    "ending": "Một hạt mầm nằm dưới lớp đất ẩm. Astraea phủ lại tán lá nhỏ.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Astraea hướng dẫn trồng một hạt giống ở khoảng đất trống.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Đào hố",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Công việc tiếp tục, từng chút một. Gieo hạt.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Gieo hạt",
+            "next": "step-2"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      },
+      {
+        "id": "step-2",
+        "narration": "Một hạt mầm nằm dưới lớp đất ẩm. Astraea phủ lại tán lá nhỏ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Tưới nước",
+            "next": "complete"
+          }
+        ],
+        "x": 31,
+        "y": 63
+      }
+    ]
+  },
+  {
+    "id": "book1.j02",
+    "bookId": "book1",
+    "code": "J02",
+    "locationId": "j",
+    "name": "Những chiếc lá cũ",
+    "description": "Gió kéo lớp lá khô quanh cây cổ thụ.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "forest-traces",
+    "ending": "Lối đi đã sạch cành gãy. Những vòng gỗ vẫn giữ dấu năm tháng.",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Gió kéo lớp lá khô quanh cây cổ thụ.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Thu dọn cành gãy",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi đã sạch cành gãy. Những vòng gỗ vẫn giữ dấu năm tháng.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Quan sát vòng gỗ",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.j03",
+    "bookId": "book1",
+    "code": "J03",
+    "locationId": "j",
+    "name": "Sinh vật lấn đất cây non",
+    "description": "Nấm độc và nhầy rêu chiếm luống cây mới.",
+    "hidden": false,
+    "intro": false,
+    "requires": [],
+    "prop": "herbs-seedling",
+    "ending": "Luống cây non lại có khoảng đất sạch để lớn lên.",
+    "encounterId": "chronicle_book1_j03",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Nấm độc và nhầy rêu chiếm luống cây mới.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Kiểm tra luống cây",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Luống cây non lại có khoảng đất sạch để lớn lên.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Chăm lại cây non",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  },
+  {
+    "id": "book1.j04",
+    "bookId": "book1",
+    "code": "J04",
+    "locationId": "j",
+    "name": "Dưới tán lá",
+    "description": "Một góc rừng xuất hiện sự khác biệt rất nhỏ ở cảnh nền: gió lặng, dấu cỏ rạp, mặt đất trống lạ thường. Không có nhãn, icon, lời đồn, dấu chấm hay thông báo mới.",
+    "hidden": true,
+    "intro": false,
+    "requires": [
+      "book1.intro.f10",
+      "book1.d04",
+      "book1.e04",
+      "book1.i04"
+    ],
+    "prop": null,
+    "ending": "Gió lại luồn qua tán lá. Con đường trở về vẫn ở phía sau.",
+    "encounterId": "alice_intro_lv1",
+    "steps": [
+      {
+        "id": "step-0",
+        "narration": "Một góc rừng xuất hiện sự khác biệt rất nhỏ ở cảnh nền: gió lặng, dấu cỏ rạp, mặt đất trống lạ thường. Không có nhãn, icon, lời đồn, dấu chấm hay thông báo mới.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Tiến vào",
+            "next": "step-1"
+          }
+        ],
+        "x": 48,
+        "y": 58
+      },
+      {
+        "id": "step-1",
+        "narration": "Lối đi bị chặn. Những người đồng hành chuẩn bị chiến đấu.",
+        "battle": true
+      },
+      {
+        "id": "step-2",
+        "narration": "Gió lại luồn qua tán lá. Con đường trở về vẫn ở phía sau.",
+        "actions": [
+          {
+            "id": "action-0",
+            "label": "Trở lại lối mòn",
+            "next": "complete"
+          }
+        ],
+        "x": 67,
+        "y": 45
+      }
+    ]
+  }
+]

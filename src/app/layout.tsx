@@ -14,6 +14,7 @@ import "./controls.css";
 import "./dungeon.css";
 import "./quests.css";
 import "./stories.css";
+import "./chronicles.css";
 import "./blacksmith.css";
 import "./profiles.css";
 import "./skill-copy.css";
