@@ -1,3 +1,4 @@
+import {recordTobinCraft} from './tobin-recruitment.js';
 import {validateGear} from './economy.js';
 import {gearLocation} from './equipment.js';
 import {GEAR_STAT_KEYS,t4Stats,gearRecipeUnlocked} from './gear-rules.js';
@@ -16,7 +17,7 @@ export function craftGear(campaign,content,{primaryStat,effectId,materialId},ran
  if(next.gear.some(g=>g.id===item.id))throw Error('Mã trang bị bị trùng.');
  next.gear=next.gear.filter(g=>g.id!==materialId);next.gear.push(item);
  for(const result of next.gacha.lastSummon?.results??[])if(result.kind==='gear'&&result.gear.id===materialId)result.dismantled=true;
- next.blacksmithRevision=checked(next.blacksmithRevision,1);return next;
+ next.blacksmithRevision=checked(next.blacksmithRevision,1);recordTobinCraft(next,content);return next;
 }
 export function beginGearReforge(campaign,content,gearId,random=Math.random){
  const next=clone(campaign,content),gear=next.gear.find(g=>g.id===gearId);

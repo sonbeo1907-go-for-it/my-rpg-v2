@@ -1,6 +1,6 @@
 // Pure presentation plan. Reads resolved outcomes; never rolls RNG or changes combat.
 export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed'};
-const custom=skill=>/^(cosmic|academic|hero)_/.test(skill?.presentation??'');
+const custom=skill=>/^(cosmic|academic|hero|nature)_/.test(skill?.presentation??'');
 export function combatTimeline(events,content,{speed='normal',reduced=false}={}){
  const frames=[],actions=new Map(),passives=new Set();let cursor=0,lastImpact=-100;
  const lead=reduced?0:speed==='fast'?35:120,step=reduced?0:speed==='fast'?25:85,duration=reduced?50:speed==='fast'?125:300;
@@ -24,7 +24,7 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
   const action=actions.get(event.sourceId);
   let at=Math.max(cursor,action? action.start+lead+(event.hitIndex??0)*step:0);
   if(['heal','mp_restore'].includes(event.type)&&lastImpact>=0)at=Math.max(at,lastImpact+step/2);
-  if((event.type==='damage'||event.type==='dodge')&&action?.presentation?.startsWith('hero_')&&!action.signature){action.signature=true;add(event,'signature',at,{presentation:action.presentation,area:action.area,custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?190:560;}
+  if((event.type==='damage'||event.type==='dodge')&&(/^(hero|nature)_/.test(action?.presentation??''))&&!action.signature){action.signature=true;add(event,'signature',at,{presentation:action.presentation,area:action.area,custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?190:560;}
   if(event.type==='damage'||event.type==='dodge')lastImpact=Math.max(lastImpact,at);
   const kind=event.type==='damage'?event.amount>0?'hurt':event.absorbed>0?'block':'zero':event.type;
   add(event,kind,at,{custom:action?.custom&&!event.periodic&&!event.automatic,primary:Boolean(action?.primary&&event.targetId===action.targetId)});

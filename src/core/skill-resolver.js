@@ -23,6 +23,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
    next.linkedAppliedModifiers=Object.fromEntries((effect.linkedStatuses??[]).filter(id=>content.statuses[id]?.kind==='buff').map(id=>[id,rankedModifiers(content.statuses[id].modifiers,f05)]));
   }
   if(groups.includes('stat_buff')&&source.growthAdapter==='mode_stat_buff'&&effect.type==='enter_mode')next.modeAppliedModifiers=rankedModifiers(actor.combatModes[effect.mode].statModifiers,f05);
+  if(effect.type==='enter_mode'&&effect.followUpBonus!==undefined)next.followUpBonus=effect.followUpBonus*f10;
   return next;
  });
  return applySpecialSkillModifiers(content,actor,resolved,f05);

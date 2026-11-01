@@ -1951,5 +1951,108 @@
         ]
       }
     }
+  },
+  {
+    "id": "tobin",
+    "name": "Tobin Ironroot",
+    "title": "Ngọn lửa sau tiếng búa",
+    "affiliation": "Làng Phía Bắc",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "fire",
+    "recruitmentOnly": true,
+    "description": "Tích Nhiệt Lò để tăng ATK rồi dồn vào búa nặng; lên lửa nhanh nhưng trở nên chậm chạp.",
+    "biography": "Người thợ rèn già của làng phía Bắc quen sửa giáp hơn ra trận. Búa của Tobin có thể rèn nên kỳ tích, miễn là ông không quá tay với lửa lò.",
+    "tags": [
+      "north_village"
+    ],
+    "stats": {
+      "maxHp": 205,
+      "maxMp": 60,
+      "attack": 31,
+      "magic": 9,
+      "defense": 22,
+      "resistance": 14,
+      "speed": 11
+    },
+    "resources": {
+      "forge_heat": {
+        "name": "Nhiệt Lò",
+        "max": 3
+      }
+    },
+    "passive": {
+      "type": "resource_stat_boost",
+      "name": "Thép nóng mới chịu rèn",
+      "resource": "forge_heat",
+      "stat": "attack",
+      "ratio": 0.08
+    },
+    "abilities": [
+      "tobin.hammer",
+      "tobin.stoke",
+      "tobin.quench"
+    ]
+  },
+  {
+    "id": "astraea",
+    "name": "Astraea",
+    "title": "Người giữ vườn hắc hoa",
+    "affiliation": "Làng Phía Bắc",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "element": "earth",
+    "basicDamageType": "magical",
+    "basicPresentation": "nature_vines",
+    "description": "Đáp lại kỹ năng không gây sát thương của đồng đội bằng Liên kích diện rộng; vườn hắc hoa tăng MAG và nhịp Liên kích.",
+    "biography": "Vị druid của làng phía Bắc lắng nghe nhịp sống dưới lòng đất. Khi khu vườn thức giấc, những dây gai thay lời bà bảo vệ người đồng hành.",
+    "tags": [
+      "north_village",
+      "druid"
+    ],
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 110,
+      "attack": 9,
+      "magic": 33,
+      "defense": 16,
+      "resistance": 26,
+      "speed": 19
+    },
+    "abilities": [
+      "astraea.roots",
+      "astraea.dew",
+      "astraea.garden"
+    ],
+    "passive": {
+      "type": "ally_support_followup",
+      "name": "Đất đáp lời người",
+      "description": "Sau kỹ năng không gây sát thương của đồng đội khác, Liên kích Thổ lên toàn địch, 120% MAG, tối đa 1 lần/vòng. Trong Vườn Hắc Hoa: tối đa 2 lần/vòng và thêm hệ số MAG theo cấp kỹ năng vườn.",
+      "followUpAbility": "astraea.thorns",
+      "perRound": 1,
+      "modeId": "black_garden",
+      "modePerRound": 2
+    },
+    "combatModes": {
+      "black_garden": {
+        "name": "Vườn Hắc Hoa",
+        "lifetime": "rounds",
+        "durationRounds": 3,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "magic": 0.5
+        },
+        "exitMpRatio": 0,
+        "background": "/art/astraea-garden.svg",
+        "allowedAbilities": [
+          "$attack",
+          "astraea.roots",
+          "astraea.dew",
+          "$defend"
+        ],
+        "summary": "+50% MAG · Liên kích tối đa 2 lần/vòng · thêm 50% MAG hệ số",
+        "description": "Duy trì 3 vòng tính cả vòng thi triển. Hết ở cuối vòng sau Vòng Phụ; lượt kế tiếp có thể dùng lại. Kỹ năng bản thân không kích hoạt Liên kích."
+      }
+    }
   }
 ]

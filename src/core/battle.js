@@ -1,3 +1,4 @@
+import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
 import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked} from './exclusive-runtime.js';
 import {specialPassives,specialSkillStatBonuses} from './exclusive-specials.js';
 import {resolveRankedAbility} from './skill-resolver.js';
@@ -700,6 +701,22 @@ function triggerShieldSurvivalFollowups(battle,attacker,context) {
   }
 }
 
+function triggerSupportFollowups(battle,source,skill){
+  for(const owner of battle.actors){
+    if(!supportFollowupReady(battle,owner,source,skill))continue;
+    const targets=battle.actors.filter(a=>a.team!==owner.team&&living(a));if(!targets.length)continue;
+    const previous=owner.supportFollowupState;owner.supportFollowupState={round:battle.round,count:previous?.round===battle.round?previous.count+1:1};
+    const base=battle.content.abilities[owner.passive.followUpAbility],bonus=supportFollowupBonus(owner);
+    const ability={...base,effects:base.effects.map(e=>e.type==='damage'?{...e,multiplier:e.multiplier+bonus}:e)};
+    announcePassive(battle,owner,source.id);write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+ability.name+'.');
+    emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(a=>a.id),abilityId:ability.id,area:true});
+    const context={...attackContext(battle,owner),skillId:ability.id,skill:ability,reaction:true};
+    for(const effect of ability.effects)applyEffect(battle,owner,targets,effect,0,true,context);
+    finishAttackContext(battle,owner,context);
+    transitionBossPhases(battle,{write,restoreMp:gainResource});
+  }
+}
+
 function triggerAllySkillCounters(battle,attacker,context) {
   if(!living(attacker)||!context.damagedAllyHits?.size||!context.skillId||context.skillId.startsWith("$")||context.reaction||context.automatic||context.skill?.activation==="passive") return;
   for(const owner of battle.actors) {
@@ -1170,7 +1187,7 @@ function applyEffect(
     }
     if (effect.type === "end_formula") closeFormula(battle,target,modeIO,"theorem");
     if (effect.type === "turn_order_field") applyTurnOrderField(battle,target,effect,modeIO,actionContext.skillId);
-    if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO,effect.modeAppliedModifiers);
+    if (effect.type === "enter_mode") enterCombatMode(battle,target,effect.mode,modeIO,effect.modeAppliedModifiers,effect.followUpBonus);
     if (effect.type === "prepare_mode") prepareCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if (effect.type === "heal") {
@@ -1481,6 +1498,7 @@ function resolveAction(
   battle.actionCount += 1;
   transitionBossPhases(battle, { write, restoreMp: gainResource });
   recordFormulaAction(battle,actor,skill,modeIO);
+  triggerSupportFollowups(battle,actor,skill);
   if (endTurn) {
     endTurnPassive(battle, actor);
     advance(battle);

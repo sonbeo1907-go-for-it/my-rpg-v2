@@ -1,9 +1,10 @@
 "use client";
 import { useState, type ReactNode } from 'react';
 
-export function MerchantKeeper({name,badge,lines}:{name:string;badge:string;lines:string[]}) {
+export function MerchantKeeper({name,badge,lines,action}:{name:string;badge:string;lines:string[];action?:ReactNode}) {
  const [index,setIndex]=useState(0);
  return <aside className="shop-keeper" aria-label={name}>
+  {action}
   <span className="keeper-shift"><span />{badge}</span>
   <div className="witch-dialogue"><span className="eyebrow">{name}</span>
    <p aria-live="polite">“{lines[index]}”</p>
@@ -11,8 +12,8 @@ export function MerchantKeeper({name,badge,lines}:{name:string;badge:string;line
   </div>
  </aside>;
 }
-export function MerchantScene({art,name,badge,lines,children}:{art:string;name:string;badge:string;lines:string[];children:ReactNode}) {
+export function MerchantScene({art,name,badge,lines,children,keeperAction}:{art:string;name:string;badge:string;lines:string[];children:ReactNode;keeperAction?:ReactNode}) {
  return <><div className="shop-scene" aria-hidden="true"><img src={art} alt="" /></div>
-  <div className="shop-layout"><div className="shop-stock">{children}</div><MerchantKeeper name={name} badge={badge} lines={lines}/></div>
+  <div className="shop-layout"><div className="shop-stock">{children}</div><MerchantKeeper name={name} badge={badge} lines={lines} action={keeperAction}/></div>
  </>;
 }

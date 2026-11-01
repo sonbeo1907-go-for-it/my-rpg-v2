@@ -1,0 +1,20 @@
+.blacksmith-page .shop-keeper{isolation:isolate}.blacksmith-page .keeper-shift{order:-1}.blacksmith-page .witch-dialogue{margin-top:auto}.blacksmith-page .tobin-forge-progress{width:100%}
+.tobin-interact{position:relative;flex:1;min-height:250px;width:100%;border:0;background:transparent;display:flex;align-items:flex-end;justify-content:center;box-shadow:none;padding:1.2rem;cursor:pointer}
+.tobin-interact:hover{background:linear-gradient(0deg,#d8aa4833,transparent 55%)}
+.tobin-invite{display:flex;align-items:center;gap:.6rem;border:1px solid #d7b678;background:#201b16d9;padding:.65rem 1rem;color:#ffe1a7;border-radius:3px}
+.tobin-invite svg{width:24px;height:24px}.tobin-invite b{border-radius:50%;background:#b52a36;color:white;width:22px;height:22px;text-align:center}
+.tobin-forge-progress{display:grid;gap:.3rem;background:#191914cc;padding:.8rem;color:#dacfae;border:1px solid #c5ad875c;font-size:.85rem}
+.tobin-forge-progress progress{width:100%;height:6px;accent-color:#e5ac61}
+.mode-scene-black_garden{background-position:center;background-size:cover;filter:saturate(.85);animation:garden-arrive 700ms ease-out both}
+.mode-scene-black_garden .summon-eye-halo{background:radial-gradient(ellipse,#98ac7b18,transparent 65%);box-shadow:none}
+.summon-state-black_garden{border-color:#ac96aa;color:#ead9df;background:#171c1be8}
+.nature-glyph{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 8px #a487ba80)}
+.nature-roots path{stroke-dasharray:1000;stroke-dashoffset:1000;animation:thorn-reach var(--vfx-duration,560ms) ease-out forwards}
+.nature-flowers{transform-origin:center;animation:thorn-flower var(--vfx-duration,560ms) ease-out both}
+.nature-thorns{animation:thorn-flower var(--vfx-duration,560ms) ease-out both}
+.shared-combat-fx[data-fx-presentation=nature_vines]{inset:-20% -8%;width:auto;height:auto}
+@keyframes thorn-reach{to{stroke-dashoffset:0}}@keyframes thorn-flower{0%,25%{opacity:0}65%{opacity:1}100%{opacity:.15}}@keyframes garden-arrive{from{opacity:0;filter:blur(5px)}to{opacity:1;filter:blur(0)}}
+@media(max-width:900px){.blacksmith-page .shop-keeper{height:auto;min-height:480px;background-image:linear-gradient(0deg,#0e1a1b88,transparent),url('/art/blacksmith.svg')}.tobin-interact{min-height:180px}.tobin-forge-progress{width:100%}}
+@media(prefers-reduced-motion:reduce){.nature-roots path{animation:none;stroke-dashoffset:0}.nature-flowers,.nature-thorns,.mode-scene-black_garden{animation:none}}
+
+.battle-page[data-combat-mode=black_garden] .battlefield{background:#10201baf;border-color:#91a18a}.battle-page[data-combat-mode=black_garden] .combatant{background:#0c171ec9}.battle-page[data-combat-mode=black_garden] .command-panel{background:#101c20d9}

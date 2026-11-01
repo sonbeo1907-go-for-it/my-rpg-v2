@@ -1,4 +1,4 @@
-// Global follow-up rule for every character: only another ally's attack may trigger it.
+// Global follow-up rule: an allied action must come from another ally; never self-trigger.
 // Keep this rule in the engine, never as a character-data toggle.
 export const FOLLOW_UP_LABEL = 'Liên kích (FuA)';
 export const REACTION_LABELS = { follow_up: FOLLOW_UP_LABEL, counter: 'Phản công' };

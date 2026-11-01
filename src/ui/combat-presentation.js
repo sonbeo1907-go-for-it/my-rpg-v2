@@ -72,7 +72,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       if (status.damageOverTime) parts.push(`${status.name} · ${effect.duration} lượt`);
       if (!modifiers.length && !status.taunt && !status.cover && !status.effectImmunity && !status.regen && !status.turnStartAbility && !status.damageOverTime) parts.push(status.name);
     } else if (effect.type === 'resource') parts.push(effect.maxMpRatio ? `Hồi ${percent(effect.maxMpRatio)} MP` : `+${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources?.[effect.resource]?.name ?? effect.resource}`);
-    else if (['enter_mode','prepare_mode'].includes(effect.type)) parts.push((effect.type==='prepare_mode'?'Đầu vòng sau: ':'Triển khai ')+actor.combatModes[effect.mode].name);
+    else if (['enter_mode','prepare_mode'].includes(effect.type)) {parts.push((effect.type==='prepare_mode'?'Đầu vòng sau: ':'Triển khai ')+actor.combatModes[effect.mode].name);if(effect.followUpBonus!==undefined)parts.push('Liên kích '+percent(content.abilities[actor.passive.followUpAbility].effects[0].multiplier+effect.followUpBonus)+' MAG / '+actor.passive.modePerRound+' lần mỗi vòng') ;}
     else if (effect.type==='summon_companion') parts.push('Đầu vòng sau: '+actor.companions[effect.companion].name+' · '+actor.companions[effect.companion].durationRounds+' vòng');
     else if (effect.type === 'turn_order_field') parts.push('Ưu tiên lượt đồng minh · '+effect.durationRounds+' vòng');
     else if (effect.type === 'grant_extra_turn') parts.push(skill.target==='adjacent_allies'?'+1 Lượt Thêm / ô kề':'+1 Lượt Thêm');

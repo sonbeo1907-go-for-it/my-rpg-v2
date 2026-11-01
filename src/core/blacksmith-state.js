@@ -3,7 +3,7 @@ import {validT4Gear,GEAR_STAT_KEYS} from './gear-rules.js';
 import { validExclusiveStat } from './blacksmith-rules.js';
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
 export function emptyBlacksmithState() {
-  return { blueprints:0,unlockedExclusiveRecipes:[],prismaFragments:0, originalPrisma:0, exclusiveGear:[], equippedExclusiveGear:{}, pendingReforge:null, blacksmithRevision:0, craftedGearSerial:0, pendingGearReforge:null };
+  return { tobinCraftCount:0,blueprints:0,unlockedExclusiveRecipes:[],prismaFragments:0, originalPrisma:0, exclusiveGear:[], equippedExclusiveGear:{}, pendingReforge:null, blacksmithRevision:0, craftedGearSerial:0, pendingGearReforge:null };
 }
 export function normalizeBlacksmithState(input, content, campaign) {
   const state={...emptyBlacksmithState(),...normalizeBlueprintState(input,content)};
@@ -12,6 +12,9 @@ export function normalizeBlacksmithState(input, content, campaign) {
     if(!Number.isSafeInteger(value)||value<0) throw new Error('Số dư hoặc phiên bản Thợ Rèn không hợp lệ.');
     state[key]=value;
   }
+  const crafts=input.tobinCraftCount===undefined?0:input.tobinCraftCount;
+  if(!Number.isSafeInteger(crafts)||crafts<0||crafts>30||crafts>state.craftedGearSerial||crafts>0&&!campaign.unlockedCharacterIds.includes('tobin'))throw Error('Tiến độ rèn của Tobin không hợp lệ.');
+  state.tobinCraftCount=crafts;
   const items=input.exclusiveGear===undefined?[]:input.exclusiveGear;
   if(!Array.isArray(items)) throw new Error('Bộ sưu tập Trấn Phái không hợp lệ.');
   const ids=new Set();

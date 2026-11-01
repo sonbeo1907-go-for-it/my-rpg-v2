@@ -79,8 +79,12 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if(native?.type==='ally_support_followup'){
+      const a=content.abilities[native.followUpAbility];
+      if(!native.name||!native.description||!Number.isInteger(native.perRound)||native.perRound<1||native.perRound>4||!Number.isInteger(native.modePerRound)||native.modePerRound<native.perRound||native.modePerRound>4||!actor.combatModes?.[native.modeId]||a?.activation!=='passive'||a.target!=='all_enemies'||a.cost?.mp||a.cooldown||!a.effects?.length||a.effects.some(e=>e.type!=='damage'))fail(id+': invalid support follow-up');
+    }
     if(native?.evasion!==undefined&&(native.type!=="dodge_counter"||!native.counterAbility||!validEvasion(native.evasion)))fail(id+": invalid native evasion");
     if (native?.type==='detonation_base_growth' && !validReactivePassive(native,content,actor)) fail(id+': invalid detonation growth');
     if (native?.type==='low_hp_damage' && (!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1)) fail(id+': invalid low HP damage');
@@ -233,6 +237,7 @@ export function validateContent(content) {
     if (skill.bossHeavy !== undefined && typeof skill.bossHeavy !== 'boolean') fail(`${id}: invalid bossHeavy`);
     if (skill.windup !== undefined && (!skill.windup || skill.windup.rounds !== 1 || typeof skill.windup.message !== 'string' || !skill.windup.message)) fail(`${id}: invalid windup`);
     for (const effect of skill.effects ?? []) {
+      if(effect.followUpBonus!==undefined&&(effect.type!=='enter_mode'||!Number.isFinite(effect.followUpBonus)||effect.followUpBonus<=0||effect.followUpBonus>2))fail(id+': invalid mode follow-up coefficient');
       if (!EFFECT_TYPES.includes(effect.type)) fail(`${id}: invalid effect ${effect.type}`);
       if (['status', 'toggle_status'].includes(effect.type)) {
         exists('statuses', effect.status, id);

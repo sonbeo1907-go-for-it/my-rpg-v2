@@ -16,6 +16,7 @@ import "./quests.css";
 import "./stories.css";
 import "./chronicles.css";
 import "./blacksmith.css";
+import "./garden.css";
 import "./profiles.css";
 import "./skill-copy.css";
 import "./equipment-ui.css";

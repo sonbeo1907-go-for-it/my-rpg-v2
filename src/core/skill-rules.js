@@ -16,6 +16,7 @@ export function skillGrowthGroups(content,skill){
    if(OUTPUT_BUFF_STATS.some(key=>(status.modifiers?.[key]??0)>0)&&skill.cost?.mp>0&&Math.ceil(skill.cost.mp*outputMpFactor(5))<skill.cost.mp)groups.add('output_buff_mp');
   }
   if(effect.type==='enter_mode'&&skill.growthAdapter==='mode_stat_buff')groups.add('stat_buff');
+  if(effect.type==='enter_mode'&&effect.followUpBonus>0)groups.add('damage');
  }
  return [...groups];
 }

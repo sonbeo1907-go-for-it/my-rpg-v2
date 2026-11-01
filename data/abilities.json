@@ -7150,5 +7150,188 @@
     "rankable": false,
     "fixedReason": "Hiệu ứng tự động / nội tại giữ nguyên trong phiên bản này.",
     "growthGroups": []
+  },
+  {
+    "id": "tobin.hammer",
+    "name": "Búa thử thép",
+    "description": "Giáng búa Hỏa và tích 1 Nhiệt Lò.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1.4
+      },
+      {
+        "type": "resource",
+        "resource": "forge_heat",
+        "amount": 1,
+        "to": "self"
+      }
+    ],
+    "skillLineId": "tobin.hammer",
+    "growthProfile": "damage",
+    "rankable": true
+  },
+  {
+    "id": "tobin.stoke",
+    "name": "Đốt lò quá tay",
+    "description": "Tạo 2 Nhiệt Lò; tăng ATK nhưng giảm SPD trong 2 lượt chính.",
+    "target": "self",
+    "cost": {
+      "mp": 7
+    },
+    "effects": [
+      {
+        "type": "resource",
+        "resource": "forge_heat",
+        "amount": 2
+      },
+      {
+        "type": "status",
+        "status": "tobin_overfire",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "tobin.stoke",
+    "growthProfile": "stat_buff",
+    "rankable": true
+  },
+  {
+    "id": "tobin.quench",
+    "name": "Một búa nên hình",
+    "description": "Dồn toàn bộ Nhiệt Lò vào một đòn búa nặng.",
+    "target": "enemy",
+    "cost": {
+      "mp": 12,
+      "resource": {
+        "id": "forge_heat",
+        "all": true,
+        "min": 1,
+        "consumeAt": "after"
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1,
+        "perResource": 0.8
+      }
+    ],
+    "skillLineId": "tobin.quench",
+    "growthProfile": "damage",
+    "rankable": true,
+    "cooldown": 1,
+    "rules": [
+      "100% ATK + 80% ATK mỗi Nhiệt Lò, tối đa 340% ở cấp kỹ năng 1.",
+      "Nhiệt Lò vẫn tăng ATK cho đòn này; chỉ tiêu sau khi đánh xong."
+    ]
+  },
+  {
+    "id": "astraea.roots",
+    "name": "Rễ gai siết chặt",
+    "description": "Dây gai đánh một địch và giảm SPD.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1.6
+      },
+      {
+        "type": "status",
+        "status": "astraea_rootbound",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "astraea.roots",
+    "growthProfile": "damage",
+    "rankable": true,
+    "presentation": "nature_vines"
+  },
+  {
+    "id": "astraea.dew",
+    "name": "Sương trên cánh hoa",
+    "description": "Tạo khiên và giải hiệu ứng bất lợi cho một đồng đội.",
+    "target": "ally",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "shield",
+        "multiplier": 0.8
+      },
+      {
+        "type": "cleanse"
+      }
+    ],
+    "skillLineId": "astraea.dew",
+    "growthProfile": "shield",
+    "rankable": true,
+    "cooldown": 2
+  },
+  {
+    "id": "astraea.garden",
+    "name": "Vườn Hắc Hoa",
+    "description": "Đánh thức vườn gai: tăng MAG, số lần Liên kích và hệ số Liên kích.",
+    "target": "self",
+    "cost": {
+      "mp": 18
+    },
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "black_garden",
+        "followUpBonus": 0.5
+      }
+    ],
+    "skillLineId": "astraea.garden",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "cooldown": 2,
+    "growthAdapter": "mode_stat_buff",
+    "rules": [
+      "MAG tăng 50%; Liên kích tăng từ 120% lên 170% MAG và từ 1 lên 2 lần mỗi vòng ở cấp 1.",
+      "Mỗi cấp nâng: buff MAG ×1,05; phần cộng thêm 50% MAG của Liên kích ×1,10. Hệ số gốc 120% giữ nguyên.",
+      "Vòng Chính và Vòng Phụ dùng chung giới hạn; hết vườn không đặt lại số lần đã dùng trong vòng."
+    ],
+    "growthGroups": [
+      "stat_buff",
+      "damage"
+    ]
+  },
+  {
+    "id": "astraea.thorns",
+    "name": "Gai nở theo lời",
+    "description": "Liên kích bằng dây gai lên toàn bộ kẻ địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 0
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1.2
+      }
+    ],
+    "skillLineId": "astraea.thorns",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Liên kích tự động; hệ số cộng thêm được nâng qua kỹ năng Vườn Hắc Hoa.",
+    "activation": "passive",
+    "presentation": "nature_vines"
   }
 ]

@@ -947,5 +947,22 @@
     "modifiers": {
       "resistance": 0.15
     }
+  },
+  {
+    "id": "tobin_overfire",
+    "name": "Lửa lò quá tay",
+    "kind": "buff",
+    "modifiers": {
+      "attack": 0.2,
+      "speed": -0.2
+    }
+  },
+  {
+    "id": "astraea_rootbound",
+    "name": "Rễ níu chân",
+    "kind": "debuff",
+    "modifiers": {
+      "speed": -0.15
+    }
   }
 ]

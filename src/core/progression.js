@@ -163,6 +163,7 @@ export function serializeCampaign(campaign) {
     pendingReforge: campaign.pendingReforge ?? null,
     blacksmithRevision: campaign.blacksmithRevision ?? 0,
     craftedGearSerial: campaign.craftedGearSerial ?? 0,
+    tobinCraftCount:campaign.tobinCraftCount??0,
     pendingGearReforge: campaign.pendingGearReforge ?? null,
     illusion: campaign.illusion ?? emptyIllusionState(),
     chronicles:campaign.chronicles??emptyChronicleState(),

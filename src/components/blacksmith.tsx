@@ -1,4 +1,5 @@
 "use client";
+import {TobinRecruitment} from './tobin-recruitment';
 import {GearForgePanel,GearReforgePending} from './gear-forge';
 import {GearPagination,useGearPagination} from './gear-pagination';
 import {gearDismantleYield} from '../core/gear-rules.js';
@@ -99,7 +100,7 @@ export function BlacksmithPage() {
  const [showResult,setShowResult]=useState(Boolean(campaign.pendingReforge));
  useEffect(()=>{if(campaign.pendingReforge)setShowResult(true);},[campaign.pendingReforge?.id]);
  useEffect(()=>{const show=()=>setShowResult(true);window.addEventListener('rpg:resume-reforge',show);return()=>window.removeEventListener('rpg:resume-reforge',show);},[]);
- return <main className="page shop-page blacksmith-page"><MerchantScene art="/art/blacksmith.svg" name="Tobin · Thợ Rèn" badge="LỬA LÒ CHƯA TẮT" lines={lines}>
+ return <main className="page shop-page blacksmith-page"><MerchantScene art="/art/blacksmith.svg" name="Tobin · Thợ Rèn" badge="LỬA LÒ CHƯA TẮT" lines={lines} keeperAction={<TobinRecruitment/>}>
   <PageHeader title="Thợ Rèn" subtitle="Từ mảnh vỡ cũ, rèn nên một lời hứa mới"/>
   <div className="forge-wallet panel" aria-label="Nguyên liệu Thợ Rèn"><CurrencyAmount kind="coin" amount={campaign.coins}/><CurrencyAmount kind="fragments" amount={campaign.prismaFragments}/><CurrencyAmount kind="original" amount={campaign.originalPrisma}/><CurrencyAmount kind="pure" amount={campaign.recruitmentShards}/></div>
   <nav className="shop-tabs blacksmith-tabs" aria-label="Các mục Thợ Rèn"><button className={tab==='dismantle'?'active':''} aria-current={tab==='dismantle'?'page':undefined} onClick={()=>setFilters({...filters,tab:'dismantle'})}><Icon name="fragments"/>Phân rã</button><button className={tab==='exclusive'?'active':''} aria-current={tab==='exclusive'?'page':undefined} onClick={()=>setFilters({...filters,tab:'exclusive'})}><Icon name="anvil"/>Trấn Phái</button><button className={tab==='stats'?'active':''} aria-current={tab==='stats'?'page':undefined} onClick={()=>setFilters({...filters,tab:'stats',page:'1'})}><Icon name="shield"/>Rèn Chỉ Số</button><button className={tab==='effects'?'active':''} aria-current={tab==='effects'?'page':undefined} onClick={()=>setFilters({...filters,tab:'effects',page:'1'})}><Icon name="prism"/>Rèn Hiệu Ứng</button></nav>
