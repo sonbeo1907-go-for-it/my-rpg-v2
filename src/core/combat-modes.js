@@ -1,3 +1,5 @@
+
+import {isAlive} from "./actor-life.js";
 // Modes and their timers live on the owning actor and travel between dungeon rooms.
 export function activeCombatMode(actor) { return actor?.combatModes?.[actor.activeMode] ?? null; }
 export function modeLifetime(mode) { return mode?.lifetime ?? 'resource'; }
@@ -33,7 +35,7 @@ export function leaveCombatMode(battle,actor,reason,io) {
 }
 export function isContinuingVictory(battle) { return battle?.outcome==='victory' && battle.continuesOnVictory===true; }
 export function checkCombatMode(battle,actor,reason,io) {
-  const ended=actor.hp<=0 || (battle.outcome && !isContinuingVictory(battle));
+  const ended=!isAlive(actor) || (battle.outcome && !isContinuingVictory(battle));
   if (ended) {delete actor.pendingMode;delete actor.companionStates;}
   const mode=activeCombatMode(actor);
   const expired=modeLifetime(mode)==='rounds' && (reason==='round_end' ? battle.round>=actor.modeExpiresAfterRound : battle.round>actor.modeExpiresAfterRound);
@@ -57,7 +59,7 @@ export function modeAvailability(actor,skill) {
 // Each scene retains its own source. One audio override wins; silent modes never mute Magnamut.
 export function battlePresentation(actors) {
   const scenes=[];
-  for (const actor of actors.filter(actor=>actor.hp>0)) {
+  for (const actor of actors.filter(actor=>isAlive(actor))) {
     const mode=activeCombatMode(actor);
     if (mode) scenes.push({ownerId:actor.id,mode:actor.activeMode,name:mode.name,music:mode.music,background:mode.background,summary:actor.modeFollowUpBonus!==undefined?('+'+Number(((actor.modeAppliedModifiers?.magic??mode.statModifiers?.magic??0)*100).toFixed(2))+'% MAG · Liên kích '+actor.passive.modePerRound+' lần/vòng · thêm '+Number((actor.modeFollowUpBonus*100).toFixed(2))+'% MAG hệ số'):mode.summary??'+15 MAG căn bản · Mệnh lệnh hủy diệt'});
     for (const [id,state] of Object.entries(actor.companionStates??{})) {

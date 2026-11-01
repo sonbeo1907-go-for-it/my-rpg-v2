@@ -17,7 +17,7 @@ export function chooseChronicleEvent(content,state,locationId,random=Math.random
  return weighted(ordinary.map(event=>({event,weight:(event.encounterId?(1-l.npcWeight)/Math.max(1,countCombat):l.npcWeight/Math.max(1,countNpc))*(state.eventClearIds.includes(event.id)?1:3)})),random);
 }
 export function beginChronicleEvent(campaign,content,locationId,{observe=false,random=Math.random,now=new Date()}={}){
- const next=structuredClone(campaign),s=next.chronicles??=emptyChronicleState();if(s.activeBattle)throw Error('Hãy tiếp tục trận chiến đang diễn ra.');
+ const next=structuredClone(campaign),s=next.chronicles??=emptyChronicleState();if(s.activeSession)throw Error('Hãy rời pháo đài qua cổng trước khi mở quyển khác.');if(s.activeBattle)throw Error('Hãy tiếp tục trận chiến đang diễn ra.');
  if(s.pendingByLocation[locationId])return next;
  if(!chronicleLocationOpen(content,s,locationId))throw Error('Địa điểm chưa được khám phá.');
  const event=observe?content.chronicleEvents['book1.j04']:chooseChronicleEvent(content,s,locationId,random);
@@ -27,7 +27,7 @@ export function beginChronicleEvent(campaign,content,locationId,{observe=false,r
 }
 export function getChroniclePending(campaign,content,locationId,instanceId){const p=campaign.chronicles.pendingByLocation[locationId];if(!p||instanceId&&p.instanceId!==instanceId)throw Error('Sự kiện đã thay đổi. Hãy mở lại địa điểm.');const event=content.chronicleEvents[p.eventId],step=event.steps.find(s=>s.id===p.stepId);if(!step)throw Error('Bước sự kiện không hợp lệ.');return {pending:p,event,step};}
 export function actChronicle(campaign,content,{locationId,instanceId,stepId,actionId},now=new Date()){
- const next=structuredClone(campaign),s=next.chronicles;if(s.activeBattle)throw Error('Hãy kết thúc trận chiến trước.');const{pending:p,event,step}=getChroniclePending(next,content,locationId,instanceId);if(p.stepId!==stepId||step.battle)throw Error('Bước sự kiện đã thay đổi.');const action=step.actions.find(a=>a.id===actionId);if(!action)throw Error('Thao tác không hợp lệ.');
+ const next=structuredClone(campaign),s=next.chronicles;if(s.activeSession)throw Error('Hãy rời phiên pháo đài trước.');if(s.activeBattle)throw Error('Hãy kết thúc trận chiến trước.');const{pending:p,event,step}=getChroniclePending(next,content,locationId,instanceId);if(p.stepId!==stepId||step.battle)throw Error('Bước sự kiện đã thay đổi.');const action=step.actions.find(a=>a.id===actionId);if(!action)throw Error('Thao tác không hợp lệ.');
  if(action.next!=='complete'){p.stepId=action.next;p.status='scene';return next;}
  if(event.encounterId&&!p.battleWon)throw Error('Chưa hoàn thành trận chiến.');
  const wasNew=!(event.intro?s.firstClearIds:s.eventClearIds).includes(event.id);if(wasNew)(event.intro?s.firstClearIds:s.eventClearIds).push(event.id);

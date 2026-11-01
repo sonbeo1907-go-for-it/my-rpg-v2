@@ -1,6 +1,7 @@
 "use client";
+import {enterFortress,moveFortress,leaveFortress,beginFortressEvent,performFortressService,actFortressEvent} from '../core/fortress.js';
 import {beginChronicleEvent,actChronicle} from '../core/chronicles.js';
-import {createChronicleBattle,restoreChronicleBattle,snapshotChronicleBattle,checkpointChronicleBattle,advanceChronicleWave,finishChronicleBattle} from '../core/chronicle-combat.js';
+import {activeChronicleSnapshot,createChronicleBattle,restoreChronicleBattle,snapshotChronicleBattle,checkpointChronicleBattle,advanceChronicleWave,finishChronicleBattle} from '../core/chronicle-combat.js';
 import {upgradeSkill} from '../core/skill-progression.js';
 import {allocatePoints,limitBreak} from '../core/leveling.js';
 import {sweepDungeon as sweepDungeonAction} from '../core/dungeon.js';
@@ -46,6 +47,7 @@ const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(cont
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
+  fortressCommand:(kind:string,payload?:any)=>Promise<boolean>;
   visitChronicle:(locationId:string,observe?:boolean)=>Promise<boolean>;
   actChronicleScene:(locationId:string,instanceId:string,stepId:string,actionId:string)=>Promise<boolean>;
   startChronicleFight:(locationId:string,instanceId:string)=>Promise<boolean>;
@@ -352,8 +354,14 @@ export function GameProvider({
   },[ready,entered,busy,activeProfile?.id,dailyNow]);
 
   function restoreChronicleRuntime(current:any){
-    const id=current?.chronicles?.activeBattle,snapshot=id?current.chronicles.pendingByLocation[id]?.battleSnapshot:null;
+    const snapshot=activeChronicleSnapshot(current);
     if(snapshot){runtime.current=restoreChronicleBattle(content,snapshot);dungeonRun.current=null;battleSerial.current++;publish();music.current?.start(content.encounters[runtime.current.encounterId].bgm??'normal');}
+  }
+  async function fortressCommand(kind:string,payload:any={}){
+    if(inAdventure()){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
+    const operations:any={enter:(c:any)=>enterFortress(c,content),move:(c:any)=>moveFortress(c,content,payload),exit:(c:any)=>leaveFortress(c,content,payload),begin:(c:any)=>beginFortressEvent(c,content,payload),service:(c:any)=>performFortressService(c,content,payload),act:(c:any)=>actFortressEvent(c,content,payload)};
+    if(!operations[kind])return false;
+    return transact(operations[kind],'');
   }
   async function visitChronicle(locationId:string,observe=false){
     if(inAdventure()){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
@@ -649,7 +657,7 @@ export function GameProvider({
   }
   const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
-    visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,
+    fortressCommand,visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,
     progressionLocked:inAdventure(),
     upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure(),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),
     updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()}),"Đã lưu điểm phân bổ."),

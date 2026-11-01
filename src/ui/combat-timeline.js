@@ -1,5 +1,5 @@
 // Pure presentation plan. Reads resolved outcomes; never rolls RNG or changes combat.
-export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed'};
+export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed',moon:'#d5edff',agony:'#c6a1d8'};
 const custom=skill=>/^(cosmic|academic|hero|nature)_/.test(skill?.presentation??'');
 export function combatTimeline(events,content,{speed='normal',reduced=false}={}){
  const frames=[],actions=new Map(),passives=new Set();let cursor=0,lastImpact=-100;
@@ -19,7 +19,7 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
    }
    continue;
   }
-  if(event.type==='passive'||event.type==='skill_base_bonus'||event.type==='mode_exit') {const label=event.label??content.characters[event.sourceId]?.passive?.name??'Nội tại',key=event.sourceId+':'+label;if(!passives.has(key)){passives.add(key);add(event,'passive',Math.max(cursor,lastImpact+35),{label});}continue;}
+  if(event.type==='passive'||event.type==='skill_base_bonus'||event.type==='mode_exit'||event.type==='agony_enter'||event.type==='agony_return') {const label=event.label??content.characters[event.sourceId]?.passive?.name??'Nội tại',key=event.sourceId+':'+label;if(!passives.has(key)){passives.add(key);add(event,'passive',Math.max(cursor,lastImpact+35),{label});}continue;}
   if(!['damage','dodge','heal','mp_restore','shield','status','effect_blocked','cleanse','dispel','hp_spent'].includes(event.type))continue;
   const action=actions.get(event.sourceId);
   let at=Math.max(cursor,action? action.start+lead+(event.hitIndex??0)*step:0);

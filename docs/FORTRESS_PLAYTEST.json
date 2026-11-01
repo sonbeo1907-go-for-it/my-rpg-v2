@@ -1,0 +1,2269 @@
+{
+  "note": "Deterministic smoke benchmark, fixed policy from level-balance.mjs. Arthur/Iris/Garrek/Elaine Lv50 with valid allocated level points, Rank1 skills, three T2/T3 stat gear pieces each; starter-story upgrades only, no gacha/exclusive/GearIV. Fixtures include the corresponding completed delivery/service flags and archived cargo records; no live player save is touched. Original Miraebolis Lv1 template and all three phases unchanged. This heuristic is not optimal player balance proof.",
+  "rows": [
+    {
+      "gearTier": 2,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "none",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 1009.2,
+      "meanEndMp": 260.8,
+      "meanWinRounds": 20,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1057,
+          "endMp": 232,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1021,
+          "endMp": 248,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 987,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 985,
+          "endMp": 265,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1030,
+          "endMp": 257,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1072,
+          "endMp": 247,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 949,
+          "endMp": 272,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1021,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 917,
+          "endMp": 272,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 958,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1018,
+          "endMp": 265,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1047,
+          "endMp": 247,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 976,
+          "endMp": 262,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1019,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1032,
+          "endMp": 272,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1018,
+          "endMp": 265,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 989,
+          "endMp": 257,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1081,
+          "endMp": 262,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 982,
+          "endMp": 280,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 984,
+          "endMp": 280,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 998,
+          "endMp": 265,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1003,
+          "endMp": 263,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 997,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1071,
+          "endMp": 257,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1000,
+          "endMp": 263,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 947,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1019,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 993,
+          "endMp": 240,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 20,
+          "partyAlive": 4,
+          "endHp": 1016,
+          "endMp": 257,
+          "phase": 3
+        }
+      ]
+    },
+    {
+      "gearTier": 2,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "cannon",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 1030.5,
+      "meanEndMp": 265.4,
+      "meanWinRounds": 16,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1084,
+          "endMp": 265,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 929,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 975,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1079,
+          "endMp": 240,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1049,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1063,
+          "endMp": 263,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 999,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1014,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1067,
+          "endMp": 260,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1058,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 947,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1012,
+          "endMp": 266,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1056,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1064,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1047,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1060,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1044,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 978,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1013,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1000,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 978,
+          "endMp": 282,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1036,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 996,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1071,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 248,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1036,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1082,
+          "endMp": 248,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1024,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 974,
+          "endMp": 275,
+          "phase": 3
+        }
+      ]
+    },
+    {
+      "gearTier": 2,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "supply",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 992.2,
+      "meanEndMp": 257.3,
+      "meanWinRounds": 19,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 958,
+          "endMp": 244,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1018,
+          "endMp": 254,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 989,
+          "endMp": 252,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1019,
+          "endMp": 252,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1009,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1009,
+          "endMp": 262,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 864,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 979,
+          "endMp": 259,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1036,
+          "endMp": 259,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1013,
+          "endMp": 259,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1007,
+          "endMp": 247,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1007,
+          "endMp": 275,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1011,
+          "endMp": 259,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 989,
+          "endMp": 267,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1001,
+          "endMp": 262,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 951,
+          "endMp": 259,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 930,
+          "endMp": 254,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1026,
+          "endMp": 254,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1007,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1003,
+          "endMp": 237,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 985,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1011,
+          "endMp": 259,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 945,
+          "endMp": 252,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 887,
+          "endMp": 267,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1060,
+          "endMp": 239,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1037,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1021,
+          "endMp": 259,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 919,
+          "endMp": 254,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 252,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 19,
+          "partyAlive": 4,
+          "endHp": 985,
+          "endMp": 237,
+          "phase": 3
+        }
+      ]
+    },
+    {
+      "gearTier": 2,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "both",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 1026.2,
+      "meanEndMp": 294.7,
+      "meanWinRounds": 14,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1059,
+          "endMp": 292,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1037,
+          "endMp": 309,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 947,
+          "endMp": 309,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1019,
+          "endMp": 294,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1036,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1031,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1048,
+          "endMp": 279,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1072,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1078,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1060,
+          "endMp": 284,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1017,
+          "endMp": 300,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1012,
+          "endMp": 302,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 988,
+          "endMp": 287,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1072,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1029,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 997,
+          "endMp": 309,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 972,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1036,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1032,
+          "endMp": 284,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1030,
+          "endMp": 284,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1006,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1038,
+          "endMp": 295,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1072,
+          "endMp": 287,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1046,
+          "endMp": 292,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1078,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1032,
+          "endMp": 309,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 972,
+          "endMp": 309,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 984,
+          "endMp": 309,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 1028,
+          "endMp": 284,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 14,
+          "partyAlive": 4,
+          "endHp": 958,
+          "endMp": 294,
+          "phase": 3
+        }
+      ]
+    },
+    {
+      "gearTier": 3,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "none",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 1038.1,
+      "meanEndMp": 277.9,
+      "meanWinRounds": 16,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1050,
+          "endMp": 286,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 970,
+          "endMp": 286,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1023,
+          "endMp": 276,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 253,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1037,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1030,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 957,
+          "endMp": 276,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1042,
+          "endMp": 261,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1020,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1048,
+          "endMp": 276,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1041,
+          "endMp": 284,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1046,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1086,
+          "endMp": 293,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1088,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1067,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1034,
+          "endMp": 291,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1025,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1037,
+          "endMp": 291,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1026,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1024,
+          "endMp": 276,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 992,
+          "endMp": 268,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 980,
+          "endMp": 301,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1084,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1030,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1026,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1040,
+          "endMp": 276,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1073,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1079,
+          "endMp": 269,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1011,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1088,
+          "endMp": 253,
+          "phase": 3
+        }
+      ]
+    },
+    {
+      "gearTier": 3,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "cannon",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 1036.9,
+      "meanEndMp": 299.3,
+      "meanWinRounds": 13,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1002,
+          "endMp": 287,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 942,
+          "endMp": 302,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1057,
+          "endMp": 290,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1009,
+          "endMp": 305,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1025,
+          "endMp": 303,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 965,
+          "endMp": 303,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1025,
+          "endMp": 303,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1076,
+          "endMp": 295,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1076,
+          "endMp": 295,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1076,
+          "endMp": 295,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1022,
+          "endMp": 287,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1059,
+          "endMp": 287,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1050,
+          "endMp": 287,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1053,
+          "endMp": 302,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1053,
+          "endMp": 302,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1035,
+          "endMp": 310,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1063,
+          "endMp": 305,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1039,
+          "endMp": 314,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1064,
+          "endMp": 290,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1089,
+          "endMp": 295,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1036,
+          "endMp": 306,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 289,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1048,
+          "endMp": 302,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1054,
+          "endMp": 302,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1045,
+          "endMp": 314,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1010,
+          "endMp": 310,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1012,
+          "endMp": 310,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1002,
+          "endMp": 295,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1048,
+          "endMp": 290,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 13,
+          "partyAlive": 4,
+          "endHp": 1001,
+          "endMp": 305,
+          "phase": 3
+        }
+      ]
+    },
+    {
+      "gearTier": 3,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "supply",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 1032.3,
+      "meanEndMp": 262.1,
+      "meanWinRounds": 16,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1083,
+          "endMp": 265,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 919,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1032,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1072,
+          "endMp": 240,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1053,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1037,
+          "endMp": 263,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 975,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1047,
+          "endMp": 240,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1078,
+          "endMp": 260,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1054,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1051,
+          "endMp": 263,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1036,
+          "endMp": 258,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1052,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1084,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1038,
+          "endMp": 278,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1055,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1047,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 963,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 962,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 995,
+          "endMp": 255,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 992,
+          "endMp": 282,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1029,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 994,
+          "endMp": 273,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1075,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1079,
+          "endMp": 248,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1042,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1060,
+          "endMp": 263,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 941,
+          "endMp": 270,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 16,
+          "partyAlive": 4,
+          "endHp": 1035,
+          "endMp": 250,
+          "phase": 3
+        }
+      ]
+    },
+    {
+      "gearTier": 3,
+      "partyLevel": 50,
+      "skillRanks": 1,
+      "support": "both",
+      "wins": 30,
+      "seeds": 30,
+      "meanEndHp": 1065.9,
+      "meanEndMp": 301.6,
+      "meanWinRounds": 12,
+      "trials": [
+        {
+          "seed": 1,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1078,
+          "endMp": 298,
+          "phase": 3
+        },
+        {
+          "seed": 2,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1078,
+          "endMp": 298,
+          "phase": 3
+        },
+        {
+          "seed": 3,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 4,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 5,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 298,
+          "phase": 3
+        },
+        {
+          "seed": 6,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1057,
+          "endMp": 299,
+          "phase": 3
+        },
+        {
+          "seed": 7,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 293,
+          "phase": 3
+        },
+        {
+          "seed": 8,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1044,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 9,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1044,
+          "endMp": 293,
+          "phase": 3
+        },
+        {
+          "seed": 10,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1044,
+          "endMp": 293,
+          "phase": 3
+        },
+        {
+          "seed": 11,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 12,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1082,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 13,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1062,
+          "endMp": 283,
+          "phase": 3
+        },
+        {
+          "seed": 14,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1066,
+          "endMp": 298,
+          "phase": 3
+        },
+        {
+          "seed": 15,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1056,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 16,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1055,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 17,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 18,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 19,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1055,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 20,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1055,
+          "endMp": 317,
+          "phase": 3
+        },
+        {
+          "seed": 21,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1070,
+          "endMp": 298,
+          "phase": 3
+        },
+        {
+          "seed": 22,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1078,
+          "endMp": 298,
+          "phase": 3
+        },
+        {
+          "seed": 23,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 306,
+          "phase": 3
+        },
+        {
+          "seed": 24,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1078,
+          "endMp": 306,
+          "phase": 3
+        },
+        {
+          "seed": 25,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1055,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 26,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1055,
+          "endMp": 308,
+          "phase": 3
+        },
+        {
+          "seed": 27,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1055,
+          "endMp": 317,
+          "phase": 3
+        },
+        {
+          "seed": 28,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1090,
+          "endMp": 298,
+          "phase": 3
+        },
+        {
+          "seed": 29,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1054,
+          "endMp": 301,
+          "phase": 3
+        },
+        {
+          "seed": 30,
+          "outcome": "victory",
+          "rounds": 12,
+          "partyAlive": 4,
+          "endHp": 1066,
+          "endMp": 308,
+          "phase": 3
+        }
+      ]
+    }
+  ]
+}

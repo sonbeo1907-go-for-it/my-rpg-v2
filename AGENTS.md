@@ -26,3 +26,13 @@ Read the actual located source before editing. Graph edges marked inferred are n
 After source changes, run `npm.cmd run graph:update`. If the graph is missing, run `npm.cmd run graph:build`; if the executable is missing, run `npm.cmd run graph:setup`. A graph problem must not block unrelated work: fall back to `rg` and source reads. Do not read the full graph JSON into model context. Use `GRAPH_REPORT.md` only for broad architecture review.
 
 This setup uses local code-only extraction. Do not enable semantic LLM extraction, cloud upload or install hooks automatically. Build output, local tools, assets and save data are excluded. Generated graph files stay local and are gitignored. See `docs/GRAPHIFY.md`.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

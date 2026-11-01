@@ -1,4 +1,6 @@
 "use client";
+import {isAlive,isInAgony} from "../core/actor-life.js";
+
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {BattleResult} from "./battle-result";
 import {isBattleFinished} from "../ui/battle-result-model.js";
@@ -114,10 +116,11 @@ export function CombatantCard({
   const acting = battle.activeId === actor.id && !battle.outcome;
   return (
     <article
-      className={`combatant ${actor.hp <= 0 ? "fallen" : ""} ${acting ? "current-turn" : ""} ${actor.shield > 0 ? "has-shield" : ""} ${selected ? "is-target" : ""} ${affected ? "is-affected" : ""} ${hovered ? "turn-hovered" : ""}`}
+      className={`combatant ${!isAlive(actor) ? "fallen" : ""} ${acting ? "current-turn" : ""} ${actor.shield > 0 ? "has-shield" : ""} ${selected ? "is-target" : ""} ${affected ? "is-affected" : ""} ${hovered ? "turn-hovered" : ""}`}
       data-actor-id={actor.id}
       data-team={actor.team}
       data-element={actor.element}
+      data-agony={isInAgony(actor)}
     >
       <button
         className="target-hitbox"
@@ -125,7 +128,7 @@ export function CombatantCard({
         data-gamepad-legal={legal}
         aria-label={`Chọn mục tiêu: ${actor.name}`}
         aria-pressed={selected}
-        disabled={!selectable || actor.hp <= 0}
+        disabled={!selectable || !isAlive(actor)}
         onClick={onSelect}
       />
       {selected && (
@@ -157,6 +160,7 @@ export function CombatantCard({
             (+50%)
           </p>
         )}
+      {actor.group==='agony'&&<div className="agony-state" role="status">{isInAgony(actor)?<><strong>Oán Hận · đến hết vòng {actor.agonyState.expiresAfterRound}</strong><span>HP tối đa còn lại: {actor.stats.maxHp}</span><progress className="agony-bar" value={actor.stats.maxHp} max={actor.agonyState.initialMaxHp}/><small>Giảm 30% sát thương · Không nhận khiên hoặc hồi HP</small></>:<span>Người giữ đèn · {isAlive(actor)?'Chưa an nghỉ':'Đã an nghỉ'}{actor.agonyState?.cycles>0?' · HP tối đa đã mất: '+(actor.agonyState.initialMaxHp-actor.stats.maxHp):''}</span>}</div>}
       <div className="combat-bars">
         <label>
           <span>
@@ -164,7 +168,7 @@ export function CombatantCard({
           </span>
           <progress
             className="hp-bar"
-            max={actor.stats.maxHp}
+            max={Math.max(1,actor.stats.maxHp)}
             value={actor.hp}
           />
         </label>
@@ -359,7 +363,7 @@ function BattleLog() {
 }
 
 function ChronicleResultControls(){const {battle,content,busy,claimReward,startChronicleFight}=useGame();const router=useRouter();return <div className="stack-actions result-actions">{battle.outcome==='victory'?<>{!battle.rewardClaimed?<button className="gold" disabled={busy} onClick={claimReward}>Lưu tiến trình trận chiến</button>:<Link className="button gold" href={encounterReturnPath(content,battle.encounterId)}>Tiếp tục câu chuyện →</Link>}</>:<button className="gold" disabled={busy} onClick={async()=>{if(await startChronicleFight(battle.chronicle.locationId,battle.chronicle.instanceId))router.push('/battle');}}>Thử lại trận chiến</button>}<Link className="button" href={encounterReturnPath(content,battle.encounterId)}>Trở về địa điểm</Link></div>;}
-function ChronicleRetreat(){const {battle,busy,retreatChronicleFight}=useGame();const router=useRouter();return <button className="button chronicle-retreat" disabled={busy} onClick={async()=>{const path='/chronicles/book1?location='+battle.chronicle.locationId+'&scene=1';if(await retreatChronicleFight())router.push(path);}}>Rút về địa điểm</button>;}
+function ChronicleRetreat(){const {battle,busy,retreatChronicleFight}=useGame();const router=useRouter();return <button className="button chronicle-retreat" disabled={busy} onClick={async()=>{const path=battle.chronicle.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+battle.chronicle.locationId+'&scene=1';if(await retreatChronicleFight())router.push(path);}}>Rút về địa điểm</button>;}
 function BattleResultControls() {
   const {
     battle,
@@ -660,7 +664,7 @@ export function BattlePage() {
       </main>
     );
   function selectTarget(item: any) {
-    if (busy || battle.outcome || item.hp <= 0) return;
+    if (busy || battle.outcome || !isAlive(item)) return;
     if (
       item.team === "enemy" &&
       skill?.target === "enemy" &&
@@ -800,7 +804,7 @@ export function BattlePage() {
       <AcademicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
       <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
 
-      {battle.chronicle&&<ChronicleRetreat/>}<div className="battle-layout">
+      {battle.encounterSupport&&(battle.encounterSupport.cannon||battle.encounterSupport.supply)&&<div className="fortress-support-battle">Hỗ trợ pháo đài · ATK +{Math.round(battle.encounterSupport.modifiers.attack*100)}% · MAG +{Math.round(battle.encounterSupport.modifiers.magic*100)}% · RES +{Math.round(battle.encounterSupport.modifiers.resistance*100)}%</div>}{battle.chronicle&&<ChronicleRetreat/>}<div className="battle-layout">
         <section className={`battlefield panel ${hasFormulaField?"has-academic-field":""}`}>
           <FormulaScene battle={{...battle,content}} content={content}/>
           <div className="battle-reactions" aria-live="polite">
@@ -828,7 +832,7 @@ export function BattlePage() {
                 </div>
               ))}
           </div>
-          {battle.actors.some((a:any)=>a.team==='enemy'&&a.hp>0&&a.preparedMove)&&<section className="enemy-telegraphs" aria-live="polite">{battle.actors.filter((a:any)=>a.team==='enemy'&&a.hp>0&&a.preparedMove).map((a:any)=><div key={a.id} data-enemy-telegraph={a.id}><Icon name="hourglass"/><div><strong>{a.name} đang chuẩn bị: {content.abilities[a.preparedMove.abilityId].name}</strong><p>{content.abilities[a.preparedMove.abilityId].windup.message} Thi triển từ lượt chính ở vòng {a.preparedMove.readyRound}.</p></div></div>)}</section>}
+          {battle.actors.some((a:any)=>a.team==='enemy'&&isAlive(a)&&a.preparedMove)&&<section className="enemy-telegraphs" aria-live="polite">{battle.actors.filter((a:any)=>a.team==='enemy'&&isAlive(a)&&a.preparedMove).map((a:any)=><div key={a.id} data-enemy-telegraph={a.id}><Icon name="hourglass"/><div><strong>{a.name} đang chuẩn bị: {content.abilities[a.preparedMove.abilityId].name}</strong><p>{content.abilities[a.preparedMove.abilityId].windup.message} Thi triển từ lượt chính ở vòng {a.preparedMove.readyRound}.</p></div></div>)}</section>}
           <div className="enemy-grid">
             {battle.actors
               .filter((item: any) => item.team === "enemy")

@@ -1,3 +1,5 @@
+
+import {isAlive} from "./actor-life.js";
 // Encounter rules are authored on enemy definitions; no character/encounter IDs in the battle engine.
 export function initializeBoss(actor) {
   if (!actor.boss) return;
@@ -29,7 +31,7 @@ export function suppressOnWeakness(battle, attacker, target, context, write, app
 
 export function transitionBossPhases(battle, { write, restoreMp }) {
   for (const actor of battle.actors) {
-    if (!actor.boss || actor.hp <= 0) continue;
+    if (!actor.boss || !isAlive(actor)) continue;
     const state = actor.bossState, next = actor.boss.phases[state.phase];
     if (!next || actor.hp > Math.ceil(actor.stats.maxHp * next.atHpRatio)) continue;
     state.phase++;
@@ -39,7 +41,7 @@ export function transitionBossPhases(battle, { write, restoreMp }) {
     const suppression = actor.statuses.find(status => status.id === actor.boss.suppression?.statusId);
     if (suppression) suppression.remaining = Math.min(suppression.remaining, actor.boss.suppression.durations[state.phase - 1]);
     if (actor.boss.restorePartyMpOnTransition !== false) {
-      for (const ally of battle.actors.filter(item => item.team !== actor.team && item.hp > 0)) restoreMp(battle, ally, 'mp', ally.stats.maxMp, actor.id);
+      for (const ally of battle.actors.filter(item => item.team !== actor.team && isAlive(item))) restoreMp(battle, ally, 'mp', ally.stats.maxMp, actor.id);
       write(battle, 'Chuyển giai đoạn: hồi đầy MP cho toàn đội còn sống.');
     }
   }

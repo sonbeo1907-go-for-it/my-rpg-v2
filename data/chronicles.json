@@ -120,5 +120,691 @@
       }
     ],
     "weeklyRewards": 28
+  },
+  {
+    "id": "book2",
+    "name": "Những Phiên Gác Không Yên",
+    "subtitle": "QUYỂN II · BIÊN NIÊN KÝ",
+    "description": "Một pháo đài thiếu quân, những giấy tờ chưa khớp và các phiên gác chồng lên nhau.",
+    "art": "/art/chronicles/book2/cover-chronicle-v02.svg",
+    "weeklyRewards": 28,
+    "locations": [
+      {
+        "id": "a",
+        "name": "Cổng trước",
+        "description": "Giấy thông hành, những đoàn xe và phiên gác đầu ngày.",
+        "introId": "book2.intro.f01",
+        "requires": [],
+        "art": "scene-a-front-gate.svg",
+        "npcWeight": 0.65
+      },
+      {
+        "id": "b",
+        "name": "Sân tập",
+        "description": "Tiếng khiên tập vang qua sân giữa các ca trực.",
+        "introId": "book2.intro.f02",
+        "requires": [
+          "book2.intro.f01"
+        ],
+        "art": "scene-b-training-yard.svg",
+        "npcWeight": 0.6
+      },
+      {
+        "id": "c",
+        "name": "Căng Tin",
+        "description": "Bữa cơm nóng và những câu chuyện chưa kể hết.",
+        "introId": "book2.intro.f03",
+        "requires": [
+          "book2.intro.f02"
+        ],
+        "art": "scene-c-canteen.svg",
+        "npcWeight": 0.75
+      },
+      {
+        "id": "d",
+        "name": "Văn phòng Sandra",
+        "description": "Sổ trực, con dấu và những ngăn hồ sơ chờ đối chiếu.",
+        "introId": "book2.intro.f04",
+        "requires": [
+          "book2.intro.f03"
+        ],
+        "art": "scene-d-sandra-office.svg",
+        "npcWeight": 0.9
+      },
+      {
+        "id": "e",
+        "name": "Phòng chỉ huy",
+        "description": "Những tuyến gác được nối bằng ghim trên bản đồ.",
+        "introId": "book2.intro.f05",
+        "requires": [
+          "book2.intro.f04"
+        ],
+        "art": "scene-e-command-room.svg",
+        "npcWeight": 0.9
+      },
+      {
+        "id": "f",
+        "name": "Trạm quân y",
+        "description": "Lionel kiểm kê thuốc và đón những người trở về.",
+        "introId": "book2.intro.f06",
+        "requires": [
+          "book2.intro.f05"
+        ],
+        "art": "scene-f-infirmary.svg",
+        "npcWeight": 0.7
+      },
+      {
+        "id": "g",
+        "name": "Kho quân nhu",
+        "description": "Mỗi kiện hàng đều cần đúng người, đúng lệnh.",
+        "introId": "book2.intro.f07",
+        "requires": [
+          "book2.intro.f06"
+        ],
+        "art": "scene-g-supply-store.svg",
+        "npcWeight": 0.6
+      },
+      {
+        "id": "h",
+        "name": "Tường thành & Pháo",
+        "description": "Ngọn cờ trên thành hướng về con đường tiếp vận.",
+        "introId": "book2.intro.f08",
+        "requires": [
+          "book2.intro.f07"
+        ],
+        "art": "scene-h-battlements.svg",
+        "npcWeight": 0.65
+      },
+      {
+        "id": "i",
+        "name": "Cổng sau",
+        "description": "Một lối hẹp cho đoàn xe vào thành.",
+        "introId": "book2.intro.f09",
+        "requires": [
+          "book2.intro.f08"
+        ],
+        "art": "scene-i-rear-gate.svg",
+        "npcWeight": 0.45
+      },
+      {
+        "id": "j",
+        "name": "Hệ thống thoát nước",
+        "description": "Dòng nước chảy dưới những phiến đá đã cũ.",
+        "introId": "book2.intro.f10",
+        "requires": [
+          "book2.intro.f09"
+        ],
+        "art": "scene-j-drainage.svg",
+        "npcWeight": 0.6
+      }
+    ],
+    "items": {
+      "permit_temporary": {
+        "displayName": "Giấy thông hành tạm thời",
+        "description": "Cho phép vào khu công khai; không phải lệnh xuất quân nhu.",
+        "group": "papers",
+        "military": false,
+        "scope": "book2:permit_temporary"
+      },
+      "work_permit": {
+        "displayName": "Giấy phép hỗ trợ pháo đài",
+        "description": "Hỗ trợ trong phạm vi Roland giao; không mở mọi cửa.",
+        "group": "papers",
+        "military": false,
+        "scope": "book2:work_permit"
+      },
+      "transfer_order": {
+        "displayName": "Lệnh xuất kho hợp lệ",
+        "description": "Roland đã ký, Sandra đã đối chiếu. Chỉ dùng điều chuyển lô vật tư bảo dưỡng pháo.",
+        "group": "papers",
+        "military": false,
+        "scope": "book2:powder-transfer"
+      },
+      "supply_receipt": {
+        "displayName": "Phiếu tiếp nhận quân nhu",
+        "description": "Phiếu đối chiếu số kiện của lô quân nhu; không có quyền điều quân.",
+        "group": "papers",
+        "military": false,
+        "scope": "book2:medical-transfer"
+      },
+      "gunpowder_crate": {
+        "displayName": "Thùng thuốc súng",
+        "description": "Lô vật tư đã niêm, chỉ để bàn giao cho pháo thủ tại tường thành.",
+        "group": "supplies",
+        "military": true,
+        "scope": "book2:powder-transfer"
+      },
+      "fuse_replacement": {
+        "displayName": "Dây ngòi thay thế",
+        "description": "Linh kiện hư cấu dùng cho công việc bảo dưỡng tại tường thành.",
+        "group": "supplies",
+        "military": true,
+        "scope": "book2:fuse_replacement"
+      },
+      "tool_kit": {
+        "displayName": "Bộ dụng cụ bảo dưỡng",
+        "description": "Dụng cụ bảo dưỡng, không phải trang bị chiến đấu.",
+        "group": "supplies",
+        "military": true,
+        "scope": "book2:tool_kit"
+      },
+      "medical_crate": {
+        "displayName": "Thùng thuốc cứu thương",
+        "description": "Lô thuốc Lionel giao tiếp nhận. Cần kiểm kê trước khi bàn giao.",
+        "group": "supplies",
+        "military": true,
+        "scope": "book2:medical-transfer"
+      },
+      "medical_manifest_note": {
+        "displayName": "Ghi chú lô thuốc sai dấu",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:medical_manifest_note"
+      },
+      "rear_gate_log_copy": {
+        "displayName": "Sổ giờ xe Cổng sau",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:rear_gate_log_copy"
+      },
+      "shift_order_signed": {
+        "displayName": "Lệnh đổi phiên gác có xác nhận",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "papers",
+        "military": false,
+        "scope": "book2:shift_order_signed"
+      },
+      "seal_reference": {
+        "displayName": "Mẫu dấu niêm chính thức",
+        "description": "Mẫu để so dấu, không cho phép tự ký hoặc cấp giấy.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:seal_reference"
+      },
+      "cart_track_record": {
+        "displayName": "Ghi nhận rãnh bánh xe",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:cart_track_record"
+      },
+      "training_schedule_copy": {
+        "displayName": "Bản đối chiếu lịch sân tập",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:training_schedule_copy"
+      },
+      "canteen_shift_note": {
+        "displayName": "Ghi chú bài hát phiên gác",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:canteen_shift_note"
+      },
+      "meal_stub": {
+        "displayName": "Phiếu ăn không khớp",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:meal_stub"
+      },
+      "forged_order_copy": {
+        "displayName": "Bản sao văn bản nghi giả",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:forged_order_copy"
+      },
+      "roland_verification": {
+        "displayName": "Biên bản xác nhận Roland",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:roland_verification"
+      },
+      "missing_shipment_trace": {
+        "displayName": "Vết tích lô hàng thiếu",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:missing_shipment_trace"
+      },
+      "cannon_alignment_report": {
+        "displayName": "Biên bản hiệu chuẩn pháo",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:cannon_alignment_report"
+      },
+      "rear_gate_forgery_proof": {
+        "displayName": "Chứng cứ lệnh mở cổng giả",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:rear_gate_forgery_proof"
+      },
+      "drainage_blueprint_copy": {
+        "displayName": "Sơ đồ cống cũ",
+        "description": "Sandra cấp bản sao cho công tác kiểm tra tuyến nước đã được phép.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:drainage_blueprint_copy"
+      },
+      "lanceveil_casefile": {
+        "displayName": "Hồ sơ điều tra Lanceveil",
+        "description": "Bản ghi đã đối chiếu, lưu lại để tra cứu trong pháo đài.",
+        "group": "evidence",
+        "military": false,
+        "scope": "book2:lanceveil_casefile"
+      }
+    },
+    "services": [
+      {
+        "id": "request_transfer",
+        "locationId": "e",
+        "label": "Xin lệnh điều chuyển",
+        "requires": {
+          "cleared": [
+            "book2.intro.f05"
+          ],
+          "eventAny": [
+            "book2.g01",
+            "book2.g02"
+          ],
+          "notFlags": [
+            "transferRequested"
+          ]
+        },
+        "effects": {
+          "flags": [
+            "transferRequested"
+          ]
+        },
+        "result": "Roland ký yêu cầu điều chuyển đúng lô. Hãy mang đến Sandra đối chiếu."
+      },
+      {
+        "id": "verify_transfer",
+        "locationId": "d",
+        "label": "Đối chiếu và đóng dấu lệnh",
+        "requires": {
+          "flags": [
+            "transferRequested"
+          ],
+          "missingItems": [
+            "transfer_order"
+          ]
+        },
+        "effects": {
+          "grantItems": [
+            "transfer_order"
+          ]
+        },
+        "result": "Sandra đã đối chiếu. Lệnh chỉ có hiệu lực với lô vật tư bảo dưỡng pháo."
+      },
+      {
+        "id": "explain_incident",
+        "locationId": "e",
+        "label": "Giải trình với Roland",
+        "requires": {
+          "incident": true
+        },
+        "effects": {
+          "resolveIncident": true
+        },
+        "result": "Biên bản đã được giải trình theo vụ. Hồ sơ sự cố vẫn được lưu."
+      },
+      {
+        "id": "receive_medical",
+        "locationId": "f",
+        "label": "Tiếp nhận lô thuốc của Lionel",
+        "requires": {
+          "cleared": [
+            "book2.intro.f06"
+          ],
+          "notFlags": [
+            "medicalCrateReceived"
+          ]
+        },
+        "effects": {
+          "grantItems": [
+            "supply_receipt",
+            "medical_crate"
+          ],
+          "flags": [
+            "medicalCrateReceived"
+          ]
+        },
+        "result": "Lionel đối chiếu chất lượng và số kiện. Thùng thuốc đã được giao để đưa vào kho y tế."
+      },
+      {
+        "id": "deliver_medical",
+        "locationId": "f",
+        "label": "Bàn giao thùng thuốc",
+        "requires": {
+          "carried": [
+            "medical_crate"
+          ],
+          "notFlags": [
+            "medicalCrateDelivered"
+          ]
+        },
+        "effects": {
+          "handOverItems": [
+            "medical_crate"
+          ],
+          "flags": [
+            "medicalCrateDelivered"
+          ]
+        },
+        "result": "Thùng thuốc đã nhập kho y tế; phiếu nhận vẫn được lưu."
+      },
+      {
+        "id": "verify_manifest",
+        "locationId": "f",
+        "label": "Đối chiếu bản kê quân nhu",
+        "requires": {
+          "flags": [
+            "medicalCrateDelivered"
+          ],
+          "notFlags": [
+            "supplyManifestVerified"
+          ]
+        },
+        "effects": {
+          "flags": [
+            "supplyManifestVerified"
+          ]
+        },
+        "result": "Lionel xác nhận tiếp tế đầy đủ cho các trận phòng thủ bên ngoài."
+      },
+      {
+        "id": "receive_fuse",
+        "locationId": "g",
+        "label": "Nhận linh kiện bảo dưỡng",
+        "requires": {
+          "cleared": [
+            "book2.intro.f08"
+          ],
+          "notFlags": [
+            "fuseReplaced"
+          ],
+          "missingItems": [
+            "fuse_replacement"
+          ]
+        },
+        "effects": {
+          "grantItems": [
+            "fuse_replacement",
+            "tool_kit"
+          ]
+        },
+        "result": "Kho cấp đúng linh kiện cho nhiệm vụ bảo dưỡng tại tường thành."
+      },
+      {
+        "id": "deliver_powder",
+        "locationId": "h",
+        "label": "Bàn giao thùng vật tư cho pháo thủ",
+        "requires": {
+          "carried": [
+            "gunpowder_crate"
+          ],
+          "notFlags": [
+            "gunpowderDelivered"
+          ]
+        },
+        "effects": {
+          "handOverItems": [
+            "gunpowder_crate"
+          ],
+          "flags": [
+            "gunpowderDelivered"
+          ]
+        },
+        "result": "Pháo thủ đã nhận thùng niêm phong; không còn nằm trong hành lý đang mang."
+      },
+      {
+        "id": "replace_fuse",
+        "locationId": "h",
+        "label": "Thay linh kiện đã xuống cấp",
+        "requires": {
+          "carried": [
+            "fuse_replacement"
+          ],
+          "notFlags": [
+            "fuseReplaced"
+          ]
+        },
+        "effects": {
+          "handOverItems": [
+            "fuse_replacement"
+          ],
+          "flags": [
+            "fuseReplaced"
+          ]
+        },
+        "result": "Pháo thủ hoàn tất phần bảo dưỡng bằng linh kiện được cấp."
+      },
+      {
+        "id": "signal",
+        "locationId": "h",
+        "label": "Khôi phục tín hiệu vọng gác",
+        "requires": {
+          "cleared": [
+            "book2.intro.f08"
+          ],
+          "notFlags": [
+            "signalReady"
+          ]
+        },
+        "effects": {
+          "flags": [
+            "signalReady"
+          ]
+        },
+        "result": "Hai vọng gác đã xác nhận tín hiệu rõ ràng."
+      },
+      {
+        "id": "calibrate",
+        "locationId": "h",
+        "label": "Hiệu chuẩn và lập biên bản",
+        "requires": {
+          "flags": [
+            "gunpowderDelivered",
+            "fuseReplaced",
+            "signalReady"
+          ],
+          "notFlags": [
+            "cannonCalibrated"
+          ]
+        },
+        "effects": {
+          "grantItems": [
+            "cannon_alignment_report"
+          ],
+          "flags": [
+            "cannonCalibrated"
+          ]
+        },
+        "result": "Bảo dưỡng đã hoàn tất. Hỏa lực yểm trợ sẵn sàng cho những trận phòng thủ bên ngoài."
+      },
+      {
+        "id": "medical_receipt",
+        "locationId": "d",
+        "label": "Xin bản sao phiếu tiếp nhận",
+        "requires": {
+          "cleared": [
+            "book2.intro.f06"
+          ],
+          "missingItems": [
+            "supply_receipt"
+          ]
+        },
+        "effects": {
+          "grantItems": [
+            "supply_receipt"
+          ]
+        },
+        "result": "Sandra cấp bản sao đúng lô, không phát sinh thêm hàng."
+      },
+      {
+        "id": "drainage_map",
+        "locationId": "d",
+        "label": "Xem sơ đồ cống được cấp phép",
+        "requires": {
+          "cleared": [
+            "book2.intro.f10",
+            "book2.i04"
+          ],
+          "missingItems": [
+            "drainage_blueprint_copy"
+          ]
+        },
+        "effects": {
+          "grantItems": [
+            "drainage_blueprint_copy"
+          ]
+        },
+        "result": "Sandra giao sơ đồ cũ trong phạm vi điều tra đã được xác minh."
+      },
+      {
+        "id": "retrieve_gunpowder_crate",
+        "locationId": "g",
+        "label": "Nhận lại thùng thuốc súng",
+        "requires": {
+          "stored": "gunpowder_crate"
+        },
+        "effects": {
+          "retrieve": [
+            "gunpowder_crate"
+          ]
+        },
+        "result": "Đã nhận lại lô hàng ký gửi, giữ nguyên biên nhận."
+      },
+      {
+        "id": "retrieve_fuse_replacement",
+        "locationId": "g",
+        "label": "Nhận lại dây ngòi thay thế",
+        "requires": {
+          "stored": "fuse_replacement"
+        },
+        "effects": {
+          "retrieve": [
+            "fuse_replacement"
+          ]
+        },
+        "result": "Đã nhận lại lô hàng ký gửi, giữ nguyên biên nhận."
+      },
+      {
+        "id": "retrieve_tool_kit",
+        "locationId": "g",
+        "label": "Nhận lại bộ dụng cụ bảo dưỡng",
+        "requires": {
+          "stored": "tool_kit"
+        },
+        "effects": {
+          "retrieve": [
+            "tool_kit"
+          ]
+        },
+        "result": "Đã nhận lại lô hàng ký gửi, giữ nguyên biên nhận."
+      },
+      {
+        "id": "retrieve_medical_crate",
+        "locationId": "f",
+        "label": "Nhận lại thùng thuốc cứu thương",
+        "requires": {
+          "stored": "medical_crate"
+        },
+        "effects": {
+          "retrieve": [
+            "medical_crate"
+          ]
+        },
+        "result": "Đã nhận lại lô hàng ký gửi, giữ nguyên biên nhận."
+      },
+      {
+        "id": "courier_a",
+        "locationId": "a",
+        "label": "Đối chiếu hành trình thư",
+        "requires": {
+          "cleared": [
+            "book2.intro.f05"
+          ],
+          "partyMembers": [
+            "chelsea"
+          ],
+          "expertiseScope": "courier_trace"
+        },
+        "effects": {
+          "notes": [
+            "Chelsea đối chiếu ngày gửi và ngày nhận với sổ tại quầy. Giấy quân sự vẫn cần người có thẩm quyền xác nhận."
+          ]
+        },
+        "result": "Chelsea chỉ kiểm tra hành trình chuyển phát; quyền xem hồ sơ và lệnh quân sự giữ nguyên."
+      },
+      {
+        "id": "courier_d",
+        "locationId": "d",
+        "label": "Đối chiếu hành trình thư",
+        "requires": {
+          "cleared": [
+            "book2.intro.f05"
+          ],
+          "partyMembers": [
+            "chelsea"
+          ],
+          "expertiseScope": "courier_trace"
+        },
+        "effects": {
+          "notes": [
+            "Chelsea đối chiếu ngày gửi và ngày nhận với sổ tại quầy. Giấy quân sự vẫn cần người có thẩm quyền xác nhận."
+          ]
+        },
+        "result": "Chelsea chỉ kiểm tra hành trình chuyển phát; quyền xem hồ sơ và lệnh quân sự giữ nguyên."
+      },
+      {
+        "id": "courier_e",
+        "locationId": "e",
+        "label": "Đối chiếu hành trình thư",
+        "requires": {
+          "cleared": [
+            "book2.intro.f05"
+          ],
+          "partyMembers": [
+            "chelsea"
+          ],
+          "expertiseScope": "courier_trace"
+        },
+        "effects": {
+          "notes": [
+            "Chelsea đối chiếu ngày gửi và ngày nhận với sổ tại quầy. Giấy quân sự vẫn cần người có thẩm quyền xác nhận."
+          ]
+        },
+        "result": "Chelsea chỉ kiểm tra hành trình chuyển phát; quyền xem hồ sơ và lệnh quân sự giữ nguyên."
+      },
+      {
+        "id": "courier_i",
+        "locationId": "i",
+        "label": "Đối chiếu hành trình thư",
+        "requires": {
+          "cleared": [
+            "book2.intro.f05"
+          ],
+          "partyMembers": [
+            "chelsea"
+          ],
+          "expertiseScope": "courier_trace"
+        },
+        "effects": {
+          "notes": [
+            "Chelsea đối chiếu ngày gửi và ngày nhận với sổ tại quầy. Giấy quân sự vẫn cần người có thẩm quyền xác nhận."
+          ]
+        },
+        "result": "Chelsea chỉ kiểm tra hành trình chuyển phát; quyền xem hồ sơ và lệnh quân sự giữ nguyên."
+      }
+    ]
   }
 ]

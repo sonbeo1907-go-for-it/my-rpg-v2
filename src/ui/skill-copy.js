@@ -202,6 +202,7 @@ export function passivePresentation(actor,content) {
   const facts=[],rules=[];
   let summary='',name=p.name??({damage_reduction:'Bền bỉ',shield_break_heal:'Dư âm thủy hộ'}[p.type]??'Năng lực đặc trưng');
   switch(p.type){
+    case 'agony_revenant':summary=p.description;facts.push('0 HP vẫn hành động · giảm 30% sát thương trong Oán Hận','Hệ Nguyệt: điểm yếu +50% · Hệ Oán Hận: trực tiếp trừ HP tối đa');rules.push('Kích hoạt ở vòng N, kết thúc cuối vòng N+1 sau Vòng Phụ.','HP tối đa đã mất giữ nguyên suốt trận; về 0 thì chết hẳn. Không nhận hồi HP hoặc khiên trong Oán Hận.','Đòn đầu đưa HP về 0 chỉ kích hoạt trạng thái; các hit tiếp theo của cùng chiêu có thể bào mòn HP tối đa.','Trở lại không phải hồi máu kỹ năng; không tự giải debuff, hồi MP hoặc cấp thêm lượt.');break;
     case 'ally_support_followup': {
       const follow=content.abilities[p.followUpAbility],cast=actor.abilities.map(id=>content.abilities[id]).find(a=>a.effects.some(e=>e.type==='enter_mode'&&e.mode===p.modeId));
       const modeEffect=resolveRankedAbility(content,actor,cast).effects.find(e=>e.type==='enter_mode');

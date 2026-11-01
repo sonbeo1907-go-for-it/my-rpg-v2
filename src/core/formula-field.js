@@ -1,7 +1,9 @@
+
+import {isAlive} from "./actor-life.js";
 export const FORMULA_TAGS=['lead','break','strike'];
 export const FORMULA_NAMES={lead:'Dẫn',break:'Phá',strike:'Kích'};
 export function activeFormula(battle,owner) {
-  return owner?.hp>0 && owner.formulaField && battle.round<=owner.formulaField.expiresAfterRound ? owner.formulaField : null;
+  return isAlive(owner) && owner.formulaField && battle.round<=owner.formulaField.expiresAfterRound ? owner.formulaField : null;
 }
 export function formulaDefinition(content,field) {
   return content.abilities[field?.abilityId]?.effects.find(effect=>effect.type==='formula_field')??null;
@@ -73,11 +75,11 @@ export function closeFormula(battle,owner,io,reason) {
   io.emit(battle,{type:'formula_end',sourceId:owner.id,reason});
 }
 export function expireFormulaFields(battle,io,atEnd=false) {
-  for (const owner of battle.actors) if (owner.formulaField && (owner.hp<=0 || (atEnd?battle.round>=owner.formulaField.expiresAfterRound:battle.round>owner.formulaField.expiresAfterRound))) closeFormula(battle,owner,io,owner.hp<=0?'owner_ko':'expired');
+  for (const owner of battle.actors) if (owner.formulaField && (!isAlive(owner) || (atEnd?battle.round>=owner.formulaField.expiresAfterRound:battle.round>owner.formulaField.expiresAfterRound))) closeFormula(battle,owner,io,!isAlive(owner)?'owner_ko':'expired');
 }
 export function recordFormulaAction(battle,actor,skill,io) {
   const tag=classifyFormulaSkill(battle.content,skill);
-  if (!tag || actor.hp<=0) return;
+  if (!tag || !isAlive(actor)) return;
   for (const owner of battle.actors) {
     const field=activeFormula(battle,owner);
     if (!field || owner.id===actor.id || owner.team!==actor.team) continue;

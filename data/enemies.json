@@ -20,7 +20,9 @@
       "wind",
       "thunder",
       "light",
-      "dark"
+      "dark",
+      "moon",
+      "agony"
     ],
     "abilities": [
       "enemy.slash"
@@ -412,7 +414,9 @@
       "wind",
       "thunder",
       "light",
-      "dark"
+      "dark",
+      "moon",
+      "agony"
     ],
     "abilities": [
       "enemy.slash"
@@ -1838,5 +1842,291 @@
       }
     ],
     "referenceLevel": 1
+  },
+  {
+    "id": "lampkeeper_revenant",
+    "name": "Vong hồn Người giữ đèn",
+    "role": "Chiến sĩ giữ đèn đã ngã xuống",
+    "group": "agony",
+    "region": "drageshelmfjall",
+    "element": "agony",
+    "referenceLevel": 1,
+    "stats": {
+      "maxHp": 140,
+      "maxMp": 55,
+      "attack": 20,
+      "magic": 18,
+      "defense": 14,
+      "resistance": 16,
+      "speed": 14
+    },
+    "weaknesses": [
+      "moon"
+    ],
+    "abilities": [
+      "enemy.lampkeeper_spear",
+      "enemy.lampkeeper_lament"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "agony",
+        "multiplier": 1
+      }
+    ],
+    "passive": {
+      "type": "agony_revenant",
+      "name": "Oán Hận chưa nguôi",
+      "description": "HP về 0: Oán Hận đến hết vòng sau, vẫn hành động và giảm 30% sát thương nhận. Sát thương lúc này trừ HP tối đa; không nhận khiên hay hồi HP. Hết hạn trở lại với HP tối đa còn lại; có thể lặp. Hệ Oán Hận luôn trừ trực tiếp HP tối đa. HP tối đa về 0 mới chết hẳn."
+    },
+    "agony": {
+      "roundsAfterTrigger": 1,
+      "damageReduction": 0.3,
+      "directMaxHpElement": "agony"
+    },
+    "ai": {
+      "rotation": [
+        "enemy.lampkeeper_spear",
+        "enemy.lampkeeper_lament",
+        "enemy.lampkeeper_spear"
+      ],
+      "priorities": []
+    }
+  },
+  {
+    "id": "fortress_shield_knight",
+    "name": "Kị sĩ giữ khiên",
+    "role": "Binh sĩ vô danh · Tỷ thí hoặc khống chế",
+    "element": "earth",
+    "stats": {
+      "maxHp": 220,
+      "maxMp": 65,
+      "attack": 19,
+      "magic": 10,
+      "defense": 26,
+      "resistance": 18,
+      "speed": 11
+    },
+    "referenceLevel": 1,
+    "weaknesses": [
+      "fire",
+      "dark"
+    ],
+    "abilities": [
+      "enemy.fortress_guard",
+      "enemy.fortress_shield"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "ai": {
+      "priorities": [
+        {
+          "abilityId": "enemy.fortress_guard",
+          "when": "missing_status",
+          "statusId": "fortress_guard"
+        },
+        {
+          "abilityId": "enemy.fortress_shield",
+          "when": "ally_unshielded"
+        }
+      ]
+    }
+  },
+  {
+    "id": "fortress_spear_knight",
+    "name": "Kị sĩ giữ thương",
+    "role": "Binh sĩ vô danh · Tỷ thí hoặc khống chế",
+    "element": "light",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 50,
+      "attack": 24,
+      "magic": 10,
+      "defense": 17,
+      "resistance": 16,
+      "speed": 15
+    },
+    "referenceLevel": 1,
+    "weaknesses": [
+      "water",
+      "dark"
+    ],
+    "abilities": [
+      "enemy.fortress_spear"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 1
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "enemy.fortress_spear",
+        "enemy.fortress_spear"
+      ]
+    }
+  },
+  {
+    "id": "fortress_marksman",
+    "name": "Xạ thủ vọng gác",
+    "role": "Binh sĩ vô danh · Tỷ thí hoặc khống chế",
+    "element": "wind",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 50,
+      "attack": 25,
+      "magic": 9,
+      "defense": 12,
+      "resistance": 15,
+      "speed": 20
+    },
+    "referenceLevel": 1,
+    "weaknesses": [
+      "fire",
+      "earth"
+    ],
+    "abilities": [
+      "enemy.fortress_arrow"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "enemy.fortress_arrow",
+        "enemy.fortress_arrow"
+      ]
+    }
+  },
+  {
+    "id": "rogue_deserter",
+    "name": "Lính đào ngũ",
+    "role": "Kẻ xâm nhập",
+    "element": "earth",
+    "stats": {
+      "maxHp": 205,
+      "maxMp": 45,
+      "attack": 25,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 13,
+      "speed": 13
+    },
+    "referenceLevel": 1,
+    "weaknesses": [
+      "water",
+      "light"
+    ],
+    "abilities": [
+      "enemy.fortress_deserter"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "enemy.fortress_deserter",
+        "enemy.fortress_deserter"
+      ]
+    }
+  },
+  {
+    "id": "fortress_infiltrator",
+    "name": "Kẻ xâm nhập chân tường",
+    "role": "Kẻ xâm nhập",
+    "element": "dark",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 60,
+      "attack": 24,
+      "magic": 16,
+      "defense": 13,
+      "resistance": 17,
+      "speed": 24
+    },
+    "referenceLevel": 1,
+    "weaknesses": [
+      "light",
+      "fire"
+    ],
+    "abilities": [
+      "enemy.fortress_ambush"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "enemy.fortress_ambush",
+        "enemy.fortress_ambush"
+      ]
+    }
+  },
+  {
+    "id": "fortress_saboteur",
+    "name": "Kẻ phá hoại",
+    "role": "Kẻ xâm nhập",
+    "element": "dark",
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 70,
+      "attack": 15,
+      "magic": 24,
+      "defense": 14,
+      "resistance": 20,
+      "speed": 17
+    },
+    "referenceLevel": 1,
+    "weaknesses": [
+      "light",
+      "wind"
+    ],
+    "abilities": [
+      "enemy.fortress_sabotage"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1
+      }
+    ],
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "enemy.fortress_sabotage",
+        "enemy.fortress_sabotage"
+      ]
+    }
   }
 ]

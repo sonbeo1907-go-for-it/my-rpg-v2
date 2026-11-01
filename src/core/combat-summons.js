@@ -1,3 +1,5 @@
+
+import {isAlive} from "./actor-life.js";
 import {enterCombatMode,checkCombatMode} from './combat-modes.js';
 
 export function prepareCombatMode(battle,actor,id,io) {
@@ -15,7 +17,7 @@ export function roundSummons(battle,phase,io) {
   // Snapshot owners; summoned companions never become party slots or turn-queue actors.
   for (const owner of battle.actors) {
     checkCombatMode(battle,owner,phase==='start'?'round_start':'owner_state',io);
-    if (owner.hp<=0 || battle.outcome) continue;
+    if (!isAlive(owner) || battle.outcome) continue;
     const pending=owner.pendingMode;
     if (phase==='start' && pending && pending.readyRound<=battle.round) {
       delete owner.pendingMode;

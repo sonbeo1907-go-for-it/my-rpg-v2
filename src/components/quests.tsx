@@ -34,7 +34,7 @@ export function QuestPage() {
   const router = useRouter();
   const [filters, setFilters] = useRouteFilters();
   const tab = questCategory(filters);
-  const sinisterLocked = tab === "sinister" && !campaign.storyFlags.includes(SINISTER_UNLOCK_FLAG)&&!campaign.chronicles?.aliceFirstEncounterCleared;
+  const sinisterLocked = tab === "sinister" && !campaign.storyFlags.includes(SINISTER_UNLOCK_FLAG)&&!campaign.chronicles?.aliceFirstEncounterCleared&&!campaign.chronicles?.books?.book2?.finaleCleared;
   const bountyLocked=tab==="bounty"&&!bountyUnlocked(campaign);
   const encounters: any[] = questCatalog(content, campaign, filters);
   const selected =

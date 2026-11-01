@@ -1,6 +1,8 @@
+
+import {isAlive} from "./actor-life.js";
 import {activeStatuses} from './status-state.js';
 
-const alive=a=>a?.hp>0;
+const alive=isAlive;
 function* recipes(actor,type){const seen=new Set();for(const r of actor.gearEffects??[]){if(seen.has(r.effectGroup)||r.effect.type!==type)continue;seen.add(r.effectGroup);yield r;}}
 function ready(b,a,r){return alive(a)&&b.round>=(a.gearEffectReadyRounds?.[r.effectGroup]??0)&&(!r.oncePerRound||a.gearEffectProcRounds?.[r.effectGroup]!==b.round)&&(!r.oncePerEncounter||!a.gearEffectEncounterUses?.[r.effectGroup]);}
 function activated(b,a,r,io,targetId=a.id){

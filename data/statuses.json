@@ -964,5 +964,42 @@
     "modifiers": {
       "speed": -0.15
     }
+  },
+  {
+    "id": "exposure_moon",
+    "name": "Sơ hở — Nguyệt",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "moon",
+    "description": "Yếu Ám. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "exposure_agony",
+    "name": "Sơ hở — Oán Hận",
+    "kind": "debuff",
+    "persistent": true,
+    "durationClock": "main_turn",
+    "maxStacks": 3,
+    "exposedElement": "agony",
+    "description": "Yếu Ám. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
+  },
+  {
+    "id": "fortress_guard",
+    "name": "Giữ hàng khiên",
+    "kind": "buff",
+    "modifiers": {
+      "damageReduction": 0.2
+    }
+  },
+  {
+    "id": "fortress_interference",
+    "name": "Nhiễu tín hiệu",
+    "kind": "debuff",
+    "modifiers": {
+      "attack": -0.1,
+      "magic": -0.1
+    }
   }
 ]

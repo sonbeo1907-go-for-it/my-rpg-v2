@@ -1,3 +1,5 @@
+
+import {isAlive} from "../core/actor-life.js";
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {exclusiveDamageEffect} from '../core/exclusive-hooks.js';
 import { formulaSnapshot, formulaDamage } from '../core/formula-field.js';
@@ -15,8 +17,8 @@ const percent = value => `${compactNumber(value * 100)}%`;
 const statNames = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD', evasion: 'né vật lí', damageBonus: 'sát thương', damageReduction: 'giảm sát thương' };
 
 export function resolveCombatTargets(battle, actor, skill, selection = {}) {
-  const allies = battle.actors.filter(item => item.team === 'party' && item.hp > 0);
-  const enemies = battle.actors.filter(item => item.team === 'enemy' && item.hp > 0);
+  const allies = battle.actors.filter(item => item.team === 'party' && isAlive(item));
+  const enemies = battle.actors.filter(item => item.team === 'enemy' && isAlive(item));
   const rememberedAlly = allies.find(item => item.id === selection.allyId)?.id ?? allies[0]?.id ?? '';
   let enemyId = enemies.find(item => item.id === selection.enemyId)?.id ?? enemies[0]?.id ?? '';
   const legal = actor && skill && !battle.outcome ? targetsFor(battle, actor, skill) : [];

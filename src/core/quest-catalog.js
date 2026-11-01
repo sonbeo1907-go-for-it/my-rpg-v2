@@ -5,10 +5,12 @@ export const BOUNTY_PREREQUISITES=['iris_story_revenge','takeshi_story_horizon',
 export const bountyUnlocked=campaign=>BOUNTY_PREREQUISITES.every(id=>campaign.claimedFirstClearRewards?.includes(id));
 export const SINISTER_UNLOCK_FLAG = 'illusion.sinister_unlocked';
 export function questUnlockFlag(encounter) {
-  return encounter?.requires?.storyFlag ?? (encounterTier(encounter) === 'super' && !encounter.travelerStory && encounter.category!=='chronicle' ? SINISTER_UNLOCK_FLAG : null);
+  return encounter?.requires?.storyFlag ?? (encounterTier(encounter) === 'super' && encounter.category!=='chronicle'
+        && !encounter.travelerStory && encounter.category!=='chronicle' ? SINISTER_UNLOCK_FLAG : null);
 }
 export function isQuestUnlocked(encounter, campaign) {
   if (!encounter) return false;
+  if(encounter.id==='miraebolis_superboss'&&campaign?.chronicles?.books?.book2?.finaleCleared)return true;
   if(encounter.id==='alice_superboss')return campaign?.chronicles?.aliceFirstEncounterCleared===true;
   if(encounter.category==='chronicle')return chronicleEncounterAllowed(encounter,campaign);
   const flag = questUnlockFlag(encounter);
@@ -25,7 +27,7 @@ export function assertEncounterParty(encounter, campaign, content) {
     throw new Error(`Trận này bắt buộc có ${encounter.requiredPartyIds.map(id => content.characters[id].name).join(', ')} trong đội hình.`);
 }
 export function encounterReturnPath(content, id,difficultyId,enemyLevel) {
-  if(content.encounters[id]?.category==='chronicle')return '/chronicles/book1?location='+content.chronicleEvents[content.encounters[id].chronicleEventId].locationId+'&scene=1';
+  if(content.encounters[id]?.category==='chronicle'){const e=content.chronicleEvents[content.encounters[id].chronicleEventId];return e.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+e.locationId+'&scene=1';}
   if(content.encounters[id]?.superLevels)return '/quests?tab=sinister&selected='+id+'&superLevel='+(content.encounters[id].superLevels.includes(enemyLevel)?enemyLevel:60);
   const story = content.encounters[id]?.travelerStory;
   return story ? `/stories/${story}?selected=${id}` : content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;

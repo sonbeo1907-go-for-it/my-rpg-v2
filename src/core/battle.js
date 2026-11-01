@@ -1,3 +1,6 @@
+
+import {fortressSupport} from './fortress-rules.js';
+import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,expireAgony} from './actor-life.js';
 import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
 import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked} from './exclusive-runtime.js';
 import {specialPassives,specialSkillStatBonuses} from './exclusive-specials.js';
@@ -61,7 +64,7 @@ const modeIO = { write, emit: emitEvent, restore: gainResource, outcome:checkOut
 };
 const specialIO={restore:gainResource,heal:healHp,status:applyStatus,stat,emit:emitEvent,write,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId)??t,[t],{type:'shield',flat},0,false)};
 const gearIO={status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write,shield:(battle,actor,flat)=>applyEffect(battle,actor,[actor],{type:'shield',flat},0,false)};
-const living = (actor) => actor.hp > 0;
+const living = isAlive;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 export function createBattle(
@@ -75,8 +78,10 @@ export function createBattle(
   const encounter = content.encounters[encounterId];
   if (!encounter) throw new Error(`Unknown encounter ${encounterId}`);
   if (options.storyWaveIndex !== undefined && (!encounter.waves || !Number.isInteger(options.storyWaveIndex) || options.storyWaveIndex < 0 || options.storyWaveIndex >= encounter.waves.length)) throw new Error('Đợt truyện không hợp lệ.');
+  if(encounter.category==='chronicle'&&encounter.bookId!=='book2'&&campaign.chronicles?.activeSession)throw Error('Hãy rời phiên pháo đài trước.');
   assertQuestUnlocked(encounter, campaign);
-  if(encounter.category==='chronicle'&&!Object.values(campaign.chronicles.pendingByLocation).some(p=>p.instanceId===options.chronicleInstanceId&&p.eventId===encounter.chronicleEventId&&p.level===options.enemyLevel&&p.stepId===p.battleStepId))throw Error('Hãy bắt đầu trận từ địa điểm đang khám phá.');
+  if(encounter.bookId==='book2'&&(!campaign.chronicles?.firstClearIds.includes('book1.intro.f10')||campaign.chronicles.activeSession?.currentLocation!==content.chronicleEvents[encounter.chronicleEventId]?.steps.find(s=>s.battle)?.locationId))throw Error('Hãy đến đúng khu vực trong phiên pháo đài.');
+  if(encounter.category==='chronicle'&&![...Object.values(campaign.chronicles.pendingByLocation),campaign.chronicles.activeSession?.activeEvent].filter(Boolean).some(p=>p.instanceId===options.chronicleInstanceId&&p.eventId===encounter.chronicleEventId&&p.level===options.enemyLevel&&p.stepId===p.battleStepId))throw Error('Hãy bắt đầu trận từ địa điểm đang khám phá.');
   if(encounter.superLevels&&options.enemyLevel!==undefined&&!encounter.superLevels.includes(options.enemyLevel))throw Error('Cấp thử thách không hợp lệ.');
   assertEncounterParty(encounter, campaign, content);
   if (!isValidParty(campaign.party, content.characters))
@@ -134,6 +139,8 @@ export function createBattle(
     const slot=campaign.party.indexOf(actor.id);
     actor.formationSlot=slot>=0?slot:actors.filter(item=>item.team==='party').indexOf(actor);
   }
+  const encounterSupport=fortressSupport(campaign,content,encounter,options.chronicleInstanceId);
+  if(encounterSupport)for(const actor of actors.filter(a=>a.team==='party'))actor.encounterModifiers={...encounterSupport.modifiers};
   const enemies = actors.filter((actor) => actor.team === "enemy");
   for (const actor of enemies) {
     const siblings = enemies.filter(
@@ -146,6 +153,7 @@ export function createBattle(
   const battle = {
     content,
     encounterId,
+    encounterSupport,
     questDifficulty:difficulty?.id??null,enemyLevel:requestedLevel??null,
     actors,
     random,
@@ -298,7 +306,7 @@ function announcePassive(battle,source,targetId,label=source?.passive?.name) {
 }
 
 function healHp(battle, target, requested, sourceId, label = "") {
-  if (!living(target)) return 0;
+  if (!living(target)||isInAgony(target)) return 0;
   const amount = Math.min(target.stats.maxHp - target.hp, Math.max(0, Math.round(requested)));
   target.hp += amount;
   if (amount > 0) {
@@ -325,14 +333,9 @@ function beginTurn(battle) {
   for (const status of [...actor.statuses]) {
     const definition = battle.content.statuses[status.id];
     if (!definition.damageOverTime) continue;
-    const amount = Math.min(
-      Math.max(0, actor.hp - bossHealthFloor(actor)),
-      Math.floor(
-        status.potency * (status.stacks ?? 1) *
-          incomingDamageMultiplier(modifier(battle, actor, "damageTakenBonus")),
-      ),
-    );
-    actor.hp -= amount;
+    const requested=Math.floor(status.potency*(status.stacks??1)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
+    const life=applyLifeDamage(battle,actor,requested>0?requested:status.potency>0&&isInAgony(actor)?1:0,{element:definition.damageOverTime.element,healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
+    const amount=life.hpLost+life.maxHpLost;
     status.remaining -= 1;
     emitEvent(battle, {
       type: "damage",
@@ -342,8 +345,9 @@ function beginTurn(battle) {
       absorbed: 0,
       weakness: false,
       periodic: true,
+      ...(life.maxHpLost?{maxHpDamage:life.maxHpLost}:{}),
     });
-    write(battle, `${actor.name} mất ${amount} HP vì ${definition.name}.`);
+    write(battle, `${actor.name} mất ${amount} ${life.maxHpLost?"HP tối đa":"HP"} vì ${definition.name}.`);
     if(amount>0) gearHpLoss(battle,actor,actor.hp,gearIO);
     transitionBossPhases(battle, { write, restoreMp: gainResource });
     if (status.remaining <= 0)
@@ -487,7 +491,7 @@ function checkOutcome(battle) {
     battle.outcome = "defeat";
   for (const actor of battle.actors) {
     checkCombatMode(battle,actor,battle.outcome ? "battle_end" : "owner_state",modeIO);
-    if (actor.hp<=0 || (battle.outcome && !(battle.outcome==='victory' && battle.continuesOnVictory))) closeFormula(battle,actor,modeIO,actor.hp<=0?'owner_ko':'battle_end');
+    if (!living(actor) || (battle.outcome && !(battle.outcome==='victory' && battle.continuesOnVictory))) closeFormula(battle,actor,modeIO,!living(actor)?'owner_ko':'battle_end');
   }
   return battle.outcome;
 }
@@ -545,6 +549,7 @@ function finishMainRound(battle) {
   expireFormulaFields(battle,modeIO,true);
   expireRoundEffects(battle,modeIO,true);
   expireTurnOrderField(battle,modeIO,true);
+  expireAgony(battle,{write,emit:emitEvent});
   emitEvent(battle, { type: "round_end", round: battle.round });
   write(battle, `— Kết thúc Vòng Chính ${battle.round} —`);
   startRound(battle);
@@ -587,7 +592,7 @@ export function abilityAvailability(battle, actor, skill) {
       ok: false,
       reason: `Hồi chiêu: ${actor.cooldowns[skill.id]} vòng.`,
     };
-  if (actor.hp<=hpCost(skill,actor)) return {ok:false,reason:"Không đủ HP; không thể tự hạ gục bằng chi phí kỹ năng."};
+  if (hpCost(skill,actor)>0 && actor.hp<=hpCost(skill,actor)) return {ok:false,reason:"Không đủ HP; không thể tự hạ gục bằng chi phí kỹ năng."};
   if (actor.mp < mpCost(skill,actor))
     return { ok: false, reason: "Không đủ MP." };
   if (skill.target === "adjacent_allies" && !targetsFor(battle,actor,skill).length) return {ok:false,reason:"Không có đồng đội còn sống ở hai ô kề."};
@@ -880,7 +885,7 @@ function resolveHit(
     hpRatio: attacker.hp / attacker.stats.maxHp,
     buffs: buffTypeCount(battle.content,target),
   });
-  let reduction = modifier(battle, target, "damageReduction")+gearGuardReduction(target)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0);
+  let reduction = agonyReduction(target)+modifier(battle, target, "damageReduction")+gearGuardReduction(target)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0);
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
@@ -933,22 +938,20 @@ function resolveHit(
     ),
   );
   if (!reaction && attacker.team!==target.team && target.shield>0) actionContext.shieldedAllyHits.add(target.id);
-  const baseAbsorbed=Math.min(target.shield,amount);
+  const maxHpRoute=routesToMaxHp(target,effect.element);
+  const baseAbsorbed=maxHpRoute?0:Math.min(target.shield,amount);
   const absorbed=Math.min(target.shield,baseAbsorbed+gearShieldExtra(attacker,baseAbsorbed));
   target.shield-=absorbed;
   amount-=baseAbsorbed; // Extra shield damage never changes the original HP spill.
-  const lostHp = Math.min(
-    Math.max(0, target.hp - bossHealthFloor(target)),
-    amount,
-  );
-  target.hp -= lostHp;
+  const life=applyLifeDamage(battle,target,amount,{element:effect.element,healthFloor:bossHealthFloor(target)},{write,emit:emitEvent});
+  const lostHp=life.hpLost,vitalityDamage=life.hpLost+life.maxHpLost;
   const hpAfter=target.hp;
-  if(attacker.team!==target.team && lostHp+absorbed>0) actionContext.gearImpacts.push({target,lostHp,absorbed,damageType:effect.damageType,element:effect.element,elementWeakness,weakness});
-  if (lostHp + absorbed > 0) reserveExposure(target, effect.element, actionContext);
-  if(!reaction && attacker.team!==target.team && lostHp+absorbed>0) actionContext.damagedAllyHits.add(target.id);
+  if(attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.gearImpacts.push({target,lostHp,absorbed,damageType:effect.damageType,element:effect.element,elementWeakness,weakness});
+  if (vitalityDamage + absorbed > 0) reserveExposure(target, effect.element, actionContext);
+  if(!reaction && attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.damagedAllyHits.add(target.id);
   // Reserve before nested reactions; settle after the whole attack so a later
   // weak target/hit can upgrade 3 MP to 5 MP. Shield damage and kills count.
-  if (attacker.team !== target.team && lostHp + absorbed > 0) {
+  if (attacker.team !== target.team && vitalityDamage + absorbed > 0) {
     for (const source of battle.actors) {
       const passive = source.passive;
       if (!living(source) || source.id === attacker.id || source.team !== attacker.team
@@ -966,7 +969,8 @@ function resolveHit(
     type: "damage",
     targetId: target.id,
     sourceId: attacker.id,
-    amount: lostHp,
+    amount: vitalityDamage,
+    ...(life.maxHpLost?{maxHpDamage:life.maxHpLost}:{}),
     absorbed,
     element: effect.element,
     weakness,
@@ -979,9 +983,9 @@ function resolveHit(
   });
   write(
     battle,
-    `${attacker.name} → ${target.name}: ${lostHp} sát thương${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
+    `${attacker.name} → ${target.name}: ${vitalityDamage} sát thương${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
   );
-  if (living(target) && weakness && lostHp + absorbed > 0)
+  if (living(target) && weakness && vitalityDamage + absorbed > 0)
     suppressOnWeakness(
       battle,
       attacker,
@@ -1020,15 +1024,15 @@ function resolveHit(
         applyStatus(battle, target, status.id, status.duration, attacker.id);
     }
   }
-  if(lostHp+absorbed>0) { gearAfterDirectHit(battle,target,{lostHp,absorbed,hpAfter},gearIO); if(weakness) gearObserveWeakness(battle,attacker,gearIO); }
-  if (living(target) && (lostHp || absorbed)) {
+  if(vitalityDamage+absorbed>0) { gearAfterDirectHit(battle,target,{lostHp,absorbed,hpAfter},gearIO); if(weakness) gearObserveWeakness(battle,attacker,gearIO); }
+  if (living(target) && (vitalityDamage || absorbed)) {
     for (const status of statusDefinitions(battle, target)) {
       if (status.onDamagedResource)
         gainResource(battle, target, status.onDamagedResource, 1);
     }
   }
   // Refresh an existing mark at most once per main round per target. New marks don't consume that quota.
-  if (living(target) && effect.damageType === "magical" && lostHp + absorbed > 0) {
+  if (living(target) && effect.damageType === "magical" && vitalityDamage + absorbed > 0) {
     for (const mark of target.statuses) {
       const refresh = battle.content.statuses[mark.id].magicRefresh;
       const source = getActor(battle,mark.sourceId);
@@ -1042,10 +1046,10 @@ function resolveHit(
       const applied = applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:effect.onHitStatus.stacks??1});
       if (applied && !actionContext.preMarkedTargets?.has(target.id + ":" + applied.id)) actionContext.newlyMarkedTargets.add(target.id + ":" + applied.id);
     }
-  } else if (living(target) && effect.damageType !== "magical" && lostHp + absorbed > 0 && effect.onHitStatus) {
+  } else if (living(target) && effect.damageType !== "magical" && vitalityDamage + absorbed > 0 && effect.onHitStatus) {
     applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:effect.onHitStatus.stacks??1});
   }
-  if (living(target) && attacker.team!==target.team && lostHp+absorbed>0 && attacker.passive?.type==="attack_status") {
+  if (living(target) && attacker.team!==target.team && vitalityDamage+absorbed>0 && attacker.passive?.type==="attack_status") {
     if (applyStatus(battle,target,attacker.passive.statusId,attacker.passive.duration,attacker.id)) announcePassive(battle,attacker,target.id);
   }
   if (!living(target)) {
@@ -1060,7 +1064,7 @@ function resolveHit(
     !reaction &&
     !area &&
     effect.damageType === "magical" &&
-    lostHp + absorbed > 0
+    vitalityDamage + absorbed > 0
   )
     triggerMagicFollowups(battle, attacker, target);
 }
@@ -1195,6 +1199,7 @@ function applyEffect(
       gearSkillHealed(battle,actor,target,healed,actionContext,gearIO);
     }
     if (effect.type === "shield") {
+      if(isInAgony(target)){write(battle,target.name+': Oán Hận chặn nhận khiên.');continue;}
       const amount = supportAmount(
         effect,
         scalingValue(effect,key=>stat(battle,actor,key)),

@@ -2406,5 +2406,3792 @@
         "y": 45
       }
     ]
+  },
+  {
+    "id": "book2.intro.f01",
+    "bookId": "book2",
+    "code": "F01",
+    "locationId": "a",
+    "name": "Cổng trước — Qua cổng kiểm tra",
+    "description": "Đoàn người mới đến bị chặn để kiểm tra danh tính; số lính trực ít hơn thường lệ, hai ca gác phải đổi chéo.",
+    "ending": "Công việc tại Cổng trước đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Đoàn người mới đến bị chặn để kiểm tra danh tính; số lính trực ít hơn thường lệ, hai ca gác phải đổi chéo.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Quan sát hàng đợi",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "trình bày mục đích vào thành",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "trình bày mục đích vào thành",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "binh sĩ kiểm tra sổ khách",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "binh sĩ kiểm tra sổ khách",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "nhận Giấy thông hành tạm thời",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "nhận Giấy thông hành tạm thời",
+            "next": "s4"
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "narration": "mở Sân tập.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s4-act",
+            "label": "mở Sân tập",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {
+      "grantItems": [
+        "permit_temporary"
+      ]
+    },
+    "prop": "prop-permit-documents.svg"
+  },
+  {
+    "id": "book2.intro.f02",
+    "bookId": "book2",
+    "code": "F02",
+    "locationId": "b",
+    "name": "Sân tập — Giữ hàng khiên",
+    "description": "Lanceveil kiểm tra hàng khiên giữa lúc binh sĩ thay nhau giữ tuyến gác.",
+    "ending": "Công việc tại Sân tập đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f01"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Lanceveil kiểm tra hàng khiên giữa lúc binh sĩ thay nhau giữ tuyến gác.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Kiểm tra bia tập",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "nhặt khiên rơi",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "nhặt khiên rơi",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "thử thế thủ",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "thử thế thủ",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "Lanceveil cho thấy cách phối hợp bảo vệ người phía sau",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "Lanceveil cho thấy cách phối hợp bảo vệ người phía sau",
+            "next": "s4"
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "narration": "mở Căng Tin.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s4-act",
+            "label": "mở Căng Tin",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {},
+    "prop": "prop-training-gear.svg"
+  },
+  {
+    "id": "book2.intro.f03",
+    "bookId": "book2",
+    "code": "F03",
+    "locationId": "c",
+    "name": "Căng Tin — Bữa cơm sau ca trực",
+    "description": "Binh sĩ ăn uống sau ca trực, một nhóm hát, một nhóm cãi nhau về chuyện chuyển lương thực chậm.",
+    "ending": "Công việc tại Căng Tin đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f02"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Binh sĩ ăn uống sau ca trực, một nhóm hát, một nhóm cãi nhau về chuyện chuyển lương thực chậm.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Chuyển các suất ăn",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "nghe những câu nói rời rạc về phiên gác",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "nghe những câu nói rời rạc về phiên gác",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "giúp thu dọn bàn",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "giúp thu dọn bàn",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "mở Văn phòng Sandra.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "mở Văn phòng Sandra",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {},
+    "prop": "prop-food-trays.svg"
+  },
+  {
+    "id": "book2.intro.f04",
+    "bookId": "book2",
+    "code": "F04",
+    "locationId": "d",
+    "name": "Văn phòng Sandra — Những giấy tờ đúng loại",
+    "description": "Sandra vừa phụ trách thư khố vừa phải đóng dấu số lượng lớn giấy phép. Nhiều hồ sơ chất chồng vì thiếu người.",
+    "ending": "Công việc tại Văn phòng Sandra đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f03"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Sandra vừa phụ trách thư khố vừa phải đóng dấu số lượng lớn giấy phép. Nhiều hồ sơ chất chồng vì thiếu người.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Xếp sổ theo ngày",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "đối chiếu dấu nhận",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "đối chiếu dấu nhận",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "nhận hướng dẫn về giấy phép đúng loại",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "nhận hướng dẫn về giấy phép đúng loại",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "mở Phòng chỉ huy.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "mở Phòng chỉ huy",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {},
+    "prop": "prop-library-ledgers.svg"
+  },
+  {
+    "id": "book2.intro.f05",
+    "bookId": "book2",
+    "code": "F05",
+    "locationId": "e",
+    "name": "Phòng chỉ huy — Nhận công việc hỗ trợ",
+    "description": "Charlemagnes giải thích nhiều phân đội đã được phái đi nơi khác, khiến thành thiếu lính trực. Roland tạm giao người chơi các công việc hỗ trợ có giới hạn.",
+    "ending": "Công việc tại Phòng chỉ huy đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f04"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Charlemagnes giải thích nhiều phân đội đã được phái đi nơi khác, khiến thành thiếu lính trực. Roland tạm giao người chơi các công việc hỗ trợ có giới hạn.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Quan sát bản đồ ca gác",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "nghe lời cảnh báo ngắn",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "nghe lời cảnh báo ngắn",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "Roland cấp Giấy phép hỗ trợ trong phạm vi khu vực công cộng/quân nhu được chỉ định",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "Roland cấp Giấy phép hỗ trợ trong phạm vi khu vực công cộng/quân nhu được chỉ định",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "mở Trạm quân y.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "mở Trạm quân y",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {
+      "grantItems": [
+        "work_permit"
+      ],
+      "flags": [
+        "powderTransferDelegation"
+      ]
+    },
+    "prop": "prop-duty-map.svg"
+  },
+  {
+    "id": "book2.intro.f06",
+    "bookId": "book2",
+    "code": "F06",
+    "locationId": "f",
+    "name": "Trạm quân y — Đón chuyến tiếp vận",
+    "description": "Lionel đang chia lại thùng thuốc và băng sạch, đoàn tiếp vận đến chậm làm lịch chữa trị bị xáo trộn.",
+    "ending": "Công việc tại Trạm quân y đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f05"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Lionel đang chia lại thùng thuốc và băng sạch, đoàn tiếp vận đến chậm làm lịch chữa trị bị xáo trộn.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Xếp dụng cụ",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "đối chiếu phiếu tiếp nhận",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "đối chiếu phiếu tiếp nhận",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "đánh dấu một thùng thiếu hàng",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "đánh dấu một thùng thiếu hàng",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "Lionel nhờ hỗ trợ đón quân nhu",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "Lionel nhờ hỗ trợ đón quân nhu",
+            "next": "s4"
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "narration": "mở Kho quân nhu.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s4-act",
+            "label": "mở Kho quân nhu",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {
+      "flags": [
+        "assignedMedicalTransfer"
+      ]
+    },
+    "prop": "prop-medical-crate.svg"
+  },
+  {
+    "id": "book2.intro.f07",
+    "bookId": "book2",
+    "code": "F07",
+    "locationId": "g",
+    "name": "Kho quân nhu — Đúng lệnh, đúng lô",
+    "description": "Lính kho kiểm tra thùng thuốc súng, đèn tín hiệu và lương thực. Một số phiếu chưa có xác nhận của Roland/Sandra.",
+    "ending": "Công việc tại Kho quân nhu đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f06"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Lính kho kiểm tra thùng thuốc súng, đèn tín hiệu và lương thực. Một số phiếu chưa có xác nhận của Roland/Sandra.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Kiểm tra thùng",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "xác định khu vực vật tư có quyền hạn",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "xác định khu vực vật tư có quyền hạn",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "xếp hàng vào đúng dãy",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "xếp hàng vào đúng dãy",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "mở Tường thành.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "mở Tường thành",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {},
+    "prop": "prop-armory-crates.svg"
+  },
+  {
+    "id": "book2.intro.f08",
+    "bookId": "book2",
+    "code": "F08",
+    "locationId": "h",
+    "name": "Tường thành & Pháo — Trên tường thành",
+    "description": "Pháo thủ vệ sinh khẩu pháo nhưng dây ngòi bị ẩm; vắng quân nên việc trực gác và bảo dưỡng phải làm xen kẽ.",
+    "ending": "Công việc tại Tường thành & Pháo đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f07"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Pháo thủ vệ sinh khẩu pháo nhưng dây ngòi bị ẩm; vắng quân nên việc trực gác và bảo dưỡng phải làm xen kẽ.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Quan sát khẩu pháo",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "kiểm tra giá đỡ và tín hiệu",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "kiểm tra giá đỡ và tín hiệu",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "ghi lại những thứ cần bảo dưỡng",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "ghi lại những thứ cần bảo dưỡng",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "mở Cổng sau.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "mở Cổng sau",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {},
+    "prop": "prop-cannon-maintenance.svg"
+  },
+  {
+    "id": "book2.intro.f09",
+    "bookId": "book2",
+    "code": "F09",
+    "locationId": "i",
+    "name": "Cổng sau — Bảo vệ đoàn xe",
+    "description": "Đường tiếp tế chạy qua cổng phụ. Một toán cướp muốn lợi dụng lúc đổi ca tiến gần đoàn hàng.",
+    "ending": "Công việc tại Cổng sau đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f08"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Đường tiếp tế chạy qua cổng phụ. Một toán cướp muốn lợi dụng lúc đổi ca tiến gần đoàn hàng.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Xem sổ xe vào",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "phát hiện động tĩnh",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "defend",
+            "label": "Bảo vệ đoàn xe",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "i",
+        "narration": "Đoàn xe đang bị cướp áp sát. Hỗ trợ người gác chặn đường chúng.",
+        "battle": true,
+        "after": "s2"
+      },
+      {
+        "id": "s2",
+        "narration": "combat cướp tiên phong + cung thủ",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "combat cướp tiên phong + cung thủ",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "đóng cổng và kiểm kê đoàn xe",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "đóng cổng và kiểm kê đoàn xe",
+            "next": "s4"
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "narration": "mở Hệ thống thoát nước.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s4-act",
+            "label": "mở Hệ thống thoát nước",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {},
+    "prop": "prop-guard-schedule.svg",
+    "encounterId": "book2_intro_f09"
+  },
+  {
+    "id": "book2.intro.f10",
+    "bookId": "book2",
+    "code": "F10",
+    "locationId": "j",
+    "name": "Hệ thống thoát nước — Theo dòng nước",
+    "description": "Một đoạn cống bị nghẽn làm sân sau đọng nước; người sửa chữa cần bản đồ cũ để tìm cửa kiểm tra an toàn.",
+    "ending": "Công việc tại Hệ thống thoát nước đã hoàn tất. Bạn vẫn ở trong pháo đài.",
+    "intro": true,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f09"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một đoạn cống bị nghẽn làm sân sau đọng nước; người sửa chữa cần bản đồ cũ để tìm cửa kiểm tra an toàn.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Tìm lối thoát nước công khai",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "dời phiến đá",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "dời phiến đá",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "kiểm tra grate và dòng chảy",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "kiểm tra grate và dòng chảy",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "ghi nhận bản vẽ từng được sửa",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "ghi nhận bản vẽ từng được sửa",
+            "next": "s4"
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "narration": "hoàn tất 10 intro.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s4-act",
+            "label": "hoàn tất 10 intro",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "effects": {},
+    "prop": "prop-drainage-grate.svg"
+  },
+  {
+    "id": "book2.a01",
+    "bookId": "book2",
+    "code": "A01",
+    "locationId": "a",
+    "name": "Khách không mang giấy",
+    "description": "Một người đưa hàng quên giấy thông hành và phải đứng chờ.",
+    "ending": "Công việc “Khách không mang giấy” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f01"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một người đưa hàng quên giấy thông hành và phải đứng chờ.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Kiểm tra sổ khách",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "hỏi lý do",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "hỏi lý do",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "dẫn đến quầy cấp thẻ tạm",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "dẫn đến quầy cấp thẻ tạm",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "xác nhận lượt qua cổng.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "xác nhận lượt qua cổng",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-permit-documents.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.a02",
+    "bookId": "book2",
+    "code": "A02",
+    "locationId": "a",
+    "name": "Đoàn xe thiếu dấu niêm",
+    "description": "Các thùng lương thực có dấu niêm không cùng ngày với giấy nhận hàng.",
+    "ending": "Công việc “Đoàn xe thiếu dấu niêm” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f01"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Các thùng lương thực có dấu niêm không cùng ngày với giấy nhận hàng.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Quan sát con dấu",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "ghi thông tin vào Phiếu tiếp nhận",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "ghi thông tin vào Phiếu tiếp nhận",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "đưa nhân viên hậu cần đối chiếu",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "đưa nhân viên hậu cần đối chiếu",
+            "next": "complete"
+          },
+          {
+            "id": "courier",
+            "label": "Nhờ Chelsea đối chiếu hành trình thư",
+            "next": "complete",
+            "requires": {
+              "partyMembers": [
+                "chelsea"
+              ],
+              "expertiseScope": "courier_trace"
+            },
+            "effects": {
+              "notes": [
+                "Chelsea kiểm tra tuyến chuyển thư trong công việc Đoàn xe thiếu dấu niêm. Người có thẩm quyền vẫn xác nhận giấy tờ."
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-permit-documents.svg",
+    "effects": {
+      "grantItems": [
+        "supply_receipt"
+      ],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.a03",
+    "bookId": "book2",
+    "code": "A03",
+    "locationId": "a",
+    "name": "Cướp chặn đường vận tải",
+    "description": "Hai tên cướp bám đoàn xe ngoài đường, tránh tấn công sát cổng.",
+    "ending": "Công việc “Cướp chặn đường vận tải” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f01"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Hai tên cướp bám đoàn xe ngoài đường, tránh tấn công sát cổng.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Hỗ trợ người trực",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "a",
+        "narration": "Đội hình tiến lên ngăn đường đối phương, bảo vệ những người ở phía sau.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Sau trận, mọi người kiểm kê lại và báo người trực. Những người trong cuộc đã được khống chế hoặc rút lui; công việc vẫn cần hoàn tất.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Báo kết quả và hoàn tất",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-permit-documents.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_a03"
+  },
+  {
+    "id": "book2.a04",
+    "bookId": "book2",
+    "code": "A04",
+    "locationId": "a",
+    "name": "Rãnh bánh xe quay lại",
+    "description": "Dấu bánh của đoàn xe lẽ ra đi về phía trước lại xuất hiện sát cổng trước lúc rạng đông.",
+    "ending": "Công việc “Rãnh bánh xe quay lại” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.a02",
+      "book2.i01"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Dấu bánh của đoàn xe lẽ ra đi về phía trước lại xuất hiện sát cổng trước lúc rạng đông.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đối chiếu thời gian xe ra/vào",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "quan sát rãnh bánh trên đất",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "quan sát rãnh bánh trên đất",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "lưu ghi chép chênh lệch vào hồ sơ.",
+        "locationId": "a",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "lưu ghi chép chênh lệch vào hồ sơ",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-permit-documents.svg",
+    "effects": {
+      "grantItems": [
+        "cart_track_record"
+      ],
+      "notes": [
+        "Dấu bánh của đoàn xe lẽ ra đi về phía trước lại xuất hiện sát cổng trước lúc rạng đông."
+      ]
+    }
+  },
+  {
+    "id": "book2.b01",
+    "bookId": "book2",
+    "code": "B01",
+    "locationId": "b",
+    "name": "Những chiếc khiên rạn",
+    "description": "Khiên tập liên tục nứt ở mép vì binh sĩ dùng sai tư thế che chắn.",
+    "ending": "Công việc “Những chiếc khiên rạn” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f02"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Khiên tập liên tục nứt ở mép vì binh sĩ dùng sai tư thế che chắn.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Quan sát vết nứt",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "chỉnh góc đỡ",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "chỉnh góc đỡ",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "sửa buộc dây",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "sửa buộc dây",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "thử lại bài tập.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "thử lại bài tập",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-training-gear.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.b02",
+    "bookId": "book2",
+    "code": "B02",
+    "locationId": "b",
+    "name": "Trận đấu giao hữu",
+    "description": "Một đôi binh sĩ xin đấu tập có trọng tài; khán giả đặt khiên quanh sân.",
+    "ending": "Công việc “Trận đấu giao hữu” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f02"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "choose",
+        "locationId": "b",
+        "narration": "Một đôi binh sĩ xin đấu tập có trọng tài; khán giả đặt khiên quanh sân.",
+        "actions": [
+          {
+            "id": "peace",
+            "label": "Quan sát và ghi nhận bài tập",
+            "next": "peace",
+            "branch": "interact"
+          },
+          {
+            "id": "fight",
+            "label": "Xin tỷ thí có trọng tài",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "peace",
+        "narration": "Người phụ trách xác nhận kết quả theo đúng nhiệm vụ. Không cần phân thắng thua bằng vũ lực.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "peace-act",
+            "label": "Hoàn tất",
+            "next": "complete"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "b",
+        "narration": "Binh sĩ đặt khiên quanh sân. Trận đấu có người giám sát, kết thúc bằng khống chế.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Hai bên hạ vũ khí, dựng lại hàng khiên và báo người trực.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Kết thúc công việc",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-training-gear.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_b02"
+  },
+  {
+    "id": "book2.b03",
+    "bookId": "book2",
+    "code": "B03",
+    "locationId": "b",
+    "name": "Người lính không phục",
+    "description": "Một binh sĩ bất bình với lịch trực và muốn phân thắng thua với người được điều đến hỗ trợ.",
+    "ending": "Công việc “Người lính không phục” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f02"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "choose",
+        "locationId": "b",
+        "narration": "Một binh sĩ bất bình với lịch trực và muốn phân thắng thua với người được điều đến hỗ trợ.",
+        "actions": [
+          {
+            "id": "peace",
+            "label": "Nhờ người trực hòa giải",
+            "next": "peace",
+            "branch": "interact"
+          },
+          {
+            "id": "fight",
+            "label": "Xin tỷ thí có trọng tài",
+            "next": "combat",
+            "branch": "combat"
+          },
+          {
+            "id": "victorina",
+            "label": "Nhờ Victorina điều phối theo nhiệm vụ",
+            "next": "peace",
+            "branch": "authority",
+            "requires": {
+              "partyMembers": [
+                "victorina"
+              ],
+              "flags": [
+                "powderTransferDelegation"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "peace",
+        "narration": "Người phụ trách xác nhận kết quả theo đúng nhiệm vụ. Không cần phân thắng thua bằng vũ lực.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "peace-act",
+            "label": "Hoàn tất",
+            "next": "complete"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "b",
+        "narration": "Binh sĩ đặt khiên quanh sân. Trận đấu có người giám sát, kết thúc bằng khống chế.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Hai bên hạ vũ khí, dựng lại hàng khiên và báo người trực.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Kết thúc công việc",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-training-gear.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_b03"
+  },
+  {
+    "id": "book2.b04",
+    "bookId": "book2",
+    "code": "B04",
+    "locationId": "b",
+    "name": "Bài tập không nằm trong lịch",
+    "description": "Một tấm bảng ghi bài tập có thời điểm trùng với lúc cả đội gác đang ở Căng Tin.",
+    "ending": "Công việc “Bài tập không nằm trong lịch” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.b01",
+      "book2.c02"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một tấm bảng ghi bài tập có thời điểm trùng với lúc cả đội gác đang ở Căng Tin.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đối chiếu lịch tập và lịch bữa ăn",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "kiểm tra chữ viết ở mép bảng",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "kiểm tra chữ viết ở mép bảng",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "trả bảng về chỗ cũ.",
+        "locationId": "b",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "trả bảng về chỗ cũ",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-training-gear.svg",
+    "effects": {
+      "grantItems": [
+        "training_schedule_copy"
+      ],
+      "notes": [
+        "Một tấm bảng ghi bài tập có thời điểm trùng với lúc cả đội gác đang ở Căng Tin."
+      ]
+    }
+  },
+  {
+    "id": "book2.c01",
+    "bookId": "book2",
+    "code": "C01",
+    "locationId": "c",
+    "name": "Bữa ăn thiếu phần",
+    "description": "Nhà bếp phát thiếu một suất ăn giữa các bàn đông người.",
+    "ending": "Công việc “Bữa ăn thiếu phần” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f03"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Nhà bếp phát thiếu một suất ăn giữa các bàn đông người.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đếm phần",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "chuyển thức ăn đúng hàng",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "chuyển thức ăn đúng hàng",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "kiểm tra danh sách đang trực.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "kiểm tra danh sách đang trực",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-food-trays.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.c02",
+    "bookId": "book2",
+    "code": "C02",
+    "locationId": "c",
+    "name": "Bài hát của phiên gác",
+    "description": "Nhóm binh sĩ hát về một ca gác đổi từ lâu, một người hát nhầm câu chỉ giờ.",
+    "ending": "Công việc “Bài hát của phiên gác” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f03"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Nhóm binh sĩ hát về một ca gác đổi từ lâu, một người hát nhầm câu chỉ giờ.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Ngồi nghe",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "hỏi người biết ca trực",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "hỏi người biết ca trực",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "ghi một khung giờ để so với lịch.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "ghi một khung giờ để so với lịch",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-food-trays.svg",
+    "effects": {
+      "grantItems": [
+        "canteen_shift_note"
+      ],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.c03",
+    "bookId": "book2",
+    "code": "C03",
+    "locationId": "c",
+    "name": "Cuộc ẩu đả lúc nửa đêm",
+    "description": "Hai binh sĩ tranh cãi chuyện mất lượt nghỉ, làm đổ ghế ở Căng Tin.",
+    "ending": "Công việc “Cuộc ẩu đả lúc nửa đêm” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f03"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "choose",
+        "locationId": "c",
+        "narration": "Hai binh sĩ tranh cãi chuyện mất lượt nghỉ, làm đổ ghế ở Căng Tin.",
+        "actions": [
+          {
+            "id": "peace",
+            "label": "Nhờ người trực hòa giải",
+            "next": "peace",
+            "branch": "interact"
+          },
+          {
+            "id": "fight",
+            "label": "Khống chế để ngăn ẩu đả",
+            "next": "combat",
+            "branch": "combat"
+          },
+          {
+            "id": "victorina",
+            "label": "Nhờ Victorina điều phối theo nhiệm vụ",
+            "next": "peace",
+            "branch": "authority",
+            "requires": {
+              "partyMembers": [
+                "victorina"
+              ],
+              "flags": [
+                "powderTransferDelegation"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "peace",
+        "narration": "Người phụ trách xác nhận kết quả theo đúng nhiệm vụ. Không cần phân thắng thua bằng vũ lực.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "peace-act",
+            "label": "Hoàn tất",
+            "next": "complete"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "c",
+        "narration": "Binh sĩ đặt khiên quanh sân. Trận đấu có người giám sát, kết thúc bằng khống chế.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Hai bên hạ vũ khí, dựng lại hàng khiên và báo người trực.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Kết thúc công việc",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-food-trays.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_c03"
+  },
+  {
+    "id": "book2.c04",
+    "bookId": "book2",
+    "code": "C04",
+    "locationId": "c",
+    "name": "Suất ăn của người vắng mặt",
+    "description": "Một tấm phiếu ăn đã dùng mang số người được ghi là đang trực ở Cổng sau.",
+    "ending": "Công việc “Suất ăn của người vắng mặt” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.c03",
+      "book2.i02"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một tấm phiếu ăn đã dùng mang số người được ghi là đang trực ở Cổng sau.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Kiểm tra bàn còn khay",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "đối chiếu phiếu ăn với lịch thay ca",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "đối chiếu phiếu ăn với lịch thay ca",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "lưu bản ghi chênh lệch.",
+        "locationId": "c",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "lưu bản ghi chênh lệch",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-food-trays.svg",
+    "effects": {
+      "grantItems": [
+        "meal_stub"
+      ],
+      "notes": [
+        "Một tấm phiếu ăn đã dùng mang số người được ghi là đang trực ở Cổng sau."
+      ]
+    }
+  },
+  {
+    "id": "book2.d01",
+    "bookId": "book2",
+    "code": "D01",
+    "locationId": "d",
+    "name": "Quyển sổ đặt sai kệ",
+    "description": "Một bộ sổ được xếp lẫn giữa hồ sơ nhiệm vụ và thư viện mượn đọc.",
+    "ending": "Công việc “Quyển sổ đặt sai kệ” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một bộ sổ được xếp lẫn giữa hồ sơ nhiệm vụ và thư viện mượn đọc.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đối chiếu số gáy",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "kéo sổ ra đúng ngăn",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "kéo sổ ra đúng ngăn",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "đóng kệ để tránh ẩm.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "đóng kệ để tránh ẩm",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-library-ledgers.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.d02",
+    "bookId": "book2",
+    "code": "D02",
+    "locationId": "d",
+    "name": "Con dấu bị mờ",
+    "description": "Nhiều tờ giấy bị trả về vì dấu xác nhận quá mờ và mẫu dấu cũ chưa được lưu.",
+    "ending": "Công việc “Con dấu bị mờ” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Nhiều tờ giấy bị trả về vì dấu xác nhận quá mờ và mẫu dấu cũ chưa được lưu.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Rửa khay mực",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "lấy mẫu dấu đúng",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "lấy mẫu dấu đúng",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "đóng lại vào phiếu mẫu",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "đóng lại vào phiếu mẫu",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "lưu bản mẫu tại quầy.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "lưu bản mẫu tại quầy",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-library-ledgers.svg",
+    "effects": {
+      "grantItems": [
+        "seal_reference"
+      ],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.d03",
+    "bookId": "book2",
+    "code": "D03",
+    "locationId": "d",
+    "name": "Một giấy phép bị thất lạc",
+    "description": "Một binh sĩ làm mất giấy phép vào khu lưu trữ và xin được cấp lại ngay.",
+    "ending": "Công việc “Một giấy phép bị thất lạc” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một binh sĩ làm mất giấy phép vào khu lưu trữ và xin được cấp lại ngay.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Kiểm tra lịch cấp",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "truy tìm tại sân tập",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "truy tìm tại sân tập",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "chọn trả trực tiếp hoặc mang Sandra xác nhận.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "chọn trả trực tiếp hoặc mang Sandra xác nhận",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-library-ledgers.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.d04",
+    "bookId": "book2",
+    "code": "D04",
+    "locationId": "d",
+    "name": "Hai văn bản, một chữ ký",
+    "description": "Một bản ghi xe xuất và một lệnh đổi gác trùng chữ ký nhưng ngày ký không phù hợp.",
+    "ending": "Công việc “Hai văn bản, một chữ ký” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.d02",
+      "book2.a04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một bản ghi xe xuất và một lệnh đổi gác trùng chữ ký nhưng ngày ký không phù hợp.",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "So sánh mẫu con dấu",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "kiểm tra giờ lập giấy",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "kiểm tra giờ lập giấy",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "đặt hai tờ cạnh nhau để xác định điểm lệch",
+        "locationId": "d",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "đặt hai tờ cạnh nhau để xác định điểm lệch",
+            "next": "complete"
+          },
+          {
+            "id": "courier",
+            "label": "Nhờ Chelsea đối chiếu hành trình thư",
+            "next": "complete",
+            "requires": {
+              "partyMembers": [
+                "chelsea"
+              ],
+              "expertiseScope": "courier_trace"
+            },
+            "effects": {
+              "notes": [
+                "Chelsea kiểm tra tuyến chuyển thư trong công việc Hai văn bản, một chữ ký. Người có thẩm quyền vẫn xác nhận giấy tờ."
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-library-ledgers.svg",
+    "effects": {
+      "grantItems": [
+        "forged_order_copy"
+      ],
+      "notes": [
+        "Một bản ghi xe xuất và một lệnh đổi gác trùng chữ ký nhưng ngày ký không phù hợp."
+      ]
+    }
+  },
+  {
+    "id": "book2.e01",
+    "bookId": "book2",
+    "code": "E01",
+    "locationId": "e",
+    "name": "Bản đồ tuần tra",
+    "description": "Bản đồ tuyến tuần tra có ghim đánh dấu bị xô lệch sau buổi họp gấp.",
+    "ending": "Công việc “Bản đồ tuần tra” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f05"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Bản đồ tuyến tuần tra có ghim đánh dấu bị xô lệch sau buổi họp gấp.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Sắp mốc theo ngày",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "chọn tuyến ngắn cho phiên thiếu người",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "chọn tuyến ngắn cho phiên thiếu người",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "Roland xác nhận.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "Roland xác nhận",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-duty-map.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.e02",
+    "bookId": "book2",
+    "code": "E02",
+    "locationId": "e",
+    "name": "Lệnh đổi phiên gác",
+    "description": "Một đơn vị cần đổi giờ vì quân tiếp viện chưa đến.",
+    "ending": "Công việc “Lệnh đổi phiên gác” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f05"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một đơn vị cần đổi giờ vì quân tiếp viện chưa đến.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Kiểm tra tên người nhận",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "chép giờ cũ/mới",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "chép giờ cũ/mới",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "Roland ký phiếu xác nhận",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "Roland ký phiếu xác nhận",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "chuyển thông báo tới cổng sau",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "chuyển thông báo tới cổng sau",
+            "next": "complete"
+          },
+          {
+            "id": "courier",
+            "label": "Nhờ Chelsea chuyển thông báo đã ký",
+            "next": "complete",
+            "requires": {
+              "partyMembers": [
+                "chelsea"
+              ],
+              "expertiseScope": "courier_trace"
+            },
+            "effects": {
+              "notes": [
+                "Chelsea kiểm tra tuyến chuyển thư trong công việc Lệnh đổi phiên gác. Người có thẩm quyền vẫn xác nhận giấy tờ."
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-duty-map.svg",
+    "effects": {
+      "grantItems": [
+        "shift_order_signed"
+      ],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.e03",
+    "bookId": "book2",
+    "code": "E03",
+    "locationId": "e",
+    "name": "Báo cáo của Charlemagnes",
+    "description": "Charlemagnes yêu cầu báo cáo ngắn về quân số trực và công tác an ninh.",
+    "ending": "Công việc “Báo cáo của Charlemagnes” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f05"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Charlemagnes yêu cầu báo cáo ngắn về quân số trực và công tác an ninh.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Thu số liệu tại bàn trực",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "chỉ ra vị trí thiếu quân",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "chỉ ra vị trí thiếu quân",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "trình báo cáo một trang.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "trình báo cáo một trang",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-duty-map.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.e04",
+    "bookId": "book2",
+    "code": "E04",
+    "locationId": "e",
+    "name": "Mệnh lệnh chưa từng được ban",
+    "description": "Một bản chép lệnh đổi giờ gác giống mẫu hành chính nhưng Roland không thấy hồ sơ ký gốc.",
+    "ending": "Công việc “Mệnh lệnh chưa từng được ban” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.d04",
+      "book2.e02"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một bản chép lệnh đổi giờ gác giống mẫu hành chính nhưng Roland không thấy hồ sơ ký gốc.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đối chiếu shift_order_signed với forged_order_copy",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "hỏi Roland xác nhận",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "hỏi Roland xác nhận",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "chuyển biên bản cho Lanceveil",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "chuyển biên bản cho Lanceveil",
+            "next": "complete"
+          },
+          {
+            "id": "courier",
+            "label": "Nhờ Chelsea đối chiếu hành trình thư",
+            "next": "complete",
+            "requires": {
+              "partyMembers": [
+                "chelsea"
+              ],
+              "expertiseScope": "courier_trace"
+            },
+            "effects": {
+              "notes": [
+                "Chelsea kiểm tra tuyến chuyển thư trong công việc Mệnh lệnh chưa từng được ban. Người có thẩm quyền vẫn xác nhận giấy tờ."
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-duty-map.svg",
+    "effects": {
+      "grantItems": [
+        "roland_verification"
+      ],
+      "notes": [
+        "Một bản chép lệnh đổi giờ gác giống mẫu hành chính nhưng Roland không thấy hồ sơ ký gốc."
+      ]
+    }
+  },
+  {
+    "id": "book2.f01",
+    "bookId": "book2",
+    "code": "F01",
+    "locationId": "f",
+    "name": "Chuyến thuốc bị chậm",
+    "description": "Lionel đang chờ thùng băng gạc giao từ đường tiếp vận.",
+    "ending": "Công việc “Chuyến thuốc bị chậm” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f06"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Lionel đang chờ thùng băng gạc giao từ đường tiếp vận.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đọc phiếu nhận",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "so số kiện ở cổng trước",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "so số kiện ở cổng trước",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "tìm người vận chuyển",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "tìm người vận chuyển",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "xác nhận nơi cất.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "xác nhận nơi cất",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-medical-crate.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.f02",
+    "bookId": "book2",
+    "code": "F02",
+    "locationId": "f",
+    "name": "Kiểm tra thùng cứu thương",
+    "description": "Một thùng thuốc có ký hiệu đơn vị nhưng thiếu xác nhận vào kho y tế.",
+    "ending": "Công việc “Kiểm tra thùng cứu thương” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f06"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "locationId": "f",
+        "narration": "Một thùng thuốc có ký hiệu đơn vị nhưng thiếu xác nhận vào kho y tế. Lionel có thể cấp phiếu tiếp nhận ngay tại đây.",
+        "actions": [
+          {
+            "id": "receipt",
+            "label": "Đối chiếu phiếu với Lionel",
+            "next": "checked",
+            "requires": {
+              "items": [
+                "supply_receipt"
+              ]
+            }
+          },
+          {
+            "id": "sieg",
+            "label": "Nhờ Sieg chứng thực phần việc được giao",
+            "next": "checked",
+            "branch": "authority",
+            "requires": {
+              "authorityScope": "medical_transfer"
+            }
+          }
+        ]
+      },
+      {
+        "id": "checked",
+        "narration": "Số kiện và chất lượng vẫn phải kiểm tra đầy đủ. Thùng thuốc được tiếp nhận bằng thủ tục tại Lionel.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "checked-act",
+            "label": "Lưu kết quả kiểm tra",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-medical-crate.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.f03",
+    "bookId": "book2",
+    "code": "F03",
+    "locationId": "f",
+    "name": "Đón người bị thương",
+    "description": "Một đoàn vận chuyển về đến gần cổng sau sau khi bị cướp đuổi, có người bị thương.",
+    "ending": "Công việc “Đón người bị thương” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f06"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một đoàn vận chuyển về đến gần cổng sau sau khi bị cướp đuổi, có người bị thương.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Hỗ trợ người trực",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "f",
+        "narration": "Đội hình tiến lên ngăn đường đối phương, bảo vệ những người ở phía sau.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Sau trận, mọi người kiểm kê lại và báo người trực. Những người trong cuộc đã được khống chế hoặc rút lui; công việc vẫn cần hoàn tất.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Báo kết quả và hoàn tất",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-medical-crate.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_f03"
+  },
+  {
+    "id": "book2.f04",
+    "bookId": "book2",
+    "code": "F04",
+    "locationId": "f",
+    "name": "Thùng thuốc mang sai dấu",
+    "description": "Khi đối chiếu lô thuốc ở kho quân y với thùng lấy từ xe, số hiệu lô bị đảo thứ tự.",
+    "ending": "Công việc “Thùng thuốc mang sai dấu” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.f02",
+      "book2.g02"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Khi đối chiếu lô thuốc ở kho quân y với thùng lấy từ xe, số hiệu lô bị đảo thứ tự.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Xem bản kê",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "đối chiếu seal_reference tại thư khố",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "đối chiếu seal_reference tại thư khố",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "xác nhận đó là nhầm lẫn hay dấu niêm đã bị tháo.",
+        "locationId": "f",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "xác nhận đó là nhầm lẫn hay dấu niêm đã bị tháo",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-medical-crate.svg",
+    "effects": {
+      "grantItems": [
+        "medical_manifest_note"
+      ],
+      "notes": [
+        "Khi đối chiếu lô thuốc ở kho quân y với thùng lấy từ xe, số hiệu lô bị đảo thứ tự."
+      ]
+    }
+  },
+  {
+    "id": "book2.g01",
+    "bookId": "book2",
+    "code": "G01",
+    "locationId": "g",
+    "name": "Thùng thuốc súng",
+    "description": "Lính gác kho chưa nhận lệnh xuất một thùng thuốc súng dùng để sửa pháo.",
+    "ending": "Công việc “Thùng thuốc súng” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f07"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "choose",
+        "locationId": "g",
+        "narration": "Lính gác kho chưa nhận lệnh xuất một thùng thuốc súng dùng để sửa pháo. Bạn có thể rời phòng để xin giấy; công việc này sẽ được giữ lại.",
+        "actions": [
+          {
+            "id": "paper",
+            "label": "Trình lệnh xuất kho đúng lô",
+            "next": "receive",
+            "branch": "permit",
+            "requires": {
+              "items": [
+                "transfer_order"
+              ]
+            }
+          },
+          {
+            "id": "authority",
+            "label": "Nhờ Victorina xác nhận điều chuyển",
+            "next": "receive",
+            "branch": "authority",
+            "requires": {
+              "authorityScope": "powder_transfer"
+            }
+          },
+          {
+            "id": "sneak",
+            "label": "Lén qua lúc đổi ca · cơ hội 50/50",
+            "next": "receive",
+            "branch": "chance",
+            "kind": "chance",
+            "success": "receive",
+            "failure": "failed"
+          },
+          {
+            "id": "force",
+            "label": "Dùng vũ lực · sẽ chịu điều tra",
+            "next": "combat",
+            "branch": "combat",
+            "incident": true
+          }
+        ]
+      },
+      {
+        "id": "failed",
+        "narration": "Lính gác phát hiện bạn. Sự việc đã được ghi vào biên bản; bạn vẫn có thể xin giấy hợp lệ.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "failed-act",
+            "label": "Quay lại trình bày",
+            "next": "choose"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "g",
+        "narration": "Lính gác yêu cầu dừng lại. Trận đấu kết thúc bằng khống chế, không có phần thưởng riêng.",
+        "battle": true,
+        "after": "receive"
+      },
+      {
+        "id": "receive",
+        "narration": "Thùng hàng đúng lô đã được nhận, còn niêm phong. Hãy bàn giao cho pháo thủ tại tường thành.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "receive-act",
+            "label": "Xác nhận nhận thùng",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-armory-crates.svg",
+    "effects": {
+      "grantItems": [
+        "gunpowder_crate"
+      ],
+      "flags": [
+        "gunpowderReceived"
+      ]
+    },
+    "encounterId": "book2_g01"
+  },
+  {
+    "id": "book2.g02",
+    "bookId": "book2",
+    "code": "G02",
+    "locationId": "g",
+    "name": "Phiếu xuất hàng",
+    "description": "Phiếu xuất quân nhu bị đánh sai mã kho.",
+    "ending": "Công việc “Phiếu xuất hàng” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f07"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Phiếu xuất quân nhu bị đánh sai mã kho.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Ghi yêu cầu điều chuyển",
+            "next": "waiting"
+          }
+        ]
+      },
+      {
+        "id": "waiting",
+        "locationId": "g",
+        "narration": "Hãy đến Roland xin lệnh, mang Sandra đối chiếu rồi quay lại kho. Không cần bắt đầu hoạt động khác.",
+        "actions": [
+          {
+            "id": "paper",
+            "label": "Nộp lệnh đã xác nhận",
+            "next": "complete",
+            "requires": {
+              "items": [
+                "transfer_order"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-armory-crates.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.g03",
+    "bookId": "book2",
+    "code": "G03",
+    "locationId": "g",
+    "name": "Những kẻ nhòm ngó kho",
+    "description": "Hai kẻ lạ tiếp cận khu vận chuyển phía sau, giả vờ hỏi đường.",
+    "ending": "Công việc “Những kẻ nhòm ngó kho” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f07"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Hai kẻ lạ tiếp cận khu vận chuyển phía sau, giả vờ hỏi đường.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Hỗ trợ người trực",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "g",
+        "narration": "Đội hình tiến lên ngăn đường đối phương, bảo vệ những người ở phía sau.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Sau trận, mọi người kiểm kê lại và báo người trực. Những người trong cuộc đã được khống chế hoặc rút lui; công việc vẫn cần hoàn tất.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Báo kết quả và hoàn tất",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-armory-crates.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_g03"
+  },
+  {
+    "id": "book2.g04",
+    "bookId": "book2",
+    "code": "G04",
+    "locationId": "g",
+    "name": "Lô hàng không có trong sổ",
+    "description": "Bản kê nhập kho có một lô hàng tồn tại trên giấy nhưng không thấy vị trí chứa trong kho.",
+    "ending": "Công việc “Lô hàng không có trong sổ” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.g01",
+      "book2.d04",
+      "book2.f04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Bản kê nhập kho có một lô hàng tồn tại trên giấy nhưng không thấy vị trí chứa trong kho.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Kiểm tra kệ trống",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "đối chiếu forged_order_copy với medical_manifest_note",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "đối chiếu forged_order_copy với medical_manifest_note",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "đánh dấu hướng chuyển hàng.",
+        "locationId": "g",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "đánh dấu hướng chuyển hàng",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-armory-crates.svg",
+    "effects": {
+      "grantItems": [
+        "missing_shipment_trace"
+      ],
+      "notes": [
+        "Bản kê nhập kho có một lô hàng tồn tại trên giấy nhưng không thấy vị trí chứa trong kho."
+      ]
+    }
+  },
+  {
+    "id": "book2.h01",
+    "bookId": "book2",
+    "code": "H01",
+    "locationId": "h",
+    "name": "Phiên gác giữa gió",
+    "description": "Gió mạnh khiến cờ hiệu và kèn báo động khó quan sát.",
+    "ending": "Công việc “Phiên gác giữa gió” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f08"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Gió mạnh khiến cờ hiệu và kèn báo động khó quan sát.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Chọn vị trí cờ",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "cố định dây treo",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "cố định dây treo",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "thử tín hiệu với vọng gác bên kia.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "thử tín hiệu với vọng gác bên kia",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-cannon-maintenance.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.h02",
+    "bookId": "book2",
+    "code": "H02",
+    "locationId": "h",
+    "name": "Dây ngòi bị ẩm",
+    "description": "Pháo thủ phát hiện dây ngòi và chốt kíp không còn dùng an toàn.",
+    "ending": "Công việc “Dây ngòi bị ẩm” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f08"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Pháo thủ phát hiện dây ngòi và chốt kíp không còn dùng an toàn.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Ghi nhu cầu linh kiện",
+            "next": "waiting"
+          }
+        ]
+      },
+      {
+        "id": "waiting",
+        "locationId": "h",
+        "narration": "Kho quân nhu cấp linh kiện theo nhiệm vụ. Nhận tại kho, mang về và nhờ pháo thủ thay bộ phận đã xuống cấp.",
+        "actions": [
+          {
+            "id": "finish",
+            "label": "Xác nhận đã thay linh kiện",
+            "next": "complete",
+            "requires": {
+              "flags": [
+                "fuseReplaced"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-cannon-maintenance.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.h03",
+    "bookId": "book2",
+    "code": "H03",
+    "locationId": "h",
+    "name": "Tập báo hiệu và ngắm bắn",
+    "description": "Pháo thủ tổ chức buổi phối hợp bảo vệ vị trí pháo, hai binh sĩ làm đối thủ luyện tập.",
+    "ending": "Công việc “Tập báo hiệu và ngắm bắn” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f08"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "choose",
+        "locationId": "h",
+        "narration": "Pháo thủ tổ chức buổi phối hợp bảo vệ vị trí pháo, hai binh sĩ làm đối thủ luyện tập.",
+        "actions": [
+          {
+            "id": "peace",
+            "label": "Điều phối tín hiệu",
+            "next": "peace",
+            "branch": "interact"
+          },
+          {
+            "id": "fight",
+            "label": "Xin tỷ thí có trọng tài",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "peace",
+        "narration": "Người phụ trách xác nhận kết quả theo đúng nhiệm vụ. Không cần phân thắng thua bằng vũ lực.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "peace-act",
+            "label": "Hoàn tất",
+            "next": "complete"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "h",
+        "narration": "Binh sĩ đặt khiên quanh sân. Trận đấu có người giám sát, kết thúc bằng khống chế.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Hai bên hạ vũ khí, dựng lại hàng khiên và báo người trực.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Kết thúc công việc",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-cannon-maintenance.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_h03"
+  },
+  {
+    "id": "book2.h04",
+    "bookId": "book2",
+    "code": "H04",
+    "locationId": "h",
+    "name": "Khẩu pháo bị chỉnh lệch",
+    "description": "Vị trí cố định pháo không trùng với bản kiểm tra sau bảo dưỡng.",
+    "ending": "Công việc “Khẩu pháo bị chỉnh lệch” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.h02",
+      "book2.g04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Vị trí cố định pháo không trùng với bản kiểm tra sau bảo dưỡng.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đối chiếu bảng góc đặt",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "kiểm tra dấu vít và vị trí mặt phẳng",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "kiểm tra dấu vít và vị trí mặt phẳng",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "báo Lanceveil sửa và niêm phong.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "báo Lanceveil sửa và niêm phong",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-cannon-maintenance.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": [
+        "Vị trí cố định pháo không trùng với bản kiểm tra sau bảo dưỡng."
+      ]
+    }
+  },
+  {
+    "id": "book2.i01",
+    "bookId": "book2",
+    "code": "I01",
+    "locationId": "i",
+    "name": "Lối xe tiếp vận",
+    "description": "Xe hậu cần phải lùi qua cổng hẹp, lịch ra vào không theo trật tự thông thường.",
+    "ending": "Công việc “Lối xe tiếp vận” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f09"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Xe hậu cần phải lùi qua cổng hẹp, lịch ra vào không theo trật tự thông thường.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Chọn người hướng dẫn xe",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "ghi giờ ra/vào",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "ghi giờ ra/vào",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "kiểm tra dấu bánh trước khi đóng cổng.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "kiểm tra dấu bánh trước khi đóng cổng",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-guard-schedule.svg",
+    "effects": {
+      "grantItems": [
+        "rear_gate_log_copy"
+      ],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.i02",
+    "bookId": "book2",
+    "code": "I02",
+    "locationId": "i",
+    "name": "Mật hiệu thay ca",
+    "description": "Một lính gác nhầm câu hiệu lệnh do đổi ca đột ngột.",
+    "ending": "Công việc “Mật hiệu thay ca” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f09"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một lính gác nhầm câu hiệu lệnh do đổi ca đột ngột.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đối chiếu shift_order_signed hoặc hỏi bàn trực",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "làm lại tín hiệu đúng",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "làm lại tín hiệu đúng",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "ghi lần đối chiếu.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "ghi lần đối chiếu",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-guard-schedule.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.i03",
+    "bookId": "book2",
+    "code": "I03",
+    "locationId": "i",
+    "name": "Bóng người dưới chân tường",
+    "description": "Kẻ lạ dùng khúc tường chưa được tuần tra kỹ để tiếp cận cổng sau.",
+    "ending": "Công việc “Bóng người dưới chân tường” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f09"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Kẻ lạ dùng khúc tường chưa được tuần tra kỹ để tiếp cận cổng sau.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Hỗ trợ người trực",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "i",
+        "narration": "Đội hình tiến lên ngăn đường đối phương, bảo vệ những người ở phía sau.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Sau trận, mọi người kiểm kê lại và báo người trực. Những người trong cuộc đã được khống chế hoặc rút lui; công việc vẫn cần hoàn tất.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Báo kết quả và hoàn tất",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-guard-schedule.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_i03"
+  },
+  {
+    "id": "book2.i04",
+    "bookId": "book2",
+    "code": "I04",
+    "locationId": "i",
+    "name": "Lệnh mở cổng không đúng giờ",
+    "description": "Cổng sau từng được mở theo một lệnh ghi thời điểm mà người trực không nhớ đã nhận.",
+    "ending": "Công việc “Lệnh mở cổng không đúng giờ” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.i02",
+      "book2.c04",
+      "book2.e04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Cổng sau từng được mở theo một lệnh ghi thời điểm mà người trực không nhớ đã nhận.",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đem meal_stub và roland_verification đối chiếu",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "đọc biên bản trực đêm",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "đọc biên bản trực đêm",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "đối chiếu giấy giả với tuyến xe quay lại",
+        "locationId": "i",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "đối chiếu giấy giả với tuyến xe quay lại",
+            "next": "complete"
+          },
+          {
+            "id": "courier",
+            "label": "Nhờ Chelsea đối chiếu hành trình thư",
+            "next": "complete",
+            "requires": {
+              "partyMembers": [
+                "chelsea"
+              ],
+              "expertiseScope": "courier_trace"
+            },
+            "effects": {
+              "notes": [
+                "Chelsea kiểm tra tuyến chuyển thư trong công việc Lệnh mở cổng không đúng giờ. Người có thẩm quyền vẫn xác nhận giấy tờ."
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-guard-schedule.svg",
+    "effects": {
+      "grantItems": [
+        "rear_gate_forgery_proof"
+      ],
+      "notes": [
+        "Cổng sau từng được mở theo một lệnh ghi thời điểm mà người trực không nhớ đã nhận."
+      ]
+    }
+  },
+  {
+    "id": "book2.j01",
+    "bookId": "book2",
+    "code": "J01",
+    "locationId": "j",
+    "name": "Rãnh nước tắc",
+    "description": "Lá và đất cát dồn về một rãnh nhỏ dưới sân sau.",
+    "ending": "Công việc “Rãnh nước tắc” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f10"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Lá và đất cát dồn về một rãnh nhỏ dưới sân sau.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Dọn lưới chắn",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "mở rãnh",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "mở rãnh",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "kiểm tra dòng chảy",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "kiểm tra dòng chảy",
+            "next": "s3"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "narration": "đóng nắp an toàn.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s3-act",
+            "label": "đóng nắp an toàn",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-drainage-grate.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.j02",
+    "bookId": "book2",
+    "code": "J02",
+    "locationId": "j",
+    "name": "Tiếng động dưới nền đá",
+    "description": "Người gác nghe tiếng va nhỏ dưới đá, có thể do nước hoặc thanh chắn xê dịch.",
+    "ending": "Công việc “Tiếng động dưới nền đá” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f10"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Người gác nghe tiếng va nhỏ dưới đá, có thể do nước hoặc thanh chắn xê dịch.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Quan sát độ rung",
+            "next": "s1"
+          }
+        ]
+      },
+      {
+        "id": "s1",
+        "narration": "chạm kiểm tra tấm lưới",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s1-act",
+            "label": "chạm kiểm tra tấm lưới",
+            "next": "s2"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "narration": "ghi vị trí gần một đoạn cũ của hệ thống.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s2-act",
+            "label": "ghi vị trí gần một đoạn cũ của hệ thống",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-drainage-grate.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    }
+  },
+  {
+    "id": "book2.j03",
+    "bookId": "book2",
+    "code": "J03",
+    "locationId": "j",
+    "name": "Kẻ xâm nhập đường ngầm",
+    "description": "Cướp dùng một cửa thoát nước mở hờ để tìm đường chui vào khu kho.",
+    "ending": "Công việc “Kẻ xâm nhập đường ngầm” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": false,
+    "requires": [
+      "book2.intro.f10"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Cướp dùng một cửa thoát nước mở hờ để tìm đường chui vào khu kho.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Hỗ trợ người trực",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "j",
+        "narration": "Đội hình tiến lên ngăn đường đối phương, bảo vệ những người ở phía sau.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Sau trận, mọi người kiểm kê lại và báo người trực. Những người trong cuộc đã được khống chế hoặc rút lui; công việc vẫn cần hoàn tất.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Báo kết quả và hoàn tất",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "prop": "prop-drainage-grate.svg",
+    "effects": {
+      "grantItems": [],
+      "notes": []
+    },
+    "encounterId": "book2_j03"
+  },
+  {
+    "id": "book2.j04",
+    "bookId": "book2",
+    "code": "J04",
+    "locationId": "j",
+    "name": "Lối đi không có trên bản vẽ",
+    "description": "Một khoảng vữa tại nắp cống có dấu tháo lắp khác thường; chỉ sau khi có đủ chứng cứ mới có thể mở an toàn.",
+    "ending": "Công việc “Lối đi không có trên bản vẽ” đã được ghi nhận. Bạn vẫn ở trong pháo đài.",
+    "intro": false,
+    "hidden": true,
+    "requires": [
+      "book2.intro.f10",
+      "book2.j02",
+      "book2.a04",
+      "book2.i04"
+    ],
+    "branches": [
+      "interact",
+      "combat",
+      "permit",
+      "authority",
+      "chance",
+      "expertise"
+    ],
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Một khoảng vữa tại nắp cống có dấu tháo lắp khác thường; chỉ sau khi có đủ chứng cứ mới có thể mở an toàn.",
+        "locationId": "j",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Ghi nhận dấu tháo lắp",
+            "next": "permission"
+          }
+        ]
+      },
+      {
+        "id": "permission",
+        "locationId": "j",
+        "narration": "Sandra có bản vẽ cũ trong thư khố. Hãy đối chiếu bằng chứng và xin bản sao trước khi vào.",
+        "actions": [
+          {
+            "id": "enter",
+            "label": "Đối chiếu sơ đồ và vào đường ngầm",
+            "next": "combat",
+            "branch": "combat",
+            "requires": {
+              "items": [
+                "drainage_blueprint_copy",
+                "rear_gate_forgery_proof"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "j",
+        "narration": "Lối đi dẫn đến một nhóm đang vận chuyển giấy tờ ra khỏi thành. Báo gác và khống chế chúng.",
+        "battle": true,
+        "after": "report"
+      },
+      {
+        "id": "report",
+        "narration": "Giấy tờ đã được thu giữ. Hãy mang tới phòng chỉ huy cho Lanceveil đối chiếu.",
+        "locationId": "e",
+        "actions": [
+          {
+            "id": "report-act",
+            "label": "Trình hồ sơ cho Lanceveil",
+            "next": "complete"
+          },
+          {
+            "id": "courier",
+            "label": "Nhờ Chelsea đối chiếu hành trình thư",
+            "next": "complete",
+            "requires": {
+              "partyMembers": [
+                "chelsea"
+              ],
+              "expertiseScope": "courier_trace"
+            },
+            "effects": {
+              "notes": [
+                "Chelsea kiểm tra tuyến chuyển thư trong công việc Lối đi không có trên bản vẽ. Người có thẩm quyền vẫn xác nhận giấy tờ."
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "prop": "prop-drainage-grate.svg",
+    "effects": {
+      "grantItems": [
+        "lanceveil_casefile"
+      ],
+      "notes": [
+        "Một khoảng vữa tại nắp cống có dấu tháo lắp khác thường; chỉ sau khi có đủ chứng cứ mới có thể mở an toàn."
+      ]
+    },
+    "encounterId": "book2_j04"
+  },
+  {
+    "id": "book2.finale",
+    "bookId": "book2",
+    "code": "FINALE",
+    "locationId": "h",
+    "name": "Tín hiệu ngoài vọng gác",
+    "description": "Người trực phát hiện tín hiệu bất thường từ bên ngoài. Đội hình có thể chuẩn bị trước khi tới vị trí phòng thủ.",
+    "ending": "Phiên gác này đã khép lại. Pháo đài còn đứng vững nhờ những người đã giữ lấy nó.",
+    "intro": false,
+    "hidden": true,
+    "finale": true,
+    "requires": [
+      "book2.intro.f10",
+      "book2.j04"
+    ],
+    "branches": [
+      "interact",
+      "combat"
+    ],
+    "prop": "prop-signal-flags.svg",
+    "steps": [
+      {
+        "id": "s0",
+        "narration": "Lanceveil đã xác minh đường xâm nhập. Trên tường thành, tín hiệu cảnh giới vừa đổi hướng.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "s0-act",
+            "label": "Đến vị trí phòng thủ",
+            "next": "combat",
+            "branch": "combat"
+          }
+        ]
+      },
+      {
+        "id": "combat",
+        "locationId": "h",
+        "narration": "Một tai họa bên ngoài đang áp sát. Mọi người vào vị trí, không rời hàng phòng thủ.",
+        "battle": true,
+        "after": "after"
+      },
+      {
+        "id": "after",
+        "narration": "Tiếng báo động lắng xuống. Người trực kiểm lại quân số, Lionel đón những người bị thương và Roland ghi nhận kết quả phòng thủ.",
+        "locationId": "h",
+        "actions": [
+          {
+            "id": "after-act",
+            "label": "Khép lại phiên gác",
+            "next": "complete"
+          }
+        ]
+      }
+    ],
+    "encounterId": "book2.mira_intro_lv1"
   }
 ]

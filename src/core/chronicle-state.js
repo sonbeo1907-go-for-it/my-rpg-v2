@@ -1,10 +1,11 @@
-export const emptyChronicleState=()=>({version:1,nextInstanceId:1,firstClearIds:[],eventClearIds:[],pendingByLocation:{},lastEventIdsByLocation:{},noNewEventStreakByLocation:{},weeklyRewardLedger:{weekKey:null,count:0,claimedInstanceIds:[]},activeBattle:null,aliceFirstEncounterCleared:false,aliceDifficultyClears:[]});
+import {emptyFortressBook,normalizeFortressState} from './fortress-state.js';
+export const emptyChronicleState=()=>({version:1,books:{book2:emptyFortressBook()},inventory:[],activeSession:null,nextSessionId:1,nextInstanceId:1,firstClearIds:[],eventClearIds:[],pendingByLocation:{},lastEventIdsByLocation:{},noNewEventStreakByLocation:{},weeklyRewardLedger:{weekKey:null,count:0,claimedInstanceIds:[]},activeBattle:null,aliceFirstEncounterCleared:false,aliceDifficultyClears:[]});
 const record=x=>x&&typeof x==='object'&&!Array.isArray(x),whole=x=>Number.isSafeInteger(x)&&x>=0;
 const unique=a=>Array.isArray(a)&&new Set(a).size===a.length;
 export function normalizeChronicleState(input,content,campaign){
  const s=input===undefined?emptyChronicleState():structuredClone(input),fail=()=>{throw Error('Dữ liệu Biên Niên Ký không hợp lệ.');};
  if(!record(s)||s.version!==1||!whole(s.nextInstanceId)||s.nextInstanceId<1)fail();
- for(const[field,intro]of [['firstClearIds',true],['eventClearIds',false]])if(!unique(s[field])||s[field].some(id=>!content.chronicleEvents[id]||content.chronicleEvents[id].intro!==intro))fail();
+ for(const[field,intro]of [['firstClearIds',true],['eventClearIds',false]])if(!unique(s[field])||s[field].some(id=>!content.chronicleEvents[id]||(content.chronicleEvents[id].bookId!=='book1'||content.chronicleEvents[id].intro!==intro)))fail();
  if(!record(s.pendingByLocation)||!record(s.lastEventIdsByLocation)||!record(s.noNewEventStreakByLocation)||!record(s.weeklyRewardLedger))fail();
  const ids=content.chronicles.book1.locations.map(l=>l.id),seen=new Set();
  for(const[id,p]of Object.entries(s.pendingByLocation)){
@@ -16,11 +17,11 @@ export function normalizeChronicleState(input,content,campaign){
  }
  for(const[id,list]of Object.entries(s.lastEventIdsByLocation))if(!ids.includes(id)||!unique(list)||list.length>2||list.some(key=>content.chronicleEvents[key]?.locationId!==id||content.chronicleEvents[key].hidden||content.chronicleEvents[key].intro))fail();
  for(const[id,n]of Object.entries(s.noNewEventStreakByLocation))if(!ids.includes(id)||!whole(n)||n>2)fail();
- const l=s.weeklyRewardLedger;if(l.weekKey!==null&&(typeof l.weekKey!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(l.weekKey)||!Number.isFinite(Date.parse(l.weekKey))||new Date(l.weekKey+'T00:00:00Z').getUTCDay()!==1)||!whole(l.count)||l.count>28||!unique(l.claimedInstanceIds)||l.claimedInstanceIds.length!==l.count||l.claimedInstanceIds.some(id=>typeof id!=='string'||!/^book1-[a-j]-[1-9][0-9]*$/.test(id))||l.weekKey===null&&l.count)fail();
+ const l=s.weeklyRewardLedger;if(l.weekKey!==null&&(typeof l.weekKey!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(l.weekKey)||!Number.isFinite(Date.parse(l.weekKey))||new Date(l.weekKey+'T00:00:00Z').getUTCDay()!==1)||!whole(l.count)||l.count>28||!unique(l.claimedInstanceIds)||l.claimedInstanceIds.length!==l.count||l.claimedInstanceIds.some(id=>typeof id!=='string'||!/^book[12]-[a-j]-[1-9][0-9]*$/.test(id))||l.weekKey===null&&l.count)fail();
  if(typeof s.aliceFirstEncounterCleared!=='boolean'||!unique(s.aliceDifficultyClears)||s.aliceDifficultyClears.some(n=>![60,70,80,90].includes(n))||!s.aliceFirstEncounterCleared&&s.aliceDifficultyClears.length)fail();
  const legacy=campaign.claimedFirstClearRewards?.includes('alice_superboss');
  if(legacy)s.aliceFirstEncounterCleared=true;
  if(s.eventClearIds.includes('book1.j04')!==s.aliceFirstEncounterCleared&&!legacy)fail();
- if(s.activeBattle!==null&&(!ids.includes(s.activeBattle)||!s.pendingByLocation[s.activeBattle]?.battleSnapshot||s.pendingByLocation[s.activeBattle].status!=='battle'))fail();
- return s;
+ if(s.activeBattle!==null&&s.activeBattle!=='book2'&&(!ids.includes(s.activeBattle)||!s.pendingByLocation[s.activeBattle]?.battleSnapshot||s.pendingByLocation[s.activeBattle].status!=='battle'))fail();
+ return normalizeFortressState(s,content,campaign);
 }

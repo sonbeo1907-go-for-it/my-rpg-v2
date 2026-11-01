@@ -1717,5 +1717,255 @@
     "enemyLevel": 1,
     "referenceLevel": 1,
     "rewardPolicy": "none"
+  },
+  {
+    "id": "drageshelmfjall_lost_lamps",
+    "name": "Drageshelmfjall — Những ngọn đèn chưa tắt",
+    "description": "Hai vong hồn chiến sĩ Người giữ đèn còn vương lại trên núi. HP về 0 chỉ khiến chúng hóa Oán Hận đến hết vòng sau: tiếp tục đánh để bào mòn HP tối đa hoặc chờ chúng trở lại yếu hơn. Yếu Nguyệt; hiện chưa có nhân vật hệ này. Ánh trăng sẽ dẫn những người con của Drageshelmfjall về nơi an nghỉ.",
+    "enemies": [
+      "lampkeeper_revenant",
+      "lampkeeper_revenant"
+    ],
+    "bgm": "drageshelmfjall",
+    "rewardTier": "normal",
+    "defaultDifficulty": "very_easy",
+    "enemyLevel": 5,
+    "referenceLevel": 1,
+    "hpReferenceLevel": 1,
+    "region": "drageshelmfjall",
+    "dungeonEligible": false
+  },
+  {
+    "id": "book2_intro_f09",
+    "name": "Cổng sau — Bảo vệ đoàn xe",
+    "description": "Đường tiếp tế chạy qua cổng phụ. Một toán cướp muốn lợi dụng lúc đổi ca tiến gần đoàn hàng.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_archer"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.intro.f09",
+    "chronicleKind": "fortress_defense"
+  },
+  {
+    "id": "book2_a03",
+    "name": "Cướp chặn đường vận tải",
+    "description": "Hai tên cướp bám đoàn xe ngoài đường, tránh tấn công sát cổng.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_archer"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.a03",
+    "chronicleKind": "fortress_defense"
+  },
+  {
+    "id": "book2_b02",
+    "name": "Trận đấu giao hữu",
+    "description": "Một đôi binh sĩ xin đấu tập có trọng tài; khán giả đặt khiên quanh sân.",
+    "enemies": [
+      "fortress_spear_knight",
+      "fortress_shield_knight"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.b02",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2_b03",
+    "name": "Người lính không phục",
+    "description": "Một binh sĩ bất bình với lịch trực và muốn phân thắng thua với người được điều đến hỗ trợ.",
+    "enemies": [
+      "fortress_spear_knight"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.b03",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2_c03",
+    "name": "Cuộc ẩu đả lúc nửa đêm",
+    "description": "Hai binh sĩ tranh cãi chuyện mất lượt nghỉ, làm đổ ghế ở Căng Tin.",
+    "enemies": [
+      "fortress_shield_knight",
+      "fortress_spear_knight"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.c03",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2_f03",
+    "name": "Đón người bị thương",
+    "description": "Một đoàn vận chuyển về đến gần cổng sau sau khi bị cướp đuổi, có người bị thương.",
+    "enemies": [
+      "bandit_vanguard",
+      "bandit_brute"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.f03",
+    "chronicleKind": "fortress_defense"
+  },
+  {
+    "id": "book2_g01",
+    "name": "Thùng thuốc súng",
+    "description": "Lính gác kho chưa nhận lệnh xuất một thùng thuốc súng dùng để sửa pháo.",
+    "enemies": [
+      "fortress_shield_knight",
+      "fortress_spear_knight"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.g01",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2_g03",
+    "name": "Những kẻ nhòm ngó kho",
+    "description": "Hai kẻ lạ tiếp cận khu vận chuyển phía sau, giả vờ hỏi đường.",
+    "enemies": [
+      "bandit_archer",
+      "bandit_mage"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.g03",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2_h03",
+    "name": "Tập báo hiệu và ngắm bắn",
+    "description": "Pháo thủ tổ chức buổi phối hợp bảo vệ vị trí pháo, hai binh sĩ làm đối thủ luyện tập.",
+    "enemies": [
+      "fortress_shield_knight",
+      "fortress_marksman"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.h03",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2_i03",
+    "name": "Bóng người dưới chân tường",
+    "description": "Kẻ lạ dùng khúc tường chưa được tuần tra kỹ để tiếp cận cổng sau.",
+    "enemies": [
+      "fortress_infiltrator",
+      "rogue_deserter"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.i03",
+    "chronicleKind": "fortress_defense"
+  },
+  {
+    "id": "book2_j03",
+    "name": "Kẻ xâm nhập đường ngầm",
+    "description": "Cướp dùng một cửa thoát nước mở hờ để tìm đường chui vào khu kho.",
+    "enemies": [
+      "bandit_vanguard",
+      "fortress_saboteur"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.j03",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2_j04",
+    "name": "Lối đi không có trên bản vẽ",
+    "description": "Một khoảng vữa tại nắp cống có dấu tháo lắp khác thường; chỉ sau khi có đủ chứng cứ mới có thể mở an toàn.",
+    "enemies": [
+      "fortress_saboteur",
+      "fortress_infiltrator",
+      "rogue_deserter"
+    ],
+    "bgm": "normal",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "normal",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.j04",
+    "chronicleKind": "internal"
+  },
+  {
+    "id": "book2.mira_intro_lv1",
+    "name": "Tín hiệu ngoài vọng gác",
+    "description": "Đội hình phòng thủ sẵn sàng trước mối đe dọa bên ngoài.",
+    "enemies": [
+      "miraebolis"
+    ],
+    "bgm": "miraebolis",
+    "enemyLevel": 1,
+    "rewardPolicy": "none",
+    "rewardTier": "super",
+    "referenceLevel": 1,
+    "category": "chronicle",
+    "bookId": "book2",
+    "chronicleEventId": "book2.finale",
+    "chronicleKind": "fortress_defense"
   }
 ]

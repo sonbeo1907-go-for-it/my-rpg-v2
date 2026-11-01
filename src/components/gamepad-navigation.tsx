@@ -40,6 +40,7 @@ const keyFor = (element: HTMLElement) =>
   `${element.tagName}:${element.className}:${element.textContent?.trim().slice(0, 90)}`;
 function initial(root: ParentNode, path: string) {
   if(path==='/chronicles')return root.querySelector<HTMLElement>('.chronicle-book-cover');
+  if(path==='/chronicles/book2')return root.querySelector<HTMLElement>('.chronicle-scene-actions .gold,.fortress-area-list .selected');
   if(path.startsWith('/chronicles/'))return root.querySelector<HTMLElement>('.chronicle-hotspot,.chronicle-scene-actions .gold,.chronicle-location-list .selected');
   if (path === "/stories") return root.querySelector<HTMLElement>(".story-book");
   if (path.startsWith("/stories/")) return root.querySelector<HTMLElement>(".quest-card.selected,.quest-card:not(:disabled)");
@@ -99,6 +100,7 @@ function hintList(
   root: Element,
   active: Element | null,
 ): [string, string][] {
+  if(path==='/chronicles/book2'&&!root.matches('dialog'))return [['A','Tương tác'],['LB / RB','Khu vực'],['B','Kệ sách · Giữ phiên'],['RS','Cuộn']];
   if(path.startsWith('/chronicles')&&!root.matches('dialog'))return root.querySelector('.chronicle-location-list')?[['A','Chọn'],['LB / RB','Địa điểm'],['B','Trở về'],['RS','Cuộn']]:[['A','Tương tác'],['B','Trở về'],['RS','Cuộn']];
   if (root.matches("dialog")) {
     if (root.querySelector(".settings-tabs"))
@@ -428,12 +430,12 @@ export function GamepadNavigation() {
         else root.querySelector<HTMLButtonElement>('[data-gamepad-page="'+(action==='lt'?'previous':'next')+'"]:not(:disabled)')?.click();
       } else if (action === "lb" || action === "rb") {
         const tabs = root.querySelector(
-          ".chronicle-location-list,.settings-tabs,.page-wide-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",
+          ".fortress-area-list,.chronicle-location-list,.settings-tabs,.page-wide-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",
         );
         if (tabs) {
           const items = controls(tabs);
           const selected = items.find((item) =>
-            item.matches("[aria-selected=true],[aria-current=page],[aria-pressed=true],.active"),
+            item.matches("[aria-selected=true],[aria-current=page],[aria-current=location],[aria-pressed=true],.active"),
           );
           cycle(items, action === "lb" ? -1 : 1, selected ?? active, true);
         }

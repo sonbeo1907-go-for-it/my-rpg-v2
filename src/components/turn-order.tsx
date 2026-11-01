@@ -1,4 +1,6 @@
 "use client";
+import {isAlive} from "../core/actor-life.js";
+
 import {Fragment} from "react";
 import {useGame} from "../runtime/game-context";
 import {activeTurnOrderField} from "../core/turn-order.js";
@@ -8,7 +10,7 @@ import {CombatPopover} from "./combat-popover";
 export function TurnOrder({onHover}:{onHover:(id:string)=>void}) {
   const {battle}=useGame();
   const field=activeTurnOrderField(battle);
-  const pending=battle.queue.slice(battle.cursor).map((id:string)=>battle.actors.find((actor:any)=>actor.id===id)).filter((actor:any)=>actor?.hp>0);
+  const pending=battle.queue.slice(battle.cursor).map((id:string)=>battle.actors.find((actor:any)=>actor.id===id)).filter((actor:any)=>isAlive(actor));
   const remaining=field ? field.expiresAfterRound-battle.round+1 : 0;
   return <div className="turn-order" data-turn-field={field?.kind}>
     {battle.outcome ? "Cuộc chạm trán đã khép lại." : <>

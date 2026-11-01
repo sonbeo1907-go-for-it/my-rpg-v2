@@ -50,14 +50,14 @@ test('new encounters have the requested composition, weaknesses and shared wyver
     assert.deepEqual(enemy.stats, wyverns[0].stats);
     assert.equal(enemy.element, wyverns[0].element);
   }
-  assert.deepEqual(wyverns.slice(0, 8).map(enemy => enemy.weaknesses), ELEMENTS.map(id => [id]));
+  assert.deepEqual(wyverns.slice(0, 8).map(enemy => enemy.weaknesses), ELEMENTS.slice(0,8).map(id => [id]));
   assert.deepEqual(wyverns[8].damageTypeWeaknesses, ['magical']);
   assert.deepEqual(wyverns[9].damageTypeWeaknesses, ['physical']);
   for (const enemy of wyverns.slice(8)) assert.deepEqual(enemy.weaknesses, []);
 });
 
 test('every elemental wyvern amplifies only its element, independently of physical/magical damage', () => {
-  for (let index = 0; index < ELEMENTS.length; index++) {
+  for (let index = 0; index < 8; index++) {
     for (const element of ELEMENTS) for (const type of ['physical', 'magical']) {
       const { event } = strike(`wyvern_trial_${index + 1}`, element, type);
       assert.equal(event.amount, element === ELEMENTS[index] ? 60 : 40, `${index + 1}/${element}/${type}`);
@@ -65,7 +65,7 @@ test('every elemental wyvern amplifies only its element, independently of physic
   }
 });
 
-test('type-weak wyverns amplify all eight matching elements and leave the opposite damage type unchanged', () => {
+test('type-weak wyverns amplify every matching element and leave the opposite damage type unchanged', () => {
   for (const [encounter, type] of [['wyvern_trial_9', 'magical'], ['wyvern_trial_10', 'physical']]) {
     for (const element of ELEMENTS) for (const damageType of ['physical', 'magical']) {
       const { event, battle } = strike(encounter, element, damageType);

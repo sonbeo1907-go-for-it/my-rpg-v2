@@ -15,7 +15,7 @@ export function dungeonDifficulty(content, id, difficultyId) {
 export function dungeonQuestPool(content, id = "gold_mine") {
   const tier = content.dungeons[id]?.encounterTier ?? "normal";
   return Object.values(content.encounters)
-    .filter((item) => !item.travelerStory && !['bounty','chronicle'].includes(item.category) && encounterTier(item) === tier)
+    .filter((item) => item.dungeonEligible!==false && !item.travelerStory && !['bounty','chronicle'].includes(item.category) && encounterTier(item) === tier)
     .map((item) => item.id);
 }
 function checkedRoll(random) {

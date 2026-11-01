@@ -1,3 +1,5 @@
+
+import {isAlive} from "./actor-life.js";
 import {exclusivePassive} from './exclusive-hooks.js';
 export function extendedFieldDuration(actor,skillId,effect){return effect.durationRounds+(exclusivePassive(actor,'field_duration',skillId)?.extraRounds??0);}
 export function syncExclusiveFieldModifiers(battle){
@@ -7,6 +9,6 @@ export function syncExclusiveFieldModifiers(battle){
 export function shieldedDamageBonus(battle,actor){
  if(actor.shield<=0)return 0;
  let value=actor.passive?.type==='shielded_damage_bonus'?actor.passive.ratio:0;
- for(const source of battle.actors)if(source.hp>0&&source.team===actor.team&&source.passive?.type==='shielded_damage_bonus'&&exclusivePassive(source,'share_shielded_passive'))value=Math.max(value,source.passive.ratio);
+ for(const source of battle.actors)if(isAlive(source)&&source.team===actor.team&&source.passive?.type==='shielded_damage_bonus'&&exclusivePassive(source,'share_shielded_passive'))value=Math.max(value,source.passive.ratio);
  return value;
 }

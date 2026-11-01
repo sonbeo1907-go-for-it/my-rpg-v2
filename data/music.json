@@ -106,5 +106,14 @@
       "/bgm/spboss_ogrebane.mp3"
     ],
     "loop": true
+  },
+  {
+    "id": "drageshelmfjall",
+    "name": "Drageshelmfjall · Những ngọn đèn tàn",
+    "tracks": [
+      "/bgm/bt1_drageshelmfjall.mp3",
+      "/bgm/bt2_drageshelmfjall.mp3"
+    ],
+    "loop": true
   }
 ]

@@ -1,6 +1,8 @@
+
+import {isAlive} from "./actor-life.js";
 import {specialPassives,hasLiveStatus} from './exclusive-specials.js';
 import {procAvailable,markProc} from './exclusive-hooks.js';
-const alive=a=>a?.hp>0;
+const alive=isAlive;
 function announce(b,a,p,io,targetId=a.id){io.emit(b,{type:'passive',sourceId:a.id,targetId,label:p.name,exclusive:true});io.write(b,a.name+' kích hoạt '+p.name+'.');}
 export function exclusiveResourceChanged(b,a,id,delta,io){if(!delta||!alive(a))return;for(const p of specialPassives(a,'resource_stat_status'))if(p.resourceId===id){announce(b,a,p,io);io.status(b,a,p.statusId,p.duration,a.id);}}
 export function exclusiveAttackResourceChance(a,statusId,trigger,readStat){const p=specialPassives(a,'brace_chance').find(p=>p.statusId===statusId&&p.resourceId===trigger.resource);return p?Math.min(1,trigger.chance+p.bonusChance*Math.max(0,readStat(p.stat))/p.atStat):trigger.chance;}

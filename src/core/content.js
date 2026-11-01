@@ -12,8 +12,8 @@ import { validateBlacksmithContent } from './blacksmith-rules.js';
 import { validReactivePassive } from './reactive-passives.js';
 import { validateTravelerStories } from './traveler-stories.js';
 
-export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark'];
-export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám' };
+export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark', 'moon', 'agony'];
+export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám', moon:'Nguyệt', agony:'Oán Hận' };
 export const DAMAGE_TYPE_NAMES = { physical: 'vật lí', magical: 'ma pháp' };
 export const WEAKNESS_MULTIPLIER = 1.5;
 export const ROLE_GROUPS = {
@@ -79,8 +79,12 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if(actor.group==='agony'||actor.agony||native?.type==='agony_revenant'){
+      const r=actor.agony;
+      if(content.enemies[id]!==actor||actor.group!=='agony'||native?.type!=='agony_revenant'||!native.name||!native.description||!r||r.roundsAfterTrigger!==1||r.damageReduction!==.3||r.directMaxHpElement!=='agony'||actor.boss)fail(id+': invalid agony enemy');
+    }
     if(native?.type==='ally_support_followup'){
       const a=content.abilities[native.followUpAbility];
       if(!native.name||!native.description||!Number.isInteger(native.perRound)||native.perRound<1||native.perRound>4||!Number.isInteger(native.modePerRound)||native.modePerRound<native.perRound||native.modePerRound>4||!actor.combatModes?.[native.modeId]||a?.activation!=='passive'||a.target!=='all_enemies'||a.cost?.mp||a.cooldown||!a.effects?.length||a.effects.some(e=>e.type!=='damage'))fail(id+': invalid support follow-up');
