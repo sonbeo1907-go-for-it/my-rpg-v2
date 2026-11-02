@@ -2262,5 +2262,408 @@
       "perStack": 0.04,
       "cap": 0.12
     }
+  },
+  {
+    "id": "aldric",
+    "name": "Aldric Vortan",
+    "title": "Đại Pháp Sư",
+    "affiliation": "Giới pháp sư",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "plain",
+    "basicDamageType": "magical",
+    "description": "Mở rộng bể ma lực qua trận dài, chuyển MP tối đa thành MAG rồi tung phép diện rộng có mục tiêu chính.",
+    "biography": "Aldric Vortan xem mọi trận chiến là một phép tính dài. Khi kho ma lực đã đầy, một đại thuật đủ để thay đổi cả chiến tuyến.",
+    "stats": {
+      "maxHp": 145,
+      "maxMp": 180,
+      "attack": 10,
+      "magic": 42,
+      "defense": 14,
+      "resistance": 26,
+      "speed": 15
+    },
+    "abilities": [
+      "aldric.reservoir",
+      "aldric.domain",
+      "aldric.zenith"
+    ],
+    "passive": {
+      "type": "mp_stat_conversion",
+      "name": "Bể Ma Lực Vô Tận",
+      "description": "Nhận MAG căn bản bằng 5% MP tối đa hiện tại, tối đa +25 MAG tại 500 MP. Cập nhật ngay khi MP tối đa thay đổi; MP hiện tại không ảnh hưởng.",
+      "toStat": "magic",
+      "ratio": 0.05,
+      "cap": 25
+    }
+  },
+  {
+    "id": "rivia",
+    "name": "Rivia",
+    "title": "Kị Sĩ Hoàng Hôn",
+    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "tags": [
+      "capital_knights"
+    ],
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "fire",
+    "description": "Ô 1/3 dồn sát thương một mục tiêu; ô 2/4 đổi đòn bùng nổ thành diện rộng. Thế đứng thay đổi nội tại.",
+    "biography": "Nữ kị sĩ dưới trướng Lanceveil tự gọi mình là Kị Sĩ Hoàng Hôn. Rivia tìm vị trí của mình giữa mũi thương tiên phong và hàng quân giữ tuyến.",
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 70,
+      "attack": 30,
+      "magic": 10,
+      "defense": 18,
+      "resistance": 17,
+      "speed": 23
+    },
+    "abilities": [
+      "rivia.edge",
+      "rivia.dusk",
+      "rivia.horizon"
+    ],
+    "passive": {
+      "type": "formation_stance",
+      "name": "Hai Sắc Hoàng Hôn",
+      "description": "Ở ô 1/3: +20% ATK và +10% SPD. Ở ô 2/4: +15% ATK, DEF và RES. Theo vị trí cố định, không nén ô trống hoặc đồng đội gục.",
+      "odd": {
+        "name": "Hoàng Hôn Sắc Kiếm",
+        "modifiers": {
+          "attack": 0.2,
+          "speed": 0.1
+        }
+      },
+      "even": {
+        "name": "Hoàng Hôn Giữ Trận",
+        "modifiers": {
+          "attack": 0.15,
+          "defense": 0.15,
+          "resistance": 0.15
+        }
+      }
+    }
+  },
+  {
+    "id": "valery",
+    "name": "Valery",
+    "title": "Xạ Thủ Hắc Phong",
+    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "tags": [
+      "capital_knights"
+    ],
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "wind",
+    "basicDamageType": "magical",
+    "description": "Vào thế ngắm để tăng MAG, tích tầng từ Phòng thủ và tạo khiên của hai phe, rồi dồn vào một phát bắn phép.",
+    "biography": "Valery bình thản chờ tiếng khiên chạm nhau trên chiến trường. Cô chỉ cần một khoảng lặng để nương theo gió và kết thúc cuộc săn.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 100,
+      "attack": 12,
+      "magic": 36,
+      "defense": 15,
+      "resistance": 22,
+      "speed": 21
+    },
+    "abilities": [
+      "valery.shot",
+      "valery.focus",
+      "valery.tempest"
+    ],
+    "resources": {
+      "wind_focus": {
+        "name": "Điểm Ngắm Gió",
+        "max": 6
+      }
+    },
+    "passive": {
+      "type": "mode_support_charge",
+      "name": "Tĩnh Tâm Chờ Gió",
+      "description": "Trong Thế Ngắm Hắc Phong, một đơn vị bất kỳ của hai phe dùng Phòng thủ hoặc thực sự tạo khiên sẽ tạo 1 Điểm Ngắm Gió. Mỗi hành động tối đa 1 tầng; khiên AoE không tính theo số người nhận.",
+      "modeId": "wind_aim",
+      "resource": "wind_focus",
+      "amount": 1
+    },
+    "combatModes": {
+      "wind_aim": {
+        "name": "Thế Ngắm Hắc Phong",
+        "lifetime": "rounds",
+        "durationRounds": 3,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "magic": 0.4
+        },
+        "allowedAbilities": [
+          "$attack",
+          "valery.shot",
+          "valery.tempest",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "resetResourceOnEnter": "wind_focus",
+        "clearResourceOnExit": "wind_focus",
+        "summary": "+40% MAG · tích tối đa 6 Điểm Ngắm Gió",
+        "description": "Duy trì 3 vòng tính cả vòng thi triển. Tích tầng từ Phòng thủ hoặc khiên của hai phe, mỗi hành động một lần. Tung Xuyên Vân Nhất Tiễn sẽ tiêu hết tầng và rời dạng; hết thời gian cũng xóa tầng."
+      }
+    }
+  },
+  {
+    "id": "noctis",
+    "name": "Noctis",
+    "title": "Bóng Dao Của Lunarmare",
+    "affiliation": "Gia tộc Vertosse",
+    "tags": [
+      "vertosse"
+    ],
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "dark",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 75,
+      "attack": 32,
+      "magic": 12,
+      "defense": 16,
+      "resistance": 18,
+      "speed": 27
+    },
+    "description": "Cướp ATK, mở Sơ Hở Ám rồi dồn Bằng Chứng vào một đòn ám sát.",
+    "biography": "Sát thủ riêng của Selene, Noctis làm việc sau bức màn mà phiên tòa không thể chạm tới. Anh thuộc phe Vertosse, nhưng không mang họ của gia tộc.",
+    "teamResources": {
+      "evidence": {
+        "name": "Bằng Chứng Đanh Thép",
+        "max": 6,
+        "icon": "masquerade",
+        "description": "Tài nguyên chung của đội, tối đa 6 mặt nạ. Tạo khi đã đầy vẫn ghi nhận sự kiện tạo Bằng Chứng. Không thể bị xóa buff."
+      }
+    },
+    "abilities": [
+      "noctis.theft",
+      "noctis.cut",
+      "noctis.sentence"
+    ],
+    "passive": {
+      "type": "spent_team_resource_stat",
+      "name": "Mật Lệnh Của Lunarmare",
+      "description": "Kỹ năng của bản thân tiêu Bằng Chứng Đanh Thép được +35% ATK cho toàn bộ kỹ năng đó.",
+      "resource": "evidence",
+      "stat": "attack",
+      "ratio": 0.35
+    }
+  },
+  {
+    "id": "heimdall",
+    "name": "Heimdall Valmont",
+    "title": "Người Gác Gia Huy",
+    "affiliation": "Gia tộc Valmont",
+    "tags": [
+      "valmont"
+    ],
+    "role": "Đấu sĩ",
+    "roleGroup": "fighter",
+    "element": "light",
+    "stats": {
+      "maxHp": 320,
+      "maxMp": 70,
+      "attack": 18,
+      "magic": 12,
+      "defense": 25,
+      "resistance": 24,
+      "speed": 9
+    },
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 0.12,
+        "scalingStat": "maxHp"
+      }
+    ],
+    "description": "Khiêu khích, tăng HP tối đa và đáp trả đòn địch bằng sức bền của chính mình.",
+    "biography": "Heimdall là người đứng lại sau cùng dưới gia huy Valmont. Anh đón đỡ những đòn hiểm nhất để gia đình có thể tiếp tục tiến lên.",
+    "abilities": [
+      "heimdall.watch",
+      "heimdall.oath",
+      "heimdall.vitality"
+    ],
+    "passive": {
+      "type": "received_damage_counter",
+      "name": "Bức Tường Biết Đáp Trả",
+      "description": "Sau một đòn tấn công trực tiếp của địch, nếu còn sống, phản đòn một lần mỗi vòng. Hệ số từ 50% đến 200% HP tối đa, tăng theo sát thương địch trước phòng thủ.",
+      "counterAbility": "heimdall.reprisal",
+      "minimum": 0.5,
+      "maximum": 2
+    }
+  },
+  {
+    "id": "finmel",
+    "name": "Finmel",
+    "title": "Điểm Tĩnh Giữa Băng Triều",
+    "affiliation": "Học viện Phép Thuật",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "water",
+    "basicDamageType": "magical",
+    "stats": {
+      "maxHp": 145,
+      "maxMp": 110,
+      "attack": 10,
+      "magic": 38,
+      "defense": 15,
+      "resistance": 25,
+      "speed": 19
+    },
+    "description": "Tích Hàn Tinh từ sát thương khác hệ Thủy của đồng đội rồi dồn ba tầng vào một đòn băng.",
+    "biography": "Finmel theo học phép thuật băng tại học viện. Cậu tìm nhịp tĩnh lặng giữa những dòng ma lực của đồng đội trước khi kết tinh chúng thành một mũi băng duy nhất.",
+    "resources": {
+      "frost_crystal": {
+        "name": "Hàn Tinh",
+        "max": 3
+      }
+    },
+    "abilities": [
+      "finmel.needle",
+      "finmel.focus",
+      "finmel.entomb"
+    ],
+    "passive": {
+      "type": "element_ally_charge",
+      "name": "Cộng Hưởng Băng Triều",
+      "description": "Khi đồng đội khác gây sát thương trực tiếp khác hệ Thủy lên địch, tích 1 Hàn Tinh, tối đa 3; một tầng mỗi hành động.",
+      "element": "water",
+      "resource": "frost_crystal",
+      "amount": 1,
+      "elementMatch": "different",
+      "elementSource": "damage"
+    }
+  },
+  {
+    "id": "albeldo",
+    "name": "Albeldo Dragun",
+    "title": "Kị Sĩ Lá Chắn Gió",
+    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "tags": [
+      "dragun"
+    ],
+    "role": "Thủ Hộ",
+    "roleGroup": "tank",
+    "element": "wind",
+    "stats": {
+      "maxHp": 270,
+      "maxMp": 85,
+      "attack": 17,
+      "magic": 10,
+      "defense": 27,
+      "resistance": 22,
+      "speed": 24
+    },
+    "description": "Tăng nhịp độ toàn đội và dựng Phong Bích; SPD căn bản giảm sát thương vật lí cho đồng minh.",
+    "biography": "Albeldo đem kỷ luật của gia tộc Dragun vào hàng ngũ kị sĩ thủ đô. Anh dùng những bước chân nhanh để khép kín mọi khoảng hở trong hàng phòng thủ.",
+    "abilities": [
+      "albeldo.march",
+      "albeldo.aegis",
+      "albeldo.hold"
+    ],
+    "passive": {
+      "type": "base_speed_physical_guard",
+      "name": "Gió Lặng Sau Hàng Khiên",
+      "description": "Giảm sát thương vật lí cho toàn đội theo SPD căn bản của Albeldo, tối đa 30% tại 90 SPD căn bản. Buff SPD trong trận không tăng hiệu quả.",
+      "cap": 0.3,
+      "atSpeed": 90
+    }
+  },
+  {
+    "id": "henrris",
+    "name": "Henrris",
+    "title": "Mũi Tên Bóc Giáp",
+    "affiliation": "Hội Thợ Săn",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "wind",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 85,
+      "attack": 30,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 18,
+      "speed": 24
+    },
+    "description": "Phá DEF rồi dồn ba mũi tên vào sơ suất trên lớp giáp đối phương.",
+    "biography": "Một cung thủ high elf rời làng để gia nhập hội thợ săn. Henrris không tìm chỗ giáp mỏng nhất; anh biến mọi chỗ giáp thành điểm yếu.",
+    "abilities": [
+      "henrris.rend",
+      "henrris.volley",
+      "henrris.pierce"
+    ],
+    "passive": {
+      "type": "altered_defense_damage",
+      "name": "Mắt Thấy Kẽ Hở",
+      "description": "Gây thêm 50% sát thương trực tiếp khi DEF hiện tại của mục tiêu khác DEF căn bản. Tăng hoặc giảm DEF đều tính; xuyên DEF đơn thuần không tính.",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "joshua",
+    "name": "Joshua",
+    "title": "Ma Cà Rồng Luôn Có Đường Lui",
+    "affiliation": "Hội Thợ Săn",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "fire",
+    "stats": {
+      "maxHp": 195,
+      "maxMp": 80,
+      "attack": 32,
+      "magic": 10,
+      "defense": 18,
+      "resistance": 18,
+      "speed": 17
+    },
+    "description": "Thu hút đòn địch, chuyển sang Kế Hoạch B khi nguy cấp rồi truy kích để hút máu.",
+    "biography": "Joshua là ma cà rồng biết rằng một kế hoạch tốt cần có đường lui. Anh mời kẻ thù ra tay trước, chỉ để biến hiểm nguy thành một bữa tiệc lửa.",
+    "abilities": [
+      "joshua.bite",
+      "joshua.duel",
+      "joshua.sentence"
+    ],
+    "passive": {
+      "type": "vampire_contingency",
+      "name": "Ta Còn Kế Hoạch B",
+      "description": "Luôn Khiêu Khích ngoài Kế Hoạch B. Nhận sát thương HP xuống dưới 50% và còn sống: bỏ Khiêu Khích, vào dạng 3 vòng, nhận Lượt Thêm và Bất Tử hết vòng. Sau dạng nghỉ 2 vòng.",
+      "modeId": "plan_b",
+      "tauntStatus": "joshua_lure",
+      "immortalityStatus": "joshua_immortal",
+      "threshold": 0.5,
+      "followUpAbility": "joshua.feast"
+    },
+    "combatModes": {
+      "plan_b": {
+        "name": "Kế Hoạch B",
+        "lifetime": "rounds",
+        "durationRounds": 3,
+        "presentationScope": "none",
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "attack": 0.85
+        },
+        "allowedAbilities": [
+          "$attack",
+          "joshua.bite",
+          "joshua.duel",
+          "joshua.sentence",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "reentryCooldownRounds": 2,
+        "summary": "+85% ATK · kỹ năng công kích kèm truy kích hút máu",
+        "description": "Tính cả vòng kích hoạt. Không có nền bàn đấu hoặc BGM riêng. Mỗi kỹ năng chủ động công kích của Joshua gọi một Liên kích riêng, không tạo chuỗi. Kết thúc dạng có hai vòng không thể kích hoạt lại."
+      }
+    }
   }
 ]

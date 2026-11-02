@@ -1,3 +1,4 @@
+import {formationAbility} from './advanced-combat.js';
 import {applySpecialSkillModifiers} from './exclusive-specials.js';
 import {skillRules,skillLineId,getActorSkillRank,coefficientFactor,statBuffFactor,outputMpFactor,GROWING_STATS,skillGrowthGroups} from './skill-rules.js';
 
@@ -5,18 +6,18 @@ export function rankedModifiers(modifiers,factor){return Object.fromEntries(Obje
 export function resolveRankedAbility(content,actor,ability,rankOverride){
  let source=typeof ability==='string'?content.abilities[ability]:ability;
  if(!source)return source;
- if(source.rankResolved&&rankOverride===undefined&&source.rankOwnerId===actor?.id&&source.rankTeam===actor?.team)return source;
- source=source.rankSource??source;
+ if(source.rankResolved&&rankOverride===undefined&&source.rankOwnerId===actor?.id&&source.rankTeam===actor?.team&&(!source.formationVariants||source.rankFormationSlot===(actor.formationSlot??0)%2))return source;
+ const rankSource=source.rankSource??source;source=formationAbility(rankSource,actor);
  const profile=source.id==='$attack'?'basic':source.growthProfile??'fixed';
  const rank=actor?.team==='enemy'||profile==='fixed'||source.activation==='passive'?1:rankOverride??getActorSkillRank(actor,source);
  if(!Number.isInteger(rank)||rank<1||rank>5)throw Error('Cấp kỹ năng không hợp lệ.');
  const groups=profile==='fixed'?[]:skillGrowthGroups(content,source);
  const rules=actor?.skillProgression??skillRules(content),f10=coefficientFactor(rank,rules),f05=statBuffFactor(rank,rules);
- const resolved={...source,rankSource:source,rankOwnerId:actor?.id,rankTeam:actor?.team,skillRank:rank,skillLineId:skillLineId(source),growthProfile:profile,growthGroups:groups,rankResolved:true,rankMpMultiplier:groups.includes('output_buff_mp')?outputMpFactor(rank,rules):1};
+ const resolved={...source,rankSource,rankFormationSlot:(actor?.formationSlot??0)%2,rankOwnerId:actor?.id,rankTeam:actor?.team,skillRank:rank,skillLineId:skillLineId(source),growthProfile:profile,growthGroups:groups,rankResolved:true,rankMpMultiplier:groups.includes('output_buff_mp')?outputMpFactor(rank,rules):1};
  resolved.effects=source.effects.map(effect=>{
   let next={...effect};
   if((groups.includes('basic')||groups.includes('damage'))&&effect.type==='damage')next.rankDamageFactor=f10;
-  if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','flat'])if(next[key]!==undefined)next[key]*=f10;
+  if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat'])if(next[key]!==undefined)next[key]*=f10;
   if(groups.includes('stat_buff')&&['status','toggle_status'].includes(effect.type)){
    const status=content.statuses[effect.status];
    if(status?.kind==='buff')next.appliedModifiers=rankedModifiers(status.modifiers,f05);

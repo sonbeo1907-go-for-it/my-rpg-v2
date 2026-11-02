@@ -12,9 +12,9 @@ export function scalingLabel(effect,labels) {
   const keys=scalingKeys(effect),names=keys.map(key=>labels[key]??key);
   return keys.length>1 ? '('+names.join(' + ')+')/'+keys.length : names[0];
 }
-export function splashEnemies(battle,actor,targetId) {
+export function splashEnemies(battle,actor,targetId,allowDefeatedAnchor=false) {
   const members=battle.actors.filter(other=>other.team!==actor.team);
-  const anchor=members.find(other=>other.id===targetId && isAlive(other));
+  const anchor=members.find(other=>other.id===targetId && (allowDefeatedAnchor||isAlive(other)));
   if (!anchor) return [];
   const slot=anchor.formationSlot??members.indexOf(anchor);
   return members.filter((other,index)=>isAlive(other) && Math.abs((other.formationSlot??index)-slot)<=1);

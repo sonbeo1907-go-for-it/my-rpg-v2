@@ -86,7 +86,7 @@ test('automatic cloud does not benefit from or consume Iris empowerment or next-
   assert.equal(gawain(battle).statuses.some(status => status.id === 'empowered'), true);
   assert.equal(gawain(battle).statuses.some(status => status.id === 'cavalry_momentum'), true);
   use(battle, 'gawain', 'gawain.sweep', 'enemy_0');
-  assert.deepEqual(battle.events.filter(event => event.type === 'damage').map(event => event.amount), [109, 109, 56]);
+  assert.deepEqual(battle.events.filter(event => event.type === 'damage').map(event => event.amount), [78, 78, 40]);
   assert.equal(gawain(battle).statuses.some(status => ['empowered', 'cavalry_momentum'].includes(status.id)), false);
 });
 

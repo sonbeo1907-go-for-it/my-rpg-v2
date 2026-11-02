@@ -1,5 +1,6 @@
 
-import {scaledTeamEffect,teamResourceValue,teamResourceDefinition} from '../core/team-resources.js';
+import {scaledTeamEffect,teamResourceValue,teamResourceDefinition,scaledSpentTeamEffect,teamCostAmount} from '../core/team-resources.js';
+import {alteredDefenseBonus} from '../core/tactical-passives.js';
 import {isAlive} from "../core/actor-life.js";
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {exclusiveDamageEffect} from '../core/exclusive-hooks.js';
@@ -15,7 +16,7 @@ import { skillScaling } from './skill-presentation.js';
 
 export const compactNumber = value => new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 2 }).format(value);
 const percent = value => `${compactNumber(value * 100)}%`;
-const statNames = { maxMp:'MP tối đa', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD', evasion: 'né vật lí', damageBonus: 'sát thương', damageReduction: 'giảm sát thương' };
+const statNames = { maxHp:'HP tối đa', maxMp:'MP tối đa', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD', evasion: 'né vật lí', damageBonus: 'sát thương', damageReduction: 'giảm sát thương' };
 
 export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   const allies = battle.actors.filter(item => item.team === 'party' && isAlive(item));
@@ -37,7 +38,7 @@ export function liveSkillChoices(skill, actor, target, battle) {
   const theorem=battle && skill.effects.some(effect=>effect.formulaScaling)?formulaSnapshot(battle,actor):null;
   const baseStatBonuses=battle?skillBaseStatBonuses(battle,actor,skill,selected):{};
   if(theorem?.baseMagic) baseStatBonuses.magic=(baseStatBonuses.magic??0)+theorem.baseMagic;
-  return { live: true, teamResourceStacks:battle?teamResourceValue(battle,actor,skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling.id):0, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
+  return { teamSpent:battle&&skill.cost?.teamResource?teamCostAmount(skill.cost.teamResource,teamResourceValue(battle,actor,skill.cost.teamResource.id)):skill.cost?.teamResource?.min??skill.cost?.teamResource?.amount??0, live: true, formationPosition:(actor.formationSlot??0)+1, teamResourceStacks:battle?teamResourceValue(battle,actor,skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling.id):0, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
     stacks: effect ? target?.statuses?.find(status => status.id === effect.consumeStatus)?.stacks ?? 0 : 0,
     hpPercent: actor.hp / actor.stats.maxHp * 100,
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
@@ -47,7 +48,8 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   const choices = liveSkillChoices(skill, actor, target, battle ? {...battle,content} : undefined);
   const parts = [];
   for (const authoredEffect of skill.effects) {
-    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks),{correct:choices.formulaCorrect}));
+    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks),choices.teamSpent),{correct:choices.formulaCorrect}));
+    if(effect.type==='steal_base_stat')parts.push('Cướp '+percent(effect.ratio)+' ATK căn bản · tối đa +'+effect.cap);
     if(effect.type==='team_resource')parts.push('+'+effect.amount+' '+teamResourceDefinition(content,effect.resource).name);
     if (effect.type === 'damage') {
       const label = scalingLabel(effect,statNames);
@@ -57,11 +59,14 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;
       parts.push(line);
+      if(effect.penetration)parts.push('Xuyên '+percent(effect.penetration)+' '+(effect.damageType==='physical'?'DEF':'RES'));
+      if(effect.spentResourceDamageBonus)parts.push('+'+percent(effect.spentResourceDamageBonus)+' sát thương');
       if(effect.formulaScaling && choices.formulaCorrect===3)parts.push('Xuyên '+percent(effect.penetration)+' RES');
     } else if (effect.type === 'heal' || effect.type === 'shield') {
       const label = scalingLabel(effect,statNames);
       const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? effect.flat : ''].filter(Boolean).join(' + ');
       const amount = supportAmount(effect, scalingValue(effect,key=>battleStat(content, actor, key)), Boolean(target && target.hp / target.stats.maxHp <= .35));
+      if(effect.primaryMultiplier!==undefined){parts.push(percent(effect.primaryMultiplier)+' '+label+' chính / '+percent(effect.multiplier)+' '+label+' còn lại');continue;}
       parts.push(`${formula || '0'} → ${amount} ${effect.type === 'shield' ? 'khiên' : 'HP'}${effect.durationRounds?' · '+effect.durationRounds+' vòng':''}`);
     } else if (effect.type === 'status' || effect.type === 'toggle_status') {
       const status = content.statuses[effect.status];
@@ -88,6 +93,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   }
   for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');
   if(skill.target==='random_enemies')parts.push('mục tiêu ngẫu nhiên');
+  if(actor.passive?.type==='altered_defense_damage'&&target&&alteredDefenseBonus(content,actor,target)>0&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(actor.passive.ratio)+' ST từ DEF thay đổi');
   if(actor.passive?.type==='shielded_damage_bonus' && actor.shield>0 && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(actor.passive.ratio)+' ST từ khiên');
   if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(debuffDamageBonus(actor.passive,choices.debuffCount))+' ST theo debuff');
   if(actor.passive?.type==='target_buff_damage'&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(buffDamageBonus(actor.passive,choices.buffCount))+' ST theo buff địch');
@@ -101,8 +107,9 @@ export function combatSkillDetails(skill, actor, target, content) {
 export function statusDetails(status, actor, battle, content) {
   const definition = content.statuses[status.id];
   const source = battle.actors.find(item => item.id === status.sourceId) ?? battle.sourceActors?.find(item => item.id === status.sourceId) ?? actor;
-  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
+  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, baseStatModifiers:status.baseStatModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
   const lines = [...presentation.facts, ...presentation.rules];
+  if(status.innate)lines.push('Khiêu Khích do nội tại: luôn có ngoài Kế Hoạch B; không thể gỡ bằng xóa buff.');
   if (status.potency !== undefined) {
     const index = lines.findIndex(line => line.startsWith('Độc:'));
     if (index >= 0) lines[index] = `Độc đã ghi nhận: ${status.potency * (status.stacks ?? 1)} HP mỗi đầu lượt · còn ${status.remaining} lần.`;

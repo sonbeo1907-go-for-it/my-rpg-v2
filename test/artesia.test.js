@@ -79,10 +79,10 @@ test('each recipient has independent three-use charges; support/Defend preserve,
  use(b,'artesia','artesia.destiny');assert.equal(status(b,'arthur','destined_radiance').charges,3);assert.equal(getActor(b,'arthur').statuses.filter(s=>s.id==='destined_radiance').length,1);
  for(let i=0;i<3;i++)use(b,'arthur','$attack','enemy_0');assert.equal(status(b,'arthur','destined_radiance'),undefined);
 });
-test('multi-hit AoE consumes once for the complete skill; adds in existing damageBonus group',()=>{
+test('multi-hit AoE consumes once for the complete skill; uses the largest damageBonus while consuming all eligible buffs',()=>{
  const {b,c}=fixture(['arthur','artesia','chelsea','elaine'],c=>{c.abilities.test_area={id:'test_area',name:'Thử',target:'all_enemies',effects:[{type:'damage',element:'light',damageType:'physical',multiplier:1,hits:2}]};c.characters.arthur.abilities.push('test_area');});
  use(b,'arthur','test_area');const normal=damage(b,'arthur');use(b,'artesia','artesia.destiny');use(b,'arthur','test_area');assert.equal(damage(b,'arthur'),Math.floor(getActor(b,'arthur').stats.attack*1.3)*6);assert.ok(damage(b,'arthur')>normal);assert.equal(status(b,'arthur','destined_radiance').charges,2);
- getActor(b,'arthur').statuses.push({id:'empowered',remaining:3,sourceId:'artesia',stacks:1});use(b,'arthur','$attack','enemy_0');assert.equal(damage(b,'arthur'),Math.floor(getActor(b,'arthur').stats.attack*1.7));assert.equal(status(b,'arthur','empowered'),undefined);
+ getActor(b,'arthur').statuses.push({id:'empowered',remaining:3,sourceId:'artesia',stacks:1});use(b,'arthur','$attack','enemy_0');assert.equal(damage(b,'arthur'),Math.floor(getActor(b,'arthur').stats.attack*1.4));assert.equal(status(b,'arthur','empowered'),undefined);
 });
 test('shield damage consumes, a completely dodged skill does not',()=>{
  const {b,c}=fixture();use(b,'artesia','artesia.destiny');const e=getActor(b,'enemy_0');e.shield=1000;use(b,'arthur','$attack',e.id);assert.equal(status(b,'arthur','destined_radiance').charges,2);assert.ok(b.events.some(e=>e.type==='damage'&&e.absorbed>0));

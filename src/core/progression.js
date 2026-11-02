@@ -57,6 +57,7 @@ export function resolveCharacter(content, campaign, characterId) {
   const state = campaign.characters[characterId];
   if (!base || !state) throw new Error(`Unknown character ${characterId}`);
   const character = structuredClone(base);
+  character.formationSlot=Math.max(0,campaign.party.indexOf(characterId));
   const upgrades = state.upgradeIds
     .map((id) => content.upgrades[id])
     .filter(Boolean)
@@ -110,9 +111,10 @@ export function resolveCharacter(content, campaign, characterId) {
   for (const [key, amount] of Object.entries(team.bonuses))
     character.stats[key] += amount;
   applySpecialLoadout(content,campaign,character);
-  if (["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers || character.exclusiveTeamModifiers) {
+  const nativeStats=character.passive?.type==='mp_stat_conversion'?[character.passive.toStat]:character.passive?.type==='formation_stance'?Object.keys(character.passive[(character.formationSlot%2===0?'odd':'even')].modifiers):[];
+  if (nativeStats.length || ["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers || character.exclusiveTeamModifiers) {
     character.baseStats = structuredClone(character.stats);
-    for (const key of new Set([...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...Object.keys(character.exclusiveTeamModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
+    for (const key of new Set([...nativeStats,...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...Object.keys(character.exclusiveTeamModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
       character.stats[key] = effectiveStat(character, key);
   }
   return character;

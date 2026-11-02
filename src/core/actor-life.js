@@ -1,3 +1,4 @@
+import {activeStatuses} from './status-state.js';
 // HP zero is a living combat state only for authored Agony enemies.
 export function isInAgony(actor){return actor?.group==='agony'&&Boolean(actor.agony)&&actor.agonyState?.active===true&&actor.hp===0&&actor.stats.maxHp>0;}
 export function isAlive(actor){return Boolean(actor&&(actor.hp>0||isInAgony(actor)));}
@@ -13,6 +14,7 @@ export function applyLifeDamage(battle,target,amount,{element,healthFloor=0}={},
   if(target.stats.maxHp===0){target.hp=0;if(target.agonyState)target.agonyState.active=false;}
   return result;
  }
+ if(activeStatuses(target).some(s=>battle.content.statuses[s.id]?.preventDeath))healthFloor=Math.max(healthFloor,1);
  result.hpLost=Math.min(Math.max(0,target.hp-healthFloor),amount);target.hp-=result.hpLost;
  if(target.hp===0&&target.stats.maxHp>0&&target.group==='agony'&&target.agony){
   const previous=target.agonyState;target.agonyState={active:true,expiresAfterRound:battle.round+target.agony.roundsAfterTrigger,initialMaxHp:previous?.initialMaxHp??target.stats.maxHp,cycles:(previous?.cycles??0)+1};

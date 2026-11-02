@@ -1,0 +1,23 @@
+export function mpConversionBonus(actor,maxMp=actor.stats.maxMp){const p=actor.passive;return p?.type==='mp_stat_conversion'?Math.min(p.cap,maxMp*p.ratio):0;}
+export function formationStance(actor){const p=actor.passive;if(p?.type!=='formation_stance')return null;return (actor.formationSlot??0)%2===0?p.odd:p.even;}
+export function formationAbility(skill,actor){
+ const variant=skill.formationVariants?.[(actor.formationSlot??0)%2===0?'odd':'even'];
+ return variant?{...skill,target:variant.target,effects:skill.effects.map(e=>e.type==='damage'?{...e,multiplier:variant.multiplier}:e)}:skill;
+}
+export function validateAdvancedCombat(content){
+ const errors=[],fail=m=>errors.push(m);
+ for(const a of [...Object.values(content.characters),...Object.values(content.enemies)]){const p=a.passive;
+  if(p?.type==='received_damage_counter'&&(!p.name||!p.description||!Number.isFinite(p.minimum)||p.minimum<=0||!Number.isFinite(p.maximum)||p.maximum<p.minimum||p.maximum>3||content.abilities[p.counterAbility]?.activation!=='passive'||content.abilities[p.counterAbility]?.target!=='enemy'||content.abilities[p.counterAbility]?.cost||content.abilities[p.counterAbility]?.cooldown||content.abilities[p.counterAbility]?.effects.some(e=>e.type!=='damage'||e.scalingStat!=='maxHp')))fail(a.id+': invalid received damage counter');
+  if(p?.type==='element_ally_charge'&&(!p.name||!p.description||!a.resources?.[p.resource]||!['plain','fire','water','earth','wind','thunder','light','dark','moon','agony'].includes(p.element)||p.amount!==1||p.elementMatch!==undefined&&!['same','different'].includes(p.elementMatch)||p.elementSource!==undefined&&!['actor','damage'].includes(p.elementSource)))fail(a.id+': invalid elemental ally charge');
+  if(p?.type==='mp_stat_conversion'&&(!p.name||!p.description||p.toStat!=='magic'||!Number.isFinite(p.ratio)||p.ratio<=0||!Number.isFinite(p.cap)||p.cap<=0))fail(a.id+': invalid MP conversion');
+  if(p?.type==='formation_stance'&&(!p.name||!p.description||[p.odd,p.even].some(s=>!s?.name||!s.modifiers||Object.entries(s.modifiers).some(([k,n])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(n)||n<=0||n>1))))fail(a.id+': invalid formation stance');
+  if(p?.type==='mode_support_charge'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||!a.resources?.[p.resource]||p.amount!==1))fail(a.id+': invalid mode support charge');
+ }
+ for(const s of Object.values(content.abilities)){
+  if(s.initialCooldown!==undefined&&(!Number.isInteger(s.initialCooldown)||s.initialCooldown<1||s.initialCooldown>10))fail(s.id+': invalid initial cooldown');
+  if(s.maxSelfStatus&&(!content.statuses[s.maxSelfStatus]?.maxStacks||s.target!=='self'||!s.effects.some(e=>e.status===s.maxSelfStatus)))fail(s.id+': invalid status ceiling');
+  if(s.formationVariants&&(['odd','even'].some(k=>!s.formationVariants[k]||!['enemy','all_enemies'].includes(s.formationVariants[k].target)||!Number.isFinite(s.formationVariants[k].multiplier)||s.formationVariants[k].multiplier<=0)||!s.effects.some(e=>e.type==='damage')))fail(s.id+': invalid formation variants');
+  for(const e of s.effects??[])if(e.type==='end_mode'&&(e.to!=='self'||!e.mode))fail(s.id+': invalid mode exit');
+ }
+ return errors;
+}

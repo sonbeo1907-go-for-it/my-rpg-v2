@@ -1090,5 +1090,126 @@
       "defense": 0.2,
       "resistance": 0.2
     }
+  },
+  {
+    "id": "archmage_reservoir",
+    "name": "Đại Hải Ma Lực",
+    "kind": "buff",
+    "persistent": true,
+    "maxStacks": 3,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "maxMp": 0.25
+    }
+  },
+  {
+    "id": "dusk_resolve",
+    "name": "Hoàng Hôn Nhuộm Thép",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.25
+    }
+  },
+  {
+    "id": "noctis_appropriated",
+    "name": "Chiến Lợi Trong Bóng Tối",
+    "kind": "buff",
+    "persistent": true,
+    "baseStatShift": {
+      "stat": "attack",
+      "cap": 5
+    }
+  },
+  {
+    "id": "noctis_diminished",
+    "name": "Lưỡi Kiếm Bị Đánh Cắp",
+    "kind": "debuff",
+    "persistent": true,
+    "baseStatShift": {
+      "stat": "attack",
+      "cap": 5
+    }
+  },
+  {
+    "id": "heimdall_oath",
+    "name": "Lời Thề Không Lùi Bước",
+    "kind": "buff",
+    "taunt": true,
+    "modifiers": {
+      "defense": 0.2
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "heimdall_vitality",
+    "name": "Mạch Sống Gia Tộc",
+    "kind": "buff",
+    "modifiers": {
+      "maxHp": 0.35
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "finmel_stillness",
+    "name": "Tâm Điểm Tuyết Lặng",
+    "kind": "buff",
+    "modifiers": {
+      "magic": 0.3,
+      "resistance": 0.2
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "albeldo_march",
+    "name": "Nhịp Gió Tiền Quân",
+    "kind": "buff",
+    "modifiers": {
+      "speed": 0.3,
+      "defense": 0.15
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "albeldo_hold",
+    "name": "Giữ Vững Lối Gió",
+    "kind": "buff",
+    "taunt": true,
+    "modifiers": {
+      "resistance": 0.2
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "henrris_rend",
+    "name": "Giáp Lá Bị Xé",
+    "kind": "debuff",
+    "modifiers": {
+      "defense": -0.35
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "joshua_lure",
+    "name": "Lời Mời Của Ma Cà Rồng",
+    "kind": "buff",
+    "persistent": true,
+    "taunt": true
+  },
+  {
+    "id": "joshua_immortal",
+    "name": "Bất Tử — Kế Hoạch B",
+    "kind": "buff",
+    "preventDeath": true,
+    "durationClock": "round"
+  },
+  {
+    "id": "joshua_duel",
+    "name": "Nhịp Thở Bị Săn",
+    "kind": "debuff",
+    "modifiers": {
+      "attack": -0.15
+    },
+    "durationClock": "main_turn"
   }
 ]

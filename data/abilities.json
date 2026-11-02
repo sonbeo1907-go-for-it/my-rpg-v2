@@ -7821,7 +7821,7 @@
       "mp": 12,
       "teamResource": {
         "id": "evidence",
-        "amount": 2
+        "amount": 3
       }
     },
     "cooldown": 2,
@@ -7830,10 +7830,11 @@
         "type": "damage",
         "damageType": "physical",
         "element": "water",
-        "multiplier": 5
+        "multiplier": 5.5,
+        "penetration": 0.15
       }
     ],
-    "description": "Dồn hai Bằng Chứng vào một đòn kết liễu.",
+    "description": "Dồn ba Bằng Chứng vào một đòn kết liễu xuyên giáp.",
     "skillLineId": "selene.verdict",
     "growthProfile": "damage",
     "rankable": true,
@@ -8032,5 +8033,751 @@
     "growthGroups": [
       "stat_buff"
     ]
+  },
+  {
+    "id": "aldric.reservoir",
+    "name": "Đại Hải Ma Lực",
+    "target": "self",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "archmage_reservoir"
+      }
+    ],
+    "description": "Tăng MP tối đa đến hết trận, tối đa 3 tầng; không tự hồi MP.",
+    "skillLineId": "aldric.reservoir",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "initialCooldown": 1,
+    "maxSelfStatus": "archmage_reservoir",
+    "rules": [
+      "Khởi đầu hồi chiêu 1 vòng; ba lần dùng sớm nhất ở vòng 2, 6 và 10.",
+      "Có thể bị xóa buff; dùng lại tạo tầng mới theo hồi chiêu."
+    ],
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "aldric.domain",
+    "name": "Pháp Vực Vortan",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "primaryMultiplier": 1.6,
+        "multiplier": 0.8
+      }
+    ],
+    "description": "Đánh mạnh mục tiêu chính và lan phép sang các đối thủ còn lại.",
+    "skillLineId": "aldric.domain",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "aldric.zenith",
+    "name": "Thiên Đỉnh Tinh Hà",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 32
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "primaryMultiplier": 3.6,
+        "multiplier": 2
+      }
+    ],
+    "description": "Dồn đại hải ma lực vào một thiên thể, nghiền nát mục tiêu chính và quét chiến tuyến.",
+    "skillLineId": "aldric.zenith",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "rivia.edge",
+    "name": "Lưỡi Kiếm Chạng Vạng",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1.2
+      }
+    ],
+    "description": "Chém Hỏa một mục tiêu.",
+    "skillLineId": "rivia.edge",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "rivia.dusk",
+    "name": "Hoàng Hôn Nhuộm Thép",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "dusk_resolve",
+        "duration": 2
+      }
+    ],
+    "description": "Tăng ATK bản thân để chuẩn bị đòn bùng nổ.",
+    "skillLineId": "rivia.dusk",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "rivia.horizon",
+    "name": "Ranh Giới Ngày Đêm",
+    "target": "enemy",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 3.6
+      }
+    ],
+    "description": "Ô 1/3: dồn đòn Hỏa đơn mục tiêu. Ô 2/4: quét Hỏa toàn địch.",
+    "skillLineId": "rivia.horizon",
+    "growthProfile": "damage",
+    "rankable": true,
+    "formationVariants": {
+      "odd": {
+        "target": "enemy",
+        "multiplier": 3.6
+      },
+      "even": {
+        "target": "all_enemies",
+        "multiplier": 2
+      }
+    },
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "valery.shot",
+    "name": "Nỏ Gió Truy Dấu",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 1.2
+      }
+    ],
+    "description": "Một phát bắn phép Phong ổn định.",
+    "skillLineId": "valery.shot",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "valery.focus",
+    "name": "Thế Ngắm Hắc Phong",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "wind_aim"
+      }
+    ],
+    "description": "Tăng MAG và tích Điểm Ngắm Gió từ nhịp phòng thủ của chiến trường.",
+    "skillLineId": "valery.focus",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthAdapter": "mode_stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "valery.tempest",
+    "name": "Xuyên Vân Nhất Tiễn",
+    "target": "enemy",
+    "cost": {
+      "mp": 18,
+      "resource": {
+        "id": "wind_focus",
+        "all": true,
+        "min": 1
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "multiplier": 3,
+        "perResource": 0.6
+      },
+      {
+        "type": "end_mode",
+        "mode": "wind_aim",
+        "to": "self"
+      }
+    ],
+    "description": "Tiêu hết Điểm Ngắm Gió, tung một phát bắn phép rồi rời Thế Ngắm Hắc Phong.",
+    "skillLineId": "valery.tempest",
+    "growthProfile": "damage",
+    "rankable": true,
+    "requiresMode": "wind_aim",
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "noctis.theft",
+    "name": "Bàn Tay Sau Bức Màn",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 2,
+    "description": "Đánh cắp ATK căn bản của địch và thu thập Bằng Chứng.",
+    "effects": [
+      {
+        "type": "steal_base_stat",
+        "stat": "attack",
+        "ratio": 0.1,
+        "cap": 5,
+        "buff": "noctis_appropriated",
+        "debuff": "noctis_diminished"
+      },
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 1
+      }
+    ],
+    "skillLineId": "noctis.theft",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Cướp chỉ số căn bản là utility cố định; giữ tỷ lệ và giới hạn."
+  },
+  {
+    "id": "noctis.cut",
+    "name": "Lưỡi Dao Tắt Đèn",
+    "target": "enemy",
+    "cost": {
+      "mp": 7
+    },
+    "description": "Chém một kẻ địch và mở Sơ Hở Ám nếu trúng.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.6,
+        "onHitStatus": {
+          "status": "exposure_dark",
+          "stacks": 1
+        }
+      }
+    ],
+    "skillLineId": "noctis.cut",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "noctis.sentence",
+    "name": "Mật Lệnh — Không Nhân Chứng",
+    "target": "enemy",
+    "cost": {
+      "mp": 18,
+      "teamResource": {
+        "id": "evidence",
+        "all": true,
+        "min": 4
+      }
+    },
+    "cooldown": 3,
+    "description": "Tiêu toàn bộ Bằng Chứng để ám sát; đủ sáu sẽ tăng sát thương và xuyên giáp.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 2,
+        "spentTeamResourceScaling": {
+          "id": "evidence",
+          "perStack": 0.6,
+          "fullSpend": {
+            "at": 6,
+            "damageBonus": 0.3,
+            "penetration": 0.25
+          }
+        }
+      }
+    ],
+    "skillLineId": "noctis.sentence",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "heimdall.watch",
+    "name": "Gươm Canh Gia Huy",
+    "target": "enemy",
+    "cost": {
+      "mp": 9
+    },
+    "description": "Dồn sức bền vào một nhát kiếm Quang.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 0.3,
+        "scalingStat": "maxHp"
+      }
+    ],
+    "skillLineId": "heimdall.watch",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "heimdall.oath",
+    "name": "Lời Thề Không Lùi Bước",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "description": "Thu hút đòn đơn mục tiêu và củng cố phòng thủ.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "heimdall_oath",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "heimdall.oath",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "heimdall.vitality",
+    "name": "Mạch Sống Gia Tộc",
+    "target": "self",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "description": "Mở rộng HP tối đa để gia tăng sức bền và sức mạnh phản đòn.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "heimdall_vitality",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "heimdall.vitality",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "heimdall.reprisal",
+    "name": "Phán Quyết Của Người Gác",
+    "target": "enemy",
+    "activation": "passive",
+    "description": "Đáp trả kẻ tấn công bằng sức nặng của đòn vừa đón nhận.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 0.5,
+        "scalingStat": "maxHp"
+      }
+    ],
+    "skillLineId": "heimdall.reprisal",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hệ số phản đòn do nội tại chốt theo sát thương trước phòng thủ."
+  },
+  {
+    "id": "finmel.needle",
+    "name": "Mũi Băng Tĩnh Lặng",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "description": "Phóng một mũi băng chính xác vào kẻ địch.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1.5,
+        "scalingStat": "magic"
+      }
+    ],
+    "skillLineId": "finmel.needle",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "finmel.focus",
+    "name": "Tâm Điểm Tuyết Lặng",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "description": "Tĩnh tâm để gia tăng sức mạnh phép và kháng phép.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "finmel_stillness",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "finmel.focus",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "finmel.entomb",
+    "name": "Băng Táng Tĩnh Lặng",
+    "target": "enemy",
+    "cost": {
+      "mp": 20,
+      "resource": {
+        "id": "frost_crystal",
+        "all": true,
+        "min": 3
+      }
+    },
+    "cooldown": 2,
+    "description": "Kết tinh cả ba Hàn Tinh thành một đòn băng duy nhất.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 2.8,
+        "scalingStat": "magic",
+        "perResource": 1
+      }
+    ],
+    "skillLineId": "finmel.entomb",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "albeldo.march",
+    "name": "Nhịp Gió Tiền Quân",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "description": "Tăng tốc độ và DEF toàn đội để giữ nhịp tiến quân.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "albeldo_march",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "albeldo.march",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "albeldo.aegis",
+    "name": "Phong Bích Hộ Trận",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "description": "Dựng khiên cả đội, ưu tiên khiên dày cho một đồng đội.",
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStats": [
+          "defense",
+          "speed"
+        ],
+        "multiplier": 1.2,
+        "primaryMultiplier": 2
+      }
+    ],
+    "skillLineId": "albeldo.aegis",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
+    ]
+  },
+  {
+    "id": "albeldo.hold",
+    "name": "Giữ Vững Lối Gió",
+    "target": "self",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 2,
+    "description": "Thu hút đòn đơn mục tiêu và tăng kháng phép.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "albeldo_hold",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "albeldo.hold",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "henrris.rend",
+    "name": "Mũi Tên Xé Giáp",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "description": "Xé giáp một kẻ địch nếu mũi tên trúng đích.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1.2,
+        "onHitStatus": {
+          "status": "henrris_rend",
+          "duration": 4
+        }
+      }
+    ],
+    "skillLineId": "henrris.rend",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "henrris.volley",
+    "name": "Ba Tiếng Gió Đoạn Mệnh",
+    "target": "enemy",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "description": "Bắn ba mũi tên liên tiếp vào cùng một kẻ địch.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1.8,
+        "hits": 3
+      }
+    ],
+    "skillLineId": "henrris.volley",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "henrris.pierce",
+    "name": "Mũi Tên Xuyên Vỏ",
+    "target": "enemy",
+    "cost": {
+      "mp": 9
+    },
+    "description": "Luồn mũi tên qua một phần giáp của đối thủ.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 2,
+        "penetration": 0.2
+      }
+    ],
+    "skillLineId": "henrris.pierce",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "joshua.bite",
+    "name": "Nanh Lửa Chào Khách",
+    "target": "enemy",
+    "cost": {
+      "mp": 7
+    },
+    "description": "Cắn một kẻ địch và hút máu từ sát thương HP thực gây ra.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1.5,
+        "lifeStealRatio": 0.25
+      }
+    ],
+    "skillLineId": "joshua.bite",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "joshua.duel",
+    "name": "Vũ Điệu Bên Miệng Chén",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "description": "Chém một mục tiêu và làm suy yếu ATK nếu trúng.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 2,
+        "onHitStatus": {
+          "status": "joshua_duel",
+          "duration": 2
+        }
+      }
+    ],
+    "skillLineId": "joshua.duel",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "joshua.sentence",
+    "name": "Lời Chúc Cuối Bữa Tiệc",
+    "target": "enemy",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 2,
+    "description": "Dồn sức mạnh ma cà rồng vào một đòn kết liễu.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 3
+      }
+    ],
+    "skillLineId": "joshua.sentence",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "joshua.feast",
+    "name": "Bữa Tiệc Kế Hoạch B",
+    "target": "enemy_splash",
+    "activation": "passive",
+    "description": "Liên kích mục tiêu vừa đánh và hai ô kề, rồi hút máu.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 2,
+        "primaryMultiplier": 3.2,
+        "lifeStealRatio": 0.25
+      }
+    ],
+    "skillLineId": "joshua.feast",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Liên kích tự động; hệ số và hút máu giữ cố định."
   }
 ]

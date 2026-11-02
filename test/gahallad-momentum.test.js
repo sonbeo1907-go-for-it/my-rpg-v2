@@ -45,8 +45,10 @@ test('an empowered attack that breaks a fresh shield consumes the old buff and g
   battle.cursor = battle.queue.indexOf('enemy_0'); executeEnemyTurn(battle); // New shield clears exposure.
   assert.equal(getActor(battle, 'enemy_0').shield, 140);
   use(battle, 'gahallad', 'gahallad.trample', 'enemy_0');
-  assert.equal(damage(battle).absorbed, 140); assert.equal(damage(battle).amount, 90);
-  assert.equal(ready(battle).length, 1);
+  assert.equal(damage(battle).absorbed, 115); assert.equal(damage(battle).amount, 0);
+  assert.equal(ready(battle).length, 0);
+  use(battle, 'gahallad', 'gahallad.trample', 'enemy_0');
+  assert.equal(damage(battle).absorbed, 25);assert.equal(damage(battle).amount,90);assert.equal(ready(battle).length,1);
   use(battle, 'gahallad', 'gahallad.trample', 'enemy_0');
   assert.equal(damage(battle).amount, 230); assert.equal(ready(battle).length, 0);
 });
@@ -61,7 +63,7 @@ test('a lethal shield break still arms the passive, which can be spent on a diff
   assert.equal(damage(battle).amount, 97); assert.equal(ready(battle).length, 0);
 });
 
-test('the passive is data-driven, multiplies independently of Iris and is not granted for an ally breaking a shield', () => {
+test('the passive is data-driven, competes with Iris amplification and is not granted for an ally breaking a shield', () => {
   const source = structuredClone(content); source.characters.arthur.passive = structuredClone(content.characters.gahallad.passive);
   assert.deepEqual(validateContent(source), []);
   const battle = setup(['arthur', 'iris', 'gahallad'], source, 'forest_patrol');
@@ -70,7 +72,7 @@ test('the passive is data-driven, multiplies independently of Iris and is not gr
   assert.equal(ready(battle, 'arthur').length, 1); assert.equal(ready(battle).length, 0);
   use(battle, 'iris', 'iris.formula', 'arthur');
   use(battle, 'arthur', '$attack', 'enemy_1');
-  assert.equal(damage(battle).amount, 115); // (34 − 12 × .55) × 1.5 × 1.4 × 2, not additive 2.4.
+  assert.equal(damage(battle).amount, 82); // (34 − 12 × .55) × 1.5 × 2; Iris is consumed but its lower amp is suppressed.
   assert.equal(ready(battle, 'arthur').length, 0);
 });
 

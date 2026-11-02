@@ -1,3 +1,6 @@
+import {validateTacticalPassives} from './tactical-passives.js';
+import {validateStatTheft} from './stat-theft.js';
+import {validateAdvancedCombat} from './advanced-combat.js';
 import {validateTeamResourceContent} from './team-resources.js';
 import {validateChronicleContent} from './chronicle-rules.js';
 import {validateSkillProgression} from './skill-rules.js';
@@ -22,7 +25,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel'];
+export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -30,7 +33,7 @@ export function indexById(items) {
 
 // Validate references before running a game, rather than failing midway through a battle.
 export function validateContent(content) {
-  const errors = validateTeamResourceContent(content);
+  const errors = [...validateStatTheft(content),...validateTeamResourceContent(content),...validateTacticalPassives(content),...validateAdvancedCombat(content)];
   const fail = message => errors.push(message);
   const exists = (collection, id, where) => {
     if (!content[collection] || typeof id !== 'string' || !Object.hasOwn(content[collection], id)) fail(`${where}: unknown ${collection} id "${id}"`);
@@ -46,7 +49,7 @@ export function validateContent(content) {
     if (!ELEMENTS.includes(actor.element)) fail(`${id}: invalid element`);
     if (actor.basicAttack !== undefined && (!Array.isArray(actor.basicAttack) || !actor.basicAttack.length || actor.basicAttack.some(effect => !effect
       || effect.type !== 'damage' || !['physical', 'magical'].includes(effect.damageType) || !ELEMENTS.includes(effect.element)
-      || (effect.scalingStat !== undefined && !['attack','magic','defense','resistance'].includes(effect.scalingStat))
+      || (effect.scalingStat !== undefined && !['attack','magic','defense','resistance','maxHp'].includes(effect.scalingStat))
       || !Number.isFinite(effect.multiplier) || effect.multiplier <= 0
       || Object.keys(effect).some(key => !['type', 'damageType', 'element', 'multiplier', 'scalingStat'].includes(key))))) fail(`${id}: invalid basic attack`);
     if (actor.roleGroup !== undefined && !Object.hasOwn(ROLE_GROUPS, actor.roleGroup)) fail(`${id}: invalid role group`);
@@ -80,7 +83,7 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','team_resource_growth','spent_resource_followup','spent_resource_team_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
     if(native?.type==='defend_adjacent_mp'&&(!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1))fail(id+': invalid adjacent MP passive');
     if(actor.group==='agony'||actor.agony||native?.type==='agony_revenant'){
@@ -282,7 +285,7 @@ export function validateContent(content) {
       if(effect.perTargetBuff!==undefined && (effect.type!=='damage'||!Number.isFinite(effect.perTargetBuff)||effect.perTargetBuff<=0||!Number.isInteger(effect.maxTargetBuffs)||effect.maxTargetBuffs<1||effect.maxTargetBuffs>10))fail(id+': invalid target buff scaling');
       if(effect.maxTargetBuffs!==undefined&&effect.perTargetBuff===undefined)fail(id+': missing target buff scaling');
       if (effect.type==='summon_companion' && (typeof effect.companion!=='string' || !effect.companion || skill.target!=='self')) fail(id+': invalid companion summon');
-      if (effect.primaryMultiplier !== undefined && (effect.type !== 'damage' || !['all_enemies','enemy_splash'].includes(skill.target) || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
+      if (effect.primaryMultiplier !== undefined && (!(effect.type==='damage'&&['all_enemies','enemy_splash'].includes(skill.target)||effect.type==='shield'&&skill.target==='all_allies') || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
       if (effect.type === 'damage') {
         if (!ELEMENTS.includes(effect.element)) fail(`${id}: invalid damage element`);
         if (!['physical', 'magical'].includes(effect.damageType)) fail(`${id}: invalid damage type`);
@@ -292,8 +295,8 @@ export function validateContent(content) {
         if (effect[key] !== undefined && (!Number.isFinite(effect[key]) || effect[key] < 0)) fail(`${id}: invalid effect ${key}`);
       }
       if (effect.speedMultiplier !== undefined && (effect.type !== 'damage' || effect.damageType !== 'physical')) fail(`${id}: speedMultiplier requires physical damage`);
-      if (effect.scalingStat !== undefined && (!['damage', 'heal', 'shield'].includes(effect.type) || !['attack', 'magic', 'defense', 'resistance'].includes(effect.scalingStat))) fail(`${id}: invalid support scaling stat`);
-      if (effect.scalingStats!==undefined && (!['heal','shield'].includes(effect.type) || effect.scalingStat!==undefined || !Array.isArray(effect.scalingStats) || !effect.scalingStats.length || effect.scalingStats.length>4 || new Set(effect.scalingStats).size!==effect.scalingStats.length || effect.scalingStats.some(key=>!['attack','magic','defense','resistance'].includes(key)))) fail(id+': invalid average scaling stats');
+      if (effect.scalingStat !== undefined && (!['damage', 'heal', 'shield'].includes(effect.type) || !['attack', 'magic', 'defense', 'resistance', 'maxHp'].includes(effect.scalingStat))) fail(`${id}: invalid support scaling stat`);
+      if (effect.scalingStats!==undefined && (!['heal','shield'].includes(effect.type) || effect.scalingStat!==undefined || !Array.isArray(effect.scalingStats) || !effect.scalingStats.length || effect.scalingStats.length>4 || new Set(effect.scalingStats).size!==effect.scalingStats.length || effect.scalingStats.some(key=>!['attack','magic','defense','resistance','speed'].includes(key)))) fail(id+': invalid average scaling stats');
       if (effect.durationRounds!==undefined && (!['shield','turn_order_field','formula_field'].includes(effect.type) || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1)) fail(id+': invalid shield round duration');
       if (effect.type === 'resource') {
         if (!effect.resource || (effect.amount === undefined && effect.maxMpRatio === undefined)
@@ -302,12 +305,14 @@ export function validateContent(content) {
       if (effect.maxMpRatio !== undefined && (effect.type !== 'resource' || effect.resource !== 'mp'
         || !Number.isFinite(effect.maxMpRatio) || effect.maxMpRatio <= 0 || effect.maxMpRatio > 1)) fail(`${id}: invalid MP restore ratio`);
       if (effect.penetration !== undefined && (!Number.isFinite(effect.penetration) || effect.penetration < 0 || effect.penetration > 1)) fail(`${id}: invalid penetration`);
+      if(effect.lifeStealRatio!==undefined&&(effect.type!=='damage'||!Number.isFinite(effect.lifeStealRatio)||effect.lifeStealRatio<=0||effect.lifeStealRatio>1))fail(id+': invalid life steal');
       if (effect.hits !== undefined && (!Number.isInteger(effect.hits) || effect.hits < 1 || effect.hits > 20)) fail(`${id}: invalid hits`);
       if (effect.to && !['self', 'targets'].includes(effect.to)) fail(`${id}: invalid effect recipient`);
     }
   }
   for (const [id, status] of Object.entries(content.statuses)) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
+    if(status.preventDeath!==undefined&&(status.preventDeath!==true||status.kind!=='buff'||status.durationClock!=='round'||status.persistent))fail(id+': invalid prevent death');
     if (status.weaknessMultiplier !== undefined && (status.kind !== 'buff' || !Number.isFinite(status.weaknessMultiplier) || status.weaknessMultiplier <= WEAKNESS_MULTIPLIER || status.weaknessMultiplier > 2 || status.modifiersPerStack || status.consumeOnAttack)) fail(id + ': invalid weakness multiplier');
     if (status.exposedElement !== undefined && (status.kind !== 'debuff' || !ELEMENTS.includes(status.exposedElement) || status.maxStacks !== 3 || status.modifiersPerStack || status.damageOverTime || status.consumeOnAttack)) fail(id + ': invalid elemental exposure');
     if (status.modifiersPerStack !== undefined && (status.modifiersPerStack !== true || !Number.isInteger(status.maxStacks) || status.maxStacks < 1)) fail(id + ': invalid stack modifiers');
@@ -316,7 +321,8 @@ export function validateContent(content) {
     if (status.durationClock==='round' && (status.kind!=='buff' || status.persistent || status.damageOverTime || status.turnStartAbility || status.consumeOnAttack)) fail(id+': round clock requires a timed support buff');
     if (status.magicRefresh !== undefined && (!Number.isInteger(status.magicRefresh?.duration) || status.magicRefresh.duration < 1 || status.magicRefresh.oncePerRound !== true || status.kind !== 'debuff')) fail(id + ': invalid magic refresh');
     if(status.damageUses!==undefined&&(!Number.isInteger(status.damageUses)||status.damageUses<1||status.damageUses>99||status.kind!=='buff'||status.persistent!==true||status.consumeOnAttack||status.effectImmunity||status.maxStacks||status.damageOverTime||status.durationClock||!(status.modifiers?.damageBonus>0)))fail(id+': invalid damage-use buff');
-    if(status.modifiers?.maxMp!==undefined&&(!Number.isFinite(status.modifiers.maxMp)||status.modifiers.maxMp<=0||status.modifiers.maxMp>2||status.kind!=='buff'||status.persistent||status.consumeOnAttack))fail(id+': invalid MP capacity buff');
+    if(status.modifiers?.maxHp!==undefined&&(!Number.isFinite(status.modifiers.maxHp)||status.modifiers.maxHp<=0||status.modifiers.maxHp>2||status.kind!=='buff'||status.consumeOnAttack||status.modifiersPerStack))fail(id+': invalid HP capacity buff');
+    if(status.modifiers?.maxMp!==undefined&&(!Number.isFinite(status.modifiers.maxMp)||status.modifiers.maxMp<=0||status.modifiers.maxMp>2||status.kind!=='buff'||status.consumeOnAttack))fail(id+': invalid MP capacity buff');
     if (status.effectImmunity !== undefined) {
       const immunity = status.effectImmunity;
       if (!immunity || status.kind !== 'buff' || !Number.isInteger(immunity.charges) || immunity.charges < 1 || typeof immunity.hostileOnly !== 'boolean') fail(`${id}: invalid effect immunity`);

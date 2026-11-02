@@ -11,7 +11,9 @@ export function validateSummonDefinition(actor,content,fail) {
   if (!['resource','team_resource'].includes(life) && (mode.resource!==undefined||mode.emptyExit!==undefined)) fail(id+': conflicting mode lifetime');
   if(mode.statModifiers!==undefined&&(!mode.statModifiers||typeof mode.statModifiers!=='object'||Array.isArray(mode.statModifiers)||Object.entries(mode.statModifiers).some(([key,n])=>!['attack','magic','defense','resistance','speed'].includes(key)||!Number.isFinite(n)||Math.abs(n)>1)))fail(id+': invalid mode stat modifiers');
   if(mode.mpCostReduction!==undefined&&(!Number.isFinite(mode.mpCostReduction)||mode.mpCostReduction<=0||mode.mpCostReduction>=1||!Array.isArray(mode.discountAbilityIds)||!mode.discountAbilityIds.length||mode.discountAbilityIds.some(key=>!mode.allowedAbilities.includes(key)||!content.abilities[key]?.effects.some(e=>e.type==='damage'))))fail(id+': invalid mode MP discount');
+  if(mode.reentryCooldownRounds!==undefined&&(!Number.isInteger(mode.reentryCooldownRounds)||mode.reentryCooldownRounds<1||mode.reentryCooldownRounds>20))fail(id+': invalid mode reentry cooldown');
   if(mode.exitCooldown!==undefined){const r=mode.exitCooldown;if(!r||!own(r.abilityId)||!Number.isInteger(r.rounds)||r.rounds<1||r.rounds>20||!content.abilities[r.abilityId]?.effects.some(e=>e.type==='enter_mode'&&e.mode===key))fail(id+': invalid mode exit cooldown');}
+  for(const field of ['resetResourceOnEnter','clearResourceOnExit'])if(mode[field]!==undefined&&!actor.resources?.[mode[field]])fail(id+': invalid mode resource reset');
   if (mode.music!==undefined&&!content.music[mode.music]) fail(id+': invalid mode music');
   if (mode.commandAbilities!==undefined&&(!Array.isArray(mode.commandAbilities)||!mode.commandAbilities.length||new Set(mode.commandAbilities).size!==mode.commandAbilities.length||mode.commandAbilities.some(skill=>!mode.allowedAbilities.includes(skill)))) fail(id+': invalid transformed commands');
   if (mode.entryEffects!==undefined&&(!Array.isArray(mode.entryEffects)||!mode.entryEffects.length||mode.entryEffects.some(e=>e.type!=='shield'||e.scalingStat!=='maxHp'||!Number.isFinite(e.multiplier)||e.multiplier<=0||e.multiplier>2||Object.keys(e).some(k=>!['type','scalingStat','multiplier'].includes(k))))) fail(id+': invalid mode entry shield');
@@ -24,7 +26,7 @@ export function validateSummonDefinition(actor,content,fail) {
   }
  }
  for(const abilityId of actor.abilities??[]) for(const effect of content.abilities[abilityId]?.effects??[]) {
-  if (['prepare_mode','enter_mode'].includes(effect.type)&&!actor.combatModes?.[effect.mode]) fail(id+': unknown prepared mode');
+  if (['prepare_mode','enter_mode','end_mode'].includes(effect.type)&&!actor.combatModes?.[effect.mode]) fail(id+': unknown prepared mode');
   if (effect.type==='summon_companion' && !actor.companions?.[effect.companion]) fail(id+': unknown companion');
  }
 }

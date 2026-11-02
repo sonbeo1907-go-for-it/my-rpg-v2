@@ -126,11 +126,11 @@ export function SkillCard({ skill, actor }: { skill: any; actor: any }) {
         <span>{(TARGET_NAMES as any)[skill.target]}</span>
         {skill.activation === "passive" && <span>Tự động</span>}
       </div>
-      <SkillBody skill={skill} actor={actor} content={content} choices={Object.fromEntries(controls.map((control:any)=>[control.key,choices[control.key]??control.min]))}/>
+      <SkillBody skill={skill} actor={actor} content={content} choices={Object.fromEntries(controls.map((control:any)=>[control.key,choices[control.key]??control.initial??control.min]))}/>
       <RulesDisclosure rules={skillPresentation(skill,actor,content).rules} title={controls.length ? "Chi tiết cơ chế & giả định" : "Chi tiết cơ chế"}>
         {controls.length>0 ? controls.map((control:any)=><label className="skill-assumption" key={control.key}>
-          {control.label}: {choices[control.key]??control.min}
-          <input type="range" min={control.min} max={control.max} value={choices[control.key]??control.min} onChange={event=>setChoices({...choices,[control.key]:Number(event.target.value)})}/>
+          {control.label}: {choices[control.key]??control.initial??control.min}
+          <input type="range" min={control.min} max={control.max} value={choices[control.key]??control.initial??control.min} onChange={event=>setChoices({...choices,[control.key]:Number(event.target.value)})}/>
         </label>) : undefined}
       </RulesDisclosure>
       <SkillUpgrade skill={skill} actor={actor}/>

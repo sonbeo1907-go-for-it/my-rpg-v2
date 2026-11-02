@@ -15,6 +15,7 @@ export function enterCombatMode(battle,actor,id,io,appliedModifiers,followUpBonu
   if (actor.activeMode || !actor.combatModes?.[id]) throw new Error('Không thể chuyển dạng.');
   const mode=actor.combatModes[id];
   actor.activeMode=id;
+  if(mode.resetResourceOnEnter)actor.resourceValues[mode.resetResourceOnEnter]=0;
   if(followUpBonus!==undefined)actor.modeFollowUpBonus=followUpBonus;else delete actor.modeFollowUpBonus;
   if(appliedModifiers)actor.modeAppliedModifiers={...appliedModifiers};else delete actor.modeAppliedModifiers;
   if (modeLifetime(mode)==='rounds') actor.modeExpiresAfterRound=battle.round+mode.durationRounds-1;
@@ -26,6 +27,7 @@ export function leaveCombatMode(battle,actor,reason,io) {
   const mode=activeCombatMode(actor);
   if (!mode) return false;
   const id=actor.activeMode;
+  if(mode.clearResourceOnExit)actor.resourceValues[mode.clearResourceOnExit]=0;
   delete actor.activeMode;delete actor.modeExpiresAfterRound;delete actor.modeAppliedModifiers;delete actor.modeFollowUpBonus;
   if(mode.exitCooldown){
     const {abilityId,rounds}=mode.exitCooldown;
@@ -34,6 +36,7 @@ export function leaveCombatMode(battle,actor,reason,io) {
     io.emit(battle,{type:'cooldown_started',sourceId:actor.id,abilityId,rounds,reason:'mode_exit',mode:id});
     io.write(battle,actor.name+': '+battle.content.abilities[abilityId].name+' bắt đầu hồi chiêu '+rounds+' vòng sau khi rời '+mode.name+'.');
   }
+  if(mode.reentryCooldownRounds){actor.modeReentryAfterRound??={};actor.modeReentryAfterRound[id]=battle.round+mode.reentryCooldownRounds;io.write(battle,actor.name+': '+mode.name+' nghỉ '+mode.reentryCooldownRounds+' vòng.');io.emit(battle,{type:'mode_reentry_cooldown',sourceId:actor.id,mode:id,readyRound:battle.round+mode.reentryCooldownRounds+1});}
   for (const [key,state] of Object.entries(actor.companionStates??{})) {
     if (actor.companions[key].requiresMode===id) {delete actor.companionStates[key];io.emit(battle,{type:'companion_exit',sourceId:actor.id,companionId:key,reason});}
   }
@@ -70,7 +73,7 @@ export function battlePresentation(actors) {
   const scenes=[];
   for (const actor of actors.filter(actor=>isAlive(actor))) {
     const mode=activeCombatMode(actor);
-    if (mode && mode.presentationScope!=='actor') scenes.push({ownerId:actor.id,mode:actor.activeMode,name:mode.name,music:mode.music,background:mode.background,summary:actor.modeFollowUpBonus!==undefined?('+'+Number(((actor.modeAppliedModifiers?.magic??mode.statModifiers?.magic??0)*100).toFixed(2))+'% MAG · Liên kích '+actor.passive.modePerRound+' lần/vòng · thêm '+Number((actor.modeFollowUpBonus*100).toFixed(2))+'% MAG hệ số'):mode.summary??'+15 MAG căn bản · Mệnh lệnh hủy diệt'});
+    if (mode && !['actor','none'].includes(mode.presentationScope)) scenes.push({ownerId:actor.id,mode:actor.activeMode,name:mode.name,music:mode.music,background:mode.background,summary:actor.modeFollowUpBonus!==undefined?('+'+Number(((actor.modeAppliedModifiers?.magic??mode.statModifiers?.magic??0)*100).toFixed(2))+'% MAG · Liên kích '+actor.passive.modePerRound+' lần/vòng · thêm '+Number((actor.modeFollowUpBonus*100).toFixed(2))+'% MAG hệ số'):mode.summary??'+15 MAG căn bản · Mệnh lệnh hủy diệt'});
     for (const [id,state] of Object.entries(actor.companionStates??{})) {
       if (!state.active) continue;
       const companion=actor.companions[id];

@@ -19,6 +19,7 @@ export function EvidenceBoard({battle}:{battle:any}){
 }
 export function LocalCombatMode({actor}:{actor:any}){
  const {events}=useGame(),mode=actor.combatModes?.[actor.activeMode],last=events.filter((e:any)=>e.sourceId===actor.id&&e.mode&&actor.combatModes?.[e.mode]?.presentationScope==='actor'&&['mode_enter','mode_exit'].includes(e.type)).at(-1);
+ if(mode?.presentationScope==='none')return <span className="local-mode-label">{mode.name} · {mode.summary}</span>;
  if(mode?.presentationScope!=='actor'&&!last)return null;
  return <><div className="local-mode-veil" data-local-mode={mode?.presentationScope==='actor'?actor.activeMode:undefined} aria-hidden="true">{mode?.presentationScope==='actor'&&<><MasqueradeMask/><i/><i/></>}</div>{mode?.presentationScope==='actor'&&<span className="local-mode-label">{mode.name} · {Object.entries(mode.baseStatBonuses??{}).map(([key,n])=>'+'+n+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'} as any)[key]+' căn bản').join(' · ')}</span>}{last&&<div className={'local-mode-burst '+(last.type==='mode_exit'?'leaving':'')} data-local-mode-fx={last.type} key={last.key} aria-hidden="true" style={{'--mode-fx-duration':'700ms'} as CSSProperties}><MasqueradeMask/><span/></div>}</>;
 }

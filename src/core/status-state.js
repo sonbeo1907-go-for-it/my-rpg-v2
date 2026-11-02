@@ -6,5 +6,7 @@ export function activeStatuses(actor) {
       if (!active.has(id)) active.set(id, { id, remaining: parent.remaining, sourceId: parent.sourceId, stacks: 1, ...(parent.linkedAppliedModifiers?.[id]?{appliedModifiers:{...parent.linkedAppliedModifiers[id]}}:{}) });
     }
   }
+  const p=actor.passive;
+  if(p?.type==='vampire_contingency'&&actor.activeMode!==p.modeId&&(actor.hp===undefined||actor.hp>0)&&!active.has(p.tauntStatus))active.set(p.tauntStatus,{id:p.tauntStatus,remaining:null,sourceId:actor.id,stacks:1,innate:true});
   return [...active.values()];
 }
