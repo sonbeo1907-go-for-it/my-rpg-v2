@@ -1,3 +1,4 @@
+import {clampBattleMp} from './stat-values.js';
 // Global-round effects use absolute deadlines, including the casting round.
 // Recompute on entry as well as round end so a victory/room transition cannot extend them.
 export function expireRoundEffects(battle,io,atEnd=false) {
@@ -11,6 +12,7 @@ export function expireRoundEffects(battle,io,atEnd=false) {
       io.emit(battle,{type:'status_expired',targetId:actor.id,statusId:status.id});
       return false;
     });
+    clampBattleMp(battle.content,actor);
     if (actor.shieldExpiresAfterRound!==undefined && (atEnd ? battle.round>=actor.shieldExpiresAfterRound : battle.round>actor.shieldExpiresAfterRound)) {
       if (actor.shield>0) {
         io.write(battle,actor.name+': khiên hết thời hạn.');

@@ -1,4 +1,6 @@
 
+import {initializeTeamResources,teamResourceValue,teamResourceSpent,teamCostAvailability,changeTeamResource,scaledTeamEffect} from './team-resources.js';
+import {captureDamageBuffs,settleDamageBuffs} from './charged-buffs.js';
 import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
 import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,expireAgony} from './actor-life.js';
@@ -42,7 +44,7 @@ import {
   FOLLOW_UP_LABEL,
   REACTION_LABELS,
 } from "./follow-up.js";
-import { battleStat } from "./stat-values.js";
+import { battleMaxMp,clampBattleMp,battleStat } from "./stat-values.js";
 import { assertOwnedParty } from "./ownership.js";
 import { assertValidEquipment } from "./equipment.js";
 import {
@@ -64,6 +66,7 @@ const modeIO = { write, emit: emitEvent, restore: gainResource, outcome:checkOut
   apply:(battle,actor,effects)=>{for(const effect of effects) applyEffect(battle,actor,[actor],effect,0,false);}
 };
 const specialIO={restore:gainResource,heal:healHp,status:applyStatus,stat,emit:emitEvent,write,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId)??t,[t],{type:'shield',flat},0,false)};
+const teamIO={emit:emitEvent,write,status:applyStatus,announce:announcePassive};
 const gearIO={status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write,shield:(battle,actor,flat)=>applyEffect(battle,actor,[actor],{type:'shield',flat},0,false)};
 const living = isAlive;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -152,7 +155,7 @@ export function createBattle(
     if (siblings.length > 1)
       actor.name = `${actor.name} ${siblings.indexOf(actor) < 26 ? String.fromCharCode(65 + siblings.indexOf(actor)) : siblings.indexOf(actor) + 1}`;
   }
-  for (const actor of actors) initializeBoss(actor);
+  for (const actor of actors) { initializeBoss(actor); clampBattleMp(content,actor); }
   const battle = {
     content,
     encounterId,
@@ -178,6 +181,7 @@ export function createBattle(
     events: [],
     actionCount: 0,
   };
+  initializeTeamResources(battle,options.teamResources);
   if (!actors.some((actor) => actor.team === "party" && living(actor))) {
     battle.outcome = "defeat";
     write(battle, "Không còn đồng đội đứng vững để tiếp tục đợt mới.");
@@ -231,6 +235,8 @@ function attackContext(battle, actor) {
       undefined,
   );
   return {
+    teamResourceValues:Object.fromEntries(Object.entries(battle.teamResources?.[actor.team]??{}).map(([id,state])=>[id,state.value])),
+    damageUseBuffs:captureDamageBuffs(battle.content,actor),
     gearTargetHpRatios:new Map(battle.actors.map(a=>[a.id,a.hp/a.stats.maxHp])),
     gearImpacts:[],
     weaknessTargets: new Set(),
@@ -250,6 +256,7 @@ function attackContext(battle, actor) {
 }
 
 function finishAttackContext(battle, actor, context) {
+  settleDamageBuffs(battle,actor,context,{emit:emitEvent,write});
   finishExposures(battle, context, (target, statusId, remaining) => {
     emitEvent(battle, {type:"status_consumed", sourceId:actor.id, targetId:target.id, statusId, amount:1, remaining});
     write(battle, `${target.name}: tiêu 1 tầng ${battle.content.statuses[statusId].name}, còn ${remaining} tầng.`);
@@ -320,7 +327,7 @@ function healHp(battle, target, requested, sourceId, label = "") {
     if (passive?.type === "ally_heal_mp" && source && source.id !== target.id && source.team === target.team && procAvailable(battle,target,"ally_heal_mp")) {
       markProc(battle,target,"ally_heal_mp");
       announcePassive(battle,target,target.id);
-      gainResource(battle,target,"mp",Math.ceil(target.stats.maxMp * passive.ratio),target.id);
+      gainResource(battle,target,"mp",Math.ceil(battleMaxMp(battle.content,target) * passive.ratio),target.id);
     }
   }
   write(battle, `${target.name} hồi ${amount} HP${label ? " từ " + label : ""}.`);
@@ -385,7 +392,7 @@ function beginTurn(battle) {
         battle,
         ally,
         "mp",
-        Math.round(ally.stats.maxMp * passive.mpRestoreRatio),
+        Math.round(battleMaxMp(battle.content,ally) * passive.mpRestoreRatio),
         actor.id,
       );
     }
@@ -471,7 +478,7 @@ function endTurnPassive(battle, actor) {
       battle,
       ally,
       "mp",
-      Math.ceil(ally.stats.maxMp * passive.ratio * multiplier),
+      Math.ceil(battleMaxMp(battle.content,ally) * passive.ratio * multiplier),
       actor.id,
     );
   }
@@ -534,19 +541,24 @@ function finishMainRound(battle) {
   for (const actor of battle.actors) checkCombatMode(battle,actor,"round_end",modeIO);
   for (const source of battle.actors.filter(living)) {
     const passive = source.passive;
+    if(passive?.type==='spent_resource_team_mp'){
+      const ratio=Math.min(passive.cap,teamResourceSpent(battle,source,passive.resource)*passive.perStack);
+      if(ratio>0){announcePassive(battle,source);write(battle,source.name+' kích hoạt '+passive.name+': hồi '+Math.round(ratio*100)+'% MP toàn đội.');for(const ally of battle.actors.filter(a=>a.team===source.team&&living(a)))gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*ratio),source.id);}
+      continue;
+    }
     if (passive?.type === "end_round_team_mp") {
       announcePassive(battle,source);
       write(battle,source.name+" kích hoạt "+passive.name+" cuối Vòng.");
-      for (const ally of battle.actors.filter(item=>living(item) && item.team===source.team)) gainResource(battle,ally,"mp",Math.ceil(ally.stats.maxMp*passive.ratio),source.id);
+      for (const ally of battle.actors.filter(item=>living(item) && item.team===source.team)) gainResource(battle,ally,"mp",Math.ceil(battleMaxMp(battle.content,ally)*passive.ratio),source.id);
       continue;
     }
     if (passive?.type !== "end_round_lowest_mp") continue;
-    const target = battle.actors.filter(actor => living(actor) && actor.team === source.team && actor.stats.maxMp > 0)
-      .sort((a,b) => a.mp / a.stats.maxMp - b.mp / b.stats.maxMp)[0];
+    const target = battle.actors.filter(actor => living(actor) && actor.team === source.team && battleMaxMp(battle.content,actor) > 0)
+      .sort((a,b) => a.mp / battleMaxMp(battle.content,a) - b.mp / battleMaxMp(battle.content,b))[0];
     if (target) {
       announcePassive(battle,source,target.id);
       write(battle, `${source.name} kích hoạt ${passive.name} cuối Vòng.`);
-      gainResource(battle, target, "mp", Math.ceil(target.stats.maxMp * passive.ratio), source.id);
+      gainResource(battle, target, "mp", Math.ceil(battleMaxMp(battle.content,target) * passive.ratio), source.id);
     }
   }
   expireFormulaFields(battle,modeIO,true);
@@ -586,6 +598,7 @@ export function abilityAvailability(battle, actor, skill) {
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
   if(skill.requiresHpBelow!==undefined && actor.hp/actor.stats.maxHp>=skill.requiresHpBelow) return {ok:false,reason:"HP chưa đủ thấp để dùng chiêu này."};
+  const teamCheck=teamCostAvailability(battle,actor,skill);if(teamCheck)return teamCheck;
   const formulaCheck = formulaAvailability(battle,actor,skill);
   if (formulaCheck) return formulaCheck;
   const modeCheck = modeAvailability(actor,skill);
@@ -616,8 +629,8 @@ export function abilityAvailability(battle, actor, skill) {
 
 function gainResource(battle, actor, id, amount, sourceId = actor.id) {
   if (id === "mp") {
-    const recovered = Math.min(amount, actor.stats.maxMp - actor.mp);
-    actor.mp = clamp(actor.mp + amount, 0, actor.stats.maxMp);
+    const recovered = Math.min(amount, battleMaxMp(battle.content,actor) - actor.mp);
+    actor.mp = clamp(actor.mp + amount, 0, battleMaxMp(battle.content,actor));
     if (recovered > 0) {
       emitEvent(battle, {
         type: "mp_restore",
@@ -723,6 +736,16 @@ function triggerSupportFollowups(battle,source,skill){
     finishAttackContext(battle,owner,context);
     transitionBossPhases(battle,{write,restoreMp:gainResource});
   }
+}
+
+function triggerSpentResourceFollowups(battle,source,cost){
+ for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='spent_resource_followup'||p.resource!==cost.id||!living(owner))continue;
+  const target=battle.actors.filter(t=>canTriggerFollowUp(owner,source,t)).sort((a,b)=>b.hp-a.hp||(a.formationSlot??0)-(b.formationSlot??0))[0];if(!target)continue;
+  const skill=battle.content.abilities[p.followUpAbility],context={...attackContext(battle,owner),skillId:skill.id,skill,reaction:true};
+  announcePassive(battle,owner,source.id);write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+skill.name+'.');emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:target.id,abilityId:skill.id});
+  for(const effect of skill.effects)applyEffect(battle,owner,[target],effect,0,false,context);
+  finishAttackContext(battle,owner,context);transitionBossPhases(battle,{write,restoreMp:gainResource});
+ }
 }
 
 function triggerAllySkillCounters(battle,attacker,context) {
@@ -949,6 +972,7 @@ function resolveHit(
   const life=applyLifeDamage(battle,target,amount,{element:effect.element,healthFloor:bossHealthFloor(target)},{write,emit:emitEvent});
   const lostHp=life.hpLost,vitalityDamage=life.hpLost+life.maxHpLost;
   const hpAfter=target.hp;
+  if(attacker.team!==target.team&&vitalityDamage+absorbed>0)actionContext.dealtDirectDamage=true;
   if(attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.gearImpacts.push({target,lostHp,absorbed,damageType:effect.damageType,element:effect.element,elementWeakness,weakness});
   if (vitalityDamage + absorbed > 0) reserveExposure(target, effect.element, actionContext);
   if(!reaction && attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.damagedAllyHits.add(target.id);
@@ -1015,9 +1039,9 @@ function resolveHit(
       healHp(battle,target,stat(battle,healer,"magic") * healer.passive.multiplier * (1 + (bonus?.ratio ?? 0)),healer.id,"Dư âm thủy hộ");
     }
     const refill=healer?.passive,rose=healer&&exclusivePassive(healer,'shield_break_restore_hp');
-    if(refill?.type==='shield_break_mp'&&living(healer)&&procAvailable(battle,target,'shield_mp:'+healer.id)&&(target.mp<target.stats.maxMp||rose&&target.hp<target.stats.maxHp)){
+    if(refill?.type==='shield_break_mp'&&living(healer)&&procAvailable(battle,target,'shield_mp:'+healer.id)&&(target.mp<battleMaxMp(battle.content,target)||rose&&target.hp<target.stats.maxHp)){
       markProc(battle,target,'shield_mp:'+healer.id);announcePassive(battle,healer,target.id);write(battle,healer.name+' kích hoạt '+refill.name+' cho '+target.name+'.');
-      if(target.mp<target.stats.maxMp)gainResource(battle,target,'mp',Math.ceil(scalingValue(refill,key=>stat(battle,healer,key))*refill.multiplier),healer.id);
+      if(target.mp<battleMaxMp(battle.content,target))gainResource(battle,target,'mp',Math.ceil(scalingValue(refill,key=>stat(battle,healer,key))*refill.multiplier),healer.id);
       if(rose&&target.hp<target.stats.maxHp)healHp(battle,target,scalingValue(rose,key=>stat(battle,healer,key))*rose.multiplier,healer.id);
     }
     if (target.passive?.type === "shield_break_status") {
@@ -1128,10 +1152,12 @@ function applyStatus(
   if (definition.durationClock === "round") applied.expiresAfterRound=battle.round+duration-1;
   if (definition.effectImmunity)
     applied.charges = definition.effectImmunity.charges;
+  if (definition.damageUses) applied.charges=definition.damageUses;
   if (definition.damageOverTime) {
     applied.potency = periodicPotency(definition,source,key=>stat(battle,source,key));
   }
   target.statuses.push(applied);
+  clampBattleMp(battle.content,target);
   gearBuffApplied(battle,source,target,definition,gearIO);
   if (!silent) emitEvent(battle,{type:"status",sourceId,targetId:target.id,statusId,element:source?.element,beneficial:definition.kind!=="debuff"});
   if (!silent) write(battle, `${target.name}: ${definition.name}.`);
@@ -1158,6 +1184,8 @@ function applyEffect(
   area,
   actionContext = attackContext(battle, actor),
 ) {
+  if(effect.type==='team_resource'){if(living(actor))changeTeamResource(battle,actor,effect.resource,effect.amount,teamIO);return;}
+  if(effect.teamResourceScaling)effect=scaledTeamEffect(battle.content,effect,actionContext.teamResourceValues[effect.teamResourceScaling.id]??0);
   if (effect.formulaScaling) effect=formulaDamage(effect,actionContext.formula);
   if (effect.type === "damage" && actionContext.skill?.target === "random_enemies" && effect.to !== "self") {
     for (let index=0;index<(effect.hits??1) && living(actor);index++) {
@@ -1231,7 +1259,7 @@ function applyEffect(
         target,
         effect.resource,
         effect.resource === "mp"
-          ? mpRestoreAmount(effect, target.stats.maxMp)
+          ? mpRestoreAmount(effect, battleMaxMp(battle.content,target))
           : effect.amount,
         actor.id,
       );
@@ -1290,6 +1318,7 @@ function applyEffect(
       );
       write(battle, `${target.name} được giải hiệu ứng bất lợi.`);
     }
+    clampBattleMp(battle.content,target);
   }
 }
 
@@ -1357,6 +1386,7 @@ function finishStatuses(
       );
     return status.remaining > 0;
   });
+  clampBattleMp(battle.content,actor);
 }
 
 function resolveAction(
@@ -1393,6 +1423,8 @@ function resolveAction(
   const oldStatuses = [...actor.statuses];
   emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
   actor.mp -= mpCost(skill,actor);
+  const teamCost=skill.cost?.teamResource;
+  if(teamCost)changeTeamResource(battle,actor,teamCost.id,-teamCost.amount,teamIO);
   const paidHp=hpCost(skill,actor);
   if(paidHp){actor.hp-=paidHp;emitEvent(battle,{type:"hp_spent",sourceId:actor.id,targetId:actor.id,amount:paidHp});write(battle,actor.name+" tiêu "+paidHp+" HP.");gearHpLoss(battle,actor,actor.hp,gearIO);}
   let spent = 0;
@@ -1500,6 +1532,11 @@ function resolveAction(
       }
     }
   }
+  if(skill.id==='$defend'&&actor.passive?.type==='defend_adjacent_mp'&&living(actor)){
+    const recipients=adjacentAllies(battle,actor);
+    if(recipients.length){announcePassive(battle,actor);write(battle,actor.name+' kích hoạt '+actor.passive.name+'.');}
+    for(const ally of recipients)gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*actor.passive.ratio),actor.id);
+  }
   gearAfterAction(battle,actor,skill,gearIO);
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
   if (offensive) finishAttackContext(battle, actor, actionContext);
@@ -1507,6 +1544,8 @@ function resolveAction(
   transitionBossPhases(battle, { write, restoreMp: gainResource });
   recordFormulaAction(battle,actor,skill,modeIO);
   triggerSupportFollowups(battle,actor,skill);
+  if(teamCost)triggerSpentResourceFollowups(battle,actor,teamCost);
+  for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);
   if (endTurn) {
     endTurnPassive(battle, actor);
     advance(battle);

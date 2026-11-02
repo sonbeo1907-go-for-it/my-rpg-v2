@@ -20,7 +20,7 @@ export function advanceChronicleWave(content,campaign,battle){
  const e=content.encounters[battle.encounterId],index=battle.storyWave?.waveIndex??0;
  if(battle.outcome!=='victory'||!e.waves||index===e.waves.length-1)return battle;
  const p=campaign.chronicles.pendingByLocation[battle.chronicle.locationId];
- const b=createBattle(content,campaign,e.id,battle.random,{enemyLevel:p.level,chronicleInstanceId:p.instanceId,storyWaveIndex:index+1,partyActors:battle.actors.filter(a=>a.team==='party'),sourceActors:[...(battle.sourceActors??[]),...battle.actors.filter(a=>a.team==='enemy')],turnOrderField:battle.turnOrderField,roundOffset:battle.round,enemyIdPrefix:'chronicle_'+(index+1)+'_enemy_',log:[...battle.log,'— Đợt '+(index+2)+'/'+e.waves.length+' —']});b.chronicle={...battle.chronicle};return b;
+ const b=createBattle(content,campaign,e.id,battle.random,{enemyLevel:p.level,chronicleInstanceId:p.instanceId,storyWaveIndex:index+1,partyActors:battle.actors.filter(a=>a.team==='party'),teamResources:battle.teamResources,sourceActors:[...(battle.sourceActors??[]),...battle.actors.filter(a=>a.team==='enemy')],turnOrderField:battle.turnOrderField,roundOffset:battle.round,enemyIdPrefix:'chronicle_'+(index+1)+'_enemy_',log:[...battle.log,'— Đợt '+(index+2)+'/'+e.waves.length+' —']});b.chronicle={...battle.chronicle};return b;
 }
 export function finishChronicleBattle(campaign,content,battle){
  if(battle.chronicle?.bookId==='book2')return finishFortressBattle(campaign,content,battle);

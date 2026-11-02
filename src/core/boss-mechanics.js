@@ -1,3 +1,4 @@
+import {battleMaxMp} from './stat-values.js';
 
 import {isAlive} from "./actor-life.js";
 // Encounter rules are authored on enemy definitions; no character/encounter IDs in the battle engine.
@@ -41,7 +42,7 @@ export function transitionBossPhases(battle, { write, restoreMp }) {
     const suppression = actor.statuses.find(status => status.id === actor.boss.suppression?.statusId);
     if (suppression) suppression.remaining = Math.min(suppression.remaining, actor.boss.suppression.durations[state.phase - 1]);
     if (actor.boss.restorePartyMpOnTransition !== false) {
-      for (const ally of battle.actors.filter(item => item.team !== actor.team && isAlive(item))) restoreMp(battle, ally, 'mp', ally.stats.maxMp, actor.id);
+      for (const ally of battle.actors.filter(item => item.team !== actor.team && isAlive(item))) restoreMp(battle, ally, 'mp', battleMaxMp(battle.content,ally), actor.id);
       write(battle, 'Chuyển giai đoạn: hồi đầy MP cho toàn đội còn sống.');
     }
   }

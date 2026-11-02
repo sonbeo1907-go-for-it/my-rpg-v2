@@ -6,6 +6,7 @@ function makeWave(content,run,previous=null) {
     partyActors:previous?.actors.filter(actor=>actor.team==='party'),
     sourceActors:previous?[...(previous.sourceActors??[]),...previous.actors.filter(actor=>actor.team==='enemy')]:[],
     turnOrderField:previous?.turnOrderField,
+    teamResources:previous?.teamResources,
     roundOffset:previous?.round??0,
     enemyIdPrefix:'story_'+(run.waveIndex+1)+'_enemy_',
     log:[...(previous?.log??[]).slice(-197),'— '+content.encounters[run.encounterId].name+' · Đợt '+(run.waveIndex+1)+'/'+run.waveCount+' —']

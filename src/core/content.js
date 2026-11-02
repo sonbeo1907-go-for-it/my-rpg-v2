@@ -1,3 +1,4 @@
+import {validateTeamResourceContent} from './team-resources.js';
 import {validateChronicleContent} from './chronicle-rules.js';
 import {validateSkillProgression} from './skill-rules.js';
 import {enemyHpFactor,enemyHpProfile} from './enemy-scaling.js';
@@ -21,7 +22,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel'];
+export const EFFECT_TYPES = ['team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -29,7 +30,7 @@ export function indexById(items) {
 
 // Validate references before running a game, rather than failing midway through a battle.
 export function validateContent(content) {
-  const errors = [];
+  const errors = validateTeamResourceContent(content);
   const fail = message => errors.push(message);
   const exists = (collection, id, where) => {
     if (!content[collection] || typeof id !== 'string' || !Object.hasOwn(content[collection], id)) fail(`${where}: unknown ${collection} id "${id}"`);
@@ -79,8 +80,9 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','team_resource_growth','spent_resource_followup','spent_resource_team_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if(native?.type==='defend_adjacent_mp'&&(!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1))fail(id+': invalid adjacent MP passive');
     if(actor.group==='agony'||actor.agony||native?.type==='agony_revenant'){
       const r=actor.agony;
       if(content.enemies[id]!==actor||actor.group!=='agony'||native?.type!=='agony_revenant'||!native.name||!native.description||!r||r.roundsAfterTrigger!==1||r.damageReduction!==.3||r.directMaxHpElement!=='agony'||actor.boss)fail(id+': invalid agony enemy');
@@ -313,6 +315,8 @@ export function validateContent(content) {
     if (status.durationClock !== undefined && !['main_turn','round'].includes(status.durationClock)) fail(id + ': invalid duration clock');
     if (status.durationClock==='round' && (status.kind!=='buff' || status.persistent || status.damageOverTime || status.turnStartAbility || status.consumeOnAttack)) fail(id+': round clock requires a timed support buff');
     if (status.magicRefresh !== undefined && (!Number.isInteger(status.magicRefresh?.duration) || status.magicRefresh.duration < 1 || status.magicRefresh.oncePerRound !== true || status.kind !== 'debuff')) fail(id + ': invalid magic refresh');
+    if(status.damageUses!==undefined&&(!Number.isInteger(status.damageUses)||status.damageUses<1||status.damageUses>99||status.kind!=='buff'||status.persistent!==true||status.consumeOnAttack||status.effectImmunity||status.maxStacks||status.damageOverTime||status.durationClock||!(status.modifiers?.damageBonus>0)))fail(id+': invalid damage-use buff');
+    if(status.modifiers?.maxMp!==undefined&&(!Number.isFinite(status.modifiers.maxMp)||status.modifiers.maxMp<=0||status.modifiers.maxMp>2||status.kind!=='buff'||status.persistent||status.consumeOnAttack))fail(id+': invalid MP capacity buff');
     if (status.effectImmunity !== undefined) {
       const immunity = status.effectImmunity;
       if (!immunity || status.kind !== 'buff' || !Number.isInteger(immunity.charges) || immunity.charges < 1 || typeof immunity.hostileOnly !== 'boolean') fail(`${id}: invalid effect immunity`);

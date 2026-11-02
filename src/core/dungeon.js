@@ -122,6 +122,7 @@ function makeWave(content, run, previous = null) {
       enemyScale: structuredClone(run.enemyScale),
       enemyLevel:run.enemyLevel??null,
       partyActors,
+      teamResources:previous?.teamResources,
       turnOrderField: previous?.turnOrderField,
       // Each wave resolves its own turn queue; summon lifetime spans the whole run.
       continuesOnVictory: run.waveIndex < run.waveIds.length - 1,

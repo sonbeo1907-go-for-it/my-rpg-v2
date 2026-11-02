@@ -7557,5 +7557,480 @@
       "rounds": 1,
       "message": "Kẻ phá hoại chuẩn bị phát tín hiệu gây nhiễu. Có thể Phòng thủ và hóa giải sau đòn."
     }
+  },
+  {
+    "id": "artesia.twinstars",
+    "name": "Song Tinh Dẫn Lối",
+    "target": "adjacent_allies",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 2,
+    "description": "Cường hóa sức tấn công của hai đồng đội ở hai ô kề.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "twinstar_guidance",
+        "duration": 3
+      }
+    ],
+    "rules": [
+      "Dùng được lại ở vòng thứ tư kể từ lúc thi triển; đủ duy trì theo nhịp lượt chính thông thường."
+    ],
+    "skillLineId": "artesia.twinstars",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "artesia.destiny",
+    "name": "Ánh Sao Định Mệnh",
+    "target": "adjacent_allies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "description": "Trao ánh sao khuếch đại ba lần gây sát thương kế tiếp cho mỗi đồng đội ở hai ô kề.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "destined_radiance"
+      }
+    ],
+    "skillLineId": "artesia.destiny",
+    "growthProfile": "output_buff_mp",
+    "rankable": true,
+    "growthGroups": [
+      "output_buff_mp"
+    ]
+  },
+  {
+    "id": "artesia.starsea",
+    "name": "Tinh Hải Dung Nạp",
+    "target": "adjacent_allies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "description": "Mở rộng MP tối đa của hai đồng đội ở hai ô kề, không tự hồi MP.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "starsea_capacity",
+        "duration": 3
+      }
+    ],
+    "rules": [
+      "Tái áp dụng làm mới thời hạn, không cộng dồn hoặc tự hồi MP.",
+      "Dùng được lại ở vòng thứ tư kể từ lúc thi triển; đủ duy trì theo nhịp lượt chính thông thường."
+    ],
+    "skillLineId": "artesia.starsea",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "selene.seal",
+    "name": "Dấu Niêm Của Tòa",
+    "target": "enemy",
+    "cost": {
+      "mp": 4
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 0.9
+      },
+      {
+        "type": "status",
+        "status": "vertosse_doubt",
+        "duration": 2
+      },
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 1
+      }
+    ],
+    "description": "Đánh nhẹ, làm suy yếu giáp đối thủ rồi thu thập Bằng Chứng.",
+    "skillLineId": "selene.seal",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "selene.testimony",
+    "name": "Lời Khai Bất Nhất",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 0.8
+      },
+      {
+        "type": "dispel",
+        "count": 1
+      },
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 1
+      }
+    ],
+    "description": "Đánh nhẹ và xóa một buff của đối thủ, tạo Bằng Chứng.",
+    "skillLineId": "selene.testimony",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "selene.noble_step",
+    "name": "Bước Chân Quý Tộc",
+    "target": "enemy",
+    "cost": {
+      "mp": 4
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 0.9
+      },
+      {
+        "type": "status",
+        "status": "noble_footwork",
+        "duration": 2,
+        "to": "self"
+      },
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 1
+      }
+    ],
+    "description": "Đánh nhẹ và tăng tốc bản thân, tạo Bằng Chứng.",
+    "skillLineId": "selene.noble_step",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "selene.masquerade",
+    "name": "Dạ Yến Không Tên",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 3
+      },
+      {
+        "type": "enter_mode",
+        "mode": "lunarmare"
+      }
+    ],
+    "description": "Tạo 3 Bằng Chứng và biến thân thành Lunarmare.",
+    "skillLineId": "selene.masquerade",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Cơ chế biến hình cố định, không có cấp nâng.",
+    "growthGroups": []
+  },
+  {
+    "id": "selene.execution",
+    "name": "Thủy Ảnh Đoạt Mệnh",
+    "target": "enemy",
+    "cost": {
+      "mp": 6,
+      "teamResource": {
+        "id": "evidence",
+        "amount": 1
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 2.4
+      }
+    ],
+    "description": "Lunarmare lao tới mục tiêu bằng một nhát kiếm nước.",
+    "skillLineId": "selene.execution",
+    "growthProfile": "damage",
+    "rankable": true,
+    "requiresMode": "lunarmare",
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "selene.sweep",
+    "name": "Dạ Vũ Trảm",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8,
+      "teamResource": {
+        "id": "evidence",
+        "amount": 1
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.2
+      }
+    ],
+    "description": "Quét lưỡi kiếm dưới màn đêm, đánh toàn bộ đối thủ.",
+    "skillLineId": "selene.sweep",
+    "growthProfile": "damage",
+    "rankable": true,
+    "requiresMode": "lunarmare",
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "selene.verdict",
+    "name": "Phán Quyết Dưới Trăng",
+    "target": "enemy",
+    "cost": {
+      "mp": 12,
+      "teamResource": {
+        "id": "evidence",
+        "amount": 2
+      }
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 5
+      }
+    ],
+    "description": "Dồn hai Bằng Chứng vào một đòn kết liễu.",
+    "skillLineId": "selene.verdict",
+    "growthProfile": "damage",
+    "rankable": true,
+    "requiresMode": "lunarmare",
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "simon.strategy",
+    "name": "Thế Cờ Đã Định",
+    "target": "ally",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "legal_strategy",
+        "duration": 3
+      }
+    ],
+    "description": "Tăng sức tấn công và tốc độ cho một đồng đội.",
+    "skillLineId": "simon.strategy",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "simon.closing",
+    "name": "Lời Kết Tội",
+    "target": "ally",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "status",
+        "status": "closing_argument"
+      },
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 1
+      }
+    ],
+    "description": "Khuếch đại hai lần gây sát thương kế tiếp và tạo một Bằng Chứng.",
+    "skillLineId": "simon.closing",
+    "growthProfile": "output_buff_mp",
+    "rankable": true,
+    "growthGroups": [
+      "output_buff_mp"
+    ]
+  },
+  {
+    "id": "simon.cross_examine",
+    "name": "Đối Chất Đến Cùng",
+    "target": "ally",
+    "cost": {
+      "mp": 10,
+      "teamResource": {
+        "id": "evidence",
+        "amount": 1
+      }
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "weakness_exploitation",
+        "duration": 3
+      }
+    ],
+    "description": "Trao Khai Phá Điểm Yếu cho một đồng đội.",
+    "skillLineId": "simon.cross_examine",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng điểm yếu cố định; không tăng mức khuếch đại.",
+    "growthGroups": []
+  },
+  {
+    "id": "simon.objection",
+    "name": "Phản Biện Đanh Thép",
+    "target": "enemy",
+    "activation": "passive",
+    "description": "Liên kích vào địch còn nhiều HP nhất và tạo hai Sơ Hở Thủy.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.6,
+        "onHitStatus": {
+          "status": "exposure_water",
+          "stacks": 2
+        }
+      }
+    ],
+    "skillLineId": "simon.objection",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Liên kích nội tại cố định.",
+    "growthGroups": []
+  },
+  {
+    "id": "genevieve.curtain",
+    "name": "Hạ Màn Che Chở",
+    "target": "all_allies",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "teamResourceScaling": {
+          "id": "evidence",
+          "perStack": 0.15
+        }
+      },
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 1
+      }
+    ],
+    "description": "Tạo khiên cho toàn đội, mạnh hơn theo Bằng Chứng hiện có; sau đó tạo một Bằng Chứng.",
+    "skillLineId": "genevieve.curtain",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
+    ]
+  },
+  {
+    "id": "genevieve.remedy",
+    "name": "Dược Trà Sau Dạ Yến",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "attack",
+        "multiplier": 1,
+        "teamResourceScaling": {
+          "id": "evidence",
+          "perStack": 0.15
+        }
+      },
+      {
+        "type": "team_resource",
+        "resource": "evidence",
+        "amount": 1
+      }
+    ],
+    "description": "Hồi HP toàn đội, mạnh hơn theo Bằng Chứng hiện có; sau đó tạo một Bằng Chứng.",
+    "skillLineId": "genevieve.remedy",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
+    ]
+  },
+  {
+    "id": "genevieve.household",
+    "name": "Gia Quy Không Thể Phá",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "vertosse_household",
+        "duration": 3,
+        "teamResourceScaling": {
+          "id": "evidence",
+          "perStack": 0.025
+        }
+      }
+    ],
+    "description": "Tăng DEF và RES toàn đội, hiệu quả tăng theo Bằng Chứng hiện có.",
+    "skillLineId": "genevieve.household",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
   }
 ]

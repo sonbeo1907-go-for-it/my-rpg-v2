@@ -18,6 +18,7 @@ import "./chronicles.css";
 import "./fortress.css";
 import "./blacksmith.css";
 import "./garden.css";
+import "./vertosse.css";
 import "./agony.css";
 import "./profiles.css";
 import "./skill-copy.css";

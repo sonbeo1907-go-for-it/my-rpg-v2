@@ -19,3 +19,10 @@ export function statusModifier(content, actor, key, ignoreConsumables = false) {
 export function battleStat(content, actor, key, ignoreConsumables = false, additionalModifier = 0, baseBonus = 0) {
   return effectiveStat(actor,key,statusModifier(content,actor,key,ignoreConsumables) + additionalModifier,baseBonus);
 }
+
+// Prepared stats remain immutable; temporary capacity is derived for every MP consumer.
+export function battleMaxMp(content,actor){
+ const prepared=actor.stats.maxMp,base=actor.baseStats?.maxMp??prepared;
+ return Math.max(0,Math.floor(prepared+base*statusModifier(content,actor,'maxMp')));
+}
+export function clampBattleMp(content,actor){if(actor.mp!==undefined)actor.mp=Math.max(0,Math.min(actor.mp,battleMaxMp(content,actor)));}

@@ -1,3 +1,5 @@
+import {teamResourceValue} from './team-resources.js';
+import {battleMaxMp} from './stat-values.js';
 
 import {isAlive} from "./actor-life.js";
 // Modes and their timers live on the owning actor and travel between dungeon rooms.
@@ -30,7 +32,7 @@ export function leaveCombatMode(battle,actor,reason,io) {
   }
   io.emit(battle,{type:'mode_exit',sourceId:actor.id,mode:id,reason});
   io.write(battle,mode.name+' rời sân.');
-  if (mode.exitMpRatio>0) io.restore(battle,actor,'mp',Math.ceil(actor.stats.maxMp*mode.exitMpRatio),actor.id);
+  if (mode.exitMpRatio>0) io.restore(battle,actor,'mp',Math.ceil(battleMaxMp(battle.content,actor)*mode.exitMpRatio),actor.id);
   return true;
 }
 export function isContinuingVictory(battle) { return battle?.outcome==='victory' && battle.continuesOnVictory===true; }
@@ -39,7 +41,7 @@ export function checkCombatMode(battle,actor,reason,io) {
   if (ended) {delete actor.pendingMode;delete actor.companionStates;}
   const mode=activeCombatMode(actor);
   const expired=modeLifetime(mode)==='rounds' && (reason==='round_end' ? battle.round>=actor.modeExpiresAfterRound : battle.round>actor.modeExpiresAfterRound);
-  const empty=modeLifetime(mode)==='resource' && (reason==='turn_start'||reason==='round_end') && (actor.resourceValues?.[mode?.resource]??0)<=0;
+  const empty=modeLifetime(mode)==='team_resource' ? ['turn_start','round_end','action_end'].includes(reason)&&teamResourceValue(battle,actor,mode.resource)<=0 : modeLifetime(mode)==='resource' && (reason==='turn_start'||reason==='round_end') && (actor.resourceValues?.[mode?.resource]??0)<=0;
   return mode && (ended||expired||empty) ? leaveCombatMode(battle,actor,reason,io) : false;
 }
 export function modeAvailability(actor,skill) {
@@ -61,7 +63,7 @@ export function battlePresentation(actors) {
   const scenes=[];
   for (const actor of actors.filter(actor=>isAlive(actor))) {
     const mode=activeCombatMode(actor);
-    if (mode) scenes.push({ownerId:actor.id,mode:actor.activeMode,name:mode.name,music:mode.music,background:mode.background,summary:actor.modeFollowUpBonus!==undefined?('+'+Number(((actor.modeAppliedModifiers?.magic??mode.statModifiers?.magic??0)*100).toFixed(2))+'% MAG · Liên kích '+actor.passive.modePerRound+' lần/vòng · thêm '+Number((actor.modeFollowUpBonus*100).toFixed(2))+'% MAG hệ số'):mode.summary??'+15 MAG căn bản · Mệnh lệnh hủy diệt'});
+    if (mode && mode.presentationScope!=='actor') scenes.push({ownerId:actor.id,mode:actor.activeMode,name:mode.name,music:mode.music,background:mode.background,summary:actor.modeFollowUpBonus!==undefined?('+'+Number(((actor.modeAppliedModifiers?.magic??mode.statModifiers?.magic??0)*100).toFixed(2))+'% MAG · Liên kích '+actor.passive.modePerRound+' lần/vòng · thêm '+Number((actor.modeFollowUpBonus*100).toFixed(2))+'% MAG hệ số'):mode.summary??'+15 MAG căn bản · Mệnh lệnh hủy diệt'});
     for (const [id,state] of Object.entries(actor.companionStates??{})) {
       if (!state.active) continue;
       const companion=actor.companions[id];

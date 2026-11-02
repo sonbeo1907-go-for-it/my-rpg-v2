@@ -1,4 +1,5 @@
 "use client";
+import {EvidenceBoard,LocalCombatMode} from './vertosse';
 import {isAlive,isInAgony} from "../core/actor-life.js";
 
 import {resolveRankedAbility} from '../core/skill-resolver.js';
@@ -24,7 +25,7 @@ import { weaknessElements } from "../core/weakness.js";
 import { activeStatuses } from "../core/status-state.js";
 import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from "../core/content.js";
 import { bossPhase, bossFireMultiplier } from "../core/boss-mechanics.js";
-import { battleStat } from "../core/stat-values.js";
+import { battleMaxMp,battleStat } from "../core/stat-values.js";
 import { FOLLOW_UP_LABEL } from "../core/follow-up.js";
 import {
   skillCost,
@@ -83,7 +84,7 @@ function StatusBadge({ status, actor }: { status: any; actor: any }) {
       >
         {definition.name}
         {status.stacks > 1 || definition.exposedElement ? ` ×${status.stacks}` : ""} (
-        {definition.effectImmunity
+        {definition.effectImmunity || definition.damageUses
           ? `${status.charges} lần`
           : status.remaining === null
             ? definition.consumeOnAttack
@@ -140,8 +141,9 @@ export function CombatantCard({
         </span>
       )}
       {acting && <span className="acting-label">◆ Đang hành động</span>}
+      <LocalCombatMode actor={actor}/>
       <ElementBadge element={actor.element} />
-      <h3>{actor.name}</h3><small className="combat-level">Level {actor.level??1}</small>
+      <h3>{actor.combatModes?.[actor.activeMode]?.displayName??actor.name}</h3><small className="combat-level">Level {actor.level??1}</small>
       <small>{actor.role ?? (actor.boss ? "Siêu trùm" : "Đối thủ")}</small>
       {(actor.team === "enemy" || actor.statuses.some((status:any)=>content.statuses[status.id].exposedElement)) &&
         Boolean(
@@ -174,11 +176,11 @@ export function CombatantCard({
         </label>
         <label>
           <span>
-            MP {actor.mp} / {actor.stats.maxMp}
+            MP {actor.mp} / {battleMaxMp(content,actor)}
           </span>
           <progress
             className="mp-bar"
-            max={Math.max(1, actor.stats.maxMp)}
+            max={Math.max(1, battleMaxMp(content,actor))}
             value={actor.mp}
           />
         </label>
@@ -840,6 +842,7 @@ export function BattlePage() {
           </div>
           <TurnOrder onHover={setHovered} />
           <FormulaBoards battle={{...battle,content}} content={content}/>
+          <EvidenceBoard battle={{...battle,content}}/>
           <div className="ally-grid">
             {battle.actors
               .filter((item: any) => item.team === "party")

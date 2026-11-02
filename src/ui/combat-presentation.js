@@ -1,4 +1,5 @@
 
+import {scaledTeamEffect,teamResourceValue,teamResourceDefinition} from '../core/team-resources.js';
 import {isAlive} from "../core/actor-life.js";
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {exclusiveDamageEffect} from '../core/exclusive-hooks.js';
@@ -14,7 +15,7 @@ import { skillScaling } from './skill-presentation.js';
 
 export const compactNumber = value => new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 2 }).format(value);
 const percent = value => `${compactNumber(value * 100)}%`;
-const statNames = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD', evasion: 'né vật lí', damageBonus: 'sát thương', damageReduction: 'giảm sát thương' };
+const statNames = { maxMp:'MP tối đa', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD', evasion: 'né vật lí', damageBonus: 'sát thương', damageReduction: 'giảm sát thương' };
 
 export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   const allies = battle.actors.filter(item => item.team === 'party' && isAlive(item));
@@ -36,7 +37,7 @@ export function liveSkillChoices(skill, actor, target, battle) {
   const theorem=battle && skill.effects.some(effect=>effect.formulaScaling)?formulaSnapshot(battle,actor):null;
   const baseStatBonuses=battle?skillBaseStatBonuses(battle,actor,skill,selected):{};
   if(theorem?.baseMagic) baseStatBonuses.magic=(baseStatBonuses.magic??0)+theorem.baseMagic;
-  return { live: true, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
+  return { live: true, teamResourceStacks:battle?teamResourceValue(battle,actor,skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling.id):0, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
     stacks: effect ? target?.statuses?.find(status => status.id === effect.consumeStatus)?.stacks ?? 0 : 0,
     hpPercent: actor.hp / actor.stats.maxHp * 100,
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
@@ -46,7 +47,8 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   const choices = liveSkillChoices(skill, actor, target, battle ? {...battle,content} : undefined);
   const parts = [];
   for (const authoredEffect of skill.effects) {
-    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(authoredEffect,{correct:choices.formulaCorrect}));
+    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks),{correct:choices.formulaCorrect}));
+    if(effect.type==='team_resource')parts.push('+'+effect.amount+' '+teamResourceDefinition(content,effect.resource).name);
     if (effect.type === 'damage') {
       const label = scalingLabel(effect,statNames);
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp,buffs:choices.buffCount });
@@ -68,6 +70,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       for (const id of effect.linkedStatuses??[]) parts.push(content.statuses[id].name);
       if (status.taunt) parts.push('Khiêu khích');
       if (status.cover) parts.push('Đỡ đòn thay');
+      if(status.damageUses)parts.push(status.damageUses+' lần gây sát thương/người');
       if (status.effectImmunity) parts.push(`Chặn ${status.effectImmunity.charges} hiệu ứng`);
       if (status.regen) parts.push(`Hồi ${percent(status.regen)} HP/lượt`);
       if (status.turnStartAbility) parts.push(`Tạo ${status.name}`);
@@ -106,5 +109,5 @@ export function statusDetails(status, actor, battle, content) {
   }
   if (status.growth !== undefined) lines.push(`Đã tích ${status.growth} tầng nội tại đám mây.`);
   if (definition.exposedElement) lines.push(`Còn ${status.stacks} tầng Sơ hở.`);
-  return { source: source.name, duration: definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.exposedElement ? 'Đến khi hết tầng hoặc bị giải' : definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
+  return { source: source.name, duration: definition.damageUses ? status.charges+' lần gây sát thương còn lại' : definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.exposedElement ? 'Đến khi hết tầng hoặc bị giải' : definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
 }

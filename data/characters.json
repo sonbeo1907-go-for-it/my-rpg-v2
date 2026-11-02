@@ -2054,5 +2054,209 @@
         "description": "Duy trì 3 vòng tính cả vòng thi triển. Hết ở cuối vòng sau Vòng Phụ; lượt kế tiếp có thể dùng lại. Kỹ năng bản thân không kích hoạt Liên kích."
       }
     }
+  },
+  {
+    "id": "artesia",
+    "name": "Artesia",
+    "title": "Người đọc quỹ đạo sao",
+    "affiliation": "Học viện Ma pháp",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "light",
+    "basicDamageType": "magical",
+    "tags": [
+      "magic_academy"
+    ],
+    "description": "Dẫn đường cho hai đồng đội ở hai ô kề bằng cường hóa, khuếch đại sát thương và tăng MP tối đa.",
+    "biography": "Học sinh khoa Chiêm Tinh Học của Học viện Ma pháp. Artesia đọc những quỹ đạo giao nhau để tìm thời điểm các bạn đồng hành cùng tỏa sáng.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 120,
+      "attack": 10,
+      "magic": 30,
+      "defense": 15,
+      "resistance": 25,
+      "speed": 22
+    },
+    "abilities": [
+      "artesia.twinstars",
+      "artesia.destiny",
+      "artesia.starsea"
+    ],
+    "passive": {
+      "type": "defend_adjacent_mp",
+      "name": "Quỹ Đạo Song Tinh",
+      "description": "Sau khi dùng Phòng thủ, hồi 3% MP tối đa hiện tại cho mỗi đồng đội còn sống ở hai ô kề. Nối vòng ô 1 và 4; không hồi cho bản thân.",
+      "ratio": 0.03
+    }
+  },
+  {
+    "id": "selene",
+    "name": "Selene Vertosse",
+    "title": "Lunarmare",
+    "affiliation": "Gia tộc Vertosse",
+    "tags": [
+      "vertosse"
+    ],
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "water",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 70,
+      "attack": 29,
+      "magic": 10,
+      "defense": 17,
+      "resistance": 18,
+      "speed": 25
+    },
+    "description": "Tạo Bằng Chứng trong thân phận quý tộc, rồi hóa Lunarmare để tiêu Bằng Chứng và kết liễu đối thủ.",
+    "biography": "Ban ngày, Selene đưa công lý ra trước tòa dưới gia huy Vertosse. Ban đêm, cô khoác mặt nạ Lunarmare, truy đuổi những kẻ tưởng mình đã thoát khỏi phán quyết.",
+    "teamResources": {
+      "evidence": {
+        "name": "Bằng Chứng Đanh Thép",
+        "max": 6,
+        "icon": "masquerade",
+        "description": "Tài nguyên chung của đội, tối đa 6 mặt nạ. Tạo khi đã đầy vẫn ghi nhận sự kiện tạo Bằng Chứng. Không thể bị xóa buff."
+      }
+    },
+    "abilities": [
+      "selene.seal",
+      "selene.testimony",
+      "selene.noble_step",
+      "selene.masquerade",
+      "selene.execution",
+      "selene.sweep",
+      "selene.verdict"
+    ],
+    "normalAbilities": [
+      "selene.seal",
+      "selene.testimony",
+      "selene.noble_step",
+      "selene.masquerade"
+    ],
+    "passive": {
+      "type": "team_resource_growth",
+      "name": "Công Lý Sau Mặt Nạ",
+      "description": "Mỗi Bằng Chứng được tạo hoặc tiêu tăng 15% ATK trong 2 lượt chính, tối đa 3 tầng; làm mới thời hạn toàn bộ tầng. Tạo khi đầy vẫn kích hoạt.",
+      "resource": "evidence",
+      "statusId": "lunarmare_conviction",
+      "duration": 2
+    },
+    "combatModes": {
+      "lunarmare": {
+        "name": "Lunarmare",
+        "displayName": "Lunarmare",
+        "lifetime": "team_resource",
+        "resource": "evidence",
+        "presentationScope": "actor",
+        "baseStatBonuses": {
+          "attack": 10
+        },
+        "commandAbilities": [
+          "selene.execution",
+          "selene.sweep",
+          "selene.verdict",
+          "$defend"
+        ],
+        "summary": "+10 ATK căn bản · tiêu Bằng Chứng để tấn công",
+        "description": "Duy trì khi đội còn Bằng Chứng. Đòn tiêu Bằng Chứng cuối vẫn hưởng dạng biến hình; kiểm tra rời dạng sau toàn bộ kỹ năng và Liên kích.",
+        "allowedAbilities": [
+          "selene.execution",
+          "selene.sweep",
+          "selene.verdict",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "emptyExit": "action_end_or_turn_start"
+      }
+    }
+  },
+  {
+    "id": "simon",
+    "name": "Simon",
+    "title": "Lưỡi Kiếm Của Luật Pháp",
+    "affiliation": "Gia tộc Vertosse",
+    "tags": [
+      "vertosse"
+    ],
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "water",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 105,
+      "attack": 25,
+      "magic": 12,
+      "defense": 17,
+      "resistance": 24,
+      "speed": 23
+    },
+    "description": "Dẫn dắt chủ lực, tạo Bằng Chứng và Liên kích sau kỹ năng tiêu Bằng Chứng của đồng đội.",
+    "biography": "Luật sư riêng của Selene, Simon cân nhắc từng luận cứ dưới ánh sáng phòng xử và từng đường tiến lui trong những cuộc truy đuổi của Lunarmare.",
+    "teamResources": {
+      "evidence": {
+        "name": "Bằng Chứng Đanh Thép",
+        "max": 6,
+        "icon": "masquerade",
+        "description": "Tài nguyên chung của đội, tối đa 6 mặt nạ. Tạo khi đã đầy vẫn ghi nhận sự kiện tạo Bằng Chứng. Không thể bị xóa buff."
+      }
+    },
+    "abilities": [
+      "simon.strategy",
+      "simon.closing",
+      "simon.cross_examine"
+    ],
+    "passive": {
+      "type": "spent_resource_followup",
+      "name": "Luận Cứ Không Thể Bác Bỏ",
+      "description": "Sau mỗi kỹ năng của đồng đội khác thực sự tiêu Bằng Chứng, Liên kích 160% ATK vào địch còn nhiều HP nhất và gắn 2 Sơ Hở Thủy nếu trúng. Mỗi kỹ năng kích một lần, không tính theo số tầng tiêu.",
+      "resource": "evidence",
+      "followUpAbility": "simon.objection"
+    }
+  },
+  {
+    "id": "genevieve",
+    "name": "Genevieve",
+    "title": "Hầu Gái Trưởng Nhà Vertosse",
+    "affiliation": "Gia tộc Vertosse",
+    "tags": [
+      "vertosse"
+    ],
+    "role": "Hỗ trợ phòng thủ",
+    "roleGroup": "defensive_support",
+    "element": "dark",
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 120,
+      "attack": 28,
+      "magic": 12,
+      "defense": 20,
+      "resistance": 26,
+      "speed": 17
+    },
+    "description": "Dùng ATK và Bằng Chứng hiện có để bảo vệ cả đội; hoàn lại MP theo lượng Bằng Chứng đã tiêu trong vòng.",
+    "biography": "Genevieve giữ gia trang Vertosse yên ổn với sự chu toàn của một hầu gái trưởng. Sau mỗi đêm dài, cô luôn chuẩn bị sẵn những điều chủ nhân chưa kịp yêu cầu.",
+    "teamResources": {
+      "evidence": {
+        "name": "Bằng Chứng Đanh Thép",
+        "max": 6,
+        "icon": "masquerade",
+        "description": "Tài nguyên chung của đội, tối đa 6 mặt nạ. Tạo khi đã đầy vẫn ghi nhận sự kiện tạo Bằng Chứng. Không thể bị xóa buff."
+      }
+    },
+    "abilities": [
+      "genevieve.curtain",
+      "genevieve.remedy",
+      "genevieve.household"
+    ],
+    "passive": {
+      "type": "spent_resource_team_mp",
+      "name": "Thu Xếp Sau Phiên Tòa",
+      "description": "Cuối mỗi vòng, hồi 4% MP tối đa cho toàn đội với mỗi Bằng Chứng thực sự đã tiêu trong vòng, tối đa 12%. Gộp Vòng Chính và Vòng Phụ; Genevieve phải còn sống.",
+      "resource": "evidence",
+      "perStack": 0.04,
+      "cap": 0.12
+    }
   }
 ]

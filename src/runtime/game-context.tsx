@@ -208,6 +208,7 @@ export function GameProvider({
       current
         ? {
             presentation: battlePresentation(current.actors),
+            teamResources:structuredClone(current.teamResources??{}),
             encounterId: current.encounterId,
             chronicle:structuredClone(current.chronicle??null),
             questDifficulty:current.questDifficulty,enemyLevel:current.enemyLevel,xpAwards:structuredClone(current.xpAwards??[]),

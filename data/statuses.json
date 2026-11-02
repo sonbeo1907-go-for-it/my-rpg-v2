@@ -756,7 +756,8 @@
     "name": "Khai phá điểm yếu",
     "kind": "buff",
     "weaknessMultiplier": 2,
-    "description": "Đánh trúng điểm yếu gây thêm 100% sát thương thay vì 50%. Không cộng dồn."
+    "description": "Đánh trúng điểm yếu gây thêm 100% sát thương thay vì 50%. Không cộng dồn.",
+    "durationClock": "main_turn"
   },
   {
     "id": "exposure_plain",
@@ -1000,6 +1001,94 @@
     "modifiers": {
       "attack": -0.1,
       "magic": -0.1
+    }
+  },
+  {
+    "id": "twinstar_guidance",
+    "name": "Song Tinh Dẫn Lối",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.25,
+      "magic": 0.25
+    }
+  },
+  {
+    "id": "destined_radiance",
+    "name": "Ánh Sao Định Mệnh",
+    "kind": "buff",
+    "persistent": true,
+    "damageUses": 3,
+    "modifiers": {
+      "damageBonus": 0.3
+    }
+  },
+  {
+    "id": "starsea_capacity",
+    "name": "Tinh Hải Dung Nạp",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "maxMp": 0.4
+    }
+  },
+  {
+    "id": "lunarmare_conviction",
+    "name": "Công Lý Sau Mặt Nạ",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.15
+    },
+    "modifiersPerStack": true,
+    "maxStacks": 3
+  },
+  {
+    "id": "vertosse_doubt",
+    "name": "Luận Cứ Lung Lay",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.1
+    }
+  },
+  {
+    "id": "noble_footwork",
+    "name": "Bước Chân Quý Tộc",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": 0.15
+    }
+  },
+  {
+    "id": "legal_strategy",
+    "name": "Thế Cờ Đã Định",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3,
+      "speed": 0.15
+    }
+  },
+  {
+    "id": "closing_argument",
+    "name": "Lời Kết Tội",
+    "kind": "buff",
+    "persistent": true,
+    "damageUses": 2,
+    "modifiers": {
+      "damageBonus": 0.3
+    }
+  },
+  {
+    "id": "vertosse_household",
+    "name": "Gia Quy Không Thể Phá",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": 0.2,
+      "resistance": 0.2
     }
   }
 ]

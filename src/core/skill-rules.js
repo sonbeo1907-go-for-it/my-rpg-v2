@@ -1,7 +1,7 @@
 // Rank formulas are shared by persistence, combat and previews.
 export const DEFAULT_SKILL_RULES=Object.freeze({maxRank:5,characterLevelRequired:[1,15,30,40,50],coins:{base:400,multiplier:2},coefficientGrowthPerRank:1.1,statBuffGrowthPerRank:1.05,outputBuffMpMultiplierPerRank:.9,outputBuffMpCostFloorRatio:.7});
 export const SKILL_PROFILES=['basic','damage','heal','shield','stat_buff','output_buff_mp','fixed'];
-export const GROWING_STATS=['attack','magic','defense','resistance'];
+export const GROWING_STATS=['attack','magic','defense','resistance','maxMp'];
 export const OUTPUT_BUFF_STATS=['damageBonus','attackMultiplier','damageVsShielded'];
 // A skill rank improves every eligible output group. Utility and fixed sources stay authored.
 export function skillGrowthGroups(content,skill){
