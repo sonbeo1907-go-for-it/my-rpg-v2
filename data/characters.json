@@ -2160,7 +2160,7 @@
           "$defend"
         ],
         "summary": "+10 ATK căn bản · tiêu Bằng Chứng để tấn công",
-        "description": "Duy trì khi đội còn Bằng Chứng. Đòn tiêu Bằng Chứng cuối vẫn hưởng dạng biến hình; kiểm tra rời dạng sau toàn bộ kỹ năng và Liên kích.",
+        "description": "Duy trì khi đội còn Bằng Chứng. Đòn tiêu Bằng Chứng cuối vẫn hưởng dạng biến hình; kiểm tra rời dạng sau toàn bộ kỹ năng và Liên kích. Sau khi rời dạng, Dạ Yến Không Tên bắt đầu hồi chiêu 2 vòng.",
         "allowedAbilities": [
           "selene.execution",
           "selene.sweep",
@@ -2168,7 +2168,11 @@
           "$defend"
         ],
         "exitMpRatio": 0,
-        "emptyExit": "action_end_or_turn_start"
+        "emptyExit": "action_end_or_turn_start",
+        "exitCooldown": {
+          "abilityId": "selene.masquerade",
+          "rounds": 2
+        }
       }
     }
   },

@@ -123,3 +123,20 @@ test('Simon and Genevieve each create and use their shared mechanic with no Sele
  const {b:s}=fixture(['simon','arthur','iris','elaine']);use(s,'simon','simon.closing','arthur');assert.equal(amount(s),1);assert.equal(status(s,'arthur','closing_argument').charges,2);use(s,'simon','simon.cross_examine','arthur');assert.equal(amount(s),0);assert.equal(status(s,'arthur','weakness_exploitation').remaining,3);assert.equal(hits(s,'simon').length,0);
  const {b:g}=fixture(['genevieve','arthur','iris','elaine']);use(g,'genevieve','genevieve.curtain');assert.equal(amount(g),1);assert.equal(getActor(g,'arthur').shield,Math.round(28*1.2));for(const a of g.actors.filter(a=>a.team==='party'))a.hp=1;use(g,'genevieve','genevieve.remedy');assert.equal(amount(g),2);assert.equal(getActor(g,'arthur').hp,1+Math.round(28*1.15));use(g,'genevieve','genevieve.household');near(status(g,'arthur','vertosse_household').appliedModifiers.defense,.25);
 });
+
+test('Lunarmare transformation cooldown starts only on exit, blocks two subsequent rounds and does not restart',()=>{
+ const {b,c,save}=fixture();use(b,'selene','selene.masquerade');const a=getActor(b,'selene');assert.equal(a.cooldowns['selene.masquerade'],undefined);state(b).value=2;use(b,a.id,'selene.verdict','enemy_0');assert.equal(a.activeMode,undefined);assert.equal(a.cooldowns['selene.masquerade'],3);assert.ok(b.events.some(e=>e.type==='cooldown_started'&&e.rounds===2));
+ const restored=restoreChronicleBattle(c,snapshotChronicleBattle(b));assert.equal(getActor(restored,a.id).cooldowns['selene.masquerade'],3);
+ for(let i=0;i<2;i++){endRound(b);assert.equal(abilityAvailability(b,a,c.abilities['selene.masquerade']).ok,false);assert.equal(a.cooldowns['selene.masquerade'],2-i);}
+ endRound(b);assert.equal(a.cooldowns['selene.masquerade'],0);assert.equal(abilityAvailability(b,a,c.abilities['selene.masquerade']).ok,true);
+ const fresh=createBattle(c,save,'forest_patrol');assert.equal(getActor(fresh,a.id).cooldowns['selene.masquerade'],undefined);
+});
+test('depletion by Simon starts the same cooldown and Extra Turn does not decrement it',()=>{
+ const {b}=fixture();use(b,'selene','selene.masquerade');state(b).value=1;use(b,'simon','simon.cross_examine','arthur');const a=getActor(b,'selene');assert.equal(a.cooldowns['selene.masquerade'],3);b.phase='extra';b.queue=[a.id,'enemy_0'];b.cursor=0;executeAction(b,{actorId:a.id,abilityId:'$defend',targetId:a.id});assert.equal(a.cooldowns['selene.masquerade'],3);assert.equal(abilityAvailability(b,a,b.content.abilities['selene.masquerade']).ok,false);
+});
+test('mode exit from defeat also starts cooldown; snapshots/continuing waves keep it and UI discloses its trigger',()=>{
+ const {b,c,save}=fixture();use(b,'selene','selene.masquerade');getActor(b,'selene').hp=1;getActor(b,'enemy_0').stats.attack=1000;b.queue=['enemy_0','simon'];b.cursor=0;executeAction(b,{actorId:'enemy_0',abilityId:'$attack',targetId:'selene'});assert.equal(getActor(b,'selene').activeMode,undefined);assert.equal(getActor(b,'selene').cooldowns['selene.masquerade'],3);
+ const run=createDungeonRun(c,save,'gold_mine','easy',seededRandom(41));use(run.battle,'selene','selene.masquerade');teamResourceState(run.battle,'party','evidence').value=2;run.battle.queue=['selene','genevieve'];run.battle.cursor=0;executeAction(run.battle,{actorId:'selene',abilityId:'selene.verdict',targetId:run.battle.actors.find(a=>a.team==='enemy').id});assert.equal(getActor(run.battle,'selene').cooldowns['selene.masquerade'],3);run.battle.outcome='victory';advanceDungeonWave(c,run);assert.equal(getActor(run.battle,'selene').cooldowns['selene.masquerade'],2);
+ assert.match(skillCost(c.abilities['selene.masquerade'],getActor(b,'selene')),/sau khi rời dạng: 2 vòng/);assert.match(skillPresentation(c.abilities['selene.masquerade'],getActor(b,'selene'),c).facts.join(' '),/Sau khi rời dạng: hồi chiêu 2 vòng/);
+ for(const r of [{abilityId:'selene.masquerade',rounds:0},{abilityId:'selene.seal',rounds:2}]){const copy=structuredClone(c);copy.characters.selene.combatModes.lunarmare.exitCooldown=r;assert.ok(validateContent(copy).length>0);}
+});

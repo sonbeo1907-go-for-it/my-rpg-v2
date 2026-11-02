@@ -27,6 +27,13 @@ export function leaveCombatMode(battle,actor,reason,io) {
   if (!mode) return false;
   const id=actor.activeMode;
   delete actor.activeMode;delete actor.modeExpiresAfterRound;delete actor.modeAppliedModifiers;delete actor.modeFollowUpBonus;
+  if(mode.exitCooldown){
+    const {abilityId,rounds}=mode.exitCooldown;
+    // Match ordinary skill cooldowns: skip the next N round starts, available at R+N+1.
+    actor.cooldowns??={};actor.cooldowns[abilityId]=Math.max(actor.cooldowns[abilityId]??0,rounds+1);
+    io.emit(battle,{type:'cooldown_started',sourceId:actor.id,abilityId,rounds,reason:'mode_exit',mode:id});
+    io.write(battle,actor.name+': '+battle.content.abilities[abilityId].name+' bắt đầu hồi chiêu '+rounds+' vòng sau khi rời '+mode.name+'.');
+  }
   for (const [key,state] of Object.entries(actor.companionStates??{})) {
     if (actor.companions[key].requiresMode===id) {delete actor.companionStates[key];io.emit(battle,{type:'companion_exit',sourceId:actor.id,companionId:key,reason});}
   }

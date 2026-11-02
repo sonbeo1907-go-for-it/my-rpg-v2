@@ -8,7 +8,7 @@ Simon chỉ mang tên Simon; affiliation và tag Vertosse thể hiện phe phái
 
 Chỉ cần Selene, Simon hoặc Genevieve trong đội là tài nguyên chung được khởi tạo, không bắt buộc có Selene. Bắt đầu 0/6; giữ qua các wave, phase và snapshot của cùng trận/chuyến. Trận độc lập bắt đầu lại. Mọi sự kiện tạo ghi cả số yêu cầu và thực nhận; đầy vẫn ghi nhận tạo cho nội tại Selene. Tiêu đúng chi phí một lần mỗi kỹ năng, kiểm tra trước khi trừ MP. Không phải buff, không bị dispel. Chủ nguồn gục không xóa tài nguyên đội.
 
-Mỗi Bằng Chứng được tạo hoặc tiêu cho Selene một tầng +15% ATK, tối đa 3 tầng; làm mới cả cụm 2 lượt chính. Tạo 3 bằng chứng khi biến hình có thể tạo 3 tầng dù đã đầy. Lunarmare nhận +10 ATK căn bản và chỉ có ba đòn biến hình cùng Phòng thủ. Hết bằng chứng: rời dạng sau khi toàn bộ đòn và Liên kích kết thúc; lượt tiếp theo trở lại bộ thường, không mất lượt. VFX chỉ trong thẻ Selene.
+Mỗi Bằng Chứng được tạo hoặc tiêu cho Selene một tầng +15% ATK, tối đa 3 tầng; làm mới cả cụm 2 lượt chính. Tạo 3 bằng chứng khi biến hình có thể tạo 3 tầng dù đã đầy. Lunarmare nhận +10 ATK căn bản và chỉ có ba đòn biến hình cùng Phòng thủ. Hết bằng chứng: rời dạng sau khi toàn bộ đòn và Liên kích kết thúc; lượt tiếp theo trở lại bộ thường, không mất lượt. VFX chỉ trong thẻ Selene. Dạ Yến Không Tên không bắt đầu hồi chiêu khi thi triển; chỉ khi rời Lunarmare mới bắt đầu CD2. Theo quy tắc engine, rời dạng ở vòng R thì không biến hình lại trong hai vòng R+1/R+2, sẵn sàng từ R+3. Lượt Thêm không giảm CD.
 
 Simon Liên kích sau mỗi kỹ năng của đồng đội khác thực tiêu Bằng Chứng; 160% ATK Thủy vào địch có HP tuyệt đối lớn nhất, hòa theo đội hình, gắn 2 Sơ Hở Thủy nếu trúng. Không tự kích, không đệ quy, không thêm giới hạn mỗi vòng ngoài số kỹ năng đủ điều kiện.
 

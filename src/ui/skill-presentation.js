@@ -44,6 +44,8 @@ export function skillCost(skill, actor) {
   if(skill.cost?.hpMaxRatio)costs.push(hpCost(skill,actor)+' HP ('+Math.round(skill.cost.hpMaxRatio*100)+'% HP tối đa)');
   if (skill.requiresFormula) costs.push('Cần Đại Đồ Thức'+(skill.minFormulaEntries?' · '+skill.minFormulaEntries+' dấu':''));
   if (skill.requiresResource) costs.push('Cần '+skill.requiresResource.min+' '+actor.resources[skill.requiresResource.id].name);
+  const exitCooldown=actor.combatModes?.[skill.effects?.find(e=>e.type==='enter_mode')?.mode]?.exitCooldown;
+  if(exitCooldown?.abilityId===skill.id)costs.push('Hồi chiêu sau khi rời dạng: '+exitCooldown.rounds+' vòng');
   if (skill.cooldown) costs.push(`Hồi chiêu: ${skill.cooldown} vòng`);
   return costs.join(' · ') || 'Không tốn MP';
 }
