@@ -517,7 +517,7 @@ export function CharacterFilters({
       <label>
         Nguyên tố
         <select
-          value={filters.element ?? ""}
+          value={filters.element === "agony" ? "" : filters.element ?? ""}
           onChange={(e) => set("element", e.target.value)}
         >
           <option value="">Tất cả</option>
@@ -560,7 +560,7 @@ export function CharacterFilters({
         direction={filters.direction ?? "asc"}
         onSort={(v) => set("sort", v)}
         onDirection={(v) => set("direction", v)}
-        options={[["name", "Tên"], ...Object.entries(STAT_LABELS)]}
+        options={[["name", "Tên"], ["level", "Cấp độ"], ...Object.entries(STAT_LABELS)]}
       />
     </div>
   );

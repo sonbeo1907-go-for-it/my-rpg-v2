@@ -21,8 +21,7 @@
       "thunder",
       "light",
       "dark",
-      "moon",
-      "agony"
+      "moon"
     ],
     "abilities": [
       "enemy.slash"
@@ -415,8 +414,7 @@
       "thunder",
       "light",
       "dark",
-      "moon",
-      "agony"
+      "moon"
     ],
     "abilities": [
       "enemy.slash"
@@ -1849,7 +1847,7 @@
     "role": "Chiến sĩ giữ đèn đã ngã xuống",
     "group": "agony",
     "region": "drageshelmfjall",
-    "element": "agony",
+    "element": "dark",
     "referenceLevel": 1,
     "stats": {
       "maxHp": 140,
@@ -1871,19 +1869,18 @@
       {
         "type": "damage",
         "damageType": "physical",
-        "element": "agony",
+        "element": "dark",
         "multiplier": 1
       }
     ],
     "passive": {
       "type": "agony_revenant",
       "name": "Oán Hận chưa nguôi",
-      "description": "HP về 0: Oán Hận đến hết vòng sau, vẫn hành động và giảm 30% sát thương nhận. Sát thương lúc này trừ HP tối đa; không nhận khiên hay hồi HP. Hết hạn trở lại với HP tối đa còn lại; có thể lặp. Hệ Oán Hận luôn trừ trực tiếp HP tối đa. HP tối đa về 0 mới chết hẳn."
+      "description": "HP về 0: Oán Hận đến hết vòng sau, vẫn hành động và giảm 30% sát thương nhận. Sát thương lúc này trừ HP tối đa; không nhận khiên hay hồi HP. Hết hạn trở lại với HP tối đa còn lại; có thể lặp. HP tối đa về 0 mới chết hẳn."
     },
     "agony": {
       "roundsAfterTrigger": 1,
-      "damageReduction": 0.3,
-      "directMaxHpElement": "agony"
+      "damageReduction": 0.3
     },
     "ai": {
       "rotation": [

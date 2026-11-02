@@ -1,3 +1,4 @@
+import {previewPaidMp} from '../core/powder-combat.js';
 import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive-specials.js';
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
@@ -58,7 +59,7 @@ export const TARGET_NAMES = {
 
 export function passiveDescription(actor, content) {
   const passive = actor.passive;
-  if(['base_speed_physical_guard','altered_defense_damage','vampire_contingency','received_damage_counter','element_ally_charge','spent_team_resource_stat','mp_stat_conversion','formation_stance','mode_support_charge'].includes(passive?.type))return passive.name+': '+passive.description;
+  if(['damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','base_speed_physical_guard','altered_defense_damage','vampire_contingency','received_damage_counter','element_ally_charge','spent_team_resource_stat','mp_stat_conversion','formation_stance','mode_support_charge'].includes(passive?.type))return passive.name+': '+passive.description;
   if (!passive) return null;
   if (['agony_revenant','ally_support_followup','kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar','dot_potency_bonus','attack_status','shield_survival_followup','low_hp_damage','target_buff_damage','ally_skill_counter'].includes(passive.type)) return passive.name+': '+passive.description;
   if (passive.type==='detonation_base_growth') return passive.name+': '+passive.description;
@@ -110,6 +111,7 @@ const percent = value => `${number(value * 100)}%`;
 
 export function skillPreviewOptions(skill, actor, content) {
   const controls = [];
+  if(actor.teamResources?.gunpowder&&previewPaidMp(skill,actor)>=5)controls.push({key:'powderSpent',label:'Thuốc Súng giả định',min:0,max:Math.min(6,Math.floor(previewPaidMp(skill,actor)/5))});
   if(skill.cost?.teamResource?.all){const r=skill.cost.teamResource;controls.push({key:'teamSpent',label:(actor.teamResources?.[r.id]?.name??'Bằng Chứng')+' tiêu giả định',min:r.min,max:actor.teamResources?.[r.id]?.max??6});}
   if(skill.formationVariants)controls.push({key:'formationPosition',label:'Vị trí giả định',min:1,max:4,initial:(actor.formationSlot??0)+1});
   const shared=skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling;if(shared)controls.push({key:'teamResourceStacks',label:(actor.teamResources?.[shared.id]?.name??'Tài nguyên đội')+' giả định',min:0,max:actor.teamResources?.[shared.id]?.max??6});

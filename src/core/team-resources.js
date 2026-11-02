@@ -32,7 +32,7 @@ export function changeTeamResource(battle,actor,id,amount,io){
  const created=Math.max(0,amount),spent=Math.max(0,-amount);
  if(spent){if(state.spentRound!==battle.round){state.spentRound=battle.round;state.spent=0;}state.spent+=spent;}
  const event={type:created?'team_resource_created':'team_resource_spent',resource:id,team:actor.team,sourceId:actor.id,amount:Math.abs(state.value-before),created,spent,value:state.value,max:state.max,revision:state.revision,capped:created>0&&state.value-before<created};
- io.emit(battle,event);io.write(battle,actor.name+': '+(created?'tạo '+created:'tiêu '+spent)+' '+state.name+' → '+state.value+'/'+state.max+(event.capped?' (đã đầy; vẫn ghi nhận tạo bằng chứng)':'')+'.');
+ io.emit(battle,event);io.write(battle,actor.name+': '+(created?'tạo '+created:'tiêu '+spent)+' '+state.name+' → '+state.value+'/'+state.max+(event.capped?' (đã đầy; vẫn ghi nhận tạo '+state.name+')':'')+'.');
  // Requested creation is intentional: even an overflow is a completed creation event.
  for(const owner of battle.actors.filter(a=>a.team===actor.team&&isAlive(a))){
   const p=owner.passive;if(p?.type!=='team_resource_growth'||p.resource!==id)continue;
@@ -53,7 +53,8 @@ export function validateTeamResourceContent(content){
  for(const actor of actors){
   if(actor.teamResources!==undefined&&(!actor.teamResources||typeof actor.teamResources!=='object'||Array.isArray(actor.teamResources)))fail(actor.id+': invalid shared resource declarations');
   for(const[id,d]of Object.entries(actor.teamResources??{})){
-   if(!/^[a-z][a-z0-9_]*$/.test(id)||!d||typeof d.name!=='string'||!d.name||!Number.isSafeInteger(d.max)||d.max<1||d.max>99||typeof d.description!=='string'||!d.description||d.icon!=='masquerade')fail(actor.id+': invalid team resource');
+   if(!/^[a-z][a-z0-9_]*$/.test(id)||!d||typeof d.name!=='string'||!d.name||!Number.isSafeInteger(d.max)||d.max<1||d.max>99||typeof d.description!=='string'||!d.description||!['masquerade','cartridge'].includes(d.icon))fail(actor.id+': invalid team resource');
+   if((d?.mpPerCharge!==undefined||d?.penetrationPerCharge!==undefined)&&(!Number.isInteger(d.mpPerCharge)||d.mpPerCharge<1||d.mpPerCharge>50||!Number.isFinite(d.penetrationPerCharge)||d.penetrationPerCharge<=0||d.penetrationPerCharge>1))fail(actor.id+': invalid MP-funded resource');
    if(definitions.has(id)&&JSON.stringify(definitions.get(id))!==JSON.stringify(d))fail(actor.id+': inconsistent shared resource');else definitions.set(id,d);
   }
  }

@@ -977,16 +977,6 @@
     "description": "Yếu Ám. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
   },
   {
-    "id": "exposure_agony",
-    "name": "Sơ hở — Oán Hận",
-    "kind": "debuff",
-    "persistent": true,
-    "durationClock": "main_turn",
-    "maxStacks": 3,
-    "exposedElement": "agony",
-    "description": "Yếu Ám. Mỗi chiêu đúng hệ tiêu 1 tầng; tối đa 3 tầng. Chỉ tồn tại một loại Sơ hở."
-  },
-  {
     "id": "fortress_guard",
     "name": "Giữ hàng khiên",
     "kind": "buff",
@@ -1209,6 +1199,15 @@
     "kind": "debuff",
     "modifiers": {
       "attack": -0.15
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "viktor_prepared",
+    "name": "Trong Tầm Ngắm Của Chim Ưng",
+    "kind": "buff",
+    "modifiers": {
+      "attack": 0.5
     },
     "durationClock": "main_turn"
   }

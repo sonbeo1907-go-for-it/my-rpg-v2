@@ -1,3 +1,4 @@
+import {projectedPowderSpend,previewPaidMp,nativePenetration,sharedPenetration,spentSharedDamage} from '../core/powder-combat.js';
 
 import {scaledTeamEffect,teamResourceValue,teamResourceDefinition,scaledSpentTeamEffect,teamCostAmount} from '../core/team-resources.js';
 import {alteredDefenseBonus} from '../core/tactical-passives.js';
@@ -38,7 +39,7 @@ export function liveSkillChoices(skill, actor, target, battle) {
   const theorem=battle && skill.effects.some(effect=>effect.formulaScaling)?formulaSnapshot(battle,actor):null;
   const baseStatBonuses=battle?skillBaseStatBonuses(battle,actor,skill,selected):{};
   if(theorem?.baseMagic) baseStatBonuses.magic=(baseStatBonuses.magic??0)+theorem.baseMagic;
-  return { teamSpent:battle&&skill.cost?.teamResource?teamCostAmount(skill.cost.teamResource,teamResourceValue(battle,actor,skill.cost.teamResource.id)):skill.cost?.teamResource?.min??skill.cost?.teamResource?.amount??0, live: true, formationPosition:(actor.formationSlot??0)+1, teamResourceStacks:battle?teamResourceValue(battle,actor,skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling.id):0, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
+  return { powderSpent:battle?projectedPowderSpend(battle.content??{characters:{},enemies:{}},battle,actor,previewPaidMp(skill,actor)).gunpowder??0:0, teamSpent:battle&&skill.cost?.teamResource?teamCostAmount(skill.cost.teamResource,teamResourceValue(battle,actor,skill.cost.teamResource.id)):skill.cost?.teamResource?.min??skill.cost?.teamResource?.amount??0, live: true, formationPosition:(actor.formationSlot??0)+1, teamResourceStacks:battle?teamResourceValue(battle,actor,skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling.id):0, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
     stacks: effect ? target?.statuses?.find(status => status.id === effect.consumeStatus)?.stacks ?? 0 : 0,
     hpPercent: actor.hp / actor.stats.maxHp * 100,
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
@@ -59,6 +60,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;
       parts.push(line);
+      if(nativePenetration(actor,effect.damageType))parts.push('Nội tại: xuyên '+percent(nativePenetration(actor,effect.damageType))+' '+(effect.damageType==='physical'?'DEF':'RES'));
       if(effect.penetration)parts.push('Xuyên '+percent(effect.penetration)+' '+(effect.damageType==='physical'?'DEF':'RES'));
       if(effect.spentResourceDamageBonus)parts.push('+'+percent(effect.spentResourceDamageBonus)+' sát thương');
       if(effect.formulaScaling && choices.formulaCorrect===3)parts.push('Xuyên '+percent(effect.penetration)+' RES');
@@ -98,6 +100,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   if(actor.passive?.type==='target_debuff_damage' && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(debuffDamageBonus(actor.passive,choices.debuffCount))+' ST theo debuff');
   if(actor.passive?.type==='target_buff_damage'&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(buffDamageBonus(actor.passive,choices.buffCount))+' ST theo buff địch');
   if(actor.passive?.type==='low_hp_damage'&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(lowHpDamageBonus(actor.passive,actor.hp/actor.stats.maxHp))+' ST từ HP đã mất');
+  if(choices.powderSpent>0){parts.push('Thuốc Súng −'+choices.powderSpent+' · xuyên thêm '+percent(sharedPenetration(content,{gunpowder:choices.powderSpent}))+' DEF/RES');const bonus=spentSharedDamage(actor,{gunpowder:choices.powderSpent});if(bonus&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(bonus)+' sát thương');}
   const damageCount = skill.effects.filter(effect => effect.type === 'damage').length;
   return parts.join(damageCount > 1 && parts.length === damageCount ? ' + ' : ' · ');
 }

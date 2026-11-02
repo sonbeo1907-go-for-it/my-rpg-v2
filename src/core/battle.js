@@ -1,3 +1,4 @@
+import {payMpTeamResources,sharedPenetration,spentSharedDamage,nativePenetration,lightningChargeEligible} from './powder-combat.js';
 import {teamPhysicalGuard,alteredDefenseBonus} from './tactical-passives.js';
 import {stealBaseStat} from './stat-theft.js';
 
@@ -683,7 +684,7 @@ function triggerMagicFollowups(battle, attacker, target) {
     ally.followUpRound = battle.round;
     const ability = battle.content.abilities[passive.followUpAbility];
     const actionContext = attackContext(battle, ally);
-    actionContext.skillId=ability.id;actionContext.skill=ability;
+    actionContext.skillId=ability.id;actionContext.skill=ability;actionContext.reactionKind='follow_up';
     write(battle, `${ally.name} ${FOLLOW_UP_LABEL} bằng ${ability.name}.`);
     emitEvent(battle, {
       type: "reaction",
@@ -721,7 +722,7 @@ function triggerShieldSurvivalFollowups(battle,attacker,context) {
     write(battle,owner.name+" "+FOLLOW_UP_LABEL+" bằng "+ability.name+".");
     emitEvent(battle,{type:"reaction",kind:"follow_up",label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:enemies[0].id,targetIds:enemies.map(target=>target.id),abilityId:ability.id,area:true});
     const reactionContext=attackContext(battle,owner);
-    reactionContext.skillId=ability.id;reactionContext.skill=ability;reactionContext.reaction=true;
+    reactionContext.skillId=ability.id;reactionContext.skill=ability;reactionContext.reaction=true;reactionContext.reactionKind='follow_up';
     for (const effect of ability.effects) applyEffect(battle,owner,enemies,effect,0,true,reactionContext);
     finishAttackContext(battle,owner,reactionContext);
   }
@@ -740,11 +741,35 @@ function maybeEnterContingency(battle,actor,hpLost){
 function triggerOwnModeFollowup(battle,actor,skill,context){
  const p=actor.passive;if(p?.type!=='vampire_contingency'||actor.activeMode!==p.modeId||!living(actor)||context.castMode!==p.modeId||skill.id.startsWith('$')||skill.activation==='passive'||!skill.effects.some(e=>e.type==='damage'))return;
  const targets=splashEnemies(battle,actor,context.primaryTargetId,true);if(!targets.length)return;
- const follow=battle.content.abilities[p.followUpAbility],reaction={...attackContext(battle,actor),skillId:follow.id,skill:follow,reaction:true,primaryTargetId:context.primaryTargetId};
+ const follow=battle.content.abilities[p.followUpAbility],reaction={...attackContext(battle,actor),skillId:follow.id,skill:follow,reaction:true,reactionKind:'follow_up',primaryTargetId:context.primaryTargetId};
  announcePassive(battle,actor);write(battle,actor.name+' '+FOLLOW_UP_LABEL+' bằng '+follow.name+'.');emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:actor.id,targetId:context.primaryTargetId,targetIds:targets.map(a=>a.id),abilityId:follow.id,area:true});
  for(const effect of follow.effects)applyEffect(battle,actor,targets,effect,0,true,reaction);
  finishAttackContext(battle,actor,reaction);transitionBossPhases(battle,{write,restoreMp:gainResource});
 }
+function chargeReceivedElement(battle,source,target,effect,context){
+ if(!lightningChargeEligible(context.skill,context))return;
+ for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_received_charge'||!living(owner)||owner.team!==source.team||target.team===owner.team||effect.element!==p.element)continue;
+  const before=owner.resourceValues[p.resource]??0;gainResource(battle,owner,p.resource,p.amount,source.id);
+  if(owner.resourceValues[p.resource]>before){announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
+ }
+}
+function triggerPowderFollowups(battle,source,skill,parent){
+ if(skill.id.startsWith('$')||skill.activation==='passive'||!skill.effects.some(e=>e.type==='damage'))return;
+ for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='powder_ally_followup'||owner.team!==source.team||owner.id===source.id||!living(owner))continue;
+  const old=owner.powderFollowupState;if(old?.round===battle.round&&old.count>=p.perRound)continue;
+  const pool=battle.actors.filter(a=>a.team!==owner.team&&living(a));if(!pool.length)continue;
+  const roll=battle.random();if(!Number.isFinite(roll)||roll<0||roll>=1)throw Error('Nguồn chọn mục tiêu không hợp lệ.');
+  const anchor=pool[Math.floor(roll*pool.length)],targets=splashEnemies(battle,owner,anchor.id),spent=parent.teamResourceSpent?.[p.resource]??0;
+  owner.powderFollowupState={round:battle.round,count:old?.round===battle.round?old.count+1:1};
+  const follow=battle.content.abilities[p.followUpAbility],context={...attackContext(battle,owner),skill:follow,skillId:follow.id,reaction:true,reactionKind:'follow_up',primaryTargetId:anchor.id,extraPrimaryPenetration:spent*p.penetrationPerCharge};
+  announcePassive(battle,owner,source.id);write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+follow.name+'.');emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:anchor.id,targetIds:targets.map(a=>a.id),abilityId:follow.id,area:true});
+  for(const effect of follow.effects)applyEffect(battle,owner,targets,effect,0,true,context);
+  finishAttackContext(battle,owner,context);
+  if(spent>0&&living(owner))changeTeamResource(battle,owner,p.resource,p.generatedAfterPowered,teamIO);
+  transitionBossPhases(battle,{write,restoreMp:gainResource});
+ }
+}
+
 function chargeElementAllies(battle,source,context,damageElement){
  context.elementCharged??=new Set();
  for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_ally_charge'||!living(owner)||owner.id===source.id||owner.team!==source.team||((p.elementMatch==='different')?((p.elementSource==='damage'?damageElement:source.element)===p.element):((p.elementSource==='damage'?damageElement:source.element)!==p.element))||context.elementCharged.has(owner.id))continue;
@@ -773,7 +798,7 @@ function triggerSupportFollowups(battle,source,skill){
     const ability={...base,effects:base.effects.map(e=>e.type==='damage'?{...e,multiplier:e.multiplier+bonus}:e)};
     announcePassive(battle,owner,source.id);write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+ability.name+'.');
     emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(a=>a.id),abilityId:ability.id,area:true});
-    const context={...attackContext(battle,owner),skillId:ability.id,skill:ability,reaction:true};
+    const context={...attackContext(battle,owner),skillId:ability.id,skill:ability,reaction:true,reactionKind:'follow_up'};
     for(const effect of ability.effects)applyEffect(battle,owner,targets,effect,0,true,context);
     finishAttackContext(battle,owner,context);
     transitionBossPhases(battle,{write,restoreMp:gainResource});
@@ -791,7 +816,7 @@ function chargeSupportModes(battle,source,context){
 function triggerSpentResourceFollowups(battle,source,cost){
  for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='spent_resource_followup'||p.resource!==cost.id||!living(owner))continue;
   const target=battle.actors.filter(t=>canTriggerFollowUp(owner,source,t)).sort((a,b)=>b.hp-a.hp||(a.formationSlot??0)-(b.formationSlot??0))[0];if(!target)continue;
-  const skill=battle.content.abilities[p.followUpAbility],context={...attackContext(battle,owner),skillId:skill.id,skill,reaction:true};
+  const skill=battle.content.abilities[p.followUpAbility],context={...attackContext(battle,owner),skillId:skill.id,skill,reaction:true,reactionKind:'follow_up'};
   announcePassive(battle,owner,source.id);write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+skill.name+'.');emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:target.id,abilityId:skill.id});
   for(const effect of skill.effects)applyEffect(battle,owner,[target],effect,0,false,context);
   finishAttackContext(battle,owner,context);transitionBossPhases(battle,{write,restoreMp:gainResource});
@@ -820,7 +845,7 @@ function companionPulse(battle,owner,abilityId,name,phase) {
   if (!targets.length) return;
   write(battle,name+" "+FOLLOW_UP_LABEL+" "+(phase==="start"?"đầu":"cuối")+" vòng: "+skill.name+".");
   emitEvent(battle,{type:"reaction",kind:"follow_up",label:name+" · "+FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(target=>target.id),abilityId,area:true,automaticCast:true});
-  const context={...attackContext(battle,owner),skillId:abilityId,skill,attackBuffs:[],multiplier:1,automatic:true,reaction:true};
+  const context={...attackContext(battle,owner),skillId:abilityId,skill,attackBuffs:[],multiplier:1,automatic:true,reaction:true,reactionKind:'follow_up'};
   for(const effect of skill.effects) applyEffect(battle,owner,targets,effect,0,true,context);
   finishAttackContext(battle,owner,context);
   transitionBossPhases(battle,{write,restoreMp:gainResource});
@@ -933,7 +958,7 @@ function resolveHit(
   }
   const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus:0)+(actionContext.statRatioBonuses?.[key]??0),actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
-  const extraPenetration = (penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0);
+  const extraPenetration = (penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
   const defense =
     stat(
       battle,
@@ -978,7 +1003,7 @@ function resolveHit(
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRaw=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic)+alteredDefenseBonus(battle.content,attacker,target)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
   let amount = Math.max(
     1,
     Math.floor(
@@ -999,7 +1024,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            skillDamageBonus(battle.content,attacker,target,actionContext.automatic) + alteredDefenseBonus(battle.content,attacker,target) + (effect.spentResourceDamageBonus??0) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp),
+            skillDamageBonus(battle.content,attacker,target,actionContext.automatic) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -1063,6 +1088,7 @@ function resolveHit(
     `${attacker.name} → ${target.name}: ${vitalityDamage} sát thương${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
   );
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeElementAllies(battle,attacker,actionContext,effect.element);
+  if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeReceivedElement(battle,attacker,target,effect,actionContext);
   maybeEnterContingency(battle,target,lostHp);
   if (living(target) && weakness && vitalityDamage + absorbed > 0)
     suppressOnWeakness(
@@ -1480,7 +1506,8 @@ function resolveAction(
   const supportScopeBefore=battle.supportChargeScope;battle.supportChargeScope={supportCharged:new Set()};
   const oldStatuses = [...actor.statuses];
   emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
-  actor.mp -= mpCost(skill,actor);
+  let totalPaidMp=mpCost(skill,actor);
+  actor.mp -= totalPaidMp;
   const teamCost=skill.cost?.teamResource;
   const paidTeam=teamCost?teamCostAmount(teamCost,teamResourceValue(battle,actor,teamCost.id)):0;
   if(teamCost)changeTeamResource(battle,actor,teamCost.id,-paidTeam,teamIO);
@@ -1525,10 +1552,15 @@ function resolveAction(
     const cap = Math.ceil(skill.cost.mp * actor.passive.extraCostRatio);
     const extra = Math.min(actor.mp,cap);
     actor.mp -= extra;
+    totalPaidMp+=extra;
     if(cap>0&&extra===cap)for(const[key,n]of Object.entries(specialSkillStatBonuses(actor,skill,{fullExtraPayment:true})))actionContext.statRatioBonuses[key]=(actionContext.statRatioBonuses[key]??0)+n;
     actionContext.multiplier *= 1 + (cap ? actor.passive.maxDamageBonus * extra / cap : 0);
     write(battle, `${actor.name}: ${actor.passive.name}, tiêu thêm ${extra}/${cap} MP.`);
   }
+  const automaticSpent=payMpTeamResources(battle,actor,totalPaidMp,teamIO);
+  for(const[id,n]of Object.entries(automaticSpent))actionContext.teamResourceSpent[id]=(actionContext.teamResourceSpent[id]??0)+n;
+  actionContext.sharedPenetration=sharedPenetration(battle.content,automaticSpent);
+  actionContext.sharedDamageBonus=spentSharedDamage(actor,automaticSpent);
   actionContext.hybrid =
     new Set(
       skill.effects
@@ -1605,6 +1637,7 @@ function resolveAction(
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
   if (offensive) finishAttackContext(battle, actor, actionContext);
   triggerOwnModeFollowup(battle,actor,skill,actionContext);
+  triggerPowderFollowups(battle,actor,skill,actionContext);
   battle.actionCount += 1;
   transitionBossPhases(battle, { write, restoreMp: gainResource });
   recordFormulaAction(battle,actor,skill,modeIO);

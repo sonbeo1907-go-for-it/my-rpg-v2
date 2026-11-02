@@ -1,5 +1,5 @@
 "use client";
-import {EvidenceBoard,LocalCombatMode} from './vertosse';
+import {EvidenceBoard,GunpowderBoard,LocalCombatMode} from './vertosse';
 import {isAlive,isInAgony} from "../core/actor-life.js";
 
 import {resolveRankedAbility} from '../core/skill-resolver.js';
@@ -842,7 +842,7 @@ export function BattlePage() {
           </div>
           <TurnOrder onHover={setHovered} />
           <FormulaBoards battle={{...battle,content}} content={content}/>
-          <EvidenceBoard battle={{...battle,content}}/>
+          <EvidenceBoard battle={{...battle,content}}/><GunpowderBoard battle={{...battle,content}}/>
           <div className="ally-grid">
             {battle.actors
               .filter((item: any) => item.team === "party")

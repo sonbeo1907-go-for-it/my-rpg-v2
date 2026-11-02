@@ -6,7 +6,9 @@ import {getChroniclePending} from './chronicles.js';
 const encode=(key,value)=>key==='content'||typeof value==='function'?undefined:value instanceof Set?{$chronicleSet:[...value]}:value instanceof Map?{$chronicleMap:[...value]}:value;
 const decode=(key,value)=>value&&typeof value==='object'&&Object.hasOwn(value,'$chronicleSet')?new Set(value.$chronicleSet):value&&typeof value==='object'&&Object.hasOwn(value,'$chronicleMap')?new Map(value.$chronicleMap):value;
 export function snapshotChronicleBattle(battle){return {encounterId:battle.encounterId,rngState:battle.random.getState(),state:JSON.stringify(battle,encode)};}
-export function restoreChronicleBattle(content,snapshot){const b=JSON.parse(snapshot.state,decode);b.content=content;b.random=seededRandom(snapshot.rngState);return b;}
+export function restoreChronicleBattle(content,snapshot){const b=JSON.parse(snapshot.state,decode);b.content=content;b.random=seededRandom(snapshot.rngState);
+ for(const a of [...b.actors,...b.sourceActors??[]]){if(a.element==='agony')a.element='dark';if(a.weaknesses)a.weaknesses=a.weaknesses.filter(e=>e!=='agony');if(a.resistances)delete a.resistances.agony;for(const e of a.basicAttack??[])if(e.element==='agony')e.element='dark';a.statuses=a.statuses.filter(s=>s.id!=='exposure_agony');if(a.agony)delete a.agony.directMaxHpElement;}
+ for(const e of b.events??[])if(e.element==='agony')e.element='dark';return b;}
 export function checkpointChronicleBattle(campaign,content,battle){
  if(battle.chronicle?.bookId==='book2')return checkpointFortressBattle(campaign,content,battle);const next=structuredClone(campaign),s=next.chronicles,{pending:p}=getChroniclePending(next,content,battle.chronicle.locationId,battle.chronicle.instanceId);p.battleSnapshot=snapshotChronicleBattle(battle);p.status=battle.outcome==='defeat'?'retry':'battle';s.activeBattle=battle.outcome==='defeat'?null:p.locationId;return next;}
 export function createChronicleBattle(content,campaign,locationId,instanceId){

@@ -2665,5 +2665,169 @@
         "description": "Tính cả vòng kích hoạt. Không có nền bàn đấu hoặc BGM riêng. Mỗi kỹ năng chủ động công kích của Joshua gọi một Liên kích riêng, không tạo chuỗi. Kết thúc dạng có hai vòng không thể kích hoạt lại."
       }
     }
+  },
+  {
+    "id": "bennett",
+    "name": "Gregory Bennett",
+    "title": "Lao Chớp Xé Trời",
+    "affiliation": "Hội Thợ Săn",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "thunder",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 65,
+      "attack": 29,
+      "magic": 8,
+      "defense": 16,
+      "resistance": 17,
+      "speed": 28
+    },
+    "description": "Phi lao đơn mục tiêu, xuyên một nửa DEF đối phương mà không cần chuẩn bị.",
+    "biography": "Gregory Bennett tin rằng một cây lao đến đủ nhanh sẽ không cần mưu mẹo. Anh ném chúng như những vệt chớp qua chiến trường.",
+    "abilities": [
+      "bennett.flash",
+      "bennett.sky",
+      "bennett.finish"
+    ],
+    "passive": {
+      "type": "damage_penetration",
+      "name": "Nhanh Hơn Lớp Giáp",
+      "description": "Mọi đòn vật lí của Bennett xuyên 50% DEF. Không làm thay đổi DEF thật của địch.",
+      "damageType": "physical",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "judy",
+    "name": "Judy",
+    "title": "Tâm Bão Tích Điện",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "thunder",
+    "basicDamageType": "magical",
+    "stats": {
+      "maxHp": 140,
+      "maxMp": 110,
+      "attack": 10,
+      "magic": 35,
+      "defense": 15,
+      "resistance": 23,
+      "speed": 19
+    },
+    "description": "Tích Điện Tích khi kẻ địch nhận đòn Lôi từ kỹ năng hoặc Liên kích, rồi xả toàn bộ vào một mục tiêu.",
+    "biography": "Judy cảm nhận điện trường từ mọi tia sét trên chiến trường, kể cả của chính mình. Cô gom những dư chấn ấy trước khi giải phóng một tiếng sấm duy nhất.",
+    "resources": {
+      "storm_charge": {
+        "name": "Điện Tích",
+        "max": 10
+      }
+    },
+    "abilities": [
+      "judy.sparks",
+      "judy.storm",
+      "judy.discharge"
+    ],
+    "passive": {
+      "type": "element_received_charge",
+      "name": "Mọi Tia Sét Đều Hội Tụ",
+      "description": "Khi địch nhận sát thương Lôi trực tiếp từ kỹ năng chủ động hoặc Liên kích của phe mình, nhận 1 Điện Tích mỗi hit/mục tiêu, tối đa 10. Tính cả Judy; không tính đánh thường, phản công hoặc Độc.",
+      "element": "thunder",
+      "resource": "storm_charge",
+      "amount": 1
+    }
+  },
+  {
+    "id": "isabelle",
+    "name": "Isabelle D'vorak",
+    "title": "Tiểu Thư Hoa Hồng Đen",
+    "affiliation": "Băng đảng Mafia Hoa Hồng Đen",
+    "tags": [
+      "black_rose"
+    ],
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "plain",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 90,
+      "attack": 28,
+      "magic": 12,
+      "defense": 15,
+      "resistance": 19,
+      "speed": 22
+    },
+    "description": "Tạo Thuốc Súng và tiếp ứng kỹ năng công kích của đồng đội bằng loạt đạn ngẫu nhiên.",
+    "biography": "Tiểu thư nhà D’vorak luôn xuất hiện cùng hương hoa hồng và mùi thuốc súng. Isabelle để lời thương lượng đến trước, nhưng không bao giờ đi một mình.",
+    "teamResources": {
+      "gunpowder": {
+        "name": "Thuốc Súng",
+        "max": 6,
+        "icon": "cartridge",
+        "mpPerCharge": 5,
+        "penetrationPerCharge": 0.1,
+        "description": "Tài nguyên chung Hoa Hồng Đen, tối đa 6. Kỹ năng trả mỗi 5 MP thực tiêu tối đa 1 viên hiện có trước hiệu ứng; mỗi viên xuyên thêm 10% DEF/RES cho toàn kỹ năng. Không đủ đạn vẫn thi triển, dùng tối đa số hiện có. Kỹ năng hỗ trợ cũng tiêu đạn."
+      }
+    },
+    "abilities": [
+      "isabelle.signature",
+      "isabelle.roses"
+    ],
+    "passive": {
+      "type": "powder_ally_followup",
+      "name": "Lời Chào Của Hoa Hồng Đen",
+      "description": "Đồng đội khác dùng kỹ năng chủ động công kích: Liên kích một địch ngẫu nhiên và hai ô kề, tối đa 2 lần/vòng. Nếu chiêu đó dùng Thuốc Súng, mục tiêu chính bị xuyên thêm 10% DEF/viên đã dùng và tạo 1 viên sau Liên kích.",
+      "resource": "gunpowder",
+      "followUpAbility": "isabelle.salute",
+      "perRound": 2,
+      "penetrationPerCharge": 0.1,
+      "generatedAfterPowered": 1
+    }
+  },
+  {
+    "id": "viktor",
+    "name": "Viktor",
+    "title": "Đôi Mắt Chim Ưng",
+    "affiliation": "Băng đảng Mafia Hoa Hồng Đen",
+    "tags": [
+      "black_rose"
+    ],
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "element": "thunder",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 80,
+      "attack": 28,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 17,
+      "speed": 21
+    },
+    "description": "Nạp Thuốc Súng, tự tăng ATK rồi bắn một phát Lôi kết liễu được khuếch đại theo lượng đạn tiêu.",
+    "biography": "Bodyguard riêng của Isabelle, Viktor luôn đứng ở góc nhìn bao quát nhất. Khi tiểu thư ra hiệu, viên đạn của anh đã tìm thấy đường đi.",
+    "teamResources": {
+      "gunpowder": {
+        "name": "Thuốc Súng",
+        "max": 6,
+        "icon": "cartridge",
+        "mpPerCharge": 5,
+        "penetrationPerCharge": 0.1,
+        "description": "Tài nguyên chung Hoa Hồng Đen, tối đa 6. Kỹ năng trả mỗi 5 MP thực tiêu tối đa 1 viên hiện có trước hiệu ứng; mỗi viên xuyên thêm 10% DEF/RES cho toàn kỹ năng. Không đủ đạn vẫn thi triển, dùng tối đa số hiện có. Kỹ năng hỗ trợ cũng tiêu đạn."
+      }
+    },
+    "abilities": [
+      "viktor.prepare",
+      "viktor.shot",
+      "viktor.execution"
+    ],
+    "passive": {
+      "type": "spent_shared_damage",
+      "name": "Ba Viên Là Đủ",
+      "description": "Kỹ năng của Viktor gây thêm 30% sát thương mỗi Thuốc Súng thực tiêu cho kỹ năng đó, tối đa +90% khi dùng từ 3 viên.",
+      "resource": "gunpowder",
+      "perCharge": 0.3,
+      "cap": 0.9
+    }
   }
 ]

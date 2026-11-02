@@ -7346,7 +7346,7 @@
       {
         "type": "damage",
         "damageType": "physical",
-        "element": "agony",
+        "element": "dark",
         "multiplier": 1.1
       }
     ],
@@ -7368,7 +7368,7 @@
       {
         "type": "damage",
         "damageType": "magical",
-        "element": "agony",
+        "element": "dark",
         "multiplier": 0.75
       }
     ],
@@ -8779,5 +8779,305 @@
     "growthProfile": "fixed",
     "rankable": false,
     "fixedReason": "Liên kích tự động; hệ số và hút máu giữ cố định."
+  },
+  {
+    "id": "bennett.flash",
+    "name": "Lao Chớp Giật",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "description": "Phi một cây lao nhanh như tia chớp.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 1.6
+      }
+    ],
+    "skillLineId": "bennett.flash",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "bennett.sky",
+    "name": "Vệt Sét Xé Trời",
+    "target": "enemy",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "description": "Dồn lực vào một đường lao xuyên chiến trường.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 2.6
+      }
+    ],
+    "skillLineId": "bennett.sky",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "bennett.finish",
+    "name": "Xung Lao Quyết Định",
+    "target": "enemy",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 3,
+    "description": "Kết thúc một mục tiêu bằng mũi lao nặng nhất.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 3.4
+      }
+    ],
+    "skillLineId": "bennett.finish",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "judy.sparks",
+    "name": "Song Tia Tích Điện",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "description": "Hai tia Lôi liên tiếp để tích Điện Tích.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "multiplier": 0.9,
+        "hits": 2
+      }
+    ],
+    "skillLineId": "judy.sparks",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "judy.storm",
+    "name": "Màn Mưa Sấm",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "description": "Phóng điện khắp đội hình đối phương.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "multiplier": 1
+      }
+    ],
+    "skillLineId": "judy.storm",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "judy.discharge",
+    "name": "Tâm Bão Vỡ Òa",
+    "target": "enemy",
+    "cost": {
+      "mp": 20,
+      "resource": {
+        "id": "storm_charge",
+        "all": true,
+        "min": 1
+      }
+    },
+    "cooldown": 2,
+    "description": "Xả toàn bộ Điện Tích thành một đòn Lôi duy nhất.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "multiplier": 2.2,
+        "perResource": 0.35
+      }
+    ],
+    "skillLineId": "judy.discharge",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "isabelle.signature",
+    "name": "Chữ Ký Bằng Chì",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "description": "Gửi một viên đạn chính xác rồi chuẩn bị thêm Thuốc Súng.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 3
+      },
+      {
+        "type": "team_resource",
+        "resource": "gunpowder",
+        "amount": 2
+      }
+    ],
+    "skillLineId": "isabelle.signature",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "isabelle.roses",
+    "name": "Hoa Hồng Nở Trong Khói",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "description": "Rải đạn toàn địch và bổ sung Thuốc Súng cho cả đội.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1.25
+      },
+      {
+        "type": "team_resource",
+        "resource": "gunpowder",
+        "amount": 2
+      }
+    ],
+    "skillLineId": "isabelle.roses",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "isabelle.salute",
+    "name": "Lời Chào Hoa Hồng Đen",
+    "target": "enemy_splash",
+    "activation": "passive",
+    "description": "Chọn một địch ngẫu nhiên, bắn cả mục tiêu đó và hai ô kề.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 0.85,
+        "primaryMultiplier": 1.25
+      }
+    ],
+    "skillLineId": "isabelle.salute",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Liên kích tự động; hệ số và xuyên giáp giữ cố định."
+  },
+  {
+    "id": "viktor.prepare",
+    "name": "Trong Tầm Ngắm Của Chim Ưng",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "description": "Tự tăng ATK và tạo hai Thuốc Súng cho toàn đội.",
+    "effects": [
+      {
+        "type": "status",
+        "status": "viktor_prepared",
+        "duration": 3
+      },
+      {
+        "type": "team_resource",
+        "resource": "gunpowder",
+        "amount": 2
+      }
+    ],
+    "skillLineId": "viktor.prepare",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "viktor.shot",
+    "name": "Phát Bắn Cảnh Cáo",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "description": "Bắn một mục tiêu bằng viên đạn Lôi gọn gàng.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 1.5
+      }
+    ],
+    "skillLineId": "viktor.shot",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "viktor.execution",
+    "name": "Phán Quyết Của Người Hộ Tống",
+    "target": "enemy",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 2,
+    "description": "Bắn một phát kết liễu xuyên giáp.",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 5.5,
+        "penetration": 0.15
+      }
+    ],
+    "skillLineId": "viktor.execution",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   }
 ]

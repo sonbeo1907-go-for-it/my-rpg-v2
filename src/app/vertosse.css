@@ -4,3 +4,5 @@
 @keyframes evidence-reveal{from{opacity:.9;transform:translateX(-80%)}to{opacity:0;transform:translateX(80%)}}@keyframes mask-arrival{0%{opacity:0;transform:scale(.6)}35%{opacity:1;transform:scale(1.03)}100%{opacity:0;transform:scale(1.14)}}@keyframes mask-departure{from{opacity:.7;transform:scale(1)}to{opacity:0;transform:scale(.75)}}
 @media(max-width:600px){.evidence-board{padding:12px}.evidence-help{gap:7px}.evidence-help>svg{width:30px}.evidence-help span{font-size:13px}.evidence-total{font-size:19px}.evidence-masks{gap:5px}.evidence-masks svg{height:27px}.evidence-board footer{flex-wrap:wrap;gap:5px}}
 @media(prefers-reduced-motion:reduce){.evidence-flash,.local-mode-burst{animation:none;opacity:0}.evidence-masks>span{transition:none}}
+
+.powder-board{border-color:#a77b58;background:linear-gradient(110deg,#2b2027ed,#1b2025ed 55%,#382c24ed);color:#e3c1a0}.powder-board .evidence-masks svg{max-width:28px}.powder-board .evidence-masks>span.filled{color:#efbd75;background:linear-gradient(145deg,#71503c55,#48273b55);border-color:#d3a26f}.powder-board .evidence-total{color:#f1c487}

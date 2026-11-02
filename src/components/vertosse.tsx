@@ -23,3 +23,14 @@ export function LocalCombatMode({actor}:{actor:any}){
  if(mode?.presentationScope!=='actor'&&!last)return null;
  return <><div className="local-mode-veil" data-local-mode={mode?.presentationScope==='actor'?actor.activeMode:undefined} aria-hidden="true">{mode?.presentationScope==='actor'&&<><MasqueradeMask/><i/><i/></>}</div>{mode?.presentationScope==='actor'&&<span className="local-mode-label">{mode.name} · {Object.entries(mode.baseStatBonuses??{}).map(([key,n])=>'+'+n+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'} as any)[key]+' căn bản').join(' · ')}</span>}{last&&<div className={'local-mode-burst '+(last.type==='mode_exit'?'leaving':'')} data-local-mode-fx={last.type} key={last.key} aria-hidden="true" style={{'--mode-fx-duration':'700ms'} as CSSProperties}><MasqueradeMask/><span/></div>}</>;
 }
+
+export function CartridgeIcon(){return <svg viewBox="0 0 32 48" fill="none" aria-hidden="true"><path d="M8 41V15L12 5Q16-1 20 5L24 15V41Z" fill="currentColor" fillOpacity=".2" stroke="currentColor" strokeWidth="2"/><path d="M8 15H24M7 35H25M6 41H26V46H6Z" stroke="currentColor" strokeWidth="2"/><path d="M12 20V31" stroke="currentColor" strokeWidth="2" opacity=".6"/></svg>}
+export function GunpowderBoard({battle}:{battle:any}){
+ const state=teamResourceState(battle,'party','gunpowder');if(!state)return null;
+ return <section className="evidence-board powder-board" data-gunpowder-board="party" aria-label="Thuốc Súng">
+  <span key={state.revision} className="evidence-flash" aria-hidden="true"/>
+  <header><CombatPopover label="Cơ chế Thuốc Súng" content={<><h3>Thuốc Súng · Hoa Hồng Đen</h3><p>Tài nguyên chung tối đa 6 viên khi đội có Isabelle hoặc Viktor.</p><p>Mỗi 5 MP thực trả tiêu 1 viên hiện có trước hiệu ứng kỹ năng. Mỗi viên xuyên thêm 10% DEF và RES cho toàn kỹ năng.</p><p>Tính MP sau giảm chi phí và MP phụ trội; hoàn MP sau chiêu không hoàn đạn. Kỹ năng hỗ trợ cũng tiêu đạn.</p><p>Không đủ đạn vẫn thi triển, dùng tối đa số đang có. Đạn vừa tạo thuộc chiêu sau. Liên kích không tốn MP nên không tự trừ thêm đạn.</p></>}><button type="button" className="evidence-help"><CartridgeIcon/><span>Thuốc Súng<small>Tài nguyên chung · Hoa Hồng Đen</small></span><span aria-hidden="true">ⓘ</span></button></CombatPopover><strong className="evidence-total" aria-live="polite">{state.value} / {state.max}</strong></header>
+  <div className="evidence-masks" role="img" aria-label={state.value+' trên '+state.max+' Thuốc Súng'}>{Array.from({length:state.max},(_,i)=><span key={i} className={i<state.value?'filled':''} data-powder-filled={i<state.value}><CartridgeIcon/></span>)}</div>
+  <footer><span>Đã tiêu trong vòng: <b>{teamResourceSpent(battle,'party','gunpowder')}</b></span><span>5 MP / viên · +10% xuyên DEF/RES</span></footer>
+ </section>;
+}
