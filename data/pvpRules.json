@@ -1,0 +1,63 @@
+[
+  {
+    "id": "default",
+    "schemaVersion": 1,
+    "rulesetVersion": "arena-0.2.0",
+    "maxRounds": 40,
+    "debugDamage": true,
+    "normalization": {
+      "level": 50,
+      "skillRank": 5,
+      "storyUpgrades": true
+    },
+    "softCaps": {
+      "single": {
+        "threshold": 100,
+        "overflowRatio": 0.25
+      },
+      "multi": {
+        "threshold": 100,
+        "overflowRatio": 0.25
+      },
+      "random": {
+        "threshold": 100,
+        "totalThreshold": 180,
+        "overflowRatio": 0.25
+      },
+      "area": {
+        "threshold": 70,
+        "totalThreshold": 200,
+        "overflowRatio": 0.25
+      },
+      "follow_up": {
+        "threshold": 70,
+        "overflowRatio": 0.25
+      },
+      "counter": {
+        "threshold": 70,
+        "overflowRatio": 0.25
+      },
+      "reaction_area": {
+        "threshold": 50,
+        "totalThreshold": 140,
+        "overflowRatio": 0.25
+      },
+      "periodic": {
+        "threshold": 40,
+        "overflowRatio": 0.25
+      }
+    },
+    "loopGuards": {
+      "maxExtraTurnsPerRound": 1,
+      "allowReactiveChains": false,
+      "maxAutomaticActionsPerUnitPerRound": 4,
+      "maxDamageHitsPerAction": 32
+    },
+    "ai": {
+      "maxCandidates": 12
+    },
+    "characterOverrides": {},
+    "abilityOverrides": {},
+    "statusOverrides": {}
+  }
+]

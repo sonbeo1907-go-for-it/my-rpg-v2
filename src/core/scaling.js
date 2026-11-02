@@ -22,7 +22,7 @@ export function splashEnemies(battle,actor,targetId,allowDefeatedAnchor=false) {
 // Fixed formation slots include empty and fallen occupants. Never compress around a gap.
 export function adjacentAllies(battle,actor) {
   const members=battle.actors.filter(other=>other.team===actor.team);
-  const size=actor.team==='party'?4:members.length;
+  const size=battle.formationSize?.[actor.team]??(actor.team==='party'?4:members.length);
   const slot=actor.formationSlot??members.indexOf(actor);
   const slots=new Set([(slot+size-1)%size,(slot+1)%size]);
   return members.filter((other,index)=>other.id!==actor.id && isAlive(other) && slots.has(other.formationSlot??index));

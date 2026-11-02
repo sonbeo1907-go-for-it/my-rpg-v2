@@ -1,3 +1,5 @@
+import pvpRules from '../../data/pvpRules.json';
+import pvpAiProfiles from '../../data/pvpAiProfiles.json';
 import chronicles from '../../data/chronicles.json';
 import chronicleEvents from '../../data/chronicleEvents.json';
 import { assembleContent } from "../core/content.js";
@@ -20,7 +22,7 @@ import items from "../../data/items.json";
 import travelerStories from "../../data/travelerStories.json";
 export function getContent(): any {
   return assembleContent({
-    chronicles,chronicleEvents,
+    chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
     progressionRules,
     characters,
     abilities,

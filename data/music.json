@@ -115,5 +115,61 @@
       "/bgm/bt2_drageshelmfjall.mp3"
     ],
     "loop": true
+  },
+  {
+    "id": "arena_menu",
+    "name": "Đấu Trường · Chuẩn bị",
+    "tracks": [
+      "/bgm/arena_menu.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "arena_start_1",
+    "name": "Đấu Trường · Khai cuộc 1",
+    "tracks": [
+      "/bgm/arena_start_1.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "arena_climax_1",
+    "name": "Đấu Trường · Cao trào 1",
+    "tracks": [
+      "/bgm/arena_climax_1.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "arena_finale_1",
+    "name": "Đấu Trường · Quyết chiến 1",
+    "tracks": [
+      "/bgm/arena_finale_1.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "arena_start_2",
+    "name": "Đấu Trường · Khai cuộc 2",
+    "tracks": [
+      "/bgm/arena_start_2.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "arena_climax_2",
+    "name": "Đấu Trường · Cao trào 2",
+    "tracks": [
+      "/bgm/arena_climax_2.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "arena_finale_2",
+    "name": "Đấu Trường · Quyết chiến 2",
+    "tracks": [
+      "/bgm/arena_finale_2.mp3"
+    ],
+    "loop": true
   }
 ]

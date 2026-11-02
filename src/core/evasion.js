@@ -1,3 +1,5 @@
+import {activeStatuses} from './status-state.js';
+export function hasTrueStrike(content,actor){return actor.passive?.type==='true_strike'||activeStatuses({...actor,statuses:actor.statuses??[]}).some(s=>(s.remaining==null||s.remaining>0)&&content.statuses[s.id]?.bypassEvasion===true);}
 // Permanent flat stats (including gear) count; temporary percentage buffs/debuffs do not.
 export function evasionBaseSpeed(actor){return Math.max(0,(actor.baseStats?.speed??actor.stats.speed)+(actor.combatModes?.[actor.activeMode]?.baseStatBonuses?.speed??0));}
 export function nativeEvasion(actor,damageType){const rule=actor.passive?.evasion;return rule?.damageTypes.includes(damageType)?Math.min(rule.cap,Math.max(0,rule.baseChance+rule.perBaseSpeed*evasionBaseSpeed(actor))):0;}

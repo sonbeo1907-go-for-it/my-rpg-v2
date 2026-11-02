@@ -1,4 +1,5 @@
 "use client";
+import {ArenaPlayerBar} from './arena-experience';
 import {EvidenceBoard,GunpowderBoard,LocalCombatMode} from './vertosse';
 import {isAlive,isInAgony} from "../core/actor-life.js";
 
@@ -141,9 +142,10 @@ export function CombatantCard({
         </span>
       )}
       {acting && <span className="acting-label">◆ Đang hành động</span>}
+      {battle.arena&&<span className={`arena-side-label ${actor.team}`}>{actor.team==='party'?'Đội của bạn':'Đội đối thủ'} · Ô {(actor.formationSlot??0)+1}</span>}
       <LocalCombatMode actor={actor}/>
       <ElementBadge element={actor.element} />
-      <h3>{actor.combatModes?.[actor.activeMode]?.displayName??actor.name}</h3><small className="combat-level">Level {actor.level??1}</small>
+      <h3>{actor.combatModes?.[actor.activeMode]?.displayName??actor.characterName??actor.name}</h3><small className="combat-level">Level {actor.level??1}</small>
       <small>{actor.role ?? (actor.boss ? "Siêu trùm" : "Đối thủ")}</small>
       {(actor.team === "enemy" || actor.statuses.some((status:any)=>content.statuses[status.id].exposedElement)) &&
         Boolean(
@@ -375,8 +377,10 @@ function BattleResultControls() {
     claimReward,
     startBattle,
     startDungeon,
+    startArena,
     runBattle,
   } = useGame();
+  if(battle.arena)return <div className="stack-actions result-actions"><h2>Trận đấu kết thúc</h2><p>{battle.arena.forfeited?'Rời trận đang diễn ra · Xử thua.':'Không cấp phần thưởng, EXP hoặc tiến độ nhiệm vụ ngày.'}</p>{battle.arena.mode==='match'?<Link className="button gold" href="/arena/match?search=1">Tìm trận mới →</Link>:<button className="gold" disabled={busy} onClick={()=>startArena(battle.arena.teamId,battle.arena.seed)}>↻ Đánh lại cùng đội</button>}<Link className="button" href={battle.arena.mode==='match'?'/arena/match':'/arena/practice'}>Trở về Đấu Trường</Link></div>;
   const dungeon = battle.dungeon;
   const progress = dungeon ?? battle.storyWave;
   const betweenWaves =
@@ -716,13 +720,16 @@ export function BattlePage() {
   let formulaEdit=defaultFormulaEdit(ownFormula);
   if(savedFormulaEdit){try{validateFormulaEdit(ownFormula,savedFormulaEdit);formulaEdit=savedFormulaEdit;}catch{}}
   const hasFormulaField=battle.actors.some((item:any)=>activeFormula({...battle,content},item));
+  const arenaVersion=battle.arena?.rulesetVersion?` · Luật ${battle.arena.rulesetVersion}`:'';
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
+  if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · Đấu tập với AI</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel)}/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
   return (
     <main
       className="page battle-page"
+      data-arena={Boolean(battle.arena)}
       data-speed={animationSpeed}
       data-combat-mode={battle.presentation?.background?battle.presentation.mode:battle.presentation?.scenes?.find((scene:any)=>scene.background)?.mode}
       data-gamepad-phase={gamepadPhase}
@@ -734,19 +741,20 @@ export function BattlePage() {
         title={
           battle.dungeon
             ? `${content.dungeons[battle.dungeon.typeId].name} · ${content.dungeons[battle.dungeon.typeId].difficulties.find((item: any) => item.id === battle.dungeon.difficultyId).name}`
-            : content.encounters[battle.encounterId].name
+            : battle.arena?"Đấu Trường":content.encounters[battle.encounterId].name
         }
         subtitle={
           battle.dungeon
             ? `${battle.dungeon.stageLabel ?? "Đợt"} ${battle.dungeon.waveIndex + 1}/${battle.dungeon.totalWaves}${battle.dungeon.revealRooms ? "" : ` · ${content.encounters[battle.encounterId].name}`} · Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}`
-            : `${battle.storyWave ? 'Đợt '+(battle.storyWave.waveIndex+1)+'/'+battle.storyWave.totalWaves+' · ' : ''}Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}`
+            : `${battle.storyWave ? 'Đợt '+(battle.storyWave.waveIndex+1)+'/'+battle.storyWave.totalWaves+' · ' : ''}Vòng ${battle.phase === "extra" ? "Phụ" : "Chính"} ${battle.round}${arenaVersion}`
         }
         back={
           battle.dungeon
             ? `/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`
-            : encounterReturnPath(content, battle.encounterId,battle.questDifficulty)
+            : battle.arena?"/arena":encounterReturnPath(content, battle.encounterId,battle.questDifficulty)
         }
       >
+        {battle.arena&&<Link className="button arena-exit" href="/arena">Rời trận · Xử thua</Link>}
         <div className="combat-speed" role="group" aria-label="Tốc độ hiệu ứng">
           <button
             aria-pressed={animationSpeed === "normal"}
@@ -804,11 +812,11 @@ export function BattlePage() {
       <SummonScenes presentation={battle.presentation} actors={battle.actors} round={battle.round}/>
       <CombatEffects events={events} content={content} sessionId={battle.sessionId} speed={animationSpeed} onCue={setVisualAction}/>
       <AcademicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
-      <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
+      <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed} arena={Boolean(battle.arena)}/>
 
       {battle.encounterSupport&&(battle.encounterSupport.cannon||battle.encounterSupport.supply)&&<div className="fortress-support-battle">Hỗ trợ pháo đài · ATK +{Math.round(battle.encounterSupport.modifiers.attack*100)}% · MAG +{Math.round(battle.encounterSupport.modifiers.magic*100)}% · RES +{Math.round(battle.encounterSupport.modifiers.resistance*100)}%</div>}{battle.chronicle&&<ChronicleRetreat/>}<div className="battle-layout">
         <section className={`battlefield panel ${hasFormulaField?"has-academic-field":""}`}>
-          <FormulaScene battle={{...battle,content}} content={content}/>
+          {!battle.arena&&<FormulaScene battle={{...battle,content}} content={content}/>}
           <div className="battle-reactions" aria-live="polite">
             {events
               .filter((event) => event.type === "reaction")
@@ -835,6 +843,7 @@ export function BattlePage() {
               ))}
           </div>
           {battle.actors.some((a:any)=>a.team==='enemy'&&isAlive(a)&&a.preparedMove)&&<section className="enemy-telegraphs" aria-live="polite">{battle.actors.filter((a:any)=>a.team==='enemy'&&isAlive(a)&&a.preparedMove).map((a:any)=><div key={a.id} data-enemy-telegraph={a.id}><Icon name="hourglass"/><div><strong>{a.name} đang chuẩn bị: {content.abilities[a.preparedMove.abilityId].name}</strong><p>{content.abilities[a.preparedMove.abilityId].windup.message} Thi triển từ lượt chính ở vòng {a.preparedMove.readyRound}.</p></div></div>)}</section>}
+          {battle.arena&&<ArenaPlayerBar team="enemy"/>}
           <div className="enemy-grid">
             {battle.actors
               .filter((item: any) => item.team === "enemy")
@@ -842,12 +851,13 @@ export function BattlePage() {
           </div>
           <TurnOrder onHover={setHovered} />
           <FormulaBoards battle={{...battle,content}} content={content}/>
-          <EvidenceBoard battle={{...battle,content}}/><GunpowderBoard battle={{...battle,content}}/>
+          <EvidenceBoard battle={{...battle,content}}/>{battle.arena&&<EvidenceBoard battle={{...battle,content}} team="enemy"/>}<GunpowderBoard battle={{...battle,content}}/>{battle.arena&&<GunpowderBoard battle={{...battle,content}} team="enemy"/>}
           <div className="ally-grid">
             {battle.actors
               .filter((item: any) => item.team === "party")
               .map(renderActor)}
           </div>
+          {battle.arena&&<ArenaPlayerBar team="party"/>}
           {battle.outcome && (
             <div className="battle-outcome">
               {battle.outcome === "victory"

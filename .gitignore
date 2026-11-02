@@ -23,3 +23,6 @@ coverage/
 # Local Graphify tooling and generated code graph
 .tools/graphify/
 graphify-out/
+
+# Local UI audit artifacts
+.taste-skill/

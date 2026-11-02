@@ -1,0 +1,1058 @@
+[
+  {
+    "id": "arthur",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "arthur.release",
+      "arthur.ogres_bane",
+      "arthur.ogres_bane_controlled",
+      "arthur.ogres_bane_mastered",
+      "arthur.ogres_bane_flash"
+    ],
+    "skillBias": {
+      "arthur.light_slash": 12,
+      "arthur.release": 7,
+      "arthur.ogres_bane": 7,
+      "arthur.ogres_bane_controlled": 10,
+      "arthur.partial_release": 10,
+      "arthur.ogres_bane_mastered": 32,
+      "arthur.ogres_bane_flash": 24
+    }
+  },
+  {
+    "id": "iris",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "iris.assault"
+    ],
+    "skillBias": {
+      "iris.formula": 14,
+      "iris.calibrate": 12,
+      "iris.assault": 18
+    }
+  },
+  {
+    "id": "takeshi",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "takeshi.stance"
+    ],
+    "burstAbilities": [
+      "takeshi.riposte"
+    ],
+    "skillBias": {
+      "takeshi.stance": 22,
+      "takeshi.slash": 0,
+      "takeshi.riposte": 28
+    }
+  },
+  {
+    "id": "fiona",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "fiona.shard": 0,
+      "fiona.refraction": 0,
+      "fiona.collapse": 0,
+      "fiona.refraction_complete": 10,
+      "fiona.convergence": 10
+    }
+  },
+  {
+    "id": "elaine",
+    "role": "defensive_support",
+    "healBelow": 0.6,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "elaine.shield": 0,
+      "elaine.veil": 0,
+      "elaine.sanctuary": 0
+    }
+  },
+  {
+    "id": "garrek",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "garrek.fortress"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "garrek.cover": 0,
+      "garrek.fortress": 10,
+      "garrek.resolve": 0
+    }
+  },
+  {
+    "id": "dain",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "dain.brace"
+    ],
+    "burstAbilities": [
+      "dain.crush"
+    ],
+    "skillBias": {
+      "dain.strike": 0,
+      "dain.brace": 18,
+      "dain.crush": 24
+    }
+  },
+  {
+    "id": "rowan",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "rowan.pierce"
+    ],
+    "skillBias": {
+      "rowan.aim": 14,
+      "rowan.pierce": 20,
+      "rowan.volley": 0
+    }
+  },
+  {
+    "id": "freya",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "freya.inferno",
+      "freya.cool"
+    ],
+    "skillBias": {
+      "freya.fireball": 0,
+      "freya.inferno": 14,
+      "freya.cool": 8
+    }
+  },
+  {
+    "id": "arden",
+    "role": "defensive_support",
+    "healBelow": 0.6,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "arden.poultice": 0,
+      "arden.tonic": 0,
+      "arden.garden": 0
+    }
+  },
+  {
+    "id": "rhett",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "rhett.shot",
+      "rhett.overload"
+    ],
+    "skillBias": {
+      "rhett.charge": 0,
+      "rhett.shot": 7,
+      "rhett.overload": 7
+    }
+  },
+  {
+    "id": "galliard",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "galliard.taunt"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "galliard.taunt": 10,
+      "galliard.wall": 0,
+      "galliard.hold": 0
+    }
+  },
+  {
+    "id": "armie",
+    "role": "defensive_support",
+    "healBelow": 0.6,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "armie.first_aid": 0,
+      "armie.treatment": 0,
+      "armie.emergency": 0
+    }
+  },
+  {
+    "id": "fran",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "fran.erode": 0,
+      "fran.fracture": 0,
+      "fran.night": 0
+    }
+  },
+  {
+    "id": "aurora",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "aurora.spark": 0,
+      "aurora.amplify": 14,
+      "aurora.storm": 0
+    }
+  },
+  {
+    "id": "lisbeth",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "lisbeth.pride"
+    ],
+    "burstAbilities": [
+      "lisbeth.judgment"
+    ],
+    "skillBias": {
+      "lisbeth.pride": 22,
+      "lisbeth.lance": 0,
+      "lisbeth.judgment": 24
+    }
+  },
+  {
+    "id": "kai",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "kai.poison": 0,
+      "kai.shield": 0,
+      "kai.formation": 0
+    }
+  },
+  {
+    "id": "benard",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "benard.gale"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "benard.twin_blades": 0,
+      "benard.flash": 0,
+      "benard.gale": 10
+    }
+  },
+  {
+    "id": "lanceveil",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "lanceveil.thrust": 0,
+      "lanceveil.breakthrough": 0,
+      "lanceveil.bulwark": 0
+    }
+  },
+  {
+    "id": "gahallad",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "gahallad.mount"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "gahallad.mount": 10,
+      "gahallad.trample": 0,
+      "gahallad.charge": 0
+    }
+  },
+  {
+    "id": "gawain",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "gawain.cloud"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "gawain.cloud": 24,
+      "gawain.sweep": 0,
+      "gawain.judgment": 0
+    }
+  },
+  {
+    "id": "lucien",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "lucien.sweep": 0,
+      "lucien.tempest": 0,
+      "lucien.ward": 0
+    }
+  },
+  {
+    "id": "seraphine",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "seraphine.crest"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "seraphine.crest": 10,
+      "seraphine.blade": 0,
+      "seraphine.spell": 0
+    }
+  },
+  {
+    "id": "lyon",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "lyon.shield": 0,
+      "lyon.formation": 0,
+      "lyon.ward": 0
+    }
+  },
+  {
+    "id": "cedric",
+    "role": "defensive_support",
+    "healBelow": 0.6,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "cedric.rally": 0,
+      "cedric.aid": 0,
+      "cedric.strike": 0
+    }
+  },
+  {
+    "id": "helena",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "helena.rain": 0,
+      "helena.parasol": 0,
+      "helena.ball": 0
+    }
+  },
+  {
+    "id": "leonardo",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "leonardo.cover": 0,
+      "leonardo.home": 0,
+      "leonardo.cleanse": 0
+    }
+  },
+  {
+    "id": "kyle",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "kyle.mischief": 0,
+      "kyle.wind": 0,
+      "kyle.escape": 0
+    }
+  },
+  {
+    "id": "iwayn",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "iwayn.oath"
+    ],
+    "burstAbilities": [
+      "iwayn.victory"
+    ],
+    "skillBias": {
+      "iwayn.advance": 0,
+      "iwayn.oath": 10,
+      "iwayn.victory": 7
+    }
+  },
+  {
+    "id": "percival",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "percival.stillness"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "percival.undertow": 0,
+      "percival.stillness": 10,
+      "percival.sea": 0
+    }
+  },
+  {
+    "id": "mandred",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "mandred.roar"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "mandred.axe": 0,
+      "mandred.sweep": 0,
+      "mandred.roar": 10
+    }
+  },
+  {
+    "id": "lionel",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "lionel.oath": 0,
+      "lionel.encore": 12,
+      "lionel.light": 0
+    }
+  },
+  {
+    "id": "astoria",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "astoria.summon"
+    ],
+    "burstAbilities": [
+      "astoria.command"
+    ],
+    "skillBias": {
+      "astoria.slash": 0,
+      "astoria.rift": 12,
+      "astoria.summon": 40,
+      "astoria.command": 32
+    }
+  },
+  {
+    "id": "charlemagnes",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "charlemagnes.charge": 0,
+      "charlemagnes.campaign": 0,
+      "charlemagnes.breach": 0
+    }
+  },
+  {
+    "id": "kreider",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "kreider.finale"
+    ],
+    "skillBias": {
+      "kreider.prelude": 0,
+      "kreider.dissonance": 0,
+      "kreider.finale": 7
+    }
+  },
+  {
+    "id": "roland",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "roland.haste": 18,
+      "roland.march": 12,
+      "roland.standard": 0
+    }
+  },
+  {
+    "id": "lumine",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "lumine.armament"
+    ],
+    "burstAbilities": [
+      "lumine.verdict"
+    ],
+    "skillBias": {
+      "lumine.edict": 0,
+      "lumine.armament": 22,
+      "lumine.verdict": 7
+    }
+  },
+  {
+    "id": "victorina",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "victorina.petals": 14,
+      "victorina.thorns": 0,
+      "victorina.vow": 0
+    }
+  },
+  {
+    "id": "sieg",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "sieg.still_sea"
+    ],
+    "skillBias": {
+      "sieg.opening": 0,
+      "sieg.sanctuary": 0,
+      "sieg.break_form": 0,
+      "sieg.still_sea": 7
+    }
+  },
+  {
+    "id": "minerva",
+    "role": "defensive_support",
+    "healBelow": 0.6,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "minerva.ward": 0,
+      "minerva.cleanse": 0,
+      "minerva.herbs": 0
+    }
+  },
+  {
+    "id": "auguste",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "auguste.lecture"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "auguste.lecture": 28,
+      "auguste.rebuttal": 0,
+      "auguste.edit": 0,
+      "auguste.theorem": 32
+    }
+  },
+  {
+    "id": "logia",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "logia.fang": 0,
+      "logia.miasma": 18,
+      "logia.agony": 0
+    }
+  },
+  {
+    "id": "amelia",
+    "role": "defensive_support",
+    "healBelow": 0.6,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "amelia.curtain": 0,
+      "amelia.bastion": 0,
+      "amelia.shard": 0
+    }
+  },
+  {
+    "id": "chloe",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "chloe.claws": 0,
+      "chloe.care": 0,
+      "chloe.pounce": 0
+    }
+  },
+  {
+    "id": "sylva",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "sylva.bond",
+      "sylva.call"
+    ],
+    "burstAbilities": [
+      "sylva.dive"
+    ],
+    "skillBias": {
+      "sylva.flare": 0,
+      "sylva.care": 0,
+      "sylva.bond": 10,
+      "sylva.call": 28,
+      "sylva.breath": 0,
+      "sylva.wings": 0,
+      "sylva.dive": 7
+    }
+  },
+  {
+    "id": "drake",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "drake.armor"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "drake.armor": 28,
+      "drake.ward": 0,
+      "drake.rampart": 0,
+      "drake.golem": 22,
+      "drake.stone": 0
+    }
+  },
+  {
+    "id": "yufina",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "yufina.ignite"
+    ],
+    "burstAbilities": [
+      "yufina.pierce"
+    ],
+    "skillBias": {
+      "yufina.jab": 0,
+      "yufina.pierce": 7,
+      "yufina.daze": 0,
+      "yufina.ignite": 24
+    }
+  },
+  {
+    "id": "karin",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "karin.blood_oath"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "karin.sweep": 0,
+      "karin.last_stand": 0,
+      "karin.blood_oath": 10
+    }
+  },
+  {
+    "id": "elise",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "elise.scripture": 0,
+      "elise.absolve": 0,
+      "elise.judgment": 0
+    }
+  },
+  {
+    "id": "yumia",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "yumia.watch": 0,
+      "yumia.strip": 0,
+      "yumia.shelter": 0
+    }
+  },
+  {
+    "id": "chelsea",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "chelsea.urgent"
+    ],
+    "burstAbilities": [
+      "chelsea.delivery"
+    ],
+    "skillBias": {
+      "chelsea.urgent": 20,
+      "chelsea.seal": 0,
+      "chelsea.delivery": 22
+    }
+  },
+  {
+    "id": "tobin",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "tobin.stoke"
+    ],
+    "burstAbilities": [
+      "tobin.quench"
+    ],
+    "skillBias": {
+      "tobin.hammer": 0,
+      "tobin.stoke": 22,
+      "tobin.quench": 7
+    }
+  },
+  {
+    "id": "astraea",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "astraea.garden"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "astraea.roots": 0,
+      "astraea.dew": 0,
+      "astraea.garden": 26
+    }
+  },
+  {
+    "id": "artesia",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "artesia.twinstars": 14,
+      "artesia.destiny": 14,
+      "artesia.starsea": 0
+    }
+  },
+  {
+    "id": "selene",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "selene.masquerade"
+    ],
+    "burstAbilities": [
+      "selene.execution",
+      "selene.sweep",
+      "selene.verdict"
+    ],
+    "skillBias": {
+      "selene.seal": 0,
+      "selene.testimony": 12,
+      "selene.noble_step": 0,
+      "selene.masquerade": 28,
+      "selene.execution": 7,
+      "selene.sweep": 7,
+      "selene.verdict": 30
+    }
+  },
+  {
+    "id": "simon",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "simon.cross_examine"
+    ],
+    "skillBias": {
+      "simon.strategy": 0,
+      "simon.closing": 0,
+      "simon.cross_examine": 7
+    }
+  },
+  {
+    "id": "genevieve",
+    "role": "defensive_support",
+    "healBelow": 0.6,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "genevieve.curtain": 14,
+      "genevieve.remedy": 10,
+      "genevieve.household": 0
+    }
+  },
+  {
+    "id": "aldric",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "aldric.reservoir"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "aldric.reservoir": 10,
+      "aldric.domain": 0,
+      "aldric.zenith": 0
+    }
+  },
+  {
+    "id": "rivia",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "rivia.dusk"
+    ],
+    "burstAbilities": [
+      "rivia.horizon"
+    ],
+    "skillBias": {
+      "rivia.edge": 0,
+      "rivia.dusk": 10,
+      "rivia.horizon": 7
+    }
+  },
+  {
+    "id": "valery",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "valery.focus"
+    ],
+    "burstAbilities": [
+      "valery.tempest"
+    ],
+    "skillBias": {
+      "valery.shot": 0,
+      "valery.focus": 24,
+      "valery.tempest": 28
+    }
+  },
+  {
+    "id": "noctis",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "noctis.sentence"
+    ],
+    "skillBias": {
+      "noctis.theft": 18,
+      "noctis.cut": 0,
+      "noctis.sentence": 30
+    }
+  },
+  {
+    "id": "heimdall",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "heimdall.oath",
+      "heimdall.vitality"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "heimdall.watch": 12,
+      "heimdall.oath": 10,
+      "heimdall.vitality": 24
+    }
+  },
+  {
+    "id": "finmel",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "finmel.focus"
+    ],
+    "burstAbilities": [
+      "finmel.entomb"
+    ],
+    "skillBias": {
+      "finmel.needle": 0,
+      "finmel.focus": 20,
+      "finmel.entomb": 28
+    }
+  },
+  {
+    "id": "albeldo",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "albeldo.hold"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "albeldo.march": 0,
+      "albeldo.aegis": 0,
+      "albeldo.hold": 10
+    }
+  },
+  {
+    "id": "henrris",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "henrris.rend": 0,
+      "henrris.volley": 0,
+      "henrris.pierce": 0
+    }
+  },
+  {
+    "id": "joshua",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "joshua.sentence"
+    ],
+    "skillBias": {
+      "joshua.bite": 10,
+      "joshua.duel": 0,
+      "joshua.sentence": 22
+    }
+  },
+  {
+    "id": "bennett",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "bennett.sky",
+      "bennett.finish"
+    ],
+    "skillBias": {
+      "bennett.flash": 0,
+      "bennett.sky": 7,
+      "bennett.finish": 7
+    }
+  },
+  {
+    "id": "judy",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "judy.discharge"
+    ],
+    "skillBias": {
+      "judy.sparks": 0,
+      "judy.storm": 0,
+      "judy.discharge": 28
+    }
+  },
+  {
+    "id": "isabelle",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "isabelle.signature"
+    ],
+    "skillBias": {
+      "isabelle.signature": 18,
+      "isabelle.roses": 12
+    }
+  },
+  {
+    "id": "viktor",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "viktor.prepare"
+    ],
+    "burstAbilities": [
+      "viktor.execution"
+    ],
+    "skillBias": {
+      "viktor.prepare": 24,
+      "viktor.shot": 0,
+      "viktor.execution": 24
+    }
+  }
+]

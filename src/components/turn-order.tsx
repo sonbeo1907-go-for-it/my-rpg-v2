@@ -24,7 +24,7 @@ export function TurnOrder({onHover}:{onHover:(id:string)=>void}) {
         {pending.map((actor:any,index:number)=><Fragment key={actor.id}>
           {field && index>0 && pending[index-1].team!==actor.team && <span className="turn-team-divider" role="img" aria-label="Đồng hồ cát · ranh giới lượt đồng minh và đối thủ" title={field.name}><Icon name="hourglass"/></span>}
           <button data-turn-actor={actor.id} data-turn-team={actor.team} className={actor.id===battle.activeId?"acting":""} onPointerEnter={()=>onHover(actor.id)} onPointerLeave={()=>onHover("")} onFocus={()=>onHover(actor.id)} onBlur={()=>onHover("")} aria-label={`Xem vị trí ${actor.name}`}>
-            {actor.id===battle.activeId?"◆ ":""}{actor.name}
+            {actor.id===battle.activeId?"◆ ":""}{battle.arena?(actor.team==='party'?'Bạn · ':'Địch · ')+(actor.characterName??actor.name):actor.name}
           </button>
         </Fragment>)}
       </div>

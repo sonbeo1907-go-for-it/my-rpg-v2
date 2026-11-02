@@ -9,7 +9,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
  if(source.rankResolved&&rankOverride===undefined&&source.rankOwnerId===actor?.id&&source.rankTeam===actor?.team&&(!source.formationVariants||source.rankFormationSlot===(actor.formationSlot??0)%2))return source;
  const rankSource=source.rankSource??source;source=formationAbility(rankSource,actor);
  const profile=source.id==='$attack'?'basic':source.growthProfile??'fixed';
- const rank=actor?.team==='enemy'||profile==='fixed'||source.activation==='passive'?1:rankOverride??getActorSkillRank(actor,source);
+ const rank=(actor?.team==='enemy'&&actor?.actorKind!=='character')||profile==='fixed'||source.activation==='passive'?1:rankOverride??getActorSkillRank(actor,source);
  if(!Number.isInteger(rank)||rank<1||rank>5)throw Error('Cấp kỹ năng không hợp lệ.');
  const groups=profile==='fixed'?[]:skillGrowthGroups(content,source);
  const rules=actor?.skillProgression??skillRules(content),f10=coefficientFactor(rank,rules),f05=statBuffFactor(rank,rules);

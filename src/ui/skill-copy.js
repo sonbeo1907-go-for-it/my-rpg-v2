@@ -53,6 +53,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
       else if(key==='damageReduction')mods.push(`Giảm ${pct(n)} sát thương nhận`);
       else mods.push(`${signed(n)} ${statName(key)}${status.modifiersPerStack?'/tầng':''}`);
     }
+    if(status.bypassEvasion)facts.push(prefix+'Hội Tâm · bỏ qua né tránh'+turns);
     if(mods.length)facts.push(prefix+mods.join(' · ')+turns+(status.consumeOnAttack?' · đòn tấn công kế tiếp':''));
     if(status.kind==='buff'&&['damageBonus','attackMultiplier','damageVsShielded'].some(k=>(status.modifiers?.[k]??0)>(k==='attackMultiplier'?1:0)))rules.push('Các buff khuếch đại sát thương chỉ lấy mức lớn nhất đủ điều kiện; buff yếu hơn vẫn tiêu lượt dùng theo luật của nó.','Phá Thành chỉ được so sánh khi mục tiêu có khiên. Điểm yếu và nội tại không thuộc nhóm này.');
     if(status.damageUses){facts.push((choices.statusCharges??status.damageUses)+' lần gây sát thương/người');rules.push('Mỗi kỹ năng, đánh thường, nội tại, Liên kích hoặc phản công thực sự gây sát thương trực tiếp tiêu một lần; nhiều hit và diện rộng vẫn chỉ một lần.','Sát thương vào khiên được tính; né hoàn toàn, Độc, hồi phục, hỗ trợ và Phòng thủ không tiêu.','Mỗi người nhận có số lần riêng; dùng lại làm mới, không cộng dồn.');}
@@ -131,7 +132,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
       }
       if(effect.onHitStatus){statusFacts({type:'status',status:effect.onHitStatus.status,duration:effect.onHitStatus.duration,stacks:effect.onHitStatus.stacks});if(content.statuses[effect.onHitStatus.status].maxStacks)rules.push(`Mỗi hit trúng gắn ${effect.onHitStatus.stacks??1} tầng; né không gắn hiệu ứng.`);}
       if(effect.lifeStealRatio){facts.push('Hút máu: '+pct(effect.lifeStealRatio)+' sát thương HP thực gây ra');rules.push('Cộng sát thương HP thật trên các mục tiêu, hồi một lần sau đòn. Không tính khiên hoặc phần sát thương vượt HP còn lại.');}
-      if(effect.unavoidable)facts.push('Không thể né');
+      if(effect.unavoidable)facts.push('Hội Tâm · bỏ qua né');
     }
     if(effect.type==='heal'||effect.type==='shield'){
       const label=scalingLabel(effect,STAT_LABELS);
@@ -229,6 +230,7 @@ export function passivePresentation(actor,content) {
   const facts=[],rules=[];
   let summary='',name=p.name??({damage_reduction:'Bền bỉ',shield_break_heal:'Dư âm thủy hộ'}[p.type]??'Năng lực đặc trưng');
   switch(p.type){
+    case 'true_strike':summary=p.description;facts.push('Hội Tâm · mọi đòn tấn công');rules.push('Bỏ qua né tránh; vẫn tính phòng thủ, khiên và giảm sát thương.');break;
     case 'damage_penetration':summary='Phi lao xuyên giáp mà không cần điều kiện.';facts.push('Mọi đòn vật lí: xuyên '+pct(p.ratio)+' DEF');rules.push('Đánh thường và kỹ năng đều tính. Không thay đổi DEF thật của mục tiêu.','Cộng với xuyên giáp kỹ năng, trang bị và Thuốc Súng; tổng tối đa 100%.');break;
     case 'element_received_charge':summary='Mỗi hit Lôi từ kỹ năng hoặc Liên kích của phe mình tiếp sức cho Judy.';facts.push('+1 '+actor.resources[p.resource].name+'/hit/mục tiêu · tối đa '+actor.resources[p.resource].max);rules.push('Tính cả Judy; nhiều hit và diện rộng tạo theo từng lần gây sát thương HP/khiên.','Không tính đánh thường, phản công, Độc hoặc đòn của địch. Né hoàn toàn không tạo tầng.','Chiêu tiêu tầng chốt lượng tiêu trước; hit Lôi của chính chiêu đó có thể tạo tầng mới.');break;
     case 'powder_ally_followup':summary='Tiếp ứng kỹ năng công kích của đồng đội khác bằng một loạt đạn bất ngờ.';facts.push('Liên kích: 125% ATK chính / 85% ATK hai ô kề · Thường','Tối đa '+p.perRound+' lần/vòng · chọn mục tiêu chính ngẫu nhiên','Chiêu kích hoạt có dùng Thuốc Súng: xuyên thêm 10% DEF/viên ở mục tiêu chính · tạo 1 viên');rules.push('Hai ô kề không nối vòng. Không tự kích từ Isabelle, đánh thường, phản công hoặc Liên kích khác.','Vòng Chính và Vòng Phụ dùng chung giới hạn. Mỗi kỹ năng chỉ kích một lần dù có nhiều hit.','Toàn đội dùng Thuốc Súng: mỗi 5 MP thực trả tiêu 1 viên hiện có, tối đa 6; mỗi viên xuyên thêm 10% DEF/RES cho toàn chiêu.','Kỹ năng hỗ trợ cũng tiêu đạn. Trừ trước khi chiêu tạo thêm đạn; không đủ đạn vẫn thi triển.');break;
@@ -277,6 +279,7 @@ export function passivePresentation(actor,content) {
     case 'dodge_counter':{
       if(p.evasion){const counter=exclusiveDamageEffect(actor,p.counterAbility,content.abilities[p.counterAbility].effects.find(e=>e.type==='damage'));summary='Né vật lý lẫn phép; phản công tạo Sơ hở Quang.';facts.push('Né hiện tại: '+pct(nativeEvasion(actor,'physical'))+' · '+number(evasionBaseSpeed(actor))+' SPD căn bản',pct(p.evasion.baseChance)+' + '+pct(p.evasion.perBaseSpeed)+'/SPD căn bản · tối đa '+pct(p.evasion.cap),'Phản công: '+pct(counter.multiplier)+' ATK · Quang · +2 Sơ hở Quang · 1 lần/vòng');rules.push('SPD căn bản tính trang bị, Trấn Phái và bonus căn bản; không tính buff/debuff SPD theo %.','Né được đòn thường, kỹ năng đơn mục tiêu và từng hit diện rộng, kể cả phép; không né Độc hoặc đòn không thể né.','Vòng Chính/Vòng Phụ dùng chung giới hạn phản công; không phản công lồng từ phản ứng khác.','Sơ hở được gắn sau sát thương phản công, có thể bị Hộ ấn chặn.');break;}
 
+      rules.push('Phản công có Hội Tâm: bỏ qua né tránh.');
       name=p.name??'Phản kiếm';summary='Né thành công đòn vật lí sẽ phản công và tích Sơ hở.';facts.push(`Phản công: 85% ATK · +1 ${resourceName(actor,p.resource)} · 1 lần/vòng`);
       const slow=content.abilities[p.counterAbility]?.effects.find(effect=>effect.type==='status');
       if(slow){facts.push(`${signed(content.statuses[slow.status].modifiers.speed)} SPD mục tiêu trúng phản công`);rules.push('Đến hết lượt Vòng Chính kế tiếp của mục tiêu; cộng với hiệu ứng làm chậm khác.');}

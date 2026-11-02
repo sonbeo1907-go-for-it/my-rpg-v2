@@ -3186,9 +3186,14 @@
         "type": "status",
         "status": "young_oath",
         "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "true_strike",
+        "duration": 3
       }
     ],
-    "description": "Lập lời thề, tăng ATK bản thân.",
+    "description": "Lập lời thề, tăng ATK bản thân. Cấp Hội Tâm trong 3 lượt chính.",
     "skillLineId": "iwayn.oath",
     "growthProfile": "stat_buff",
     "rankable": true,
@@ -3406,9 +3411,14 @@
     "effects": [
       {
         "type": "grant_extra_turn"
+      },
+      {
+        "type": "status",
+        "status": "true_strike",
+        "duration": 1
       }
     ],
-    "description": "Cấp một Lượt Thêm, thực hiện trong Vòng Phụ của vòng này.",
+    "description": "Cấp một Lượt Thêm, thực hiện trong Vòng Phụ của vòng này. Cấp Hội Tâm trong 1 lượt chính.",
     "rules": [
       "Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.",
       "Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu."
@@ -4216,11 +4226,16 @@
       "mp": 12
     },
     "cooldown": 3,
-    "description": "Tăng MAG để cường hóa kiếm thuật.",
+    "description": "Tăng MAG để cường hóa kiếm thuật. Cấp Hội Tâm trong 3 lượt chính.",
     "effects": [
       {
         "type": "status",
         "status": "council_armament",
+        "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "true_strike",
         "duration": 3
       }
     ],
@@ -4879,7 +4894,7 @@
   {
     "id": "chloe.pounce",
     "name": "Vồ lấy sơ hở",
-    "description": "Bất ngờ vồ vào một đối thủ.",
+    "description": "Bất ngờ vồ vào một đối thủ. Có Hội Tâm: bỏ qua né tránh.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -4889,7 +4904,8 @@
         "type": "damage",
         "damageType": "physical",
         "element": "plain",
-        "multiplier": 1.8
+        "multiplier": 1.8,
+        "unavoidable": true
       }
     ],
     "skillLineId": "chloe.pounce",
@@ -5550,13 +5566,14 @@
     "name": "Ngươi vừa chạm vào ai?",
     "target": "enemy",
     "activation": "passive",
-    "description": "Phản đòn thật mạnh vào kẻ vừa dùng kỹ năng làm hại đồng đội khác.",
+    "description": "Phản đòn thật mạnh vào kẻ vừa dùng kỹ năng làm hại đồng đội khác. Có Hội Tâm: bỏ qua né tránh.",
     "effects": [
       {
         "type": "damage",
         "damageType": "physical",
         "element": "dark",
-        "multiplier": 4.2
+        "multiplier": 4.2,
+        "unavoidable": true
       }
     ],
     "skillLineId": "yumia.counter",

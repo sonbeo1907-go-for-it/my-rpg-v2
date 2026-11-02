@@ -414,5 +414,20 @@
       "cap": 25
     },
     "cooldownRounds": 0
+  },
+  {
+    "id": "unerring_signet",
+    "name": "Nhẫn Định Tâm",
+    "description": "Đầu vòng, nhận Hội Tâm đến hết vòng. Kích hoạt lại sau 2 vòng: một vòng có hiệu lực, một vòng nghỉ.",
+    "costClass": "common",
+    "effectGroup": "gear_true_strike",
+    "condition": "missing_status",
+    "cooldownRounds": 2,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "status",
+      "status": "true_strike_round",
+      "duration": 1
+    }
   }
 ]

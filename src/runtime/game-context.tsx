@@ -1,4 +1,8 @@
 "use client";
+import {createArenaBattle} from '../core/arena.js';
+import {forfeitArenaBattle} from '../core/arena-identity.js';
+import {saveArenaSession,takeAbandonedArena} from './arena-session.js';
+import {ARENA_PACING,arenaSkillName,arenaActionSummary} from '../ui/arena-experience.js';
 import {assertFortressLoadoutUnchanged} from '../core/fortress-session.js';
 import {enterFortress,moveFortress,leaveFortress,beginFortressEvent,performFortressService,actFortressEvent} from '../core/fortress.js';
 import {beginChronicleEvent,actChronicle} from '../core/chronicles.js';
@@ -22,6 +26,7 @@ import {
   activeActor,
   executeAction,
   executeEnemyTurn,
+  planArenaEnemyTurn,
 } from "../core/battle.js";
 import {prepareVictoryReward,victoryRewardText} from '../core/quest-rewards.js';
 import { claimBattleReward, victoryCoinReward } from "../core/economy.js";
@@ -48,6 +53,7 @@ const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(cont
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
+  startArena:(teamId:string,seed?:number)=>boolean;
   fortressCommand:(kind:string,payload?:any)=>Promise<boolean>;
   visitChronicle:(locationId:string,observe?:boolean)=>Promise<boolean>;
   actChronicleScene:(locationId:string,instanceId:string,stepId:string,actionId:string)=>Promise<boolean>;
@@ -192,6 +198,7 @@ export function GameProvider({
   };
   const publish = () => {
     const current = runtime.current;
+    if(current?.arena){try{saveArenaSession(localStorage,activeProfileId.current,current);}catch{}}
     const turn = current
       ? `${battleSerial.current}-${current.round}-${current.phase}-${current.cursor}-${activeActor(current)?.id}`
       : "";
@@ -202,14 +209,16 @@ export function GameProvider({
     if (current?.outcome === "victory" && !isContinuingVictory(current)) {
       if (music.current?.state().group !== "victory") music.current?.start("victory");
     } else if (current?.outcome && !isContinuingVictory(current)) music.current?.stop();
+    else if(current?.arena) music.current?.updateArena(current,battleSerial.current);
     else music.current?.setBattleOverride(current ? battlePresentation(current.actors)?.music : null);
     // Engine holds RNG functions/content references. Only publish serializable view data to React.
     setBattle(
       current
         ? {
-            presentation: battlePresentation(current.actors),
+            presentation: current.arena?null:battlePresentation(current.actors),
             teamResources:structuredClone(current.teamResources??{}),
             encounterId: current.encounterId,
+            arena:structuredClone(current.arena??null),
             chronicle:structuredClone(current.chronicle??null),
             questDifficulty:current.questDifficulty,enemyLevel:current.enemyLevel,xpAwards:structuredClone(current.xpAwards??[]),
             sessionId: battleSerial.current,
@@ -242,6 +251,31 @@ export function GameProvider({
         : [],
     );
   };
+  function recoverAbandonedArena(profile:any){
+    if(!profile||runtime.current?.chronicle)return;
+    const record=takeAbandonedArena(localStorage,profile.id);
+    if(!record||record.party.some((id:string)=>!content.characters[id]))return;
+    try{const saved={...profile.campaign,party:record.party};
+      const restored=createArenaBattle(content,saved,record.teamId,record.seed,{playerName:record.playerName});
+      restored.round=Number.isSafeInteger(record.round)&&record.round>0?Math.min(record.round,restored.arena!.maxRounds):1;
+      forfeitArenaBattle(restored);(restored.arena as any).recovered=true;runtime.current=restored;battleSerial.current++;publish();
+      notify('Trận Đấu Trường trước chưa kết thúc khi bạn thoát game · Xử thua.');
+    }catch{notify('Trận Đấu Trường đã rời được tính là thất bại.');}
+  }
+  function forfeitArena(){
+    if(forfeitArenaBattle(runtime.current)){publish();music.current?.stop();notify('Bạn đã rời trận Đấu Trường · Xử thua.');}
+  }
+  useEffect(()=>{
+    const current=runtime.current;
+    if(current?.arena){
+      if(path==='/battle')current.arena.enteredBattle=true;
+      else if(current.arena.enteredBattle&&!current.outcome)forfeitArena();
+    }
+  },[path,battle?.sessionId]);
+  useEffect(()=>{
+    const leave=()=>forfeitArena();window.addEventListener('pagehide',leave);
+    return ()=>window.removeEventListener('pagehide',leave);
+  },[]);
   useEffect(() => {
     let alive = true;
     if (!initializing.current) {
@@ -285,6 +319,7 @@ export function GameProvider({
         restoreChronicleRuntime(loaded);
         activeProfileId.current = chosen?.id ?? null;
         setActiveProfile(chosen);
+        recoverAbandonedArena(chosen);
         setEntered(Boolean(chosen));
         setReady(true);
       })
@@ -401,6 +436,7 @@ export function GameProvider({
   }
 
   async function claimReward() {
+    if(runtime.current?.arena)return;
     if(runtime.current?.chronicle){await claimChronicleFight();return;}
     if (
       !runtime.current ||
@@ -457,10 +493,28 @@ export function GameProvider({
       return;
     lock.current = true;
     setBusy(true);
+    const running=runtime.current;
+    const canContinue=()=>runtime.current===running&&!running.outcome;
+    const activity=(source:any,phase:string,skillName='')=>{
+      if(!running.arena)return;
+      const previous=running.arena.activity[source.team]??{};
+      running.arena.activity[source.team]={...previous,phase,sourceId:source.id,sourceName:source.name,skillName};publish();
+    };
+    const announce=async(source:any,cmd:any)=>{
+      const name=arenaSkillName(running.content,source,cmd);
+      activity(source,'casting',name);running.log.push(source.name+' đang dùng '+name+'…');publish();
+      await sleep(ARENA_PACING.announce);return name;
+    };
+    const resolved=(source:any,name:string)=>{
+      running.arena.activity[source.team]={phase:'resolved',sourceId:source.id,sourceName:source.name,skillName:name,summary:arenaActionSummary(source,name,running.events)};
+    };
     const delay = () => combatFeedbackDuration(runtime.current?.events??[],content,speedRef.current,document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     try {
       if (command) {
+        const source=activeActor(running),name=running.arena?await announce(source,command):'';
+        if(!canContinue())return;
         await performCombatStep(b=>executeAction(b,command));
+        if(running.arena)resolved(source,name);
         publish();
         await sleep(delay());
       }
@@ -469,7 +523,15 @@ export function GameProvider({
           !runtime.current.outcome &&
           activeActor(runtime.current)?.team === "enemy"
         ) {
-          await performCombatStep(b=>executeEnemyTurn(b));
+          const source=activeActor(running);let planned:any=null,name='';
+          if(running.arena){
+            activity(source,'thinking');await sleep(ARENA_PACING.think);
+            if(!canContinue())return;
+            planned=planArenaEnemyTurn(running);if(!planned)return;
+            name=await announce(source,planned);if(!canContinue())return;
+          }
+          await performCombatStep(b=>executeEnemyTurn(b,planned));
+          if(running.arena)resolved(source,name);
           publish();
           await sleep(delay());
         }
@@ -505,6 +567,18 @@ export function GameProvider({
       lock.current = false;
       setBusy(saveLock.current);
     }
+  }
+  function startArena(teamId:string,seed=1){
+    if(lock.current||saveLock.current||activeProfileId.current===null)return false;
+    if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài trước khi vào Đấu Trường.');return false;}
+    if(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==='victory'&&!runtime.current.rewardClaimed)){notify('Hãy kết thúc trận và nhận thưởng trước khi vào Đấu Trường.');return false;}
+    try{
+      const candidate=createArenaBattle(content,campaignRef.current,teamId,seed,{playerName:activeProfile?.username??'Người lữ hành'});
+      saveArenaSession(localStorage,activeProfileId.current,candidate);
+      runtime.current=candidate;
+      runtime.current.rewardClaimed=true;dungeonRun.current=null;
+      battleSerial.current++;setBattleUI({allyId:'',enemyId:'',skillId:'$attack'});publish();notify('');return true;
+    }catch(error){notify((error as Error).message);return false;}
   }
   function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number) {
     if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài qua cổng trước khi bắt đầu nội dung khác.');return false;}
@@ -605,6 +679,7 @@ export function GameProvider({
     }
   }
   function clearRuntime() {
+    forfeitArena();
     runtime.current = null;
     dungeonRun.current = null;
     setPendingBattleId(null);
@@ -636,6 +711,7 @@ export function GameProvider({
     campaignRef.current = profile.campaign;
     setCampaign(profile.campaign);
     restoreChronicleRuntime(profile.campaign);
+    recoverAbandonedArena(profile);
     setActiveProfile(profile);
     setEntered(true);
     setProfileError("");
@@ -670,8 +746,9 @@ export function GameProvider({
     sweepDungeon:(id,difficultyId)=>transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu."),
     dailyNow,refreshCommissions,
     claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
+    startArena,
     setAstoriaEnabled: (enabled) => transact(current => configureAstoria(current,enabled,{battleActive:Boolean(runtime.current && !runtime.current.outcome) || Boolean(dungeonRun.current && !runtime.current?.outcome)}), enabled ? "Đã bật Astoria · bản trùng 0." : "Đã tắt Astoria."),
-    content,
+    content:path==='/battle'&&runtime.current?.arena?runtime.current.content:content,
     profiles,
     saveDirectory,
     activeProfile,

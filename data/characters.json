@@ -233,7 +233,12 @@
       "rowan.pierce",
       "rowan.volley"
     ],
-    "roleGroup": "physical_dps"
+    "roleGroup": "physical_dps",
+    "passive": {
+      "type": "true_strike",
+      "name": "Mũi tên không lạc",
+      "description": "Mọi đòn tấn công của Rowan có Hội Tâm, bỏ qua né tránh."
+    }
   },
   {
     "id": "freya",

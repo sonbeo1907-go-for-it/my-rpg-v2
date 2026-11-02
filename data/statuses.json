@@ -1210,5 +1210,21 @@
       "attack": 0.5
     },
     "durationClock": "main_turn"
+  },
+  {
+    "id": "true_strike",
+    "name": "Hội Tâm",
+    "kind": "buff",
+    "bypassEvasion": true,
+    "durationClock": "main_turn",
+    "description": "Đòn tấn công bỏ qua né tránh. Không bỏ qua phòng thủ, khiên hoặc giảm sát thương. Không cộng dồn."
+  },
+  {
+    "id": "true_strike_round",
+    "name": "Hội Tâm",
+    "kind": "buff",
+    "bypassEvasion": true,
+    "durationClock": "round",
+    "description": "Đòn tấn công bỏ qua né tránh đến hết vòng."
   }
 ]

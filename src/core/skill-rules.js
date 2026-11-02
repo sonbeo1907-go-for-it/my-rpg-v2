@@ -27,7 +27,7 @@ export const coefficientFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.coefficie
 export const statBuffFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.statBuffGrowthPerRank**(rank-1);
 export const outputMpFactor=(rank,rules=DEFAULT_SKILL_RULES)=>Math.max(rules.outputBuffMpCostFloorRatio,rules.outputBuffMpMultiplierPerRank**(rank-1));
 export const skillLineId=skill=>skill.id==='$attack'?'basic':skill.skillLineId??skill.id;
-export const getActorSkillRank=(actor,skill)=>actor?.team==='enemy'?1:actor?.skillRanks?.[skillLineId(skill)]??1;
+export const getActorSkillRank=(actor,skill)=>(actor?.team==='enemy'&&actor?.actorKind!=='character')?1:actor?.skillRanks?.[skillLineId(skill)]??1;
 export const getSkillRank=(campaign,id,line)=>campaign.characters[id]?.skillRanks?.[line]??1;
 export function normalizeSkillRanks(ranks,level,rules=DEFAULT_SKILL_RULES){
  if(ranks===undefined)return {};

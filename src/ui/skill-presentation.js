@@ -97,7 +97,8 @@ export function passiveDescription(actor, content) {
   if (passive.type === 'speed_damage') return `${passive.name}: cộng ${percent(passive.ratio)} SPD hiện tại vào sát thương gốc của mỗi nhát vật lí, trước phòng thủ và điểm yếu. Áp dụng cho đánh thường và kỹ năng; tốc độ từ gear và buff đều có hiệu lực.`;
   if (passive.type === 'shield_break_heal') return `Khi khiên do ${actor.name} tạo bị phá, hồi tối đa ${Math.round(actor.stats.magic * passive.multiplier)} HP cho người mang khiên nếu cả hai còn đứng vững.`;
   if(passive.type==='dodge_counter'&&passive.evasion)return passive.name+': né vật lý và phép '+percent(nativeEvasion(actor,'physical'))+'; né thành công phản công và gắn 2 Sơ hở Quang, một lần mỗi vòng. SPD căn bản gồm trang bị, không gồm buff %.';
-  if (passive.type === 'dodge_counter') return `Né thành công sẽ phản công và tạo 1 ${actor.resources[passive.resource].name}, tối đa một lần mỗi vòng.`;
+  if (passive.type === 'true_strike') return passive.description;
+  if (passive.type === 'dodge_counter') return `Né thành công sẽ phản công có Hội Tâm và tạo 1 ${actor.resources[passive.resource].name}, tối đa một lần mỗi vòng.`;
   if (passive.type === 'magic_followup_mp') {
     const effect = content?.abilities[passive.followUpAbility]?.effects[0];
     const attack = effect ? `${percent(effect.multiplier ?? 1)} MAG hệ ${effect.element.toUpperCase()}` : 'một đòn phép';
@@ -183,7 +184,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if(effect.bonusVsExposure)lines.push('Gây thêm '+percent(effect.bonusVsExposure)+' sát thương nếu mục tiêu đang có Sơ hở bất kỳ.');
       if (effect.penetration) lines.push(`Xuyên ${percent(effect.penetration)} ${effect.damageType === 'physical' ? 'DEF' : 'RES'} của mục tiêu.`);
       if (effect.formulaScaling) { const power=formulaPower(actor,{correct:choices.formulaCorrect??0,contributors:choices.formulaContributors??0});lines.push((choices.live?'Hiện tại':'Giả định')+': '+power.correct+'/3 dấu đúng · +'+power.baseMagic+' MAG căn bản cho cả ba hit.'); }
-      if (effect.unavoidable) lines.push('Đòn đánh không thể né.');
+      if (effect.unavoidable) lines.push('Hội Tâm: bỏ qua né tránh.');
     }
     if (effect.type === 'heal' || effect.type === 'shield') {
       const label = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});

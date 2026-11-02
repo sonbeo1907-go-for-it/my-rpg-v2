@@ -8,7 +8,8 @@ export function AcademicEffects({events,sessionId,speed}:{events:any[];sessionId
   casts.forEach(event=>seen.current.add(event.visualId??event.key));if(seen.current.size>64)seen.current=new Set(casts.map(event=>event.visualId??event.key));
   const cast=casts.filter(event=>event.type==='ability_cast').at(-1)??casts.at(-1),kind=cast.presentation??'academic_record';
   const area=['academic_open','academic_edit','academic_record'].includes(kind);
-  const anchor=area?document.querySelector('.formula-board')??document.querySelector('.battlefield'):Array.from(document.querySelectorAll<HTMLElement>('[data-actor-id]')).find(card=>card.dataset.actorId===cast.targetId);if(!anchor)return;
+  const board=Array.from(document.querySelectorAll<HTMLElement>('[data-formula-owner]')).find(el=>el.dataset.formulaOwner===cast.sourceId);
+  const anchor=area?board??document.querySelector('.battlefield'):Array.from(document.querySelectorAll<HTMLElement>('[data-actor-id]')).find(card=>card.dataset.actorId===cast.targetId);if(!anchor)return;
   const rect=anchor.getBoundingClientRect();setEffect({key:`${sessionId}-${cast.visualId??cast.key}`,kind,perfect:cast.perfect,left:rect.left-12,top:rect.top-12,width:rect.width+24,height:rect.height+24});
   if(timer.current)clearTimeout(timer.current);timer.current=setTimeout(()=>setEffect(null),matchMedia('(prefers-reduced-motion: reduce)').matches?120:speed==='fast'?240:750);
  },[events,sessionId,speed]);

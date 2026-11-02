@@ -100,6 +100,7 @@ export function grantCharacterCopy(campaign, content, characterId) {
 
 // A failed persistence callback leaves both campaign and claim unchanged for a retry.
 export function claimBattleReward(campaign, battle, content, persist = () => {}, now = new Date()) {
+  if(battle.arena)throw Error('Đấu tập không cấp phần thưởng hoặc tiến độ.');
   if (battle.dungeon||content.encounters[battle.encounterId]?.category==='chronicle') return campaign; // Wave clears never grant Quest rewards or first-clear unlocks.
   if (battle.outcome !== 'victory' || battle.rewardClaimed) return campaign;
   const encounter = content.encounters[battle.encounterId];

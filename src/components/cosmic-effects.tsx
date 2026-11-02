@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, useState } from "react";
 
 type Effect = { id: string; kind: string; anchor: string; x: number; y: number; width: number; height: number };
 /** One bounded presentation per cast. Combat never waits on these animations. */
-export function CosmicEffects({ events, sessionId, speed }: { events: any[]; sessionId: number; speed: string }) {
+export function CosmicEffects({ events, sessionId, speed, arena=false }: { events: any[]; sessionId: number; speed: string; arena?:boolean }) {
   const [effect, setEffect] = useState<Effect | null>(null);
   const seen = useRef(new Set<string>());
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -13,14 +13,16 @@ export function CosmicEffects({ events, sessionId, speed }: { events: any[]; ses
     return () => { if (timer.current) clearTimeout(timer.current); };
   }, [sessionId]);
   useEffect(() => {
-    const casts = events.filter(event => event.type === "ability_cast" && event.presentation?.startsWith("cosmic_") && !seen.current.has(event.visualId??event.key));
+    const casts = events.filter(event => event.type === "ability_cast" && event.presentation?.startsWith("cosmic_") && !(arena&&event.presentation==="cosmic_summon") && !seen.current.has(event.visualId??event.key));
     if (!casts.length) return;
     for (const cast of casts) seen.current.add(cast.visualId??cast.key);
     // Retain only the recent batch; event history cannot grow with an endless run.
     if (seen.current.size > 64) seen.current = new Set(casts.map(event => event.visualId??event.key));
     const cast = casts.at(-1)!;
     const formation = cast.area || cast.presentation === "cosmic_summon";
-    const anchor = formation ? document.querySelector(".enemy-grid") : Array.from(document.querySelectorAll<HTMLElement>("[data-actor-id]")).find(card => card.dataset.actorId === cast.targetId);
+    const cards=Array.from(document.querySelectorAll<HTMLElement>("[data-actor-id]"));
+    const source=cards.find(card=>card.dataset.actorId===cast.sourceId);
+    const anchor = formation ? document.querySelector(source?.dataset.team==='enemy'?'.ally-grid':'.enemy-grid') : cards.find(card=>card.dataset.actorId===cast.targetId);
     if (!anchor) return;
     const rect = anchor.getBoundingClientRect();
     const pad = formation ? 28 : 40;
@@ -28,7 +30,7 @@ export function CosmicEffects({ events, sessionId, speed }: { events: any[]; ses
     if (timer.current) clearTimeout(timer.current);
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     timer.current = setTimeout(() => setEffect(null), reduced ? 120 : speed === "fast" ? 170 : 600);
-  }, [events, sessionId, speed]);
+  }, [events, sessionId, speed, arena]);
   if (!effect) return null;
   const burst = ["cosmic_annihilation", "cosmic_rupture", "cosmic_summon"].includes(effect.kind);
   return <div key={effect.id} className={`cosmic-fx ${effect.kind}`} data-fx-anchor={effect.anchor} aria-hidden="true" style={{ left: effect.x, top: effect.y, width: effect.width, height: effect.height, "--fx-duration": speed === "fast" ? "160ms" : "580ms" } as React.CSSProperties}>

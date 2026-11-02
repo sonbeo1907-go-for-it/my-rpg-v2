@@ -24,12 +24,14 @@ test("new profile, automatic loading, rename, switching and isolated progress wo
     "Arthur phương Bắc",
   );
   await expect(page.getByText("Export Save", { exact: true })).toHaveCount(0);
-  await page.getByRole("button", { name: "Đổi tên người chơi" }).click();
+  await page.locator(".home-profile").click();
+  await page.getByRole("button", { name: "Đổi tên người chơi",exact:true }).click();
   await page.getByLabel("Tên người chơi", { exact: true }).fill("Iris");
   await page.getByRole("button", { name: "Lưu", exact: true }).click();
   await expect(page.locator(".home-profile")).toContainText("Iris");
   await page.reload();
   await expect(page.locator(".home-profile")).toContainText("Iris");
+  await page.locator(".home-profile").click();
   await page.getByRole("button", { name: "Đổi hồ sơ", exact: true }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.locator(".profile-card")).toHaveCount(1);
@@ -46,6 +48,7 @@ test("new profile, automatic loading, rename, switching and isolated progress wo
     page.getByText("Đã lưu thay đổi.", { exact: true }),
   ).toBeVisible();
   await page.goto("/home");
+  await page.locator(".home-profile").click();
   await page.getByRole("button", { name: "Đổi hồ sơ", exact: true }).click();
   await page.locator(".profile-card").filter({ hasText: "Iris" }).click();
   await page.getByRole("button", { name: /^Tiếp tục/ }).click();
@@ -55,6 +58,7 @@ test("new profile, automatic loading, rename, switching and isolated progress wo
     "Đội 1",
   );
   await page.goto("/home");
+  await page.locator(".home-profile").click();
   await page.getByRole("button", { name: "Đổi hồ sơ", exact: true }).click();
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator(".profile-card")).toHaveCount(2);
@@ -102,6 +106,7 @@ test("legacy saves migrate automatically and a corrupted profile offers validate
   await page.getByRole("button", { name: /^Tiếp tục/ }).click();
   await expect(page).toHaveURL(/home$/);
   await expect(page.locator(".utility-wallet")).toContainText("1.234");
+  await page.locator(".home-profile").click();
   await page.getByRole("button", { name: "Đổi hồ sơ", exact: true }).click();
   await page.evaluate(() => {
     const key = "northern-prisma.profiles.v1",

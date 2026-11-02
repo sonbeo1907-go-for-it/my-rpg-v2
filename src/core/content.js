@@ -1,3 +1,5 @@
+import {validatePvpAi} from './arena-ai.js';
+import {validatePvpRules} from './pvp-rules.js';
 import {validatePowderContent} from './powder-combat.js';
 import {validateTacticalPassives} from './tactical-passives.js';
 import {validateStatTheft} from './stat-theft.js';
@@ -35,6 +37,8 @@ export function indexById(items) {
 // Validate references before running a game, rather than failing midway through a battle.
 export function validateContent(content) {
   const errors = [...validateStatTheft(content),...validateTeamResourceContent(content),...validatePowderContent(content),...validateTacticalPassives(content),...validateAdvancedCombat(content)];
+  errors.push(...validatePvpAi(content));
+  if(content.pvpRules?.default)errors.push(...validatePvpRules(content.pvpRules.default,content));
   const fail = message => errors.push(message);
   const exists = (collection, id, where) => {
     if (!content[collection] || typeof id !== 'string' || !Object.hasOwn(content[collection], id)) fail(`${where}: unknown ${collection} id "${id}"`);
@@ -84,7 +88,7 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
     if(native?.type==='defend_adjacent_mp'&&(!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1))fail(id+': invalid adjacent MP passive');
     if(actor.group==='agony'||actor.agony||native?.type==='agony_revenant'){
@@ -313,6 +317,7 @@ export function validateContent(content) {
   }
   for (const [id, status] of Object.entries(content.statuses)) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
+    if(status.bypassEvasion!==undefined&&(status.bypassEvasion!==true||status.kind!=='buff'))fail(id+': invalid evasion bypass');
     if(status.preventDeath!==undefined&&(status.preventDeath!==true||status.kind!=='buff'||status.durationClock!=='round'||status.persistent))fail(id+': invalid prevent death');
     if (status.weaknessMultiplier !== undefined && (status.kind !== 'buff' || !Number.isFinite(status.weaknessMultiplier) || status.weaknessMultiplier <= WEAKNESS_MULTIPLIER || status.weaknessMultiplier > 2 || status.modifiersPerStack || status.consumeOnAttack)) fail(id + ': invalid weakness multiplier');
     if (status.exposedElement !== undefined && (status.kind !== 'debuff' || !ELEMENTS.includes(status.exposedElement) || status.maxStacks !== 3 || status.modifiersPerStack || status.damageOverTime || status.consumeOnAttack)) fail(id + ': invalid elemental exposure');
@@ -459,4 +464,4 @@ export function assembleContent(collections) {
   return content;
 }
 
-export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects', 'progressionRules', 'chronicles', 'chronicleEvents'];
+export const COLLECTIONS = ['characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects', 'progressionRules', 'chronicles', 'chronicleEvents', 'pvpRules', 'pvpAiProfiles'];

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useGame } from "../runtime/game-context";
-import { Icon, fmt } from "./ui";
+import { Icon, Modal, fmt } from "./ui";
 import { DailyCommissions } from "./daily-commissions";
 import { BrandLogo } from "./brand-logo";
 import {
@@ -71,10 +71,10 @@ const menu = [
     side: "right",
   },
   {
-    href: "/recruitment",
-    name: "Chiêu Mộ",
-    sub: "Lời gọi từ định mệnh",
-    icon: "prism",
+    href: "/arena",
+    name: "Đấu Trường",
+    sub: "So tài cùng những ảnh gương",
+    icon: "sword",
     side: "right",
   },
 ];
@@ -86,6 +86,7 @@ export function HomePage() {
     renameProfile,
     busy,
   } = useGame();
+  const [profileMenu,setProfileMenu]=useState(false);
   const [renaming, setRenaming] = useState(false);
   const preset = campaign.partyPresets.find(
     (item: any) => item.id === campaign.activePartyPresetId,
@@ -96,9 +97,9 @@ export function HomePage() {
       <div className="home-shade" />
       <button
         className="home-profile"
-        aria-label="Đổi tên người chơi"
+        aria-label="Hồ sơ người chơi"
         disabled={busy}
-        onClick={() => setRenaming(true)}
+        onClick={() => setProfileMenu(true)}
       >
         <div className="profile-seal">
           <Icon name="shield" />
@@ -147,7 +148,8 @@ export function HomePage() {
           {battle.outcome ? "Xem kết quả trận" : "Tiếp tục trận đang chơi"} →
         </Link>
       )}
-      <SwitchProfileButton />
+      <Link className="home-summon-banner" href="/recruitment" aria-label="Chiêu Mộ · Tiếng gọi Prisma"><img src="/art/summon-invitation.svg" alt=""/><span><small>TIẾNG GỌI PRISMA</small><strong>Chiêu Mộ</strong><em>Ai đang chờ bước cùng ngươi? →</em></span></Link>
+      {profileMenu&&<Modal title="Hồ sơ người chơi" onClose={()=>setProfileMenu(false)}><div className="stack-actions"><button onClick={()=>{setProfileMenu(false);setRenaming(true);}}>Đổi tên người chơi</button><SwitchProfileButton className="button" onLeave={()=>setProfileMenu(false)}/></div></Modal>}
       {renaming && (
         <ProfileNameDialog
           title="Đổi tên người chơi"

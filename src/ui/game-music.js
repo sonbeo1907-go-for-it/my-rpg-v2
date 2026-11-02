@@ -1,14 +1,15 @@
+import {createArenaScore,advanceArenaScore,arenaMusicGroup} from './arena-music.js';
 import { createBattleMusic } from './battle-music.js';
 
 // Separate playback positions, shared controls. Only the current scene can play.
 export function createGameMusic({ content, audioFactory = () => document.createElement('audio'), enabled = true, volume = .35, onChange = () => {}, random = Math.random }) {
-  let scene = null, visible = true, override = null;
+  let scene = null, visible = true, override = null, arenaScore = null, arenaSession = null;
   const selected = () => scene === "battle" && override ? "override" : scene;
   let players;
   const state = () => selected() ? players[selected()].state() : { enabled, volume, track: null, group: null, finished: false, active: false, visible: false, playing: false, blocked: false, error: false };
   const report = () => onChange(state());
   const create = () => createBattleMusic({ content, audio: audioFactory(), enabled, volume, random, onChange: () => { if (players) report(); } });
-  players = { battle: create(), tavern: create(), shop: create(), override: create() };
+  players = { battle: create(), tavern: create(), shop: create(), override: create(), arena_menu: create() };
   function sync() {
     // Pause the outgoing scene before allowing the incoming scene to play.
     for (const [id, player] of Object.entries(players)) if (id !== selected()) player.setVisible(false);
@@ -17,9 +18,21 @@ export function createGameMusic({ content, audioFactory = () => document.createE
   }
   return {
     start(group, { preserveOverride = false } = {}) {
+      arenaScore = null; arenaSession = null;
       // A room change replaces the backing track while the summon keeps its position.
       if (!preserveOverride) { override = null; players.override.stop(); }
       players.battle.start(group);
+      sync();
+    },
+    updateArena(battle, sessionId) {
+      if (!battle?.arena || battle.outcome) return;
+      const fresh = arenaSession !== sessionId || !arenaScore;
+      if (fresh) { arenaSession = sessionId; arenaScore = createArenaScore(content, battle.actors, random); }
+      const next = fresh ? arenaScore : advanceArenaScore(arenaScore, battle.actors), changed = next !== arenaScore;
+      arenaScore = next;
+      if (!fresh && !changed) return;
+      override = null; players.override.stop();
+      players.battle.start(arenaMusicGroup(arenaScore));
       sync();
     },
     setBattleOverride(group) {
@@ -32,10 +45,10 @@ export function createGameMusic({ content, audioFactory = () => document.createE
       if (next) players.override.start(next); else players.override.stop();
       sync();
     },
-    stop() { override = null; for (const player of Object.values(players)) player.stop(); },
+    stop() { arenaScore = null; arenaSession = null; override = null; for (const player of Object.values(players)) player.stop(); },
     setRoute(path) {
-      scene = path === '/home' ? 'tavern' : path === '/shop' ? 'shop' : path === '/battle' ? 'battle' : null;
-      if ((scene === 'tavern' || scene === 'shop') && !players[scene].state().active) players[scene].start(scene);
+      scene = path === '/home' ? 'tavern' : path === '/shop' ? 'shop' : path === '/battle' ? 'battle' : (path === '/arena' || path.startsWith('/arena/')) && content.music.arena_menu ? 'arena_menu' : null;
+      if ((scene === 'tavern' || scene === 'shop' || scene === 'arena_menu') && !players[scene].state().active) players[scene].start(scene);
       sync();
     },
     setVisible(value) { visible = Boolean(value); sync(); },
