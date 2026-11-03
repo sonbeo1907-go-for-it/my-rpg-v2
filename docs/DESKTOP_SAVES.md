@@ -34,7 +34,7 @@ Bản xem trước trong trình duyệt: `npm run dev`, hoặc `npm run build` r
 
 Mỗi lần mở game hoặc bấm Làm mới: liệt kê `savedata<N>.json`, đọc JSON qua validator/migration hiện tại, hiện hồ sơ. File được đặt thủ công vào thư mục cũng được phát hiện; thiếu metadata sẽ có tên mặc định và có thể đổi tên trong game. File backup không xuất hiện thành hồ sơ. Save mới dùng ID lớn hơn ID hiện có; đổi tên không đổi file.
 
-`savedata<N>.json` dùng save v5, tự chuyển từ v4: campaign, tiền, nhân vật, gear, lịch nhận thưởng, năm đội hình và dữ liệu Thợ Rèn/Trấn Phái. Tên người chơi lưu riêng trong `profiles.json`. Đổi tên không sửa tên nhân vật Arthur. Âm thanh/tay cầm dùng chung trong localStorage của WebView.
+`savedata<N>.json` hiện dùng envelope v7, tự chuyển các phiên bản cũ hợp lệ qua game-save.js: campaign, tiền, nhân vật, gear, lịch nhận thưởng, năm đội hình và dữ liệu Thợ Rèn/Trấn Phái, Level, Rank, nhiệm vụ ngày và Chronicle. Tên người chơi lưu riêng trong `profiles.json`. Đổi tên không sửa tên nhân vật Arthur. Âm thanh/tay cầm dùng chung trong localStorage của WebView.
 
 ## Ghi dữ liệu và phục hồi
 
@@ -42,12 +42,12 @@ Mỗi lần mở game hoặc bấm Làm mới: liệt kê `savedata<N>.json`, đ
 - Native so revision với nội dung file để phát hiện sửa file từ ngoài; nếu lệch, yêu cầu chọn lại hồ sơ, không ghi đè.
 - Ghi file tạm cùng thư mục, flush dữ liệu và dùng atomic replace. File cũ được giữ trong backups trước khi thay thế.
 - Save hỏng vẫn hiện thành hồ sơ lỗi, không tự reset hoặc ghi đè. Nếu backup hợp lệ, nút Khôi phục yêu cầu xác nhận; file hỏng được giữ riêng.
-- Trận đấu / chuyến hầm ngục đang diễn ra vẫn chỉ ở RAM. Đổi hồ sơ yêu cầu xác nhận nếu có trận; chặn khi còn thưởng thắng chưa lưu. Đổi route giữ trận, đóng ứng dụng hoặc tải lại kết thúc trận dở dang.
+- Trận Quest/dungeon/farm thông thường chỉ ở RAM. Chronicle là ngoại lệ: chronicle-combat.js checkpoint battleSnapshot và RNG trong pending event; lỗi ghi rollback cả lượt. Không dùng câu “mọi trận đều không lưu” cho Chronicle. Đổi hồ sơ yêu cầu xác nhận nếu có trận; chặn khi còn thưởng thắng chưa lưu. Đổi route giữ trận. Đóng ứng dụng/tải lại làm mất trận Quest/dungeon thường; Chronicle phục hồi qua checkpoint riêng, Arena xử thua khi bỏ trận theo ARENA_EXPERIENCE.
 - Không có nút Import/Export hoặc route `/save/export`.
 
 ## Chuyển từ bản cũ
 
-Trong cùng trình duyệt/WebView, khi chưa có hồ sơ, adapter tự chuyển key campaign v1–v5 đang có thành hồ sơ đầu tiên. Chỉ đánh dấu bằng hồ sơ đã ghi thành công; giữ nguyên key cũ để có thể phục hồi. Nếu key cũ lỗi, hiện lỗi thay vì tạo save đè.
+Trong cùng trình duyệt/WebView, khi chưa có hồ sơ, adapter dò key campaign hiện hành và legacy theo profile-store, rồi chuyển dữ liệu hợp lệ thành hồ sơ đầu tiên. Chỉ đánh dấu bằng hồ sơ đã ghi thành công; giữ nguyên key cũ để có thể phục hồi. Nếu key cũ lỗi, hiện lỗi thay vì tạo save đè.
 
 Tauri không truy cập localStorage của Chrome/Edge khác. Để chuyển một JSON cũ đã có, đóng game, sao chép vào thư mục `saves` với tên `savedata<N>.json` chưa tồn tại rồi mở game. Chọn Tiếp tục sẽ chuyển schema cũ và giữ bản trước chuyển đổi trong backups. Không ghi đè slot khác.
 

@@ -1,5 +1,7 @@
 # Sieg và Minerva
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Cả hai là nhân vật chính thức trong banner thường và mục đổi Pure Prisma; ban đầu bị khóa, dùng lại quy tắc bản trùng và trang bị. Không đổi phiên bản save.
 
 ## Sieg · Kiếm sĩ Ngân Triều

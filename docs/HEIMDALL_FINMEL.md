@@ -1,5 +1,7 @@
 # Heimdall Valmont và Finmel — cấu hình playtest
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Hai nhân vật chính thức vào Chiêu Mộ thường, không tự cấp miễn phí. Không có nền bàn đấu, BGM hoặc combatMode mới; dùng VFX vật lí/phép/status sẵn có.
 
 | Nhân vật | Hệ / vai trò | HP | MP | ATK | MAG | DEF | RES | SPD |

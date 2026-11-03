@@ -37,13 +37,13 @@ Không giảm trần né của Chelsea xuống 90%. SPD trang bị, Trấn và p
 | Khó | 35 | 615 | 1.230 | 1.845 | ×1,75 |
 | Rất khó | 45 | 965 | 1.930 | 2.895 | ×2 |
 
-Thưởng farm giữ xác suất 50% Coin / 50% Vụn, làm tròn sau hệ số. Thưởng độc nhất dùng chung Quest ID giữa cả năm mức. Độ khó được giữ trong URL, kết quả và Đánh lại. Mặc định Normal ở Rất dễ; Boss/Truy Nã ở Trung bình, để phản ánh vị trí thử thách của chúng. Người chơi có thể chọn mọi mức ngay.
+Thưởng farm giữ xác suất 50% Coin / 50% Vụn, làm tròn sau hệ số. Thưởng độc nhất dùng chung Quest ID giữa cả năm mức. Độ khó được giữ trong URL, kết quả và Đánh lại. Mặc định Normal, Boss và Truy Nã đều ở Rất dễ (Lv5). Người chơi có thể chọn mọi mức ngay.
 
-Story không nhận EXP. Iris/Fiona/Takeshi lần lượt có cấp chương 5/15/20; truyện nhân vật gacha có 15/20/25. Hắc ảnh Arthur cấp 30, Alice/Miraebolis cấp 60 và không nhận EXP. Không có phạt chênh lệch cấp.
+Story không nhận EXP. Mọi truyện ba chương có cấp chương 10/20/30, gồm cả wave và phase; nhân vật gacha cũng theo quy tắc này. Hắc ảnh Arthur cấp 30, Alice/Miraebolis cấp 60 và không nhận EXP. Không có phạt chênh lệch cấp.
 
 ### Enemy & Encounter Scaling — tune 01/11/2026
 
-Quyết định mới của designer thay các mốc tham chiếu cũ: toàn bộ 59 template và 55 encounter dùng referenceLevel=1, bao gồm quái thường, truyện và siêu trùm. Giữ nguyên bảy stats gốc; chúng nay là chỉ số ở Lv1. Không còn ngoại lệ referenceLevel=60 cho Alice/Miraebolis hoặc ref15 cho Phi long Lôi.
+Quyết định mới của designer thay các mốc tham chiếu cũ: toàn bộ template và encounter hiện hành dùng referenceLevel=1, bao gồm quái thường, truyện và siêu trùm. Giữ nguyên bảy stats gốc; chúng nay là chỉ số ở Lv1. Không còn ngoại lệ referenceLevel=60 cho Alice/Miraebolis hoặc ref15 cho Phi long Lôi.
 
 HP chọn profile theo Encounter: rewardTier normal/boss/super → normal/boss/superboss; encounter.hpScalingProfile có thể ghi đè. Không phân loại Enemy thành Normal/Elite/Boss. Truy Nã dùng Boss, Hắc ảnh Arthur dùng Superboss như đã chốt.
 

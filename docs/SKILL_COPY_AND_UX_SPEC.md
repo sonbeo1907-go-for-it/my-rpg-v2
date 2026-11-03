@@ -1,5 +1,7 @@
 # Northern Prisma — Đặc tả mô tả kỹ năng và nhân vật
 
+> **QUY CHUẨN COPY + CATALOG THEO THỜI ĐIỂM.** Giữ nguyên nguyên tắc viết gọn và phân lớp thông tin. Số liệu kit/mô tả mẫu ở catalog có thể cũ: data + resolver + test hiện hành mới xác định hiệu lực. Xem ENGINE_RULES, GLOSSARY và MORI_SANDRA_TYWIN cho các thay đổi mới. Không copy hệ số cũ vào UI.
+
 Phiên bản 1.0 · 29/10/2026 · Áp dụng từ đợt rà soát 32 nhân vật hiện tại.
 
 ## 1. Mục tiêu và phạm vi

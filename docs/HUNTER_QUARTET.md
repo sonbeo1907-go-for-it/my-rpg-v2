@@ -1,5 +1,7 @@
 # Yufina, Karin, Elise, Yumia và đổi Original Prisma
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Bốn nhân vật chính thức trong Chiêu Mộ và đổi Pure Prisma, mặc định chưa sở hữu, bản trùng 0. Giữ save v6; `shopDaily` là dữ liệu bổ sung tùy chọn, save cũ tự nhận hạn mức chưa dùng.
 
 | Nhân vật | Hệ / Vai trò | HP | MP | ATK | MAG | DEF | RES | SPD |

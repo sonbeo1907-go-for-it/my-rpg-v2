@@ -1,5 +1,7 @@
 # Thanh gươm vượt biển và vĩ thanh Ogre’s Bane
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 ## Ba chương Takeshi
 
 Các tên chương dùng hình ảnh ngắn, gợi chất thơ; không tuyên bố là bài haiku theo niêm luật. Takeshi bắt buộc tham chiến trong cả ba chương. Mở tuần tự, phần thưởng đặc biệt chỉ nhận lần đầu.
@@ -26,7 +28,7 @@ Chương hai dùng story-waves.js hiện có; giữ HP, MP, trạng thái, khiê
 - **Pháp sư:** 130 HP, MAG 27, phép Hỏa đơn mục tiêu/diện rộng; không bị né vật lí.
 - **Tướng cướp:** 260 HP, ATK 31, đao đơn mục tiêu/diện rộng.
 
-Đều yếu Phong để Takeshi có đất diễn; mỗi loại còn có một điểm yếu phụ khác. Dùng asset/icon cơ bản, là dữ liệu quái có thể tái sử dụng cho encounter về sau; chưa đưa các chương truyện vào pool Quest thường hoặc dungeon.
+Điểm yếu các loại cướp đã được đa dạng hóa để tái sử dụng ngoài truyện Takeshi; tra enemies.json, không mặc định mọi cướp đều yếu Phong. Dùng asset/icon cơ bản, là dữ liệu quái có thể tái sử dụng cho encounter về sau; chưa đưa các chương truyện vào pool Quest thường hoặc dungeon.
 
 ## Ryoga
 

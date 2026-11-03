@@ -1,5 +1,7 @@
 # Vòng Phụ, nhân vật và Trấn Phái — 29/10/2026
 
+> **TÀI LIỆU LỊCH SỬ / ẢNH CHỤP.** Ảnh chụp đợt ra mắt; luật clocks/Rank và kinh tế đã mở rộng. Đọc ENGINE_RULES, SKILL_RANKS và T4_FORGE trước khi dùng thông số. Ảo Ảnh đã gỡ, giá craft Trấn hiện2400Vụn; replay Quest có reward ngẫu nhiên, không cố định150Coin.
+
 Triển khai theo hai bản thiết kế Helena → Lionel / 13 Trấn Phái và Vòng Phụ v4. Hầm Ngục Ảo Ảnh vẫn đóng; không bổ sung gameplay hầm ngục đó trong đợt này.
 
 ## Vòng Phụ

@@ -1,5 +1,7 @@
 # Logia, Amelia và Chloe
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Ba nhân vật chính thức của Hội Thợ Săn, dùng icon vai trò, silhouette và VFX nguyên tố cơ bản. Có trong Chiêu Mộ thường và danh sách đổi Pure Prisma; mặc định chưa sở hữu, không nhận thêm ô trang bị khi mở lần đầu. Không thay phiên bản save.
 
 | Nhân vật | Hệ / Vai trò | HP | MP | ATK | MAG | DEF | RES | SPD |

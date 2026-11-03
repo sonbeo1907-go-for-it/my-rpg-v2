@@ -1,5 +1,7 @@
 # Damage amp và Aldric / Rivia / Valery — playtest
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 ## Khuếch đại
 
 Mọi buff kỹ năng có damageBonus, attackMultiplier, damageVsShielded dùng mức lớn nhất đủ điều kiện trên từng hit. Iris, Artesia, Simon, Huyết Thệ Cuồng Đao, Sát Uy Dư Chấn, Phá Thành đã được quét. AttackMultiplier 2 tương đương +100%; Phá Thành chỉ tham gia khi mục tiêu có khiên ở đầu hit. Buff nhỏ hơn vẫn tiêu theo luật của chính nó: buff đòn kế tiêu khi dùng đòn, charge tiêu khi thực sự gây sát thương trực tiếp. Nhiều hit/diện rộng chỉ tiêu charge một lần/chiêu. Cloud tự động giữ luật cũ không hưởng/tiêu buff đòn kế; vẫn hưởng/tiêu charge. Phản công/Liên kích tính riêng. Nội tại, điểm yếu, debuff tăng sát thương nhận và gear là các nhóm riêng.

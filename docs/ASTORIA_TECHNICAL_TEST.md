@@ -1,6 +1,6 @@
 # Astoria · Technical test
 
-Astoria is opt-in per profile through Settings → Developer Option. It grants ownership with zero duplicates (3 gear slots). It never enters a banner or Pure Prisma recruitment pool. Disabling removes her from every party preset and unequips gear without deleting inventory. Changes are blocked during an unfinished battle/run. The existing v6 save envelope is retained; `developer.astoria` is a profile flag.
+Astoria is opt-in per profile through Settings → Developer Option. It grants ownership with zero duplicates (3 gear slots). It never enters a banner or Pure Prisma recruitment pool. Disabling removes her from every party preset and unequips gear without deleting inventory. Changes are blocked during an unfinished battle/run. The application save envelope is now v7; `developer.astoria` is a profile flag.
 
 ## Content
 

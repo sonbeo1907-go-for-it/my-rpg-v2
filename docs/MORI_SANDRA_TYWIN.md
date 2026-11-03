@@ -1,15 +1,43 @@
-# Mori / Sandra / Tywin — cấu hình playtest
+# Mori / Sandra / Tywin — cấu hình hiện hành
 
-Ba nhân vật chính thức trong pool thường; khóa với save mới và save cũ cho đến khi sở hữu. Dùng icon vai trò/VFX vật lí, phép cơ bản; không có background riêng.
+Cập nhật03/11/2026. Ba nhân vật chính thức trong pool thường; save chưa sở hữu vẫn khóa. Dùng asset vai trò chung, không có background riêng. Số dưới đây là stat thô và Rank1.
 
-Mori:175HP/70MP,30ATK/10MAG/17DEF/16RES/32SPD. Chuyển25% SPD căn bản thành ATK căn bản, cap25 tại100SPD; tính gear và phân bổ, không tính buff SPD%. Mở rộng stat_conversion với cap, không đổi đường tính Mandred cũ. Đơn200%/8MP, giảm20%DEF2lượt; Lôi Kiếm Vô Câu24MP/CD3 cấp Hộ Ấn cả đội, tự40%ATK2lượt chính và Lượt Thêm; AoE280%/20MP/CD3, chậm15%SPD2lượt và xóa2buff mỗi địch. Theo clock hiện tại: castR1, buff hết sau lượt chínhR3, R4 là downtime, dùng lạiR5. Lượt Phụ không tiêu thời hạn buff hay giảm CD.
+| Nhân vật | HP | MP | ATK | MAG | DEF | RES | SPD |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Mori |175|70|30|10|17|16|32|
+| Sandra |155|130|10|34|15|27|18|
+| Tywin |180|65|33|12|18|18|25|
 
-Sandra:155HP/130MP,10ATK/34MAG/15DEF/27RES/18SPD. Nội tại+30% sát thương nếu mục tiêu không có buff, xét từng hit. Sắc Lệnh24MP/CD6 xóa toàn bộ buff trước rồi cấp2 Phong Ấn mỗi địch; Phán Quyết280%MAGAoE/22MP/CD2; Nhiễu150%MAGAoE/14MP khôngCD và cấp1 Nhiễu Ma Lực. Số lần được cấp qua effect.charges, không dùng stack; mỗi người có charges riêng, tái cấp làm mới số lần, không cộng dồn. Rank không tăng số lần.
+## Mori — vật lí Lôi
 
-Tywin:180HP/65MP,33ATK/12MAG/18DEF/18RES/25SPD. Nội tại Tĩnh Tâm Như Thủy tăng20%RES. Thương Lưu180%/8MP kèm Vết Thương Sâu2lượt chính. Tẩy Trần10MP/CD2 giải toàn bộ debuff cho mình và một đồng đội khác (excludeSelf, không nhận xác chết). Thủy Nguyệt350%/16MP/CD2 có Hội Tâm riêng cho đòn này, không cấp Hội Tâm lâu dài. Không tự thêm hồi máu.
+Nội tại chuyển25% SPD căn bản thành ATK căn bản, cap25 tại100SPD. Gear và phân bổ được tính, buff SPD% không tính. Adapter stat_conversion có cap; không thay đường Mandred cũ.
 
-Rank: hệ số damage tăng10%/rank, buff ATK tăng5% tương đối/rank; debuff, dispel, charges và lượt thêm giữ nguyên. Ai chung dùng forecast hiện tại và hồ sơ chiến thuật của từng người, cùng luật cho hai bên Arena.
+- Nhất Trảm — Rạch Sấm:8MP,200%ATK, giảm20%DEF trong2 lượt chính.
+- Lôi Kiếm Vô Câu:24MP/CD3, Hộ Ấn cả đội, tự tăng40%ATK trong2 lượt chính, nhận Lượt Thêm.
+- Vạn Lý Lôi Vũ:20MP/CD3,280%ATK diện rộng, giảm15%SPD trong2 lượt chính và xóa2 buff mỗi địch.
 
-Balance patch: Sandra chuyển sang Thuật Sư, profile AI/silhouette/icon theo roleGroup. CD có sẵn giảm1 (Sắc Lệnh7→6, Phán Quyết giữ CD2 (bản điều chỉnh tiếp theo)), Nhiễu giữ khôngCD. Sắc Lệnh có presentation edict_interdict: một sách lệnh trên đội hình đích và một dấu cấm trên mỗi mục tiêu, kể cả khi không xóa được buff; không gây thêm damage hoặc đổi background. VFX dùng targetIds/ID đơn vị, hoạt động đối xứng PvE/Arena; nhanh và giảm chuyển động dùng timeline hiện có.
+Dùng tự buff ởR1: hết sau lượt chínhR3, R4 downtime, dùng lạiR5. Lượt Phụ không trừ thời hạn buff main_turn hoặc CD.
 
-Phán Quyết: 280% MAG, CD2. VFX sách lệnh và dấu phong ấn chỉ tồn tại trong hoạt ảnh thi triển, được dọn ở cuối timeline; debuff vẫn giữ số lần còn lại. Phong Ấn là status engine dùng chung (`buff_seal`, `effect.charges`), không độc quyền Sandra.
+## Sandra — Thuật Sư Thổ
+
+Nội tại tăng30% sát thương lên mục tiêu không có buff, xét từng hit; khiên/status bất lợi riêng không tính là buff.
+
+- Sắc Lệnh — Cấm Viện Dẫn:24MP/CD6, xóa hết buff rồi cấp2 Phong Ấn mỗi địch.
+- Địa Thư — Phán Quyết Cuối:22MP/CD2,280%MAG diện rộng; không thêm debuff.
+- Điều Khoản — Nhiễu Ma Lực:14MP, khôngCD,150%MAG diện rộng, cấp1 Nhiễu Ma Lực mỗi địch.
+
+Sắc Lệnh dùng presentation edict_interdict: một sách lệnh trên đội hình đích và một dấu phong ấn trên mỗi mục tiêu, kể cả khi không có buff để xóa. Cả hai **chỉ là VFX thi triển**, tự gỡ sau timeline; debuff Phong Ấn còn nguyên số lần. Không đổi background hoặc combatMode.
+
+Phong Ấn là status reusable buff_seal, không độc quyền Sandra. effect.charges cấp số lần riêng, tái cấp làm mới, không cộng dồn hoặc tăng theo Rank. Nhanh/reduced motion dùng timeline chung; targetIds/actor ID giữ đúng hai phe Arena.
+
+## Tywin — vật lí Thủy
+
+Nội tại Tĩnh Tâm Như Thủy tăng20%RES.
+
+- Thủy Kiếm — Thương Lưu:8MP,180%ATK, Vết Thương Sâu2 lượt chính.
+- Tẩy Trần Song Ảnh:10MP/CD2, giải debuff cho bản thân và đúng một đồng đội khác còn sống, không hồiHP.
+- Nhất Kiếm — Thủy Nguyệt:16MP/CD2,350%ATK, Hội Tâm riêng đòn này; không cấp buff Hội Tâm lâu dài.
+
+## Rank và kiểm tra
+
+Damage tăng10% tương đối/Rank; buff ATK Mori tăng5% tương đối/Rank. Debuff, dispel, charges và Lượt Thêm giữ nguyên. AI dùng forecast chung/profile riêng. Test: test/mori-sandra-tywin.test.js, test/recipient-statuses.test.js, e2e/mori-sandra-tywin.spec.ts (gồm VFX đã gỡ nhưng status còn2 lần).

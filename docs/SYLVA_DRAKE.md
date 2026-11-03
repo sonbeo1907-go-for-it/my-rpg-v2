@@ -1,5 +1,7 @@
 # Sylva, Drake và điều chỉnh Chloe
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Hai nhân vật chính thức thuộc lớp Thuật Sư; có trong Chiêu Mộ thường và đổi Pure Prisma. Mặc định chưa sở hữu, mức bản trùng 0, không đổi phiên bản save.
 
 | Nhân vật | Hệ | HP | MP | ATK | MAG | DEF | RES | SPD |

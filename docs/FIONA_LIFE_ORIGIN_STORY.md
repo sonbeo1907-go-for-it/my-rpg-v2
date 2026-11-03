@@ -1,5 +1,7 @@
 # Cội nguồn của sự sống — Fiona
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 ## Chương và mở khóa
 
 Fiona bắt buộc tham chiến cả ba chương. Hoàn thành theo thứ tự; phần thưởng đặc biệt chỉ nhận lần đầu, ô trang bị dùng chung giới hạn 6 ô với bản trùng. Nếu đã đủ ô, không phát ô vượt giới hạn hay đổi thành tiền.

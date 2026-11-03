@@ -53,7 +53,7 @@ Truyện Lữ Hành, siêu trùm và phần thưởng cuối hầm ngục giữ 
 
 12 món/trang desktop, 6 món/trang mobile; áp dụng túi đồ, màn trang bị, danh sách phân rã, nguyên liệu T3, T4 sở hữu và Trấn Phái trong túi. LT/RT đổi trang của danh sách đang mở; LB/RB vẫn đổi tab. Đổi bộ lọc/sort về trang 1; chọn nhiều món phân rã có thể giữ qua các trang.
 
-Save ứng dụng vẫn v6: thêm các trường tùy chọn `craftedGearSerial`, `pendingGearReforge` với mặc định 0/null cho save cũ. Bộ kiểm tra xác thực metadata T4, số tổng, ID, bộ đếm, kết quả chờ và các món đang trang bị. Không chỉnh file save thật trong quá trình kiểm tra.
+Save ứng dụng hiện v7 (các trường T4 được thêm từ v6): thêm các trường tùy chọn `craftedGearSerial`, `pendingGearReforge` với mặc định 0/null cho save cũ. Bộ kiểm tra xác thực metadata T4, số tổng, ID, bộ đếm, kết quả chờ và các món đang trang bị. Không chỉnh file save thật trong quá trình kiểm tra.
 
 Nguồn chính: `data/gearEffects.json`, `data/blacksmith.json`, `data/economy.json`; adapter dùng lại: `gear-rules.js`, `gear-forge.js`, `gear-effects.js`, `quest-rewards.js`.
 

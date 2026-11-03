@@ -1,5 +1,7 @@
 # Arthur — Nâng cấp Kiểm soát hoàn toàn (phần thưởng vĩ thanh)
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Nâng cấp data-driven arthur.complete_control, order 20, chờ cờ mới arthur.full_control_story_cleared. Chỉ chiến thắng epilogue_unfinished mới cấp cờ này: hoàn thành cả ba truyện Iris/Fiona/Takeshi và bắt buộc Arthur tham chiến. Không tự cấp qua migration hay Developer Option. Save mới và save đang có Kiểm soát vẫn giữ nguyên bộ kỹ năng đang sở hữu.
 
 Khi sau này cấp cờ: thay bản Bất kham hoặc Kiểm soát bằng Kiểm soát hoàn toàn, đồng thời mở Thiểm Quang Kiếm. Không đổi bản Kiểm soát hiện có thành bản mạnh hơn cho mọi người. Nâng cấp cũ và Giải phóng một phần vẫn giữ nếu đã sở hữu.

@@ -1,40 +1,26 @@
-# Câu chuyện lữ hành
+# Câu chuyện Lữ Hành
 
-## Nội dung hiện có
+`/stories`: ba bìa/trang desktop, một bìa/trang mobile, phân trang URL. Catalog ở data/travelerStories.json; `/stories/:id` dùng luồng chọn Quest. Takeshi/Fiona đã có nội dung, không còn placeholder.
 
-- `/stories`: kệ sách, 3 bìa/trang trên desktop, 1 bìa/trang dưới 700px. Trang đang xem nằm trong URL.
-- `/stories/iris`: ba chương chơi tuần tự. Hai chương đầu mở mỗi chương một ô trang bị, tối đa 6; không cấp thêm Pure Prisma. Chương cuối yêu cầu Iris thực sự tham chiến và mở Đúc kết thực địa.
-- `/stories/takeshi` và `/stories/fiona`: bìa và trang chờ nội dung. Không có màn chiến đấu hay tự cấp nâng cấp.
+## Quyền vào và Level
 
-## Thêm truyện và chương
+Iris, Takeshi, Fiona là ba truyện nhập môn. Sách order>3 cần hoàn thành finales cả ba, độc lập số bìa trên mobile (story-gates.js). Chương sau cần first-clear chương trước. Ba chương cố địnhLv10/20/30, gồm mọi wave/phase; epilogue Arthur riêngLv30.
 
-1. Khai báo sách trong `data/travelerStories.json`: `id`, `characterId`, `name`, `subtitle`, `description`, `art`, `order`, `chapters`.
-2. Thêm encounter bình thường trong `data/encounters.json`, gắn `travelerStory` bằng ID sách. `chapters` quyết định thứ tự.
-3. Từ chương thứ hai đặt `requires.firstClear` bằng ID chương ngay trước. Engine kiểm tra trước khi tạo trận; URL không bỏ qua được khóa.
-4. Đặt `requiredPartyIds` nếu một nhân vật phải tham chiến. Phần thưởng xét đội đã chiến đấu, kể cả nhân vật bị hạ gục; không xét đội đang chỉnh sau trận.
-5. `firstClearRewards` hỗ trợ `gear_slot` với `characterId`, hoặc `upgrade` với `upgradeId`. Dùng giao dịch lưu thưởng hiện có; chỉ nhận một lần sau khi lưu thành công.
-6. Chương truyện không tham gia bảng Quest thường hay pool Mỏ Vàng/Hiểm Nguy. Cùng engine combat và BGM hiện có; kết quả dẫn về đúng trang truyện.
+Nhân vật gacha không bắt sở hữu hoặc tham chiến để chơi truyện, trừ requiredPartyIds được chỉ định. Takeshi bắt buộc cả ba màn, Iris ở chương cuối, Arthur ở epilogue. Engine kiểm tra quyền vào/đội hình, không chỉ ẩn nút UI.
 
-## Nâng cấp đã dựng, chưa mở trong nội dung chơi
+## Phần thưởng
 
-| Nâng cấp | Cờ cốt truyện |
-| --- | --- |
-| Fiona: Khúc xạ hoàn thiện | `fiona.refraction_story_cleared` |
-| Fiona: Hội tụ Prisma | `fiona.origin_story_cleared` |
-| Takeshi: Tâm nhãn kiếm sĩ | `takeshi.overseas_story_cleared` |
+Không cấp EXP. Thưởng lần đầu/gear slot/upgrade/recipe theo encounter, commit sau persist. Truyện gacha thường I/II5 Pure+500 Coin, III5 Pure+1 Original; công thức Trấn ở chươngII nếu có khai báo. Không suy ra tặng nhân vật hay đổi sang Blueprint.
 
-Chỉ gắn các nâng cấp này vào phần thưởng khi có chương truyện tương ứng. Hiện không tự thêm cờ cho save mới hoặc save cũ.
+Iris/Fiona/Takeshi có nâng cấp và ô gear riêng. Fiona đã có Tia sáng le lói, Takeshi đã mở Tâm nhãn kiếm sĩ qua chươngIII. Hoàn thành cả ba mở epilogue Hắc ảnh Arthur; thắng mở hai nâng cấp Ogre’s Bane. Sáu starter không dùng nguồn10 Blueprint của20 Trấn mới.
 
-## Các khả năng engine dùng lại
+## Thêm chương
 
-- Upgrade `set_passive`: thay nội tại qua tiến trình, lưu bằng `upgradeIds` và cờ truyện hiện có; không đổi schema save.
-- Status effect `extraStacksIfPresent`: xét snapshot trước toàn bộ chiêu, thêm tầng trên từng mục tiêu; tôn trọng `maxStacks` và miễn nhiễm hiệu ứng.
-- Ability `requiresTargetStatus`: lọc mục tiêu hợp lệ và chặn chiêu trước khi tiêu MP. Hội tụ cần ít nhất một mảnh; hệ số 50% + 100% MAG/mảnh, 12 MP, cooldown 1. Theo engine, dùng vòng 1 thì dùng lại vòng 3.
-- Nội tại `buffed_ally_mp`: cấu hình `statusIds`, `amount`, `weaknessBonus`. Kiểm tra đúng nguồn buff và đồng đội khác còn sống; sát thương vào khiên và đòn kết liễu hợp lệ. Đòn nhiều hit/AoE xét cả hành động; phản công, Liên kích và Vòng Phụ dùng chung hạn mức vòng chính. Không tự tạo Dữ liệu. Hiện áp dụng cho sát thương đòn đánh, không áp dụng tick độc.
-- Nội tại `dodge_counter.counterAbility`: gọi một ability bị động từ dữ liệu khi né thành công; giữ giới hạn một phản công/Sơ hở mỗi vòng. Bản nâng cấp thêm Kiếm áp -15% SPD, cộng với Percival.
-- Status `durationClock: main_turn`: Vòng Phụ không trừ thời hạn. Kiếm áp mới gắn trong đòn địch tồn tại đến hết lượt chính kế tiếp của địch. Hàng đợi chính không đổi giữa vòng; Vòng Phụ vẫn sắp lại theo SPD lúc vào phase.
-- AI ưu tiên: `unshielded`, `ally_unshielded`, `ally_hp_below` + `ratio`, `missing_status` + `statusId`. Kiểm tra tài nguyên, hồi chiêu và mục tiêu trước khi chọn; hỗ trợ hồi phục phe địch trong trận đấu đội.
+1. Sách khai báo id/characterId/name/art/order/chapters; đổi tên giữ ID.
+2. Encounter khai báo travelerStory, requires.firstClear, requiredPartyIds nếu cần; level10/20/30, referenceLevel1.
+3. firstClearRewards qua handler/validator chung; upgrade qua story-events, không sửa global definition.
+4. Không đưa chương vào pool dungeon/Quest thường. Dùng story-waves, tổng thưởng cuối và đường trở về đúng chương.
+5. Bìa SVG local, không nhúng text/script/mạng ngoài. Bìa vật thể không buộc có người. Ba art Sieg/Monica/Victorina đã được người dùng cung cấp bản thay, không sinh đè từ generator cũ.
+6. Test khóa/URL/đội bắt buộc/retry save/migration/thưởng một lần/XP0/Level/UI và tay cầm.
 
-## Kiểm tra khi bổ sung nội dung
-
-Chạy `npm.cmd run validate`, `npm.cmd test`, `npm.cmd run build`, và các kiểm thử Playwright. Kiểm tra thứ tự chương, thưởng không lặp, lưu thất bại, save cũ, vai trò bắt buộc, đường trở về và phân trang mobile.
+Chi tiết ở FIONA_LIFE_ORIGIN_STORY, TAKESHI_EPILOGUE, ARTESIA_STORY, CHELSEA và COMPANION_EXCLUSIVES. Log mô phỏng trước Level/Rank không phải chứng cứ balance hiện hành.

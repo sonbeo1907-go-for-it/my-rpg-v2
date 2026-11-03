@@ -1,5 +1,7 @@
 # Noctis và điều chỉnh Lunarmare
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Noctis là DPS vật lí hệ Ám, thuộc phe Vertosse, không mang họ Vertosse. Nhân vật vào pool Chiêu Mộ thường; không tự cấp miễn phí. Chỉ cần có Noctis trong đội là tạo bảng Bằng Chứng Đanh Thép dùng chung, cùng định nghĩa với Selene, Simon và Genevieve.
 
 | HP | MP | ATK | MAG | DEF | RES | SPD |

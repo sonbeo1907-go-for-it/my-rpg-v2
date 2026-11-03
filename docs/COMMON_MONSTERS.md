@@ -1,5 +1,7 @@
 # Quái thường và Quest dễ
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Mười loại quái dùng cơ chế engine hiện có. Có thể dùng ID trong `encounter.enemies`, lặp ID để thêm nhiều cá thể. Tất cả tám Quest mới dùng `rewardTier: normal`, `bgm: normal`, nhận 50 Coin mỗi chiến thắng; không có thưởng lần đầu riêng.
 
 | ID | Quái | HP | Điểm yếu | Đặc điểm |

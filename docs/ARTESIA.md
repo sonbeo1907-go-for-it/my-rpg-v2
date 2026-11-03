@@ -1,5 +1,7 @@
 # Artesia — cấu hình playtest
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Hỗ trợ tấn công Quang, Học viện Ma pháp, đánh thường phép theo MAG. HP 150 / MP 120 / ATK 10 / MAG 30 / DEF 15 / RES 25 / SPD 22.
 
 - Quỹ Đạo Song Tinh: chủ động dùng Phòng thủ hồi 3% MP tối đa hiện tại cho mỗi đồng đội kề, làm tròn lên. Nối vòng 1↔4; không nén ô trống hoặc người gục. Hoạt động cả Vòng Phụ, không tự kích khi bị choáng.

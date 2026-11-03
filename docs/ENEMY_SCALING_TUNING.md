@@ -4,7 +4,7 @@
 
 ### Enemy & Encounter Scaling — tune 01/11/2026
 
-Quyết định mới của designer thay các mốc tham chiếu cũ: toàn bộ 59 template và 55 encounter dùng referenceLevel=1, bao gồm quái thường, truyện và siêu trùm. Giữ nguyên bảy stats gốc; chúng nay là chỉ số ở Lv1. Không còn ngoại lệ referenceLevel=60 cho Alice/Miraebolis hoặc ref15 cho Phi long Lôi.
+Quyết định mới của designer thay các mốc tham chiếu cũ: toàn bộ template và encounter hiện hành dùng referenceLevel=1, bao gồm quái thường, truyện và siêu trùm. Giữ nguyên bảy stats gốc; chúng nay là chỉ số ở Lv1. Không còn ngoại lệ referenceLevel=60 cho Alice/Miraebolis hoặc ref15 cho Phi long Lôi.
 
 HP chọn profile theo Encounter: rewardTier normal/boss/super → normal/boss/superboss; encounter.hpScalingProfile có thể ghi đè. Không phân loại Enemy thành Normal/Elite/Boss. Truy Nã dùng Boss, Hắc ảnh Arthur dùng Superboss như đã chốt.
 
@@ -31,4 +31,4 @@ Chi tiết công thức: [ENEMY_SCALING_TUNING.md](ENEMY_SCALING_TUNING.md). Bá
 
 Nguồn cấu hình: data/progressionRules.json. Điểm chuyển/trọng số cho ATK/MAG và DEF/RES là accelerateAfterLevel=30, lateGrowthWeight=2; designer có thể tune riêng từng nhóm. Curve HP vẫn cấu hình theo Encounter, không thêm phân loại Enemy.
 
-Raw stats của59 enemy không đổi. Save v7, player cap50, skill coefficient, cơ chế né/khiên, gear, điểm phân bổ và thưởng không đổi.
+Đợt tune curve không tự sửa raw stats; các bản balance riêng có thể đổi dữ liệu nhân vật/quái. Save v7, player cap50, skill coefficient, cơ chế né/khiên, gear, điểm phân bổ và thưởng không đổi.

@@ -1,5 +1,7 @@
 # Charlemagnes and Kreider
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Both characters enter the standard banner and its Pure Prisma recruitment pool. Existing rates, pity, duplicates and gear-slot rules remain unchanged; neither is unlocked for free. Save v6 is retained.
 
 ## Charlemagnes · Đại tướng Kị sĩ đoàn

@@ -9,6 +9,12 @@ Official Wind / Thuật Sư character. HP160 MP150 ATK12 MAG34 DEF15 RES24 SPD24
 | Lỗ Hổng Thời Gian | 20 MP, CD2 | One 320% MAG Wind hit; 25% RES penetration |
 | Đảo lộn thời không | 30 MP, CD4 | Prioritize caster's team in the remaining queue, for current + next round |
 
+## Arena and presentation revisions
+
+Arena uses a separate `speed_shift` field: +15% allied SPD / −15% enemy SPD, not team priority. It is still a field, not buff/debuff. Monica is not hard-banned and uses the generic AI policy. PvE retains team priority. See [BALANCE_TIME_AND_MODES](BALANCE_TIME_AND_MODES.md) and [PVP_RULES_AI](PVP_RULES_AI.md).
+
+The ordering paragraphs below describe the PvE team-priority field. The current turn rail is a non-wrapping, horizontally scrollable animated track; it does not wrap chips on mobile. See [TURN_ORDER_MOTION](TURN_ORDER_MOTION.md).
+
 ## Shared ordering contract
 
 `turn_order_field` is a reusable battlefield effect. It is not an actor status or an extra-turn grant. A field stores its priority team, source, name and absolute expiry round. Same field reapplication refreshes duration, without stacking. A replacement uses the latest priority team. Caster death does not remove a field early.
@@ -28,6 +34,6 @@ Freeze eligibility before effects resolve. Add the flat bonus before all MAG per
 
 ## UI
 
-`TurnOrder` is a separate component. While the field is active it shows a named hourglass badge with remaining rounds and an accessible tooltip. A noninteractive hourglass divider appears at each actual team boundary in the pending queue. If only one team's turns remain, the divider disappears and the badge stays visible. No independent visual regrouping is allowed: the chip order always matches the engine queue.
+`TurnOrder` is a separate component. While the field is active it shows a named hourglass badge with remaining rounds and an accessible tooltip. For the PvE team-priority field, a noninteractive hourglass divider appears at each actual team boundary in the pending queue. If only one team's turns remain, the divider disappears and the badge stays visible. No independent visual regrouping is allowed: the chip order always matches the engine queue.
 
-The shared hourglass SVG is used for both the badge and divider. Mobile wraps the chips and badge without horizontal overflow. Expired fields remove both indicators.
+The shared hourglass SVG is used for both the badge and divider. Mobile keeps the chip track on one scrollable line without page-level overflow. Expired fields remove both indicators.

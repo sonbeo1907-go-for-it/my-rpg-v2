@@ -1,5 +1,7 @@
 # Migration sang React + Next.js
 
+> **TÀI LIỆU LỊCH SỬ / ẢNH CHỤP.** Kế hoạch/chụp trạng thái ngày 28/10/2026, không phải hiện trạng. Static export/Tauri, save v7, dungeon và Level đã thay nhiều phần; đọc HANDOFF/ARCHITECTURE.
+
 Ngày: 28/10/2026. Nguồn: E:\MyRPG. Đích: E:\MyRPGv2.
 
 ## Những gì được giữ

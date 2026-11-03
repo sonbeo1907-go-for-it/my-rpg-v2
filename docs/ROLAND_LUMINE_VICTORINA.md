@@ -1,5 +1,7 @@
 # Roland, Lumine và Victorina
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Cả ba thuộc nhóm Chiêu Mộ thường, gồm quay banner và đổi Pure Prisma. Không mở miễn phí. Dùng lại quy tắc bản trùng, trang bị, biểu tượng vai trò và save hiện có.
 
 ## Roland · Trưởng đoàn Kị sĩ

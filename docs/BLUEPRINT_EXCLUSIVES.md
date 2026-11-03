@@ -3,7 +3,7 @@
 ## Nguồn mở công thức
 
 - Sáu nhân vật khởi đầu giữ nguồn mở hiện tại.
-- Monica, Victorina, Sieg và Chelsea giữ nguồn mở ở chương II Lữ Khách. Không chuyển sang Blueprint.
+- Monica, Victorina, Sieg, Chelsea và Artesia giữ nguồn mở ở chương II Lữ Hành. Không chuyển sang Blueprint.
 - Hai mươi Trấn mới dưới đây mở bằng 10 Bản Thiết Kế dùng chung, tại tab Công thức Trấn Phái của Shop. Mở một lần, vĩnh viễn; có thể mở trước khi sở hữu nhân vật.
 - Chế tạo vẫn yêu cầu sở hữu nhân vật, nguyên liệu và chi phí Trấn Phái hiện tại. Mở công thức không tặng trang bị.
 - Save v7 cũ thiếu `blueprints` / `unlockedExclusiveRecipes` được bổ sung `0` / `[]`. Trấn đã chế tạo và trang bị giữ nguyên.

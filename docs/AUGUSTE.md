@@ -1,5 +1,7 @@
 # Auguste · Hiệu trưởng Học viện Ma Thuật
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Thuật Sư hệ Thường, nhân vật chính thức trong banner thường và mục đổi Pure Prisma. Không mở miễn phí, không đổi phiên bản save hoặc các luật bản trùng/trang bị.
 
 HP170 / MP140 / ATK10 / MAG36 / DEF18 / RES26 / SPD25. Đánh thường là hai hit phép Thường, mỗi hit 60% MAG.

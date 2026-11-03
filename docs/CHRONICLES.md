@@ -6,7 +6,7 @@ https://docs.google.com/document/d/1UcpBvJziMTSKEbUeNz8mYVkiT8K_k8kvBtF-JpfSgR8
 ## Nội dung và giao diện
 
 - Tavern → Biên Niên Ký (`/chronicles`) → Mái Nhà Giữa Gió Bắc (`/chronicles/book1`).
-- Kệ sách dùng phong cách bìa Lữ hành; một quyển căn giữa. Chỉ đếm 10 intro công khai.
+- Kệ sách dùng phong cách bìa Lữ Hành; hiện có Quyển I và Quyển II, mỗi quyển có quyền vào riêng. Chỉ đếm 10 intro công khai.
 - Trình duyệt hai cột gồm tranh địa điểm và danh sách 10 địa điểm. Mobile chuyển một cột, danh sách cuộn riêng.
 - Cảnh tương tác gồm nền SVG, đạo cụ ghép, hành động và tường thuật. Hết trận trở về đoạn hậu chiến, sau đó mới hoàn thành và nhận thưởng.
 - 10 intro cố định và 40 sự kiện Thăm lại, gồm 10 sự kiện ẩn. ID intro nằm trong namespace `book1.intro.*`, sự kiện trong `book1.*` để không nhầm F01 intro với F01 tại ruộng.
@@ -28,7 +28,7 @@ Mỗi địa điểm tối đa một pending. RNG sự kiện, bảng thưởng,
 - Alice J04: cố định Level1, cùng template và skill gốc; không dùng stat profile suy yếu.
 - Alice Hiểm Ác: allowlist 60/70/80/90, dùng đúng scaling engine. HP tiếp tục tăng; ATK/MAG/DEF/RES giữ quy tắc freeze sau50. MP/SPD theo engine hiện tại. Không thêm hệ số riêng.
 - Sự kiện độc lập bắt đầu HP/MP đầy. Các wave trong cùng sự kiện giữ actor HP/MP, khiên, status, mode, tài nguyên và cooldown theo engine multi-wave hiện hành.
-- `chronicle-combat.js` tạo/checkpoint/khôi phục trận. Snapshot giữ trạng thái RNG cùng Set/Map và actor state; không chứa content hoặc function.
+- `chronicle-combat.js` tạo/checkpoint/khôi phục trận. Snapshot giữ trạng thái RNG cùng Set/Map và actor state; không chứa content hoặc function. Đây là ngoại lệ có chủ ý với Quest/dungeon thường chỉ giữ battle trong RAM.
 - Mỗi lệnh và lượt địch được thực thi trên bản thử. Chỉ thay trạng thái live sau khi ghi checkpoint thành công; lỗi ghi rollback cả lượt và RNG.
 - Chỉ một trận hoạt động. Có thể rút về địa điểm, giữ sự kiện và quyền retry; khi bắt đầu lại trận, seed/cấp đã chốt được giữ.
 

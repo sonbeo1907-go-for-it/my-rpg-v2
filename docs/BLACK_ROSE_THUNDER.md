@@ -1,5 +1,7 @@
 # Thợ săn Lôi và Hoa Hồng Đen — cấu hình playtest
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 ## Cập nhật hệ và danh sách nhân vật
 
 - Oán Hận không còn là hệ nguyên tố. Vong hồn Người giữ đèn và các đòn của chúng chuyển sang **Ám**, vẫn yếu Nguyệt. Cơ chế `group: agony` và trạng thái Oán Hận vẫn giữ nguyên: HP 0 vẫn hành động, giảm 30% sát thương, damage lúc này trừ HP tối đa, không nhận khiên/hồi phục, trở lại cuối vòng sau với Max HP còn lại. Xóa quy tắc “đòn hệ Oán Hận trực tiếp trừ Max HP”.

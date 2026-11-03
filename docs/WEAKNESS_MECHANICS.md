@@ -1,6 +1,6 @@
 # Khai phá điểm yếu và Sơ hở nguyên tố
 
-Hai cơ chế được triển khai ở engine; chưa tự cấp cho nhân vật, trang bị hay quái nào. Không đổi định dạng save.
+Hai cơ chế dùng chung đã được nhiều nhân vật và gear sử dụng (Chelsea, Simon, Kính Săn Điểm Yếu và các nguồn khác). Xem JSON hiện hành để xác định nguồn, không giới hạn quyền sử dụng theo nhân vật.
 
 ## Dữ liệu dùng lại
 
@@ -10,7 +10,7 @@ Buff `weakness_exploitation`: `weaknessMultiplier: 2`. Khi người mang buff đ
 {"type":"status","status":"weakness_exploitation","duration":2}
 ```
 
-Tám debuff `exposure_plain/fire/water/earth/wind/thunder/light/dark`: khai báo `exposedElement`, `maxStacks: 3`, `kind: "debuff"`. Không phụ thuộc ID nhân vật hoặc tên trạng thái. Tất cả cùng một nhóm độc quyền: cùng nguyên tố cộng tầng tối đa 3, khác nguyên tố thay toàn bộ loại cũ và bắt đầu bằng số tầng được cấp mới. Điểm yếu tự nhiên không bị thay đổi. Ba tầng vẫn chỉ là một loại debuff cho Kreider.
+Các debuff `exposure_*` theo nguyên tố hỗ trợ trong data/statuses.json (gồm các hệ cơ bản và Nguyệt khi được khai báo): khai báo `exposedElement`, `maxStacks: 3`, `kind: "debuff"`. Không phụ thuộc ID nhân vật hoặc tên trạng thái. Tất cả cùng một nhóm độc quyền: cùng nguyên tố cộng tầng tối đa 3, khác nguyên tố thay toàn bộ loại cũ và bắt đầu bằng số tầng được cấp mới. Điểm yếu tự nhiên không bị thay đổi. Ba tầng vẫn chỉ là một loại debuff cho Kreider.
 
 ```json
 {"type":"status","status":"exposure_fire","stacks":3}

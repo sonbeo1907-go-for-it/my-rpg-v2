@@ -1,5 +1,7 @@
 # Miraebolis · Hắc Long Thiêu Thành
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Encounter `miraebolis_superboss`, enemy `miraebolis`, BGM `/bgm/spboss_miraebolis.mp3`. Nhạc không bắt đầu lại khi đổi phase; thắng chuyển victory như các trận khác. Thưởng thắng 100 coin, chưa có thưởng lần đầu riêng.
 
 ## Chỉ số và điểm yếu

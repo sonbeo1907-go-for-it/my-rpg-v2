@@ -1,5 +1,7 @@
 # Màn chơi
 
+> **TÀI LIỆU LỊCH SỬ / ẢNH CHỤP.** Catalog nguyên mẫu: tên màn/ID có thể hữu ích, số HP là raw/template cũ và không phải stat đã scale. Không dùng số lượng27, route tab cũ hoặc thưởng cố định trong bài làm hiện trạng. Quest hiện theo QUESTS, stat theo ENEMY_SCALING_TUNING + data.
+
 Chọn tại trang **03 / Chọn trận & Chiến đấu**. Có 27 màn. Thưởng chiến thắng: màn thường 50 Coin, boss 150 Coin và siêu trùm 1.000 Coin. Quỷ lùn tập kích trong rừng có thưởng nhân vật lần đầu; Thử thách tay sai vua chằn có nâng cấp Arthur lần đầu. Chơi lại không nhận lại thưởng đặc biệt.
 
 | Màn | Đối thủ | Điểm yếu |

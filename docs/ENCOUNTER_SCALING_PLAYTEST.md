@@ -1,5 +1,7 @@
 # Playtest — tune HP và chỉ số, Lv1 toàn bộ (01/11/2026)
 
+> **TÀI LIỆU LỊCH SỬ / ẢNH CHỤP.** Báo cáo thử nghiệm tại thời điểm ghi, không chứng nhận balance hiện tại. Roster, Rank, gear và curve có thể thay đổi; phải chạy lại với cấu hình được ghi rõ.
+
 Tuning 01/11/2026: all 59 enemy templates and all 55 encounters use base Level 1, including story and Superboss. Normal HP 1.8% to30/2.5% after; Boss 3%/4%; Superboss unchanged. Offense target 2, defense 1.25 at50; log growth weight doubles after30. F2P Arthur/Iris/Garrek/Elaine, same three T3 +5 stat items each, starter-story upgrades, no gacha, exclusives, effect gear or consumables. Fixed heuristic allocations and action policy, not proof of optimal balance. Legacy control uses raw templates and old Gold Mine multipliers; current engine, not the historical executable. Each seed records its wave roll, outcome, HP/MP and KOs. Bounds: 2500 actions/120 global rounds; engine retains 60 per encounter.
 
 Đội F2P: Arthur / Iris / Garrek / Elaine. Mỗi người ba Gear III +5 chỉ số chính, cùng gear giữa mọi cấp; điểm Level phân bổ bằng heuristic. Không gacha, Trấn, Gear hiệu ứng hoặc consumable. Dữ liệu giả lập, không sửa save người chơi. Đây không phải chiến thuật tối ưu và không chứng minh cân bằng cuối.
@@ -29,4 +31,3 @@ Hiểm Nguy Khó ở Lv45/Lv50 tăng từ0/30 ở bản ref1 Boss4%/7% lên15/30
 Chạy lại: `node scripts/encounter-balance.mjs 30`. [Từng seed](ENCOUNTER_SCALING_PLAYTEST.json), [ma trận năm độ khó](LEVEL_PLAYTEST_BASELINE.csv), [đặc tả tune](ENEMY_SCALING_TUNING.md).
 
 Kiểm tra kỹ thuật sau tune: 753 kiểm thử engine, 169 kiểm thử UI, content validator và TypeScript đều qua. Raw stats của 59 enemy giữ nguyên; toàn bộ referenceLevel chuyển về1. Save v7 không đổi.
-

@@ -1,5 +1,7 @@
 # Tobin Ironroot và Astraea
 
+> **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
+
 Tobin là nhân vật miễn phí, nhận qua tương tác trên hình ông ở Thợ Rèn sau 10 intro Quyển I. Không nằm trong gacha/đổi Pure Prisma. Bắt đầu 3 ô; mỗi 10 Gear Tier IV chế tạo thành công sau tuyển mộ thêm 1 ô, mốc 10/20/30, tối đa 6. Tính cả Chỉ Số và Hiệu Ứng; không tính craft cũ, Trấn Phái, phân rã hay tái rèn. Tiến độ và mở ô nằm chung giao dịch craft; save cũ mặc định 0.
 
 Kit playtest: HP205 MP60 ATK31 MAG9 DEF22 RES14 SPD11. Nhiệt Lò tối đa3, mỗi tầng +8% ATK. Búa thử thép: 5MP, 140% ATK và +1 tầng. Đốt lò quá tay: 7MP, +2 tầng, +20% ATK và -20% SPD trong2 lượt chính. Một búa nên hình: 12MP CD1, 100% ATK +80% mỗi tầng, tiêu toàn bộ sau sát thương. Chậm, cần chuẩn bị và tiêu MP để đổi lấy đòn lớn.
