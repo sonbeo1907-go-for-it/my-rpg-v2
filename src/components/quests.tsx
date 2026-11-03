@@ -1,4 +1,5 @@
 "use client";
+import {FarmLaunch} from './farm';
 import {questDifficulty,questExperience} from "../core/quest-difficulty.js";
 import {levelScaledEnemyStats} from "../core/enemy-scaling.js";
 import Link from "next/link";
@@ -200,7 +201,7 @@ export function QuestPage() {
                   );
                 })}
               </div>
-              <button
+              <div className="deployment-actions"><button
                 className="gold embark"
                 disabled={busy}
                 onClick={() => {
@@ -211,7 +212,7 @@ export function QuestPage() {
               >
                 <Icon name="sword" />
                 Xuất chiến<span>→</span>
-              </button>
+              </button><FarmLaunch disabled={busy} target={{kind:'quest',id:selected.id,difficultyId:difficulty?.id,superLevel:selected?.superLevels?selectedLevel:undefined}} label={selected.name+' · '+(difficulty?.name??'Cấp cố định')+' · Level '+selectedLevel}/></div>
             </div>
           )}
           </>}

@@ -1,5 +1,5 @@
 import {applyPvpDamageCap,allowPvpHit,pvpPeriodicContext,reservePvpAutomatic} from './pvp-damage.js';
-import {chooseArenaAction} from './arena-ai.js';
+import {chooseBattleAction} from './battle-ai.js';
 import {payMpTeamResources,sharedPenetration,spentSharedDamage,nativePenetration,lightningChargeEligible} from './powder-combat.js';
 import {teamPhysicalGuard,alteredDefenseBonus} from './tactical-passives.js';
 import {stealBaseStat} from './stat-theft.js';
@@ -1730,14 +1730,19 @@ function executeBossTurn(battle, actor) {
   if (!battle.outcome) advance(battle);
 }
 
-export function forecastArenaAction(battle,command){
- const {content,random,...state}=battle;
+export function forecastBattleAction(battle,command){
+ const {content,random,rewardRandom,...state}=battle;
  const trial=structuredClone(state);trial.content=content;trial.pvpRules=battle.pvpRules;trial.random=()=>.5;trial.events=[];trial.log=[];
  resolveAction(trial,command,{endTurn:false});return trial;
 }
+export const forecastArenaAction=forecastBattleAction;
+export function planAutoBattleTurn(battle){
+ const actor=activeActor(battle);if(battle.arena||battle.chronicle||battle.outcome||actor?.team!=='party')return null;
+ return chooseBattleAction(battle,actor,{abilityAvailability,targetsFor,basicAbility,forecast:forecastBattleAction});
+}
 export function planArenaEnemyTurn(battle){
  const actor=activeActor(battle);if(!battle.arena||battle.outcome||actor?.team!=='enemy')return null;
- return chooseArenaAction(battle,actor,{abilityAvailability,targetsFor,basicAbility,forecast:forecastArenaAction});
+ return chooseBattleAction(battle,actor,{abilityAvailability,targetsFor,basicAbility,forecast:forecastArenaAction});
 }
 export function executeEnemyTurn(battle,plannedCommand) {
   const actor = activeActor(battle);

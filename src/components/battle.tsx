@@ -1,4 +1,5 @@
 "use client";
+import {FarmPanel} from './farm';
 import {ArenaPlayerBar} from './arena-experience';
 import {EvidenceBoard,GunpowderBoard,LocalCombatMode} from './vertosse';
 import {isAlive,isInAgony} from "../core/actor-life.js";
@@ -462,6 +463,7 @@ export function BattlePage() {
     battle,
     busy,
     runBattle,
+    farm,toggleAutoBattle,
     battleUI,
     updateBattleUI,
     animationSpeed,
@@ -725,7 +727,7 @@ export function BattlePage() {
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
   if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · Đấu tập với AI</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
-  if(isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel)}/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
+  if(isBattleFinished(battle)&&!busy&&!farm?.enabled)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel)}/><FarmPanel/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
   return (
     <main
       className="page battle-page"
@@ -754,6 +756,7 @@ export function BattlePage() {
             : battle.arena?"/arena":encounterReturnPath(content, battle.encounterId,battle.questDifficulty)
         }
       >
+        {!battle.arena&&!battle.chronicle&&!battle.outcome&&<button className="auto-battle-toggle" aria-pressed={Boolean(farm?.enabled)} disabled={busy&&!farm?.enabled} onClick={toggleAutoBattle}>Tự động: {farm?.enabled?'Bật':'Tắt'}</button>}
         {battle.arena&&<Link className="button arena-exit" href="/arena">Rời trận · Xử thua</Link>}
         <div className="combat-speed" role="group" aria-label="Tốc độ hiệu ứng">
           <button
@@ -770,6 +773,7 @@ export function BattlePage() {
           </button>
         </div>
       </PageHeader>
+      <FarmPanel/>
       {battle.storyWave && <section className="dungeon-wave-progress" aria-label="Tiến độ chương truyện"><div aria-live="polite"><strong>Đợt {battle.storyWave.waveIndex+1}/{battle.storyWave.totalWaves}</strong><span>Giữ HP, MP và trạng thái qua các đợt · Thắng toàn chương mới nhận thưởng</span></div></section>}
       {battle.dungeon && (
         <section
@@ -880,7 +884,7 @@ export function BattlePage() {
         <aside className="command-panel panel">
           <span className="eyebrow">HÀNH ĐỘNG</span>
           {battle.outcome ? (
-            <BattleResultControls />
+            farm?.enabled?<p>Đang tổng kết và chuẩn bị lượt farm tiếp theo…</p>:<BattleResultControls />
           ) : actor?.team === "enemy" ? (
             <>
               <h2>{busy&&visualName?visualName+" đang thi triển":"Lượt của "+actor.name}</h2>
@@ -926,7 +930,7 @@ export function BattlePage() {
                   <button
                     className="gold execute"
                     aria-label={`Thực hiện: ${skill.name} → ${targetLabel}`}
-                    disabled={busy || !available.ok || !targets.targetId}
+                    disabled={busy || Boolean(farm?.enabled) || !available.ok || !targets.targetId}
                     onClick={() =>
                       runBattle({
                         actorId: actor.id,

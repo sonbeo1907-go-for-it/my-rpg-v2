@@ -27,12 +27,14 @@ import {
   executeAction,
   executeEnemyTurn,
   planArenaEnemyTurn,
+  planAutoBattleTurn,
 } from "../core/battle.js";
 import {prepareVictoryReward,victoryRewardText} from '../core/quest-rewards.js';
 import { claimBattleReward, victoryCoinReward } from "../core/economy.js";
 import { seededRandom } from "../core/random.js";
 import {needsDailyVisit,visitDailyCommissions,claimDailyCommissions} from "../core/daily-commissions.js";
-import {nextDungeonReset,dungeonDay} from "../core/dungeon-rules.js";
+import {createFarmSession,recordFarmResult,stopFarmSession,validateFarmTarget} from '../core/farm-session.js';
+import {dungeonDailyState,nextDungeonReset,dungeonDay} from "../core/dungeon-rules.js";
 import { createGameMusic } from "../ui/game-music.js";
 import { readSettings } from "../ui/preferences.js";
 import { createProfileStore } from "./profile-store.js";
@@ -53,6 +55,10 @@ const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(cont
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
+  farm:any;
+  startFarming:(target:any,limit:number)=>boolean;
+  stopFarming:()=>void;
+  toggleAutoBattle:()=>void;
   startArena:(teamId:string,seed?:number)=>boolean;
   fortressCommand:(kind:string,payload?:any)=>Promise<boolean>;
   visitChronicle:(locationId:string,observe?:boolean)=>Promise<boolean>;
@@ -161,6 +167,8 @@ export function GameProvider({
     scouting.current ??= createDungeonPreviewCache(content, sessionStorage);
     return scouting.current;
   }
+  const farmRef=useRef<any>(null);
+  const [farm,setFarm]=useState<any>(null);
   const lock = useRef(false);
   const [battle, setBattle] = useState<any>(null);
   const [events, setEvents] = useState<any[]>([]);
@@ -251,6 +259,47 @@ export function GameProvider({
         : [],
     );
   };
+  function updateFarm(next:any){farmRef.current=next;setFarm(next);}
+  function stopFarming(reason='Đã dừng theo yêu cầu'){updateFarm(stopFarmSession(farmRef.current,reason));}
+  function settleFarm(current:any,before:any,after:any){updateFarm(recordFarmResult(farmRef.current,battleSerial.current,current,before,after));}
+  function startFarming(target:any,limit:number){
+    if(lock.current||saveLock.current||farmRef.current?.enabled)return false;
+    if(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==='victory'&&!runtime.current.rewardClaimed)){notify('Hãy kết thúc trận đang dở và nhận thưởng trước khi farm.');return false;}
+    try{
+      validateFarmTarget(content,target);const next=createFarmSession(target,limit,0);
+      const ok=target.kind==='dungeon'?startDungeon(target.id,target.difficultyId):startBattle(target.id,false,target.difficultyId,target.superLevel,crypto.getRandomValues(new Uint32Array(1))[0]);
+      if(!ok)return false;next.sessionId=battleSerial.current;updateFarm(next);notify('');return true;
+    }catch(error){notify((error as Error).message);return false;}
+  }
+  function toggleAutoBattle(){
+    const b=runtime.current;if(farmRef.current?.enabled){stopFarming('Đã tắt tự động');return;}
+    if(!b||b.arena||b.chronicle||b.outcome||lock.current||saveLock.current)return;
+    updateFarm(createFarmSession({kind:'battle'},1,battleSerial.current));
+  }
+  useEffect(()=>{
+    if(!farmRef.current?.enabled)return;
+    if(path!=='/battle'){if(farmRef.current.enteredBattle)stopFarming('Đã rời màn hình chiến đấu');return;}
+    farmRef.current.enteredBattle=true;
+    if(busy||lock.current||saveLock.current)return;
+    const timer=setTimeout(()=>{
+      const state=farmRef.current,b=runtime.current;if(!state?.enabled||!b||lock.current||saveLock.current)return;
+      if(b.arena||b.chronicle){stopFarming('Nội dung này không hỗ trợ tự động');return;}
+      if(b.outcome){
+        if(b.outcome!=='victory'){settleFarm(b,campaignRef.current,campaignRef.current);return;}
+        if(!b.rewardClaimed){stopFarming('Dừng vì chưa lưu được phần thưởng · Nhận thưởng để thử lại');return;}
+        if(state.completed>=state.limit){stopFarming('Đã hoàn thành số lượt đã chọn');return;}
+        if(state.target.kind==='battle'){stopFarming('Trận tự động đã kết thúc');return;}
+        const t=state.target;
+        if(t.kind==='dungeon'&&(dungeonDailyState(campaignRef.current,content,t.id,new Date()).remaining??0)<=0){stopFarming('Đã hết lượt hầm ngục hiện có');return;}
+        const ok=t.kind==='dungeon'?startDungeon(t.id,t.difficultyId,true):startBattle(t.id,true,t.difficultyId,t.superLevel,crypto.getRandomValues(new Uint32Array(1))[0]);
+        if(!ok){stopFarming('Không thể bắt đầu lượt farm tiếp theo');return;}
+        updateFarm({...farmRef.current,sessionId:battleSerial.current,reason:'Đang chiến đấu'});notify('');return;
+      }
+      try{const cmd=activeActor(b)?.team==='party'?planAutoBattleTurn(b):undefined;if(activeActor(b)?.team==='party'&&!cmd)throw Error('AI không có hành động hợp lệ.');void runBattle(cmd);}
+      catch(error){stopFarming('Dừng vì lỗi AI: '+(error as Error).message);notify((error as Error).message);}
+    },160);
+    return ()=>clearTimeout(timer);
+  },[path,busy,battle?.sessionId,battle?.activeId,battle?.round,battle?.phase,battle?.outcome,battle?.rewardClaimed,farm?.enabled,farm?.completed]);
   function recoverAbandonedArena(profile:any){
     if(!profile||runtime.current?.chronicle)return;
     const record=takeAbandonedArena(localStorage,profile.id);
@@ -450,6 +499,7 @@ export function GameProvider({
     try {
       const run = dungeonRun.current;
       const currentBattle = runtime.current;
+      const beforeRewards=campaignRef.current;
       // Compute rewards on a shallow transaction copy; live claimed flags move only after disk commit.
       if(!currentBattle.dungeon)prepareVictoryReward(currentBattle,content,currentBattle.rewardRandom??Math.random,campaignRef.current);
       const claimBattle = { ...currentBattle };
@@ -461,6 +511,7 @@ export function GameProvider({
       currentBattle.rewardClaimed = claimBattle.rewardClaimed;
       currentBattle.firstClearRewards = claimBattle.firstClearRewards;
       currentBattle.xpAwards=claimBattle.xpAwards;
+      settleFarm(currentBattle,beforeRewards,next);
       if (run) run.claimed = run.kind==='story' ? claimBattle.rewardClaimed : claimRun.claimed;
       campaignRef.current = next;
       setCampaign(next);
@@ -494,6 +545,7 @@ export function GameProvider({
     lock.current = true;
     setBusy(true);
     const running=runtime.current;
+    const automated=Boolean(farmRef.current?.enabled);
     const canContinue=()=>runtime.current===running&&!running.outcome;
     const activity=(source:any,phase:string,skillName='')=>{
       if(!running.arena)return;
@@ -519,10 +571,12 @@ export function GameProvider({
         await sleep(delay());
       }
       while (true) {
+        if(automated&&!farmRef.current?.enabled&&!runtime.current.outcome)return;
         while (
           !runtime.current.outcome &&
           activeActor(runtime.current)?.team === "enemy"
         ) {
+          if(automated&&!farmRef.current?.enabled)return;
           const source=activeActor(running);let planned:any=null,name='';
           if(running.arena){
             activity(source,'thinking');await sleep(ARENA_PACING.think);
@@ -550,6 +604,7 @@ export function GameProvider({
             { preserveOverride: true },
           );
           battleSerial.current += 1;
+          if(farmRef.current?.sessionId===battleSerial.current-1)updateFarm({...farmRef.current,sessionId:battleSerial.current});
           setBattleUI({ allyId: "", enemyId: "", skillId: "$attack" });
           publish();
           await sleep(delay());
@@ -562,6 +617,7 @@ export function GameProvider({
         await claimReward();
       } else if (runtime.current.outcome) music.current?.stop();
     } catch (error) {
+      if(farmRef.current?.enabled)stopFarming('Dừng vì lỗi chiến đấu: '+(error as Error).message);
       notify((error as Error).message);
     } finally {
       lock.current = false;
@@ -580,7 +636,7 @@ export function GameProvider({
       battleSerial.current++;setBattleUI({allyId:'',enemyId:'',skillId:'$attack'});publish();notify('');return true;
     }catch(error){notify((error as Error).message);return false;}
   }
-  function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number) {
+  function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number,farmSeed?:number) {
     if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài qua cổng trước khi bắt đầu nội dung khác.');return false;}
     if(content.encounters[id]?.category==='chronicle'){notify('Hãy bắt đầu từ địa điểm trong Biên Niên Ký.');return false;}
     if(runtime.current?.chronicle&&!runtime.current.outcome){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
@@ -612,8 +668,8 @@ export function GameProvider({
       return false;
     }
     try {
-      const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(20261027)) : null;
-      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(20261027),{questDifficulty:difficultyId,...(content.encounters[id].superLevels&&superLevel!==undefined?{enemyLevel:superLevel}:{})});
+      const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(farmSeed??20261027)) : null;
+      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(farmSeed??20261027),{questDifficulty:difficultyId,...(content.encounters[id].superLevels&&superLevel!==undefined?{enemyLevel:superLevel}:{})});
       dungeonRun.current = storyRun;
       battleSerial.current += 1;
       setBattleUI({ allyId: "", enemyId: "", skillId: "$attack" });
@@ -680,6 +736,7 @@ export function GameProvider({
   }
   function clearRuntime() {
     forfeitArena();
+    farmRef.current=null;setFarm(null);
     runtime.current = null;
     dungeonRun.current = null;
     setPendingBattleId(null);
@@ -738,6 +795,7 @@ export function GameProvider({
   }
   const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
+    farm,startFarming,stopFarming:()=>stopFarming(),toggleAutoBattle,
     fortressCommand,visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,
     progressionLocked:inAdventure()||Boolean(campaign?.chronicles?.activeSession),
     upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),

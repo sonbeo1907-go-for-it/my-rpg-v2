@@ -1,4 +1,5 @@
 "use client";
+import {FarmLaunch} from './farm';
 import {DungeonReward,XpCapWarning} from "./dungeon-rewards";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -295,14 +296,14 @@ export function DungeonQuestPage({ id }: { id: string }) {
                 Bạn có thể xem trước phần thưởng. Chưa thể vào mức độ này.
               </p>
             )}
-            <button
+            <div className="deployment-actions"><button
               className="gold embark"
               disabled={!canStart}
               onClick={() => {setEntryMethod('battle');setConfirm(true);}}
             >
               <Icon name="door" />
               {selected.enabled ? "Bắt đầu thám hiểm" : "Chưa mở"}
-            </button>
+            </button><FarmLaunch target={{kind:'dungeon',id,difficultyId:selected.id}} disabled={!canStart} label={definition.name+' · '+selected.name}>{definition.revealRooms&&previewReady&&<DungeonRooms preview={preview} content={content} scale={selected.enemyScale} enemyLevel={selected.enemyLevel}/>}</FarmLaunch></div>
 
           </div>
         </section>
