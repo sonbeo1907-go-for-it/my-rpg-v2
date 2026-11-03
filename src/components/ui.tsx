@@ -546,10 +546,14 @@ export function CharacterFilters({
         <label>
           Sở hữu
           <select
-            value={filters.ownership ?? ""}
+            value={
+              filters.ownership === "owned" || filters.ownership === "locked"
+                ? filters.ownership
+                : "all"
+            }
             onChange={(e) => set("ownership", e.target.value)}
           >
-            <option value="">Tất cả</option>
+            <option value="all">Tất cả</option>
             <option value="owned">Đã sở hữu</option>
             <option value="locked">Chưa sở hữu</option>
           </select>

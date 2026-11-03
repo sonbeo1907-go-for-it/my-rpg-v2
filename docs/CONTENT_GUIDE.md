@@ -5,6 +5,7 @@ JSON thuần, ID ổn định; đổi tên hiển thị không đổi ID. Đọc
 ## Nhân vật và kỹ năng
 
 - characters.json có tên, nguyên tố, role/roleGroup, stats, abilities, passive và các trường đặc thù được hỗ trợ. roleGroup gồm physical_dps, magical_dps, offensive_support, defensive_support, tank, fighter, sorcerer. secondaryRoleGroups, affiliation và tags có ý nghĩa riêng.
+- `affiliation` là slug ổn định (vd `hunters_guild`), không phải chuỗi hiển thị; nhãn tiếng Việt nằm duy nhất trong `AFFILIATION_LABELS` của `src/core/catalog.js`. Thêm phe thì thêm cả slug lẫn nhãn, xem [AFFILIATIONS](AFFILIATIONS.md); thiếu nhãn là lỗi UI.
 - Stats là giá trị thô trước passive. Không ghi sẵn bonus rồi áp thêm lần hai. scalingStat và damageType độc lập: scale ATK vẫn có thể gây sát thương phép.
 - Ability/status dùng ID tham chiếu, target, cost, cooldown và effect được validator hỗ trợ. Cơ chế mới cần handler, validator, preview và test; không chỉ thêm một field JSON.
 - Skill Rank khai báo skillLineId/growthProfile/growthGroups/rankable; fixed có fixedReason. Mọi nhóm hợp lệ cùng tăng: damage/heal/shield ×1,1 mỗi Rank; stat buff hợp lệ ×1,05. Damage amp giữ nguyên, kỹ năng output buff có quy tắc giảm MP riêng. Replacement cùng skill line giữ Rank.

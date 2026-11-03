@@ -33,7 +33,7 @@ const counters=battle=>battle.events.filter(event=>event.type==='reaction'&&even
 
 test('Cerise carries the Capital Knight affiliation and her own designation',()=>{
  const c=base.characters.cerise;
- assert.equal(c.affiliation,'Capital_Knight');
+ assert.equal(c.affiliation,'capital_knights');
  assert.deepEqual(c.tags,['capital_knights','recon_knight']);
  assert.equal(c.element,'wind');assert.equal(c.roleGroup,'physical_dps');
  assert.deepEqual(c.abilities,['cerise.slash','cerise.strike','cerise.formation']);

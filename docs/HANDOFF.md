@@ -38,6 +38,7 @@ Với task liên quan thời hạn, lượt hoặc phản ứng, đọc [COMBAT_
 - Không phải ai có combatMode cũng được đổi nền. Yufina/Joshua/Selene dùng nhãn cục bộ; Sandra có VFX chiêu tạm thời, không có background riêng. Arena chuẩn hóa mọi mode trong card, không để đối thủ ghi đè nền/BGM.
 - Astoria là developer test, opt-in theo hồ sơ, dupe 0, không trong gacha. Magnamut ở phòng giữa dungeon không biến mất/refund; phase Miraebolis không phải mode exit.
 - Lore: Simon thuộc Vertosse, không mang họ Vertosse. Oán Hận là trạng thái/group, **không phải nguyên tố**. Nguyệt là nguyên tố riêng, chưa có nhân vật chính thức dùng.
+- Phe phái: `affiliation` là slug tiếng Anh, nhãn Việt trong `AFFILIATION_LABELS`; danh sách và luật ở [AFFILIATIONS](AFFILIATIONS.md). Trang `/characters` mặc định chỉ nhân vật đã sở hữu, sắp Level giảm dần.
 
 ## Balance mới nhất cần nhớ
 
