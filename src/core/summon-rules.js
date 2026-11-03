@@ -4,6 +4,7 @@ export function validateSummonDefinition(actor,content,fail) {
  if (actor.preModeAbility!==undefined && (!own(actor.preModeAbility)||content.abilities[actor.preModeAbility]?.target!=='self'||!content.abilities[actor.preModeAbility]?.effects.some(effect=>effect.type==='prepare_mode'))) fail(id+': invalid preparation ability');
  for(const [key,mode] of Object.entries(actor.combatModes??{})) {
   const life=mode.lifetime??'resource';
+  if(mode.bypassEvasion!==undefined&&typeof mode.bypassEvasion!=='boolean')fail(id+': invalid mode true strike');
   if (!mode.name||!['resource','team_resource','rounds','permanent'].includes(life)||!Array.isArray(mode.allowedAbilities)||!mode.allowedAbilities.length||new Set(mode.allowedAbilities).size!==mode.allowedAbilities.length||mode.allowedAbilities.some(skill=>!command(skill))||!Number.isFinite(mode.exitMpRatio)||mode.exitMpRatio<0||mode.exitMpRatio>1||!mode.baseStatBonuses||Object.entries(mode.baseStatBonuses).some(([stat,n])=>!['attack','magic','defense','resistance','speed'].includes(stat)||!Number.isFinite(n)||n<0)||(mode.background!==undefined&&!/^\/art\/[a-z0-9_-]+\.svg$/.test(mode.background))) fail(id+': invalid combat mode');
   if (life==='resource'&&(!actor.resources?.[mode.resource]||mode.emptyExit!=='turn_start_or_round_end')) fail(id+': invalid resource mode');
   if(life==='team_resource'&&(!actor.teamResources?.[mode.resource]||mode.emptyExit!=='action_end_or_turn_start'))fail(id+': invalid shared resource mode');

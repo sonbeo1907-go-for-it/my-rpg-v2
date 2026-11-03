@@ -1806,8 +1806,10 @@
           "yufina.daze",
           "$defend"
         ],
-        "summary": "+35% ATK · +20% SPD · Chiêu công kích −12% MP",
-        "description": "Ở lại 3 vòng tính cả vòng dùng; kết thúc hồi 20% MP tối đa. Quyền thuật dùng ATK và gây sát thương phép qua RES."
+        "summary": "+35% ATK · +20% SPD · Hội Tâm · Chiêu công kích −12% MP",
+        "description": "Duy trì 3 vòng tính cả vòng dùng; có Hội Tâm. Kết thúc hồi 20% MP tối đa. Chỉ hiển thị trong ô nhân vật, không đổi bàn đấu.",
+        "presentationScope": "none",
+        "bypassEvasion": true
       }
     }
   },
@@ -2032,11 +2034,12 @@
     "passive": {
       "type": "ally_support_followup",
       "name": "Đất đáp lời người",
-      "description": "Sau kỹ năng không gây sát thương của đồng đội khác, Liên kích Thổ lên toàn địch, 120% MAG, tối đa 1 lần/vòng. Trong Vườn Hắc Hoa: tối đa 2 lần/vòng và thêm hệ số MAG theo cấp kỹ năng vườn.",
+      "description": "Sau kỹ năng không gây sát thương của đồng đội khác (trừ Phòng thủ), Liên kích Thổ lên toàn địch, 120% MAG, tối đa 1 lần/vòng. Trong Vườn Hắc Hoa: tối đa 2 lần/vòng và thêm hệ số MAG theo cấp kỹ năng vườn.",
       "followUpAbility": "astraea.thorns",
       "perRound": 1,
       "modeId": "black_garden",
-      "modePerRound": 2
+      "modePerRound": 2,
+      "excludeDefend": true
     },
     "combatModes": {
       "black_garden": {

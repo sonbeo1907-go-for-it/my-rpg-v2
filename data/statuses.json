@@ -248,7 +248,8 @@
     "persistent": true,
     "modifiers": {
       "attack": 0.15
-    }
+    },
+    "bypassEvasion": true
   },
   {
     "id": "siegebreaker",

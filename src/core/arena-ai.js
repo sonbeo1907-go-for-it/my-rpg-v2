@@ -65,7 +65,7 @@ function evaluate(b,trial,a,skill,p,threats){
  if(skill.id==='$defend'&&!lowMp&&!rescues)score-=18;
  if(skill.id!=='$defend'&&after.mp/battleMaxMp(b.content,after)<p.reserveMpRatio&&!kills)score-=15;
  if(trial.extraTurnGrants.size>b.extraTurnGrants.size)score+=45*(trial.extraTurnGrants.size-b.extraTurnGrants.size);
- if(trial.turnOrderField?.priorityTeam===a.team&&b.turnOrderField?.priorityTeam!==a.team){const pending=b.queue.slice(b.cursor+1).map(id=>b.actors.find(x=>x.id===id));let enemySeen=false,moved=0;for(const x of pending){if(x.team!==a.team)enemySeen=true;else if(enemySeen)moved++;}score+=40+moved*60;}
+ if(trial.turnOrderField?.priorityTeam===a.team&&b.turnOrderField?.priorityTeam!==a.team){const pending=b.queue.slice(b.cursor+1),next=trial.queue.slice(trial.cursor+1);let moved=0;for(const id of pending)if(b.actors.find(x=>x.id===id)?.team===a.team)moved+=Math.max(0,pending.indexOf(id)-next.indexOf(id));score+=40+moved*(trial.turnOrderField.kind==='speed_shift'?15:60);}
  if(resourceGain>0&&Object.entries(a.resourceValues??{}).some(([id,v])=>v<(a.resources[id]?.max??0)*.67))score+=40;
  for(const [id,state]of Object.entries(trial.teamResources?.[a.team]??{}))score+=Math.max(0,state.value-(b.teamResources?.[a.team]?.[id]?.value??0))*10;
  for(const x of trial.actors)for(const s of activeStatuses(x)){if(x.team!==a.team&&b.content.statuses[s.id]?.damageOverTime&&!activeStatuses(b.actors.find(y=>y.id===x.id)).some(v=>v.id===s.id))score+=(s.potency??0)*Math.min(2,s.remaining??1)*.6;}

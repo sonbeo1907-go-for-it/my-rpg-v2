@@ -2145,7 +2145,7 @@
   {
     "id": "gahallad.mount",
     "name": "Hắc kỳ giáng thế",
-    "description": "Lên hoặc xuống ngựa. Khi cưỡi, tăng ATK và nhận Phá Thành.",
+    "description": "Lên hoặc xuống ngựa. Khi cưỡi, tăng ATK, nhận Phá Thành và Hội Tâm.",
     "target": "self",
     "effects": [
       {
@@ -3971,7 +3971,12 @@
       {
         "type": "turn_order_field",
         "name": "Đảo lộn thời không",
-        "durationRounds": 2
+        "durationRounds": 2,
+        "arena": {
+          "kind": "speed_shift",
+          "allySpeed": 0.15,
+          "enemySpeed": -0.15
+        }
       }
     ],
     "rules": [
@@ -5324,7 +5329,7 @@
     "id": "yufina.ignite",
     "name": "Quang quyền bừng sáng",
     "target": "self",
-    "description": "Bùng cháy nhiệt huyết, tăng ATK, tốc độ và tiết kiệm MP công kích.",
+    "description": "Tăng ATK, SPD, nhận Hội Tâm và tiết kiệm MP công kích.",
     "cost": {
       "mp": 12
     },

@@ -97,6 +97,7 @@ export function validateContent(content) {
     }
     if(native?.type==='ally_support_followup'){
       const a=content.abilities[native.followUpAbility];
+      if(native.excludeDefend!==undefined&&typeof native.excludeDefend!=='boolean')fail(id+': invalid support follow-up exclusion');
       if(!native.name||!native.description||!Number.isInteger(native.perRound)||native.perRound<1||native.perRound>4||!Number.isInteger(native.modePerRound)||native.modePerRound<native.perRound||native.modePerRound>4||!actor.combatModes?.[native.modeId]||a?.activation!=='passive'||a.target!=='all_enemies'||a.cost?.mp||a.cooldown||!a.effects?.length||a.effects.some(e=>e.type!=='damage'))fail(id+': invalid support follow-up');
     }
     if(native?.evasion!==undefined&&(native.type!=="dodge_counter"||!native.counterAbility||!validEvasion(native.evasion)))fail(id+": invalid native evasion");
@@ -285,6 +286,7 @@ export function validateContent(content) {
       if (effect.formulaScaling && !skill.effects.some(effect=>effect.type==='end_formula' && (skill.target==='self'||effect.to==='self'))) fail(id+': formula finisher must close its field');
       if (effect.formulaScaling!==undefined && (effect.type!=='damage' || skill.requiresFormula!==true || skill.minFormulaEntries!==3 || !Number.isFinite(effect.formulaScaling.perCorrect) || effect.formulaScaling.perCorrect<=0 || effect.formulaScaling.perCorrect>2 || !Number.isFinite(effect.formulaScaling.perfectPenetration) || effect.formulaScaling.perfectPenetration<0 || effect.formulaScaling.perfectPenetration>1)) fail(id+': invalid formula scaling');
       if (effect.type === 'turn_order_field' && (skill.target !== 'self' || typeof effect.name !== 'string' || !effect.name || !Number.isInteger(effect.durationRounds) || effect.durationRounds < 1)) fail(id + ': invalid turn-order field');
+      for(const f of [effect.type==='turn_order_field'&&effect.kind==='speed_shift'?effect:null,effect.arena].filter(Boolean))if(effect.type!=='turn_order_field'||f.kind!=='speed_shift'||!Number.isFinite(f.allySpeed)||!Number.isFinite(f.enemySpeed)||Math.abs(f.allySpeed)>1||Math.abs(f.enemySpeed)>1)fail(id+': invalid speed field');
       if (['enter_mode','prepare_mode'].includes(effect.type) && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
       if(effect.type==='dispel' && (!['enemy','all_enemies','enemy_splash'].includes(skill.target)||!(effect.all===true&&effect.count===undefined||effect.all===undefined&&Number.isInteger(effect.count)&&effect.count>0))) fail(id+': invalid dispel');
       if(effect.perTargetBuff!==undefined && (effect.type!=='damage'||!Number.isFinite(effect.perTargetBuff)||effect.perTargetBuff<=0||!Number.isInteger(effect.maxTargetBuffs)||effect.maxTargetBuffs<1||effect.maxTargetBuffs>10))fail(id+': invalid target buff scaling');

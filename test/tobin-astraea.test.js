@@ -38,13 +38,13 @@ test('reforge, rejected crafts and legacy serials never advance Tobin; progress 
  const old=JSON.parse(encodeGameSave(s,content));delete old.tobinCraftCount;delete old.characters.tobin;delete old.characters.astraea;old.unlockedCharacterIds=old.unlockedCharacterIds.filter(id=>id!=='tobin');const restored=decodeGameSave(JSON.stringify(old),content);assert.equal(restored.tobinCraftCount,0);assert.equal(restored.characters.astraea.level,1);
  for(const n of [-1,1.5,31]){const bad={...s,tobinCraftCount:n};assert.throws(()=>encodeGameSave(bad,content));}
 });
-test('non-damaging ally skills including Defend trigger one Earth AoE; own skills and offensive zero-damage skills do not',()=>{
- const {b}=setup();cast(b,'astraea','astraea.dew','iris');assert.equal(follow(b).length,0);cast(b,'iris','iris.formula','tobin');assert.equal(follow(b).length,1);const damage=b.events.filter(e=>e.type==='damage'&&e.sourceId==='astraea');assert.equal(damage.length,3);assert.ok(damage.every(e=>e.element==='earth'));cast(b,'elaine','$defend');assert.equal(follow(b).length,0);
- b.round++;cast(b,'tobin','$defend');assert.equal(follow(b).length,1);b.round++;cast(b,'tobin','tobin.hammer','enemy_0');assert.equal(follow(b).length,0);
+test('non-damaging ally skills excluding Defend trigger one Earth AoE; own skills and offensive zero-damage skills do not',()=>{
+ const {b}=setup();cast(b,'astraea','astraea.dew','iris');assert.equal(follow(b).length,0);cast(b,'iris','iris.formula','tobin');assert.equal(follow(b).length,1);const damage=b.events.filter(e=>e.type==='damage'&&e.sourceId==='astraea');assert.equal(damage.length,3);assert.ok(damage.every(e=>e.element==='earth'));cast(b,'elaine','elaine.shield','iris');assert.equal(follow(b).length,0);
+ b.round++;cast(b,'tobin','tobin.stoke');assert.equal(follow(b).length,1);b.round++;cast(b,'tobin','tobin.hammer','enemy_0');assert.equal(follow(b).length,0);
 });
 test('garden grants 50% MAG, 170% MAG followups twice per round; changing mode never resets the counter',()=>{
- const {b}=setup(),a=getActor(b,'astraea');cast(b,'iris','$defend');assert.equal(follow(b).length,1);cast(b,'astraea','astraea.garden');assert.equal(follow(b).length,0);assert.equal(battleStat(b.content,a,'magic'),49.5);assert.equal(a.modeFollowUpBonus,.5);cast(b,'elaine','$defend');assert.equal(follow(b).length,1);assert.equal(a.supportFollowupState.count,2);cast(b,'tobin','$defend');assert.equal(follow(b).length,0);
- b.round++;cast(b,'iris','$defend');const damage=b.events.filter(e=>e.type==='damage'&&e.sourceId==='astraea');assert.equal(damage.length,3);assert.ok(damage.every(e=>e.amount===84));
+ const {b}=setup(),a=getActor(b,'astraea');cast(b,'iris','iris.formula','tobin');assert.equal(follow(b).length,1);cast(b,'astraea','astraea.garden');assert.equal(follow(b).length,0);assert.equal(battleStat(b.content,a,'magic'),49.5);assert.equal(a.modeFollowUpBonus,.5);cast(b,'elaine','elaine.shield','iris');assert.equal(follow(b).length,1);assert.equal(a.supportFollowupState.count,2);cast(b,'tobin','$defend');assert.equal(follow(b).length,0);
+ b.round++;cast(b,'iris','iris.formula','tobin');const damage=b.events.filter(e=>e.type==='damage'&&e.sourceId==='astraea');assert.equal(damage.length,3);assert.ok(damage.every(e=>e.amount===84));
  a.modeExpiresAfterRound=b.round;checkCombatMode(b,a,'round_end',{write:()=>{},emit:()=>{},restore:()=>{}});assert.equal(a.activeMode,undefined);assert.equal(a.modeFollowUpBonus,undefined);cast(b,'tobin','$defend');assert.equal(follow(b).length,0);
 });
 test('garden expires after three actual rounds and is ready on the very next main turn',()=>{
@@ -55,18 +55,18 @@ test('rank growth affects mode MAG at 5% and only the bonus followup coefficient
  assert.ok(skillPresentation(b.content.abilities['astraea.garden'],a,b.content).facts.some(f=>f.includes('Liên kích')));assert.ok(passivePresentation(a,b.content).rules.some(r=>r.includes('Phòng thủ')));assert.ok(compactSkillScaling(resolved,a,a,b.content,b).includes('Liên kích'));
 });
 test('support followup cannot self-chain, trigger Aurora, fire for enemies, or fire when owner is dead',()=>{
- const {b}=setup();const a=getActor(b,'astraea');b.actors.push({...structuredClone(a),id:'astraea_second',supportFollowupState:undefined});cast(b,'iris','$defend');assert.equal(follow(b).length,2);assert.equal(b.actors.at(-1).supportFollowupState.count,1);a.hp=0;b.actors.at(-1).hp=0;b.round++;cast(b,'iris','$defend');assert.equal(follow(b).length,0);
+ const {b}=setup();const a=getActor(b,'astraea');b.actors.push({...structuredClone(a),id:'astraea_second',supportFollowupState:undefined});cast(b,'iris','iris.formula','tobin');assert.equal(follow(b).length,2);assert.equal(b.actors.at(-1).supportFollowupState.count,1);a.hp=0;b.actors.at(-1).hp=0;b.round++;cast(b,'iris','iris.formula','tobin');assert.equal(follow(b).length,0);
 });
 test('garden, coefficient and per-round allowance survive a combat snapshot without retriggering',()=>{
- const {b,c}=setup();cast(b,'astraea','astraea.garden');cast(b,'iris','$defend');const restored=restoreChronicleBattle(c,snapshotChronicleBattle(b));assert.deepEqual(getActor(restored,'astraea').supportFollowupState,{round:1,count:1});assert.equal(getActor(restored,'astraea').modeFollowUpBonus,.5);cast(restored,'elaine','$defend');assert.equal(follow(restored).length,1);cast(restored,'tobin','$defend');assert.equal(follow(restored).length,0);
+ const {b,c}=setup();cast(b,'astraea','astraea.garden');cast(b,'iris','iris.formula','tobin');const restored=restoreChronicleBattle(c,snapshotChronicleBattle(b));assert.deepEqual(getActor(restored,'astraea').supportFollowupState,{round:1,count:1});assert.equal(getActor(restored,'astraea').modeFollowUpBonus,.5);cast(restored,'elaine','elaine.shield','iris');assert.equal(follow(restored).length,1);cast(restored,'tobin','$defend');assert.equal(follow(restored).length,0);
 });
 test('Tobin keeps heat ATK through his finisher, then spends heat; overfire trades speed for ATK',()=>{
  const {b}=setup(),a=getActor(b,'tobin');cast(b,'tobin','tobin.stoke');assert.equal(a.resourceValues.forge_heat,2);assert.ok(battleStat(b.content,a,'speed')<11);cast(b,'tobin','tobin.hammer','enemy_0');assert.equal(a.resourceValues.forge_heat,3);cast(b,'tobin','tobin.quench','enemy_0');const damage=b.events.find(e=>e.type==='damage'&&e.sourceId==='tobin');assert.ok(damage.amount>Math.floor(31*3.4));assert.equal(a.resourceValues.forge_heat,0);assert.equal(abilityAvailability(b,a,b.content.abilities['tobin.quench']).ok,false);
 });
 test('thorn VFX use one formation animation while retaining hit outcomes and bounded timelines',()=>{
- const {b}=setup();cast(b,'iris','$defend');const timeline=combatTimeline(b.events,b.content,{speed:'fast'});const frames=timeline.frames.filter(f=>f.kind==='signature'&&f.presentation==='nature_vines');assert.equal(frames.length,1);assert.equal(frames[0].area,true);assert.ok(timeline.duration<4000);
+ const {b}=setup();cast(b,'iris','iris.formula','tobin');const timeline=combatTimeline(b.events,b.content,{speed:'fast'});const frames=timeline.frames.filter(f=>f.kind==='signature'&&f.presentation==='nature_vines');assert.equal(frames.length,1);assert.equal(frames[0].area,true);assert.ok(timeline.duration<4000);
 });
 
 test('Astraea reaction does not feed Aurora and an enemy support action cannot trigger her',()=>{
- const {b}=setup(['astraea','iris','aurora','tobin']);cast(b,'iris','$defend');assert.equal(follow(b).length,1);assert.equal(b.events.filter(e=>e.type==='reaction'&&e.sourceId==='aurora').length,0);const a=getActor(b,'astraea');b.round++;cast(b,'enemy_0','$defend');assert.equal(follow(b).length,0);assert.equal(a.supportFollowupState.round,1);
+ const {b}=setup(['astraea','iris','aurora','tobin']);cast(b,'iris','iris.formula','tobin');assert.equal(follow(b).length,1);assert.equal(b.events.filter(e=>e.type==='reaction'&&e.sourceId==='aurora').length,0);const a=getActor(b,'astraea');b.round++;cast(b,'enemy_0','$defend');assert.equal(follow(b).length,0);assert.equal(a.supportFollowupState.round,1);
 });

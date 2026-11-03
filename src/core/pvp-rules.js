@@ -40,6 +40,7 @@ export function preparePvpContent(content,input=content.pvpRules?.default){
  const scoped=structuredClone(content);if(scoped.pvpRules)scoped.pvpRules.default=rules;
  for(const[id,p]of Object.entries(rules.characterOverrides)){const c=scoped.characters[id];if(p.stats)Object.assign(c.stats,p.stats);if(p.passive)Object.assign(c.passive,p.passive);}
  for(const[id,p]of Object.entries(rules.abilityOverrides)){const a=scoped.abilities[id];if(p.mp!==undefined)a.cost={...a.cost,mp:p.mp};if(p.cooldown!==undefined)a.cooldown=p.cooldown;for(const[index,patch]of Object.entries(p.effects??{})){const {onHitDuration,...rest}=patch;Object.assign(a.effects[index],rest);if(onHitDuration!==undefined)a.effects[index].onHitStatus.duration=onHitDuration;}}
+ for(const ability of Object.values(scoped.abilities))for(const effect of ability.effects??[])if(effect.type==='turn_order_field'&&effect.arena){Object.assign(effect,effect.arena);delete effect.arena;}
  for(const[id,p]of Object.entries(rules.statusOverrides))Object.assign(scoped.statuses[id].modifiers,p.modifiers);
  return {content:freezePvp(scoped),rules:freezePvp(rules)};
 }

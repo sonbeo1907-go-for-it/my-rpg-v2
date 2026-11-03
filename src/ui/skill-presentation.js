@@ -147,7 +147,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.type==='formula_field') lines.push('Đại Đồ Thức: '+effect.durationRounds+' vòng · '+effect.sequence.map(tag=>FORMULA_NAMES[tag]).join(' → ')+'.');
     if (effect.type==='edit_formula') lines.push('Đổi chỗ hai dấu hoặc viết lại một dấu; viết lại mang nguồn người hiệu chỉnh.');
     if (effect.type==='end_formula') lines.push('Kết thúc Đại Đồ Thức sau khi thi triển.');
-    if (effect.type === 'turn_order_field') lines.push('Đồng minh đi trước, đối thủ đi sau; giữ SPD trong từng phe. '+extendedFieldDuration(actor,skill.id,effect)+' vòng, tính cả vòng thi triển.');
+    if (effect.type === 'turn_order_field') lines.push((effect.kind==='speed_shift'?'Toàn đội +'+Math.round(effect.allySpeed*100)+'% SPD, toàn địch '+Math.round(effect.enemySpeed*100)+'% SPD; hiệu ứng bàn đấu. ':'Đồng minh đi trước, đối thủ đi sau; giữ SPD trong từng phe. ')+extendedFieldDuration(actor,skill.id,effect)+' vòng, tính cả vòng thi triển.');
     if(effect.type==='steal_base_stat')lines.push('Cướp '+percent(effect.ratio)+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'}[effect.stat])+' căn bản; tối đa +'+effect.cap+' đang giữ. Hộ ấn chặn cả lượt cướp; buff và debuff có thể bị xóa riêng.');
     if(effect.spentTeamResourceScaling){const r=effect.spentTeamResourceScaling;lines.push('Tiêu '+teamSpent+' Bằng Chứng: '+percent(effect.multiplier)+' ATK. Đủ '+r.fullSpend.at+': +'+percent(r.fullSpend.damageBonus)+' sát thương, xuyên '+percent(r.fullSpend.penetration)+' DEF.');}
     if (effect.type === 'damage') {

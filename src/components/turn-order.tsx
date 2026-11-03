@@ -16,13 +16,13 @@ export function TurnOrder({onHover}:{onHover:(id:string)=>void}) {
     {battle.outcome ? "Cuộc chạm trán đã khép lại." : <>
       <div className="turn-order-heading">
         <span className="turn-order-label">{battle.phase==="extra"?"VÒNG PHỤ · LƯỢT THÊM":"THỨ TỰ LƯỢT CHÍNH"}</span>
-        {field && <CombatPopover label={field.name} content={<><h3>{field.name}</h3><p>Phe {field.priorityTeam==="party"?"đồng minh":"đối thủ"} được ưu tiên. Trong từng phe vẫn xếp theo SPD.</p><p>Còn {remaining} vòng, tính cả vòng hiện tại. Hết hiệu lực sau Vòng Phụ.</p><p>Chỉ đổi lượt chưa thực hiện; không cấp thêm lượt.</p></>}>
+        {field && <CombatPopover label={field.name} content={<><h3>{field.name}</h3>{field.kind==='speed_shift'?<p>Phe thi triển +{Math.round(field.allySpeed*100)}% SPD · phe đối phương {Math.round(field.enemySpeed*100)}% SPD. Xếp lượt theo SPD toàn bàn; không phải buff/debuff.</p>:<p>Phe {field.priorityTeam==="party"?"đồng minh":"đối thủ"} được ưu tiên. Trong từng phe vẫn xếp theo SPD.</p>}<p>Còn {remaining} vòng, tính cả vòng hiện tại. Hết hiệu lực sau Vòng Phụ.</p><p>Chỉ đổi lượt chưa thực hiện; không cấp thêm lượt.</p></>}>
           <button type="button" className="turn-field-badge" aria-label={`${field.name} · còn ${remaining} vòng`}><Icon name="hourglass"/>{field.name}<span>{remaining} vòng</span></button>
         </CombatPopover>}
       </div>
       <div className="turn-chips">
         {pending.map((actor:any,index:number)=><Fragment key={actor.id}>
-          {field && index>0 && pending[index-1].team!==actor.team && <span className="turn-team-divider" role="img" aria-label="Đồng hồ cát · ranh giới lượt đồng minh và đối thủ" title={field.name}><Icon name="hourglass"/></span>}
+          {field?.kind==='team_priority' && index>0 && pending[index-1].team!==actor.team && <span className="turn-team-divider" role="img" aria-label="Đồng hồ cát · ranh giới lượt đồng minh và đối thủ" title={field.name}><Icon name="hourglass"/></span>}
           <button data-turn-actor={actor.id} data-turn-team={actor.team} className={actor.id===battle.activeId?"acting":""} onPointerEnter={()=>onHover(actor.id)} onPointerLeave={()=>onHover("")} onFocus={()=>onHover(actor.id)} onBlur={()=>onHover("")} aria-label={`Xem vị trí ${actor.name}`}>
             {actor.id===battle.activeId?"◆ ":""}{battle.arena?(actor.team==='party'?'Bạn · ':'Địch · ')+(actor.characterName??actor.name):actor.name}
           </button>

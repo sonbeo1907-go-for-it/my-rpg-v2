@@ -5,23 +5,28 @@ import {battleStat} from './stat-values.js';
 
 export function copyTurnOrderField(field) {
   if (field == null) return null;
-  if (field.kind !== 'team_priority' || !['party','enemy'].includes(field.priorityTeam) || typeof field.name !== 'string' || !field.name || typeof field.sourceId !== 'string' || !field.sourceId || !Number.isSafeInteger(field.expiresAfterRound) || field.expiresAfterRound < 0) throw new Error('Hiệu ứng thứ tự lượt không hợp lệ.');
+  if (!['team_priority','speed_shift'].includes(field.kind) || !['party','enemy'].includes(field.priorityTeam) || typeof field.name !== 'string' || !field.name || typeof field.sourceId !== 'string' || !field.sourceId || !Number.isSafeInteger(field.expiresAfterRound) || field.expiresAfterRound < 0) throw new Error('Hiệu ứng thứ tự lượt không hợp lệ.');
   if(field.abilityId!==undefined&&(typeof field.abilityId!=='string'||!field.abilityId))throw Error('Chiêu tạo trường thời gian không hợp lệ.');
+  if(field.kind==='speed_shift'&&(!Number.isFinite(field.allySpeed)||!Number.isFinite(field.enemySpeed)||Math.abs(field.allySpeed)>1||Math.abs(field.enemySpeed)>1))throw Error('Trường tốc độ không hợp lệ.');
   return structuredClone(field);
 }
 // Round-wide fields are independent of actor status clocks and of extra actions.
 export function activeTurnOrderField(battle) {
   const field=battle.turnOrderField;
-  return field?.kind==='team_priority' && battle.round<=field.expiresAfterRound ? field : null;
+  return field&&['team_priority','speed_shift'].includes(field.kind) && battle.round<=field.expiresAfterRound ? field : null;
 }
 export function orderActorIds(battle,ids) {
   const actors=new Map(battle.actors.map(actor=>[actor.id,actor]));
   const field=activeTurnOrderField(battle);
   return [...ids].sort((left,right)=>{
     const a=actors.get(left),b=actors.get(right);
-    const priority=field ? Number(b.team===field.priorityTeam)-Number(a.team===field.priorityTeam) : 0;
+    const priority=field?.kind==='team_priority' ? Number(b.team===field.priorityTeam)-Number(a.team===field.priorityTeam) : 0;
     return priority || battleStat(battle.content,b,'speed')-battleStat(battle.content,a,'speed');
   });
+}
+export function syncTurnFieldModifiers(battle){
+ const field=activeTurnOrderField(battle);
+ for(const actor of battle.actors){delete actor.turnFieldModifiers;if(field?.kind==='speed_shift')actor.turnFieldModifiers={speed:actor.team===field.priorityTeam?field.allySpeed:field.enemySpeed};}
 }
 export function expireTurnOrderField(battle,io,atRoundEnd=false) {
   const field=battle.turnOrderField;
@@ -30,16 +35,19 @@ export function expireTurnOrderField(battle,io,atRoundEnd=false) {
     io.write(battle,field.name+' hết hiệu lực.');
     io.emit(battle,{type:'turn_order_field_end',sourceId:field.sourceId});
   }
+  syncTurnFieldModifiers(battle);
   syncExclusiveFieldModifiers(battle);
 }
 export function applyTurnOrderField(battle,actor,effect,io,abilityId) {
-  battle.turnOrderField={kind:'team_priority',name:effect.name,sourceId:actor.id,priorityTeam:actor.team,...(abilityId?{abilityId}:{}),expiresAfterRound:battle.round+extendedFieldDuration(actor,abilityId,effect)-1};
+  const config=battle.arena&&effect.arena?effect.arena:effect;
+  battle.turnOrderField={kind:config.kind??'team_priority',...(config.kind==='speed_shift'?{allySpeed:config.allySpeed,enemySpeed:config.enemySpeed}:{}),name:effect.name,sourceId:actor.id,priorityTeam:actor.team,...(abilityId?{abilityId}:{}),expiresAfterRound:battle.round+extendedFieldDuration(actor,abilityId,effect)-1};
+  syncTurnFieldModifiers(battle);
   syncExclusiveFieldModifiers(battle);
   // Freeze history and the current action. Reorder only actors that have not acted.
   const prefix=battle.queue.slice(0,battle.cursor+1);
   battle.queue=[...prefix,...orderActorIds(battle,battle.queue.slice(battle.cursor+1))];
   if (battle.phase==='main') battle.mainTurnOrder=[...battle.queue];
-  io.write(battle,effect.name+': phe của '+actor.name+' được ưu tiên, giữ thứ tự SPD trong từng phe.');
+  io.write(battle,battle.turnOrderField.kind==='speed_shift'?effect.name+': phe của '+actor.name+' +'+Math.round(config.allySpeed*100)+'% SPD, phe đối phương '+Math.round(config.enemySpeed*100)+'% SPD; không ưu tiên lượt theo phe.':effect.name+': phe của '+actor.name+' được ưu tiên, giữ thứ tự SPD trong từng phe.');
   io.emit(battle,{type:'turn_order_field',sourceId:actor.id,field:structuredClone(battle.turnOrderField)});
 }
 export function skillBaseStatBonuses(battle,actor,skill,targets) {

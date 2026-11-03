@@ -5,5 +5,5 @@ export function supportFollowupLimit(actor){const p=actor.passive;return actor.a
 export function supportFollowupBonus(actor){return actor.activeMode===actor.passive?.modeId?actor.modeFollowUpBonus??0:0;}
 export function supportFollowupReady(battle,owner,source,skill){
  const p=owner.passive,state=owner.supportFollowupState;
- return p?.type==='ally_support_followup'&&isAlive(owner)&&isAlive(source)&&owner.id!==source.id&&owner.team===source.team&&isSupportAction(skill)&&(state?.round!==battle.round||state.count<supportFollowupLimit(owner));
+ return p?.type==='ally_support_followup'&&isAlive(owner)&&isAlive(source)&&owner.id!==source.id&&owner.team===source.team&&isSupportAction(skill)&&(!p.excludeDefend||skill.id!=='$defend')&&(state?.round!==battle.round||state.count<supportFollowupLimit(owner));
 }
