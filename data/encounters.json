@@ -1967,5 +1967,128 @@
     "bookId": "book2",
     "chronicleEventId": "book2.finale",
     "chronicleKind": "fortress_defense"
+  },
+  {
+    "id": "artesia_story_1",
+    "name": "Mỹ thiếu nữ xinh đẹp tài ba nhất học viện ta là ta đây!",
+    "description": "Chương 1 — Một buổi thực hành tại đài thiên văn biến thành màn ra mắt hoành tráng — ít nhất là theo lời Artesia.",
+    "enemies": [
+      "astral_mote",
+      "astral_mote",
+      "cracked_astrolabe"
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "artesia",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      }
+    ],
+    "enemyLevel": 10,
+    "referenceLevel": 1
+  },
+  {
+    "id": "artesia_story_2",
+    "name": "Ngôi sao mang tên mình.",
+    "description": "Chương 2 — Những mô hình sao rời quỹ đạo. Giữa tiếng cười và những phép tính sai, Artesia nhận ra ánh sáng của riêng mình.",
+    "enemies": [
+      "astral_mote",
+      "astral_mote",
+      "unstable_hourglass"
+    ],
+    "waves": [
+      [
+        "astral_mote",
+        "astral_mote",
+        "unstable_hourglass"
+      ],
+      [
+        "nebula_echo",
+        "nebula_echo",
+        "cracked_astrolabe"
+      ],
+      [
+        "nebula_echo",
+        "cracked_astrolabe",
+        "unstable_hourglass"
+      ]
+    ],
+    "bgm": "normal",
+    "rewardTier": "normal",
+    "travelerStory": "artesia",
+    "requires": {
+      "firstClear": "artesia_story_1",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      },
+      {
+        "type": "exclusive_recipe",
+        "templateId": "artesia.astral_orb"
+      }
+    ],
+    "enemyLevel": 20,
+    "referenceLevel": 1
+  },
+  {
+    "id": "artesia_story_3",
+    "name": "Dải ngân hà xa xôi.",
+    "description": "Chương 3 — Đối mặt Orbis — Thiên Cầu Lạc Quỹ. Ba lớp màn sao thử thách cách phối hợp tấn công và cường hóa.",
+    "enemies": [
+      "orbis_lost_sphere"
+    ],
+    "bgm": "boss",
+    "rewardTier": "boss",
+    "travelerStory": "artesia",
+    "requires": {
+      "firstClear": "artesia_story_2",
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ]
+    },
+    "firstClearRewards": [
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 5
+      },
+      {
+        "type": "currency",
+        "currency": "originalPrisma",
+        "amount": 1
+      }
+    ],
+    "enemyLevel": 30,
+    "referenceLevel": 1
   }
 ]

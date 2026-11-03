@@ -108,5 +108,19 @@
       "sieg_story_2",
       "sieg_story_3"
     ]
+  },
+  {
+    "id": "artesia",
+    "characterId": "artesia",
+    "order": 9,
+    "name": "Ngôi sao mang tên mình",
+    "subtitle": "Artesia · Giữa muôn vàn vì sao",
+    "description": "Từ lời tuyên bố náo nhiệt nhất học viện đến một dải ngân hà xa xôi: Artesia đi tìm ánh sáng không cần phải giống bất kỳ ai.",
+    "art": "/art/story-artesia.svg",
+    "chapters": [
+      "artesia_story_1",
+      "artesia_story_2",
+      "artesia_story_3"
+    ]
   }
 ]

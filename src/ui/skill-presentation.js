@@ -73,7 +73,7 @@ export function passiveDescription(actor, content) {
     const recipient = passive.type === 'team_flat_self' ? `cho bản thân, với mỗi ${group} trong đội${passive.excludeSelf ? ' trừ bản thân' : ' (gồm bản thân)'}` : `cho mọi thành viên ${group}, với mỗi ${group} trong đội${passive.countSelf ? ' (gồm bản thân)' : ' trừ người cấp nội tại'}`;
     return `${passive.name}: ${bonus} ${recipient}. Cộng trước buff %, chốt theo đội hình lúc bắt đầu trận; đồng đội gục không làm mất bonus. Nhân vật ngoài đội chưa được cộng bonus đội hình trong preview.`;
   }
-  if(passive.type==='defend_adjacent_mp')return passive.name+': khi dùng Phòng thủ, hồi '+percent(passive.ratio)+' MP tối đa hiện tại cho hai đồng đội ở hai ô kề, nối vòng ô 1 và 4. Không tính bản thân, ô trống hoặc người đã gục.';
+  if(passive.type==='defend_adjacent_mp')return passive.name+': khi dùng Phòng thủ, hồi '+percent(exclusivePassive(actor,'defend_adjacent_support')?.ratio??passive.ratio)+' MP tối đa hiện tại cho hai đồng đội ở hai ô kề, nối vòng ô 1 và 4. Không tính bản thân, ô trống hoặc người đã gục.';
   if (passive.type === 'end_turn_mp_regen') return `${passive.name}: cuối lượt của chính mình, hồi ${percent(passive.ratio)} MP tối đa cho từng đồng đội còn sống, tăng thành ${percent(passive.ratio * passive.tagMultiplier)} với ${passive.tag === 'valmont' ? 'Valmont' : passive.tag} (gồm bản thân nếu đúng nhóm). Làm tròn lên, không vượt MP tối đa; bị choáng vẫn hồi, đã gục thì không kích hoạt.`;
   if (passive.type === 'field_growth') {
     const label = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD' }[passive.stat];
@@ -221,6 +221,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       const extension=exclusivePassive(actor,'skill_status_duration',skill.id);
       const effectiveDuration=(effect.duration??status.defaultDuration) + (extension?.type==='skill_status_duration' && extension.statusId===effect.status && extension.abilityIds.includes(skill.id) ? extension.extraDuration : 0);
       const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effectiveDuration} ${status.durationClock==='round'?'vòng':'lượt của người nhận'}`;
+      if(status.bypassedByBuffedAttacker)lines.push('Mỗi tầng giảm '+percent(status.modifiers.damageReduction)+' sát thương; người tấn công đang có buff bỏ qua lớp giảm này. Không tự tiêu tầng.');
       if(status.buffRejection)lines.push(`${status.name}: chặn ${status.buffRejection.charges} buff mới, rồi tiêu hiệu ứng; không xóa buff đang có. Dùng lại làm mới.`);
       if(status.consumeOnPaidSkill)lines.push(`Tăng ${percent(status.mpCostIncrease)} MP tiêu hao cho một lần trả MP thành công; không tiêu với chiêu 0 MP.`);
       if(status.healingReceivedReduction)lines.push(`Giảm ${percent(status.healingReceivedReduction)} mọi HP hồi nhận, gồm hút máu · ${duration}.`);

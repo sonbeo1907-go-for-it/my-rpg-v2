@@ -64,6 +64,7 @@ import {
 } from "./boss-mechanics.js";
 import { activeStatuses } from "./status-state.js";
 import {receivedSupport,consumeStatusCharge} from "./status-policies.js";
+import {bypassedBarrierReduction} from "./skill-barrier.js";
 import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
@@ -203,6 +204,7 @@ export function createBattle(
     events: [],
     actionCount: 0,
   };
+  for(const actor of actors)for(const initial of actor.initialStatuses??[])applyStatus(battle,actor,initial.status,initial.duration,actor.id,{stacks:initial.stacks??1,silent:true});
   initializeTeamResources(battle,options.teamResources);
   if (!actors.some((actor) => actor.team === "party" && living(actor))) {
     battle.outcome = "defeat";
@@ -1014,7 +1016,7 @@ function resolveHit(
     hpRatio: attacker.hp / attacker.stats.maxHp,
     buffs: buffTypeCount(battle.content,target),
   });
-  let reduction = agonyReduction(target)+modifier(battle, target, "damageReduction")+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0);
+  let reduction = agonyReduction(target)+modifier(battle, target, "damageReduction")-bypassedBarrierReduction(battle.content,target,attacker)+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0);
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
@@ -1680,7 +1682,11 @@ function resolveAction(
   if(skill.id==='$defend'&&actor.passive?.type==='defend_adjacent_mp'&&living(actor)){
     const recipients=adjacentAllies(battle,actor);
     if(recipients.length){announcePassive(battle,actor);write(battle,actor.name+' kích hoạt '+actor.passive.name+'.');}
-    for(const ally of recipients)gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*actor.passive.ratio),actor.id);
+    const upgrade=exclusivePassive(actor,'defend_adjacent_support');
+    for(const ally of recipients){
+      gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*(upgrade?.ratio??actor.passive.ratio)),actor.id);
+      if(upgrade)applyStatus(battle,ally,upgrade.statusId,upgrade.duration,actor.id);
+    }
   }
   if(skill.id==='$defend')chargeSupportModes(battle,actor,actionContext);
   gearAfterAction(battle,actor,skill,gearIO);

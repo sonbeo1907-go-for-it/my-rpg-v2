@@ -9101,5 +9101,134 @@
     "growthGroups": [
       "damage"
     ]
+  },
+  {
+    "id": "astral_enemy.spark",
+    "name": "Tia Sao Lạc",
+    "description": "Tia Sao Lạc.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.05,
+        "element": "light",
+        "damageType": "magical"
+      }
+    ],
+    "skillLineId": "astral_enemy.spark",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng riêng của quái; hệ số giữ nguyên.",
+    "growthGroups": []
+  },
+  {
+    "id": "astral_enemy.orbit",
+    "name": "Quỹ Đạo Rạn Nứt",
+    "description": "Quỹ Đạo Rạn Nứt.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.65,
+        "element": "light",
+        "damageType": "magical"
+      }
+    ],
+    "skillLineId": "astral_enemy.orbit",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng riêng của quái; hệ số giữ nguyên.",
+    "growthGroups": [],
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "astral_enemy.echo",
+    "name": "Dư Âm Tinh Vân",
+    "description": "Dư Âm Tinh Vân.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.2,
+        "element": "dark",
+        "damageType": "magical"
+      }
+    ],
+    "skillLineId": "astral_enemy.echo",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng riêng của quái; hệ số giữ nguyên.",
+    "growthGroups": [],
+    "cost": {
+      "mp": 5
+    }
+  },
+  {
+    "id": "orbis.starfall",
+    "name": "Sao Rơi Ngoài Quỹ Đạo",
+    "description": "Sao Rơi Ngoài Quỹ Đạo.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.2,
+        "element": "light",
+        "damageType": "magical"
+      }
+    ],
+    "skillLineId": "orbis.starfall",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng riêng của quái; hệ số giữ nguyên.",
+    "growthGroups": []
+  },
+  {
+    "id": "orbis.milkyway",
+    "name": "Dòng Chảy Ngân Hà",
+    "description": "Dòng Chảy Ngân Hà.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 0.85,
+        "element": "light",
+        "damageType": "magical"
+      }
+    ],
+    "skillLineId": "orbis.milkyway",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng riêng của quái; hệ số giữ nguyên.",
+    "growthGroups": [],
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2
+  },
+  {
+    "id": "orbis.eclipse",
+    "name": "Điểm Mù Thiên Cầu",
+    "description": "Điểm Mù Thiên Cầu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "multiplier": 1.65,
+        "element": "dark",
+        "damageType": "magical"
+      }
+    ],
+    "skillLineId": "orbis.eclipse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng riêng của quái; hệ số giữ nguyên.",
+    "growthGroups": [],
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 3
   }
 ]

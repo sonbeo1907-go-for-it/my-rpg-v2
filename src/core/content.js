@@ -90,6 +90,10 @@ export function validateContent(content) {
     }
     if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
+    if(actor.initialStatuses!==undefined){
+      if(!Array.isArray(actor.initialStatuses))fail(id+': invalid initial statuses');
+      else for(const initial of actor.initialStatuses){exists('statuses',initial.status,id);const d=content.statuses[initial.status];if(!Number.isInteger(initial.stacks??1)||(initial.stacks??1)<1||(initial.stacks??1)>(d?.maxStacks??1)||(!d?.persistent&&(!Number.isInteger(initial.duration)||initial.duration<1)))fail(id+': invalid initial status');}
+    }
     if(native?.type==='defend_adjacent_mp'&&(!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1))fail(id+': invalid adjacent MP passive');
     if(actor.group==='agony'||actor.agony||native?.type==='agony_revenant'){
       const r=actor.agony;
@@ -319,6 +323,7 @@ export function validateContent(content) {
   }
   for (const [id, status] of Object.entries(content.statuses)) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
+    if(status.bypassedByBuffedAttacker!==undefined&&(status.bypassedByBuffedAttacker!==true||status.kind!=='buff'||!Number.isInteger(status.maxStacks)||status.maxStacks<1||!Number.isFinite(status.modifiers?.damageReduction)||status.modifiers.damageReduction<=0||status.modifiers.damageReduction*status.maxStacks>.75))fail(id+': invalid skill-aware barrier');
     for(const key of ['healingReceivedReduction','shieldReceivedReduction'])if(status[key]!==undefined&&(!Number.isFinite(status[key])||status[key]<0||status[key]>1||status.kind!=='debuff'))fail(id+': invalid recipient reduction');
     if(status.defaultDuration!==undefined&&(!Number.isInteger(status.defaultDuration)||status.defaultDuration<1))fail(id+': invalid default duration');
     if(status.buffRejection!==undefined&&(status.kind!=='debuff'||!Number.isInteger(status.buffRejection?.charges)||status.buffRejection.charges<1||!status.persistent))fail(id+': invalid buff rejection');

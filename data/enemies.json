@@ -2125,5 +2125,165 @@
         "enemy.fortress_sabotage"
       ]
     }
+  },
+  {
+    "id": "astral_mote",
+    "name": "Đốm Sao Lạc",
+    "role": "Vật dụng chiêm tinh thất lạc",
+    "element": "light",
+    "stats": {
+      "maxHp": 110,
+      "maxMp": 55,
+      "attack": 12,
+      "magic": 22,
+      "defense": 11,
+      "resistance": 15,
+      "speed": 17
+    },
+    "weaknesses": [
+      "dark",
+      "water"
+    ],
+    "abilities": [
+      "astral_enemy.spark"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1,
+        "element": "light",
+        "damageType": "magical"
+      }
+    ],
+    "referenceLevel": 1,
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "astral_enemy.spark"
+      ]
+    }
+  },
+  {
+    "id": "cracked_astrolabe",
+    "name": "Tinh Bàn Rạn Vỡ",
+    "role": "Vật dụng chiêm tinh thất lạc",
+    "element": "light",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 80,
+      "attack": 12,
+      "magic": 25,
+      "defense": 16,
+      "resistance": 19,
+      "speed": 13
+    },
+    "weaknesses": [
+      "earth",
+      "wind"
+    ],
+    "abilities": [
+      "astral_enemy.spark",
+      "astral_enemy.orbit"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1,
+        "element": "light",
+        "damageType": "magical"
+      }
+    ],
+    "referenceLevel": 1,
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "astral_enemy.spark",
+        "astral_enemy.orbit"
+      ]
+    }
+  },
+  {
+    "id": "nebula_echo",
+    "name": "Dư Ảnh Tinh Vân",
+    "role": "Dư ảnh ma pháp trong đài thiên văn",
+    "element": "dark",
+    "stats": {
+      "maxHp": 145,
+      "maxMp": 65,
+      "attack": 12,
+      "magic": 26,
+      "defense": 12,
+      "resistance": 18,
+      "speed": 19
+    },
+    "weaknesses": [
+      "light",
+      "thunder"
+    ],
+    "abilities": [
+      "astral_enemy.echo"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1,
+        "element": "dark",
+        "damageType": "magical"
+      }
+    ],
+    "referenceLevel": 1,
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "astral_enemy.echo"
+      ]
+    }
+  },
+  {
+    "id": "orbis_lost_sphere",
+    "name": "Orbis — Thiên Cầu Lạc Quỹ",
+    "role": "Mô hình thiên cầu bị lạc quỹ đạo",
+    "element": "light",
+    "stats": {
+      "maxHp": 1000,
+      "maxMp": 150,
+      "attack": 12,
+      "magic": 33,
+      "defense": 23,
+      "resistance": 26,
+      "speed": 18
+    },
+    "weaknesses": [
+      "dark",
+      "earth"
+    ],
+    "abilities": [
+      "orbis.starfall",
+      "orbis.milkyway",
+      "orbis.eclipse"
+    ],
+    "basicAttack": [
+      {
+        "type": "damage",
+        "multiplier": 1,
+        "element": "light",
+        "damageType": "magical"
+      }
+    ],
+    "referenceLevel": 1,
+    "ai": {
+      "priorities": [],
+      "rotation": [
+        "orbis.starfall",
+        "orbis.milkyway",
+        "orbis.eclipse"
+      ]
+    },
+    "initialStatuses": [
+      {
+        "status": "starveil_barrier",
+        "stacks": 3
+      }
+    ]
   }
 ]

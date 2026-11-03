@@ -1261,5 +1261,26 @@
     "mpCostIncrease": 0.5,
     "consumeOnPaidSkill": true,
     "charges": 1
+  },
+  {
+    "id": "astral_neighbor_guard",
+    "name": "Ánh Sao Hộ Mệnh",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "damageReduction": 0.2
+    }
+  },
+  {
+    "id": "starveil_barrier",
+    "name": "Tam Trùng Màn Sao",
+    "kind": "buff",
+    "persistent": true,
+    "maxStacks": 3,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "damageReduction": 0.25
+    },
+    "bypassedByBuffedAttacker": true
   }
 ]

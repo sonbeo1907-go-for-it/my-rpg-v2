@@ -782,5 +782,28 @@
       "description": "Địch đủ 3 tầng Trò quậy: MAG cộng cho đồng đội khác đánh phép vào địch đó tăng từ 15% lên 25%.",
       "rules": []
     }
+  },
+  {
+    "id": "artesia.astral_orb",
+    "characterId": "artesia",
+    "name": "Chiêm Tinh Cầu",
+    "description": "Trấn Phái của Artesia. Mở công thức tại chương II — Ngôi sao mang tên mình.",
+    "enabled": true,
+    "requires": {
+      "firstClear": "artesia_story_2"
+    },
+    "passive": {
+      "type": "defend_adjacent_support",
+      "ratio": 0.05,
+      "statusId": "astral_neighbor_guard",
+      "duration": 1,
+      "name": "Chiêm Tinh Cầu",
+      "description": "Phòng thủ: hồi 5% MP tối đa và giảm 20% sát thương nhận trong 1 lượt chính cho hai đồng đội ở ô kề.",
+      "rules": [
+        "Thay mức hồi 3% của nội tại; không cộng thành 8%.",
+        "Nối vòng ô 1 và 4; bỏ qua ô trống và đồng đội đã gục.",
+        "Hiệu ứng giảm sát thương là buff, có thể bị xóa hoặc bị Phong Ấn chặn."
+      ]
+    }
   }
 ]

@@ -1,0 +1,12 @@
+import {test,expect} from '@playwright/test';
+import {loadContent} from '../scripts/load-content.mjs';
+import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
+import {claimBattleReward} from '../src/core/economy.js';
+const content:any=await loadContent();
+test('Artesia book, chapter levels, rewards and responsive symbolic cover',async({page,request})=>{
+ let c=createGameSave(content);for(const owner of ['iris','fiona','takeshi','artesia'])for(const id of content.travelerStories[owner].chapters.slice(0,owner==='artesia'?2:3)){const e=content.encounters[id];c=claimBattleReward(c,{encounterId:id,outcome:'victory',actors:(e.requiredPartyIds??[]).map((id:string)=>({id,team:'party'})),...(e.waves?{storyWave:{waveIndex:e.waves.length-1,totalWaves:e.waves.length}}:{})},content);}
+ await page.addInitScript(raw=>{localStorage.setItem('northern-prisma.campaign.v4',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({controlMode:'mouse',musicEnabled:false,rumble:false,showHints:false}));},encodeGameSave(c,content));await page.emulateMedia({reducedMotion:'reduce'});
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/stories?page=3');await expect(page.locator('a.story-book').filter({hasText:'Ngôi sao mang tên mình'})).toBeVisible();expect((await request.get('/art/story-artesia.svg')).ok()).toBe(true);
+ await page.locator('a.story-book').filter({hasText:'Ngôi sao mang tên mình'}).click();await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.quest-enemies')).toContainText('Orbis');await expect(page.locator('.embark')).toBeEnabled();await page.screenshot({path:'test-results/artesia-story-desktop.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'test-results/artesia-story-phone.png',fullPage:true});await page.locator('.embark').click();await page.getByRole('dialog').getByRole('button',{name:'Xuất chiến',exact:true}).click();await expect(page.getByRole('button',{name:'Xem hiệu ứng Tam Trùng Màn Sao'})).toBeVisible();await page.getByRole('button',{name:'Xem hiệu ứng Tam Trùng Màn Sao'}).hover();await expect(page.getByText(/Người tấn công đang có ít nhất một buff/).first()).toBeVisible();expect(errors).toEqual([]);
+});
