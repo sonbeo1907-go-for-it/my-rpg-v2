@@ -15,7 +15,7 @@ Hunter Guild = Hội Thợ Săn; Magic Academy = Học Viện Ma Thuật; Capita
 | DPS vật lí / DPS ma pháp | physical_dps / magical_dps; type sát thương không bắt buộc trùng stat scale |
 | Hỗ trợ tấn công / phòng thủ | offensive_support / defensive_support |
 | Thủ Hộ | tank; không đổi internal ID vì đổi class label |
-| Đấu sĩ / Thuật Sư | fighter / sorcerer; có mode không đồng nghĩa Thuật Sư và Thuật Sư không tự có background |
+| Đấu sĩ / Thuật Sư | fighter / sorcerer; Thuật Sư được ưu tiên VFX đặc trưng gắn cơ chế. Có mode không đồng nghĩa Thuật Sư; VFX riêng không bắt buộc là background riêng |
 | Liên kích (FuA) | follow_up; thay tên “đánh bồi” trong copy mới, không renameID hàng loạt |
 | Phản công | counter; phản ứng sau nhận/né đòn, khác trigger của Aurora |
 | Phòng thủ | $defend: giảm 40% damage theo status và hồi 5% maxMP bản thân, ceil/capped |
@@ -41,3 +41,9 @@ Coin (`coins`); Prisma tím (`prisma`, quaybanner); Pure Prisma vàng cam (`recr
 ## Viết mô tả
 
 Tên → tác dụng chính → hệ số/stat scale → giá/đối tượng → thời hạn/điều kiện trong phần chi tiết. Không lặp nguyên đoạn effect ở cả description lẫn tooltip. Hiển thị số từ resolver, không ghi số cân bằng riêng trongTSX. Phân biệt vòng, lượt chính, lượt thực tế và lần sử dụng. “Tăng 30%” là cộng 0,30; “gây 200%” là× 2; ghi rõ “thêm 100%” khi nghĩa× 2. Chuẩn copy ở [SKILL_COPY_AND_UX_SPEC.md](SKILL_COPY_AND_UX_SPEC.md); catalog cũ trong file đó không thay dữ liệu hiện hành.
+
+## Chính sách ngôn ngữ hiển thị
+
+Ưu tiên game thuần Việt dù logic/code/tài liệu kỹ thuật dùng tiếng Anh. Dịch theo ý nghĩa gameplay, không dịch từng từ máy móc. Thuật ngữ đã chốt dùng nhất quán: Phòng thủ, Liên kích, Phản công, Hồi chiêu, Lượt Thêm, Vòng Phụ, Trấn Phái, Truy Nã, Đấu Trường. Ví dụ damage amplification → khuếch đại sát thương; cooldown → hồi chiêu; stack → tầng; follow-up → Liên kích.
+
+Quy tắc này không buộc đổi tên riêng hoặc ký hiệu đã được duyệt, cũng không đổi ID/schema. Khi một từ có nghĩa khác nhau theo cơ chế, mô tả đúng tác dụng thay vì gộp vào cùng bản dịch. Lỗi kỹ thuật giữ chi tiết trong log chẩn đoán; người chơi nhận thông báo tiếng Việt dễ hiểu và thao tác khắc phục nếu có.

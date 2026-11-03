@@ -36,6 +36,14 @@ Kiểm tra link local, UTF-8, tính đầy đủ INDEX và dữ liệu snapshot 
 - Assert thông số Mori/Sandra/Tywin, enemy referenceLevel1 và mặc định Quest Rất dễ khớp dữ liệu.
 - npm.cmd run validate và git diff --check đã qua. Không sửa source gameplay, không chạy full regression hoặc build EXE vì chỉ đổi tài liệu.
 
+## Bản sắc lớp Thuật Sư
+
+Bổ sung định hướng ưu tiên VFX đặc trưng vào HANDOFF, GLOSSARY, CONTENT_GUIDE và COMBAT_FEEDBACK. Phân biệt VFX cơ chế, scene PvE và chuẩn hóa mode Arena; không biến mọi combatMode thành hiệu ứng toàn bàn. Không đổi renderer hoặc gameplay ở lần bổ sung này.
+
 ## Bổ sung kiến trúc và quy trình
 
 Đã thêm sơ đồ ownership/command/persist, phân biệt core mutable battle với transaction campaign, checklist theo loại thay đổi, phối hợp harness, release/rollback và rủi ro save mới với EXE cũ. `.github/workflows` chưa tồn tại tại lúc kiểm tra; CI, live updater và integration DeepSeek chưa được thực hiện. Kiểm tra lại link/UTF-8/diff cho77 file Markdown sau bổ sung, không chạy build EXE cho tài liệu.
+
+## Ngôn ngữ sản phẩm
+
+Đã ghi chính sách ưu tiên game thuần Việt ở AGENTS, HANDOFF, GLOSSARY, CONTENT_GUIDE và SKILL_COPY_AND_UX_SPEC. Tách ngôn ngữ UI khỏi code/trao đổi kỹ thuật; giữ ID, tên riêng và ký hiệu có chủ ý. Đây là cập nhật quy chuẩn, chưa phải tuyên bố đã Việt hóa lại toàn bộ chuỗi UI hiện có.

@@ -609,3 +609,7 @@ Các mô tả ngắn sẵn rõ được giữ lại; những đoạn trộn hệ
 | Đại náo ruộng đồng | Càn quét toàn đội đối phương. |
 
 **Độ phủ:** 32 nhân vật, 100 kỹ năng của nhân vật (gồm nâng cấp/tự động), 44 kỹ năng địch và 13 Trấn Phái.
+
+## Bổ sung chính sách ngôn ngữ — 03/11/2026
+
+Ưu tiên ngôn ngữ game thuần Việt, kể cả khi logic và trao đổi triển khai dùng tiếng Anh. Dùng từ Việt tự nhiên trong tên cơ chế, mô tả, tooltip, nhật ký, lỗi và thao tác; đối chiếu GLOSSARY. Giữ tên riêng/ký hiệu đã chốt và ID nội bộ. Không dùng raw key hoặc thuật ngữ code làm bản dịch tạm. Đây là quy tắc copy hiện hành, áp dụng cả nội dung mới và khi rà soát UI cũ.

@@ -27,6 +27,12 @@ VFX là SVG nhẹ được portal trực tiếp vào khung hoặc đội hình, 
 
 Giảm chuyển động bỏ di chuyển, rung, phóng to và nhịp chờ; giữ thông báo ngắn tĩnh và số. Các nhãn mục tiêu/viền cam, viền khiên và tương tác chuột/tay cầm hiện tại vẫn hoạt động.
 
+## Bản sắc VFX của Thuật Sư
+
+Thuật Sư được ưu tiên VFX đặc trưng cho cơ chế, không chỉ glyph phép mặc định. VFX có thể chiếm một phần bàn đấu PvE, hiện tại chủ sở hữu, hoặc chỉ tồn tại trong lần thi triển. Sandra dùng sách lệnh/dấu phong ấn tạm thời; không cần thêm background hoặc mode. Trong Arena mọi combatMode vẫn hiển thị cục bộ, không để scene của hai phe ghi đè nhau.
+
+Đây là quy tắc thiết kế nội dung, không phải điều kiện `roleGroup === sorcerer` tự bật overlay. Mỗi nguồn phải có presentation/lifecycle rõ ràng, đúng mục tiêu, cleanup, reduced motion và không can thiệp simulation.
+
 ## Điểm mở rộng
 
 `src/ui/combat-timeline.js` là bộ lập lịch thuần; `src/components/combat-effects.tsx` dựng VFX chung; `src/app/combat.css` chứa style. Skill mới dùng bộ mặc định từ target/effects/element; chỉ cần `presentation` riêng khi có hoạt ảnh đặc thù. Mọi sự kiện native mới có thể phát `passive` với sourceId và label, tránh phát theo thay đổi chỉ số suy đoán.

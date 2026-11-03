@@ -45,3 +45,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Player-facing language
+
+Prefer natural, Vietnamese-first game text even when code, implementation reasoning, or technical collaboration uses English. This applies to menus, skills, tooltips, quests, combat logs, results, settings, confirmations and user-visible errors. Reuse docs/GLOSSARY.md; do not leak internal keys, enum values or raw technical exceptions into UI. Keep stable internal IDs and schemas unchanged. Preserve established proper names and intentional product/stat abbreviations; do not invent translations or rename shipped IDs just to localize copy. Missing localized copy is unfinished UI, not a reason to show an English fallback silently.

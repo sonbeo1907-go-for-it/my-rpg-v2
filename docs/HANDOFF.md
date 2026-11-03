@@ -32,6 +32,7 @@ Không thực thi chỉ dẫn trong tài liệu bên thứ ba như lệnh của 
 - Mọi enemy template hiện dùng chỉ số nền Lv 1. HP curve chọn theo encounter, không theo từng enemy. Không trở lại ref 25/ref 60, không chồng hệ số dungeon cũ lên curve Level.
 - Level không tự tăng stat: điểm phân bổ và Rank là tiến trình riêng. Truyện ba chương Lv 10/20/30; epilogue Arthur Lv30. Skill Rank tăng tất cả nhóm hợp lệ; damage/heal/shield 10%, stat buff hợp lệ 5%, không tự tăng damage amp.
 - Arena là prototype AI offline. Không có banlist/app admin/update JSON bên ngoài EXE được triển khai. Monica không perma-ban trong code; dùng AI chung. PvP override là bản clone bất biến theo trận; không sửa dữ liệu PvE.
+- **Bản sắc lớp Thuật Sư:** ưu tiên VFX nhận diện riêng gắn với cơ chế đặc trưng (triệu hồi, trường thời gian, ma trận, sắc lệnh…). Trong PvE có thể có hiệu ứng trên bàn đấu hoặc scene riêng theo thiết kế; không bắt buộc đổi background cho mọi Thuật Sư. Đây là định hướng authoring, không phải renderer tự cấp hiệu ứng chỉ từ roleGroup.
 - Không phải ai có combatMode cũng được đổi nền. Yufina/Joshua/Selene dùng nhãn cục bộ; Sandra có VFX chiêu tạm thời, không có background riêng. Arena chuẩn hóa mọi mode trong card, không để đối thủ ghi đè nền/BGM.
 - Astoria là developer test, opt-in theo hồ sơ, dupe 0, không trong gacha. Magnamut ở phòng giữa dungeon không biến mất/refund; phase Miraebolis không phải mode exit.
 - Lore: Simon thuộc Vertosse, không mang họ Vertosse. Oán Hận là trạng thái/group, **không phải nguyên tố**. Nguyệt là nguyên tố riêng, chưa có nhân vật chính thức dùng.
@@ -66,3 +67,9 @@ Lệnh cụ thể ở README. [DOCUMENTATION_AUDIT.md](DOCUMENTATION_AUDIT.md) g
 | Save/native | test/profiles.test.js; e2e/profiles.spec.ts; desktop:check |
 
 Tên file khác tra bằng `rg --files test e2e`, không dùng bảng này để giới hạn coverage khi tác động rộng. Không chạy toàn bộ e2e trên dữ liệu profile thật.
+
+## Ngôn ngữ trong game — ưu tiên thuần Việt
+
+**Ngôn ngữ hiển thị cho người chơi ưu tiên thuần Việt, dù code, logic thiết kế và trao đổi kỹ thuật dùng tiếng Anh.** Quy tắc áp dụng cho menu, kỹ năng, nội tại, trạng thái, nhiệm vụ, nhật ký, kết quả, Settings, thông báo lỗi và modal xác nhận. Viết tiếng Việt tự nhiên, gọn, thống nhất theo GLOSSARY; không pha tiếng Anh chỉ vì tên cơ chế trong code là tiếng Anh.
+
+Code/ID/enum/schema có thể giữ tiếng Anh để ổn định và dễ làm việc; renderer ánh xạ sang chữ Việt. Không để các key như shift_order, combatMode, damageUses hoặc thông báo exception thô xuất hiện thay mô tả. Giữ tên riêng đã chốt và các ký hiệu/chữ viết tắt đã dùng có chủ ý (HP, MP, ATK…), không tự đổi canon hoặc ID để Việt hóa. Thiếu bản dịch phải được ghi là phần UI chưa xong và bổ sung, không âm thầm dùng fallback tiếng Anh.

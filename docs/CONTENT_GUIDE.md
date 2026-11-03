@@ -24,6 +24,10 @@ Enemy/encounter referenceLevel=1. HP curve theo encounter, không từng enemy. 
 
 rewardTier, category, travelerStory và bgm là các lớp độc lập. Cờ mở khóa/thưởng lần đầu dùng requires/ledger/transaction, không phát ở component mount. BGM tham chiếu music.json; Arena dùng start/climax/finale cùng mã bản nhạc.
 
+**Định hướng lớp Thuật Sư:** khi thiết kế nội dung mới, dành VFX nhận diện riêng cho cơ chế chủ đạo. Có thể là trường/đạo cụ tương tác trên bàn, triệu hồi, hiệu ứng tại nhân vật hoặc hoạt ảnh kỹ năng riêng. Không đồng nhất với việc bắt buộc thay background hay cấp combatMode. Ví dụ: Astoria/Magnamut, Monica/trường thời gian, Auguste/ma trận, Sylva/Azurius, Drake/giáp và Golem, Astraea/vườn hoa, Sandra/sách lệnh và phong ấn.
+
+PvE cho phép ảnh hưởng bàn đấu theo dữ liệu presentation được thiết kế. Arena giữ mode cục bộ trong card, không ghi đè nền/BGM; VFX công kích vẫn chọn đúng mục tiêu. Nhân vật lớp khác có thể có VFX riêng khi được chỉ định, nhưng không tự nhận overlay chỉ vì có combatMode. Thuật Sư mới chưa có thiết kế VFX cần ghi là phần còn thiếu, không âm thầm coi glyph mặc định đã hoàn thành yêu cầu.
+
 VFX chỉ đọc event. presentation riêng không mặc định tạo combatMode hoặc scene overlay. Không RNG, hồi MP hay chuyển phase trong renderer. Dọn hiệu ứng sau timeline, giữ status badge nếu debuff còn; hỗ trợ reduced motion và hai phe Arena.
 
 ## Gear, kinh tế và save
@@ -40,3 +44,7 @@ App save v7; thêm trường phải normalize/validate và giữ migration. Đ�
 4. Đối chiếu preview/Rank/forecast với engine; definition không bị mutate.
 5. Save cũ/retry/ledger/quota không cấp một phần. UI cần browser test responsive, reduced motion và tay cầm theo phạm vi thay đổi.
 6. Cập nhật chuyên đề; thay quyết định chung thì cập nhật HANDOFF/ENGINE_RULES. Source đổi thì graph:update.
+
+## Nghiệm thu ngôn ngữ
+
+Chữ người chơi nhìn thấy ưu tiên thuần Việt, độc lập ngôn ngữ implementation. Quét cả tooltip, trạng thái khóa, lỗi, xác nhận, nhật ký và kết quả, không chỉ tiêu đề. Tái dùng thuật ngữ trong GLOSSARY. Giữ tên riêng/ký hiệu có chủ ý; không lộ key, enum, tên handler hoặc exception thô. Mô tả hiển thị mới còn tiếng Anh ngoài các ngoại lệ đã chốt được tính là chưa hoàn thiện; không thay ID để dịch giao diện.
