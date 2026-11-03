@@ -58,6 +58,7 @@
 
 ## Nhân vật / boss / truyện (snapshot chuyên đề)
 
+- [Phe phái, slug và nhãn hiển thị — 04/11/2026](AFFILIATIONS.md)
 - [Mori / Sandra / Tywin — cấu hình playtest](MORI_SANDRA_TYWIN.md)
 - [Astoria · Technical test](ASTORIA_TECHNICAL_TEST.md)
 - [Finmel, Albeldo, Henrris và Joshua — cấu hình playtest](ALBELDO_HENRRIS_JOSHUA.md)

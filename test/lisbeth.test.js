@@ -23,7 +23,7 @@ const impact = battle => battle.events.find(event => event.type === 'damage' && 
 test('Lisbeth has Light magic, Ranoc background, low HP, and 42 base MAG', () => {
   const actor = content.characters.lisbeth;
   assert.equal(actor.element, 'light');
-  assert.equal(actor.affiliation, 'House Ranoc');
+  assert.equal(actor.affiliation, 'house_ranoc');
   assert.equal(actor.basicDamageType, 'magical');
   assert.equal(actor.roleGroup, 'magical_dps');
   assert.equal(actor.stats.magic, 42);

@@ -24,7 +24,7 @@ const followups = battle => battle.events.filter(event => event.type === 'damage
 test('Aurora is a Thunder Academy offensive support and magical sub-DPS with a passive skill preview', () => {
   const actor = content.characters.aurora;
   assert.equal(actor.element, 'thunder');
-  assert.equal(actor.affiliation, 'Magic Academy');
+  assert.equal(actor.affiliation, 'magic_academy');
   assert.equal(actor.roleGroup, 'offensive_support');
   assert.ok(actor.secondaryRoleGroups.includes('magical_dps'));
   assert.match(passiveDescription(actor, content), /80% MAG hệ THUNDER/);

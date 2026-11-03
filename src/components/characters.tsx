@@ -76,9 +76,17 @@ export function useRouteFilters() {
     },
   ] as const;
 }
+// Mặc định danh sách đồng đội: chỉ người đã sở hữu, Level cao nhất trước.
+// Người chơi đổi được qua URL; chọn "Tất cả" ghi ownership=all để giữ lựa chọn.
+const ROSTER_DEFAULTS: Record<string, string> = {
+  ownership: "owned",
+  sort: "level",
+  direction: "desc",
+};
 export function CharactersPage() {
   const { content, campaign } = useGame();
-  const [filters, setFilters] = useRouteFilters();
+  const [routeFilters, setFilters] = useRouteFilters();
+  const filters: Record<string, string> = { ...ROSTER_DEFAULTS, ...routeFilters };
   const roster: any[] = characterCatalog(content, campaign, filters);
   const back = `/characters?${new URLSearchParams(filters)}`;
   return (

@@ -117,7 +117,7 @@ test('dead family owners do not delete the pool; reaching an empty mode at turn 
 });
 
 test('Simon retains faction membership without adopting the Vertosse surname',()=>{
- assert.equal(content.characters.simon.name,'Simon');assert.equal(content.characters.simon.affiliation,'Gia tộc Vertosse');assert.ok(content.characters.simon.tags.includes('vertosse'));assert.ok(content.characters.simon.teamResources.evidence);
+ assert.equal(content.characters.simon.name,'Simon');assert.equal(content.characters.simon.affiliation,'vertosse_clan');assert.ok(content.characters.simon.tags.includes('vertosse'));assert.ok(content.characters.simon.teamResources.evidence);
 });
 test('Simon and Genevieve each create and use their shared mechanic with no Selene in the party',()=>{
  const {b:s}=fixture(['simon','arthur','iris','elaine']);use(s,'simon','simon.closing','arthur');assert.equal(amount(s),1);assert.equal(status(s,'arthur','closing_argument').charges,2);use(s,'simon','simon.cross_examine','arthur');assert.equal(amount(s),0);assert.equal(status(s,'arthur','weakness_exploitation').remaining,3);assert.equal(hits(s,'simon').length,0);
