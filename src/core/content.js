@@ -319,6 +319,10 @@ export function validateContent(content) {
   }
   for (const [id, status] of Object.entries(content.statuses)) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
+    for(const key of ['healingReceivedReduction','shieldReceivedReduction'])if(status[key]!==undefined&&(!Number.isFinite(status[key])||status[key]<0||status[key]>1||status.kind!=='debuff'))fail(id+': invalid recipient reduction');
+    if(status.defaultDuration!==undefined&&(!Number.isInteger(status.defaultDuration)||status.defaultDuration<1))fail(id+': invalid default duration');
+    if(status.buffRejection!==undefined&&(status.kind!=='debuff'||!Number.isInteger(status.buffRejection?.charges)||status.buffRejection.charges<1||!status.persistent))fail(id+': invalid buff rejection');
+    if(status.consumeOnPaidSkill!==undefined&&(status.consumeOnPaidSkill!==true||status.kind!=='debuff'||!status.persistent||!Number.isInteger(status.charges)||status.charges<1||!Number.isFinite(status.mpCostIncrease)||status.mpCostIncrease<=0))fail(id+': invalid paid skill interference');
     if(status.bypassEvasion!==undefined&&(status.bypassEvasion!==true||status.kind!=='buff'))fail(id+': invalid evasion bypass');
     if(status.preventDeath!==undefined&&(status.preventDeath!==true||status.kind!=='buff'||status.durationClock!=='round'||status.persistent))fail(id+': invalid prevent death');
     if (status.weaknessMultiplier !== undefined && (status.kind !== 'buff' || !Number.isFinite(status.weaknessMultiplier) || status.weaknessMultiplier <= WEAKNESS_MULTIPLIER || status.weaknessMultiplier > 2 || status.modifiersPerStack || status.consumeOnAttack)) fail(id + ': invalid weakness multiplier');

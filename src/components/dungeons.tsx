@@ -1,5 +1,6 @@
 "use client";
 import {FarmLaunch} from './farm';
+import {BattleResult} from './battle-result';
 import {DungeonReward,XpCapWarning} from "./dungeon-rewards";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -118,7 +119,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
     startDungeon,
     prepareDungeonPreview,
     activeProfile,
-    sweepDungeon,progressionLocked,
+    sweepDungeon,progressionLocked,sweepResult,dismissSweepResult,
   } = useGame();
   const router = useRouter();
   const now = useDungeonClock();
@@ -357,6 +358,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
           )}
         </Modal>
       )}
+      {sweepResult?.dungeon.typeId===id&&<Modal title="Kết quả Quét hầm ngục" onClose={dismissSweepResult} className="sweep-result-modal" footer={<button className="primary" onClick={dismissSweepResult}>Trở về hầm ngục</button>}><BattleResult result={sweepResult}>{null}</BattleResult></Modal>}
     </main>
   );
 }

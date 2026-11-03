@@ -107,6 +107,8 @@ type GameContextValue = {
   updateAllocations:(id:string,allocations:Record<string,number>)=>Promise<boolean>;
   breakCharacterLimit:(id:string)=>Promise<boolean>;
   sweepDungeon:(id:string,difficultyId:string)=>Promise<boolean>;
+  sweepResult:any;
+  dismissSweepResult:()=>void;
   startDungeon: (id: string, difficultyId: string) => boolean;
   prepareDungeonPreview: (id: string, difficultyId: string, now?: Date) => any;
   runBattle: (command?: any) => Promise<void>;
@@ -169,6 +171,7 @@ export function GameProvider({
   }
   const farmRef=useRef<any>(null);
   const [farm,setFarm]=useState<any>(null);
+  const [sweepResult,setSweepResult]=useState<any>(null);
   const lock = useRef(false);
   const [battle, setBattle] = useState<any>(null);
   const [events, setEvents] = useState<any[]>([]);
@@ -736,7 +739,7 @@ export function GameProvider({
   }
   function clearRuntime() {
     forfeitArena();
-    farmRef.current=null;setFarm(null);
+    farmRef.current=null;setFarm(null);setSweepResult(null);
     runtime.current = null;
     dungeonRun.current = null;
     setPendingBattleId(null);
@@ -796,12 +799,18 @@ export function GameProvider({
   const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
     farm,startFarming,stopFarming:()=>stopFarming(),toggleAutoBattle,
+    sweepResult,dismissSweepResult:()=>setSweepResult(null),
     fortressCommand,visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,
     progressionLocked:inAdventure()||Boolean(campaign?.chronicles?.activeSession),
     upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),
     updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã lưu điểm phân bổ."),
     breakCharacterLimit:id=>transact(c=>limitBreak(c,content,id,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã Đột Phá giới hạn."),
-    sweepDungeon:(id,difficultyId)=>transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu."),
+    sweepDungeon:async(id,difficultyId)=>{
+      let receipt:any=null;
+      const ok=await transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession),onResult:(result:any)=>{receipt=result;}}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu.");
+      if(ok&&receipt)setSweepResult({...receipt,sessionId:'sweep-'+Date.now()});
+      return ok;
+    },
     dailyNow,refreshCommissions,
     claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
     startArena,

@@ -1227,5 +1227,39 @@
     "bypassEvasion": true,
     "durationClock": "round",
     "description": "Đòn tấn công bỏ qua né tránh đến hết vòng."
+  },
+  {
+    "id": "buff_seal",
+    "name": "Phong Ấn",
+    "kind": "debuff",
+    "persistent": true,
+    "buffRejection": {
+      "charges": 1
+    }
+  },
+  {
+    "id": "deep_wound",
+    "name": "Vết Thương Sâu",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "healingReceivedReduction": 0.4
+  },
+  {
+    "id": "shield_fracture",
+    "name": "Rạn Khiên",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "shieldReceivedReduction": 0.35
+  },
+  {
+    "id": "mana_disruption",
+    "name": "Nhiễu Ma Lực",
+    "kind": "debuff",
+    "persistent": true,
+    "mpCostIncrease": 0.5,
+    "consumeOnPaidSkill": true,
+    "charges": 1
   }
 ]

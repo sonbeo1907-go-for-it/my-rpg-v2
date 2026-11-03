@@ -43,7 +43,8 @@ export function skillPresentation(skill,actor,content,choices={}) {
     const self=effect.to==='self'||skill.target==='self';
     const prefix=effect.to==='self'&&skill.target!=='self'?'Bản thân: ':'';
     const durationPassive=exclusivePassive(actor,'skill_status_duration',skill.id),extension=durationPassive?.statusId===effect.status?durationPassive.extraDuration:0;
-    const turns=effect.duration===undefined?'':status.durationClock==='round'?` · ${effect.duration+extension} vòng`:` · ${effect.duration+extension} lượt${status.durationClock==='main_turn'?' chính của mục tiêu':self?' kế tiếp':''}`;
+    const duration=effect.duration??status.defaultDuration;
+    const turns=duration===undefined?'':status.durationClock==='round'?` · ${duration+extension} vòng`:` · ${duration+extension} lượt${status.durationClock==='main_turn'?' chính của mục tiêu':self?' kế tiếp':''}`;
     const mods=[];
     if(status.baseStatShift){const k=status.baseStatShift.stat,n=effect.baseStatModifiers?.[k];facts.push(n!==undefined?(n>=0?'+':'−')+number(Math.abs(n))+' '+statName(k)+' căn bản':(status.kind==='buff'?'Nhận':'Mất')+' tối đa '+status.baseStatShift.cap+' '+statName(k)+' căn bản');rules.push('Cộng hoặc trừ vào chỉ số căn bản trước buff %.','Buff nhận và debuff mất có thể bị xóa độc lập; duy trì đến khi bị xóa hoặc kết thúc trận.');}
     for(const[key,n]of Object.entries(effect.appliedModifiers??status.modifiers??{})) {
@@ -60,6 +61,10 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(status.modifiers?.maxHp)rules.push('Chỉ tăng HP tối đa, không tự hồi HP. Không cộng dồn khi dùng lại.','Hết hoặc bị xóa buff: HP hiện tại bị giới hạn theo HP tối đa mới.');
     if(status.modifiers?.maxMp)rules.push('Chỉ tăng MP tối đa, không tự hồi MP. Hồi theo phần trăm dùng MP tối đa đang hiệu lực.','Khi hết hoặc bị xóa buff, MP hiện tại bị giới hạn theo mức tối đa mới.');
     if(status.mpCostReduction){facts.push('Giảm '+pct(status.mpCostReduction)+' MP tiêu hao');rules.push('Làm tròn chi phí lên; chiêu có tốn MP luôn cần ít nhất 1 MP.','Không cộng dồn; duy trì hết trận hoặc chuyến hầm ngục.');}
+    if(status.buffRejection){facts.push(`${status.name}: ${choices.statusCharges??status.buffRejection.charges} lần chặn buff mới`);rules.push('Mỗi buff mới tiêu một lần; không xóa buff đang có. Hộ Ấn cũng có thể bị chặn.','Không chặn combatMode hoặc tài nguyên. Dùng lại làm mới, không cộng dồn.');}
+    if(status.consumeOnPaidSkill){facts.push('Tăng '+pct(status.mpCostIncrease)+' MP tiêu hao · '+(choices.statusCharges??status.charges)+' lần');rules.push('Tính sau các điều chỉnh MP khác, làm tròn lên. Chỉ tiêu khi thi triển thành công và thực sự trả MP; chiêu 0 MP không tiêu.','Dùng lại làm mới, không cộng dồn.');}
+    if(status.healingReceivedReduction)facts.push('Giảm '+pct(status.healingReceivedReduction)+' HP hồi nhận, gồm hút máu'+turns);
+    if(status.shieldReceivedReduction)facts.push('Giảm '+pct(status.shieldReceivedReduction)+' khiên mới nhận'+turns);
     if(status.effectImmunity){
       facts.push(`${status.name}: ${(choices.statusCharges??status.effectImmunity.charges)} lần chặn · đến khi dùng hết`);
       rules.push('Chặn một hiệu ứng, không chặn trọn kỹ năng có nhiều hiệu ứng.');
@@ -94,7 +99,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     }
     if(status.modifierGroup)rules.push('Các mức giảm SPD cùng nhóm lấy mức mạnh nhất.');
     if(status.magicRefresh)rules.push(`Phép của phe người gắn dấu làm mới ${status.name}, tối đa một lần/vòng/mục tiêu.`);
-    if(status.persistent&&!status.effectImmunity&&!status.damageUses&&!status.consumeOnAttack&&!status.exposedElement){
+    if(status.persistent&&!status.buffRejection&&!status.consumeOnPaidSkill&&!status.effectImmunity&&!status.damageUses&&!status.consumeOnAttack&&!status.exposedElement){
       rules.push(status.expiresOnShieldGain?'Hiệu ứng kết thúc khi nhận khiên mới.':linked?'Hiệu ứng đi kèm được gỡ khi tắt trạng thái chính.':'Duy trì đến khi tắt hoặc kết thúc trận.');
     }
     if(status.exposedElement&&effect.duration===undefined)rules.push('Duy trì đến khi hết tầng, bị giải hoặc kết thúc trận; giữ qua phòng theo luật của hầm ngục.');

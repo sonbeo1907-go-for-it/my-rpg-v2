@@ -63,6 +63,7 @@ import {
   bossTurnJobs,
 } from "./boss-mechanics.js";
 import { activeStatuses } from "./status-state.js";
+import {receivedSupport,consumeStatusCharge} from "./status-policies.js";
 import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
@@ -336,7 +337,7 @@ function announcePassive(battle,source,targetId,label=source?.passive?.name) {
 
 function healHp(battle, target, requested, sourceId, label = "") {
   if (!living(target)||isInAgony(target)) return 0;
-  const amount = Math.min(target.stats.maxHp - target.hp, Math.max(0, Math.round(requested)));
+  const amount = Math.min(target.stats.maxHp - target.hp, receivedSupport(battle.content,target,requested,"healingReceivedReduction"));
   target.hp += amount;
   if (amount > 0) {
     const healer=getActor(battle,sourceId);
@@ -1213,6 +1214,16 @@ function applyStatus(
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
+  if(definition.kind==='buff'){
+    const seal=target.statuses.find(s=>battle.content.statuses[s.id]?.buffRejection&&(s.charges??1)>0&&(s.remaining==null||s.remaining>0));
+    if(seal){
+      consumeStatusCharge(target,seal);
+      write(battle,`${target.name}: Phong Ấn chặn ${definition.name}, tiêu 1 lần.`);
+      emitEvent(battle,{type:'effect_blocked',targetId:target.id,sourceId,statusId});
+      return null;
+    }
+  }
+  duration??=definition.defaultDuration;
   if (definition.kind === "debuff") {
     const ward = target.statuses.find((status) => {
       const immunity = battle.content.statuses[status.id].effectImmunity;
@@ -1261,6 +1272,8 @@ function applyStatus(
   if (definition.effectImmunity)
     applied.charges = definition.effectImmunity.charges;
   if (definition.damageUses) applied.charges=definition.damageUses;
+  if(definition.buffRejection||definition.consumeOnPaidSkill)applied.charges=definition.buffRejection?.charges??definition.charges??1;
+  if(definition.mpCostIncrease)applied.mpCostIncrease=definition.mpCostIncrease;
   if (definition.damageOverTime) {
     applied.potency = periodicPotency(definition,source,key=>stat(battle,source,key));
   }
@@ -1344,10 +1357,10 @@ function applyEffect(
     }
     if (effect.type === "shield") {
       if(isInAgony(target)){write(battle,target.name+': Oán Hận chặn nhận khiên.');continue;}
-      const amount = supportAmount(
+      const amount = receivedSupport(battle.content,target,supportAmount(
         effect.primaryMultiplier!==undefined?{...effect,multiplier:target.id===actionContext.primaryTargetId?effect.primaryMultiplier:effect.multiplier}:effect,
         scalingValue(effect,key=>stat(battle,actor,key)),
-      );
+      ),"shieldReceivedReduction");
       // Shields do not stack; a weaker shield cannot overwrite a stronger one.
       if (amount > target.shield) {
         target.shield = amount;
@@ -1539,6 +1552,12 @@ function resolveAction(
   emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
   let totalPaidMp=mpCost(skill,actor);
   actor.mp -= totalPaidMp;
+  if(totalPaidMp>0){
+    for(const status of [...actor.statuses])if(battle.content.statuses[status.id]?.consumeOnPaidSkill&&(status.charges??1)>0){
+      consumeStatusCharge(actor,status);
+      write(battle,actor.name+': Nhiễu Ma Lực tiêu 1 lần · trả '+totalPaidMp+' MP.');
+    }
+  }
   const teamCost=skill.cost?.teamResource;
   const paidTeam=teamCost?teamCostAmount(teamCost,teamResourceValue(battle,actor,teamCost.id)):0;
   if(teamCost)changeTeamResource(battle,actor,teamCost.id,-paidTeam,teamIO);
@@ -1554,7 +1573,7 @@ function resolveAction(
   }
   if (skill.cooldown) actor.cooldowns[skill.id] = skill.cooldown + 1;
   write(battle, `${actor.name} dùng ${skill.name}.`);
-  if (skill.cost?.preferResource) write(battle,actor.name+': tiêu '+(selectedResource ? spent+' '+actor.resources[selectedResource.id].name : mpCost(skill,actor)+' MP')+'.');
+  if (skill.cost?.preferResource) write(battle,actor.name+': tiêu '+(selectedResource ? spent+' '+actor.resources[selectedResource.id].name : totalPaidMp+' MP')+'.');
   const actionContext = attackContext(battle, actor);
   actionContext.teamResourceSpent=teamCost?{[teamCost.id]:paidTeam}:{};
   actionContext.castMode=actor.activeMode;

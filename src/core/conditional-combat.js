@@ -13,7 +13,9 @@ export function mpCost(skill,actor) {
   const p=actor?.passive,mode=actor?.combatModes?.[actor.activeMode];
   const native=p?.type==='kill_mp_discount' && (actor.statuses??[]).some(s=>s.id===p.statusId && (s.remaining==null||s.remaining>0)) ? 1-p.ratio : 1;
   const discount=mode?.mpCostReduction && mode.discountAbilityIds.includes(skill.id) ? 1-mode.mpCostReduction : 1;
-  return Math.max(1,Math.ceil(base*native*discount*specialMpMultiplier(actor,skill.id)*(skill.rankMpMultiplier??((skill.growthGroups?.includes('output_buff_mp')||skill.growthProfile==='output_buff_mp')&&actor?.team!=='enemy'?outputMpFactor(getActorSkillRank(actor,skill),actor?.skillProgression):1))));
+  const normal=Math.max(1,Math.ceil(base*native*discount*specialMpMultiplier(actor,skill.id)*(skill.rankMpMultiplier??((skill.growthGroups?.includes('output_buff_mp')||skill.growthProfile==='output_buff_mp')&&actor?.team!=='enemy'?outputMpFactor(getActorSkillRank(actor,skill),actor?.skillProgression):1))));
+  const increase=Math.max(0,...activeStatuses({...actor,statuses:actor?.statuses??[]}).filter(s=>(s.remaining==null||s.remaining>0)&&(s.charges??1)>0).map(s=>s.mpCostIncrease??0));
+  return Math.ceil(normal*(1+increase));
 }
 export function hpCost(skill,actor) {return skill.cost?.hpMaxRatio ? Math.ceil(actor.stats.maxHp*skill.cost.hpMaxRatio) : 0;}
 export function buffTypeCount(content,target) {

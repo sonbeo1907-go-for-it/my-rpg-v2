@@ -2,3 +2,5 @@
 @media(max-width:700px){.deployment-actions{gap:8px}.deployment-actions button{font-size:.88rem;padding:12px 8px;gap:6px}.deployment-actions>.embark>span{display:none}.farm-count-presets{gap:6px}.farm-session{padding:18px}.farm-session header{align-items:flex-start}.farm-session h2{font-size:1rem}.farm-progress-line{flex-wrap:wrap}.farm-session header button{min-width:100px}.farm-session small{line-height:1.6;display:block}}
 
 dialog.farm-config{width:min(620px,calc(100vw - 32px))}dialog.farm-config.dungeon-scouting-modal{width:min(1120px,calc(100vw - 32px))}
+
+dialog.sweep-result-modal{width:min(1000px,calc(100vw - 32px))}.sweep-result-modal .battle-result{border:0;padding:clamp(12px,3vw,28px)}

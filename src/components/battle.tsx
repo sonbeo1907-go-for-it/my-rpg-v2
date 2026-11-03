@@ -86,7 +86,7 @@ function StatusBadge({ status, actor }: { status: any; actor: any }) {
       >
         {definition.name}
         {status.stacks > 1 || definition.exposedElement ? ` ×${status.stacks}` : ""} (
-        {definition.effectImmunity || definition.damageUses
+        {definition.effectImmunity || definition.damageUses || definition.buffRejection || definition.consumeOnPaidSkill
           ? `${status.charges} lần`
           : status.remaining === null
             ? definition.consumeOnAttack

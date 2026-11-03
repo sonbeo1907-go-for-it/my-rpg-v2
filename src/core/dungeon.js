@@ -217,5 +217,7 @@ export function sweepDungeon(campaign,content,id,difficultyId,persist=()=>{},now
  if(!campaign.dungeonClearedDifficulties?.[id]?.includes(difficultyId))throw Error('Cần chiến thắng mức này trước khi Quét.');if(campaign.sweepTickets<1)throw Error('Không đủ Thẻ Quét.');
  const next=structuredClone(campaign);next.sweepTickets--;
  const run={typeId:id,difficultyId,waveIds:Array(difficulty.waves).fill('sweep'),waveIndex:difficulty.waves-1,partyCampaign:structuredClone(campaign),reward:structuredClone(difficulty.reward),claimed:false,battle:{outcome:'victory',dungeon:{typeId:id}}};
- return claimDungeonReward(next,run,content,persist,now);
+ const saved=claimDungeonReward(next,run,content,persist,now);
+ options.onResult?.({sweep:true,outcome:'victory',rewardClaimed:true,dungeon:{typeId:id,difficultyId,reward:structuredClone(run.reward)},xpAwards:structuredClone(run.battle.xpAwards??[])});
+ return saved;
 }

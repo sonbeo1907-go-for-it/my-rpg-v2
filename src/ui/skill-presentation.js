@@ -219,8 +219,12 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (['status', 'toggle_status'].includes(effect.type)) {
       const status = content.statuses[effect.status];
       const extension=exclusivePassive(actor,'skill_status_duration',skill.id);
-      const effectiveDuration=effect.duration + (extension?.type==='skill_status_duration' && extension.statusId===effect.status && extension.abilityIds.includes(skill.id) ? extension.extraDuration : 0);
+      const effectiveDuration=(effect.duration??status.defaultDuration) + (extension?.type==='skill_status_duration' && extension.statusId===effect.status && extension.abilityIds.includes(skill.id) ? extension.extraDuration : 0);
       const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effectiveDuration} ${status.durationClock==='round'?'vòng':'lượt của người nhận'}`;
+      if(status.buffRejection)lines.push(`${status.name}: chặn ${status.buffRejection.charges} buff mới, rồi tiêu hiệu ứng; không xóa buff đang có. Dùng lại làm mới.`);
+      if(status.consumeOnPaidSkill)lines.push(`Tăng ${percent(status.mpCostIncrease)} MP tiêu hao cho một lần trả MP thành công; không tiêu với chiêu 0 MP.`);
+      if(status.healingReceivedReduction)lines.push(`Giảm ${percent(status.healingReceivedReduction)} mọi HP hồi nhận, gồm hút máu · ${duration}.`);
+      if(status.shieldReceivedReduction)lines.push(`Giảm ${percent(status.shieldReceivedReduction)} khiên mới nhận; giữ khiên đang có · ${duration}.`);
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);
       if (effect.type === 'toggle_status') lines.push(`Bật/tắt ${status.name}; dùng lại để xuống ngựa, không cộng dồn.`);
       const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', evasion: 'khả năng né đòn vật lí' };
