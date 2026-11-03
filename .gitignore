@@ -26,3 +26,7 @@ graphify-out/
 
 # Local UI audit artifacts
 .taste-skill/
+
+.tools/deepseek-harness/
+.tools/deepseek-runtime/
+.tools/deepseek-state/

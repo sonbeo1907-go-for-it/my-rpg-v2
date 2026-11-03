@@ -85,6 +85,8 @@
 
 ## Vận hành / lịch sử
 
+- [DeepSeek Harness — cài đặt local](DEEPSEEK_HARNESS_SETUP.md)
+
 - [Quy trình triển khai và phối hợp harness](DEVELOPMENT_WORKFLOW.md)
 - [Build, nghiệm thu và rollback Windows](RELEASE_RUNBOOK.md)
 

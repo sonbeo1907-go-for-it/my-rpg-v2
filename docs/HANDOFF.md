@@ -73,3 +73,8 @@ Tên file khác tra bằng `rg --files test e2e`, không dùng bảng này để
 **Ngôn ngữ hiển thị cho người chơi ưu tiên thuần Việt, dù code, logic thiết kế và trao đổi kỹ thuật dùng tiếng Anh.** Quy tắc áp dụng cho menu, kỹ năng, nội tại, trạng thái, nhiệm vụ, nhật ký, kết quả, Settings, thông báo lỗi và modal xác nhận. Viết tiếng Việt tự nhiên, gọn, thống nhất theo GLOSSARY; không pha tiếng Anh chỉ vì tên cơ chế trong code là tiếng Anh.
 
 Code/ID/enum/schema có thể giữ tiếng Anh để ổn định và dễ làm việc; renderer ánh xạ sang chữ Việt. Không để các key như shift_order, combatMode, damageUses hoặc thông báo exception thô xuất hiện thay mô tả. Giữ tên riêng đã chốt và các ký hiệu/chữ viết tắt đã dùng có chủ ý (HP, MP, ATK…), không tự đổi canon hoặc ID để Việt hóa. Thiếu bản dịch phải được ghi là phần UI chưa xong và bổ sung, không âm thầm dùng fallback tiếng Anh.
+
+
+## Harness local — cập nhật04/11/2026
+
+Đã kéo source chính thức và cài runtime riêng; launcher, đường dẫn và cách cấu hình provider ở [DEEPSEEK_HARNESS_SETUP](DEEPSEEK_HARNESS_SETUP.md). Không sửa dependency game. Phần “không cài Harness ở task tài liệu” ở trên mô tả phạm vi lần rà soát trước; yêu cầu cài đặt sau đó đã được thực hiện. Chưa cấu hình/gọi model hoặc kiểm chứng cộng tác AI thực tế.
