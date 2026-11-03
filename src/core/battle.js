@@ -68,7 +68,7 @@ import {bypassedBarrierReduction} from "./skill-barrier.js";
 import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
-import { checkCombatMode, enterCombatMode, leaveCombatMode, modeAvailability } from "./combat-modes.js";
+import { checkCombatMode, enterCombatMode, leaveCombatMode, modeAvailability, spendModeTurn } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
 import { mpCost, hpCost, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus, targetsAsGroup } from "./conditional-combat.js";
 const modeIO = { write, emit: emitEvent, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
@@ -483,6 +483,9 @@ function beginTurn(battle) {
     write(battle, `${actor.name} bị choáng, mất lượt hành động.`);
     finishStatuses(battle, actor, [...actor.statuses], false);
     battle.actionCount++;
+    // A skipped turn is still the owner's turn: turn-counted modes must tick here too.
+    spendModeTurn(actor);
+    for (const member of battle.actors) checkCombatMode(battle, member, "action_end", modeIO);
     endTurnPassive(battle, actor);
     advance(battle);
   }
@@ -866,6 +869,34 @@ function triggerAllySkillCounters(battle,attacker,context) {
     emitEvent(battle,{type:"reaction",kind:"counter",label:REACTION_LABELS.counter,sourceId:owner.id,targetId:attacker.id,abilityId:ability.id});
     for(const effect of ability.effects) applyEffect(battle,owner,[attacker],effect,0,false,reactionContext);
     finishAttackContext(battle,owner,reactionContext);
+  }
+}
+
+// An enemy skill that deals no direct damage (defend excluded) can be answered on a shared cooldown.
+function triggerSupportSkillCounters(battle,caster,skill,context) {
+  if(!living(caster)||!skill||context.reaction||context.automatic||skill.activation==='passive'||skill.id.startsWith('$'))return;
+  if(skill.effects.some(effect=>effect.type==='damage'))return;
+  for(const owner of battle.actors) {
+    const p=owner.passive;
+    if(p?.type!=='enemy_support_counter'||!living(owner)||owner.team===caster.team)continue;
+    if(owner.supportCounterRound!==undefined&&battle.round-owner.supportCounterRound<p.cooldownRounds)continue;
+    if(!living(caster))break;
+    if(!reservePvpAutomatic(battle,owner,modeIO))continue;
+    owner.supportCounterRound=battle.round;
+    const cleansed=owner.statuses.filter(status=>battle.content.statuses[status.id].kind==='debuff');
+    if(cleansed.length){
+      owner.statuses=owner.statuses.filter(status=>battle.content.statuses[status.id].kind!=='debuff');
+      clampBattleMp(battle.content,owner);
+      emitEvent(battle,{type:'cleanse',sourceId:owner.id,targetId:owner.id});
+      write(battle,owner.name+' giải '+cleansed.length+' hiệu ứng bất lợi bằng '+p.name+'.');
+    }
+    announcePassive(battle,owner,caster.id);
+    const ability=battle.content.abilities[p.counterAbility],reactionContext={...attackContext(battle,owner),pvpRegistered:true,skill:ability,skillId:ability.id,reaction:true};
+    write(battle,owner.name+' phản đòn: '+ability.name+'.');
+    emitEvent(battle,{type:'reaction',kind:'counter',label:REACTION_LABELS.counter,sourceId:owner.id,targetId:caster.id,abilityId:ability.id});
+    for(const effect of ability.effects) applyEffect(battle,owner,[caster],effect,0,false,reactionContext);
+    finishAttackContext(battle,owner,reactionContext);
+    transitionBossPhases(battle,{write,restoreMp:gainResource});
   }
 }
 
@@ -1698,7 +1729,9 @@ function resolveAction(
   transitionBossPhases(battle, { write, restoreMp: gainResource });
   recordFormulaAction(battle,actor,skill,modeIO);
   triggerSupportFollowups(battle,actor,skill);
+  triggerSupportSkillCounters(battle,actor,skill,actionContext);
   if(teamCost)triggerSpentResourceFollowups(battle,actor,teamCost);
+  spendModeTurn(actor);
   for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);
   if(supportScopeBefore)battle.supportChargeScope=supportScopeBefore;else delete battle.supportChargeScope;
   if (endTurn) {

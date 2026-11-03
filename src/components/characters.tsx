@@ -9,7 +9,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
 import {FortressPartyPage} from './fortress-party';
 import { ExclusiveSlot } from "./exclusive-equipment";
-import { characterCatalog } from "../core/catalog.js";
+import { characterCatalog, affiliationLabel } from "../core/catalog.js";
 import { resolveCharacter } from "../core/progression.js";
 import {
   selectPreset,
@@ -164,6 +164,7 @@ export function CharacterDetail({ id }: { id: string }) {
     DEFEND,
   ];
   if(actor.passive?.type==='ally_skill_counter')skills.push(content.abilities[actor.passive.counterAbility]);
+  if(actor.passive?.type==='enemy_support_counter')skills.push(content.abilities[actor.passive.counterAbility]);
   if (actor.passive?.followUpAbility)
     skills.push(content.abilities[actor.passive.followUpAbility]);
   if (actor.passive?.type === "field_growth")
@@ -183,7 +184,7 @@ export function CharacterDetail({ id }: { id: string }) {
         <section className="panel">
           <ElementBadge element={actor.element} />
           <h2>{actor.role}</h2>
-          <p className="muted">{actor.affiliation}</p>
+          <p className="muted">{affiliationLabel(actor.affiliation)}</p>
           <p>{actor.description}</p>
           {actor.biography && <RulesDisclosure title="Bối cảnh nhân vật"><p>{actor.biography}</p></RulesDisclosure>}
           <StatGrid actor={actor} showGearBonuses />

@@ -19,6 +19,7 @@ export function enterCombatMode(battle,actor,id,io,appliedModifiers,followUpBonu
   if(followUpBonus!==undefined)actor.modeFollowUpBonus=followUpBonus;else delete actor.modeFollowUpBonus;
   if(appliedModifiers)actor.modeAppliedModifiers={...appliedModifiers};else delete actor.modeAppliedModifiers;
   if (modeLifetime(mode)==='rounds') actor.modeExpiresAfterRound=battle.round+mode.durationRounds-1;
+  if (modeLifetime(mode)==='turns') actor.modeTurnsRemaining=mode.durationTurns;
   io.write(battle,actor.name+' triển khai '+mode.name+'.');
   io.emit(battle,{type:'mode_enter',sourceId:actor.id,mode:id});
   if (mode.entryEffects) io.apply(battle,actor,mode.entryEffects);
@@ -28,7 +29,7 @@ export function leaveCombatMode(battle,actor,reason,io) {
   if (!mode) return false;
   const id=actor.activeMode;
   if(mode.clearResourceOnExit)actor.resourceValues[mode.clearResourceOnExit]=0;
-  delete actor.activeMode;delete actor.modeExpiresAfterRound;delete actor.modeAppliedModifiers;delete actor.modeFollowUpBonus;
+  delete actor.activeMode;delete actor.modeExpiresAfterRound;delete actor.modeTurnsRemaining;delete actor.modeAppliedModifiers;delete actor.modeFollowUpBonus;
   if(mode.exitCooldown){
     const {abilityId,rounds}=mode.exitCooldown;
     // Match ordinary skill cooldowns: skip the next N round starts, available at R+N+1.
@@ -50,9 +51,17 @@ export function checkCombatMode(battle,actor,reason,io) {
   const ended=!isAlive(actor) || (battle.outcome && !isContinuingVictory(battle));
   if (ended) {delete actor.pendingMode;delete actor.companionStates;}
   const mode=activeCombatMode(actor);
-  const expired=modeLifetime(mode)==='rounds' && (reason==='round_end' ? battle.round>=actor.modeExpiresAfterRound : battle.round>actor.modeExpiresAfterRound);
+  const expired=modeLifetime(mode)==='rounds' ? (reason==='round_end' ? battle.round>=actor.modeExpiresAfterRound : battle.round>actor.modeExpiresAfterRound)
+    : modeLifetime(mode)==='turns' ? (actor.modeTurnsRemaining??0)<=0 : false;
   const empty=modeLifetime(mode)==='team_resource' ? ['turn_start','round_end','action_end'].includes(reason)&&teamResourceValue(battle,actor,mode.resource)<=0 : modeLifetime(mode)==='resource' && (reason==='turn_start'||reason==='round_end') && (actor.resourceValues?.[mode?.resource]??0)<=0;
   return mode && (ended||expired||empty) ? leaveCombatMode(battle,actor,reason,io) : false;
+}
+// Turn-based modes count the owner's own turns, including the turn that entered the mode.
+export function spendModeTurn(actor) {
+  const mode=activeCombatMode(actor);
+  if (!mode || modeLifetime(mode)!=='turns' || actor.modeTurnsRemaining===undefined) return false;
+  actor.modeTurnsRemaining -= 1;
+  return true;
 }
 export function modeAvailability(actor,skill) {
   const mode=activeCombatMode(actor);

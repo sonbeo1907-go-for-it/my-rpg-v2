@@ -47,3 +47,10 @@ Bổ sung định hướng ưu tiên VFX đặc trưng vào HANDOFF, GLOSSARY, C
 ## Ngôn ngữ sản phẩm
 
 Đã ghi chính sách ưu tiên game thuần Việt ở AGENTS, HANDOFF, GLOSSARY, CONTENT_GUIDE và SKILL_COPY_AND_UX_SPEC. Tách ngôn ngữ UI khỏi code/trao đổi kỹ thuật; giữ ID, tên riêng và ký hiệu có chủ ý. Đây là cập nhật quy chuẩn, chưa phải tuyên bố đã Việt hóa lại toàn bộ chuỗi UI hiện có.
+
+
+## Contract vòng đời — 04/11/2026
+
+Thêm COMBAT_LIFECYCLE_CONTRACT theo engine đang có, gồm bản sửa Cerise mất lượt. Đã dẫn từ AGENTS/HANDOFF/ENGINE_RULES/CONTENT_GUIDE/ARCHITECTURE/DEVELOPMENT_WORKFLOW/INDEX. Phân biệt clock, call site và ma trận acceptance; ghi rõ chưa có finishTurn chung, boss/forecast endTurn=false cần review riêng. Chỉ sửa tài liệu; không sửa thay đổi Cerise hoặc gameplay của cộng tác viên.
+
+Kiểm chứng đợt contract:80 file Markdown qua kiểm tra link local/UTF-8/mục lục; git diff --check không có lỗi whitespace. Chạy ba file test hiện có cerise/extra-turn/summon:27 pass. Không tạo test mới, không tuyên bố toàn ma trận đã bao phủ, không build EXE vì chỉ cập nhật tài liệu.

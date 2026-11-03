@@ -15,6 +15,9 @@
 
 ## Combat và UX
 
+- [Hợp đồng vòng đời chiến đấu](COMBAT_LIFECYCLE_CONTRACT.md)
+
+
 - [Vòng Phụ, nhân vật và Trấn Phái — 29/10/2026](EXTRA_TURNS_AND_RECRUITS.md)
 - [Khai phá điểm yếu và Sơ hở nguyên tố](WEAKNESS_MECHANICS.md)
 - [Hội Tâm](TRUE_STRIKE.md)
@@ -63,6 +66,7 @@
 - [Arthur — Nâng cấp Kiểm soát hoàn toàn (phần thưởng vĩ thanh)](ARTHUR_COMPLETE_CONTROL.md)
 - [Auguste · Hiệu trưởng Học viện Ma Thuật](AUGUSTE.md)
 - [Thợ săn Lôi và Hoa Hồng Đen — cấu hình playtest](BLACK_ROSE_THUNDER.md)
+- [Cerise — Kị sĩ Chớp Mắt](CERISE.md)
 - [Charlemagnes and Kreider](CHARLEMAGNES_KREIDER.md)
 - [Chelsea — Sứ giả định mệnh](CHELSEA.md)
 - [Heimdall Valmont và Finmel — cấu hình playtest](HEIMDALL_FINMEL.md)

@@ -78,6 +78,7 @@ Sinh trực tiếp từ data JSON trong lần rà soát tài liệu. **Stats th�
 | `mori` | Mori | thunder / physical_dps | 175 / 70 / 30 / 10 / 17 / 16 / 32 | Có |
 | `sandra` | Sandra | earth / sorcerer | 155 / 130 / 10 / 34 / 15 / 27 / 18 | Có |
 | `tywin` | Tywin | water / physical_dps | 180 / 65 / 33 / 12 / 18 / 18 / 25 | Có |
+| `cerise` | Cerise | wind / physical_dps | 168 / 72 / 31 / 8 / 15 / 15 / 21 | Có |
 
 ## Tra cứu kỹ năng
 
@@ -90,3 +91,7 @@ Tên/MP/CD/hệ số lấy từ abilities.json và resolveRankedAbility; không 
 | `sandra.verdict` | Địa Thư — Phán Quyết Cuối | 22 | 2 | 280% MAG |
 | `sandra.disruption` | Điều Khoản — Nhiễu Ma Lực | 14 | 0 | 150% MAG |
 | `tywin.truecut` | Nhất Kiếm — Thủy Nguyệt | 16 | 2 | 350% ATK |
+| `cerise.slash` | Lướt Gió Cắt | 11 | 1 | 150% ATK · −20% MAG 2 lượt |
+| `cerise.strike` | Nhát Chém Chớp | 24 | 3 | 320% ATK · Hội Tâm |
+| `cerise.formation` | Viễn Trinh Xuất Kích | 18 | 4 | Vào dạng 3 lượt |
+| `cerise.riposte` | Phản Kích Chớp Ảnh | — | — | 420% ATK · tự động |

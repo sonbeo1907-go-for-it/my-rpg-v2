@@ -22,6 +22,14 @@
 
 Không phải mọi task cần sửa mọi cột. Ghi rõ “không áp dụng” để tránh tích hợp thừa. Thay nguyên tố/vai trò/stat scale cần quét AI, filter/icon/copy và chỉ số hiển thị, không chỉ một JSON.
 
+## Hợp đồng vòng đời trước khi viết handler
+
+Task thay thời hạn/CD/mode/phản ứng hoặc hook theo lượt phải điền bảng ở [COMBAT_LIFECYCLE_CONTRACT](COMBAT_LIFECYCLE_CONTRACT.md) trước khi chọn vị trí code. Chốt đồng hồ, người sở hữu, lượt tạo, choáng, extra, phản ứng, ngắt do gục và carry. Không coi “thi triển hành động” là “đã qua một lượt”.
+
+Trong review, liệt kê call site cho hành động thường, choáng mất lượt, boss nhiều move, vận sức không cast và forecast nếu liên quan. Ghi N/A có lý do cho đường không áp dụng. Engine hiện chưa có finishTurn chung; đừng chỉ thêm hook ở cuối resolveAction rồi cho là đủ.
+
+Để nghiệm thu: có test đi qua tiến trình engine thực tới nhánh biên, kiểm tra tick/exit/refund đúng một lần. Test helper riêng và số lượng test xanh không thay thế test chuyển lượt. Với Cerise, đã có hồi quy choáng; không suy rằng mọi mode hoặc ma trận đều được test.
+
 ## 3. Thứ tự thực hiện
 
 1. Tạo trường hợp tái hiện tối thiểu với dữ liệu test riêng; nêu invariant cần giữ.

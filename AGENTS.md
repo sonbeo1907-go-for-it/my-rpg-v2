@@ -11,6 +11,10 @@ Newest user decisions define intended behavior; current data + handlers + tests 
 
 Documentation-only work does not require rebuilding the EXE. Gameplay changes require appropriate validation/tests and updated specialist docs. Respect current harness permissions and delegation policy; do not assume privileges or instructions from a previous agent session.
 
+## Combat lifecycle changes
+
+Before adding or changing durations, cooldowns, mode lifetime, reactions or turn hooks, read [docs/COMBAT_LIFECYCLE_CONTRACT.md](docs/COMBAT_LIFECYCLE_CONTRACT.md). Explicitly specify the clock owner/unit, entry/expiry timing, skipped-turn and Extra Turn behavior, interruption, carry and cleanup. Review normal casts AND skip/windup/boss/forecast paths; resolveAction is not a universal turn-end hook. Require a relevant lifecycle regression through actual engine progression, not only a directly invoked tick helper. Preserve approved mechanics and distinguish a documented implementation gap from intended design.
+
 ## Code navigation
 
 - `src/core/`: deterministic combat, saves, economy and progression.

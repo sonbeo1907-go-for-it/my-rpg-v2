@@ -9479,5 +9479,100 @@
       "damage"
     ],
     "cooldown": 2
+  },
+  {
+    "id": "cerise.slash",
+    "name": "Lướt Gió Cắt",
+    "target": "enemy",
+    "cost": {
+      "mp": 11
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1.5,
+        "onHitStatus": {
+          "status": "cerise_disarm",
+          "duration": 2
+        }
+      }
+    ],
+    "description": "Lướt qua mục tiêu và cắt đứt dòng ma lực của địch.",
+    "skillLineId": "cerise.slash",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "cerise.strike",
+    "name": "Nhát Chém Chớp",
+    "target": "enemy",
+    "cost": {
+      "mp": 24
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 3.2,
+        "unavoidable": true
+      }
+    ],
+    "description": "Một nhát chém không thể né, dồn toàn bộ đà lao vào mục tiêu.",
+    "skillLineId": "cerise.strike",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "cerise.formation",
+    "name": "Viễn Trinh Xuất Kích",
+    "target": "self",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 4,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "recon_mode"
+      }
+    ],
+    "description": "Mở đội hình viễn trinh: tăng ATK và né đòn trong 3 lượt.",
+    "skillLineId": "cerise.formation",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthAdapter": "mode_stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "cerise.riposte",
+    "name": "Phản Kích Chớp Ảnh",
+    "activation": "passive",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 4.2
+      }
+    ],
+    "description": "Cú đáp trả tự động sau khi Cerise giải hiệu ứng bất lợi.",
+    "skillLineId": "cerise.riposte",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tự động của nội tại; hệ số do nội tại quy định."
   }
 ]

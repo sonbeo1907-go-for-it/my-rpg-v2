@@ -1101,5 +1101,22 @@
       "tywin.purify": 0,
       "tywin.truecut": 14
     }
+  },
+  {
+    "id": "cerise",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.1,
+    "setupAbilities": [
+      "cerise.formation"
+    ],
+    "burstAbilities": [
+      "cerise.strike"
+    ],
+    "skillBias": {
+      "cerise.slash": 10,
+      "cerise.strike": 20,
+      "cerise.formation": 16
+    }
   }
 ]
