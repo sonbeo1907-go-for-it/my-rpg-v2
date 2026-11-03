@@ -12,6 +12,9 @@ JSON thuần, ID ổn định; đổi tên hiển thị không đổi ID. Đọc
 
 ## Status và phản ứng
 
+Thời hạn, CD, mode và hook phản ứng mới phải có [hợp đồng vòng đời](COMBAT_LIFECYCLE_CONTRACT.md): đơn vị/người sở hữu, lượt tạo, choáng, extra, nhiều hit/move, carry và exit. Không tự thêm các field của bảng contract vào JSON nếu validator/engine chưa hỗ trợ.
+
+
 Tái sử dụng type/hook, không so tên hiển thị. [ENGINE_RULES](ENGINE_RULES.md), [RECIPIENT_STATUSES](RECIPIENT_STATUSES.md) và [WEAKNESS_MECHANICS](WEAKNESS_MECHANICS.md) giải thích stack/charges/clock. effect.charges cấp số lần riêng, không nhân Rank.
 
 Liên kích từ đồng đội dùng canTriggerFollowUp; phản công/truy kích theo mode là hook riêng. Chặn đệ quy, reserve hạn mức trước side effect. Dùng actor-life.isAlive trong handler chung. Phe/ô tính tương đối nguồn; actor ID trận không phải character ID trong Arena.

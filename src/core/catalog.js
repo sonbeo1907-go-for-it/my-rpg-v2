@@ -2,6 +2,9 @@ import { resolveCharacter } from './progression.js';
 import { gearOwner } from './equipment.js';
 export const STAT_LABELS = { maxHp: 'HP', maxMp: 'MP', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD' };
 export const GEAR_NAMES = { t1: 'Trang bị cấp thấp', t2: 'Trang bị cấp trung', t3_dual: 'Trang bị cấp cao đa dụng', t3_focused: 'Trang bị cấp cao chuyên biệt', t4_stats:'Gear Siêu Cấp Chỉ Số', t4_effect:'Gear Siêu Cấp Hiệu Ứng' };
+// Giá trị affiliation lưu tiếng Anh trong JSON; card nhân vật hiển thị nhãn tiếng Việt.
+export const AFFILIATION_LABELS = { Capital_Knight: 'Kị sĩ đoàn Thủ đô' };
+export const affiliationLabel = value => (value ? (AFFILIATION_LABELS[value] ?? value) : '');
 const text = value => String(value).toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/đ/g, 'd');
 const compare = (a, b) => typeof a === 'string' ? a.localeCompare(b, 'vi', { numeric: true }) : a - b;
 export function characterCatalog(content, campaign, filters = {}, ownedOnly = false) {
@@ -11,7 +14,7 @@ export function characterCatalog(content, campaign, filters = {}, ownedOnly = fa
     const owned = campaign.unlockedCharacterIds.includes(actor.id);
     return (!ownedOnly || owned) && (!ownership || owned === (ownership === 'owned')) && (!element || element==='agony' || actor.element === element)
       && (!role || actor.roleGroup === role || actor.secondaryRoleGroups?.includes(role))
-      && text(`${actor.name} ${actor.title} ${actor.role} ${actor.affiliation ?? ''}`).includes(text(q));
+      && text(`${actor.name} ${actor.title} ${actor.role} ${actor.affiliation ?? ''} ${affiliationLabel(actor.affiliation)}`).includes(text(q));
   }).map(actor => resolveCharacter(content, campaign, actor.id)).sort((a, b) => {
     const result = compare(sort === 'name' ? a.name : sort === 'level' ? a.level : a.stats[sort] ?? 0, sort === 'name' ? b.name : sort === 'level' ? b.level : b.stats[sort] ?? 0);
     return result * (direction === 'desc' ? -1 : 1) || a.id.localeCompare(b.id);

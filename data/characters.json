@@ -507,7 +507,7 @@
     "id": "benard",
     "name": "Benard",
     "title": "Kị sĩ Cuồng Phong",
-    "affiliation": "Kị sĩ thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "wind",
     "role": "Sát thương vật lí đơn mục tiêu",
     "roleGroup": "physical_dps",
@@ -531,13 +531,17 @@
       "benard.flash",
       "benard.gale"
     ],
-    "biography": "Kị sĩ thủ đô sử dụng song kiếm, lấy tốc độ áp đảo đối thủ."
+    "biography": "Kị sĩ thủ đô sử dụng song kiếm, lấy tốc độ áp đảo đối thủ.",
+    "tags": [
+      "capital_knights",
+      "gale_knight"
+    ]
   },
   {
     "id": "lanceveil",
     "name": "Lanceveil",
     "title": "Kị sĩ Hỏa Thương",
-    "affiliation": "Kị sĩ thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "fire",
     "role": "Đấu sĩ thương và khiên",
     "roleGroup": "fighter",
@@ -564,13 +568,17 @@
       "lanceveil.breakthrough",
       "lanceveil.bulwark"
     ],
-    "biography": "Kị sĩ thủ đô cầm thương và khiên, mang ý chí bảo vệ người khác."
+    "biography": "Kị sĩ thủ đô cầm thương và khiên, mang ý chí bảo vệ người khác.",
+    "tags": [
+      "capital_knights",
+      "firelance_knight"
+    ]
   },
   {
     "id": "gahallad",
     "name": "Gahallad",
     "title": "Thống soái Hắc Kị",
-    "affiliation": "Kị sĩ thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "dark",
     "role": "DPS vật lí đơn mục tiêu / Phá khiên",
     "roleGroup": "physical_dps",
@@ -594,13 +602,17 @@
       "gahallad.trample",
       "gahallad.charge"
     ],
-    "biography": "Đoàn trưởng kị binh thủ đô. Hắc kỳ phủ kín chân trời, vó sắt lao tới khiến cả chiến tuyến tán loạn."
+    "biography": "Đoàn trưởng kị binh thủ đô. Hắc kỳ phủ kín chân trời, vó sắt lao tới khiến cả chiến tuyến tán loạn.",
+    "tags": [
+      "capital_knights",
+      "black_knight"
+    ]
   },
   {
     "id": "gawain",
     "name": "Gawain",
     "title": "Kị sĩ Bão Sấm",
-    "affiliation": "Kị sĩ thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "thunder",
     "role": "DPS vật lí đa mục tiêu",
     "roleGroup": "physical_dps",
@@ -627,7 +639,11 @@
       "gawain.sweep",
       "gawain.judgment"
     ],
-    "biography": "Kị sĩ đoàn trưởng dùng đại kiếm xé chiến tuyến trong tiếng sấm."
+    "biography": "Kị sĩ đoàn trưởng dùng đại kiếm xé chiến tuyến trong tiếng sấm.",
+    "tags": [
+      "capital_knights",
+      "storm_knight"
+    ]
   },
   {
     "id": "lucien",
@@ -901,6 +917,7 @@
     "id": "iwayn",
     "name": "Iwayn",
     "title": "Kị sĩ trẻ của thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "light",
     "role": "DPS vật lí",
     "roleGroup": "physical_dps",
@@ -926,13 +943,15 @@
     },
     "description": "Xuyên DEF bằng quang thương; tăng sát thương theo chênh lệch tỷ lệ HP.",
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "young_knight"
     ]
   },
   {
     "id": "percival",
     "name": "Percival",
     "title": "Kị sĩ thủy triều",
+    "affiliation": "Capital_Knight",
     "element": "water",
     "role": "Đấu sĩ tự duy trì",
     "roleGroup": "fighter",
@@ -958,13 +977,15 @@
     },
     "description": "Làm chậm địch, tự hồi HP và nhận thêm MP khi được đồng đội hồi phục.",
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "tide_knight"
     ]
   },
   {
     "id": "mandred",
     "name": "Mandred",
     "title": "Sư tử địa chấn",
+    "affiliation": "Capital_Knight",
     "element": "earth",
     "role": "Đấu sĩ",
     "roleGroup": "fighter",
@@ -992,13 +1013,15 @@
     },
     "description": "Chuyển HP tối đa thành ATK, dùng chiến phủ đánh một hoặc nhiều địch.",
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "lion_knight"
     ]
   },
   {
     "id": "lionel",
     "name": "Lionel",
     "title": "Người dẫn lối",
+    "affiliation": "Capital_Knight",
     "element": "water",
     "role": "Hỗ trợ tấn công",
     "roleGroup": "offensive_support",
@@ -1024,7 +1047,8 @@
     },
     "description": "Cường hóa đồng đội, cấp Lượt Thêm và tiếp MP cho người cần nhất cuối vòng.",
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "guide_knight"
     ],
     "basicDamageType": "magical"
   },
@@ -1154,7 +1178,7 @@
     "id": "charlemagnes",
     "name": "Charlemagnes",
     "title": "Đại tướng Kị sĩ đoàn",
-    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "fire",
     "role": "DPS vật lí",
     "roleGroup": "physical_dps",
@@ -1181,7 +1205,8 @@
       "statusId": "commanders_economy"
     },
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "grand_general"
     ]
   },
   {
@@ -1223,7 +1248,7 @@
     "id": "roland",
     "name": "Roland",
     "title": "Trưởng đoàn Kị sĩ",
-    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "light",
     "role": "Hỗ trợ tấn công",
     "roleGroup": "offensive_support",
@@ -1249,7 +1274,8 @@
       "ratio": 0.04
     },
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "order_captain"
     ],
     "basicDamageType": "magical"
   },
@@ -1300,7 +1326,7 @@
     "id": "victorina",
     "name": "Victorina",
     "title": "Kị sĩ Hoa Hồng",
-    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "fire",
     "role": "Thủ Hộ bảo vệ toàn đội",
     "roleGroup": "tank",
@@ -1332,6 +1358,7 @@
     },
     "tags": [
       "capital_knights",
+      "rose_knight",
       "dragun"
     ]
   },
@@ -1339,7 +1366,7 @@
     "id": "sieg",
     "name": "Sieg",
     "title": "Kiếm sĩ Ngân Triều",
-    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "affiliation": "Capital_Knight",
     "element": "water",
     "role": "Đấu sĩ",
     "roleGroup": "fighter",
@@ -1347,6 +1374,7 @@
     "biography": "Một kiếm sĩ elf phục vụ trong Kị sĩ đoàn Thủ đô. Sieg rèn kiếm qua nhiều năm, chuộng thế trận vững chắc hơn những bước tiến vội vàng.",
     "tags": [
       "capital_knights",
+      "silver_tide_knight",
       "elf"
     ],
     "stats": {
@@ -2309,9 +2337,10 @@
     "id": "rivia",
     "name": "Rivia",
     "title": "Kị Sĩ Hoàng Hôn",
-    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "affiliation": "Capital_Knight",
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "dusk_knight"
     ],
     "role": "DPS vật lí",
     "roleGroup": "physical_dps",
@@ -2357,9 +2386,10 @@
     "id": "valery",
     "name": "Valery",
     "title": "Xạ Thủ Hắc Phong",
-    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "affiliation": "Capital_Knight",
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "blackwind_archer"
     ],
     "role": "DPS ma pháp",
     "roleGroup": "magical_dps",
@@ -2554,8 +2584,10 @@
     "id": "albeldo",
     "name": "Albeldo Dragun",
     "title": "Kị Sĩ Lá Chắn Gió",
-    "affiliation": "Kị sĩ đoàn Thủ đô",
+    "affiliation": "Capital_Knight",
     "tags": [
+      "capital_knights",
+      "windshield_knight",
       "dragun"
     ],
     "role": "Thủ Hộ",
@@ -2904,9 +2936,10 @@
       "description": "Gây thêm 30% sát thương lên mục tiêu không có buff còn hiệu lực. Xét riêng từng mục tiêu và từng hit; khiên, mode và tài nguyên không được tính là buff.",
       "ratio": 0.3
     },
-    "affiliation": "Hội Hiệp sĩ Thủ đô",
+    "affiliation": "Capital_Knight",
     "tags": [
-      "capital_knights"
+      "capital_knights",
+      "order_librarian"
     ],
     "description": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết.",
     "biography": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết."
@@ -2947,5 +2980,72 @@
     ],
     "description": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm.",
     "biography": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm."
+  },
+  {
+    "id": "cerise",
+    "name": "Cerise",
+    "title": "Kị sĩ Chớp Mắt",
+    "affiliation": "Capital_Knight",
+    "tags": [
+      "capital_knights",
+      "recon_knight"
+    ],
+    "element": "wind",
+    "role": "Sát thương vật lí đơn mục tiêu",
+    "roleGroup": "physical_dps",
+    "description": "Áp sát bằng những bước chớp nhoáng, né đòn trong Viễn Trinh Xuất Kích và đáp trả kỹ năng hỗ trợ của địch.",
+    "biography": "Cerise thuộc sư đoàn viễn trinh của Kị sĩ đoàn Thủ đô. Cô không tin vào hàng ngũ chỉnh tề: chỉ cần một nhịp chớp mắt là cô đã ở giữa đội hình địch, thường kèm một câu đùa lệch nhịp khiến đồng đội khó trả lời.",
+    "stats": {
+      "maxHp": 168,
+      "maxMp": 72,
+      "attack": 31,
+      "magic": 8,
+      "defense": 15,
+      "resistance": 15,
+      "speed": 21
+    },
+    "abilities": [
+      "cerise.slash",
+      "cerise.strike",
+      "cerise.formation"
+    ],
+    "passive": {
+      "type": "enemy_support_counter",
+      "name": "Thoáng Ảnh Phản Kích",
+      "description": "Mỗi 2 vòng một lần: khi kẻ địch dùng kỹ năng không gây sát thương (trừ Phòng thủ), Cerise tự giải mọi hiệu ứng bất lợi của bản thân rồi phản đòn 420% ATK.",
+      "counterAbility": "cerise.riposte",
+      "cooldownRounds": 2
+    },
+    "combatModes": {
+      "recon_mode": {
+        "name": "Viễn Trinh Xuất Kích",
+        "lifetime": "turns",
+        "durationTurns": 3,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "attack": 0.3
+        },
+        "evasion": {
+          "baseChance": 0.5,
+          "perBaseSpeed": 0,
+          "cap": 0.5,
+          "damageTypes": [
+            "physical",
+            "magical"
+          ]
+        },
+        "allowedAbilities": [
+          "$attack",
+          "cerise.slash",
+          "cerise.strike",
+          "cerise.formation",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "summary": "+30% ATK · né 50% vật lí và phép · 3 lượt",
+        "description": "Duy trì 3 lượt của Cerise, tính cả lượt thi triển. Cô áp sát và né 50% đòn vật lí lẫn phép; hết lượt thứ ba thì rời dạng."
+      }
+    }
   }
 ]

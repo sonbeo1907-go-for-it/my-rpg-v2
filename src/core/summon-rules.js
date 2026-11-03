@@ -1,3 +1,4 @@
+import {validEvasion} from './evasion.js';
 export function validateSummonDefinition(actor,content,fail) {
  const id=actor.id,own=skill=>actor.abilities?.includes(skill),command=skill=>['$attack','$defend'].includes(skill)||own(skill);
  if (actor.normalAbilities!==undefined && (!Array.isArray(actor.normalAbilities)||!actor.normalAbilities.length||new Set(actor.normalAbilities).size!==actor.normalAbilities.length||actor.normalAbilities.some(skill=>!own(skill)))) fail(id+': invalid normal command set');
@@ -5,10 +6,12 @@ export function validateSummonDefinition(actor,content,fail) {
  for(const [key,mode] of Object.entries(actor.combatModes??{})) {
   const life=mode.lifetime??'resource';
   if(mode.bypassEvasion!==undefined&&typeof mode.bypassEvasion!=='boolean')fail(id+': invalid mode true strike');
-  if (!mode.name||!['resource','team_resource','rounds','permanent'].includes(life)||!Array.isArray(mode.allowedAbilities)||!mode.allowedAbilities.length||new Set(mode.allowedAbilities).size!==mode.allowedAbilities.length||mode.allowedAbilities.some(skill=>!command(skill))||!Number.isFinite(mode.exitMpRatio)||mode.exitMpRatio<0||mode.exitMpRatio>1||!mode.baseStatBonuses||Object.entries(mode.baseStatBonuses).some(([stat,n])=>!['attack','magic','defense','resistance','speed'].includes(stat)||!Number.isFinite(n)||n<0)||(mode.background!==undefined&&!/^\/art\/[a-z0-9_-]+\.svg$/.test(mode.background))) fail(id+': invalid combat mode');
+  if(mode.evasion!==undefined&&!validEvasion(mode.evasion))fail(id+': invalid mode evasion');
+  if (!mode.name||!['resource','team_resource','rounds','turns','permanent'].includes(life)||!Array.isArray(mode.allowedAbilities)||!mode.allowedAbilities.length||new Set(mode.allowedAbilities).size!==mode.allowedAbilities.length||mode.allowedAbilities.some(skill=>!command(skill))||!Number.isFinite(mode.exitMpRatio)||mode.exitMpRatio<0||mode.exitMpRatio>1||!mode.baseStatBonuses||Object.entries(mode.baseStatBonuses).some(([stat,n])=>!['attack','magic','defense','resistance','speed'].includes(stat)||!Number.isFinite(n)||n<0)||(mode.background!==undefined&&!/^\/art\/[a-z0-9_-]+\.svg$/.test(mode.background))) fail(id+': invalid combat mode');
   if (life==='resource'&&(!actor.resources?.[mode.resource]||mode.emptyExit!=='turn_start_or_round_end')) fail(id+': invalid resource mode');
   if(life==='team_resource'&&(!actor.teamResources?.[mode.resource]||mode.emptyExit!=='action_end_or_turn_start'))fail(id+': invalid shared resource mode');
   if (life==='rounds'&&(!Number.isInteger(mode.durationRounds)||mode.durationRounds<1||mode.durationRounds>20)) fail(id+': invalid timed mode');
+  if (life==='turns'&&(!Number.isInteger(mode.durationTurns)||mode.durationTurns<1||mode.durationTurns>20)) fail(id+': invalid turn-counted mode');
   if (!['resource','team_resource'].includes(life) && (mode.resource!==undefined||mode.emptyExit!==undefined)) fail(id+': conflicting mode lifetime');
   if(mode.statModifiers!==undefined&&(!mode.statModifiers||typeof mode.statModifiers!=='object'||Array.isArray(mode.statModifiers)||Object.entries(mode.statModifiers).some(([key,n])=>!['attack','magic','defense','resistance','speed'].includes(key)||!Number.isFinite(n)||Math.abs(n)>1)))fail(id+': invalid mode stat modifiers');
   if(mode.mpCostReduction!==undefined&&(!Number.isFinite(mode.mpCostReduction)||mode.mpCostReduction<=0||mode.mpCostReduction>=1||!Array.isArray(mode.discountAbilityIds)||!mode.discountAbilityIds.length||mode.discountAbilityIds.some(key=>!mode.allowedAbilities.includes(key)||!content.abilities[key]?.effects.some(e=>e.type==='damage'))))fail(id+': invalid mode MP discount');

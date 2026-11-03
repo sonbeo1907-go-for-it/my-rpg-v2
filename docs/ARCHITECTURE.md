@@ -101,3 +101,6 @@ battle.js và game-context.tsx vẫn là điểm điều phối lớn, có nhi�
 Nên tách tiếp theo bằng một refactor riêng khi có lý do đo được: cùng hành vi đã có test → chuyển trách nhiệm nhỏ → đối chiếu event/result trước sau. Chưa có ngưỡng performance/FPS/throughput được nghiệm thu, CI workflow hoặc hợp đồng online; ghi chúng là công việc chưa chốt, không suy ra từ Astoria technical test.
 
 Quy trình triển khai: [DEVELOPMENT_WORKFLOW](DEVELOPMENT_WORKFLOW.md). Build và rollback: [RELEASE_RUNBOOK](RELEASE_RUNBOOK.md).
+
+
+Chi tiết điểm cập nhật và nhánh kết thúc lượt chưa thống nhất: [COMBAT_LIFECYCLE_CONTRACT](COMBAT_LIFECYCLE_CONTRACT.md). Không giả định resolveAction hoặc endTurn=false tự đại diện cho một lifecycle chung.

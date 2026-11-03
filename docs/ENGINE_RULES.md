@@ -2,10 +2,13 @@
 
 Đối chiếu source ngày 03/11/2026. Đây là bản tóm tắt contract; cơ chế riêng vẫn phải đọc dữ liệu/handler và test tương ứng. Không suy rộng một ngoại lệ thành luật toàn game.
 
+Đặc tả clock, các nhánh không cast và ma trận nghiệm thu: [COMBAT_LIFECYCLE_CONTRACT](COMBAT_LIFECYCLE_CONTRACT.md).
+
 ## Lượt và đồng hồ
 
 - Vòng Chính (`phase=main`) → Vòng Phụ (`extra`) nếu có quyền → cuối vòng → vòng chính kế tiếp. round chỉ tăng ở vòng chính. Mỗi người tối đa một Lượt Thêm/vòng, không chen ngay vào queue, không tạo chuỗi quyền vô hạn trong pha phụ.
 - Cooldown kỹ năng giảm ở đầu vòng chính. Cast CD 2 ở R khóa R+1/R+2, sẵn sàng R+3. Lượt Thêm không giảm CD. Một số mode bắt đầu CD khi **rời dạng**, không khi vào (Selene).
+- Mode có thể đếm theo **vòng** (`lifetime: rounds` + `durationRounds`) hoặc theo **lượt của chính người mang** (`lifetime: turns` + `durationTurns`). Mode theo lượt trừ ở cuối lượt của người mang, tính cả lượt thi triển **và lượt bị bỏ qua vì choáng**; không trừ khi đồng đội/địch hành động, nhưng Lượt Thêm của chính người mang vẫn tính. Rời dạng xử lý như mode hết hạn bình thường.
 - `durationClock=main_turn`: chỉ lượt chính người mang trừ thời hạn. Clock mặc định có thể giảm theo lượt thực tế, gồm lượt phụ; không viết “mọi buff đều không giảm ở lượt phụ”. `round`: deadline vòng tuyệt đối; DoT có nhịp riêng. Status mới trong chính hành động không bị trừ ngay. Tra applyStatus/finishStatuses/round-effects và test.
 - Gear CD là cơ chế riêng: kích hoạt R với CD 3 có thể kích lại R+3; không dùng công thức CD kỹ năng cho gear.
 - Thứ tự theo SPD; trường Monica PvE ưu tiên phe, Arena +15%SPD phe mình/−15% phe địch. Trường không phải buff/debuff. Đổi thứ tự không cho người đã hành động đi lại. UI animate theo queue engine, không tự sort.
@@ -39,6 +42,7 @@ Sơ hở tài nguyên riêng của Takeshi và Sơ Hở nguyên tố là hai cơ
 
 - Handler Liên kích **từ hành động đồng đội** dùng canTriggerFollowUp: nguồn khác chủ, cùng phe, chủ/mục tiêu hợp lệ; không tự kích. Không để phản ứng đệ quy. Phản công khi bị địch đánh/né và truy kích riêng từ chính skill (ví dụ Joshua) là hook khác, không xóa chúng bằng cách áp luật Aurora máy móc.
 - Hạn mức theo round dùng chung cả pha chính/phụ, không reset khi đổi phase boss. Cần reserve trước khi tạo tài nguyên để tránh vòng lặp; Arena còn loopGuards riêng.
+- Nội tại `enemy_support_counter` (Cerise): địch dùng kỹ năng chủ động **không có hiệu ứng sát thương** (bỏ qua Phòng thủ và kỹ năng tự động) thì chủ nội tại giải toàn bộ debuff của bản thân rồi phản đòn. Hạn mức tính theo vòng qua `cooldownRounds`, dùng chung Vòng Chính/Phụ, và không đệ quy từ phản ứng.
 - Đội hình bốn vị trí cố định, không nén ô trống/người gục. Kề đồng đội nối 1↔4 khi skill khai báo; lan địch không nối vòng. Tag/phe quyết định gia tộc, không suy từ tên.
 - Bằng Chứng và Thuốc Súng tách theo đội. Có bất kỳ nhân vật khai báo tài nguyên là mở pool, không cần “nhân vật trung tâm” còn sống. Bằng Chứng đầy 6 vẫn phát event tạo để nội tại nhận biết; không thực cộng quá 6.
 

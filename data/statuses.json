@@ -1309,5 +1309,14 @@
     "modifiers": {
       "speed": -0.15
     }
+  },
+  {
+    "id": "cerise_disarm",
+    "name": "Đứt Dòng Ma Lực",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": -0.2
+    }
   }
 ]
