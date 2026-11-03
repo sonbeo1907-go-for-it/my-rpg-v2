@@ -9363,7 +9363,7 @@
         "type": "damage",
         "damageType": "magical",
         "element": "earth",
-        "multiplier": 3.4
+        "multiplier": 2.8
       }
     ],
     "description": "Dồn địa thuật mạnh lên toàn bộ địch.",
@@ -9373,7 +9373,7 @@
     "growthGroups": [
       "damage"
     ],
-    "cooldown": 1
+    "cooldown": 2
   },
   {
     "id": "sandra.disruption",

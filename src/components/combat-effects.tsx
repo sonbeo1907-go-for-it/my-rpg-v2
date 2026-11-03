@@ -44,7 +44,8 @@ export function CombatEffects({events,content,sessionId,speed,onCue}:{events:any
    const item={...frame,anchor,reduced};setVisible(previous=>[...previous,item].slice(-64));
    later(()=>setVisible(previous=>previous.filter(item=>item.id!==frame.id)),frame.duration);
   },frame.at);
-  later(()=>{onCue?.(null);document.querySelector('.battle-page')?.removeAttribute('data-vfx-playing');},plan.duration);
+  // End-of-cast cleanup is independent of status lifetime and child CSS animations.
+  later(()=>{setVisible([]);onCue?.(null);document.querySelector('.battle-page')?.removeAttribute('data-vfx-playing');},plan.duration);
  },[events,content,sessionId,speed]);
  return <>{visible.map(frame=>{
   const cue=frame.kind==='source'||frame.kind==='passive';
