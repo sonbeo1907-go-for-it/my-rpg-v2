@@ -1,6 +1,6 @@
 // Pure presentation plan. Reads resolved outcomes; never rolls RNG or changes combat.
 export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed',moon:'#d5edff'};
-const custom=skill=>/^(cosmic|academic|hero|nature)_/.test(skill?.presentation??'');
+const custom=skill=>/^(cosmic|academic|hero|nature|edict)_/.test(skill?.presentation??'');
 export function combatTimeline(events,content,{speed='normal',reduced=false}={}){
  const frames=[],actions=new Map(),passives=new Set();let cursor=0,lastImpact=-100;
  const lead=reduced?0:speed==='fast'?35:120,step=reduced?0:speed==='fast'?25:85,duration=reduced?50:speed==='fast'?125:300;
@@ -13,6 +13,14 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
    const action={start,presentation:event.presentation??skill?.presentation,custom:custom(event.presentation?event:skill),targetId:event.targetId,area:skill?.target!=='random_enemies'&&(event.area??(skill?.target?.startsWith('all_')||skill?.target==='enemy_splash')),primary:skill?.effects?.some(effect=>effect.primaryMultiplier!==undefined),automatic:event.automaticCast};
    actions.set(event.sourceId,action);cursor=start+lead;
    add(event,'source',start,{attack,automatic:action.automatic,label:reaction?event.label:event.label??skill?.name??(event.abilityId==='$defend'?'Phòng thủ':'Đánh thường'),reaction});
+   if(action.presentation==='edict_interdict'){
+    const targets=[...new Set(event.targetIds??(event.targetId?[event.targetId]:[]))];
+    if(targets.length){
+     add({...event,targetId:targets[0]},'signature',start+lead,{presentation:'edict_interdict',area:true,custom:true,element:'earth'});
+     frames.at(-1).duration=reduced?80:speed==='fast'?240:680;
+     for(const targetId of targets){add({...event,targetId},'signature',start+lead+(reduced?0:speed==='fast'?60:180),{presentation:'edict_seal',area:false,custom:true,element:'earth'});frames.at(-1).duration=reduced?80:speed==='fast'?180:460;}
+    }
+   }
    if(!action.custom&&action.area&&attack){
     const types=[...new Set((skill?.effects??[]).filter(effect=>effect.type==='damage').map(effect=>effect.damageType))];
     for(const damageType of types)add(event,'formation',start+lead,{damageType,element:skill.effects.find(effect=>effect.type==='damage'&&effect.damageType===damageType)?.element});

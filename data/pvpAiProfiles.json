@@ -1054,5 +1054,52 @@
       "viktor.shot": 0,
       "viktor.execution": 24
     }
+  },
+  {
+    "id": "mori",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "mori.unbound"
+    ],
+    "burstAbilities": [
+      "mori.storm"
+    ],
+    "skillBias": {
+      "mori.unbound": 20,
+      "mori.storm": 16,
+      "mori.sundering": 10
+    }
+  },
+  {
+    "id": "sandra",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "sandra.verdict"
+    ],
+    "skillBias": {
+      "sandra.interdict": 4,
+      "sandra.verdict": 16,
+      "sandra.disruption": 10
+    }
+  },
+  {
+    "id": "tywin",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "tywin.truecut"
+    ],
+    "skillBias": {
+      "tywin.wound": 12,
+      "tywin.purify": 0,
+      "tywin.truecut": 14
+    }
   }
 ]

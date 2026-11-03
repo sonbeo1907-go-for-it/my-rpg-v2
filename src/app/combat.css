@@ -428,3 +428,24 @@
 @keyframes hero-seal{0%{opacity:0;transform:scale(.5)}35%{opacity:.8}100%{opacity:0;transform:scale(1.2)}}
 @keyframes hero-shards{0%,15%{opacity:0}35%{opacity:.9}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.shared-combat-fx.fx-signature svg{opacity:.35}.shared-combat-fx.fx-signature,.shared-combat-fx.fx-signature *{animation:none!important}}
+
+/* Queue motion preserves unit identity. Ghosts cannot intercept targeting/focus. */
+.turn-rail{position:relative;overflow-x:auto;overflow-y:hidden;max-width:100%;min-height:42px;padding-block:4px;scrollbar-width:thin;scrollbar-color:#647578 transparent;isolation:isolate;direction:ltr}
+.turn-rail .turn-chips{position:relative;z-index:1;width:max-content;min-width:100%;flex-wrap:nowrap;align-items:stretch}
+.turn-rail .turn-chips>button{flex:none;white-space:nowrap;transition:color .16s,border-color .16s,background-color .16s}
+.turn-exit-layer{position:absolute;inset:0;z-index:0;pointer-events:none}
+.turn-exit-layer>button{padding:.35rem .5rem;font-size:.65rem;border-color:#40535b;color:#b7c8c8;background:#122630;white-space:nowrap}
+.turn-exit-layer>button.acting{color:#f1d095;border-color:#9c8457;background:#3d3c2d}
+@media(prefers-reduced-motion:reduce){.turn-rail .turn-chips>button{transition:none}}
+
+.battle-page .battlefield,.turn-order,.turn-rail{min-width:0}.turn-rail{contain:inline-size}
+
+.turn-order-label{font-size:12px;letter-spacing:.06em}.turn-rail .turn-chips>button,.turn-exit-layer>button{font-size:12px}
+
+/* Sandra's decree: transient book / crossed seal, no battlefield mode or background. */
+.edict-pages{transform-box:fill-box;transform-origin:center;animation:edict-open var(--vfx-duration) ease-out both}
+.edict-stamp{transform-box:fill-box;transform-origin:center;animation:edict-stamp var(--vfx-duration) cubic-bezier(.2,.75,.25,1) both}
+.edict-chains{transform-box:fill-box;transform-origin:center;animation:edict-release var(--vfx-duration) ease-out both}
+@keyframes edict-open{0%{opacity:0;transform:scaleX(.15) translateY(16px)}25%{opacity:1;transform:scaleX(1) translateY(0)}75%{opacity:.9}100%{opacity:0;transform:scaleX(1.04) translateY(-8px)}}
+@keyframes edict-stamp{0%{opacity:0;transform:translateY(-24px) scale(1.35)}35%{opacity:1;transform:translateY(0) scale(1)}75%{opacity:.85}100%{opacity:0;transform:scale(1.08)}}
+@keyframes edict-release{0%,20%{opacity:0;transform:scale(.8)}45%{opacity:.9}100%{opacity:0;transform:scale(1.3)}}

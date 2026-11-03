@@ -1,4 +1,5 @@
 "use client";
+import {useTurnOrderMotion} from "./turn-order-motion";
 import {isAlive} from "../core/actor-life.js";
 
 import {Fragment} from "react";
@@ -10,24 +11,26 @@ import {CombatPopover} from "./combat-popover";
 export function TurnOrder({onHover}:{onHover:(id:string)=>void}) {
   const {battle}=useGame();
   const field=activeTurnOrderField(battle);
-  const pending=battle.queue.slice(battle.cursor).map((id:string)=>battle.actors.find((actor:any)=>actor.id===id)).filter((actor:any)=>isAlive(actor));
+  const pending=(battle.outcome?[]:battle.queue.slice(battle.cursor)).map((id:string)=>battle.actors.find((actor:any)=>actor.id===id)).filter((actor:any)=>isAlive(actor));
   const remaining=field ? field.expiresAfterRound-battle.round+1 : 0;
+  const signature=JSON.stringify(pending.map((a:any)=>[a.id,a.name,a.team,a.id===battle.activeId]))+'|'+(field?.kind??'');
+  const rail=useTurnOrderMotion(signature,`${battle.sessionId}:${battle.round}:${battle.phase}`,battle.phase==='extra');
   return <div className="turn-order" data-turn-field={field?.kind}>
-    {battle.outcome ? "Cuộc chạm trán đã khép lại." : <>
+    <>
       <div className="turn-order-heading">
-        <span className="turn-order-label">{battle.phase==="extra"?"VÒNG PHỤ · LƯỢT THÊM":"THỨ TỰ LƯỢT CHÍNH"}</span>
+        <span className="turn-order-label">{battle.outcome?"Cuộc chạm trán đã khép lại.":battle.phase==="extra"?"VÒNG PHỤ · LƯỢT THÊM":"THỨ TỰ LƯỢT CHÍNH"}</span>
         {field && <CombatPopover label={field.name} content={<><h3>{field.name}</h3>{field.kind==='speed_shift'?<p>Phe thi triển +{Math.round(field.allySpeed*100)}% SPD · phe đối phương {Math.round(field.enemySpeed*100)}% SPD. Xếp lượt theo SPD toàn bàn; không phải buff/debuff.</p>:<p>Phe {field.priorityTeam==="party"?"đồng minh":"đối thủ"} được ưu tiên. Trong từng phe vẫn xếp theo SPD.</p>}<p>Còn {remaining} vòng, tính cả vòng hiện tại. Hết hiệu lực sau Vòng Phụ.</p><p>Chỉ đổi lượt chưa thực hiện; không cấp thêm lượt.</p></>}>
           <button type="button" className="turn-field-badge" aria-label={`${field.name} · còn ${remaining} vòng`}><Icon name="hourglass"/>{field.name}<span>{remaining} vòng</span></button>
         </CombatPopover>}
       </div>
-      <div className="turn-chips">
+      <div className="turn-rail" ref={rail} aria-label="Thứ tự hành động"><div className="turn-chips">
         {pending.map((actor:any,index:number)=><Fragment key={actor.id}>
-          {field?.kind==='team_priority' && index>0 && pending[index-1].team!==actor.team && <span className="turn-team-divider" role="img" aria-label="Đồng hồ cát · ranh giới lượt đồng minh và đối thủ" title={field.name}><Icon name="hourglass"/></span>}
-          <button data-turn-actor={actor.id} data-turn-team={actor.team} className={actor.id===battle.activeId?"acting":""} onPointerEnter={()=>onHover(actor.id)} onPointerLeave={()=>onHover("")} onFocus={()=>onHover(actor.id)} onBlur={()=>onHover("")} aria-label={`Xem vị trí ${actor.name}`}>
+          {field?.kind==='team_priority' && index>0 && pending[index-1].team!==actor.team && <span data-turn-key={`divider:${pending[index-1].id}:${actor.id}`} className="turn-team-divider" role="img" aria-label="Đồng hồ cát · ranh giới lượt đồng minh và đối thủ" title={field.name}><Icon name="hourglass"/></span>}
+          <button data-turn-key={actor.id} data-turn-actor={actor.id} data-turn-team={actor.team} className={actor.id===battle.activeId?"acting":""} onPointerEnter={()=>onHover(actor.id)} onPointerLeave={()=>onHover("")} onFocus={()=>onHover(actor.id)} onBlur={()=>onHover("")} aria-label={`Xem vị trí ${actor.name}`}>
             {actor.id===battle.activeId?"◆ ":""}{battle.arena?(actor.team==='party'?'Bạn · ':'Địch · ')+(actor.characterName??actor.name):actor.name}
           </button>
         </Fragment>)}
-      </div>
-    </>}
+      </div><div className="turn-exit-layer" data-turn-exits aria-hidden="true"/></div>
+    </>
   </div>;
 }

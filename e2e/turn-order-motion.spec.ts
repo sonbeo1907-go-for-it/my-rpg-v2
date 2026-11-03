@@ -1,0 +1,30 @@
+import {test,expect,type Page} from '@playwright/test';
+import fs from 'node:fs/promises';
+import {loadContent} from '../scripts/load-content.mjs';
+import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
+const content:any=await loadContent();
+async function seed(page:Page,party=['monica','lionel','garrek','elaine'],reduced=false){const c=createGameSave(content);c.unlockedCharacterIds=Object.keys(content.characters);c.party=party;c.partyPresets[0].slots=[...party];await page.addInitScript(raw=>{localStorage.setItem('northern-prisma.campaign.v7',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false,controlMode:'mouse',showHints:false}));},encodeGameSave(c,content));await page.emulateMedia({reducedMotion:reduced?'reduce':'no-preference'});await page.goto('/quests?selected=forest_patrol');await page.locator('.embark').click();await expect(page.locator('.execute')).toBeEnabled();}
+const skill=(page:Page,id:string)=>page.locator(`[data-gamepad-skill="${id}"]`);
+test('finished unit fades, survivors slide and real team-priority reorder moves Garrek past enemies',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page);const chips=page.locator('.turn-chips');const before=await chips.locator('[data-turn-actor]').evaluateAll(ns=>ns.map(n=>(n as HTMLElement).dataset.turnActor));expect(before.indexOf('garrek')).toBeGreaterThan(before.indexOf('enemy_0'));
+ await skill(page,'monica.distortion').click();await page.locator('.execute').click();await page.waitForFunction(()=>document.querySelector('[data-turn-exit="monica"]'));
+ expect(await page.locator('[data-turn-exit="monica"]').getAttribute('inert')).not.toBeNull();expect(await page.locator('[data-turn-exits]').getAttribute('aria-hidden')).toBe('true');
+ const motion=await chips.locator('[data-turn-actor="garrek"]').evaluate(el=>el.getAnimations().map(a=>(a.effect as KeyframeEffect).getKeyframes()));expect(motion.some(keys=>keys.some(k=>k.transform&&k.transform!=='translate(0,0)'))).toBe(true);
+ await page.locator('.turn-rail').evaluate(el=>{for(const a of el.getAnimations({subtree:true})){a.pause();a.currentTime=Number(a.effect!.getTiming().duration)/2;}});await page.locator('.turn-order').screenshot({path:'test-results/turn-order-moving.png'});await page.locator('.turn-rail').evaluate(el=>el.getAnimations({subtree:true}).forEach(a=>a.play()));
+ await expect.poll(()=>chips.locator('[data-turn-actor="garrek"]').evaluate(el=>el.getAnimations().length)).toBe(0);await expect(page.locator('[data-turn-exit]')).toHaveCount(0);
+ const after=await chips.locator('[data-turn-actor]').evaluateAll(ns=>ns.map(n=>(n as HTMLElement).dataset.turnActor));expect(after.includes('monica')).toBe(false);expect(after.indexOf('garrek')).toBeLessThan(after.indexOf('enemy_0'));expect(new Set(after).size).toBe(after.length);
+ for(const width of [1440,768,390]){await page.setViewportSize({width,height:960});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);expect(await chips.evaluate(n=>getComputedStyle(n).flexWrap)).toBe('nowrap');await page.screenshot({path:`test-results/turn-order-${width}.png`,fullPage:true});}
+ await page.setViewportSize({width:1440,height:960});const html=await page.content();await fs.writeFile('test-results/turn-order-review.html',html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'').replaceAll('href="/_next/','href="http://127.0.0.1:3002/_next/').replaceAll('src="/art/','src="http://127.0.0.1:3002/art/'));
+ expect(errors).toEqual([]);
+});
+test('extra phase enters as one left-to-right cluster including the actual extra recipient',async({page})=>{
+ await seed(page,['lionel','arthur','elaine','garrek']);await skill(page,'lionel.encore').click();await page.locator('[data-actor-id="arthur"]').click();await page.locator('.execute').click();
+ // Elaine and Arthur act, then the authored enemies act automatically; Garrek ends the main phase.
+ for(let i=0;i<6;i++){await expect(page.locator('.execute')).toBeEnabled();if(await page.locator('.turn-chips>button.acting').getAttribute('data-turn-actor')==='garrek')break;await skill(page,'$defend').click();await page.locator('.execute').click();}
+ await expect(page.locator('.turn-chips>button.acting')).toHaveAttribute('data-turn-actor','garrek');await skill(page,'$defend').click();await page.locator('.execute').click();
+ await page.waitForFunction(()=>document.querySelector('.turn-rail')?.getAttribute('data-turn-transition')==='extra');await expect(page.locator('.turn-order-label')).toContainText('VÒNG PHỤ');await expect(page.locator('.turn-chips>[data-turn-actor]')).toHaveCount(1);await expect(page.locator('.turn-chips>[data-turn-actor]')).toHaveAttribute('data-turn-actor','arthur');
+ const frames=await page.locator('.turn-chips').evaluate(el=>el.getAnimations().flatMap(a=>(a.effect as KeyframeEffect).getKeyframes()));expect(frames.some(f=>String(f.transform).includes('translateX(-'))).toBe(true);await page.locator('.turn-chips').evaluate(el=>{for(const a of el.getAnimations()){a.pause();a.currentTime=240;}});await page.locator('.turn-order').screenshot({path:'test-results/turn-order-extra-entering.png'});await page.locator('.turn-chips').evaluate(el=>el.getAnimations().forEach(a=>a.play()));await expect.poll(()=>page.locator('.turn-chips').evaluate(el=>el.getAnimations().length)).toBe(0);await expect(page.locator('.turn-rail')).not.toHaveAttribute('data-turn-transition','extra');
+});
+test('reduced motion updates the same queue immediately without ghosts or Web Animations',async({page})=>{
+ await seed(page,undefined,true);await skill(page,'monica.distortion').click();await page.locator('.execute').click();await expect(page.locator('.turn-chips>[data-turn-actor="monica"]')).toHaveCount(0);expect(await page.locator('.turn-rail').evaluate(el=>el.getAnimations({subtree:true}).length)).toBe(0);await expect(page.locator('[data-turn-exit]')).toHaveCount(0);await expect(page.locator('.turn-team-divider')).toBeVisible();
+});

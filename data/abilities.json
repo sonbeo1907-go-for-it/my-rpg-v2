@@ -9230,5 +9230,254 @@
       "mp": 14
     },
     "cooldown": 3
+  },
+  {
+    "id": "mori.sundering",
+    "name": "Nhất Trảm — Rạch Sấm",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 2
+      },
+      {
+        "type": "status",
+        "status": "mori_defense_break",
+        "duration": 2
+      }
+    ],
+    "description": "Chém một địch, giảm 20% DEF trong 2 lượt chính.",
+    "skillLineId": "mori.sundering",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "mori.unbound",
+    "name": "Lôi Kiếm Vô Câu",
+    "target": "all_allies",
+    "cost": {
+      "mp": 24
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "effect_ward"
+      },
+      {
+        "type": "status",
+        "status": "mori_unbound",
+        "duration": 2,
+        "to": "self"
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      }
+    ],
+    "description": "Cấp Hộ Ấn toàn đội; bản thân tăng 40% ATK trong 2 lượt chính và nhận Lượt Thêm.",
+    "skillLineId": "mori.unbound",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "cooldown": 3
+  },
+  {
+    "id": "mori.storm",
+    "name": "Vạn Lý Lôi Vũ",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 2.8
+      },
+      {
+        "type": "status",
+        "status": "mori_storm_slow",
+        "duration": 2
+      },
+      {
+        "type": "dispel",
+        "count": 2
+      }
+    ],
+    "description": "Chém toàn bộ địch, giảm 15% SPD trong 2 lượt chính và xóa 2 buff mỗi mục tiêu.",
+    "skillLineId": "mori.storm",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "cooldown": 3
+  },
+  {
+    "id": "sandra.interdict",
+    "name": "Sắc Lệnh — Cấm Viện Dẫn",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24
+    },
+    "effects": [
+      {
+        "type": "dispel",
+        "all": true
+      },
+      {
+        "type": "status",
+        "status": "buff_seal",
+        "charges": 2
+      }
+    ],
+    "description": "Xóa mọi buff của toàn bộ địch, sau đó cấp mỗi mục tiêu 2 lần Phong Ấn.",
+    "skillLineId": "sandra.interdict",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "growthGroups": [],
+    "cooldown": 6,
+    "fixedReason": "Hiệu ứng tiện ích giữ nguyên; không tăng số lần chặn, giải hiệu ứng hoặc Lượt Thêm theo Rank.",
+    "presentation": "edict_interdict"
+  },
+  {
+    "id": "sandra.verdict",
+    "name": "Địa Thư — Phán Quyết Cuối",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 22
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 3.4
+      }
+    ],
+    "description": "Dồn địa thuật mạnh lên toàn bộ địch.",
+    "skillLineId": "sandra.verdict",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "cooldown": 1
+  },
+  {
+    "id": "sandra.disruption",
+    "name": "Điều Khoản — Nhiễu Ma Lực",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 14
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1.5
+      },
+      {
+        "type": "status",
+        "status": "mana_disruption"
+      }
+    ],
+    "description": "Gây sát thương toàn bộ địch và gắn 1 Nhiễu Ma Lực mỗi mục tiêu.",
+    "skillLineId": "sandra.disruption",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "tywin.wound",
+    "name": "Thủy Kiếm — Thương Lưu",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.8
+      },
+      {
+        "type": "status",
+        "status": "deep_wound",
+        "duration": 2
+      }
+    ],
+    "description": "Chém một địch, gắn Vết Thương Sâu trong 2 lượt chính.",
+    "skillLineId": "tywin.wound",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "tywin.purify",
+    "name": "Tẩy Trần Song Ảnh",
+    "target": "ally",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "cleanse",
+        "to": "self"
+      },
+      {
+        "type": "cleanse"
+      }
+    ],
+    "description": "Giải toàn bộ debuff cho bản thân và một đồng đội khác.",
+    "skillLineId": "tywin.purify",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "growthGroups": [],
+    "cooldown": 2,
+    "fixedReason": "Hiệu ứng tiện ích giữ nguyên; không tăng số lần chặn, giải hiệu ứng hoặc Lượt Thêm theo Rank.",
+    "excludeSelf": true
+  },
+  {
+    "id": "tywin.truecut",
+    "name": "Nhất Kiếm — Thủy Nguyệt",
+    "target": "enemy",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 3.5,
+        "unavoidable": true
+      }
+    ],
+    "description": "Một nhát kiếm Hội Tâm: bỏ qua né tránh.",
+    "skillLineId": "tywin.truecut",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "cooldown": 2
   }
 ]

@@ -13,7 +13,7 @@ export function baseStatValue(actor,key){
 export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) {
   if(key==='maxHp')return actor.stats.maxHp;
   let base = Math.max(0,baseStatValue(actor,key)) + baseBonus;
-  if (actor.passive?.type === 'stat_conversion' && actor.passive.toStat === key) base += (actor.baseStats?.[actor.passive.fromStat] ?? actor.stats[actor.passive.fromStat]) * actor.passive.ratio;
+  if (actor.passive?.type === 'stat_conversion' && actor.passive.toStat === key) base += actor.passive.cap===undefined ? (actor.baseStats?.[actor.passive.fromStat] ?? actor.stats[actor.passive.fromStat]) * actor.passive.ratio : Math.min(actor.passive.cap,Math.max(0,baseStatValue(actor,actor.passive.fromStat))*actor.passive.ratio);
   if(actor.passive?.type==='mp_stat_conversion'&&actor.passive.toStat===key)base+=mpConversionBonus(actor);
   const stance=formationStance(actor)?.modifiers?.[key]??0;
   const permanent = actor.passive?.type === 'stat_boost' ? actor.passive.modifiers[key] ?? 0 : 0;

@@ -1212,7 +1212,7 @@ function applyStatus(
   statusId,
   duration,
   sourceId,
-  { silent = false, stacks = 1, appliedModifiers, linkedAppliedModifiers, baseStatModifiers } = {},
+  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers } = {},
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
@@ -1274,7 +1274,7 @@ function applyStatus(
   if (definition.effectImmunity)
     applied.charges = definition.effectImmunity.charges;
   if (definition.damageUses) applied.charges=definition.damageUses;
-  if(definition.buffRejection||definition.consumeOnPaidSkill)applied.charges=definition.buffRejection?.charges??definition.charges??1;
+  if(definition.buffRejection||definition.consumeOnPaidSkill)applied.charges=charges??definition.buffRejection?.charges??definition.charges??1;
   if(definition.mpCostIncrease)applied.mpCostIncrease=definition.mpCostIncrease;
   if (definition.damageOverTime) {
     applied.potency = periodicPotency(definition,source,key=>stat(battle,source,key));
@@ -1398,7 +1398,7 @@ function applyEffect(
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
       if (battle.content.statuses[effect.status].exposedElement) applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count});
       else for (let i = 0; i < count; i++) {
-        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers});
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers});
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }
     }
@@ -1428,7 +1428,7 @@ function applyEffect(
           effect.status,
           effect.duration,
           actor.id,
-          {appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers},
+          {charges:effect.charges,appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers},
         );
         if (applied && effect.linkedStatuses)
           applied.linkedStatuses = [...effect.linkedStatuses];

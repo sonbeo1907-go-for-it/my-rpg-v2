@@ -61,7 +61,7 @@ export function passiveDescription(actor, content) {
   const passive = actor.passive;
   if(['damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','base_speed_physical_guard','altered_defense_damage','vampire_contingency','received_damage_counter','element_ally_charge','spent_team_resource_stat','mp_stat_conversion','formation_stance','mode_support_charge'].includes(passive?.type))return passive.name+': '+passive.description;
   if (!passive) return null;
-  if (['agony_revenant','ally_support_followup','kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar','dot_potency_bonus','attack_status','shield_survival_followup','low_hp_damage','target_buff_damage','ally_skill_counter'].includes(passive.type)) return passive.name+': '+passive.description;
+  if (['unbuffed_target_damage','agony_revenant','ally_support_followup','kill_mp_discount','target_debuff_damage','end_round_team_mp','shield_break_mp','shielded_damage_bonus','debuff_received_heal','formula_scholar','dot_potency_bonus','attack_status','shield_survival_followup','low_hp_damage','target_buff_damage','ally_skill_counter'].includes(passive.type)) return passive.name+': '+passive.description;
   if (passive.type==='detonation_base_growth') return passive.name+': '+passive.description;
   if (passive.type==='later_target_base_stat') return passive.name+': '+passive.description+' +'+passive.amount+' '+(passive.stat==='magic'?'MAG':'ATK')+'.';
   if (passive.type==='combat_mode') return passive.name+': '+passive.description;
@@ -222,7 +222,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       const effectiveDuration=(effect.duration??status.defaultDuration) + (extension?.type==='skill_status_duration' && extension.statusId===effect.status && extension.abilityIds.includes(skill.id) ? extension.extraDuration : 0);
       const duration = status.persistent && effect.duration === undefined ? status.expiresOnShieldGain ? 'đến khi nhận khiên mới' : 'duy trì đến khi tắt hoặc hết trận' : `${effectiveDuration} ${status.durationClock==='round'?'vòng':'lượt của người nhận'}`;
       if(status.bypassedByBuffedAttacker)lines.push('Mỗi tầng giảm '+percent(status.modifiers.damageReduction)+' sát thương; người tấn công đang có buff bỏ qua lớp giảm này. Không tự tiêu tầng.');
-      if(status.buffRejection)lines.push(`${status.name}: chặn ${status.buffRejection.charges} buff mới, rồi tiêu hiệu ứng; không xóa buff đang có. Dùng lại làm mới.`);
+      if(status.buffRejection)lines.push(`${status.name}: chặn ${effect.charges??status.buffRejection.charges} buff mới, rồi tiêu hiệu ứng; không xóa buff đang có. Dùng lại làm mới.`);
       if(status.consumeOnPaidSkill)lines.push(`Tăng ${percent(status.mpCostIncrease)} MP tiêu hao cho một lần trả MP thành công; không tiêu với chiêu 0 MP.`);
       if(status.healingReceivedReduction)lines.push(`Giảm ${percent(status.healingReceivedReduction)} mọi HP hồi nhận, gồm hút máu · ${duration}.`);
       if(status.shieldReceivedReduction)lines.push(`Giảm ${percent(status.shieldReceivedReduction)} khiên mới nhận; giữ khiên đang có · ${duration}.`);

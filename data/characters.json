@@ -2837,5 +2837,115 @@
       "perCharge": 0.3,
       "cap": 0.9
     }
+  },
+  {
+    "id": "mori",
+    "name": "Mori",
+    "title": "Lãng khách lôi kiếm",
+    "element": "thunder",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "basicDamageType": "physical",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 70,
+      "attack": 30,
+      "magic": 10,
+      "defense": 17,
+      "resistance": 16,
+      "speed": 32
+    },
+    "abilities": [
+      "mori.sundering",
+      "mori.unbound",
+      "mori.storm"
+    ],
+    "passive": {
+      "type": "stat_conversion",
+      "name": "Nhanh Hơn Một Ý Nghĩ",
+      "description": "Tăng ATK căn bản bằng 25% SPD căn bản, tối đa 25 ATK tại 100 SPD. Tính trang bị và điểm phân bổ; buff SPD% không tăng bonus.",
+      "fromStat": "speed",
+      "toStat": "attack",
+      "ratio": 0.25,
+      "cap": 25
+    },
+    "affiliation": "Lãng khách",
+    "tags": [
+      "wanderer"
+    ],
+    "description": "Một tay kiếm lãng du, lấy tốc độ làm sức mạnh. Bảo hộ bạn đường rồi tung lôi kiếm dọn sạch chiến trường.",
+    "biography": "Một tay kiếm lãng du, lấy tốc độ làm sức mạnh. Bảo hộ bạn đường rồi tung lôi kiếm dọn sạch chiến trường."
+  },
+  {
+    "id": "sandra",
+    "name": "Sandra",
+    "title": "Thủ thư Hội Hiệp sĩ",
+    "element": "earth",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "basicDamageType": "magical",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 130,
+      "attack": 10,
+      "magic": 34,
+      "defense": 15,
+      "resistance": 27,
+      "speed": 18
+    },
+    "abilities": [
+      "sandra.interdict",
+      "sandra.verdict",
+      "sandra.disruption"
+    ],
+    "passive": {
+      "type": "unbuffed_target_damage",
+      "name": "Không Có Ngoại Lệ",
+      "description": "Gây thêm 30% sát thương lên mục tiêu không có buff còn hiệu lực. Xét riêng từng mục tiêu và từng hit; khiên, mode và tài nguyên không được tính là buff.",
+      "ratio": 0.3
+    },
+    "affiliation": "Hội Hiệp sĩ Thủ đô",
+    "tags": [
+      "capital_knights"
+    ],
+    "description": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết.",
+    "biography": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết."
+  },
+  {
+    "id": "tywin",
+    "name": "Tywin",
+    "title": "Lam kiếm phương Đông",
+    "element": "water",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "basicDamageType": "physical",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 65,
+      "attack": 33,
+      "magic": 12,
+      "defense": 18,
+      "resistance": 18,
+      "speed": 25
+    },
+    "abilities": [
+      "tywin.wound",
+      "tywin.purify",
+      "tywin.truecut"
+    ],
+    "passive": {
+      "type": "stat_boost",
+      "name": "Tĩnh Tâm Như Thủy",
+      "description": "Tăng 20% RES của bản thân.",
+      "modifiers": {
+        "resistance": 0.2
+      }
+    },
+    "affiliation": "Hội Thợ Săn",
+    "tags": [
+      "hunter_guild"
+    ],
+    "description": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm.",
+    "biography": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm."
   }
 ]

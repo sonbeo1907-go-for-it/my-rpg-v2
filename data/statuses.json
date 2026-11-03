@@ -1282,5 +1282,32 @@
       "damageReduction": 0.25
     },
     "bypassedByBuffedAttacker": true
+  },
+  {
+    "id": "mori_defense_break",
+    "name": "Vết Kiếm Phá Giáp",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.2
+    }
+  },
+  {
+    "id": "mori_unbound",
+    "name": "Lôi Kiếm Vô Câu",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.4
+    }
+  },
+  {
+    "id": "mori_storm_slow",
+    "name": "Dư Âm Lôi Vũ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.15
+    }
   }
 ]
