@@ -203,7 +203,8 @@
       "coefficientGrowthPerRank": 1.1,
       "statBuffGrowthPerRank": 1.05,
       "outputBuffMpMultiplierPerRank": 0.9,
-      "outputBuffMpCostFloorRatio": 0.7
+      "outputBuffMpCostFloorRatio": 0.7,
+      "cooldownReductionPerRank": 1
     }
   }
 ]

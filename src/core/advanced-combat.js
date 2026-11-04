@@ -13,6 +13,8 @@ export function validateAdvancedCombat(content){
   if(p?.type==='formation_stance'&&(!p.name||!p.description||[p.odd,p.even].some(s=>!s?.name||!s.modifiers||Object.entries(s.modifiers).some(([k,n])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(n)||n<=0||n>1))))fail(a.id+': invalid formation stance');
   if(p?.type==='mode_support_charge'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||!a.resources?.[p.resource]||p.amount!==1))fail(a.id+': invalid mode support charge');
   if(p?.type==='enemy_shield_mode'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||a.combatModes[p.modeId].lifetime!=='turns'||!Number.isInteger(a.combatModes[p.modeId].durationTurns)||a.combatModes[p.modeId].durationTurns<1||a.combatModes[p.modeId].durationTurns>3))fail(a.id+': invalid enemy shield mode');
+  if(p?.type==='heal_mp_regen'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Number.isInteger(p.cap)||p.cap<1||p.cap>99))fail(a.id+': invalid heal MP regeneration');
+  if(p?.type==='cover_guard'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>0.5))fail(a.id+': invalid cover guard');
  }
  for(const s of Object.values(content.abilities)){
   if(s.initialCooldown!==undefined&&(!Number.isInteger(s.initialCooldown)||s.initialCooldown<1||s.initialCooldown>10))fail(s.id+': invalid initial cooldown');

@@ -8,10 +8,10 @@ const content=await loadContent();
 // Quyết định 04/11/2026: chuẩn hóa phe phái về slug ổn định và bổ sung thành viên.
 const EXPECTED={
  northern_village:['armie','arthur','astraea','elaine','fiona','garrek','kai','tobin'],
- hunters_guild:['bennett','chloe','dain','flammelapis','freya','galliard','henrris','iris','joshua','judy','karin','logia','rowan','sylva','takeshi','tywin','yumia'],
+ hunters_guild:['bennett','brant','chloe','dain','flammelapis','freya','galliard','henrris','iris','joshua','judy','karin','logia','rowan','sylva','takeshi','tywin','yumia'],
  magic_academy:['artesia','auguste','aurora','drake','finmel','fran','kreider','lumine','monica'],
  house_ranoc:['helena','kyle','leonardo','lisbeth'],
- rhett_research_facility:['arden','rhett'],
+ rhett_research_facility:['amaryllis','arden','rhett'],
 };
 const members=faction=>Object.values(content.characters).filter(c=>c.affiliation===faction).map(c=>c.id).sort();
 

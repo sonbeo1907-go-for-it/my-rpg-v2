@@ -1328,5 +1328,26 @@
       "maxHpRatio": 0.25,
       "capMaxHpRatio": 0.5
     }
+  },
+  {
+    "id": "brant_guard",
+    "name": "Brant che chắn",
+    "kind": "buff",
+    "cover": true,
+    "coverArea": true,
+    "coverReactions": true,
+    "modifiers": {
+      "damageReduction": 0.4
+    },
+    "durationClock": "main_turn",
+    "description": "Brant nhận đòn thay người mang, kể cả đòn diện rộng; người mang giảm 40% sát thương nhận."
+  },
+  {
+    "id": "brant_taunt",
+    "name": "Khiêu Khích",
+    "kind": "buff",
+    "taunt": true,
+    "durationClock": "main_turn",
+    "description": "Đòn đơn mục tiêu của địch buộc nhắm Brant; thời hạn chỉ giảm theo lượt chính của Brant."
   }
 ]

@@ -9648,5 +9648,121 @@
     "growthGroups": [
       "damage"
     ]
+  },
+  {
+    "id": "amaryllis.mend",
+    "name": "Lời Cầu Dịu Êm",
+    "target": "ally",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "magic",
+        "multiplier": 1.8
+      }
+    ],
+    "description": "Hồi máu đơn mục tiêu rất mạnh theo MAG; không có hồi chiêu.",
+    "skillLineId": "amaryllis.mend",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
+    ]
+  },
+  {
+    "id": "amaryllis.blessing",
+    "name": "Vòng Tay Che Chở",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "magic",
+        "multiplier": 0.8
+      }
+    ],
+    "description": "Hồi máu toàn đội theo MAG; không có hồi chiêu.",
+    "skillLineId": "amaryllis.blessing",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
+    ]
+  },
+  {
+    "id": "amaryllis.litany",
+    "name": "Kinh Cầu Hồi Sinh",
+    "target": "all_allies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 10,
+    "effects": [
+      {
+        "type": "revive",
+        "hpRatio": 1,
+        "mpRatio": 1
+      }
+    ],
+    "description": "Hồi sinh toàn đội về đầy HP và hồi đầy MP; hồi chiêu 10 vòng, giảm 1 vòng mỗi Rank.",
+    "skillLineId": "amaryllis.litany",
+    "growthProfile": "cooldown",
+    "rankable": true
+  },
+  {
+    "id": "brant.bulwark",
+    "name": "Khiên Sắt Tiền Tuyến",
+    "target": "self",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "defense",
+        "multiplier": 3,
+        "flat": 50,
+        "durationRounds": 3
+      }
+    ],
+    "description": "Dựng khiên dày cho bản thân bằng DEF; giữ 3 vòng.",
+    "skillLineId": "brant.bulwark",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
+    ]
+  },
+  {
+    "id": "brant.challenge",
+    "name": "Lời Hứa Chắn Trước",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "brant_guard",
+        "duration": 2
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "brant_taunt",
+        "duration": 2
+      }
+    ],
+    "description": "Che chắn cả đòn đơn mục tiêu lẫn diện rộng cho đồng đội và Khiêu Khích địch trong 2 lượt chính.",
+    "skillLineId": "brant.challenge",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng."
   }
 ]

@@ -22,6 +22,15 @@ Liên kích từ đồng đội dùng canTriggerFollowUp; phản công/truy kíc
 
 Buff damage amp chỉ mức lớn nhất đủ điều kiện có hiệu lực; charge của buff yếu vẫn tiêu khi đủ điều kiện. Mode/background/tài nguyên không tự tính là buff. Đừng thêm ngoại lệ theo tên nhân vật để chiều một rotation mới.
 
+## Che chắn, hồi sinh và Rank hồi chiêu
+
+- `cover` chỉ chắn đòn đơn mục tiêu. Muốn chắn thêm đòn diện rộng hoặc Liên kích/phản công phải bật `coverArea`/`coverReactions` trên chính status (validator đòi `cover: true`). Nguồn Che chắn phải còn sống; đòn nhắm chính người chắn không bị đổi mục tiêu.
+- Nội tại `cover_guard` chỉ giảm đòn khi Che chắn thực sự đổi mục tiêu sang người mang; nhân riêng với giảm đòn Che chắn của Trấn Phái, tổng hệ số giảm bị chặn ở 70%.
+- Hồi sinh dùng effect `revive` **chỉ** trên `all_allies`, `hpRatio`/`mpRatio` trong (0,1]. Người đã gục trở lại đầy HP/MP, được làm sạch status **trừ Vết Thương Sâu**; không chen vào lượt đang diễn ra; event `revive` dùng VFX chung. Trên người còn sống, hồi sinh xóa status có `healingDebt` (Kế Ước Thế Chấp) và trả sạch nợ HP nhưng **giữ `healingReceivedReduction`** (Vết Thương Sâu) cùng debuff khác. Lượng hồi của hồi sinh luôn đặt về 100% HP, đủ vượt Vết Thương Sâu cho lần hồi đó.
+- Che chắn và Khiêu Khích đi cùng nhau phải dùng **cùng clock** (`main_turn`) để không lệch ở Vòng Phụ; Khiêu Khích riêng của Brant là `brant_taunt`, không dùng status `taunt` chung.
+- `growthProfile: cooldown` chỉ giảm hồi chiêu theo Rank (`cooldownReductionPerRank`), hiệu lực giữ nguyên; skill phải có `cooldown >= 2` và không khai `growthGroups`.
+- Nội tại hồi máu → MP dùng `heal_mp_regen` (`ratio`, `cap` **mỗi người được hồi**); tính trên lượng hồi chủ sở hữu tạo ra, trước giảm hồi/overheal của người nhận; heal AoE tính theo đầu người, không gộp tổng.
+
 ## Encounter, nhạc và trình bày
 
 Enemy/encounter referenceLevel=1. HP curve theo encounter, không từng enemy. Preview/trinh sát/combat cùng enemy-scaling; không scale actor hai lần. Normal/boss/bounty mặc định very_easy; truyện10/20/30, cùng Level trong mọi wave/phase của chương.

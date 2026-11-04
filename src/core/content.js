@@ -28,7 +28,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel'];
+export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel', 'revive'];
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -88,7 +88,7 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'unbuffed_target_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','enemy_support_counter','enemy_shield_mode'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'unbuffed_target_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','enemy_support_counter','enemy_shield_mode','heal_mp_regen','cover_guard'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     const native = actor.passive;
     if(native?.type==='stat_conversion'&&native.cap!==undefined&&(!Number.isFinite(native.cap)||native.cap<=0||!Number.isFinite(native.ratio)||native.ratio<=0||native.fromStat===native.toStat))fail(id+': invalid capped stat conversion');
     if(native?.type==='unbuffed_target_damage'&&(!native.name?.trim()||!native.description?.trim()||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>2))fail(id+': invalid unbuffed damage passive');
@@ -305,6 +305,10 @@ export function validateContent(content) {
       if(effect.maxTargetBuffs!==undefined&&effect.perTargetBuff===undefined)fail(id+': missing target buff scaling');
       if (effect.type==='summon_companion' && (typeof effect.companion!=='string' || !effect.companion || skill.target!=='self')) fail(id+': invalid companion summon');
       if (effect.primaryMultiplier !== undefined && (!(effect.type==='damage'&&['all_enemies','enemy_splash'].includes(skill.target)||effect.type==='shield'&&skill.target==='all_allies') || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
+      if(effect.type==='revive' && (skill.target!=='all_allies'
+        || (effect.hpRatio!==undefined&&(!Number.isFinite(effect.hpRatio)||effect.hpRatio<=0||effect.hpRatio>1))
+        || (effect.mpRatio!==undefined&&(!Number.isFinite(effect.mpRatio)||effect.mpRatio<=0||effect.mpRatio>1))
+        || Object.keys(effect).some(key=>!['type','hpRatio','mpRatio'].includes(key)))) fail(id+': invalid revive');
       if (effect.type === 'damage') {
         if (!ELEMENTS.includes(effect.element)) fail(`${id}: invalid damage element`);
         if (!['physical', 'magical'].includes(effect.damageType)) fail(`${id}: invalid damage type`);
@@ -366,6 +370,8 @@ export function validateContent(content) {
     for (const key of ['persistent', 'expiresOnShieldGain', 'skipTurn']) {
       if (status[key] !== undefined && typeof status[key] !== 'boolean') fail(`${id}: invalid ${key}`);
     }
+    if (status.coverArea !== undefined && (status.coverArea !== true || status.cover !== true)) fail(`${id}: invalid area cover`);
+    if (status.coverReactions !== undefined && (status.coverReactions !== true || status.cover !== true)) fail(`${id}: invalid reaction cover`);
     if (status.persistent && (status.skipTurn || status.damageOverTime)) fail(`${id}: persistent status cannot skip turns or deal periodic damage`);
     if (status.mpCostReduction!==undefined && (!Number.isFinite(status.mpCostReduction) || status.mpCostReduction<=0 || status.mpCostReduction>=1 || status.kind!=='buff' || !status.persistent)) fail(id+': invalid MP reduction status');
     if (status.skipTurn && status.kind !== 'debuff') fail(`${id}: skipTurn must be a debuff`);
