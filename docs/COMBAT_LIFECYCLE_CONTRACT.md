@@ -58,6 +58,13 @@ Không tự hiểu “3 lượt” là “3 lần cast”. Nếu tài liệu kh�
 
 `finishStatuses` chỉ xử lý các instance thuộc `oldStatuses` đã chụp. Instance mới hoặc refresh được `applyStatus` thay thế trong chính hành động không bị trừ ngay như instance cũ. Đừng đổi sang so mỗi ID mà không kiểm tra lại hành vi refresh.
 
+### Hồi sinh và Che chắn (không dùng đồng hồ riêng)
+
+- Effect `revive` chạy ngay khi effect được giải; không có clock, không thêm lượt. Người đã gục được đặt lại HP/MP đầy và không nằm trong queue của vòng đang diễn ra — queue vòng kế mới dựng lại theo `startRound`. Status mang `healingDebt` (Kế Ước Thế Chấp) bị xóa và nợ HP được trả sạch; status `healingReceivedReduction` (Vết Thương Sâu) **được giữ lại** nhưng lần hồi sinh vẫn đưa HP về 100% vì lượng hồi được thiết kế đủ lớn. Người đã gục mất các status khác; người còn sống giữ debuff không thuộc hai loại trên. Cooldown của kỹ năng hồi sinh đi theo bảng CD kỹ năng ở trên.
+- Khi gục, engine chỉ xóa **Kế Ước Thế Chấp cùng nợ HP** (`clearLifeDebt`), đóng `combatMode`/formula và giữ cooldown; **buff/debuff khác không bị xóa**, vẫn nằm trên status của người gục. Việc dọn hoàn toàn do effect hồi sinh quyết định (hiện giữ Vết Thương Sâu, xóa phần còn lại).
+- Che chắn đổi mục tiêu tại `resolveHit`, không tạo hành động mới. `cover` chỉ áp cho đòn đơn mục tiêu; `coverArea`/`coverReactions` mở thêm cho đòn diện rộng và phản ứng (Liên kích/phản công). `coverTeam` gắn status lên **chính người bảo hộ** và biến nó thành hào quang che cả đội: thời hạn trôi theo lượt chính của người bảo hộ (Vòng Phụ không trừ, lượt choáng Vòng Chính vẫn trừ), đồng đội hành động không ảnh hưởng. Nguồn Che chắn phải còn sống, và đòn nhắm chính người chắn không bị đổi; người bảo hộ gục thì hào quang tắt ngay.
+- Giảm đòn Che chắn: hệ số `cover_guard` (nội tại) và giảm đòn Trấn Phái nhân riêng, chặn tổng ở 70%; không tính là status giảm sát thương nên không cộng vào trần 75% của `damageReduction`.
+
 ## 4. Bản đồ luồng thực thi
 
 ### Đầu vòng: `startRound`

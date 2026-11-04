@@ -18,6 +18,9 @@ Hunter Guild = Hội Thợ Săn; Magic Academy = Học viện Ma pháp; Capital 
 | Đấu sĩ / Thuật Sư | fighter / sorcerer; Thuật Sư được ưu tiên VFX đặc trưng gắn cơ chế. Có mode không đồng nghĩa Thuật Sư; VFX riêng không bắt buộc là background riêng |
 | Liên kích (FuA) | follow_up; thay tên “đánh bồi” trong copy mới, không renameID hàng loạt |
 | Phản công | counter; phản ứng sau nhận/né đòn, khác trigger của Aurora |
+| Che chắn | trạng thái có cờ `cover`; `coverArea` mở cho đòn diện rộng, `coverReactions` mở cho Liên kích/phản công. `coverTeam` biến trạng thái trên chính người bảo hộ thành hào quang che cả đội (Brant), thời hạn trôi theo lượt chính của người bảo hộ |
+| Khiêu Khích | trạng thái có cờ `taunt`: đòn đơn mục tiêu của địch buộc nhắm người mang; không hút AoE. Brant dùng `brant_taunt` để chung clock `main_turn` với Che chắn |
+| Hồi sinh | effect `revive` trên toàn đội: người đã gục trở lại đầy HP/MP và sạch status (giữ Vết Thương Sâu); người còn sống được xóa Kế Ước Thế Chấp, giữ Vết Thương Sâu nhưng vẫn hồi đầy nhờ lượng hồi đủ lớn; không hành động trong vòng hiện tại; VFX dùng chung |
 | Phòng thủ | $defend: giảm 40% damage theo status và hồi 5% maxMP bản thân, ceil/capped |
 | Lượt Thêm / Vòng Phụ | quyền một người / pha extra của vòng; không phải đẩy ngay lên đầu queue |
 | Hội Tâm | true strike / bypassEvasion / unavoidable: bỏ né, không phải chí mạng |

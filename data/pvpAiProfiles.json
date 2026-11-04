@@ -1135,5 +1135,35 @@
       "flammelapis.edict": 22,
       "flammelapis.tidebreak": 18
     }
+  },
+  {
+    "id": "amaryllis",
+    "role": "defensive_support",
+    "healBelow": 0.75,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "amaryllis.litany"
+    ],
+    "skillBias": {
+      "amaryllis.mend": 20,
+      "amaryllis.blessing": 24,
+      "amaryllis.litany": 10
+    }
+  },
+  {
+    "id": "brant",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.2,
+    "setupAbilities": [
+      "brant.challenge",
+      "brant.bulwark"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "brant.bulwark": 18,
+      "brant.challenge": 22
+    }
   }
 ]

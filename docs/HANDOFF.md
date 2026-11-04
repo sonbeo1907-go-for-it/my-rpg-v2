@@ -39,6 +39,7 @@ Với task liên quan thời hạn, lượt hoặc phản ứng, đọc [COMBAT_
 - Astoria là developer test, opt-in theo hồ sơ, dupe 0, không trong gacha. Magnamut ở phòng giữa dungeon không biến mất/refund; phase Miraebolis không phải mode exit.
 - Lore: Simon thuộc Vertosse, không mang họ Vertosse. Oán Hận là trạng thái/group, **không phải nguyên tố**. Nguyệt là nguyên tố riêng, chưa có nhân vật chính thức dùng.
 - Phe phái: `affiliation` là slug tiếng Anh, nhãn Việt trong `AFFILIATION_LABELS`; danh sách và luật ở [AFFILIATIONS](AFFILIATIONS.md). Trang `/characters` mặc định chỉ nhân vật đã sở hữu, sắp Level giảm dần.
+- Hai nhân vật mới 04/11/2026: **Amaryllis** (Rhett facility, Thổ, hồi máu + hồi sinh toàn đội, xem [AMARYLLIS](AMARYLLIS.md)) và **Brant** (Hội Thợ Săn, Thủ Hộ chắn đòn AoE/Liên kích, xem [BRANT](BRANT.md)). Effect `revive` và VFX hồi sinh dùng chung; `coverArea`/`coverReactions`/`cover_guard` mở rộng Che chắn có kiểm chứng hai kịch bản Mori+Artesia và Joshua. Cả hai đã vào pool banner `standard`; Che chắn và Khiêu Khích của Brant dùng chung clock `main_turn` nên Vòng Phụ không bào thời hạn.
 
 ## Balance mới nhất cần nhớ
 

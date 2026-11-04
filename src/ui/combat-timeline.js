@@ -28,10 +28,10 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
    continue;
   }
   if(event.type==='passive'||event.type==='skill_base_bonus'||event.type==='mode_exit'||event.type==='agony_enter'||event.type==='agony_return') {const label=event.label??content.characters[event.sourceId]?.passive?.name??'Nội tại',key=event.sourceId+':'+label;if(!passives.has(key)){passives.add(key);add(event,'passive',Math.max(cursor,lastImpact+35),{label});}continue;}
-  if(!['damage','dodge','heal','mp_restore','shield','status','effect_blocked','cleanse','dispel','hp_spent'].includes(event.type))continue;
+  if(!['damage','dodge','heal','mp_restore','shield','status','effect_blocked','cleanse','dispel','hp_spent','revive'].includes(event.type))continue;
   const action=actions.get(event.sourceId);
   let at=Math.max(cursor,action? action.start+lead+(event.hitIndex??0)*step:0);
-  if(['heal','mp_restore'].includes(event.type)&&lastImpact>=0)at=Math.max(at,lastImpact+step/2);
+  if(['heal','mp_restore','revive'].includes(event.type)&&lastImpact>=0)at=Math.max(at,lastImpact+step/2);
   if((event.type==='damage'||event.type==='dodge')&&(/^(hero|nature)_/.test(action?.presentation??''))&&!action.signature){action.signature=true;add(event,'signature',at,{presentation:action.presentation,area:action.area,custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?190:560;}
   if(event.type==='damage'||event.type==='dodge')lastImpact=Math.max(lastImpact,at);
   const kind=event.type==='damage'?event.amount>0?'hurt':event.absorbed>0?'block':'zero':event.type;

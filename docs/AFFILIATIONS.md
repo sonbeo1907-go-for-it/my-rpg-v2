@@ -14,7 +14,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | Slug | Nhãn | Số | Thành viên |
 | --- | --- | --- | --- |
 | `capital_knights` | Kị sĩ đoàn Thủ đô | 17 | Albeldo, Benard, Cerise, Charlemagnes, Gahallad, Gawain, Iwayn, Lanceveil, Lionel, Mandred, Percival, Rivia, Roland, Sandra, Sieg, Valery, Victorina |
-| `hunters_guild` | Hội Thợ Săn | 17 | Bennett, Chloe, Dain, Flammelapis, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Sylva, Takeshi, Tywin, Yumia |
+| `hunters_guild` | Hội Thợ Săn | 18 | Bennett, Brant, Chloe, Dain, Flammelapis, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Sylva, Takeshi, Tywin, Yumia |
 | `northern_village` | Làng Phía Bắc | 8 | Armie, Arthur, Astraea, Elaine, Fiona, Garrek, Kai, Tobin |
 | `magic_academy` | Học viện Ma pháp | 9 | Artesia, Auguste, Aurora, Drake, Finmel, Fran, Kreider, Lumine, Monica |
 | `house_valmont` | Gia tộc Valmont | 5 | Cedric, Heimdall, Lucien, Lyon, Seraphine |
@@ -22,7 +22,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `vertosse_clan` | Gia tộc Vertosse | 4 | Genevieve, Noctis, Selene, Simon |
 | `hunters_guild_magic_academy` | Hội Thợ Săn / Học viện Ma pháp | 2 | Amelia, Yufina |
 | `black_rose_mafia` | Băng đảng Mafia Hoa Hồng Đen | 2 | Isabelle, Viktor |
-| `rhett_research_facility` | Viện Nghiên Cứu Tự Xưng của Rhett | 2 | Arden, Rhett |
+| `rhett_research_facility` | Viện Nghiên Cứu Tự Xưng của Rhett | 3 | Amaryllis, Arden, Rhett |
 | `mikaielis_order` | Giáo đoàn Mikaielis | 1 | Elise |
 | `mage_circle` | Giới pháp sư | 1 | Aldric |
 | `time_travelers` | Lữ khách thời không | 1 | Astoria (chỉ developer) |
@@ -30,7 +30,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `wanderer` | Lãng khách | 1 | Mori |
 | `northern_forest` | Khu rừng phương Bắc | 1 | Minerva |
 
-Toàn bộ 76/76 nhân vật đã có phe. Rhett đứng tên "viện" của chính mình cùng Arden; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
+Toàn bộ 78/78 nhân vật đã có phe. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
 
 ## Vì sao có tên "Viện Nghiên Cứu Tự Xưng của Rhett"
 

@@ -9648,5 +9648,122 @@
     "growthGroups": [
       "damage"
     ]
+  },
+  {
+    "id": "amaryllis.mend",
+    "name": "Lời Cầu Dịu Êm",
+    "target": "ally",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "magic",
+        "multiplier": 1.8
+      }
+    ],
+    "description": "Hồi máu đơn mục tiêu rất mạnh theo MAG; không có hồi chiêu.",
+    "skillLineId": "amaryllis.mend",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
+    ]
+  },
+  {
+    "id": "amaryllis.blessing",
+    "name": "Vòng Tay Che Chở",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "magic",
+        "multiplier": 0.8
+      }
+    ],
+    "description": "Hồi máu toàn đội theo MAG; không có hồi chiêu.",
+    "skillLineId": "amaryllis.blessing",
+    "growthProfile": "heal",
+    "rankable": true,
+    "growthGroups": [
+      "heal"
+    ]
+  },
+  {
+    "id": "amaryllis.litany",
+    "name": "Kinh Cầu Hồi Sinh",
+    "target": "all_allies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 10,
+    "initialCooldown": 6,
+    "effects": [
+      {
+        "type": "revive",
+        "hpRatio": 1,
+        "mpRatio": 1
+      }
+    ],
+    "description": "Hồi sinh toàn đội về đầy HP và hồi đầy MP; vào trận đã hồi chiêu 6 vòng, sau đó hồi chiêu 10 vòng và không có cấp nâng.",
+    "skillLineId": "amaryllis.litany",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng hồi sinh cố định; hồi chiêu 10 vòng và không có cấp nâng."
+  },
+  {
+    "id": "brant.bulwark",
+    "name": "Khiên Sắt Tiền Tuyến",
+    "target": "self",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "defense",
+        "multiplier": 2,
+        "flat": 30,
+        "durationRounds": 3
+      }
+    ],
+    "description": "Dựng khiên cho bản thân bằng DEF; giữ 3 vòng.",
+    "skillLineId": "brant.bulwark",
+    "growthProfile": "shield",
+    "rankable": true,
+    "growthGroups": [
+      "shield"
+    ]
+  },
+  {
+    "id": "brant.challenge",
+    "name": "Lời Hứa Chắn Trước",
+    "target": "self",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "brant_guard",
+        "duration": 2
+      },
+      {
+        "type": "status",
+        "status": "brant_taunt",
+        "duration": 2
+      }
+    ],
+    "description": "Mở Che chắn cho cả đội và Khiêu Khích địch; cả hai kéo dài 2 lượt chính của Brant.",
+    "skillLineId": "brant.challenge",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng."
   }
 ]

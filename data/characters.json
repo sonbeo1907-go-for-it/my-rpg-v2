@@ -3137,5 +3137,91 @@
         "description": "Duy trì 2 lượt của Flammelapis. ATK +35% và nhận Phá Thành; hết lượt thứ hai thì rời dạng."
       }
     }
+  },
+  {
+    "id": "amaryllis",
+    "name": "Amaryllis",
+    "title": "Người giữ đèn nhà thờ",
+    "affiliation": "rhett_research_facility",
+    "element": "earth",
+    "role": "Hỗ trợ sinh tồn",
+    "roleGroup": "defensive_support",
+    "tags": [
+      "rhett_lab"
+    ],
+    "description": "Chỉ chữa lành: hồi HP rất mạnh theo MAG và chuyển một phần lượng hồi thành MP cho bản thân.",
+    "biography": "Cô gái hiền từ của nhà thờ Thủ đô, quen việc giữ đèn và chăm sóc người bệnh. Một đêm tuổi mới lớn, cô lẻn ra ngoài chơi rồi lạc vào khu cơ sở hạ tầng của Rhett; từ đó cô ở lại, vẫn giữ thói quen chữa lành cho bất cứ ai cần.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 150,
+      "attack": 7,
+      "magic": 40,
+      "defense": 13,
+      "resistance": 26,
+      "speed": 18
+    },
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "basicDamageType": "magical",
+    "abilities": [
+      "amaryllis.mend",
+      "amaryllis.blessing",
+      "amaryllis.litany"
+    ],
+    "passive": {
+      "type": "heal_mp_regen",
+      "name": "Đèn Dầu Không Tắt",
+      "description": "Mỗi lần hồi máu, hồi thêm MP bằng 10% lượng hồi Amaryllis tạo ra cho từng người, tối đa 10 MP mỗi người được hồi.",
+      "ratio": 0.1,
+      "cap": 10
+    }
+  },
+  {
+    "id": "brant",
+    "name": "Brant",
+    "title": "Lá chắn của Hội Thợ Săn",
+    "affiliation": "hunters_guild",
+    "element": "plain",
+    "role": "Thủ Hộ che chắn",
+    "roleGroup": "tank",
+    "tags": [
+      "hunter_guild"
+    ],
+    "description": "Kéo đòn đơn mục tiêu bằng Khiêu Khích và chắn cả đòn diện rộng cho đồng đội, đổi lại bản thân phải trụ vững.",
+    "biography": "Thợ săn kỳ cựu của Hội, nổi tiếng vì luôn đứng giữa đồng đội và móng vuốt con mồi. Brant không giỏi tấn công, nhưng khi anh dựng lá chắn, cả đội có thể yên tâm đánh tiếp.",
+    "stats": {
+      "maxHp": 300,
+      "maxMp": 90,
+      "attack": 24,
+      "magic": 8,
+      "defense": 30,
+      "resistance": 22,
+      "speed": 12
+    },
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1
+      }
+    ],
+    "basicDamageType": "physical",
+    "abilities": [
+      "brant.bulwark",
+      "brant.challenge"
+    ],
+    "passive": {
+      "type": "cover_guard",
+      "name": "Thân Chắn Bão Tố",
+      "description": "Khi thực sự nhận đòn thay đồng đội qua Che chắn, giảm thêm 20% sát thương của đòn đó.",
+      "ratio": 0.2
+    }
   }
 ]

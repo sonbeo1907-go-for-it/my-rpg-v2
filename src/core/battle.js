@@ -363,6 +363,16 @@ function healHp(battle, target, requested, sourceId, label = "") {
   return amount;
 }
 
+// Healing converts into MP for the healer: ratio of the HP she authored, per healed target.
+function grantHealMp(battle, healer, healed) {
+  const passive = healer.passive;
+  if (passive?.type !== "heal_mp_regen" || !living(healer) || healed <= 0) return;
+  const want = Math.min(passive.cap, Math.floor(healed * passive.ratio));
+  if (want <= 0) return;
+  announcePassive(battle, healer, healer.id);
+  gainResource(battle, healer, "mp", want, healer.id);
+}
+
 function beginTurn(battle) {
   const actor = activeActor(battle);
   if (!actor) return;
@@ -526,6 +536,35 @@ function onActorDefeated(battle,killer,target) {
   announcePassive(battle,killer);
   applyStatus(battle,killer,passive.statusId,undefined,killer.id);
   write(battle,killer.name+" kích hoạt "+passive.name+": giảm "+Math.round(passive.ratio*100)+"% MP tiêu hao.");
+}
+
+// Shared revival: restore the whole team at the authored ratios, bringing the fallen back.
+// Revived actors do not gain a turn in the current round; the next round rebuilds the queue.
+function reviveTeam(battle, actor, effect, actionContext) {
+  const hpRatio = effect.hpRatio ?? 1, mpRatio = effect.mpRatio ?? 1;
+  for (const ally of battle.actors.filter(item => item.team === actor.team)) {
+    if (ally.stats.maxHp <= 0) continue;
+    const fallen = !living(ally);
+    if (fallen) {
+      ally.shield = 0;ally.shieldSourceId = null;delete ally.shieldExpiresAfterRound;
+    }
+    // Revival pays off the mortgage ledger but Deep Wound stays: the authored restoration is always
+    // large enough to fill the missing HP through that reduction. Fallen actors keep only Deep Wound.
+    ally.statuses = ally.statuses.filter(status => {
+      const definition = battle.content.statuses[status.id];
+      if (definition.healingDebt) return false;
+      if (fallen && !definition.healingReceivedReduction) return false;
+      return true;
+    });
+    clearLifeDebt(ally);
+    ally.hp = Math.max(1, Math.round(ally.stats.maxHp * hpRatio));
+    ally.mp = Math.round(battleMaxMp(battle.content, ally) * mpRatio);
+    clampBattleMp(battle.content, ally);
+    write(battle, fallen
+      ? `${ally.name} hồi sinh với ${ally.hp} / ${ally.stats.maxHp} HP và ${ally.mp} MP.`
+      : `${ally.name} được hồi đầy: ${ally.hp} / ${ally.stats.maxHp} HP, ${ally.mp} MP.`);
+    emitEvent(battle, {type:'revive',targetId:ally.id,sourceId:actor.id,fallen,amount:ally.hp,mp:ally.mp,abilityId:actionContext?.skillId});
+  }
 }
 
 function checkOutcome(battle) {
@@ -695,12 +734,24 @@ function gainResource(battle, actor, id, amount, sourceId = actor.id) {
   exclusiveResourceChanged(battle,actor,id,actor.resourceValues[id]-beforeResource,specialIO);
 }
 
-function coverTarget(battle, target) {
+function coverTarget(battle, target, area = false, reaction = false) {
   for (const status of target.statuses) {
-    if (battle.content.statuses[status.id].cover) {
+    const definition = battle.content.statuses[status.id];
+    if (definition.cover && (!area || definition.coverArea) && (!reaction || definition.coverReactions)) {
       const source = getActor(battle, status.sourceId);
       if (source && living(source) && source.id !== target.id) return source;
     }
+  }
+  // Team guard: a living ally projects cover onto the whole team while his own status lasts.
+  for (const source of battle.actors) {
+    if (source.id === target.id || source.team !== target.team || !living(source)) continue;
+    const guardian = source.statuses.some(status => {
+      if (status.sourceId !== source.id) return false;
+      const definition = battle.content.statuses[status.id];
+      return definition.cover && definition.coverTeam
+        && (!area || definition.coverArea) && (!reaction || definition.coverReactions);
+    });
+    if (guardian) return source;
   }
   return target;
 }
@@ -962,8 +1013,7 @@ function resolveHit(
   spent,
   { reaction = false, area = false, actionContext },
 ) {
-  const target =
-    !area && !reaction ? coverTarget(battle, originalTarget) : originalTarget;
+  const target = coverTarget(battle, originalTarget, area, reaction);
   if (!living(attacker) || !living(target)) return;
   if(reaction) actionContext.reaction=true;
   if(!allowPvpHit(battle,attacker,actionContext,modeIO))return;
@@ -1076,6 +1126,10 @@ function resolveHit(
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
+  // Cover guards only apply when the hit was actually redirected from an ally.
+  const coverGuard = target.id !== originalTarget.id
+    ? Math.min(0.7, (exclusivePassive(target, "cover_damage_reduction")?.ratio ?? 0) + (target.passive?.type === "cover_guard" ? target.passive.ratio : 0))
+    : 0;
   const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier } =
     resolveWeakness(battle.content, attacker, target, effect, actionContext);
   // Element and damage type share one weakness multiplier, never additive bonuses.
@@ -1114,7 +1168,7 @@ function resolveHit(
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
-        (target.id !== originalTarget.id && exclusivePassive(target,"cover_damage_reduction") ? 1 - exclusivePassive(target,"cover_damage_reduction").ratio : 1) *
+        (1 - coverGuard) *
 
         incomingDamageMultiplier(modifier(battle, target, "damageTakenBonus")) *
         (1 - clamp(reduction, 0, 0.75)),
@@ -1374,6 +1428,7 @@ function applyEffect(
   actionContext = attackContext(battle, actor),
 ) {
   if(effect.type==='team_resource'){if(living(actor))changeTeamResource(battle,actor,effect.resource,effect.amount,teamIO);return;}
+  if(effect.type==='revive'){if(living(actor))reviveTeam(battle,actor,effect,actionContext);return;}
   if(effect.teamResourceScaling)effect=scaledTeamEffect(battle.content,effect,actionContext.teamResourceValues[effect.teamResourceScaling.id]??0);
   if(effect.spentTeamResourceScaling)effect=scaledSpentTeamEffect(effect,actionContext.teamResourceSpent?.[effect.spentTeamResourceScaling.id]??0);
   if (effect.formulaScaling) effect=formulaDamage(effect,actionContext.formula);
@@ -1420,7 +1475,10 @@ function applyEffect(
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if(effect.type==='steal_base_stat')stealBaseStat(battle,actor,target,effect,{status:applyStatus,emit:emitEvent,write});
     if (effect.type === "heal") {
-      const healed=healHp(battle,target,supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO),actor.id);
+      const requested=supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
+      const healed=healHp(battle,target,requested,actor.id);
+      // MP refund follows the heal Amaryllis authored for this target, not what the recipient keeps.
+      grantHealMp(battle, actor, requested);
       gearSkillHealed(battle,actor,target,healed,actionContext,gearIO);
     }
     if (effect.type === "shield") {
