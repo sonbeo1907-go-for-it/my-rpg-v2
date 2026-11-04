@@ -9580,7 +9580,7 @@
     "name": "Trảm Thủy",
     "target": "enemy",
     "cost": {
-      "mp": 10
+      "mp": 5
     },
     "effects": [
       {

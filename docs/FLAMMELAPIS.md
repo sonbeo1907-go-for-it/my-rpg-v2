@@ -16,7 +16,7 @@ MP 95 là mức trung bình-cao để duy trì 3 kỹ năng đều dưới 15 MP
 
 | Kỹ năng | MP / CD | Hiệu ứng |
 | --- | --- | --- |
-| Trảm Thủy `flammelapis.slash` | 10 / không CD | Đơn mục tiêu 150% ATK Thủy, vật lí |
+| Trảm Thủy `flammelapis.slash` | 5 / không CD | Đơn mục tiêu 150% ATK Thủy, vật lí |
 | Kiếm Ấn Phá Thành `flammelapis.edict` | 8 / không CD | Một đồng đội nhận **Phá Thành** 2 lượt |
 | Triều Kiếm Bạo Phá `flammelapis.tidebreak` | 15 / CD2 | Mục tiêu chính 260% ATK, hai ô kề 150% ATK, Thủy; mỗi mục tiêu trúng nhận **Rạn Khiên 3 lượt chính** |
 

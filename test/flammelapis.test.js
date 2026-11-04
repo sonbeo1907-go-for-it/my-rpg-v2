@@ -74,6 +74,9 @@ test('skill costs stay at or below 15 MP and only the burst has downtime',()=>{
  const costs=Object.values(base.abilities).filter(skill=>skill.id.startsWith('flammelapis.')).map(skill=>skill.cost?.mp??0);
  assert.ok(costs.every(cost=>cost<=15),'không kỹ năng nào vượt 15 MP');
  assert.equal(Math.max(...costs),15);
+ assert.equal(base.abilities['flammelapis.slash'].cost.mp,5,'Trảm Thủy 5 MP');
+ assert.equal(base.abilities['flammelapis.edict'].cost.mp,8);
+ assert.equal(base.abilities['flammelapis.tidebreak'].cost.mp,15);
  assert.equal(base.abilities['flammelapis.slash'].cooldown??0,0);
  assert.equal(base.abilities['flammelapis.edict'].cooldown??0,0);
  assert.equal(base.abilities['flammelapis.tidebreak'].cooldown,2);
@@ -81,7 +84,7 @@ test('skill costs stay at or below 15 MP and only the burst has downtime',()=>{
  const enemy=enemies[0],mp=flam.mp;
  cast(battle,flam.id,'flammelapis.slash',enemy.id);
  assert.equal(flam.cooldowns?.['flammelapis.slash']??0,0,'Trảm Thủy không tạo hồi chiêu');
- assert.equal(flam.mp,mp-10);
+ assert.equal(flam.mp,mp-5);
  cast(battle,flam.id,'flammelapis.edict',flam.id);
  assert.equal(flam.cooldowns?.['flammelapis.edict']??0,0,'Kiếm Ấn không tạo hồi chiêu');
 });
