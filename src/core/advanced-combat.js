@@ -12,6 +12,7 @@ export function validateAdvancedCombat(content){
   if(p?.type==='mp_stat_conversion'&&(!p.name||!p.description||p.toStat!=='magic'||!Number.isFinite(p.ratio)||p.ratio<=0||!Number.isFinite(p.cap)||p.cap<=0))fail(a.id+': invalid MP conversion');
   if(p?.type==='formation_stance'&&(!p.name||!p.description||[p.odd,p.even].some(s=>!s?.name||!s.modifiers||Object.entries(s.modifiers).some(([k,n])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(n)||n<=0||n>1))))fail(a.id+': invalid formation stance');
   if(p?.type==='mode_support_charge'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||!a.resources?.[p.resource]||p.amount!==1))fail(a.id+': invalid mode support charge');
+  if(p?.type==='enemy_shield_mode'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||a.combatModes[p.modeId].lifetime!=='turns'||!Number.isInteger(a.combatModes[p.modeId].durationTurns)||a.combatModes[p.modeId].durationTurns<1||a.combatModes[p.modeId].durationTurns>3))fail(a.id+': invalid enemy shield mode');
  }
  for(const s of Object.values(content.abilities)){
   if(s.initialCooldown!==undefined&&(!Number.isInteger(s.initialCooldown)||s.initialCooldown<1||s.initialCooldown>10))fail(s.id+': invalid initial cooldown');

@@ -4,7 +4,7 @@
 
 **The Prisma Origin** là tên hiện tại; Northern Prisma/MyRPG là tên lịch sử/namespace. Arthur, Iris, Takeshi, Elaine, Garrek, Fiona là sáu nhân vật khởi đầu. Không suy lore mới từ chỉ số thử nghiệm. Lore chỉ tiết lộ theo cờ truyện; các event ẩn không được lộ trước điều kiện.
 
-Hunter Guild = Hội Thợ Săn; Magic Academy = Học Viện Ma Thuật; Capital Knights = Kị sĩ đoàn Thủ đô. Trong `data/characters.json`, phe Kị sĩ lưu một giá trị duy nhất `affiliation: "Capital_Knight"`, kèm tag nhóm `capital_knights` và tag danh xưng riêng từng người (ví dụ `lion_knight` của Mandred); UI hiển thị tiếng Việt qua `AFFILIATION_LABELS`. Valmont, Vertosse, Ranoc, Black Rose Mafia là liên kết nội dung; dùng tag/affiliation trong dữ liệu. Simon thuộc Vertosse nhưng không mang họ Vertosse. Sandra có bối cảnh chức vụ được phát triển qua nhiều lần thiết kế; dùng nội dung hiện tại, không tự hợp nhất vai trò lore khác nhau bằng đổi tênID.
+Hunter Guild = Hội Thợ Săn; Magic Academy = Học viện Ma pháp; Capital Knights = Kị sĩ đoàn Thủ đô. Trong `data/characters.json`, `affiliation` là slug tiếng Anh ổn định (ví dụ `capital_knights`, `hunters_guild`, `magic_academy`), kèm tag nhóm và tag danh xưng riêng từng người (ví dụ `lion_knight` của Mandred); UI hiển thị tiếng Việt qua `AFFILIATION_LABELS` trong [catalog.js](../src/core/catalog.js). Danh sách phe và luật thêm phe ở [AFFILIATIONS](AFFILIATIONS.md). Valmont, Vertosse, Ranoc, Black Rose Mafia là liên kết nội dung; dùng tag/affiliation trong dữ liệu. Simon thuộc Vertosse nhưng không mang họ Vertosse. Sandra có bối cảnh chức vụ được phát triển qua nhiều lần thiết kế; dùng nội dung hiện tại, không tự hợp nhất vai trò lore khác nhau bằng đổi tênID.
 
 ## UI ↔ engine
 

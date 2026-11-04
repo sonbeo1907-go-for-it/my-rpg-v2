@@ -14,7 +14,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | Slug | Nhãn | Số | Thành viên |
 | --- | --- | --- | --- |
 | `capital_knights` | Kị sĩ đoàn Thủ đô | 17 | Albeldo, Benard, Cerise, Charlemagnes, Gahallad, Gawain, Iwayn, Lanceveil, Lionel, Mandred, Percival, Rivia, Roland, Sandra, Sieg, Valery, Victorina |
-| `hunters_guild` | Hội Thợ Săn | 16 | Bennett, Chloe, Dain, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Sylva, Takeshi, Tywin, Yumia |
+| `hunters_guild` | Hội Thợ Săn | 17 | Bennett, Chloe, Dain, Flammelapis, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Sylva, Takeshi, Tywin, Yumia |
 | `northern_village` | Làng Phía Bắc | 8 | Armie, Arthur, Astraea, Elaine, Fiona, Garrek, Kai, Tobin |
 | `magic_academy` | Học viện Ma pháp | 9 | Artesia, Auguste, Aurora, Drake, Finmel, Fran, Kreider, Lumine, Monica |
 | `house_valmont` | Gia tộc Valmont | 5 | Cedric, Heimdall, Lucien, Lyon, Seraphine |
@@ -30,7 +30,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `wanderer` | Lãng khách | 1 | Mori |
 | `northern_forest` | Khu rừng phương Bắc | 1 | Minerva |
 
-Toàn bộ 75/75 nhân vật đã có phe. Rhett đứng tên "viện" của chính mình cùng Arden; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
+Toàn bộ 76/76 nhân vật đã có phe. Rhett đứng tên "viện" của chính mình cùng Arden; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
 
 ## Vì sao có tên "Viện Nghiên Cứu Tự Xưng của Rhett"
 

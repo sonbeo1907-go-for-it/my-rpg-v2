@@ -4,7 +4,7 @@
 
 ## Định danh
 
-Thuộc **sư đoàn viễn trinh** của Kị sĩ đoàn Thủ đô. Trong dữ liệu: `affiliation: "Capital_Knight"`, tag nhóm `capital_knights`, tag danh xưng `recon_knight`.
+Thuộc **sư đoàn viễn trinh** của Kị sĩ đoàn Thủ đô. Trong dữ liệu: `affiliation: "capital_knights"`, tag nhóm `capital_knights`, tag danh xưng `recon_knight`.
 
 Phong cách: kị sĩ lao vào đội hình địch bằng bước chớp nhoáng. Tốc độ thể hiện qua cơ chế né và áp sát của dạng, **không** dồn vào chỉ số SPD. Tính cách hơi tưng tửng — chi tiết nằm ở `biography`, không ảnh hưởng cơ chế.
 

@@ -69,6 +69,7 @@
 - [Thợ săn Lôi và Hoa Hồng Đen — cấu hình playtest](BLACK_ROSE_THUNDER.md)
 - [Cerise — Kị sĩ Chớp Mắt](CERISE.md)
 - [Charlemagnes and Kreider](CHARLEMAGNES_KREIDER.md)
+- [Flammelapis — Người giữ kiếm cổ](FLAMMELAPIS.md)
 - [Chelsea — Sứ giả định mệnh](CHELSEA.md)
 - [Heimdall Valmont và Finmel — cấu hình playtest](HEIMDALL_FINMEL.md)
 - [Yufina, Karin, Elise, Yumia và đổi Original Prisma](HUNTER_QUARTET.md)
