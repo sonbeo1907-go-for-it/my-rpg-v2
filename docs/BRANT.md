@@ -19,31 +19,45 @@ SPD thấp có chủ ý: anh hành động sau cùng trong vòng, nên kỹ năn
 | Kỹ năng | MP / CD | Hiệu ứng |
 | --- | --- | --- |
 | Khiên Sắt Tiền Tuyến `brant.bulwark` | 16 / CD3 | Khiên bản thân 200% DEF + 30, giữ 3 vòng |
-| Lời Hứa Chắn Trước `brant.challenge` | 14 / CD3 | Toàn đội nhận Che chắn (đơn mục tiêu, diện rộng, Liên kích) và Brant nhận Khiêu Khích trong 2 lượt chính |
+| Lời Hứa Chắn Trước `brant.challenge` | 14 / CD3 | Bản thân Brant nhận hào quang Che chắn toàn đội + Khiêu Khích, cùng kéo dài 2 lượt chính của Brant |
 
 Khiên dùng `growthProfile: shield` (×1,1 mỗi Rank). Lời Hứa là kỹ năng tiện ích cố định, không có cấp nâng.
 
-## Che chắn mở rộng
+## Che chắn toàn đội
 
-Trạng thái `brant_guard` (do Lời Hứa cấp cho cả đội) có ba cờ:
+Lời Hứa không gắn buff lên từng đồng đội. Nó gắn **một trạng thái `brant_guard` lên chính Brant** với cờ `coverTeam`, và engine coi đó là hào quang che chắn của cả đội:
 
-- `cover` — nhận đòn thay người mang như Che chắn cũ (Garrek/Leonardo).
-- `coverArea` — **chắn cả đòn diện rộng**: mỗi đồng đội trúng AoE đều được chuyển sang Brant.
+- `cover` + `coverTeam` — mọi đòn giáng vào đồng đội được chuyển sang Brant khi anh còn sống.
+- `coverArea` — **chắn cả đòn diện rộng**: từng đồng đội trúng AoE đều chuyển sang Brant.
 - `coverReactions` — **chắn cả Liên kích/phản công**: cú quật thứ hai của Joshua vẫn bị hút về Brant.
 
-Cơ chế gốc vẫn giữ nguyên: chỉ trạng thái có cờ tương ứng mới chắn loại đòn đó, nên Che chắn cũ của Garrek/Leonardo không đổi hành vi.
+Vì trạng thái nằm trên Brant, thời hạn chỉ có **một đồng hồ duy nhất**:
 
-Bổ sung: nếu Brant gục, Che chắn mất hiệu lực (nguồn phải còn sống). Brant không chắn đòn nhắm chính mình.
+| Tình huống | Che chắn có giảm? |
+| --- | --- |
+| Đồng đội hành động (kể cả kết thúc lượt chính của họ) | **Không** |
+| Brant kết thúc lượt chính | **Có** — giảm một mức, áp dụng ngay cho cả đội |
+| Brant nhận Lượt Thêm / hành động ở Vòng Phụ | **Không** |
+| Brant bị choáng ở Vòng Chính (lượt bị bỏ) | **Có** — tính như một lượt chính đã trôi qua |
+| Brant bị choáng ở Vòng Phụ | **Không** |
+| Brant gục | **Ngừng nhận đòn thay ngay lập tức** (hào quang tắt, Khiêu Khích cũng hết) |
+
+Cơ chế gốc vẫn giữ nguyên cho Garrek/Leonardo: họ dùng `cover` gắn lên **người được bảo vệ**, nên thời hạn của họ vẫn trôi theo lượt của chính người mang — khác với hào quang của Brant.
+
+Dùng lại Lời Hứa là **làm mới** hào quang về 2 lượt chính, không cộng dồn hay tạo tầng thứ hai. Hiện chiêu có CD3 còn hào quang chỉ 2 lượt chính, nên trên thực tế Brant phải chờ hào quang tắt rồi mới niệm lại được; nếu sau này hạ CD xuống ≤ thời hạn thì lần niệm lại sẽ refresh thời hạn thay vì kéo dài cộng dồn.
+
+**Đây là cơ chế dùng chung, không hardcode Brant.** Bất kỳ nhân vật nào tự niệm một status có `cover: true` + `coverTeam: true` (tuỳ chọn thêm `coverArea`/`coverReactions`) đều trở thành người chắn cho cả đội, với thời hạn trôi theo lượt chính của chính người đó. Muốn tái dùng cho nhân vật sau: tạo status riêng (tên/mô tả/modifier/duration tuỳ ý) + kỹ năng self-cast; không cần sửa engine. Test `hào quang che đội là cơ chế dùng chung` cho Iris phát hào quang và chắn đòn cho Arthur để khoá điều này.
+
+Giới hạn hiện tại: mỗi đòn chỉ có **một** người chắn (người bảo hộ còn sống đầu tiên trong danh sách trận); đòn đã chuyển sang người chắn không chuyển tiếp sang người chắn khác (chống vòng lặp).
 
 ## Đồng bộ Che chắn và Khiêu Khích
 
-Hai buff được cấp cùng lúc bởi Lời Hứa và dùng **cùng một loại đồng hồ thời hạn**: `brant_guard` và `brant_taunt` đều có `durationClock: "main_turn"`, `duration: 2`.
+`brant_guard` và `brant_taunt` được cấp cùng lúc và đều có `durationClock: "main_turn"`, `duration: 2`, nên luôn giảm/rời đi **cùng nhịp của Brant**:
 
-- Cả hai chỉ giảm khi kết thúc **lượt chính của Brant**; Vòng Phụ không bào thời hạn, nên buff không bị lệch nhau khi Brant có Lượt Thêm.
+- Cả hai chỉ giảm khi kết thúc **lượt chính của Brant**; Vòng Phụ không bào thời hạn.
 - Lượt bị **choáng ở Vòng Chính** vẫn tính: cả hai cùng giảm một mức.
-- Lượt bị **choáng ở Vòng Phụ** không làm giảm thời hạn của cả hai.
-- Khi Brant còn buff, Khiêu Khích vẫn buộc đòn đơn mục tiêu của địch nhắm vào anh — kể cả trong Vòng Phụ.
-- Hết 2 lượt chính thì Che chắn và Khiêu Khích rời đi **cùng lúc**.
+- Lượt bị **choáng ở Vòng Phụ** không làm giảm thời hạn.
+- Khi Brant còn hào quang, Khiêu Khích vẫn buộc đòn đơn mục tiêu của địch nhắm vào anh — kể cả trong Vòng Phụ.
 
 ## Nội tại · Thân Chắn Bão Tố
 
@@ -73,9 +87,9 @@ Hai kịch bản là **điều kiện nghiệm thu tối thiểu**, không chứ
 ## Giới hạn đã biết
 
 - Chưa có VFX riêng; dùng hiệu ứng khiên/che chắn chung.
-- Khiên 3 vòng và Che chắn 2 lượt chính đã có test cho nhánh choáng Vòng Chính/Vòng Phụ; chưa test trường hợp Brant gục giữa lúc đồng đội còn Che chắn (theo luật, Che chắn tắt ngay khi nguồn gục).
+- Nhánh Brant gục giữa lúc hào quang còn hiệu lực đã có test: Che chắn tắt ngay, đồng đội nhận đòn bình thường.
 - AI Đấu Trường có profile ưu tiên Che chắn/Khiên nhưng chưa playtest cân bằng.
 
 ## Kiểm chứng
 
-`test/brant.test.js`: định danh/chỉ số, Che chắn áp lên cả đội + Khiêu Khích giới hạn mục tiêu, chắn đòn đơn mục tiêu, chắn AoE, giảm 50% đòn chắn so với đòn trực tiếp, **hai kịch bản Mori/Artesia và Joshua chạy dưới `pvpRules` Arena (soft cap + chuẩn hóa Lv50)**, đồng bộ hai buff qua lượt chính + Vòng Phụ, choáng ở Vòng Chính và Vòng Phụ, pool Chiêu Mộ. Mỗi kịch bản còn khẳng định log có `[PvP arena-0.2.0] … soft cap` để chắc chắn luật PvP thực sự có hiệu lực.
+`test/brant.test.js`: định danh/chỉ số, Lời Hứa mở hào quang trên chính Brant + Khiêu Khích giới hạn mục tiêu, chắn đòn đơn mục tiêu, chắn AoE, nội tại giảm 20% đòn chắn, đồng đội hành động không bào thời hạn, chỉ lượt chính Brant mới giảm, choáng Vòng Chính/Vòng Phụ, Brant gục thì mất chắn ngay, **hai kịch bản Mori/Artesia và Joshua chạy dưới `pvpRules` Arena (soft cap + chuẩn hóa Lv50)**, pool Chiêu Mộ. Mỗi kịch bản còn khẳng định log có `[PvP arena-0.2.0] … soft cap` để chắc chắn luật PvP thực sự có hiệu lực.

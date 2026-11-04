@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
-import {createBattle,executeAction,activeActor,getActor,targetsFor} from '../src/core/battle.js';
+import {createBattle,executeAction,activeActor,getActor,targetsFor,abilityAvailability} from '../src/core/battle.js';
 import {normalizedArenaCampaign} from '../src/core/arena.js';
 import {preparePvpContent} from '../src/core/pvp-rules.js';
 import {validateContent} from '../src/core/content.js';
@@ -11,7 +11,8 @@ const base=await loadContent();
 const UTIL={
  'test.strike':{id:'test.strike',name:'Đòn thử',target:'enemy',effects:[{type:'damage',damageType:'physical',element:'plain',multiplier:1}],skillLineId:'test.strike',growthProfile:'fixed',rankable:false,fixedReason:'kiểm thử'},
  'test.blast':{id:'test.blast',name:'Sóng thử',target:'all_enemies',effects:[{type:'damage',damageType:'physical',element:'plain',multiplier:1}],skillLineId:'test.blast',growthProfile:'fixed',rankable:false,fixedReason:'kiểm thử'},
- 'test.guard':{id:'test.guard',name:'Che chắn thử',target:'all_allies',effects:[{type:'status',status:'brant_guard',duration:2}],skillLineId:'test.guard',growthProfile:'fixed',rankable:false,fixedReason:'kiểm thử'}
+ 'test.guard':{id:'test.guard',name:'Che chắn thử',target:'self',effects:[{type:'status',status:'brant_guard',duration:2}],skillLineId:'test.guard',growthProfile:'fixed',rankable:false,fixedReason:'kiểm thử'},
+ 'test.exec':{id:'test.exec',name:'Kết liễu thử',target:'enemy',effects:[{type:'damage',damageType:'physical',element:'plain',multiplier:99,unavoidable:true}],skillLineId:'test.exec',growthProfile:'fixed',rankable:false,fixedReason:'kiểm thử'}
 };
 
 function fixture(){
@@ -49,6 +50,7 @@ function world(party=['brant','lionel','iris','arthur']){
  const battle=createBattle(content,save,'forest_patrol',seededRandom(4),{enemyLevel:1});
  const brant=getActor(battle,'brant'),lionel=getActor(battle,'lionel');
  brant.mp=90;lionel.mp=999;
+ brant.abilities.push('test.guard');
  for(const enemy of battle.actors.filter(actor=>actor.team==='enemy')){
   enemy.hp=enemy.stats.maxHp=100000;enemy.stats.attack=0;enemy.mp=enemy.stats.maxMp=999;enemy.abilities=['$defend'];
  }
@@ -76,7 +78,9 @@ test('Brant is a Hunters Guild tank with cover guard, area cover and a thick sel
  assert.equal(guard.cover,true);
  assert.equal(guard.coverArea,true);
  assert.equal(guard.coverReactions,true);
+ assert.equal(guard.coverTeam,true);
  assert.equal(guard.modifiers.damageReduction,0.15);
+ assert.equal(base.abilities['brant.challenge'].target,'self');
  const shield=base.abilities['brant.bulwark'];
  assert.equal(shield.effects[0].multiplier,2);
  assert.equal(shield.effects[0].flat,30);
@@ -91,12 +95,14 @@ test('Brant is a Hunters Guild tank with cover guard, area cover and a thick sel
  assert.deepEqual(validateContent(base),[]);
 });
 
-test('Lời Hứa Chắn Trước puts cover on the team and taunt on Brant',()=>{
+test('Lời Hứa Chắn Trước opens a team guard from Brant and taunts for him',()=>{
  const {battle,content,brant,iris,arthur,enemy}=fixture();
  brant.mp=99;
  cast(battle,brant.id,'brant.challenge',brant.id);
- for(const ally of [brant,iris,arthur]){const guard=ally.statuses.find(status=>status.id==='brant_guard');assert.ok(guard,ally.name+' phải được che chắn');}
+ assert.ok(brant.statuses.some(status=>status.id==='brant_guard'),'Brant phải mang trạng thái Che chắn');
  assert.ok(brant.statuses.some(status=>status.id==='brant_taunt'),'Brant phải Khiêu Khích');
+ assert.equal(iris.statuses.some(status=>status.id==='brant_guard'),false,'Che chắn là hào quang của Brant, không phải buff từng người');
+ assert.equal(arthur.statuses.some(status=>status.id==='brant_guard'),false);
  const legal=targetsFor(battle,enemy,content.abilities['test.strike']);
  assert.deepEqual(legal.map(actor=>actor.id),[brant.id],'đòn đơn mục tiêu bị hút về Brant');
 });
@@ -141,6 +147,93 @@ test('cover guard lowers the damage of a redirected hit',()=>{
  const own=direct.battle.events.find(event=>event.type==='damage').amount;
  assert.ok(covered>0&&own>0);
  assert.ok(covered<own*0.9,'đòn chắn phải giảm hơn đòn trực tiếp ('+covered+' vs '+own+')');
+});
+
+test('đồng đội hành động không bào thời hạn Che chắn; chỉ lượt chính của Brant mới giảm',()=>{
+ const {battle,brant}=world();
+ cast(battle,brant.id,'brant.challenge',brant.id);
+ assert.equal(guardOf(brant).remaining,2);
+ let allyActed=false;
+ for(let i=0;i<80&&!allyActed;i++){
+  assert.ok(!battle.outcome,'trận kết thúc ngoài dự kiến');
+  const actor=activeActor(battle);
+  if(actor.id!==brant.id&&actor.team==='party'){step(battle);allyActed=true;break;}
+  step(battle);
+ }
+ assert.ok(allyActed,'phải có một đồng đội hành động');
+ assert.equal(guardOf(brant)?.remaining,2,'đồng đội hành động không làm giảm thời hạn');
+ let brantTurn=false;
+ for(let i=0;i<120&&!brantTurn;i++){
+  const actor=activeActor(battle);
+  if(actor.id===brant.id&&battle.phase==='main'){step(battle);brantTurn=true;break;}
+  step(battle);
+ }
+ assert.ok(brantTurn,'phải tới lượt chính của Brant');
+ assert.equal(guardOf(brant)?.remaining,1,'Brant kết thúc lượt chính thì giảm một lần');
+});
+
+test('Brant gục thì Che chắn mất hiệu lực ngay, đồng đội không còn được chắn',()=>{
+ const {battle,brant,iris}=fixture();
+ brant.mp=99;
+ cast(battle,brant.id,'brant.challenge',brant.id);
+ const enemy=battle.actors.find(actor=>actor.team==='enemy');
+ enemy.abilities=['test.exec','test.strike'];
+ enemy.mp=enemy.stats.maxMp=999;
+ cast(battle,enemy.id,'test.exec',brant.id);
+ assert.equal(brant.hp,0,'Brant phải gục');
+ const before=iris.hp;
+ cast(battle,enemy.id,'test.strike',iris.id);
+ assert.ok(iris.hp<before,'Iris phải nhận đòn vì Che chắn đã tắt');
+ assert.equal(iris.statuses.some(status=>status.id==='brant_guard'),false);
+});
+
+test('hào quang che đội là cơ chế dùng chung, không gắn với Brant',()=>{
+ const content=structuredClone(base);
+ Object.assign(content.abilities,UTIL,{
+  'test.aura':{id:'test.aura',name:'Hào quang thử',target:'self',effects:[{type:'status',status:'test_team_cover',duration:2}],skillLineId:'test.aura',growthProfile:'fixed',rankable:false,fixedReason:'kiểm thử'}
+ });
+ content.statuses['test_team_cover']={id:'test_team_cover',name:'Hào quang thử',kind:'buff',cover:true,coverArea:true,coverTeam:true,durationClock:'main_turn'};
+ const save=createGameSave(content);
+ save.party=['iris','arthur','takeshi','amaryllis'];save.partyPresets[0].slots=[...save.party];
+ save.unlockedCharacterIds=Object.keys(content.characters);
+ const battle=createBattle(content,save,'forest_patrol',seededRandom(5),{enemyLevel:1});
+ const iris=getActor(battle,'iris'),arthur=getActor(battle,'arthur');
+ const enemy=battle.actors.find(actor=>actor.team==='enemy');
+ for(const foe of battle.actors.filter(actor=>actor.team==='enemy')){
+  foe.hp=foe.stats.maxHp=100000;foe.stats.attack=80;foe.mp=foe.stats.maxMp=999;foe.abilities=['test.strike'];
+ }
+ iris.abilities.push('test.aura');iris.mp=99;
+ cast(battle,iris.id,'test.aura',iris.id);
+ const hp=arthur.hp;
+ cast(battle,enemy.id,'test.strike',arthur.id);
+ assert.equal(arthur.hp,hp,'Arthur phải được Iris chắn đòn');
+ assert.deepEqual(battle.events.filter(event=>event.type==='damage').map(event=>event.targetId),[iris.id]);
+ assert.ok(battle.log.some(line=>line.includes('Iris chắn đòn cho Arthur')),'hào quang phải do Iris phát, không phải Brant');
+});
+
+test('dùng lại Lời Hứa là làm mới hào quang, không cộng dồn; CD hiện dài hơn thời hạn',()=>{
+ const {battle,brant}=world();
+ cast(battle,brant.id,'brant.challenge',brant.id);
+ assert.equal(guardOf(brant).remaining,2);
+ let available=false,guardStillUp=null;
+ for(let i=0;i<240&&!available;i++){
+  assert.ok(!battle.outcome,'trận kết thúc ngoài dự kiến');
+  const actor=activeActor(battle);
+  if(actor.id===brant.id&&battle.phase==='main'&&abilityAvailability(battle,brant,battle.content.abilities['brant.challenge']).ok){
+   available=true;guardStillUp=guardOf(brant)??null;break;
+  }
+  step(battle);
+ }
+ assert.ok(available,'phải tới lúc Brant dùng lại được Lời Hứa');
+ assert.equal(guardStillUp,null,'với CD3, hào quang đã tắt trước khi chiêu hồi xong');
+
+ // Dùng lại cùng status khi đang hiệu lực chỉ làm mới, không tạo tầng thứ hai.
+ const again=world();
+ cast(again.battle,again.brant.id,'test.guard',again.brant.id);
+ assert.equal(guardOf(again.brant).remaining,2);
+ cast(again.battle,again.brant.id,'test.guard',again.brant.id);
+ assert.equal(again.brant.statuses.filter(status=>status.id==='brant_guard').length,1,'không cộng dồn trạng thái');
+ assert.equal(guardOf(again.brant).remaining,2,'dùng lại làm mới về 2 lượt chính');
 });
 
 test('Brant survives a Mori cleave buffed by Artesia in the extra phase under PvP rules',()=>{

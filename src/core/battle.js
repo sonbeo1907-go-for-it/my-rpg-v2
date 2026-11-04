@@ -742,6 +742,17 @@ function coverTarget(battle, target, area = false, reaction = false) {
       if (source && living(source) && source.id !== target.id) return source;
     }
   }
+  // Team guard: a living ally projects cover onto the whole team while his own status lasts.
+  for (const source of battle.actors) {
+    if (source.id === target.id || source.team !== target.team || !living(source)) continue;
+    const guardian = source.statuses.some(status => {
+      if (status.sourceId !== source.id) return false;
+      const definition = battle.content.statuses[status.id];
+      return definition.cover && definition.coverTeam
+        && (!area || definition.coverArea) && (!reaction || definition.coverReactions);
+    });
+    if (guardian) return source;
+  }
   return target;
 }
 

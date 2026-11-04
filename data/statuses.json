@@ -1336,11 +1336,12 @@
     "cover": true,
     "coverArea": true,
     "coverReactions": true,
+    "coverTeam": true,
     "modifiers": {
       "damageReduction": 0.15
     },
     "durationClock": "main_turn",
-    "description": "Brant nhận đòn thay người mang, kể cả đòn diện rộng; người mang giảm 15% sát thương nhận."
+    "description": "Brant che chắn cho cả đội: mọi đòn nhắm đồng đội (kể cả diện rộng và Liên kích) chuyển sang anh; thời hạn chỉ giảm theo lượt chính của Brant."
   },
   {
     "id": "brant_taunt",

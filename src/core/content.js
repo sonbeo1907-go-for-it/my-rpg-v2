@@ -371,6 +371,7 @@ export function validateContent(content) {
       if (status[key] !== undefined && typeof status[key] !== 'boolean') fail(`${id}: invalid ${key}`);
     }
     if (status.coverArea !== undefined && (status.coverArea !== true || status.cover !== true)) fail(`${id}: invalid area cover`);
+    if (status.coverTeam !== undefined && (status.coverTeam !== true || status.cover !== true)) fail(`${id}: invalid team cover`);
     if (status.coverReactions !== undefined && (status.coverReactions !== true || status.cover !== true)) fail(`${id}: invalid reaction cover`);
     if (status.persistent && (status.skipTurn || status.damageOverTime)) fail(`${id}: persistent status cannot skip turns or deal periodic damage`);
     if (status.mpCostReduction!==undefined && (!Number.isFinite(status.mpCostReduction) || status.mpCostReduction<=0 || status.mpCostReduction>=1 || status.kind!=='buff' || !status.persistent)) fail(id+': invalid MP reduction status');

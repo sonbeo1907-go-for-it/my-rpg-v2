@@ -24,7 +24,7 @@ Buff damage amp chỉ mức lớn nhất đủ điều kiện có hiệu lực; 
 
 ## Che chắn, hồi sinh và Rank hồi chiêu
 
-- `cover` chỉ chắn đòn đơn mục tiêu. Muốn chắn thêm đòn diện rộng hoặc Liên kích/phản công phải bật `coverArea`/`coverReactions` trên chính status (validator đòi `cover: true`). Nguồn Che chắn phải còn sống; đòn nhắm chính người chắn không bị đổi mục tiêu.
+- `cover` chỉ chắn đòn đơn mục tiêu. Muốn chắn thêm đòn diện rộng hoặc Liên kích/phản công phải bật `coverArea`/`coverReactions` trên chính status (validator đòi `cover: true`). Thêm `coverTeam` để biến status trên người bảo hộ thành hào quang che cả đội; khi đó thời hạn trôi theo lượt chính của **người bảo hộ**, không theo người được che. Đây là cơ chế dùng chung cho mọi nhân vật sau này — chỉ cần status riêng + kỹ năng self-cast, không sửa engine. Nguồn Che chắn phải còn sống; đòn nhắm chính người chắn không bị đổi mục tiêu; mỗi đòn chỉ một người chắn.
 - Nội tại `cover_guard` chỉ giảm đòn khi Che chắn thực sự đổi mục tiêu sang người mang; nhân riêng với giảm đòn Che chắn của Trấn Phái, tổng hệ số giảm bị chặn ở 70%.
 - Hồi sinh dùng effect `revive` **chỉ** trên `all_allies`, `hpRatio`/`mpRatio` trong (0,1]. Người đã gục trở lại đầy HP/MP, được làm sạch status **trừ Vết Thương Sâu**; không chen vào lượt đang diễn ra; event `revive` dùng VFX chung. Trên người còn sống, hồi sinh xóa status có `healingDebt` (Kế Ước Thế Chấp) và trả sạch nợ HP nhưng **giữ `healingReceivedReduction`** (Vết Thương Sâu) cùng debuff khác. Lượng hồi của hồi sinh luôn đặt về 100% HP, đủ vượt Vết Thương Sâu cho lần hồi đó.
 - Che chắn và Khiêu Khích đi cùng nhau phải dùng **cùng clock** (`main_turn`) để không lệch ở Vòng Phụ; Khiêu Khích riêng của Brant là `brant_taunt`, không dùng status `taunt` chung.

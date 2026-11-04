@@ -9742,7 +9742,7 @@
   {
     "id": "brant.challenge",
     "name": "Lời Hứa Chắn Trước",
-    "target": "all_allies",
+    "target": "self",
     "cost": {
       "mp": 14
     },
@@ -9755,12 +9755,11 @@
       },
       {
         "type": "status",
-        "to": "self",
         "status": "brant_taunt",
         "duration": 2
       }
     ],
-    "description": "Che chắn cả đòn đơn mục tiêu lẫn diện rộng cho đồng đội và Khiêu Khích địch trong 2 lượt chính.",
+    "description": "Mở Che chắn cho cả đội và Khiêu Khích địch; cả hai kéo dài 2 lượt chính của Brant.",
     "skillLineId": "brant.challenge",
     "growthProfile": "fixed",
     "rankable": false,
