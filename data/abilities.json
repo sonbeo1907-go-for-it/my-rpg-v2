@@ -9718,19 +9718,19 @@
     "name": "Khiên Sắt Tiền Tuyến",
     "target": "self",
     "cost": {
-      "mp": 14
+      "mp": 16
     },
-    "cooldown": 2,
+    "cooldown": 3,
     "effects": [
       {
         "type": "shield",
         "scalingStat": "defense",
-        "multiplier": 3,
-        "flat": 50,
+        "multiplier": 2,
+        "flat": 30,
         "durationRounds": 3
       }
     ],
-    "description": "Dựng khiên dày cho bản thân bằng DEF; giữ 3 vòng.",
+    "description": "Dựng khiên cho bản thân bằng DEF; giữ 3 vòng.",
     "skillLineId": "brant.bulwark",
     "growthProfile": "shield",
     "rankable": true,
@@ -9743,9 +9743,9 @@
     "name": "Lời Hứa Chắn Trước",
     "target": "all_allies",
     "cost": {
-      "mp": 12
+      "mp": 14
     },
-    "cooldown": 2,
+    "cooldown": 3,
     "effects": [
       {
         "type": "status",

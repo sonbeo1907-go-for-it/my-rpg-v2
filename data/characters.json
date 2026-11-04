@@ -3196,12 +3196,12 @@
     "description": "Kéo đòn đơn mục tiêu bằng Khiêu Khích và chắn cả đòn diện rộng cho đồng đội, đổi lại bản thân phải trụ vững.",
     "biography": "Thợ săn kỳ cựu của Hội, nổi tiếng vì luôn đứng giữa đồng đội và móng vuốt con mồi. Brant không giỏi tấn công, nhưng khi anh dựng lá chắn, cả đội có thể yên tâm đánh tiếp.",
     "stats": {
-      "maxHp": 400,
+      "maxHp": 300,
       "maxMp": 90,
       "attack": 24,
       "magic": 8,
-      "defense": 44,
-      "resistance": 28,
+      "defense": 30,
+      "resistance": 22,
       "speed": 12
     },
     "basicAttack": [
@@ -3220,8 +3220,8 @@
     "passive": {
       "type": "cover_guard",
       "name": "Thân Chắn Bão Tố",
-      "description": "Khi thực sự nhận đòn thay đồng đội qua Che chắn, giảm thêm 50% sát thương của đòn đó.",
-      "ratio": 0.5
+      "description": "Khi thực sự nhận đòn thay đồng đội qua Che chắn, giảm thêm 20% sát thương của đòn đó.",
+      "ratio": 0.2
     }
   }
 ]

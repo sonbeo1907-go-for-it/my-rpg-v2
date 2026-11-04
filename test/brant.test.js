@@ -3,6 +3,7 @@ import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
 import {createBattle,executeAction,activeActor,getActor,targetsFor} from '../src/core/battle.js';
 import {normalizedArenaCampaign} from '../src/core/arena.js';
+import {preparePvpContent} from '../src/core/pvp-rules.js';
 import {validateContent} from '../src/core/content.js';
 import {seededRandom} from '../src/core/random.js';
 const base=await loadContent();
@@ -32,10 +33,11 @@ function cast(battle,actorId,abilityId,targetId){
  executeAction(battle,{actorId,abilityId,targetId});
 }
 function scenario(playerParty,enemyParty,seed){
- const rules=base.pvpRules.default;
- const player=normalizedArenaCampaign(base,createGameSave(base),playerParty,rules);
- const opponent=normalizedArenaCampaign(base,createGameSave(base),enemyParty,rules);
- const battle=createBattle(base,player,'forest_patrol',seededRandom(seed),{opponentCampaign:opponent});
+ // Same path as Arena: scoped content + normalized Lv50/Rank5 + PvP soft caps.
+ const scoped=preparePvpContent(base,base.pvpRules.default);
+ const player=normalizedArenaCampaign(scoped.content,createGameSave(scoped.content),playerParty,scoped.rules);
+ const opponent=normalizedArenaCampaign(scoped.content,createGameSave(scoped.content),enemyParty,scoped.rules);
+ const battle=createBattle(scoped.content,player,'forest_patrol',seededRandom(seed),{opponentCampaign:opponent,pvpRules:scoped.rules});
  const party=id=>battle.actors.find(actor=>actor.team==='party'&&actor.characterId===id);
  const enemy=id=>battle.actors.find(actor=>actor.team==='enemy'&&actor.characterId===id);
  return {battle,party,enemy};
@@ -66,13 +68,22 @@ test('Brant is a Hunters Guild tank with cover guard, area cover and a thick sel
  assert.equal(c.affiliation,'hunters_guild');
  assert.equal(c.element,'plain');
  assert.equal(c.passive.type,'cover_guard');
- assert.equal(c.passive.ratio,0.5);
+ assert.equal(c.passive.ratio,0.2);
+ assert.equal(c.stats.maxHp,300);
+ assert.equal(c.stats.defense,30);
  assert.deepEqual(c.abilities,['brant.bulwark','brant.challenge']);
  const guard=base.statuses.brant_guard;
  assert.equal(guard.cover,true);
  assert.equal(guard.coverArea,true);
  assert.equal(guard.coverReactions,true);
- assert.equal(guard.modifiers.damageReduction,0.4);
+ assert.equal(guard.modifiers.damageReduction,0.15);
+ const shield=base.abilities['brant.bulwark'];
+ assert.equal(shield.effects[0].multiplier,2);
+ assert.equal(shield.effects[0].flat,30);
+ assert.equal(shield.cooldown,3);
+ assert.equal(shield.cost.mp,16);
+ assert.equal(base.abilities['brant.challenge'].cooldown,3);
+ assert.equal(base.abilities['brant.challenge'].cost.mp,14);
  assert.equal(base.abilities['brant.bulwark'].effects[0].durationRounds,3);
  assert.equal(base.statuses.brant_taunt.taunt,true);
  assert.equal(base.statuses.brant_taunt.durationClock,'main_turn');
@@ -117,7 +128,7 @@ test('area damage is pulled to Brant and never reaches the other allies',()=>{
  assert.ok(battle.log.filter(line=>line.includes('chắn đòn cho')).length>=1);
 });
 
-test('cover guard halves the damage of a redirected hit',()=>{
+test('cover guard lowers the damage of a redirected hit',()=>{
  const covering=fixture();
  covering.brant.mp=99;
  cast(covering.battle,covering.brant.id,'test.guard',covering.brant.id);
@@ -129,10 +140,10 @@ test('cover guard halves the damage of a redirected hit',()=>{
  cast(direct.battle,direct.enemy.id,'test.strike',direct.brant.id);
  const own=direct.battle.events.find(event=>event.type==='damage').amount;
  assert.ok(covered>0&&own>0);
- assert.ok(covered<own*0.7,'đòn chắn phải giảm mạnh hơn đòn trực tiếp ('+covered+' vs '+own+')');
+ assert.ok(covered<own*0.9,'đòn chắn phải giảm hơn đòn trực tiếp ('+covered+' vs '+own+')');
 });
 
-test('Brant survives a Mori cleave buffed by Artesia in the extra phase without losing an ally',()=>{
+test('Brant survives a Mori cleave buffed by Artesia in the extra phase under PvP rules',()=>{
  const {battle,party,enemy}=scenario(['brant','iris','arthur','elaine'],['mori','artesia','chloe','karin'],3);
  const brant=party('brant'),mori=enemy('mori'),artesia=enemy('artesia');
  let preStorm=null;
@@ -153,7 +164,12 @@ test('Brant survives a Mori cleave buffed by Artesia in the extra phase without 
   if(storm){assert.ok(preStorm);break;}
  }
  assert.ok(preStorm,'phải tới lượt Mori thi triển Vạn Lý Lôi Vũ trong Vòng Phụ');
+ assert.equal(battle.pvpRules?.rulesetVersion,'arena-0.2.0','phải chạy dưới luật PvP');
+ assert.equal(brant.level,50,'nhân vật phải được chuẩn hóa Lv50');
+ assert.ok(battle.log.some(line=>line.includes('[PvP arena-0.2.0]')&&line.includes('soft cap')),'sát thương phải đi qua soft cap PvP');
  assert.ok(brant.hp>0,'Brant phải sống sót qua đòn AoE đã buff');
+ assert.ok(brant.hp>brant.stats.maxHp*0.25,'Brant phải còn trên 25% HP sau đòn AoE');
+ assert.equal(brant.shield,0,'khiên phải bị đánh thủng sau đòn AoE');
  for(const ally of battle.actors.filter(actor=>actor.team==='party'&&actor.id!==brant.id)){
   assert.equal(ally.hp,preStorm.hp[ally.characterId],ally.name+' không được mất HP');
  }
@@ -241,7 +257,7 @@ test('choáng trong Vòng Phụ không bào thời hạn Che chắn hay Khiêu K
  assert.equal(tauntOf(brant)?.remaining,2,'Choáng ở Vòng Phụ không giảm Khiêu Khích');
 });
 
-test('Brant holds both Plan B hits from Joshua and keeps every ally untouched',()=>{
+test('Brant holds both Plan B hits from Joshua under PvP rules and keeps every ally untouched',()=>{
  const {battle,party,enemy}=scenario(['brant','iris','arthur','takeshi'],['joshua','artesia','chloe','karin'],7);
  const brant=party('brant'),joshua=enemy('joshua');
  joshua.hp=Math.round(joshua.stats.maxHp*0.4);
@@ -262,9 +278,13 @@ test('Brant holds both Plan B hits from Joshua and keeps every ally untouched',(
  }
  assert.ok(preAttack,'Joshua phải hành động trong Vòng Phụ khi ở Kế Hoạch B');
  assert.equal(joshua.activeMode,'plan_b');
+ assert.equal(battle.pvpRules?.rulesetVersion,'arena-0.2.0','phải chạy dưới luật PvP');
+ assert.equal(brant.level,50,'nhân vật phải được chuẩn hóa Lv50');
+ assert.ok(battle.log.some(line=>line.includes('[PvP arena-0.2.0]')&&line.includes('soft cap')),'sát thương phải đi qua soft cap PvP');
  const hits=battle.events.filter(event=>event.type==='damage');
  assert.ok(hits.length>=2,'Kế Hoạch B phải quật tối thiểu hai lần');
  assert.ok(brant.hp>0,'Brant phải trụ được chuỗi hai đòn');
+ assert.ok(brant.hp>brant.stats.maxHp*0.25,'Brant phải còn trên 25% HP sau chuỗi đòn');
  for(const ally of battle.actors.filter(actor=>actor.team==='party'&&actor.id!==brant.id)){
   assert.equal(ally.hp,preAttack.hp[ally.characterId],ally.name+' không được mất HP');
  }

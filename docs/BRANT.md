@@ -8,7 +8,9 @@ Thợ săn kỳ cựu của **Hội Thợ Săn**, `roleGroup: tank`, hệ Thư�
 
 ## Chỉ số thô
 
-Plain / tank · HP400 / MP90 / ATK24 / MAG8 / DEF44 / RES28 / SPD12.
+Plain / tank · HP300 / MP90 / ATK24 / MAG8 / DEF30 / RES22 / SPD12.
+
+Bản nerf 04/11/2026 (sau playtest PvP): HP 400→300, DEF 44→30, RES 28→22, nội tại giảm đòn 50%→20%, Che chắn giảm 40%→15%, khiên 300% DEF + 50 → 200% DEF + 30, CD 2→3 và MP 14/12→16/14.
 
 SPD thấp có chủ ý: anh hành động sau cùng trong vòng, nên kỹ năng che chắn phải có thời hạn đủ dài để phủ cả Vòng Phụ.
 
@@ -16,8 +18,8 @@ SPD thấp có chủ ý: anh hành động sau cùng trong vòng, nên kỹ năn
 
 | Kỹ năng | MP / CD | Hiệu ứng |
 | --- | --- | --- |
-| Khiên Sắt Tiền Tuyến `brant.bulwark` | 14 / CD2 | Khiên bản thân 300% DEF + 50, giữ 3 vòng |
-| Lời Hứa Chắn Trước `brant.challenge` | 12 / CD2 | Toàn đội nhận Che chắn (đơn mục tiêu, diện rộng, Liên kích) và Brant nhận Khiêu Khích trong 2 lượt chính |
+| Khiên Sắt Tiền Tuyến `brant.bulwark` | 16 / CD3 | Khiên bản thân 200% DEF + 30, giữ 3 vòng |
+| Lời Hứa Chắn Trước `brant.challenge` | 14 / CD3 | Toàn đội nhận Che chắn (đơn mục tiêu, diện rộng, Liên kích) và Brant nhận Khiêu Khích trong 2 lượt chính |
 
 Khiên dùng `growthProfile: shield` (×1,1 mỗi Rank). Lời Hứa là kỹ năng tiện ích cố định, không có cấp nâng.
 
@@ -45,9 +47,9 @@ Hai buff được cấp cùng lúc bởi Lời Hứa và dùng **cùng một lo�
 
 ## Nội tại · Thân Chắn Bão Tố
 
-`type: cover_guard`, `ratio: 0.5`.
+`type: cover_guard`, `ratio: 0.2`.
 
-Khi **thực sự nhận đòn thay đồng đội**, giảm thêm **50%** sát thương của đòn đó.
+Khi **thực sự nhận đòn thay đồng đội**, giảm thêm **20%** sát thương của đòn đó.
 
 - Chỉ áp dụng khi Che chắn đổi mục tiêu sang Brant; đòn đánh trực tiếp vào anh không hưởng.
 - Nhân riêng với giảm đòn Che chắn từ Trấn Phái (Garrek) và với giảm sát thương thường; tổng hệ số giảm đòn chắn bị chặn ở 70%.
@@ -55,14 +57,14 @@ Khi **thực sự nhận đòn thay đồng đội**, giảm thêm **50%** sát 
 
 ## Cân bằng: hai kịch bản bắt buộc
 
-Cả hai chạy ở Lv50 / Rank5, đội bị đánh gồm Brant và ba đồng đội mỏng, đội địch dùng chính kit thật trong dữ liệu (`test/brant.test.js`).
+Cả hai chạy **dưới luật PvP Arena** (`arena-0.2.0`): content đi qua `preparePvpContent`, campaign chuẩn hóa Lv50/Rank5, battle có `pvpRules` (soft cap, loop guard), đội bị đánh gồm Brant và ba đồng đội mỏng, đội địch dùng chính kit thật trong dữ liệu (`test/brant.test.js`).
 
-| Kịch bản | Diễn biến | Kết quả |
+| Kịch bản | Diễn biến | Kết quả dưới soft cap PvP |
 | --- | --- | --- |
-| **Mori được Artesia buff** | Vòng 1 Artesia dùng Song Tinh (+25% ATK); Brant dựng khiên. Vòng 2 Artesia dùng Ánh Sao Định Mệnh (+30% sát thương), Mori dùng Lôi Kiếm Vô Câu (+40% ATK, Lượt Thêm), rồi Vạn Lý Lôi Vũ trong Vòng Phụ | Brant chắn cả bốn hit AoE, đồng đội **không mất HP**, Brant còn sống (≈101/485 HP sau đòn ở mốc test) |
-| **Joshua Kế Hoạch B** | Joshua xuống dưới 50% HP, vào dạng, nhận Lượt Thêm; dùng Nanh Lửa + Liên kích Bữa Tiệc (đòn lan) | Brant ăn cả hai đòn và cả phần lan sang đồng đội; đồng đội **không mất HP**; Brant còn ≈188/485 HP |
+| **Mori được Artesia buff** | Vòng 1 Artesia dùng Song Tinh (+25% ATK); Brant dựng khiên. Vòng 2 Artesia dùng Ánh Sao Định Mệnh (+30% sát thương), Mori dùng Lôi Kiếm Vô Câu (+40% ATK, Lượt Thêm), rồi Vạn Lý Lôi Vũ trong Vòng Phụ | Brant chắn cả bốn hit, **khiên vỡ hết**, còn **172/385 HP (45%)**; đồng đội **không mất HP** |
+| **Joshua Kế Hoạch B** | Joshua xuống dưới 50% HP, vào dạng, nhận Lượt Thêm; dùng Nanh Lửa + Liên kích Bữa Tiệc (đòn lan) | Ba hit 111 / 93 / 27 sau soft cap; Brant còn **154/385 HP (40%)**, đồng đội **không mất HP**, phần lan cũng bị chắn |
 
-Hai kịch bản này là **điều kiện nghiệm thu tối thiểu**, không chứng minh cân bằng ở mọi cấu hình: Brant vẫn có thể chết nếu ăn thêm đòn khác trong cùng vòng hoặc nếu không kịp dựng khiên trước khi địch hành động.
+Hai kịch bản là **điều kiện nghiệm thu tối thiểu**, không chứng minh cân bằng ở mọi cấu hình: Brant vẫn có thể chết nếu ăn thêm đòn khác trong cùng vòng, nếu không kịp dựng khiên trước khi địch hành động, hoặc nếu luật PvP đổi soft cap.
 
 ## Chiêu Mộ
 
@@ -76,4 +78,4 @@ Hai kịch bản này là **điều kiện nghiệm thu tối thiểu**, không 
 
 ## Kiểm chứng
 
-`test/brant.test.js`: định danh/chỉ số, Che chắn áp lên cả đội + Khiêu Khích giới hạn mục tiêu, chắn đòn đơn mục tiêu, chắn AoE, giảm 50% đòn chắn so với đòn trực tiếp, hai kịch bản Mori/Artesia và Joshua ở trên, đồng bộ hai buff qua lượt chính + Vòng Phụ, choáng ở Vòng Chính và Vòng Phụ, pool Chiêu Mộ.
+`test/brant.test.js`: định danh/chỉ số, Che chắn áp lên cả đội + Khiêu Khích giới hạn mục tiêu, chắn đòn đơn mục tiêu, chắn AoE, giảm 50% đòn chắn so với đòn trực tiếp, **hai kịch bản Mori/Artesia và Joshua chạy dưới `pvpRules` Arena (soft cap + chuẩn hóa Lv50)**, đồng bộ hai buff qua lượt chính + Vòng Phụ, choáng ở Vòng Chính và Vòng Phụ, pool Chiêu Mộ. Mỗi kịch bản còn khẳng định log có `[PvP arena-0.2.0] … soft cap` để chắc chắn luật PvP thực sự có hiệu lực.

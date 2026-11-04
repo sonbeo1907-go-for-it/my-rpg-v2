@@ -1337,10 +1337,10 @@
     "coverArea": true,
     "coverReactions": true,
     "modifiers": {
-      "damageReduction": 0.4
+      "damageReduction": 0.15
     },
     "durationClock": "main_turn",
-    "description": "Brant nhận đòn thay người mang, kể cả đòn diện rộng; người mang giảm 40% sát thương nhận."
+    "description": "Brant nhận đòn thay người mang, kể cả đòn diện rộng; người mang giảm 15% sát thương nhận."
   },
   {
     "id": "brant_taunt",
