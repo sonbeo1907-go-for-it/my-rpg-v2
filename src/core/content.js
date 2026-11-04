@@ -266,6 +266,10 @@ export function validateContent(content) {
         if ((!content.statuses[effect.status]?.persistent || effect.duration !== undefined) && (!Number.isInteger(effect.duration) || effect.duration < 1)) fail(`${id}: invalid status duration`);
         if (effect.type === 'toggle_status' && !content.statuses[effect.status]?.persistent) fail(`${id}: toggle requires persistent status`);
       }
+      if(effect.debtMaxHpRatio!==undefined&&(effect.type!=='status'||!content.statuses[effect.status]?.healingDebt||!Number.isFinite(effect.debtMaxHpRatio)||effect.debtMaxHpRatio<=0||effect.debtMaxHpRatio>content.statuses[effect.status].healingDebt.capMaxHpRatio))fail(id+': invalid healing debt ratio');
+      if(content.statuses[effect.status]?.healingDebt&&(effect.type!=='status'||effect.duration!==undefined||effect.stacks!==undefined||effect.charges!==undefined||effect.linkedStatuses))fail(id+': healing debt requires an untimed status');
+      if (effect.onHitStatus&&content.statuses[effect.onHitStatus.status]?.healingDebt)fail(id+': apply healing debt with a status effect');
+      if(effect.linkedStatuses?.some(statusId=>content.statuses[statusId]?.healingDebt))fail(id+': healing debt cannot be linked');
       if (effect.linkedStatuses !== undefined) {
         const primary = content.statuses[effect.status];
         if (effect.type !== 'toggle_status' || !Array.isArray(effect.linkedStatuses) || !effect.linkedStatuses.length
@@ -329,6 +333,10 @@ export function validateContent(content) {
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
     if(status.bypassedByBuffedAttacker!==undefined&&(status.bypassedByBuffedAttacker!==true||status.kind!=='buff'||!Number.isInteger(status.maxStacks)||status.maxStacks<1||!Number.isFinite(status.modifiers?.damageReduction)||status.modifiers.damageReduction<=0||status.modifiers.damageReduction*status.maxStacks>.75))fail(id+': invalid skill-aware barrier');
     for(const key of ['healingReceivedReduction','shieldReceivedReduction'])if(status[key]!==undefined&&(!Number.isFinite(status[key])||status[key]<0||status[key]>1||status.kind!=='debuff'))fail(id+': invalid recipient reduction');
+    if(status.healingDebt!==undefined){
+      const debt=status.healingDebt;
+      if(status.kind!=='debuff'||status.persistent!==true||status.durationClock||status.defaultDuration||status.maxStacks||status.damageOverTime||status.consumeOnAttack||!Number.isFinite(debt?.maxHpRatio)||debt.maxHpRatio<=0||!Number.isFinite(debt?.capMaxHpRatio)||debt.capMaxHpRatio<=0||debt.capMaxHpRatio>.5||debt.maxHpRatio>debt.capMaxHpRatio)fail(id+': invalid healing debt');
+    }
     if(status.defaultDuration!==undefined&&(!Number.isInteger(status.defaultDuration)||status.defaultDuration<1))fail(id+': invalid default duration');
     if(status.buffRejection!==undefined&&(status.kind!=='debuff'||!Number.isInteger(status.buffRejection?.charges)||status.buffRejection.charges<1||!status.persistent))fail(id+': invalid buff rejection');
     if(status.consumeOnPaidSkill!==undefined&&(status.consumeOnPaidSkill!==true||status.kind!=='debuff'||!status.persistent||!Number.isInteger(status.charges)||status.charges<1||!Number.isFinite(status.mpCostIncrease)||status.mpCostIncrease<=0))fail(id+': invalid paid skill interference');

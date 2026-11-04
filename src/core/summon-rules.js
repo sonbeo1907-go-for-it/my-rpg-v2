@@ -22,7 +22,7 @@ export function validateSummonDefinition(actor,content,fail) {
   if (mode.commandAbilities!==undefined&&(!Array.isArray(mode.commandAbilities)||!mode.commandAbilities.length||new Set(mode.commandAbilities).size!==mode.commandAbilities.length||mode.commandAbilities.some(skill=>!mode.allowedAbilities.includes(skill)))) fail(id+': invalid transformed commands');
   if (mode.entryEffects!==undefined&&(!Array.isArray(mode.entryEffects)||!mode.entryEffects.length||mode.entryEffects.some(e=>{
    if(e.type==='shield')return e.scalingStat!=='maxHp'||!Number.isFinite(e.multiplier)||e.multiplier<=0||e.multiplier>2||Object.keys(e).some(k=>!['type','scalingStat','multiplier'].includes(k));
-   if(e.type==='status'){const definition=content.statuses?.[e.status];return !definition||Object.keys(e).some(k=>!['type','status','duration'].includes(k))||(e.duration!==undefined?(!Number.isInteger(e.duration)||e.duration<1):!definition.persistent);}
+   if(e.type==='status'){const definition=content.statuses?.[e.status];return !definition||definition.healingDebt||Object.keys(e).some(k=>!['type','status','duration'].includes(k))||(e.duration!==undefined?(!Number.isInteger(e.duration)||e.duration<1):!definition.persistent);}
    return true;
   }))) fail(id+': invalid mode entry effect');
  }

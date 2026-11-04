@@ -1,3 +1,4 @@
+import {lifeDebt} from './life-debt.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 import {activeStatuses} from './status-state.js';
 import {defaultFormulaEdit,activeFormula,editedFormulaEntries,formulaCounts} from './formula-field.js';
@@ -32,7 +33,7 @@ function cheapScore(b,a,skill,t,p){
  let n=skill.id==='$defend'?(a.mp/battleMaxMp(b.content,a)<p.reserveMpRatio?40:0):skill.id==='$attack'?10:0;
  for(const e of skill.effects){
   if(e.type==='damage')n+=20+(e.multiplier??1)*5+(1-t.hp/t.stats.maxHp)*20;
-  if(e.type==='heal')n+=(1-t.hp/t.stats.maxHp)*150;
+  if(e.type==='heal')n+=((1-t.hp/t.stats.maxHp)+lifeDebt(t)/t.stats.maxHp)*150;
   if(e.type==='shield')n+=t.shield===0?32:0;
   if(e.type==='status')n+=activeStatuses(t).some(s=>s.id===e.status)?-10:24;
   if(['enter_mode','prepare_mode','formula_field','summon_companion'].includes(e.type))n+=45;
@@ -50,7 +51,7 @@ function evaluate(b,trial,a,skill,p,threats){
   const healing=Math.max(0,y.hp-x.hp),shield=Math.max(0,y.shield-x.shield),fresh=activeStatuses(y).filter(s=>!activeStatuses(x).some(old=>old.id===s.id&&((old.remaining??99)>1||(old.charges??0)>0)));
   const ward=fresh.some(s=>b.content.statuses[s.id]?.effectImmunity)?20:0;
   const reduction=fresh.reduce((n,s)=>n+(b.content.statuses[s.id]?.modifiers?.damageReduction??0)*70,0);
-  protection+=healing*.8+shield*.28+ward+reduction;
+  protection+=healing*.8+Math.max(0,lifeDebt(x)-lifeDebt(y))+shield*.28+ward+reduction;
   const removed=activeStatuses(x).filter(s=>b.content.statuses[s.id]?.kind==='debuff'&&!activeStatuses(y).some(v=>v.id===s.id));cleanses+=removed.length;
   if(isAlive(x)&&(x.hp/x.stats.maxHp<p.healBelow||x.hp+x.shield<(threats[x.id]??0)*.8)&&(healing+shield+ward+reduction>0||removed.length))rescues+=1;
   for(const status of fresh.filter(s=>b.content.statuses[s.id]?.kind==='buff')){const def=b.content.statuses[status.id],mods=status.appliedModifiers??def.modifiers??{};buffs+=12+Object.entries(mods).reduce((n,[key,v])=>n+Math.max(0,key==='attackMultiplier'?v-1:v)*(['damageBonus','attackMultiplier'].includes(key)?100*(status.charges??def.damageUses??1):key==='maxMp'?40:90),0);}

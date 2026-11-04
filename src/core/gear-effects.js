@@ -1,3 +1,4 @@
+import {lifeDebt} from './life-debt.js';
 import {battleMaxMp} from './stat-values.js';
 
 import {isAlive} from "./actor-life.js";
@@ -23,7 +24,7 @@ export function activateRoundGear(b,io){
   if(r.hook&&r.hook!=='round_start'||seen.has(r.effectGroup)||!ready(b,a,r))continue;seen.add(r.effectGroup);
   const statuses=activeStatuses(a).filter(s=>(s.remaining==null||s.remaining>0)&&(s.stacks??1)>0);
   if(r.condition==='no_ward'&&statuses.some(s=>{const ward=b.content.statuses[s.id]?.effectImmunity;return ward&&(s.charges??ward.charges)>0;}))continue;
-  if(r.condition==='missing_hp'&&a.hp>=a.stats.maxHp||r.condition==='missing_mp'&&a.mp>=battleMaxMp(b.content,a))continue;
+  if(r.condition==='missing_hp'&&a.hp>=a.stats.maxHp&&lifeDebt(a)<=0||r.condition==='missing_mp'&&a.mp>=battleMaxMp(b.content,a))continue;
   if(r.condition==='missing_status'&&statuses.some(s=>s.id===r.effect.status))continue;
   const e=r.effect;
   if(e.type==='status')io.status(b,a,e.status,e.duration,a.id);

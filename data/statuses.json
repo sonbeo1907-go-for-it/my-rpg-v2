@@ -1318,5 +1318,15 @@
     "modifiers": {
       "magic": -0.2
     }
+  },
+  {
+    "id": "life_mortgage",
+    "name": "Sinh Mệnh Thế Chấp",
+    "kind": "debuff",
+    "persistent": true,
+    "healingDebt": {
+      "maxHpRatio": 0.25,
+      "capMaxHpRatio": 0.5
+    }
   }
 ]

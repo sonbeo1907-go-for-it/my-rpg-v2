@@ -161,3 +161,8 @@ Reviewer phải trả lời: **các đường không cast đã được kiểm t
 | Test khởi điểm | [cerise.test.js](../test/cerise.test.js), [extra-turn.test.js](../test/extra-turn.test.js), [summon.test.js](../test/summon.test.js), [recipient-statuses.test.js](../test/recipient-statuses.test.js) |
 
 Những tên file này là điểm bắt đầu, không giới hạn coverage. Khi sửa contract hoặc call site, cập nhật trang này và chuyên đề chịu ảnh hưởng.
+
+
+## Sinh Mệnh Thế Chấp
+
+`life_mortgage` dùng lượng `debtHp`, không phải đồng hồ lượt hay stack. Hồi phục sau giảm hồi nhận thanh toán nợ trước khi giới hạn theo HP thiếu; chỉ phần HP thực tăng kích hook hồi HP. Choáng/Lượt Thêm không làm hết nợ. Gục hoặc kết thúc thật xóa nợ; victory tiếp wave/phòng và phase giữ nguyên. Snapshot/forecast lưu trong status instance. Xem [hợp đồng và test](LIFE_MORTGAGE.md).

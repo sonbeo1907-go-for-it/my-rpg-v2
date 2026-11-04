@@ -1,4 +1,5 @@
 "use client";
+import {lifeDebt} from '../core/life-debt.js';
 import {FarmPanel} from './farm';
 import {ArenaPlayerBar} from './arena-experience';
 import {EvidenceBoard,GunpowderBoard,LocalCombatMode} from './vertosse';
@@ -86,7 +87,7 @@ function StatusBadge({ status, actor }: { status: any; actor: any }) {
       >
         {definition.name}
         {status.stacks > 1 || definition.exposedElement ? ` ×${status.stacks}` : ""} (
-        {definition.effectImmunity || definition.damageUses || definition.buffRejection || definition.consumeOnPaidSkill
+        {definition.healingDebt ? `${status.debtHp??0} HP` : definition.effectImmunity || definition.damageUses || definition.buffRejection || definition.consumeOnPaidSkill
           ? `${status.charges} lần`
           : status.remaining === null
             ? definition.consumeOnAttack
@@ -177,6 +178,10 @@ export function CombatantCard({
             value={actor.hp}
           />
         </label>
+        {lifeDebt(actor)>0 && <label className="life-debt-meter" title="Hồi HP sẽ thanh toán Thế Chấp trước; phần dư mới hồi HP.">
+          <span>Thế Chấp: {lifeDebt(actor)} HP</span>
+          <progress aria-label="Sinh Mệnh Thế Chấp" max={Math.max(1,actor.stats.maxHp,lifeDebt(actor))} value={lifeDebt(actor)}/>
+        </label>}
         <label>
           <span>
             MP {actor.mp} / {battleMaxMp(content,actor)}

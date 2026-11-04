@@ -68,6 +68,7 @@ import {bypassedBarrierReduction} from "./skill-barrier.js";
 import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
+import {lifeDebt,payLifeDebt,clearLifeDebt} from './life-debt.js';
 import { checkCombatMode, enterCombatMode, leaveCombatMode, modeAvailability, spendModeTurn } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
 import { mpCost, hpCost, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus, targetsAsGroup } from "./conditional-combat.js";
@@ -339,7 +340,13 @@ function announcePassive(battle,source,targetId,label=source?.passive?.name) {
 
 function healHp(battle, target, requested, sourceId, label = "") {
   if (!living(target)||isInAgony(target)) return 0;
-  const amount = Math.min(target.stats.maxHp - target.hp, receivedSupport(battle.content,target,requested,"healingReceivedReduction"));
+  const effective=receivedSupport(battle.content,target,requested,"healingReceivedReduction");
+  const {paid,remaining}=payLifeDebt(target,effective);
+  if(paid>0){
+    emitEvent(battle,{type:'life_debt_paid',sourceId,targetId:target.id,amount:paid,remaining:lifeDebt(target)});
+    write(battle,`${target.name} thanh toán ${paid} Thế Chấp${label ? " từ " + label : ""}, còn ${lifeDebt(target)} HP.`);
+  }
+  const amount = Math.min(Math.max(0,target.stats.maxHp - target.hp),remaining);
   target.hp += amount;
   if (amount > 0) {
     const healer=getActor(battle,sourceId);
@@ -513,6 +520,7 @@ function endTurnPassive(battle, actor) {
 }
 
 function onActorDefeated(battle,killer,target) {
+  clearLifeDebt(target);
   const passive=killer?.passive;
   if (!killer || killer.team===target.team || passive?.type!=="kill_mp_discount" || killer.statuses.some(status=>status.id===passive.statusId)) return;
   announcePassive(battle,killer);
@@ -528,6 +536,7 @@ function checkOutcome(battle) {
   )
     battle.outcome = "defeat";
   for (const actor of battle.actors) {
+    if(!living(actor)||(battle.outcome&&!(battle.outcome==='victory'&&battle.continuesOnVictory)))clearLifeDebt(actor);
     checkCombatMode(battle,actor,battle.outcome ? "battle_end" : "owner_state",modeIO);
     if (!living(actor) || (battle.outcome && !(battle.outcome==='victory' && battle.continuesOnVictory))) closeFormula(battle,actor,modeIO,!living(actor)?'owner_ko':'battle_end');
   }
@@ -972,8 +981,9 @@ function resolveHit(
     });
     write(battle, `${target.name} né đòn của ${attacker.name}.`);
     const dodgeHeal = exclusivePassive(target,"dodge_heal");
-    if (dodgeHeal && target.hp < target.stats.maxHp && procAvailable(battle,target,"exclusive_dodge")) {
-      if (healHp(battle,target,target.stats.maxHp * dodgeHeal.ratio,target.id,dodgeHeal.name) > 0) markProc(battle,target,"exclusive_dodge");
+    if (dodgeHeal && (target.hp < target.stats.maxHp || lifeDebt(target)>0) && procAvailable(battle,target,"exclusive_dodge")) {
+      const beforeDebt=lifeDebt(target);
+      if (healHp(battle,target,target.stats.maxHp * dodgeHeal.ratio,target.id,dodgeHeal.name) > 0 || lifeDebt(target)<beforeDebt) markProc(battle,target,"exclusive_dodge");
     }
     if (
       !reaction &&
@@ -1195,10 +1205,10 @@ function resolveHit(
       healHp(battle,target,stat(battle,healer,"magic") * healer.passive.multiplier * (1 + (bonus?.ratio ?? 0)),healer.id,"Dư âm thủy hộ");
     }
     const refill=healer?.passive,rose=healer&&exclusivePassive(healer,'shield_break_restore_hp');
-    if(refill?.type==='shield_break_mp'&&living(healer)&&procAvailable(battle,target,'shield_mp:'+healer.id)&&(target.mp<battleMaxMp(battle.content,target)||rose&&target.hp<target.stats.maxHp)){
+    if(refill?.type==='shield_break_mp'&&living(healer)&&procAvailable(battle,target,'shield_mp:'+healer.id)&&(target.mp<battleMaxMp(battle.content,target)||rose&&(target.hp<target.stats.maxHp||lifeDebt(target)>0))){
       markProc(battle,target,'shield_mp:'+healer.id);announcePassive(battle,healer,target.id);write(battle,healer.name+' kích hoạt '+refill.name+' cho '+target.name+'.');
       if(target.mp<battleMaxMp(battle.content,target))gainResource(battle,target,'mp',Math.ceil(scalingValue(refill,key=>stat(battle,healer,key))*refill.multiplier),healer.id);
-      if(rose&&target.hp<target.stats.maxHp)healHp(battle,target,scalingValue(rose,key=>stat(battle,healer,key))*rose.multiplier,healer.id);
+      if(rose&&(target.hp<target.stats.maxHp||lifeDebt(target)>0))healHp(battle,target,scalingValue(rose,key=>stat(battle,healer,key))*rose.multiplier,healer.id);
     }
     if (target.passive?.type === "shield_break_status") {
       announcePassive(battle,target,target.id,target.passive.name??"Vỡ khiên");
@@ -1258,7 +1268,7 @@ function applyStatus(
   statusId,
   duration,
   sourceId,
-  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers } = {},
+  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers, debtMaxHpRatio } = {},
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
@@ -1303,11 +1313,17 @@ function applyStatus(
     }
   }
   const previous = target.statuses.find((status) => status.id === statusId);
+  const debtAdded=definition.healingDebt ? Math.min(
+    Math.ceil(target.stats.maxHp*(debtMaxHpRatio??definition.healingDebt.maxHpRatio)),
+    Math.max(0,Math.floor(target.stats.maxHp*definition.healingDebt.capMaxHpRatio)-lifeDebt(target))
+  ) : 0;
+  if(definition.healingDebt&&debtAdded<=0)return previous??null;
   const previousStacks = definition.exposedElement ? availableExposureStacks(previous) : previous?.stacks ?? 0;
   target.statuses = target.statuses.filter((status) => status.id !== statusId &&
     !(definition.exposedElement && battle.content.statuses[status.id].exposedElement));
   const applied = {
     id: statusId,
+    ...(definition.healingDebt?{debtHp:(previous?.debtHp??0)+debtAdded}:{}),
     ...(baseStatModifiers?{baseStatModifiers:{...baseStatModifiers}}:{}),
     ...(appliedModifiers?{appliedModifiers:{...appliedModifiers}}:{}),
     ...(linkedAppliedModifiers?{linkedAppliedModifiers:structuredClone(linkedAppliedModifiers)}:{}),
@@ -1326,13 +1342,17 @@ function applyStatus(
     applied.potency = periodicPotency(definition,source,key=>stat(battle,source,key));
   }
   target.statuses.push(applied);
+  if(definition.healingDebt){
+    emitEvent(battle,{type:'life_debt_applied',sourceId,targetId:target.id,amount:debtAdded,remaining:lifeDebt(target)});
+    write(battle,`${target.name} nhận ${debtAdded} Thế Chấp, tổng ${lifeDebt(target)} HP.`);
+  }
   clampBattleMp(battle.content,target);
   gearBuffApplied(battle,source,target,definition,gearIO);
   if (!silent) emitEvent(battle,{type:"status",sourceId,targetId:target.id,statusId,element:source?.element,beneficial:definition.kind!=="debuff"});
   if (!silent) write(battle, `${target.name}: ${definition.name}.`);
-  if (definition.kind==='debuff' && source && source.team!==target.team && living(target) && target.hp<target.stats.maxHp) {
+  if (definition.kind==='debuff' && source && source.team!==target.team && living(target) && (target.hp<target.stats.maxHp||lifeDebt(target)>0)) {
     for (const healer of battle.actors.filter(item=>living(item) && item.team===target.team && item.passive?.type==='debuff_received_heal')) {
-      if (target.hp>=target.stats.maxHp || !procAvailable(battle,target,'debuff_heal:'+healer.id)) continue;
+      if ((target.hp>=target.stats.maxHp && lifeDebt(target)<=0) || !procAvailable(battle,target,'debuff_heal:'+healer.id)) continue;
       const amount=supportAmount({multiplier:healer.passive.multiplier},stat(battle,healer,'magic'));
       if (amount<=0) continue;
       markProc(battle,target,'debuff_heal:'+healer.id);
@@ -1444,7 +1464,7 @@ function applyEffect(
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
       if (battle.content.statuses[effect.status].exposedElement) applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count});
       else for (let i = 0; i < count; i++) {
-        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers});
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio});
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }
     }

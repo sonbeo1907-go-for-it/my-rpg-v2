@@ -224,6 +224,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if(status.bypassedByBuffedAttacker)lines.push('Mỗi tầng giảm '+percent(status.modifiers.damageReduction)+' sát thương; người tấn công đang có buff bỏ qua lớp giảm này. Không tự tiêu tầng.');
       if(status.buffRejection)lines.push(`${status.name}: chặn ${effect.charges??status.buffRejection.charges} buff mới, rồi tiêu hiệu ứng; không xóa buff đang có. Dùng lại làm mới.`);
       if(status.consumeOnPaidSkill)lines.push(`Tăng ${percent(status.mpCostIncrease)} MP tiêu hao cho một lần trả MP thành công; không tiêu với chiêu 0 MP.`);
+      if(status.healingDebt)lines.push(`Thế Chấp ${percent(effect.debtMaxHpRatio??status.healingDebt.maxHpRatio)} HP tối đa, cộng nợ tối đa ${percent(status.healingDebt.capMaxHpRatio)}. Hồi HP trả nợ trước; phần dư mới hồi HP. Có thể giải, không tự hết theo lượt.`);
       if(status.healingReceivedReduction)lines.push(`Giảm ${percent(status.healingReceivedReduction)} mọi HP hồi nhận, gồm hút máu · ${duration}.`);
       if(status.shieldReceivedReduction)lines.push(`Giảm ${percent(status.shieldReceivedReduction)} khiên mới nhận; giữ khiên đang có · ${duration}.`);
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);

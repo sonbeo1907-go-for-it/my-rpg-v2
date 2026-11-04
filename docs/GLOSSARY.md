@@ -47,3 +47,5 @@ Tên → tác dụng chính → hệ số/stat scale → giá/đối tượng �
 Ưu tiên game thuần Việt dù logic/code/tài liệu kỹ thuật dùng tiếng Anh. Dịch theo ý nghĩa gameplay, không dịch từng từ máy móc. Thuật ngữ đã chốt dùng nhất quán: Phòng thủ, Liên kích, Phản công, Hồi chiêu, Lượt Thêm, Vòng Phụ, Trấn Phái, Truy Nã, Đấu Trường. Ví dụ damage amplification → khuếch đại sát thương; cooldown → hồi chiêu; stack → tầng; follow-up → Liên kích.
 
 Quy tắc này không buộc đổi tên riêng hoặc ký hiệu đã được duyệt, cũng không đổi ID/schema. Khi một từ có nghĩa khác nhau theo cơ chế, mô tả đúng tác dụng thay vì gộp vào cùng bản dịch. Lỗi kỹ thuật giữ chi tiết trong log chẩn đoán; người chơi nhận thông báo tiếng Việt dễ hiểu và thao tác khắc phục nếu có.
+
+- **Sinh Mệnh Thế Chấp**: khoản nợ hấp thụ hồi HP; trả hết nợ rồi phần dư mới hồi HP. Thanh toán không được tính là thực sự hồi HP. Xem [LIFE_MORTGAGE](LIFE_MORTGAGE.md).

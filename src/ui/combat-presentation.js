@@ -112,6 +112,7 @@ export function statusDetails(status, actor, battle, content) {
   const source = battle.actors.find(item => item.id === status.sourceId) ?? battle.sourceActors?.find(item => item.id === status.sourceId) ?? actor;
   const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, baseStatModifiers:status.baseStatModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
   const lines = [...presentation.facts, ...presentation.rules];
+  if(definition.healingDebt)lines.unshift(`Còn ${status.debtHp??0} HP Thế Chấp cần thanh toán. Thanh toán không kích hiệu ứng được hồi HP.`);
   if(status.innate)lines.push('Khiêu Khích do nội tại: luôn có ngoài Kế Hoạch B; không thể gỡ bằng xóa buff.');
   if (status.potency !== undefined) {
     const index = lines.findIndex(line => line.startsWith('Độc:'));
@@ -119,5 +120,5 @@ export function statusDetails(status, actor, battle, content) {
   }
   if (status.growth !== undefined) lines.push(`Đã tích ${status.growth} tầng nội tại đám mây.`);
   if (definition.exposedElement) lines.push(`Còn ${status.stacks} tầng Sơ hở.`);
-  return { source: source.name, duration: definition.buffRejection||definition.consumeOnPaidSkill ? `${status.charges} lần còn lại` : definition.damageUses ? status.charges+' lần gây sát thương còn lại' : definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.exposedElement ? 'Đến khi hết tầng hoặc bị giải' : definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
+  return { source: source.name, duration: definition.healingDebt ? 'Đến khi thanh toán hết hoặc bị giải' : definition.buffRejection||definition.consumeOnPaidSkill ? `${status.charges} lần còn lại` : definition.damageUses ? status.charges+' lần gây sát thương còn lại' : definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.exposedElement ? 'Đến khi hết tầng hoặc bị giải' : definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
 }
