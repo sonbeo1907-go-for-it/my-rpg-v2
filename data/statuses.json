@@ -1350,5 +1350,26 @@
     "taunt": true,
     "durationClock": "main_turn",
     "description": "Đòn đơn mục tiêu của địch buộc nhắm Brant; thời hạn chỉ giảm theo lượt chính của Brant."
+  },
+  {
+    "id": "ember_fervor",
+    "name": "Lần Này Chắc Chắn Thành Công!",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3,
+      "magic": 0.3
+    }
+  },
+  {
+    "id": "myonne_vip",
+    "name": "Ưu Đãi Riêng",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "weaknessMultiplier": 2,
+    "modifiers": {
+      "attack": 0.25,
+      "magic": 0.25
+    }
   }
 ]

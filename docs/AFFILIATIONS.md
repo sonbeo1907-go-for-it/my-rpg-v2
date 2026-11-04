@@ -14,7 +14,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | Slug | Nhãn | Số | Thành viên |
 | --- | --- | --- | --- |
 | `capital_knights` | Kị sĩ đoàn Thủ đô | 17 | Albeldo, Benard, Cerise, Charlemagnes, Gahallad, Gawain, Iwayn, Lanceveil, Lionel, Mandred, Percival, Rivia, Roland, Sandra, Sieg, Valery, Victorina |
-| `hunters_guild` | Hội Thợ Săn | 18 | Bennett, Brant, Chloe, Dain, Flammelapis, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Sylva, Takeshi, Tywin, Yumia |
+| `hunters_guild` | Hội Thợ Săn | 19 | Bennett, Brant, Chloe, Dain, Ember, Flammelapis, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Sylva, Takeshi, Tywin, Yumia |
 | `northern_village` | Làng Phía Bắc | 8 | Armie, Arthur, Astraea, Elaine, Fiona, Garrek, Kai, Tobin |
 | `magic_academy` | Học viện Ma pháp | 9 | Artesia, Auguste, Aurora, Drake, Finmel, Fran, Kreider, Lumine, Monica |
 | `house_valmont` | Gia tộc Valmont | 5 | Cedric, Heimdall, Lucien, Lyon, Seraphine |
@@ -28,9 +28,10 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `time_travelers` | Lữ khách thời không | 1 | Astoria (chỉ developer) |
 | `destiny_heralds` | Sứ giả Định Mệnh | 1 | Chelsea |
 | `wanderer` | Lãng khách | 1 | Mori |
+| `drageshelmfjall_merchants` | Hội Thương Nhân Drageshelmfjall | 1 | Myonne |
 | `northern_forest` | Khu rừng phương Bắc | 1 | Minerva |
 
-Toàn bộ 78/78 nhân vật đã có phe. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
+Toàn bộ 80/80 nhân vật đã có phe. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
 
 ## Vì sao có tên "Viện Nghiên Cứu Tự Xưng của Rhett"
 

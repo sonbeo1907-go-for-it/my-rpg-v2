@@ -1165,5 +1165,35 @@
       "brant.bulwark": 18,
       "brant.challenge": 22
     }
+  },
+  {
+    "id": "ember",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "ember.cheer"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "ember.mark": 20,
+      "ember.cheer": 24,
+      "ember.firebreak": 8
+    }
+  },
+  {
+    "id": "myonne",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "myonne.offer"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "myonne.clause": 18,
+      "myonne.offer": 24,
+      "myonne.collect": 10
+    }
   }
 ]

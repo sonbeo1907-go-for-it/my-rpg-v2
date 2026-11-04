@@ -3223,5 +3223,95 @@
       "description": "Khi thực sự nhận đòn thay đồng đội qua Che chắn, giảm thêm 20% sát thương của đòn đó.",
       "ratio": 0.2
     }
+  },
+  {
+    "id": "ember",
+    "name": "Ember",
+    "title": "Phù Thủy Của Những Sự Cố",
+    "affiliation": "hunters_guild",
+    "element": "fire",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "tags": [
+      "hunter_guild"
+    ],
+    "description": "Tiếp sức cho đội Hỏa, tạo Sơ Hở rồi vô tình làm ngọn lửa cháy thêm bằng Liên kích.",
+    "biography": "Cô phù thủy hậu đậu của Hội Thợ Săn luôn quả quyết rằng lần này mình đã đọc đúng thần chú. Những tai nạn nhỏ của Ember thường khiến cả bãi săn bốc cháy — may mà đồng đội biết tận dụng.",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 110,
+      "attack": 9,
+      "magic": 30,
+      "defense": 14,
+      "resistance": 22,
+      "speed": 25
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "ember.mark",
+      "ember.cheer",
+      "ember.firebreak"
+    ],
+    "passive": {
+      "type": "element_ally_followup",
+      "name": "Ơ, Nó Cháy Tiếp Kìa!",
+      "description": "Khi đồng đội Hỏa khác dùng kỹ năng chủ động gây sát thương Hỏa, Liên kích 100% MAG Hỏa vào mục tiêu còn sống đã nhận đòn. Mỗi vòng 1 lần.",
+      "element": "fire",
+      "followUpAbility": "ember.follow_up"
+    }
+  },
+  {
+    "id": "myonne",
+    "name": "Myonne",
+    "title": "Người Bán Những Điều Khoản Nhỏ",
+    "affiliation": "drageshelmfjall_merchants",
+    "element": "dark",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "tags": [
+      "drageshelmfjall_merchants"
+    ],
+    "description": "Chuẩn bị Sơ Hở Ám và ưu đãi Khai Phá Điểm Yếu cho một chủ lực, rồi thu xếp hoàn phí MP.",
+    "biography": "Thương nhân đến từ Drageshelmfjall, Myonne luôn nở nụ cười dễ mến khi trao hợp đồng. Ưu đãi của cô rất thật; những điều kiện viết nhỏ phía dưới cũng vậy.",
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 105,
+      "attack": 10,
+      "magic": 29,
+      "defense": 15,
+      "resistance": 21,
+      "speed": 24
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "scalingStat": "magic",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "myonne.clause",
+      "myonne.offer",
+      "myonne.collect"
+    ],
+    "passive": {
+      "type": "element_ally_weakness_mp",
+      "name": "Khách Quen Được Hoàn Phí",
+      "description": "Khi đồng đội Ám khác dùng kỹ năng chủ động gây sát thương Ám trúng điểm yếu, người đó hồi 3 MP. Mỗi vòng 1 lần.",
+      "element": "dark",
+      "amount": 3
+    }
   }
 ]

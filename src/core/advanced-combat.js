@@ -14,7 +14,14 @@ export function validateAdvancedCombat(content){
   if(p?.type==='mode_support_charge'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||!a.resources?.[p.resource]||p.amount!==1))fail(a.id+': invalid mode support charge');
   if(p?.type==='enemy_shield_mode'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||a.combatModes[p.modeId].lifetime!=='turns'||!Number.isInteger(a.combatModes[p.modeId].durationTurns)||a.combatModes[p.modeId].durationTurns<1||a.combatModes[p.modeId].durationTurns>3))fail(a.id+': invalid enemy shield mode');
   if(p?.type==='heal_mp_regen'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Number.isInteger(p.cap)||p.cap<1||p.cap>99))fail(a.id+': invalid heal MP regeneration');
-  if(p?.type==='cover_guard'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>0.5))fail(a.id+': invalid cover guard');
+  if(['element_ally_followup','element_ally_weakness_mp'].includes(p?.type)){
+   if(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon'].includes(p.element))fail(a.id+': invalid elemental support');
+   if(p.type==='element_ally_followup'){
+    const skill=content.abilities[p.followUpAbility];
+    if(!skill||skill.activation!=='passive'||skill.target!=='enemy'||skill.cost||skill.cooldown||skill.effects.some(e=>e.type!=='damage'||e.element!==p.element)||a.abilities?.includes(p.followUpAbility))fail(a.id+': invalid elemental follow-up');
+   }else if(!Number.isInteger(p.amount)||p.amount<1||p.amount>20)fail(a.id+': invalid elemental refund');
+  }
+  if(p?.type==='cover_guard' &&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>0.5))fail(a.id+': invalid cover guard');
  }
  for(const s of Object.values(content.abilities)){
   if(s.initialCooldown!==undefined&&(!Number.isInteger(s.initialCooldown)||s.initialCooldown<1||s.initialCooldown>10))fail(s.id+': invalid initial cooldown');

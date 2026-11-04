@@ -657,6 +657,7 @@ export function targetsFor(battle, actor, skill) {
       living(target) &&
       (allies ? target.team === actor.team : target.team !== actor.team),
   );
+  if(skill.targetElement)targets=targets.filter(target=>target.element===skill.targetElement);
   if (skill.requiresTargetStatus) targets = targets.filter(target => target.statuses.some(status => status.id === skill.requiresTargetStatus && status.stacks > 0));
   if (skill.target === "enemy") {
     const taunting = targets.filter((target) => flag(battle, target, "taunt"));
@@ -674,6 +675,7 @@ export function selectedTargets(battle,actor,skill,targetId) {
 }
 
 export function abilityAvailability(battle, actor, skill) {
+  if(actor&&skill.targetElement&&!targetsFor(battle,actor,skill).length)return {ok:false,reason:"Không có đồng đội đúng hệ để nhận kỹ năng."};
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
   if(skill.requiresHpBelow!==undefined && actor.hp/actor.stats.maxHp>=skill.requiresHpBelow) return {ok:false,reason:"HP chưa đủ thấp để dùng chiêu này."};
@@ -754,6 +756,38 @@ function coverTarget(battle, target, area = false, reaction = false) {
     if (guardian) return source;
   }
   return target;
+}
+
+// Element specialists react once after a complete active cast, after its exposure is settled.
+function dispelBuffs(battle,actor,target,count,all=false){
+ const buffs=target.statuses.filter(status=>battle.content.statuses[status.id].kind==='buff');
+ const removed=all?buffs:buffs.slice(0,count);
+ if(removed.length){target.statuses=target.statuses.filter(status=>!removed.includes(status));clampBattleMp(battle.content,target);emitEvent(battle,{type:'dispel',sourceId:actor.id,targetId:target.id,amount:removed.length});}
+ write(battle,target.name+': bị xóa '+removed.length+' hiệu ứng có lợi.');
+}
+function triggerElementSupports(battle,source,skill,context){
+ if(!context.dealtDirectDamage||context.reaction||context.automatic||skill.activation==='passive'||skill.id.startsWith('$'))return;
+ for(const owner of battle.actors){
+  const p=owner.passive;
+  if(!living(owner)||owner.team!==source.team||owner.id===source.id||p?.element!==source.element)continue;
+  const impacts=context.gearImpacts.filter(impact=>impact.element===p.element);
+  if(p.type==='element_ally_weakness_mp'){
+   if(!living(source)||source.mp>=battleMaxMp(battle.content,source)||!impacts.some(impact=>impact.weakness)||!procAvailable(battle,owner,p.type))continue;
+   markProc(battle,owner,p.type);announcePassive(battle,owner,source.id);
+   write(battle,owner.name+' kích hoạt '+p.name+'.');gainResource(battle,source,'mp',p.amount,owner.id);
+  }
+  if(p.type!=='element_ally_followup'||!procAvailable(battle,owner,p.type))continue;
+  const targets=impacts.map(impact=>impact.target).filter(target=>canTriggerFollowUp(owner,source,target));
+  const target=targets.find(target=>target.id===context.primaryTargetId)??targets[0];
+  if(!target||!reservePvpAutomatic(battle,owner,modeIO))continue;
+  markProc(battle,owner,p.type);announcePassive(battle,owner,target.id);
+  const ability=battle.content.abilities[p.followUpAbility];
+  const reactionContext={...attackContext(battle,owner),pvpRegistered:true,skill:ability,skillId:ability.id,reaction:true,reactionKind:'follow_up',primaryTargetId:target.id};
+  write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+ability.name+'.');
+  emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:target.id,abilityId:ability.id});
+  for(const effect of ability.effects)applyEffect(battle,owner,[target],effect,0,false,reactionContext);
+  finishAttackContext(battle,owner,reactionContext);
+ }
 }
 
 function triggerMagicFollowups(battle, attacker, target) {
@@ -1296,6 +1330,7 @@ function resolveHit(
   } else if (living(target) && effect.damageType !== "magical" && vitalityDamage + absorbed > 0 && effect.onHitStatus) {
     applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:effect.onHitStatus.stacks??1});
   }
+  if(living(target)&&vitalityDamage+absorbed>0&&effect.onHitDispelCount)dispelBuffs(battle,attacker,target,effect.onHitDispelCount);
   if (living(target) && attacker.team!==target.team && vitalityDamage+absorbed>0 && attacker.passive?.type==="attack_status") {
     if (applyStatus(battle,target,attacker.passive.statusId,attacker.passive.duration,attacker.id)) announcePassive(battle,attacker,target.id);
   }
@@ -1559,10 +1594,7 @@ function applyEffect(
       }
     }
     if (effect.type === "dispel") {
-      const buffs=target.statuses.filter(status=>battle.content.statuses[status.id].kind==="buff");
-      const removed=effect.all?buffs:buffs.slice(0,effect.count);
-      if(removed.length){target.statuses=target.statuses.filter(status=>!removed.includes(status));emitEvent(battle,{type:"dispel",sourceId:actor.id,targetId:target.id,amount:removed.length});}
-      write(battle,target.name+": bị xóa "+removed.length+" hiệu ứng có lợi.");
+      dispelBuffs(battle,actor,target,effect.count,effect.all);
     }
     if (effect.type === "cleanse") {
       if (target.statuses.some(status=>battle.content.statuses[status.id].kind==="debuff")) emitEvent(battle,{type:"cleanse",sourceId:actor.id,targetId:target.id});
@@ -1816,6 +1848,7 @@ function resolveAction(
   gearAfterAction(battle,actor,skill,gearIO);
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
   if (offensive) finishAttackContext(battle, actor, actionContext);
+  triggerElementSupports(battle,actor,skill,actionContext);
   triggerOwnModeFollowup(battle,actor,skill,actionContext);
   triggerPowderFollowups(battle,actor,skill,actionContext);
   battle.actionCount += 1;

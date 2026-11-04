@@ -9765,5 +9765,165 @@
     "growthProfile": "fixed",
     "rankable": false,
     "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng."
+  },
+  {
+    "id": "ember.mark",
+    "name": "Khoan Đã, Chỗ Đó Dễ Cháy!",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "exposure_fire",
+        "stacks": 3
+      }
+    ],
+    "skillLineId": "ember.mark",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "description": "Gắn 3 Sơ Hở Hỏa cho một địch. Khóa kỹ năng trong hai vòng sau khi dùng.",
+    "cooldown": 2,
+    "fixedReason": "Hiệu quả tiện ích cố định."
+  },
+  {
+    "id": "ember.cheer",
+    "name": "Lần Này Chắc Chắn Thành Công!",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "ember_fervor",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "ember.cheer",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "targetElement": "fire",
+    "description": "Tăng 30% ATK và MAG cho mọi đồng đội Hỏa trong 3 lượt chính.",
+    "cooldown": 2,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "ember.firebreak",
+    "name": "Chữa Cháy Theo Nghĩa Đen",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 1.6
+      }
+    ],
+    "skillLineId": "ember.firebreak",
+    "growthProfile": "damage",
+    "rankable": true,
+    "description": "Gây 160% MAG phép Hỏa cho một địch.",
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "ember.follow_up",
+    "name": "Lửa Bén Ngoài Ý Muốn",
+    "target": "enemy",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 1
+      }
+    ],
+    "skillLineId": "ember.follow_up",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Liên kích cố định từ nội tại.",
+    "description": "Liên kích 100% MAG phép Hỏa; tiêu Sơ Hở theo luật chung."
+  },
+  {
+    "id": "myonne.clause",
+    "name": "Điều Khoản Chữ Nhỏ",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "exposure_dark",
+        "stacks": 2
+      }
+    ],
+    "skillLineId": "myonne.clause",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "description": "Gắn 2 Sơ Hở Ám cho một địch.",
+    "cooldown": 1,
+    "fixedReason": "Hiệu quả tiện ích cố định."
+  },
+  {
+    "id": "myonne.offer",
+    "name": "Ưu Đãi Dành Riêng Cho Ngài",
+    "target": "ally",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "myonne_vip",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "myonne.offer",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "targetElement": "dark",
+    "description": "Một đồng đội Ám nhận 25% ATK, 25% MAG và Khai Phá Điểm Yếu trong 2 lượt chính.",
+    "cooldown": 2,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "myonne.collect",
+    "name": "Xin Đọc Kỹ Trước Khi Ký",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "scalingStat": "magic",
+        "multiplier": 1.5,
+        "onHitDispelCount": 1
+      }
+    ],
+    "skillLineId": "myonne.collect",
+    "growthProfile": "damage",
+    "rankable": true,
+    "description": "Gây 150% MAG phép Ám và xóa 1 buff nếu gây sát thương HP hoặc khiên.",
+    "cooldown": 2,
+    "growthGroups": [
+      "damage"
+    ]
   }
 ]

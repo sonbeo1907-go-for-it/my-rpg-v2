@@ -195,6 +195,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (effect.durationRounds) lines.push('Khiên tồn tại '+effect.durationRounds+' vòng, tính cả vòng thi triển; hết thời hạn không kích hoạt hiệu ứng vỡ khiên.');
       if (effect.type === 'heal' && effect.emergency) lines.push(`Khi mục tiêu còn ≤${percent(EMERGENCY_HP_THRESHOLD)} HP: lượng hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${number(supportAmount(effect, value, true))} HP${perPerson}.`);
     }
+    if(effect.onHitDispelCount)lines.push('Nếu gây sát thương HP hoặc khiên: xóa '+effect.onHitDispelCount+' buff trên mục tiêu trúng đòn.');
     if (effect.type === 'revive') {
       const hp=percent(effect.hpRatio ?? 1), mp=percent(effect.mpRatio ?? 1);
       lines.push(`Hồi sinh toàn đội: người đã gục trở lại với ${hp} HP tối đa; cả đội được hồi về ${hp} HP và ${mp} MP tối đa.`);

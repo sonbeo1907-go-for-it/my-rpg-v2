@@ -7,6 +7,7 @@ export const GEAR_NAMES = { t1: 'Trang bị cấp thấp', t2: 'Trang bị cấp
 export const AFFILIATION_LABELS = {
   capital_knights: 'Kị sĩ đoàn Thủ đô',
   hunters_guild: 'Hội Thợ Săn',
+  drageshelmfjall_merchants: 'Hội Thương Nhân Drageshelmfjall',
   hunters_guild_magic_academy: 'Hội Thợ Săn / Học viện Ma pháp',
   magic_academy: 'Học viện Ma pháp',
   house_valmont: 'Gia tộc Valmont',
