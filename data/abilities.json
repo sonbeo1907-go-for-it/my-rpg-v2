@@ -9708,10 +9708,11 @@
         "mpRatio": 1
       }
     ],
-    "description": "Hồi sinh toàn đội về đầy HP và hồi đầy MP; hồi chiêu 10 vòng, giảm 1 vòng mỗi Rank.",
+    "description": "Hồi sinh toàn đội về đầy HP và hồi đầy MP; hồi chiêu 10 vòng, không có cấp nâng.",
     "skillLineId": "amaryllis.litany",
-    "growthProfile": "cooldown",
-    "rankable": true
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng hồi sinh cố định; hồi chiêu 10 vòng và không có cấp nâng."
   },
   {
     "id": "brant.bulwark",

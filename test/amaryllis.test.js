@@ -113,16 +113,18 @@ test('Litany revives the team full, pays the mortgage but keeps Deep Wound',()=>
  assert.equal(battle.extraTurnGrants.size,0,'hồi sinh không cấp Lượt Thêm');
 });
 
-test('Litany cooldown shrinks with skill rank instead of scaling its heal',()=>{
+test('Litany is a fixed skill: no rank upgrade and the 10-round cooldown never changes',()=>{
  const skill=base.abilities['amaryllis.litany'];
- assert.equal(skill.growthProfile,'cooldown');
+ assert.equal(skill.growthProfile,'fixed');
+ assert.equal(skill.rankable,false);
+ assert.ok(skill.fixedReason,'kỹ năng cố định phải có lý do');
  assert.equal(skill.cooldown,10);
- const atRank=rank=>resolveRankedAbility(base,{...base.characters.amaryllis,skillRanks:{'amaryllis.litany':rank}},skill,rank).cooldown;
- assert.equal(atRank(1),10);
- assert.equal(atRank(2),9);
- assert.equal(atRank(5),6);
- const rank5=resolveRankedAbility(base,{...base.characters.amaryllis,skillRanks:{'amaryllis.litany':5}},skill,5);
- assert.deepEqual(rank5.effects,[{type:'revive',hpRatio:1,mpRatio:1}],'hiệu lực hồi sinh không đổi theo Rank');
+ for(const rank of [1,3,5]){
+  const resolved=resolveRankedAbility(base,{...base.characters.amaryllis,skillRanks:{'amaryllis.litany':rank}},skill,rank);
+  assert.equal(resolved.cooldown,10,'không được giảm hồi chiêu theo Rank');
+  assert.equal(resolved.skillRank,1,'kỹ năng cố định luôn ở Rank 1');
+  assert.deepEqual(resolved.effects,[{type:'revive',hpRatio:1,mpRatio:1}]);
+ }
 });
 
 test('cái chết chỉ xóa Kế Ước cùng nợ HP; các buff/debuff khác vẫn nằm trên người gục',()=>{

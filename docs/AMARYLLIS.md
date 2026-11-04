@@ -22,7 +22,7 @@ MP 150 đủ để duy trì heal liên tục; DEF thấp nên cô cần được
 | Vòng Tay Che Chở `amaryllis.blessing` | 16 / không CD | Hồi toàn đội 80% MAG mỗi người |
 | Kinh Cầu Hồi Sinh `amaryllis.litany` | 20 / CD10 | Hồi sinh toàn đội về 100% HP và hồi toàn đội 100% MP |
 
-Hai kỹ năng hồi máu dùng `growthProfile: heal` — Rank ×1,1 mỗi cấp. Kinh Cầu dùng `growthProfile: cooldown`: Rank **chỉ giảm hồi chiêu** (10 → 9 → 8 → 7 → 6 vòng), hiệu lực hồi sinh giữ nguyên; quy tắc chung ở [SKILL_RANKS](SKILL_RANKS.md).
+Hai kỹ năng hồi máu dùng `growthProfile: heal` — Rank ×1,1 mỗi cấp. **Kinh Cầu là kỹ năng cố định**: không có cấp nâng, hồi chiêu giữ nguyên **10 vòng**; việc nâng Rank đã bị bỏ theo quyết định 04/11/2026. Quy tắc chung ở [SKILL_RANKS](SKILL_RANKS.md).
 
 ## Nội tại · Đèn Dầu Không Tắt
 
@@ -63,4 +63,4 @@ Engine phát event `revive` cho từng người; timeline và `combat-effects` v
 
 ## Kiểm chứng
 
-`test/amaryllis.test.js`: định danh/chỉ số, heal 180%/80% theo MAG, không CD, trần 10 MP và trạng thái MP đầy, MP vẫn hồi khi mục tiêu đầy HP, hồi sinh toàn đội + xóa Kế Ước/Vết Thương Sâu + hồi chiêu, Rank giảm CD và không đổi hiệu lực, pool Chiêu Mộ. Ngoài ra chạy `validate`, typecheck và toàn bộ unit test.
+`test/amaryllis.test.js`: định danh/chỉ số, heal 180%/80% theo MAG, không CD, trần 10 MP và trạng thái MP đầy, MP vẫn hồi khi mục tiêu đầy HP, hồi sinh toàn đội + xóa Kế Ước/giữ Vết Thương Sâu + hồi chiêu, Kinh Cầu cố định không nâng Rank và CD luôn 10, sống/chết không xóa buff-debuff, pool Chiêu Mộ. Ngoài ra chạy `validate`, typecheck và toàn bộ unit test.

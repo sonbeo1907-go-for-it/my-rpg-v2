@@ -1,6 +1,6 @@
 // Rank formulas are shared by persistence, combat and previews.
-export const DEFAULT_SKILL_RULES=Object.freeze({maxRank:5,characterLevelRequired:[1,15,30,40,50],coins:{base:400,multiplier:2},coefficientGrowthPerRank:1.1,statBuffGrowthPerRank:1.05,outputBuffMpMultiplierPerRank:.9,outputBuffMpCostFloorRatio:.7,cooldownReductionPerRank:1});
-export const SKILL_PROFILES=['basic','damage','heal','shield','stat_buff','output_buff_mp','cooldown','fixed'];
+export const DEFAULT_SKILL_RULES=Object.freeze({maxRank:5,characterLevelRequired:[1,15,30,40,50],coins:{base:400,multiplier:2},coefficientGrowthPerRank:1.1,statBuffGrowthPerRank:1.05,outputBuffMpMultiplierPerRank:.9,outputBuffMpCostFloorRatio:.7});
+export const SKILL_PROFILES=['basic','damage','heal','shield','stat_buff','output_buff_mp','fixed'];
 export const GROWING_STATS=['attack','magic','defense','resistance','maxMp','maxHp'];
 export const OUTPUT_BUFF_STATS=['damageBonus','attackMultiplier','damageVsShielded'];
 // A skill rank improves every eligible output group. Utility and fixed sources stay authored.
@@ -26,8 +26,6 @@ export const skillUpgradeCost=(rank,rules=DEFAULT_SKILL_RULES)=>rank>=1&&rank<ru
 export const coefficientFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.coefficientGrowthPerRank**(rank-1);
 export const statBuffFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.statBuffGrowthPerRank**(rank-1);
 export const outputMpFactor=(rank,rules=DEFAULT_SKILL_RULES)=>Math.max(rules.outputBuffMpCostFloorRatio,rules.outputBuffMpMultiplierPerRank**(rank-1));
-// Utility skills improve by cooling down faster; the effect itself stays authored.
-export const cooldownForRank=(skill,rank,rules=DEFAULT_SKILL_RULES)=>Math.max(1,(skill.cooldown??1)-(rank-1)*(rules.cooldownReductionPerRank??1));
 export const skillLineId=skill=>skill.id==='$attack'?'basic':skill.skillLineId??skill.id;
 export const getActorSkillRank=(actor,skill)=>(actor?.team==='enemy'&&actor?.actorKind!=='character')?1:actor?.skillRanks?.[skillLineId(skill)]??1;
 export const getSkillRank=(campaign,id,line)=>campaign.characters[id]?.skillRanks?.[line]??1;
@@ -69,7 +67,6 @@ export function validateSkillProgression(content){
   if(['damage','heal','shield'].includes(skill.growthProfile)&&!skill.effects.some(effect=>effect.type===skill.growthProfile))errors.push(skill.id+': profile has no growing effect');
   if(skill.growthProfile==='stat_buff'&&!statBuff&&skill.growthAdapter!=='mode_stat_buff')errors.push(skill.id+': no eligible positive stat buff');
   if(skill.growthProfile==='output_buff_mp'&&(!(skill.cost?.mp>0)||!outputBuff||Math.ceil(skill.cost.mp*outputMpFactor(5))>=skill.cost.mp))errors.push(skill.id+': no MP growth');
-  if(skill.growthProfile==='cooldown'&&(!Number.isInteger(skill.cooldown)||skill.cooldown<2||skill.cooldown>20))errors.push(skill.id+': cooldown profile requires a real cooldown');
   if(skill.growthAdapter!==undefined&&!['mode_stat_buff','mode_command'].includes(skill.growthAdapter))errors.push(skill.id+': unknown growth adapter');
   if(skill.growthAdapter==='mode_stat_buff'&&(skill.growthProfile!=='stat_buff'||!skill.effects.some(e=>e.type==='enter_mode')))errors.push(skill.id+': invalid mode stat adapter');
   if(skill.id.startsWith('arthur.ogres_bane')&&(skill.growthProfile!=='fixed'||skill.fixedByStory!==true||skill.rankable!==false))errors.push(skill.id+': Ogre Bane must remain story fixed');
@@ -77,7 +74,7 @@ export function validateSkillProgression(content){
   const groups=skillGrowthGroups(content,skill);
   if(skill.growthGroups!==undefined&&(!Array.isArray(skill.growthGroups)||JSON.stringify(skill.growthGroups)!==JSON.stringify(groups)))errors.push(skill.id+': growth groups must include every eligible effect');
   if(groups.length>1&&!Array.isArray(skill.growthGroups))errors.push(skill.id+': mixed skill requires all growth groups');
-  if(skill.growthProfile!=='fixed'&&skill.growthProfile!=='cooldown'&&!groups.length)errors.push(skill.id+': no eligible growth group');
+  if(skill.growthProfile!=='fixed'&&!groups.length)errors.push(skill.id+': no eligible growth group');
  }
  for(const upgrade of Object.values(content.upgrades??{}))for(const change of upgrade.changes)if(change.type==='replace_ability'){
   const a=content.abilities[change.from],b=content.abilities[change.to];

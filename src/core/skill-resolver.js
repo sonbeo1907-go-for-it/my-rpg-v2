@@ -1,6 +1,6 @@
 import {formationAbility} from './advanced-combat.js';
 import {applySpecialSkillModifiers} from './exclusive-specials.js';
-import {skillRules,skillLineId,getActorSkillRank,coefficientFactor,statBuffFactor,outputMpFactor,cooldownForRank,GROWING_STATS,skillGrowthGroups} from './skill-rules.js';
+import {skillRules,skillLineId,getActorSkillRank,coefficientFactor,statBuffFactor,outputMpFactor,GROWING_STATS,skillGrowthGroups} from './skill-rules.js';
 
 export function rankedModifiers(modifiers,factor){return Object.fromEntries(Object.entries(modifiers??{}).map(([key,n])=>[key,GROWING_STATS.includes(key)&&n>0?n*factor:n]));}
 export function resolveRankedAbility(content,actor,ability,rankOverride){
@@ -14,7 +14,6 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
  const groups=profile==='fixed'?[]:skillGrowthGroups(content,source);
  const rules=actor?.skillProgression??skillRules(content),f10=coefficientFactor(rank,rules),f05=statBuffFactor(rank,rules);
  const resolved={...source,rankSource,rankFormationSlot:(actor?.formationSlot??0)%2,rankOwnerId:actor?.id,rankTeam:actor?.team,skillRank:rank,skillLineId:skillLineId(source),growthProfile:profile,growthGroups:groups,rankResolved:true,rankMpMultiplier:groups.includes('output_buff_mp')?outputMpFactor(rank,rules):1};
- if(profile==='cooldown')resolved.cooldown=cooldownForRank(source,rank,rules);
  resolved.effects=source.effects.map(effect=>{
   let next={...effect};
   if((groups.includes('basic')||groups.includes('damage'))&&effect.type==='damage')next.rankDamageFactor=f10;
