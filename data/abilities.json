@@ -9701,6 +9701,7 @@
       "mp": 20
     },
     "cooldown": 10,
+    "initialCooldown": 6,
     "effects": [
       {
         "type": "revive",
@@ -9708,7 +9709,7 @@
         "mpRatio": 1
       }
     ],
-    "description": "Hồi sinh toàn đội về đầy HP và hồi đầy MP; hồi chiêu 10 vòng, không có cấp nâng.",
+    "description": "Hồi sinh toàn đội về đầy HP và hồi đầy MP; vào trận đã hồi chiêu 6 vòng, sau đó hồi chiêu 10 vòng và không có cấp nâng.",
     "skillLineId": "amaryllis.litany",
     "growthProfile": "fixed",
     "rankable": false,

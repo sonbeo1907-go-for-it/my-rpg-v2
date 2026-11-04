@@ -29,6 +29,7 @@ Buff damage amp chỉ mức lớn nhất đủ điều kiện có hiệu lực; 
 - Hồi sinh dùng effect `revive` **chỉ** trên `all_allies`, `hpRatio`/`mpRatio` trong (0,1]. Người đã gục trở lại đầy HP/MP, được làm sạch status **trừ Vết Thương Sâu**; không chen vào lượt đang diễn ra; event `revive` dùng VFX chung. Trên người còn sống, hồi sinh xóa status có `healingDebt` (Kế Ước Thế Chấp) và trả sạch nợ HP nhưng **giữ `healingReceivedReduction`** (Vết Thương Sâu) cùng debuff khác. Lượng hồi của hồi sinh luôn đặt về 100% HP, đủ vượt Vết Thương Sâu cho lần hồi đó.
 - Che chắn và Khiêu Khích đi cùng nhau phải dùng **cùng clock** (`main_turn`) để không lệch ở Vòng Phụ; Khiêu Khích riêng của Brant là `brant_taunt`, không dùng status `taunt` chung.
 - `growthProfile: cooldown` (giảm hồi chiêu theo Rank) **đã gỡ** cùng với việc bỏ nâng Rank của Kinh Cầu Hồi Sinh; không thêm lại nếu chưa có quyết định thiết kế mới.
+- Kỹ năng cần khóa đầu trận dùng `initialCooldown` (1–10). Engine lưu +1 và giảm ở đầu mỗi Vòng Chính: `initialCooldown: 6` = không dùng được trong vòng 1–6, mở từ vòng 7 (giống `aldric.reservoir`); giá trị này độc lập với `cooldown` sau khi dùng.
 - Nội tại hồi máu → MP dùng `heal_mp_regen` (`ratio`, `cap` **mỗi người được hồi**); tính trên lượng hồi chủ sở hữu tạo ra, trước giảm hồi/overheal của người nhận; heal AoE tính theo đầu người, không gộp tổng.
 
 ## Encounter, nhạc và trình bày

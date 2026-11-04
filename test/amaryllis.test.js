@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
-import {createBattle,executeAction,getActor} from '../src/core/battle.js';
+import {createBattle,executeAction,activeActor,getActor,abilityAvailability} from '../src/core/battle.js';
 import {resolveRankedAbility} from '../src/core/skill-resolver.js';
 import {validateContent} from '../src/core/content.js';
 import {seededRandom} from '../src/core/random.js';
@@ -93,6 +93,7 @@ test('Litany revives the team full, pays the mortgage but keeps Deep Wound',()=>
  arthur.statuses.push({id:'shield_fracture',remaining:3,stacks:1},{id:'life_mortgage',remaining:null,stacks:1},{id:'deep_wound',remaining:2,stacks:1});
  iris.statuses.push({id:'shield_fracture',remaining:3,stacks:1},{id:'life_mortgage',remaining:null,stacks:1},{id:'deep_wound',remaining:2,stacks:1});
  battle.queue=[am.id];battle.cursor=0;battle.phase='main';
+ am.cooldowns['amaryllis.litany']=0;
  executeAction(battle,{actorId:am.id,abilityId:'amaryllis.litany',targetId:am.id});
  for(const ally of [arthur,iris,takeshi,am]){
   assert.equal(ally.hp,ally.stats.maxHp,ally.name+' phải hồi đầy HP dù còn Vết Thương Sâu');
@@ -119,12 +120,27 @@ test('Litany is a fixed skill: no rank upgrade and the 10-round cooldown never c
  assert.equal(skill.rankable,false);
  assert.ok(skill.fixedReason,'kỹ năng cố định phải có lý do');
  assert.equal(skill.cooldown,10);
+ assert.equal(skill.initialCooldown,6,'vào trận đã hồi chiêu 6 vòng');
  for(const rank of [1,3,5]){
   const resolved=resolveRankedAbility(base,{...base.characters.amaryllis,skillRanks:{'amaryllis.litany':rank}},skill,rank);
   assert.equal(resolved.cooldown,10,'không được giảm hồi chiêu theo Rank');
   assert.equal(resolved.skillRank,1,'kỹ năng cố định luôn ở Rank 1');
   assert.deepEqual(resolved.effects,[{type:'revive',hpRatio:1,mpRatio:1}]);
  }
+});
+
+test('Kinh Cầu khóa 6 vòng đầu trận và sẵn sàng từ vòng 7 như Aldric',()=>{
+ const skill=base.abilities['amaryllis.litany'];
+ const {battle,am}=fixture();
+ for(const foe of battle.actors.filter(actor=>actor.team==='enemy')){foe.abilities=['$defend'];foe.stats.attack=0;}
+ const step=()=>{const actor=activeActor(battle);executeAction(battle,{actorId:actor.id,abilityId:'$defend',targetId:actor.id});};
+ assert.equal(abilityAvailability(battle,am,skill).ok,false,'vòng 1 phải đang khóa');
+ while(battle.round<6){assert.ok(!battle.outcome,'trận kết thúc ngoài dự kiến');step();}
+ assert.equal(battle.round,6);
+ assert.equal(abilityAvailability(battle,am,skill).ok,false,'vòng 6 vẫn còn 1 vòng hồi chiêu');
+ while(battle.round<7){assert.ok(!battle.outcome,'trận kết thúc ngoài dự kiến');step();}
+ assert.equal(battle.round,7);
+ assert.equal(abilityAvailability(battle,am,skill).ok,true,'vòng 7 mới mở khóa');
 });
 
 test('cái chết chỉ xóa Kế Ước cùng nợ HP; các buff/debuff khác vẫn nằm trên người gục',()=>{
@@ -157,6 +173,7 @@ test('cái chết chỉ xóa Kế Ước cùng nợ HP; các buff/debuff khác v
  assert.ok(!afterDeath.includes('life_mortgage'),'Kế Ước bị xóa khi chết');
  for(const id of ['deep_wound','twinstar_guidance','taunt'])assert.ok(afterDeath.includes(id),id+' phải còn trên người gục');
  am.mp=999;
+ am.cooldowns['amaryllis.litany']=0;
  cast(battle,am.id,'amaryllis.litany',am.id);
  assert.equal(arthur.hp,arthur.stats.maxHp,'hồi sinh đưa Arthur về đầy HP');
  assert.deepEqual(arthur.statuses.map(status=>status.id),['deep_wound'],'hồi sinh chỉ giữ Vết Thương Sâu');
