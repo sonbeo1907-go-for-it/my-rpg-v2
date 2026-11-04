@@ -44,7 +44,7 @@ Sơ hở tài nguyên riêng của Takeshi và Sơ Hở nguyên tố là hai cơ
 - Hạn mức theo round dùng chung cả pha chính/phụ, không reset khi đổi phase boss. Cần reserve trước khi tạo tài nguyên để tránh vòng lặp; Arena còn loopGuards riêng.
 - Nội tại `enemy_support_counter` (Cerise): địch dùng kỹ năng chủ động **không có hiệu ứng sát thương** (bỏ qua Phòng thủ và kỹ năng tự động) thì chủ nội tại giải toàn bộ debuff của bản thân rồi phản đòn. Hạn mức tính theo vòng qua `cooldownRounds`, dùng chung Vòng Chính/Phụ, và không đệ quy từ phản ứng.
 - Đội hình bốn vị trí cố định, không nén ô trống/người gục. Kề đồng đội nối 1↔4 khi skill khai báo; lan địch không nối vòng. Tag/phe quyết định gia tộc, không suy từ tên.
-- Bằng Chứng và Thuốc Súng tách theo đội. Có bất kỳ nhân vật khai báo tài nguyên là mở pool, không cần “nhân vật trung tâm” còn sống. Bằng Chứng đầy 6 vẫn phát event tạo để nội tại nhận biết; không thực cộng quá 6.
+- Bằng Chứng, Thuốc Súng và Hồn Kiếm tách theo đội. Có bất kỳ nhân vật khai báo tài nguyên là mở pool, không cần “nhân vật trung tâm” còn sống. Bằng Chứng đầy 6 vẫn phát event tạo để nội tại nhận biết; không thực cộng quá 6.
 
 ## Carry-over: không dùng một luật cho tất cả
 
@@ -64,3 +64,5 @@ Magnamut: kết thúc ở resource 0 tại đầu lượt/ cuối vòng; đầu 
 VFX đọc event, không sửa combat. Phân biệt nguồn đang act, hit, status badge và mode. VFX dấu Phong Ấn biến mất sau cast; debuff vẫn tồn tại. Cleanup timer/portal khi hết timeline, đổi session/unmount; reduced-motion không đổi kết quả.
 
 Save app v7, không xóa key legacy. Quest/dungeon thường không lưu battle RNG/queue; Chronicle có adapter checkpoint riêng, rollback nếu persist lỗi. Mọi thưởng, gear, Rank, mở khóa, quota đi qua persist trước publish. Failed-save retry không reroll; UI không tự cấp/nhận lại do mount/replay/skip animation. Test bằng save riêng.
+
+Hồn Kiếm: hai hạn mức tăng tự nhiên theo đội/vòng, dùng chung main/extra; không tính basic/Defend/phản ứng. Tsukiha dùng nguyên tố nhân vật Hỏa và hit Hỏa + Hồn Kiếm: điểm yếu chỉ một hệ số, một tầng Sơ Hở/cast. Xem [SWORD_SOUL](SWORD_SOUL.md).

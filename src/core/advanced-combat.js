@@ -8,7 +8,7 @@ export function validateAdvancedCombat(content){
  const errors=[],fail=m=>errors.push(m);
  for(const a of [...Object.values(content.characters),...Object.values(content.enemies)]){const p=a.passive;
   if(p?.type==='received_damage_counter'&&(!p.name||!p.description||!Number.isFinite(p.minimum)||p.minimum<=0||!Number.isFinite(p.maximum)||p.maximum<p.minimum||p.maximum>3||content.abilities[p.counterAbility]?.activation!=='passive'||content.abilities[p.counterAbility]?.target!=='enemy'||content.abilities[p.counterAbility]?.cost||content.abilities[p.counterAbility]?.cooldown||content.abilities[p.counterAbility]?.effects.some(e=>e.type!=='damage'||e.scalingStat!=='maxHp')))fail(a.id+': invalid received damage counter');
-  if(p?.type==='element_ally_charge'&&(!p.name||!p.description||!a.resources?.[p.resource]||!['plain','fire','water','earth','wind','thunder','light','dark','moon'].includes(p.element)||p.amount!==1||p.elementMatch!==undefined&&!['same','different'].includes(p.elementMatch)||p.elementSource!==undefined&&!['actor','damage'].includes(p.elementSource)))fail(a.id+': invalid elemental ally charge');
+  if(p?.type==='element_ally_charge'&&(!p.name||!p.description||!a.resources?.[p.resource]||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||p.amount!==1||p.elementMatch!==undefined&&!['same','different'].includes(p.elementMatch)||p.elementSource!==undefined&&!['actor','damage'].includes(p.elementSource)))fail(a.id+': invalid elemental ally charge');
   if(p?.type==='mp_stat_conversion'&&(!p.name||!p.description||p.toStat!=='magic'||!Number.isFinite(p.ratio)||p.ratio<=0||!Number.isFinite(p.cap)||p.cap<=0))fail(a.id+': invalid MP conversion');
   if(p?.type==='formation_stance'&&(!p.name||!p.description||[p.odd,p.even].some(s=>!s?.name||!s.modifiers||Object.entries(s.modifiers).some(([k,n])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(n)||n<=0||n>1))))fail(a.id+': invalid formation stance');
   if(p?.type==='mode_support_charge'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||!a.resources?.[p.resource]||p.amount!==1))fail(a.id+': invalid mode support charge');
@@ -17,7 +17,7 @@ export function validateAdvancedCombat(content){
   if(p?.blockExternalHealing!==undefined&&p.type!=='life_mortgage_pact')fail(a.id+': healing block requires life mortgage pact');
   if(p?.type==='heal_mp_regen' &&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Number.isInteger(p.cap)||p.cap<1||p.cap>99))fail(a.id+': invalid heal MP regeneration');
   if(['element_ally_followup','element_ally_weakness_mp'].includes(p?.type)){
-   if(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon'].includes(p.element))fail(a.id+': invalid elemental support');
+   if(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element))fail(a.id+': invalid elemental support');
    if(p.type==='element_ally_followup'){
     const skill=content.abilities[p.followUpAbility];
     if(!skill||skill.activation!=='passive'||skill.target!=='enemy'||skill.cost||skill.cooldown||skill.effects.some(e=>e.type!=='damage'||e.element!==p.element)||a.abilities?.includes(p.followUpAbility))fail(a.id+': invalid elemental follow-up');

@@ -10,7 +10,7 @@ Hunter Guild = Hội Thợ Săn; Magic Academy = Học viện Ma pháp; Capital 
 
 | UI tiếng Việt | ID / ý nghĩa |
 | --- | --- |
-| Thường / Hỏa / Thủy / Thổ / Phong / Lôi / Quang / Ám / Nguyệt | plain / fire / water / earth / wind / thunder / light / dark / moon |
+| Thường / Hỏa / Thủy / Thổ / Phong / Lôi / Quang / Ám / Nguyệt / Hồn Kiếm | plain / fire / water / earth / wind / thunder / light / dark / moon / sword_soul |
 | Oán Hận | trạng thái sống đặc biệt + group agony, không phải element |
 | DPS vật lí / DPS ma pháp | physical_dps / magical_dps; type sát thương không bắt buộc trùng stat scale |
 | Hỗ trợ tấn công / phòng thủ | offensive_support / defensive_support |
@@ -52,3 +52,5 @@ Tên → tác dụng chính → hệ số/stat scale → giá/đối tượng �
 Quy tắc này không buộc đổi tên riêng hoặc ký hiệu đã được duyệt, cũng không đổi ID/schema. Khi một từ có nghĩa khác nhau theo cơ chế, mô tả đúng tác dụng thay vì gộp vào cùng bản dịch. Lỗi kỹ thuật giữ chi tiết trong log chẩn đoán; người chơi nhận thông báo tiếng Việt dễ hiểu và thao tác khắc phục nếu có.
 
 - **Sinh Mệnh Thế Chấp**: khoản nợ hấp thụ hồi HP; trả hết nợ rồi phần dư mới hồi HP. Thanh toán không được tính là thực sự hồi HP. Xem [LIFE_MORTGAGE](LIFE_MORTGAGE.md).
+
+Hồn Kiếm (`sword_soul`) là nguyên tố và cũng là tên tài nguyên đội Keijo; `tags:sword_soul` đánh dấu thành viên cơ chế. Tsukiha là nhân vật Hỏa, kỹ năng mang đồng thời Hỏa/Hồn Kiếm. Không đồng nhất hệ nhân vật với các nguyên tố của hit. [Chi tiết](SWORD_SOUL.md).

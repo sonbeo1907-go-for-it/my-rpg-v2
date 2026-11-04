@@ -1,3 +1,5 @@
+import {elementLabel} from '../core/elements.js';
+import {selectedTeamCost,spentTeamHits} from '../core/team-resources.js';
 import {nativePenetration,spentSharedDamage,sharedPenetration} from '../core/powder-combat.js';
 import {scaledTeamEffect,teamResourceDefinition,scaledSpentTeamEffect,teamSpendStatBonuses} from '../core/team-resources.js';
 import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive-specials.js';
@@ -31,8 +33,9 @@ export function skillPresentation(skill,actor,content,choices={}) {
   const facts=[],rules=[...(skill.rules??[])];
   if(skill.cost?.preferLifeDebtRatio)rules.push('Chỉ thay toàn bộ MP khi đủ Thế Chấp bằng '+pct(skill.cost.preferLifeDebtRatio)+' HP tối đa (làm tròn lên). Thiếu nợ thì trả MP và giữ nguyên nợ; chi phí nợ không tăng theo Rank.');
   if(skill.cost?.consumeAllLifeDebt)rules.push('Cần có Thế Chấp. Chốt và tiêu hết nợ một lần trước khi đánh; hồi HP bản thân sau đòn. Né không hoàn chi phí.');
+  if(skill.cost?.preferTeamResource)rules.push('Ưu tiên đủ '+skill.cost.preferTeamResource.amount+' Hồn Kiếm thay toàn bộ MP. Không đủ thì trả MP và giữ nguyên Hồn Kiếm. Chốt lượng tiêu trước khi đòn đánh/tăng trưởng tạo thêm.');
   if(skill.targetElement){facts.push('Chỉ đồng đội hệ '+ELEMENT_NAMES[skill.targetElement]);rules.push('Gồm cả bản thân nếu đúng hệ; nhân vật khác hệ không nhận hiệu ứng.');}
-  const sharedCost=skill.cost?.teamResource,teamSpent=choices.teamSpent??(sharedCost?.all?sharedCost.min:sharedCost?.amount??0);
+  const sharedCost=(skill.cost?.teamResource??skill.cost?.preferTeamResource),teamSpent=choices.teamSpent??(sharedCost?.all?sharedCost.min:sharedCost?.amount??0);
   const cost=resourceCost(skill,actor);
   const spent=choices.spent??(cost?.all?cost.min??1:cost?.amount??0);
   let assumed=actor;
@@ -112,7 +115,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     for(const id of effect.linkedStatuses??[])statusFacts({type:'status',status:id,appliedModifiers:effect.linkedAppliedModifiers?.[id]},true);
   }
   for(const authoredEffect of skill.effects) {
-    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks??0),teamSpent),{correct:choices.formulaCorrect??0}));
+    const effect=spentTeamHits(exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks??0),teamSpent),{correct:choices.formulaCorrect??0})),teamSpent);
     if(effect.type==='steal_base_stat'){facts.push('Cướp '+pct(effect.ratio)+' '+statName(effect.stat)+' căn bản · tối đa +'+effect.cap+' đang giữ');rules.push('Không gây sát thương. Đánh cắp từ chỉ số căn bản hiện tại, trước buff % của mục tiêu.','Lượng nhận cộng trước buff % của bản thân. Không sửa chỉ số gốc hay trang bị.','Hộ ấn chặn cả phần mất và phần nhận; kỹ năng vẫn tạo Bằng Chứng. Đạt trần vẫn tạo Bằng Chứng.','Buff nhận và debuff mất có thể bị xóa độc lập; duy trì đến khi bị xóa hoặc kết thúc trận.');}
     if(effect.type==='team_resource')facts.push('Tạo '+effect.amount+' '+teamResourceDefinition(content,effect.resource).name+' cho đội');
     if(authoredEffect.teamResourceScaling){const r=authoredEffect.teamResourceScaling;facts.push((choices.live?'Hiện có: ':'Giả định: ')+(choices.teamResourceStacks??0)+' '+teamResourceDefinition(content,r.id).name);rules.push('Hiệu quả chốt theo số Bằng Chứng lúc thi triển, trước khi kỹ năng tạo thêm.');}
@@ -130,7 +133,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
       if(effect.lowHpBonus)formula+=` + tối đa ${pct(effect.lowHpBonus)} ${label} theo HP đã mất`;
       const speed=speedDamageRatio(actor,effect.damageType,effect.speedMultiplier??0);
       if(speed)formula+=` + ${pct(speed)} SPD`;
-      facts.push(`${DAMAGE_TYPE_NAMES[effect.damageType]} · ${ELEMENT_NAMES[effect.element]} · ${effect.hits>1?effect.hits+' × (':''}${formula}${effect.hits>1?')':''}`);
+      facts.push(`${DAMAGE_TYPE_NAMES[effect.damageType]} · ${elementLabel(effect,ELEMENT_NAMES)} · ${effect.hits>1?effect.hits+' × (':''}${formula}${effect.hits>1?')':''}`);
       if(effect.scalingStat && effect.scalingStat!==(effect.damageType==='physical'?'attack':'magic'))rules.push(effect.damageType==='physical'?'Lấy chỉ số đã chọn để gây sát thương vật lí: tính DEF, có thể bị né; không kích hoạt Liên kích phép đơn mục tiêu.':'Lấy chỉ số đã chọn để gây sát thương ma pháp: tính RES.');
       if(effect.bonusVsExposure)facts.push('Địch có Sơ hở bất kỳ: +'+pct(effect.bonusVsExposure)+' sát thương');
       const innatePen=nativePenetration(actor,effect.damageType);if(innatePen)facts.push('Nội tại: xuyên '+pct(innatePen)+' '+(effect.damageType==='physical'?'DEF':'RES'));
@@ -259,7 +262,7 @@ export function passivePresentation(actor,content) {
     case 'mp_stat_conversion':summary='MP tối đa hiện tại chuyển thành MAG căn bản.';facts.push('+'+pct(p.ratio)+' MP tối đa thành MAG · tối đa +'+p.cap+' MAG','Đạt trần tại '+number(p.cap/p.ratio)+' MP tối đa');rules.push('MP hiện tại không ảnh hưởng. Tăng hoặc giảm MP tối đa cập nhật bonus ngay.','Cộng MAG căn bản trước buff % MAG; không cộng dồn từ mỗi lần cập nhật.');break;
     case 'formation_stance':summary='Vị trí đội hình quyết định thế đánh và đòn bùng nổ.';facts.push('Ô 1/3: '+p.odd.name+' · '+Object.entries(p.odd.modifiers).map(([k,n])=>signed(n)+' '+statName(k)).join(' · '),'Ô 2/4: '+p.even.name+' · '+Object.entries(p.even.modifiers).map(([k,n])=>signed(n)+' '+statName(k)).join(' · '));rules.push('Tính vị trí cố định, không dồn ô khi đồng đội gục.','Nhân vật chưa ở đội hình được preview theo ô 1; đổi giả định ở kỹ năng bùng nổ.');break;
     case 'mode_support_charge':summary='Tích Điểm Ngắm Gió trong mode từ nhịp phòng thủ của cả hai phe.';facts.push('Phòng thủ hoặc tạo khiên thành công: +1 tầng/hành động · tối đa '+actor.resources[p.resource].max);rules.push('Tính cả bản thân, đồng đội và địch. Khiên AoE hoặc Phòng thủ kèm khiên vẫn chỉ một tầng.','Khiên yếu hơn không thay được khiên cũ sẽ không tích tầng.','Ngoài mode không tích. Rời hoặc vào lại mode xóa tầng cũ.');break;
-    case 'team_resource_growth':summary='Mỗi Bằng Chứng được tạo hoặc tiêu tiếp sức cho Selene.';facts.push('+15% ATK/tầng · tối đa 3 tầng · 2 lượt chính');rules.push('Mỗi Bằng Chứng tính một lần; tạo khi đầy vẫn kích hoạt.','Làm mới thời hạn tất cả tầng; Vòng Phụ không giảm thời hạn.','Khi biến hình: +10 ATK căn bản, kỹ năng tấn công đổi; không đổi nền bàn đấu.');break;
+    case 'team_resource_growth':if(p.baseStatPerStack){summary='Mỗi Hồn Kiếm tạo hoặc tiêu tiếp sức cho thanh kiếm.';facts.push('+4 ATK căn bản/tầng · tối đa 3 tầng · '+p.duration+' lượt chính');rules.push('Mỗi đơn vị Hồn Kiếm tính một lần; tiêu 4 có thể đạt ngay 3 tầng. Tạo khi đầy vẫn được ghi nhận.','Tăng tầng làm mới thời hạn toàn bộ. Vòng Phụ không giảm, choáng ở lượt chính vẫn giảm.','ATK căn bản cộng trước buff %. Tăng trưởng tự nhiên theo đội tối đa +2/vòng, không tính đánh thường, Phòng thủ hoặc Liên kích.');break;}summary='Mỗi Bằng Chứng được tạo hoặc tiêu tiếp sức cho Selene.';facts.push('+15% ATK/tầng · tối đa 3 tầng · 2 lượt chính');rules.push('Mỗi Bằng Chứng tính một lần; tạo khi đầy vẫn kích hoạt.','Làm mới thời hạn tất cả tầng; Vòng Phụ không giảm thời hạn.','Khi biến hình: +10 ATK căn bản, kỹ năng tấn công đổi; không đổi nền bàn đấu.');break;
     case 'spent_resource_followup':summary='Đồng đội khác tiêu Bằng Chứng sẽ được Simon tiếp ứng.';facts.push('Liên kích: 160% ATK · vật lí Thủy · 2 Sơ Hở Thủy');rules.push('Mỗi kỹ năng tiêu tài nguyên kích một lần, không tính theo số Bằng Chứng.','Chọn địch còn nhiều HP tuyệt đối nhất, hòa chọn theo thứ tự đội hình. Không chọn lại theo mục tiêu người chơi.','Không tự kích từ kỹ năng Simon hoặc Liên kích. Né không gắn Sơ Hở.');break;
     case 'spent_resource_team_mp':summary='Hoàn lại MP theo lượng Bằng Chứng cả đội thực sự đã tiêu.';facts.push('Cuối vòng: 4% MP tối đa/Bằng Chứng · tối đa 12% toàn đội');rules.push('Gộp Vòng Chính và Vòng Phụ, chỉ hồi một lần cuối vòng.','Genevieve phải còn sống; không hồi người đã gục. Tạo Bằng Chứng không được tính là tiêu.');break;
     case 'defend_adjacent_mp':summary='Phòng thủ tiếp MP cho hai đồng đội ở hai ô kề.';facts.push('Hồi '+pct(exclusivePassives(actor).find(e=>e.type==='defend_adjacent_support')?.ratio??p.ratio)+' MP tối đa hiện tại/người');const neighborGuard=exclusivePassives(actor).find(e=>e.type==='defend_adjacent_support');if(neighborGuard)facts.push(neighborGuard.description);rules.push('Nối vòng ô 1 và 4, không hồi cho bản thân.','Bỏ qua ô trống và người đã gục, không tìm người thay thế.','Phòng thủ trong Vòng Phụ vẫn kích hoạt; không kích hoạt khi bị choáng hoặc chỉ nhận buff Phòng thủ.');break;
@@ -305,7 +308,7 @@ export function passivePresentation(actor,content) {
     case 'magic_followup_mp':{
       summary='Liên kích theo phép đơn mục tiêu của đồng đội khác để tích Lôi ấn và tiếp MP cho đội.';
       const effect=content.abilities[p.followUpAbility].effects[0];
-      facts.push(`Liên kích: ${pct(effect.multiplier)} MAG · ${ELEMENT_NAMES[effect.element]} · 1 lần/vòng`,`Đầu lượt đủ ${p.threshold} ${resourceName(actor,p.resource)}: tiêu hết → hồi ${pct(p.mpRestoreRatio)} MP toàn đội`);
+      facts.push(`Liên kích: ${pct(effect.multiplier)} MAG · ${elementLabel(effect,ELEMENT_NAMES)} · 1 lần/vòng`,`Đầu lượt đủ ${p.threshold} ${resourceName(actor,p.resource)}: tiêu hết → hồi ${pct(p.mpRestoreRatio)} MP toàn đội`);
       rules.push('Đòn diện rộng, đòn của bản thân và liên kích khác không kích hoạt.','Mục tiêu phải còn sống sau đòn mở đầu; sát thương vào khiên vẫn được tính.');break;
     }
     case 'shielded_damage_bonus':summary='Đang có khiên sẽ tăng sức mạnh kiếm thuật.';facts.push('+'+pct(p.ratio)+' sát thương khi còn khiên');rules.push('Nhận khiên từ bất kỳ nguồn nào đều được tính. Xét lại trước từng hit; khiên mất thì bonus mất.','Cộng với các buff tăng sát thương cùng nhóm.');break;

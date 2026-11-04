@@ -175,3 +175,5 @@ Những tên file này là điểm bắt đầu, không giới hạn coverage. K
 `life_mortgage` dùng lượng `debtHp`, không phải đồng hồ lượt hay stack. Hồi phục sau giảm hồi nhận thanh toán nợ trước khi giới hạn theo HP thiếu; chỉ phần HP thực tăng kích hook hồi HP. Choáng/Lượt Thêm không làm hết nợ. Gục hoặc kết thúc thật xóa nợ; victory tiếp wave/phòng và phase giữ nguyên. Snapshot/forecast lưu trong status instance. Xem [hợp đồng và test](LIFE_MORTGAGE.md).
 
 Ngoại lệ Verena: Thế Chấp có thể tiêu làm chi phí; chốt native bonus và lượng tiêu trước damage. Khi đang nợ, nguồn hồi ngoài không trả nợ/hồi HP; tự hồi vẫn theo pipeline. Tất toán xóa nợ rồi mới hồi theo snapshot, choáng không tự xóa nợ. Xem [VERENA](VERENA.md).
+
+Hồn Kiếm: hai limiter tự nhiên theo đội/round dùng chung pha chính/phụ; tạo sau cast thành công, không từ skip/Defend/basic/automatic. Chi phí 4 được chốt trước, tạo mới không trả chi phí cast đó. Buff native +4 ATK/tầng refresh 4 lượt chính; tiêu tài nguyên kích trước hit đầu. Xem [SWORD_SOUL](SWORD_SOUL.md).

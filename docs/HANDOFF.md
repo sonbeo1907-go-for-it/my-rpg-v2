@@ -86,3 +86,5 @@ Code/ID/enum/schema có thể giữ tiếng Anh để ổn định và dễ làm
 Ember/Myonne: [ELEMENT_SUPPORTS](ELEMENT_SUPPORTS.md) ghi contract hỗ trợ theo hệ, bộ lọc targetElement và hai nội tại xét kỹ năng đồng đội khác sau khi quyết toán Sơ Hở. Cả hai đã ở banner standard.
 
 - [Verena: tự Thế Chấp, trả nợ thay MP và chặn hồi từ ngoài](VERENA.md) — cập nhật 04/11/2026.
+
+- [Hồn Kiếm / Tsukiha](SWORD_SOUL.md): nguyên tố mới, đòn Hỏa + Hồn Kiếm, tài nguyên đội 0–6 với hai nhóm tăng tự nhiên mỗi vòng; `preferTeamResource` / `hitsWhenTeamSpent` / `baseStatPerStack` dùng chung. Cập nhật 05/11/2026.

@@ -6,7 +6,8 @@ import {stealBaseStat} from './stat-theft.js';
 
 import {skillDamageBonus} from './damage-amplification.js';
 import {formationAbility} from './advanced-combat.js';
-import {initializeTeamResources,teamResourceValue,teamResourceSpent,teamCostAvailability,changeTeamResource,scaledTeamEffect,teamCostAmount,teamSpendStatBonuses,scaledSpentTeamEffect} from './team-resources.js';
+import {damageElements,elementalResistance} from './elements.js';
+import {selectedTeamCost,growTeamResources,spentTeamHits,initializeTeamResources,teamResourceValue,teamResourceSpent,teamCostAvailability,changeTeamResource,scaledTeamEffect,teamCostAmount,teamSpendStatBonuses,scaledSpentTeamEffect} from './team-resources.js';
 import {captureDamageBuffs,settleDamageBuffs} from './charged-buffs.js';
 import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
@@ -704,7 +705,7 @@ export function abilityAvailability(battle, actor, skill) {
       reason: `Hồi chiêu: ${actor.cooldowns[skill.id]} vòng.`,
     };
   if (hpCost(skill,actor)>0 && actor.hp<=hpCost(skill,actor)) return {ok:false,reason:"Không đủ HP; không thể tự hạ gục bằng chi phí kỹ năng."};
-  if (actor.mp < mpCost(skill,actor))
+  if (actor.mp < mpCost(skill,actor,battle))
     return { ok: false, reason: "Không đủ MP." };
   if (skill.target === "adjacent_allies" && !targetsFor(battle,actor,skill).length) return {ok:false,reason:"Không có đồng đội còn sống ở hai ô kề."};
   if (skill.requiresTargetStatus && !targetsFor(battle,actor,skill).length)
@@ -783,7 +784,7 @@ function triggerElementSupports(battle,source,skill,context){
  for(const owner of battle.actors){
   const p=owner.passive;
   if(!living(owner)||owner.team!==source.team||owner.id===source.id||p?.element!==source.element)continue;
-  const impacts=context.gearImpacts.filter(impact=>impact.element===p.element);
+  const impacts=context.gearImpacts.filter(impact=>(impact.elements??[impact.element]).includes(p.element));
   if(p.type==='element_ally_weakness_mp'){
    if(!living(source)||source.mp>=battleMaxMp(battle.content,source)||!impacts.some(impact=>impact.weakness)||!procAvailable(battle,owner,p.type))continue;
    markProc(battle,owner,p.type);announcePassive(battle,owner,source.id);
@@ -898,7 +899,7 @@ function triggerOwnModeFollowup(battle,actor,skill,context){
 }
 function chargeReceivedElement(battle,source,target,effect,context){
  if(!lightningChargeEligible(context.skill,context))return;
- for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_received_charge'||!living(owner)||owner.team!==source.team||target.team===owner.team||effect.element!==p.element)continue;
+ for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_received_charge'||!living(owner)||owner.team!==source.team||target.team===owner.team||!damageElements(effect).includes(p.element))continue;
   const before=owner.resourceValues[p.resource]??0;gainResource(battle,owner,p.resource,p.amount,source.id);
   if(owner.resourceValues[p.resource]>before){announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
  }
@@ -923,7 +924,7 @@ function triggerPowderFollowups(battle,source,skill,parent){
 
 function chargeElementAllies(battle,source,context,damageElement){
  context.elementCharged??=new Set();
- for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_ally_charge'||!living(owner)||owner.id===source.id||owner.team!==source.team||((p.elementMatch==='different')?((p.elementSource==='damage'?damageElement:source.element)===p.element):((p.elementSource==='damage'?damageElement:source.element)!==p.element))||context.elementCharged.has(owner.id))continue;
+ for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_ally_charge'||!living(owner)||owner.id===source.id||owner.team!==source.team||((p.elementMatch==='different')?!(p.elementSource==='damage'?damageElement:[source.element]).some(e=>e!==p.element):!(p.elementSource==='damage'?damageElement:[source.element]).includes(p.element))||context.elementCharged.has(owner.id))continue;
   context.elementCharged.add(owner.id);const before=owner.resourceValues[p.resource]??0;gainResource(battle,owner,p.resource,p.amount,source.id);
   if(owner.resourceValues[p.resource]>before){announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
  }
@@ -1073,7 +1074,7 @@ function resolveHit(
       type: "dodge",
       targetId: target.id,
       sourceId: attacker.id,
-      damageType: effect.damageType, element: effect.element,
+      damageType: effect.damageType, element: effect.element, ...(effect.additionalElements?{elements:damageElements(effect)}:{}),
       hitIndex: actionContext.hitIndex ?? 0,
     });
     write(battle, `${target.name} né đòn của ${attacker.name}.`);
@@ -1177,12 +1178,12 @@ function resolveHit(
   const coverGuard = target.id !== originalTarget.id
     ? Math.min(0.7, (exclusivePassive(target, "cover_damage_reduction")?.ratio ?? 0) + (target.passive?.type === "cover_guard" ? target.passive.ratio : 0))
     : 0;
-  const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier } =
+  const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements } =
     resolveWeakness(battle.content, attacker, target, effect, actionContext);
   // Element and damage type share one weakness multiplier, never additive bonuses.
   const weakness = elementWeakness || typeWeakness;
   const weaknessReason = [
-    elementWeakness ? ELEMENT_NAMES[effect.element] : null,
+    elementWeakness ? matchedElements.map(e=>ELEMENT_NAMES[e]).join(" / ") : null,
     typeWeakness ? DAMAGE_TYPE_NAMES[effect.damageType] : null,
   ]
     .filter(Boolean)
@@ -1205,7 +1206,7 @@ function resolveHit(
           ) -
           defense * 0.55,
       ) *
-        (target.resistances?.[effect.element] ?? 1) *
+        elementalResistance(target,effect) *
         weaknessMultiplier * gearOutgoingMultiplier(battle,attacker,target,actionContext) * gearIncomingMultiplier(battle,target,effect,gearIO) *
         bossFireMultiplier(attacker, effect) * (attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier ?? 1) *
         Math.max(
@@ -1236,8 +1237,8 @@ function resolveHit(
     if(counterRaw>0){actionContext.receivedCounterDamage??=new Map();actionContext.receivedCounterDamage.set(target.id,(actionContext.receivedCounterDamage.get(target.id)??0)+counterRaw);}
   }
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)actionContext.dealtDirectDamage=true;
-  if(attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.gearImpacts.push({target,lostHp,absorbed,damageType:effect.damageType,element:effect.element,elementWeakness,weakness});
-  if (vitalityDamage + absorbed > 0) reserveExposure(target, effect.element, actionContext);
+  if(attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.gearImpacts.push({target,lostHp,absorbed,damageType:effect.damageType,element:effect.element,elements:damageElements(effect),elementWeakness,weakness});
+  if (vitalityDamage + absorbed > 0) {for(const element of damageElements(effect))reserveExposure(target, element, actionContext);}
   if(!reaction && attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.damagedAllyHits.add(target.id);
   // Reserve before nested reactions; settle after the whole attack so a later
   // weak target/hit can upgrade 3 MP to 5 MP. Shield damage and kills count.
@@ -1263,7 +1264,7 @@ function resolveHit(
     ...(cappedHit.info?{pvpDamage:cappedHit.info}:{}),
     ...(life.maxHpLost?{maxHpDamage:life.maxHpLost}:{}),
     absorbed,
-    element: effect.element,
+    element: effect.element, ...(effect.additionalElements?{elements:damageElements(effect)}:{}),
     weakness,
     weaknessMultiplier,
     damageType: effect.damageType,
@@ -1276,7 +1277,7 @@ function resolveHit(
     battle,
     `${attacker.name} → ${target.name}: ${vitalityDamage} sát thương${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
   );
-  if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeElementAllies(battle,attacker,actionContext,effect.element);
+  if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeElementAllies(battle,attacker,actionContext,damageElements(effect));
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeReceivedElement(battle,attacker,target,effect,actionContext);
   maybeEnterContingency(battle,target,lostHp);
   if (living(target) && weakness && vitalityDamage + absorbed > 0)
@@ -1475,6 +1476,7 @@ function applyEffect(
   area,
   actionContext = attackContext(battle, actor),
 ) {
+  if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
   if(effect.type==='team_resource'){if(living(actor))changeTeamResource(battle,actor,effect.resource,effect.amount,teamIO);return;}
   if(effect.type==='revive'){if(living(actor))reviveTeam(battle,actor,effect,actionContext);return;}
   if(effect.teamResourceScaling)effect=scaledTeamEffect(battle.content,effect,actionContext.teamResourceValues[effect.teamResourceScaling.id]??0);
@@ -1724,7 +1726,7 @@ function resolveAction(
   emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
   const mortgageBonusBeforeCost=mortgageDamageBonus(actor);
   const spentLifeDebt=skill.cost?.consumeAllLifeDebt?lifeDebt(actor):preferredLifeDebtCost(skill,actor);
-  let totalPaidMp=mpCost(skill,actor);
+  let totalPaidMp=mpCost(skill,actor,battle);
   actor.mp -= totalPaidMp;
   if(spentLifeDebt>0){payLifeDebt(actor,spentLifeDebt);emitEvent(battle,{type:'life_debt_spent',sourceId:actor.id,targetId:actor.id,amount:spentLifeDebt,remaining:lifeDebt(actor)});write(battle,actor.name+' tiêu '+spentLifeDebt+' Thế Chấp, còn '+lifeDebt(actor)+' HP.');}
   if(totalPaidMp>0){
@@ -1733,7 +1735,7 @@ function resolveAction(
       write(battle,actor.name+': Nhiễu Ma Lực tiêu 1 lần · trả '+totalPaidMp+' MP.');
     }
   }
-  const teamCost=skill.cost?.teamResource;
+  const teamCost=selectedTeamCost(battle,actor,skill);
   const paidTeam=teamCost?teamCostAmount(teamCost,teamResourceValue(battle,actor,teamCost.id)):0;
   if(teamCost)changeTeamResource(battle,actor,teamCost.id,-paidTeam,teamIO);
   const paidHp=hpCost(skill,actor);
@@ -1867,6 +1869,7 @@ function resolveAction(
   gearAfterAction(battle,actor,skill,gearIO);
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
   if (offensive) finishAttackContext(battle, actor, actionContext);
+  growTeamResources(battle,actor,skill,teamIO);
   triggerElementSupports(battle,actor,skill,actionContext);
   triggerOwnModeFollowup(battle,actor,skill,actionContext);
   triggerPowderFollowups(battle,actor,skill,actionContext);

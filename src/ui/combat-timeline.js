@@ -1,5 +1,5 @@
 // Pure presentation plan. Reads resolved outcomes; never rolls RNG or changes combat.
-export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed',moon:'#d5edff'};
+export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed',moon:'#d5edff',sword_soul:'#83caff'};
 const custom=skill=>/^(cosmic|academic|hero|nature|edict)_/.test(skill?.presentation??'');
 export function combatTimeline(events,content,{speed='normal',reduced=false}={}){
  const frames=[],actions=new Map(),passives=new Set();let cursor=0,lastImpact=-100;

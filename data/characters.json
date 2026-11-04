@@ -3357,5 +3357,66 @@
       "damageBonus": 0.15,
       "blockExternalHealing": true
     }
+  },
+  {
+    "id": "tsukiha",
+    "name": "Tsukiha",
+    "title": "Vu Nữ Của Đền Keijo",
+    "affiliation": "keijo_shrine",
+    "element": "fire",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "sword_soul",
+      "keijo_shrine"
+    ],
+    "description": "Tạo Hồn Kiếm, tích ATK căn bản rồi dồn linh hỏa vào những nhát chém đơn mục tiêu.",
+    "biography": "Vu nữ phụng sự ngôi đền Keijo. Trước cổng torii soi bóng mặt hồ, Tsukiha dẫn những hồn kiếm lang thang về nơi an nghỉ, rồi mượn sức họ để bảo vệ người còn sống.",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 90,
+      "attack": 35,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 20,
+      "speed": 16
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "tsukiha.ember",
+      "tsukiha.offering",
+      "tsukiha.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "team_resource_growth",
+      "name": "Linh Hỏa Gửi Trong Kiếm",
+      "description": "Mỗi Hồn Kiếm được tạo hoặc tiêu cho Tsukiha +4 ATK căn bản trong 4 lượt chính, tối đa 3 tầng. Tăng tầng làm mới thời hạn toàn bộ.",
+      "resource": "sword_soul",
+      "statusId": "tsukiha_soul",
+      "duration": 4,
+      "baseStatPerStack": {
+        "attack": 4
+      }
+    }
   }
 ]

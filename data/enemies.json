@@ -21,7 +21,8 @@
       "thunder",
       "light",
       "dark",
-      "moon"
+      "moon",
+      "sword_soul"
     ],
     "abilities": [
       "enemy.slash"
@@ -414,7 +415,8 @@
       "thunder",
       "light",
       "dark",
-      "moon"
+      "moon",
+      "sword_soul"
     ],
     "abilities": [
       "enemy.slash"

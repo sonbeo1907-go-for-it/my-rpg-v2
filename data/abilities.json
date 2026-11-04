@@ -10012,5 +10012,98 @@
     "description": "Tiêu hết Thế Chấp, gây 240% ATK Hỏa lên mọi địch rồi tự hồi HP bằng 75% khoản vừa tiêu.",
     "cooldown": 3,
     "requiresLifeDebt": true
+  },
+  {
+    "id": "tsukiha.ember",
+    "name": "Linh Hỏa — Nhất Kiếm",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2
+      }
+    ],
+    "skillLineId": "tsukiha.ember",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Chém 200% ATK vật lí, mang đồng thời Hỏa và Hồn Kiếm."
+  },
+  {
+    "id": "tsukiha.offering",
+    "name": "Lời Nguyện Trước Cổng Đền",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "status",
+        "status": "tsukiha_prayer",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "tsukiha.offering",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Tạo 1 Hồn Kiếm và tăng 50% ATK bản thân trong 3 lượt chính. Có thể dùng lại khi buff hết."
+  },
+  {
+    "id": "tsukiha.burst",
+    "name": "Keijo Bí Kiếm — Tứ Hồn Quy Hỏa",
+    "target": "enemy",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2,
+        "hits": 3,
+        "hitsWhenTeamSpent": {
+          "id": "sword_soul",
+          "at": 4,
+          "hits": 4
+        }
+      }
+    ],
+    "skillLineId": "tsukiha.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Ba nhát chém, mỗi nhát 200% ATK Hỏa / Hồn Kiếm. Đủ 4 Hồn Kiếm: tiêu thay MP và chém bốn nhát."
   }
 ]

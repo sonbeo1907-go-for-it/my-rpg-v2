@@ -2,6 +2,7 @@
 import {lifeDebt} from '../core/life-debt.js';
 import {FarmPanel} from './farm';
 import {ArenaPlayerBar} from './arena-experience';
+import {SwordSoulBoard} from './sword-soul';
 import {EvidenceBoard,GunpowderBoard,LocalCombatMode} from './vertosse';
 import {isAlive,isInAgony} from "../core/actor-life.js";
 
@@ -235,7 +236,7 @@ function SkillInfo({
       <span className="eyebrow">THÔNG TIN KỸ NĂNG</span>
       <h3>{skill.name}</h3>
       <div className="popover-meta">
-        <span>{skillCost(skill, actor)}</span>
+        <span>{skillCost(skill, actor, battle)}</span>
         <span>{(TARGET_NAMES as any)[skill.target]}</span>
       </div>
       {reason && <p className="unavailable-reason">{reason}</p>}
@@ -860,7 +861,7 @@ export function BattlePage() {
           </div>
           <TurnOrder onHover={setHovered} />
           <FormulaBoards battle={{...battle,content}} content={content}/>
-          <EvidenceBoard battle={{...battle,content}}/>{battle.arena&&<EvidenceBoard battle={{...battle,content}} team="enemy"/>}<GunpowderBoard battle={{...battle,content}}/>{battle.arena&&<GunpowderBoard battle={{...battle,content}} team="enemy"/>}
+          <SwordSoulBoard battle={{...battle,content}}/>{battle.arena&&<SwordSoulBoard battle={{...battle,content}} team="enemy"/>}<EvidenceBoard battle={{...battle,content}}/>{battle.arena&&<EvidenceBoard battle={{...battle,content}} team="enemy"/>}<GunpowderBoard battle={{...battle,content}}/>{battle.arena&&<GunpowderBoard battle={{...battle,content}} team="enemy"/>}
           <div className="ally-grid">
             {battle.actors
               .filter((item: any) => item.team === "party")

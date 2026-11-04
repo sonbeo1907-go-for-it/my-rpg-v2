@@ -1212,5 +1212,22 @@
       "verena.tomorrow": 8,
       "verena.dawn": 0
     }
+  },
+  {
+    "id": "tsukiha",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "tsukiha.offering"
+    ],
+    "burstAbilities": [
+      "tsukiha.burst"
+    ],
+    "skillBias": {
+      "tsukiha.offering": 12,
+      "tsukiha.ember": 6,
+      "tsukiha.burst": 10
+    }
   }
 ]

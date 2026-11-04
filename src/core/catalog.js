@@ -5,6 +5,7 @@ export const GEAR_NAMES = { t1: 'Trang bị cấp thấp', t2: 'Trang bị cấp
 // Giá trị affiliation lưu slug tiếng Anh trong JSON; mọi nhãn người chơi thấy đều ở đây.
 // Thêm phe mới: thêm slug vào characters.json + nhãn tiếng Việt vào bảng này (test/affiliations.test.js chặn thiếu nhãn).
 export const AFFILIATION_LABELS = {
+  keijo_shrine: 'Đền Keijo',
   capital_knights: 'Kị sĩ đoàn Thủ đô',
   hunters_guild: 'Hội Thợ Săn',
   drageshelmfjall_merchants: 'Hội Thương Nhân Drageshelmfjall',

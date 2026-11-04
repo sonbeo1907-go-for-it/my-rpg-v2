@@ -1380,5 +1380,31 @@
     "modifiers": {
       "attack": 0.3
     }
+  },
+  {
+    "id": "tsukiha_soul",
+    "name": "Linh Hỏa Gửi Trong Kiếm",
+    "kind": "buff",
+    "maxStacks": 3,
+    "modifiersPerStack": true,
+    "modifiers": {},
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "tsukiha_prayer",
+    "name": "Lời Nguyện Keijo",
+    "kind": "buff",
+    "modifiers": {
+      "attack": 0.5
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "exposure_sword_soul",
+    "name": "Sơ Hở — Hồn Kiếm",
+    "kind": "debuff",
+    "persistent": true,
+    "maxStacks": 3,
+    "exposedElement": "sword_soul"
   }
 ]

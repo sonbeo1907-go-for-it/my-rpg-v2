@@ -1,3 +1,4 @@
+import {damageElements} from './elements.js';
 import {battleMaxMp} from './stat-values.js';
 
 import {isAlive} from "./actor-life.js";
@@ -15,7 +16,7 @@ export function bossHealthFloor(actor) {
 }
 
 export function bossFireMultiplier(actor, effect) {
-  if (!actor.boss?.suppression || actor.bossState.phase !== 3 || effect.element !== 'fire') return 1;
+  if (!actor.boss?.suppression || actor.bossState.phase !== 3 || !damageElements(effect).includes('fire')) return 1;
   const rule = actor.boss.suppression;
   const stacks = actor.statuses.find(status => status.id === rule.statusId)?.stacks ?? 0;
   return rule.fireMultipliers[stacks];

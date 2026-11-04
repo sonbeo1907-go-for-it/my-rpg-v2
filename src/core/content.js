@@ -19,8 +19,8 @@ import { validateBlacksmithContent } from './blacksmith-rules.js';
 import { validReactivePassive } from './reactive-passives.js';
 import { validateTravelerStories } from './traveler-stories.js';
 
-export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark', 'moon'];
-export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám', moon:'Nguyệt' };
+export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark', 'moon', 'sword_soul'];
+export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám', moon:'Nguyệt',sword_soul:'Hồn Kiếm' };
 export const DAMAGE_TYPE_NAMES = { physical: 'vật lí', magical: 'ma pháp' };
 export const WEAKNESS_MULTIPLIER = 1.5;
 export const ROLE_GROUPS = {
@@ -51,6 +51,7 @@ export function validateContent(content) {
   for (const [id, actor] of Object.entries({ ...content.characters, ...content.enemies })) {
     if(content.enemies[id]===actor&&(!Number.isInteger(actor.referenceLevel)||actor.referenceLevel<1||actor.referenceLevel>99))fail(id+': invalid reference level');
     if(content.enemies[id]===actor&&actor.hpReferenceLevel!==undefined&&(!Number.isInteger(actor.hpReferenceLevel)||actor.hpReferenceLevel<1||actor.hpReferenceLevel>99))fail(id+': invalid HP reference level');
+    if(actor.basicAttack?.some(e=>e.additionalElements!==undefined&&(!Array.isArray(e.additionalElements)||e.additionalElements.length!==1||e.additionalElements.some(v=>!ELEMENTS.includes(v)||v===e.element))))fail(id+': invalid basic additional element');
     if (!ELEMENTS.includes(actor.element)) fail(`${id}: invalid element`);
     if (actor.basicAttack !== undefined && (!Array.isArray(actor.basicAttack) || !actor.basicAttack.length || actor.basicAttack.some(effect => !effect
       || effect.type !== 'damage' || !['physical', 'magical'].includes(effect.damageType) || !ELEMENTS.includes(effect.element)
@@ -270,6 +271,7 @@ export function validateContent(content) {
         if ((!content.statuses[effect.status]?.persistent || effect.duration !== undefined) && (!Number.isInteger(effect.duration) || effect.duration < 1)) fail(`${id}: invalid status duration`);
         if (effect.type === 'toggle_status' && !content.statuses[effect.status]?.persistent) fail(`${id}: toggle requires persistent status`);
       }
+      if(effect.additionalElements!==undefined&&(effect.type!=='damage'||!Array.isArray(effect.additionalElements)||effect.additionalElements.length!==1||effect.additionalElements.some(e=>!ELEMENTS.includes(e)||e===effect.element)))fail(id+': invalid additional damage element');
       if(effect.spentLifeDebtRatio!==undefined&&(effect.type!=='heal'||effect.to!=='self'||skill.cost?.consumeAllLifeDebt!==true||!Number.isFinite(effect.spentLifeDebtRatio)||effect.spentLifeDebtRatio<=0||effect.spentLifeDebtRatio>2||effect.multiplier!==undefined||effect.flat!==undefined||effect.scalingStat!==undefined||effect.scalingStats!==undefined))fail(id+': invalid spent life debt heal');
       if(effect.debtMaxHpRatio!==undefined&&(effect.type!=='status'||!content.statuses[effect.status]?.healingDebt||!Number.isFinite(effect.debtMaxHpRatio)||effect.debtMaxHpRatio<=0||effect.debtMaxHpRatio>content.statuses[effect.status].healingDebt.capMaxHpRatio))fail(id+': invalid healing debt ratio');
       if(content.statuses[effect.status]?.healingDebt&&(effect.type!=='status'||effect.duration!==undefined||effect.stacks!==undefined||effect.charges!==undefined||effect.linkedStatuses))fail(id+': healing debt requires an untimed status');

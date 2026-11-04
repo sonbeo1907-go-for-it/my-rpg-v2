@@ -118,3 +118,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Ember và Myonne — Hỗ trợ nguyên tố](ELEMENT_SUPPORTS.md)
 
 - [Verena: tự Thế Chấp, trả nợ thay MP và chặn hồi từ ngoài](VERENA.md) — cập nhật 04/11/2026.
+
+- [Hồn Kiếm / Tsukiha](SWORD_SOUL.md): nguyên tố mới, đòn Hỏa + Hồn Kiếm, tài nguyên đội 0–6 với hai nhóm tăng tự nhiên mỗi vòng; `preferTeamResource` / `hitsWhenTeamSpent` / `baseStatPerStack` dùng chung. Cập nhật 05/11/2026.
