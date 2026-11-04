@@ -3065,5 +3065,77 @@
         "description": "Duy trì 3 lượt của Cerise, tính cả lượt thi triển. Cô áp sát và né 50% đòn vật lí lẫn phép; hết lượt thứ ba thì rời dạng."
       }
     }
+  },
+  {
+    "id": "flammelapis",
+    "name": "Flammelapis",
+    "title": "Người giữ kiếm cổ",
+    "affiliation": "hunters_guild",
+    "element": "water",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "hunter_guild"
+    ],
+    "description": "Đánh thức kiếm cổ mỗi khi địch dựng khiên, chuyển sang thế phá thành.",
+    "biography": "Thành viên Hội Thợ Săn chuyên khảo sát những thanh kiếm cổ còn sót lại trong phế tích. Flammelapis nghe được ý chí còn vương trong lưỡi kiếm; mỗi lần chiến trường dựng lên lá chắn, thanh kiếm đã nhận cô làm chủ lại thức giấc.",
+    "stats": {
+      "maxHp": 172,
+      "maxMp": 95,
+      "attack": 36,
+      "magic": 9,
+      "defense": 15,
+      "resistance": 16,
+      "speed": 19
+    },
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "basicDamageType": "physical",
+    "abilities": [
+      "flammelapis.slash",
+      "flammelapis.edict",
+      "flammelapis.tidebreak"
+    ],
+    "passive": {
+      "type": "enemy_shield_mode",
+      "name": "Cổ Kiếm Thức Tỉnh",
+      "description": "Mỗi vòng một lần: khi kẻ địch dùng kỹ năng tạo khiên, Flammelapis nhận Cổ Kiếm Phá Thành trong 2 lượt.",
+      "modeId": "ancient_sword"
+    },
+    "combatModes": {
+      "ancient_sword": {
+        "name": "Cổ Kiếm Phá Thành",
+        "lifetime": "turns",
+        "durationTurns": 2,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "attack": 0.35
+        },
+        "allowedAbilities": [
+          "$attack",
+          "flammelapis.slash",
+          "flammelapis.edict",
+          "flammelapis.tidebreak",
+          "$defend"
+        ],
+        "entryEffects": [
+          {
+            "type": "status",
+            "status": "siegebreaker",
+            "duration": 2
+          }
+        ],
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "summary": "+35% ATK · Phá Thành · 2 lượt",
+        "description": "Duy trì 2 lượt của Flammelapis. ATK +35% và nhận Phá Thành; hết lượt thứ hai thì rời dạng."
+      }
+    }
   }
 ]

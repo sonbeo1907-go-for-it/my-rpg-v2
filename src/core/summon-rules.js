@@ -20,7 +20,11 @@ export function validateSummonDefinition(actor,content,fail) {
   for(const field of ['resetResourceOnEnter','clearResourceOnExit'])if(mode[field]!==undefined&&!actor.resources?.[mode[field]])fail(id+': invalid mode resource reset');
   if (mode.music!==undefined&&!content.music[mode.music]) fail(id+': invalid mode music');
   if (mode.commandAbilities!==undefined&&(!Array.isArray(mode.commandAbilities)||!mode.commandAbilities.length||new Set(mode.commandAbilities).size!==mode.commandAbilities.length||mode.commandAbilities.some(skill=>!mode.allowedAbilities.includes(skill)))) fail(id+': invalid transformed commands');
-  if (mode.entryEffects!==undefined&&(!Array.isArray(mode.entryEffects)||!mode.entryEffects.length||mode.entryEffects.some(e=>e.type!=='shield'||e.scalingStat!=='maxHp'||!Number.isFinite(e.multiplier)||e.multiplier<=0||e.multiplier>2||Object.keys(e).some(k=>!['type','scalingStat','multiplier'].includes(k))))) fail(id+': invalid mode entry shield');
+  if (mode.entryEffects!==undefined&&(!Array.isArray(mode.entryEffects)||!mode.entryEffects.length||mode.entryEffects.some(e=>{
+   if(e.type==='shield')return e.scalingStat!=='maxHp'||!Number.isFinite(e.multiplier)||e.multiplier<=0||e.multiplier>2||Object.keys(e).some(k=>!['type','scalingStat','multiplier'].includes(k));
+   if(e.type==='status'){const definition=content.statuses?.[e.status];return !definition||Object.keys(e).some(k=>!['type','status','duration'].includes(k))||(e.duration!==undefined?(!Number.isInteger(e.duration)||e.duration<1):!definition.persistent);}
+   return true;
+  }))) fail(id+': invalid mode entry effect');
  }
  for(const [key,summon] of Object.entries(actor.companions??{})) {
   if (!key||!summon.name||!summon.summary||!Number.isInteger(summon.durationRounds)||summon.durationRounds<1||summon.durationRounds>10||!actor.combatModes?.[summon.requiresMode]||!/^\/art\/[a-z0-9_-]+\.svg$/.test(summon.background)) fail(id+': invalid companion');

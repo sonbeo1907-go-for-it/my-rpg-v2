@@ -9574,5 +9574,79 @@
     "growthProfile": "fixed",
     "rankable": false,
     "fixedReason": "Kỹ năng tự động của nội tại; hệ số do nội tại quy định."
+  },
+  {
+    "id": "flammelapis.slash",
+    "name": "Trảm Thủy",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.5
+      }
+    ],
+    "description": "Nhát chém nước dồn dập, không có thời gian hồi chiêu.",
+    "skillLineId": "flammelapis.slash",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "flammelapis.edict",
+    "name": "Kiếm Ấn Phá Thành",
+    "target": "ally",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "siegebreaker",
+        "duration": 2
+      }
+    ],
+    "description": "Khắc ấn cổ kiếm lên một đồng đội: Phá Thành trong 2 lượt, không có thời gian hồi chiêu.",
+    "skillLineId": "flammelapis.edict",
+    "growthProfile": "output_buff_mp",
+    "rankable": true,
+    "growthGroups": [
+      "output_buff_mp"
+    ]
+  },
+  {
+    "id": "flammelapis.tidebreak",
+    "name": "Triều Kiếm Bạo Phá",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1.5,
+        "primaryMultiplier": 2.6,
+        "onHitStatus": {
+          "status": "shield_fracture",
+          "duration": 3
+        }
+      }
+    ],
+    "description": "Dồn thủy lực vào mục tiêu chính rồi lan sang ô kề, bẻ gãy đội hình phòng thủ.",
+    "skillLineId": "flammelapis.tidebreak",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ]
   }
 ]

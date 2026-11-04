@@ -764,6 +764,21 @@ function maybeEnterContingency(battle,actor,hpLost){
  applyStatus(battle,actor,p.immortalityStatus,1,actor.id);
  applyEffect(battle,actor,[actor],{type:'grant_extra_turn'},0,false);
 }
+// An enemy skill that lists a shield effect rouses an ancient blade — even if that shield is refused
+// or does not overwrite a stronger one. Resolved once per cast, at most one entry per round.
+function triggerShieldModeRouse(battle,caster,skill,context){
+ if(!skill||battle.outcome||context?.reaction||context?.automatic||skill.activation==='passive'||skill.id.startsWith('$'))return;
+ if(!skill.effects.some(effect=>effect.type==='shield'))return;
+ for(const owner of battle.actors){
+  const p=owner.passive;
+  if(p?.type!=='enemy_shield_mode'||!living(owner)||owner.team===caster.team||owner.activeMode)continue;
+  if(!procAvailable(battle,owner,'enemy_shield_mode'))continue;
+  markProc(battle,owner,'enemy_shield_mode');
+  announcePassive(battle,owner,caster.id);
+  write(battle,owner.name+': '+p.name+' kích hoạt.');
+  enterCombatMode(battle,owner,p.modeId,modeIO);
+ }
+}
 // Explicit own-attack exception: one native follow-up per active attacking skill.
 // Other characters retain the global no-self-trigger rule; reactions cannot recurse.
 function triggerOwnModeFollowup(battle,actor,skill,context){
@@ -1730,6 +1745,7 @@ function resolveAction(
   recordFormulaAction(battle,actor,skill,modeIO);
   triggerSupportFollowups(battle,actor,skill);
   triggerSupportSkillCounters(battle,actor,skill,actionContext);
+  triggerShieldModeRouse(battle,actor,skill,actionContext);
   if(teamCost)triggerSpentResourceFollowups(battle,actor,teamCost);
   spendModeTurn(actor);
   for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);

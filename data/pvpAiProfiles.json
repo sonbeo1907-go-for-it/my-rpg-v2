@@ -1118,5 +1118,22 @@
       "cerise.strike": 20,
       "cerise.formation": 16
     }
+  },
+  {
+    "id": "flammelapis",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "flammelapis.edict"
+    ],
+    "burstAbilities": [
+      "flammelapis.tidebreak"
+    ],
+    "skillBias": {
+      "flammelapis.slash": 10,
+      "flammelapis.edict": 22,
+      "flammelapis.tidebreak": 18
+    }
   }
 ]
