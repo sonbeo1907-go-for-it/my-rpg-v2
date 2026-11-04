@@ -17,7 +17,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
  resolved.effects=source.effects.map(effect=>{
   let next={...effect};
   if((groups.includes('basic')||groups.includes('damage'))&&effect.type==='damage')next.rankDamageFactor=f10;
-  if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat'])if(next[key]!==undefined)next[key]*=f10;
+  if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat','spentLifeDebtRatio'])if(next[key]!==undefined)next[key]*=f10;
   if(groups.includes('stat_buff')&&['status','toggle_status'].includes(effect.type)){
    const status=content.statuses[effect.status];
    if(status?.kind==='buff')next.appliedModifiers=rankedModifiers(status.modifiers,f05);

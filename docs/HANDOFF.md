@@ -84,3 +84,5 @@ Code/ID/enum/schema có thể giữ tiếng Anh để ổn định và dễ làm
 Đã kéo source chính thức và cài runtime riêng; launcher, đường dẫn và cách cấu hình provider ở [DEEPSEEK_HARNESS_SETUP](DEEPSEEK_HARNESS_SETUP.md). Không sửa dependency game. Phần “không cài Harness ở task tài liệu” ở trên mô tả phạm vi lần rà soát trước; yêu cầu cài đặt sau đó đã được thực hiện. Chưa cấu hình/gọi model hoặc kiểm chứng cộng tác AI thực tế.
 
 Ember/Myonne: [ELEMENT_SUPPORTS](ELEMENT_SUPPORTS.md) ghi contract hỗ trợ theo hệ, bộ lọc targetElement và hai nội tại xét kỹ năng đồng đội khác sau khi quyết toán Sơ Hở. Cả hai đã ở banner standard.
+
+- [Verena: tự Thế Chấp, trả nợ thay MP và chặn hồi từ ngoài](VERENA.md) — cập nhật 04/11/2026.

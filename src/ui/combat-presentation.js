@@ -1,3 +1,4 @@
+import {lifeDebt} from '../core/life-debt.js';
 import {projectedPowderSpend,previewPaidMp,nativePenetration,sharedPenetration,spentSharedDamage} from '../core/powder-combat.js';
 
 import {scaledTeamEffect,teamResourceValue,teamResourceDefinition,scaledSpentTeamEffect,teamCostAmount} from '../core/team-resources.js';
@@ -64,6 +65,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       if(effect.penetration)parts.push('Xuyên '+percent(effect.penetration)+' '+(effect.damageType==='physical'?'DEF':'RES'));
       if(effect.spentResourceDamageBonus)parts.push('+'+percent(effect.spentResourceDamageBonus)+' sát thương');
       if(effect.formulaScaling && choices.formulaCorrect===3)parts.push('Xuyên '+percent(effect.penetration)+' RES');
+    } else if(effect.spentLifeDebtRatio!==undefined){parts.push('Hồi '+percent(effect.spentLifeDebtRatio)+' nợ đã tiêu → '+Math.round(lifeDebt(actor)*effect.spentLifeDebtRatio)+' HP');
     } else if (effect.type === 'heal' || effect.type === 'shield') {
       const label = scalingLabel(effect,statNames);
       const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? effect.flat : ''].filter(Boolean).join(' + ');
@@ -113,6 +115,7 @@ export function statusDetails(status, actor, battle, content) {
   const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, baseStatModifiers:status.baseStatModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
   const lines = [...presentation.facts, ...presentation.rules];
   if(definition.healingDebt)lines.unshift(`Còn ${status.debtHp??0} HP Thế Chấp cần thanh toán. Thanh toán không kích hiệu ứng được hồi HP.`);
+  if(definition.healingDebt&&actor.passive?.blockExternalHealing)lines.unshift('Khi còn Thế Chấp: chỉ hồi phục từ bản thân mới trả nợ và hồi HP. Nguồn khác bị chặn.');
   if(status.innate)lines.push('Khiêu Khích do nội tại: luôn có ngoài Kế Hoạch B; không thể gỡ bằng xóa buff.');
   if (status.potency !== undefined) {
     const index = lines.findIndex(line => line.startsWith('Độc:'));

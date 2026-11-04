@@ -12,6 +12,15 @@ export function payLifeDebt(actor,healing) {
  actor.statuses=actor.statuses.filter(status=>status.debtHp===undefined||status.debtHp>0);
  return {paid,remaining};
 }
+// A preferred debt payment is an alternative cost, not HP loss or received healing.
+export function preferredLifeDebtCost(skill,actor){
+ const ratio=skill.cost?.preferLifeDebtRatio;
+ if(!ratio||!actor)return 0;
+ const amount=Math.ceil(actor.stats.maxHp*ratio);
+ return amount>0&&lifeDebt(actor)>=amount?amount:0;
+}
+export function externalHealingBlocked(actor,sourceId){return actor?.passive?.blockExternalHealing===true&&lifeDebt(actor)>0&&sourceId!==actor.id;}
+export function mortgageDamageBonus(actor){return actor?.passive?.type==='life_mortgage_pact'&&lifeDebt(actor)>0?actor.passive.damageBonus:0;}
 export function clearLifeDebt(actor) {
  actor.statuses=actor.statuses.filter(status=>status.debtHp===undefined);
 }

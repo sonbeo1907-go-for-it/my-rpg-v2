@@ -68,7 +68,7 @@ import {bypassedBarrierReduction} from "./skill-barrier.js";
 import { assertQuestUnlocked, assertEncounterParty } from "./quest-catalog.js";
 import { normalizeBlacksmithState } from "./blacksmith-state.js";
 
-import {lifeDebt,payLifeDebt,clearLifeDebt} from './life-debt.js';
+import {lifeDebt,payLifeDebt,clearLifeDebt,preferredLifeDebtCost,externalHealingBlocked,mortgageDamageBonus} from './life-debt.js';
 import { checkCombatMode, enterCombatMode, leaveCombatMode, modeAvailability, spendModeTurn } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
 import { mpCost, hpCost, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus, targetsAsGroup } from "./conditional-combat.js";
@@ -272,6 +272,7 @@ function attackContext(battle, actor) {
     shieldedAllyHits: new Set(),
     damagedAllyHits: new Set(),
     attackBuffs: buffs,
+    mortgageDamageBonus:mortgageDamageBonus(actor),
     multiplier:1,
   };
 }
@@ -340,6 +341,10 @@ function announcePassive(battle,source,targetId,label=source?.passive?.name) {
 
 function healHp(battle, target, requested, sourceId, label = "") {
   if (!living(target)||isInAgony(target)) return 0;
+  if(externalHealingBlocked(target,sourceId)){
+    emitEvent(battle,{type:'healing_blocked',sourceId,targetId:target.id});
+    write(battle,target.name+': Thế Chấp chỉ cho phép tự hồi HP.');return 0;
+  }
   const effective=receivedSupport(battle.content,target,requested,"healingReceivedReduction");
   const {paid,remaining}=payLifeDebt(target,effective);
   if(paid>0){
@@ -545,6 +550,13 @@ function reviveTeam(battle, actor, effect, actionContext) {
   for (const ally of battle.actors.filter(item => item.team === actor.team)) {
     if (ally.stats.maxHp <= 0) continue;
     const fallen = !living(ally);
+    // Living allies with a self-only pact retain their debt/HP even under team restoration.
+    // Revival of an actually fallen ally is allowed: defeat already clears its debt.
+    if(!fallen&&externalHealingBlocked(ally,actor.id)){
+      healHp(battle,ally,0,actor.id);
+      gainResource(battle,ally,'mp',Math.max(0,Math.round(battleMaxMp(battle.content,ally)*mpRatio)-ally.mp),actor.id);
+      continue;
+    }
     if (fallen) {
       ally.shield = 0;ally.shieldSourceId = null;delete ally.shieldExpiresAfterRound;
     }
@@ -678,6 +690,7 @@ export function abilityAvailability(battle, actor, skill) {
   if(actor&&skill.targetElement&&!targetsFor(battle,actor,skill).length)return {ok:false,reason:"Không có đồng đội đúng hệ để nhận kỹ năng."};
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
+  if(skill.requiresLifeDebt&&lifeDebt(actor)<=0)return {ok:false,reason:'Cần có Thế Chấp để tất toán.'};
   if(skill.requiresHpBelow!==undefined && actor.hp/actor.stats.maxHp>=skill.requiresHpBelow) return {ok:false,reason:"HP chưa đủ thấp để dùng chiêu này."};
   if(skill.maxSelfStatus&&(actor.statuses.find(s=>s.id===skill.maxSelfStatus)?.stacks??0)>=battle.content.statuses[skill.maxSelfStatus].maxStacks)return {ok:false,reason:'Đã đạt tối đa '+battle.content.statuses[skill.maxSelfStatus].maxStacks+' tầng.'};
   const teamCheck=teamCostAvailability(battle,actor,skill);if(teamCheck)return teamCheck;
@@ -1177,7 +1190,7 @@ function resolveHit(
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRaw=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
   let amount = Math.max(
     1,
     Math.floor(
@@ -1198,7 +1211,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            skillDamageBonus(battle.content,attacker,target,actionContext.automatic) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp),
+            skillDamageBonus(battle.content,attacker,target,actionContext.automatic) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -1510,10 +1523,11 @@ function applyEffect(
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if(effect.type==='steal_base_stat')stealBaseStat(battle,actor,target,effect,{status:applyStatus,emit:emitEvent,write});
     if (effect.type === "heal") {
-      const requested=supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
+      const requested=effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
+      const blocked=externalHealingBlocked(target,actor.id);
       const healed=healHp(battle,target,requested,actor.id);
       // MP refund follows the heal Amaryllis authored for this target, not what the recipient keeps.
-      grantHealMp(battle, actor, requested);
+      if(!blocked)grantHealMp(battle, actor, requested);
       gearSkillHealed(battle,actor,target,healed,actionContext,gearIO);
     }
     if (effect.type === "shield") {
@@ -1708,8 +1722,11 @@ function resolveAction(
   const supportScopeBefore=battle.supportChargeScope;battle.supportChargeScope={supportCharged:new Set()};
   const oldStatuses = [...actor.statuses];
   emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
+  const mortgageBonusBeforeCost=mortgageDamageBonus(actor);
+  const spentLifeDebt=skill.cost?.consumeAllLifeDebt?lifeDebt(actor):preferredLifeDebtCost(skill,actor);
   let totalPaidMp=mpCost(skill,actor);
   actor.mp -= totalPaidMp;
+  if(spentLifeDebt>0){payLifeDebt(actor,spentLifeDebt);emitEvent(battle,{type:'life_debt_spent',sourceId:actor.id,targetId:actor.id,amount:spentLifeDebt,remaining:lifeDebt(actor)});write(battle,actor.name+' tiêu '+spentLifeDebt+' Thế Chấp, còn '+lifeDebt(actor)+' HP.');}
   if(totalPaidMp>0){
     for(const status of [...actor.statuses])if(battle.content.statuses[status.id]?.consumeOnPaidSkill&&(status.charges??1)>0){
       consumeStatusCharge(actor,status);
@@ -1733,6 +1750,8 @@ function resolveAction(
   write(battle, `${actor.name} dùng ${skill.name}.`);
   if (skill.cost?.preferResource) write(battle,actor.name+': tiêu '+(selectedResource ? spent+' '+actor.resources[selectedResource.id].name : totalPaidMp+' MP')+'.');
   const actionContext = attackContext(battle, actor);
+  actionContext.spentLifeDebt=spentLifeDebt;
+  actionContext.mortgageDamageBonus=mortgageBonusBeforeCost;
   actionContext.teamResourceSpent=teamCost?{[teamCost.id]:paidTeam}:{};
   actionContext.castMode=actor.activeMode;
   actionContext.skillId = skill.id;

@@ -13,7 +13,9 @@ export function validateAdvancedCombat(content){
   if(p?.type==='formation_stance'&&(!p.name||!p.description||[p.odd,p.even].some(s=>!s?.name||!s.modifiers||Object.entries(s.modifiers).some(([k,n])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(n)||n<=0||n>1))))fail(a.id+': invalid formation stance');
   if(p?.type==='mode_support_charge'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||!a.resources?.[p.resource]||p.amount!==1))fail(a.id+': invalid mode support charge');
   if(p?.type==='enemy_shield_mode'&&(!p.name||!p.description||!a.combatModes?.[p.modeId]||a.combatModes[p.modeId].lifetime!=='turns'||!Number.isInteger(a.combatModes[p.modeId].durationTurns)||a.combatModes[p.modeId].durationTurns<1||a.combatModes[p.modeId].durationTurns>3))fail(a.id+': invalid enemy shield mode');
-  if(p?.type==='heal_mp_regen'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Number.isInteger(p.cap)||p.cap<1||p.cap>99))fail(a.id+': invalid heal MP regeneration');
+  if(p?.type==='life_mortgage_pact'&&(!p.name||!p.description||!Number.isFinite(p.damageBonus)||p.damageBonus<=0||p.damageBonus>1||p.blockExternalHealing!==true))fail(a.id+': invalid life mortgage pact');
+  if(p?.blockExternalHealing!==undefined&&p.type!=='life_mortgage_pact')fail(a.id+': healing block requires life mortgage pact');
+  if(p?.type==='heal_mp_regen' &&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Number.isInteger(p.cap)||p.cap<1||p.cap>99))fail(a.id+': invalid heal MP regeneration');
   if(['element_ally_followup','element_ally_weakness_mp'].includes(p?.type)){
    if(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon'].includes(p.element))fail(a.id+': invalid elemental support');
    if(p.type==='element_ally_followup'){

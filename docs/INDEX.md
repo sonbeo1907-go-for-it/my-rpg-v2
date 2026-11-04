@@ -116,3 +116,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Sinh Mệnh Thế Chấp](LIFE_MORTGAGE.md)
 
 - [Ember và Myonne — Hỗ trợ nguyên tố](ELEMENT_SUPPORTS.md)
+
+- [Verena: tự Thế Chấp, trả nợ thay MP và chặn hồi từ ngoài](VERENA.md) — cập nhật 04/11/2026.

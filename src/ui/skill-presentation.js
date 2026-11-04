@@ -1,3 +1,4 @@
+import {preferredLifeDebtCost,lifeDebt} from '../core/life-debt.js';
 import {previewPaidMp} from '../core/powder-combat.js';
 import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive-specials.js';
 import {resolveRankedAbility} from '../core/skill-resolver.js';
@@ -24,13 +25,15 @@ export function skillDescription(skill) {
 
 export function skillCost(skill, actor) {
   const costs = [];
+  if(skill.cost?.preferLifeDebtRatio){const n=Math.ceil(actor.stats.maxHp*skill.cost.preferLifeDebtRatio);costs.push('Ưu tiên '+n+' Thế Chấp ('+Math.round(skill.cost.preferLifeDebtRatio*100)+'% HP tối đa) · Không đủ: '+mpCost({...skill,cost:{mp:skill.cost.mp}},actor)+' MP');if(actor.hp!==undefined)costs.push('Hiện tại: '+(preferredLifeDebtCost(skill,actor)?n+' Thế Chấp':mpCost(skill,actor)+' MP'));}
+  if(skill.cost?.consumeAllLifeDebt)costs.push('Toàn bộ Thế Chấp'+(actor.hp!==undefined?' ('+lifeDebt(actor)+' HP)':''));
   const preferred=skill.cost?.preferResource;
   if (preferred) {
     const name=actor.resources[preferred.id].name;
     costs.push('Ưu tiên '+preferred.amount+' '+name+' · Thiếu tầng: '+skill.cost.mp+' MP');
     if (actor.resourceValues) costs.push('Hiện tại: '+(resourceCost(skill,actor) ? preferred.amount+' '+name : mpCost(skill,actor)+' MP'));
   }
-  if (skill.cost?.mp && !preferred) {
+  if (skill.cost?.mp && !preferred && !skill.cost?.preferLifeDebtRatio) {
     const base=mpCost(skill,actor);
     const cap=actor.passive?.type==='extra_mp_damage' && skill.effects.some(effect=>effect.type==='damage') ? Math.ceil(base*actor.passive.extraCostRatio) : 0;
     const extra=actor.mp===undefined?cap:Math.min(cap,Math.max(0,actor.mp-base));
@@ -186,6 +189,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (effect.formulaScaling) { const power=formulaPower(actor,{correct:choices.formulaCorrect??0,contributors:choices.formulaContributors??0});lines.push((choices.live?'Hiện tại':'Giả định')+': '+power.correct+'/3 dấu đúng · +'+power.baseMagic+' MAG căn bản cho cả ba hit.'); }
       if (effect.unavoidable) lines.push('Hội Tâm: bỏ qua né tránh.');
     }
+    if(effect.spentLifeDebtRatio!==undefined){lines.push('Bản thân hồi '+percent(effect.spentLifeDebtRatio)+' khoản Thế Chấp vừa tiêu. Xóa nợ trước khi hồi; Vết Thương Sâu vẫn giảm hồi.');continue;}
     if (effect.type === 'heal' || effect.type === 'shield') {
       const label = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
       const value = scalingValue(effect,valueOf);

@@ -1371,5 +1371,14 @@
       "attack": 0.25,
       "magic": 0.25
     }
+  },
+  {
+    "id": "verena_promise",
+    "name": "Lời Hứa Bình Minh",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3
+    }
   }
 ]

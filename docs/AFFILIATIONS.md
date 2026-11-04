@@ -31,7 +31,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `drageshelmfjall_merchants` | Hội Thương Nhân Drageshelmfjall | 1 | Myonne |
 | `northern_forest` | Khu rừng phương Bắc | 1 | Minerva |
 
-Toàn bộ 80/80 nhân vật đã có phe. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
+80/81 nhân vật đã có phe. Verena chưa xác định gia tộc/phe phái nên để trống theo luật ở trên. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
 
 ## Vì sao có tên "Viện Nghiên Cứu Tự Xưng của Rhett"
 

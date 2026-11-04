@@ -1195,5 +1195,22 @@
       "myonne.offer": 24,
       "myonne.collect": 10
     }
+  },
+  {
+    "id": "verena",
+    "role": "physical_dps",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "verena.pledge"
+    ],
+    "burstAbilities": [
+      "verena.dawn"
+    ],
+    "skillBias": {
+      "verena.pledge": 12,
+      "verena.tomorrow": 8,
+      "verena.dawn": 0
+    }
   }
 ]

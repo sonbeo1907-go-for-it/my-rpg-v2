@@ -66,3 +66,5 @@ Chữ người chơi nhìn thấy ưu tiên thuần Việt, độc lập ngôn n
 - Sinh Mệnh Thế Chấp dùng effect `{type:"status",status:"life_mortgage"}`; có thể thêm `debtMaxHpRatio:0.15` cho diện rộng. Không khai duration/stack/charge; không tăng nợ theo Rank. Xem [LIFE_MORTGAGE](LIFE_MORTGAGE.md).
 
 - Hỗ trợ nguyên tố: `targetElement` giới hạn người nhận buff theo hệ; `element_ally_followup`/`element_ally_weakness_mp` là nội tại theo kỹ năng của đồng đội khác. Damage có `onHitDispelCount` xóa buff chỉ khi gây sát thương, trên người thực sự trúng. Xem [ELEMENT_SUPPORTS](ELEMENT_SUPPORTS.md).
+
+- Chi phí Thế Chấp: `cost.preferLifeDebtRatio`, hoặc `cost.consumeAllLifeDebt` + `requiresLifeDebt`; hồi self từ snapshot bằng `heal.spentLifeDebtRatio`. Native `life_mortgage_pact` có chặn hồi ngoài khi đang nợ. Xem [VERENA](VERENA.md), không giả nợ thành resource stack.

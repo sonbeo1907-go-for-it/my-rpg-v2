@@ -3313,5 +3313,49 @@
       "element": "dark",
       "amount": 3
     }
+  },
+  {
+    "id": "verena",
+    "name": "Verena",
+    "title": "Người Giữ Những Bình Minh",
+    "element": "fire",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "noble"
+    ],
+    "description": "Thế chấp khả năng hồi phục để duy trì tấn công, rồi tất toán để tự hồi máu.",
+    "biography": "Một nữ quý tộc đã dành cả tuổi thanh xuân gây dựng quỹ từ thiện cho trẻ em mồ côi. Verena đặt tương lai của những đứa trẻ lên trước sự an toàn của chính mình.",
+    "stats": {
+      "maxHp": 190,
+      "maxMp": 85,
+      "attack": 32,
+      "magic": 10,
+      "defense": 17,
+      "resistance": 18,
+      "speed": 19
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "verena.tomorrow",
+      "verena.pledge",
+      "verena.dawn"
+    ],
+    "passive": {
+      "type": "life_mortgage_pact",
+      "name": "Một Lời Hứa Chưa Trả",
+      "description": "Khi có Thế Chấp, gây thêm 15% sát thương và chỉ nhận hồi HP từ bản thân. Hồi phục từ nguồn khác không hồi HP hoặc thanh toán nợ.",
+      "damageBonus": 0.15,
+      "blockExternalHealing": true
+    }
   }
 ]

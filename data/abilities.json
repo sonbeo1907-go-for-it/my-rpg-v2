@@ -9925,5 +9925,92 @@
     "growthGroups": [
       "damage"
     ]
+  },
+  {
+    "id": "verena.tomorrow",
+    "name": "Ngọn Lửa Vì Ngày Mai",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10,
+      "preferLifeDebtRatio": 0.1
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "primaryMultiplier": 1.8
+      }
+    ],
+    "skillLineId": "verena.tomorrow",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Gây 180% ATK Hỏa cho mục tiêu chính, 120% cho các địch còn lại. Đủ Thế Chấp bằng 10% HP tối đa: tiêu nợ thay MP."
+  },
+  {
+    "id": "verena.pledge",
+    "name": "Đặt Cược Cả Thanh Xuân",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "life_mortgage",
+        "debtMaxHpRatio": 0.4
+      },
+      {
+        "type": "status",
+        "status": "verena_promise",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "verena.pledge",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "description": "Tự nhận Thế Chấp bằng 40% HP tối đa; tăng 30% ATK trong 3 lượt chính.",
+    "cooldown": 3
+  },
+  {
+    "id": "verena.dawn",
+    "name": "Tất Cả Cho Những Bình Minh",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 14,
+      "consumeAllLifeDebt": true
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "scalingStat": "attack",
+        "multiplier": 2.4
+      },
+      {
+        "type": "heal",
+        "to": "self",
+        "spentLifeDebtRatio": 0.75
+      }
+    ],
+    "skillLineId": "verena.dawn",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "heal"
+    ],
+    "rankable": true,
+    "description": "Tiêu hết Thế Chấp, gây 240% ATK Hỏa lên mọi địch rồi tự hồi HP bằng 75% khoản vừa tiêu.",
+    "cooldown": 3,
+    "requiresLifeDebt": true
   }
 ]
