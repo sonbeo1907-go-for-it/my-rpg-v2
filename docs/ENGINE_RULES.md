@@ -66,3 +66,7 @@ VFX đọc event, không sửa combat. Phân biệt nguồn đang act, hit, stat
 Save app v7, không xóa key legacy. Quest/dungeon thường không lưu battle RNG/queue; Chronicle có adapter checkpoint riêng, rollback nếu persist lỗi. Mọi thưởng, gear, Rank, mở khóa, quota đi qua persist trước publish. Failed-save retry không reroll; UI không tự cấp/nhận lại do mount/replay/skip animation. Test bằng save riêng.
 
 Hồn Kiếm: hai hạn mức tăng tự nhiên theo đội/vòng, dùng chung main/extra; không tính basic/Defend/phản ứng. Tsukiha dùng nguyên tố nhân vật Hỏa và hit Hỏa + Hồn Kiếm: điểm yếu chỉ một hệ số, một tầng Sơ Hở/cast. Xem [SWORD_SOUL](SWORD_SOUL.md).
+
+## Thăng Tiến và Hồn Kiếm vòng trước (05/11/2026)
+
+`escalation.hitDamageGrowth` tăng sát thương cơ sở trước mọi damage amp (không thuộc nhóm amp chỉ lấy lớn nhất), nhân mỗi hit sau trên cùng mục tiêu trong một hành động; mặc định ×1,05, reset từng action/target. Buff thường theo2 lượt chính; Chiyoko duy trì bản boundStatuses cùng mode permanent, không dispel riêng. Mode penetration khai báo theo damageType. Eri đọc spentRound/spent của phe mình ở đầu vòng, chỉ vòng liền trước và cap+100% MAG. Xem [ERI_CHIYOKO](ERI_CHIYOKO.md).

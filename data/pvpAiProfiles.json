@@ -1359,5 +1359,38 @@
       "akane.wound": 8,
       "akane.burst": 12
     }
+  },
+  {
+    "id": "eri",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "eri.masterpiece"
+    ],
+    "skillBias": {
+      "eri.stroke": 5,
+      "eri.duet": 8,
+      "eri.masterpiece": 12
+    }
+  },
+  {
+    "id": "chiyoko",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "chiyoko.awaken"
+    ],
+    "burstAbilities": [
+      "chiyoko.finale"
+    ],
+    "skillBias": {
+      "chiyoko.cut": 5,
+      "chiyoko.sweep": 8,
+      "chiyoko.awaken": 18,
+      "chiyoko.finale": 14
+    }
   }
 ]

@@ -80,7 +80,7 @@ export function chooseBattleAction(b,actor,io){
   if(!raw||raw.activation==='passive')continue;
   const skill=resolveRankedAbility(b.content,actor,raw);if(!io.abilityAvailability(b,actor,skill).ok)continue;
   const edit=skill.effects.some(e=>e.type==='edit_formula')?bestEdit(b,actor,skill):undefined;if(edit===null)continue;
-  let targets=io.targetsFor(b,actor,skill);if(['self','all_allies','all_enemies','adjacent_allies','random_enemies'].includes(skill.target)&&!skill.effects.some(e=>e.primaryMultiplier!==undefined))targets=targets.slice(0,1);
+  let targets=io.targetsFor(b,actor,skill);if(['self','all_allies','all_enemies','adjacent_allies','random_enemies'].includes(skill.target)&&!skill.effects.some(e=>e.primaryMultiplier!==undefined||e.to==='primary'))targets=targets.slice(0,1);
   for(const target of targets)candidates.push({skill,score:cheapScore(b,actor,skill,target,p),command:{actorId:actor.id,abilityId:id,targetId:target.id,...(edit?{formulaEdit:edit}:{})}});
  }
  candidates.sort((a,b)=>b.score-a.score);

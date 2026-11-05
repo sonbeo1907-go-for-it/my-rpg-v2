@@ -9,7 +9,7 @@ const content=await loadContent();
 const EXPECTED={
  northern_village:['armie','arthur','astraea','elaine','fiona','garrek','kai','tobin'],
  hunters_guild:['bennett','brant','chloe','dain','ember','flammelapis','freya','galliard','henrris','iris','joshua','judy','karin','logia','rowan','sylva','takeshi','tywin','yumia'],
- magic_academy:['artesia','auguste','aurora','drake','finmel','fran','kreider','lumine','monica'],
+ magic_academy:['artesia','auguste','aurora','drake','eri','finmel','fran','kreider','lumine','monica'],
  house_ranoc:['helena','kyle','leonardo','lisbeth'],
  rhett_research_facility:['amaryllis','arden','rhett'],
 };

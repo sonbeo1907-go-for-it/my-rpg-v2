@@ -7,6 +7,7 @@ export const GEAR_NAMES = { t1: 'Trang bị cấp thấp', t2: 'Trang bị cấp
 export const AFFILIATION_LABELS = {
   keijo_mountains: 'Núi Keijo',
   youkai_hunters: 'Hội Thợ Săn Yêu Quái',
+  youkai_hunters_guntai: 'Hội Thợ Săn Yêu Quái / Quân đội Keijo',
   keijo_shrine: 'Đền Keijo',
   capital_knights: 'Kị sĩ đoàn Thủ đô',
   hunters_guild: 'Hội Thợ Săn',

@@ -261,7 +261,7 @@ function SkillInfo({
       )}
       <p className="popover-target">
         {skill.target === "adjacent_allies" ? "Hai ô kề: " + targetsFor({...battle,content},actor,skill).map((item:any)=>item.name).join(" · ") : skill.target === "random_enemies" ? randomTargetLabel(skill) : skill.target.startsWith("all_")
-          ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
+          ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined||effect.to==='primary') ? ` · Chính: ${target?.name ?? ""}` : "")
           : `Mục tiêu: ${target?.name ?? actor.name}`}
       </p>
 
@@ -730,7 +730,7 @@ export function BattlePage() {
   const hasFormulaField=battle.actors.some((item:any)=>activeFormula({...battle,content},item));
   const arenaVersion=battle.arena?.rulesetVersion?` · Luật ${battle.arena.rulesetVersion}`:'';
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
-    ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
+    ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined||effect.to==='primary') ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
   if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · Đấu tập với AI</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(isBattleFinished(battle)&&!busy&&!farm?.enabled)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel)}/><FarmPanel/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;

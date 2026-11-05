@@ -10883,5 +10883,234 @@
     ],
     "rankable": true,
     "cooldown": 2
+  },
+  {
+    "id": "eri.stroke",
+    "name": "Nét Cọ — Chấm Sơn",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 2.2
+      }
+    ],
+    "description": "Chấm một nét địa thuật lên kẻ địch.",
+    "skillLineId": "eri.stroke",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "eri.duet",
+    "name": "Song Sắc — Vẽ Núi",
+    "target": "enemy",
+    "cost": {
+      "mp": 14
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 1.8,
+        "hits": 2
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      }
+    ],
+    "description": "Vẽ hai nét phép lên một địch và tạo Hồn Kiếm.",
+    "skillLineId": "eri.duet",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 1
+  },
+  {
+    "id": "eri.masterpiece",
+    "name": "Đại Họa — Giang Sơn Nhập Mộng",
+    "target": "enemy",
+    "cost": {
+      "mp": 32,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 6
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 2.4,
+        "hits": 3
+      }
+    ],
+    "description": "Dồn ma lực vào ba nét vẽ trên một mục tiêu.",
+    "skillLineId": "eri.masterpiece",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 3
+  },
+  {
+    "id": "chiyoko.cut",
+    "name": "Nhất Thức — Ảnh Trảm",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2.2
+      }
+    ],
+    "description": "Rút tachi chém một địch bằng kiếm khí Ám.",
+    "skillLineId": "chiyoko.cut",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "presentation": "iaido_draw"
+  },
+  {
+    "id": "chiyoko.sweep",
+    "name": "Nhị Thức — Đoạn Không",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.75,
+        "primaryMultiplier": 2.5,
+        "hits": 2
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      }
+    ],
+    "description": "Chém hai nhịp vào mục tiêu chính và hai ô kề, tạo 1 Hồn Kiếm.",
+    "skillLineId": "chiyoko.sweep",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "presentation": "iaido_twin",
+    "cooldown": 2
+  },
+  {
+    "id": "chiyoko.awaken",
+    "name": "Tổ Kiếm — Hợp Mạch",
+    "target": "self",
+    "cost": {
+      "teamResource": {
+        "id": "sword_soul",
+        "amount": 6
+      }
+    },
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "ancestral_edge"
+      }
+    ],
+    "description": "Hợp nhất kiếm pháp tổ tiên đến hết trận, mở Tuyệt Thức.",
+    "presentation": "iaido_awaken",
+    "skillLineId": "chiyoko.awaken",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Biến hình và nội tại cố định, không tăng theo Rank."
+  },
+  {
+    "id": "chiyoko.finale",
+    "name": "Tuyệt Thức — Vạn Ảnh Quy Kiếm",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 28,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 6
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "hits": 5
+      },
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.8,
+        "to": "primary",
+        "penetration": 1
+      }
+    ],
+    "description": "Chém toàn địch năm nhịp, rồi kết liễu mục tiêu chính bằng một nhát xuyên RES.",
+    "skillLineId": "chiyoko.finale",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "presentation": "iaido_eclipse",
+    "requiresMode": "ancestral_edge",
+    "cooldown": 3
   }
 ]

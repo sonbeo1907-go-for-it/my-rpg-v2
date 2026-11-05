@@ -2,7 +2,7 @@
 
 Ảnh chụp biên tập từ dữ liệu hiện hành; không thay thế bảng cân bằng. Thông số được sinh từ resolver khi chơi. Các mô tả không cần sửa được giữ nguyên. Tạo lại: `node scripts/audit-skill-copy.mjs`.
 
-Phạm vi: **90 nhân vật, 288 kỹ năng chủ động/nâng cấp/dạng** và nội tại tương ứng.
+Phạm vi: **92 nhân vật, 295 kỹ năng chủ động/nâng cấp/dạng** và nội tại tương ứng.
 
 ## Arthur
 
@@ -1083,4 +1083,29 @@ Tiếp ứng đồng đội tạo Hồn Kiếm, rồi gom linh hỏa thành mộ
 | Phong Tiễn — Xuyên Diệp | Bắn một mũi phong tiễn vào kẻ địch. |
 | Liên Tiễn — Rạch Gió | Bắn xuyên đội hình địch và gây Vết Thương Sâu, tập trung vào mục tiêu chính. |
 | Bí Tiễn — Ưng Nhãn Đoạt Mệnh | Dồn phong tiễn vào mục tiêu chính và quét qua những kẻ địch còn lại. |
+
+## Shimoe Eri
+
+Gom sắc màu từ Hồn Kiếm đội đã tiêu ở vòng trước, rồi dồn ma lực vào một mục tiêu.
+
+**Sắc Màu Của Những Linh Hồn:** Hồn Kiếm đội đã tiêu ở vòng trước tiếp sức cho nét vẽ vòng này.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Nét Cọ — Chấm Sơn | Chấm một nét địa thuật lên kẻ địch. |
+| Song Sắc — Vẽ Núi | Vẽ hai nét phép lên một địch và tạo Hồn Kiếm. |
+| Đại Họa — Giang Sơn Nhập Mộng | Dồn ma lực vào ba nét vẽ trên một mục tiêu. |
+
+## Chiyoko
+
+Dùng ATK thi triển kiếm thuật gây sát thương phép, hợp nhất tổ kiếm để tăng tiến những đòn chém liên hoàn.
+
+**Di Sản Bất Đoạn:** Trong Tổ Kiếm Hợp Nhất, nhận 30% ATK và xuyên 25% RES.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Nhất Thức — Ảnh Trảm | Rút tachi chém một địch bằng kiếm khí Ám. |
+| Nhị Thức — Đoạn Không | Chém hai nhịp vào mục tiêu chính và hai ô kề, tạo 1 Hồn Kiếm. |
+| Tổ Kiếm — Hợp Mạch | Hợp nhất kiếm pháp tổ tiên đến hết trận, mở Tuyệt Thức. |
+| Tuyệt Thức — Vạn Ảnh Quy Kiếm | Chém toàn địch năm nhịp, rồi kết liễu mục tiêu chính bằng một nhát xuyên RES. |
 

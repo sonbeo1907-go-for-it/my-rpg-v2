@@ -8,7 +8,8 @@ import {stealBaseStat} from './stat-theft.js';
 import {skillDamageBonus} from './damage-amplification.js';
 import {formationAbility} from './advanced-combat.js';
 import {damageElements,elementalResistance} from './elements.js';
-import {priorityTaggedAlly,teamSpentPenetration,selectedTeamCost,growTeamResources,spentTeamHits,initializeTeamResources,teamResourceValue,teamResourceSpent,teamCostAvailability,changeTeamResource,scaledTeamEffect,teamCostAmount,teamSpendStatBonuses,scaledSpentTeamEffect} from './team-resources.js';
+import {hitGrowthRatio,modePenetration} from './hit-growth.js';
+import {teamResourceState,priorityTaggedAlly,teamSpentPenetration,selectedTeamCost,growTeamResources,spentTeamHits,initializeTeamResources,teamResourceValue,teamResourceSpent,teamCostAvailability,changeTeamResource,scaledTeamEffect,teamCostAmount,teamSpendStatBonuses,scaledSpentTeamEffect} from './team-resources.js';
 import {captureDamageBuffs,settleDamageBuffs} from './charged-buffs.js';
 import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
@@ -360,6 +361,10 @@ function startRound(battle) {
   expireFormulaFields(battle,modeIO);
   expireRoundEffects(battle,modeIO);
   expireTurnOrderField(battle,modeIO);
+  for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||p?.type!=='previous_round_team_spend_buff'||!procAvailable(battle,owner,p.type))continue;
+    markProc(battle,owner,p.type);const state=teamResourceState(battle,owner,p.resource),spent=state?.spentRound===battle.round-1?state.spent:0,ratio=Math.min(p.cap,spent*p.perStack);
+    if(ratio>0){announcePassive(battle,owner,owner.id);applyStatus(battle,owner,p.statusId,1,owner.id,{appliedModifiers:{[p.stat]:ratio}});}
+  }
   activateRoundGear(battle,{status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write});
   roundSummons(battle,"start",modeIO);
   for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||p?.type!=='round_team_resource'||!procAvailable(battle,owner,p.type))continue;
@@ -1100,6 +1105,8 @@ function hit(
   options = {},
 ) {
   const context = options.actionContext ?? attackContext(battle, attacker);
+  const growth=hitGrowthRatio(battle.content,attacker);
+  if(growth>0||context.skill?.presentation?.startsWith('iaido_')){context.hitSequences??=new Map();const index=context.hitSequences.get(originalTarget.id)??0;context.hitSequences.set(originalTarget.id,index+1);context.hitIndex=index;context.hitGrowthMultiplier=(1+growth)**index;}
   try {
     return resolveHit(battle, attacker, originalTarget, effect, spent, {
       ...options,
@@ -1132,7 +1139,7 @@ function resolveHit(
       targetId: target.id,
       sourceId: attacker.id,
       damageType: effect.damageType, element: effect.element, ...(effect.additionalElements?{elements:damageElements(effect)}:{}),
-      hitIndex: actionContext.hitIndex ?? 0,
+      hitIndex: actionContext.hitIndex ?? 0, ...(effect.to==='primary'?{primaryOnly:true}:{}),
     });
     write(battle, `${target.name} né đòn của ${attacker.name}.`);
     const dodgeHeal = exclusivePassive(target,"dodge_heal");
@@ -1199,7 +1206,7 @@ function resolveHit(
   }
   const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus:0)+(actionContext.statRatioBonuses?.[key]??0),actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
-  const extraPenetration = (penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
+  const extraPenetration = modePenetration(attacker,effect.damageType)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
   const defense =
     stat(
       battle,
@@ -1245,10 +1252,12 @@ function resolveHit(
   ]
     .filter(Boolean)
     .join(" / ");
+  // Hit growth is a base-damage stage, separate from strongest-only skill amplification.
+  const hitGrowthMultiplier = actionContext.hitGrowthMultiplier ?? 1;
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRaw=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
   let amount = Math.max(
     1,
     Math.floor(
@@ -1262,7 +1271,7 @@ function resolveHit(
             effect.speedMultiplier ?? 0,
           ) -
           defense * 0.55,
-      ) *
+      ) * hitGrowthMultiplier *
         elementalResistance(target,effect) *
         weaknessMultiplier * gearOutgoingMultiplier(battle,attacker,target,actionContext) * gearIncomingMultiplier(battle,target,effect,gearIO) *
         bossFireMultiplier(attacker, effect) * (attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier ?? 1) *
@@ -1330,7 +1339,7 @@ function resolveHit(
     weaknessMultiplier,
     damageType: effect.damageType,
     abilityId: actionContext.skillId ?? actionContext.skill?.id,
-    area, reaction, hitIndex: actionContext.hitIndex ?? 0,
+    area, reaction, hitIndex: actionContext.hitIndex ?? 0, ...(effect.to==='primary'?{primaryOnly:true}:{}),
     primary: target.id === actionContext.primaryTargetId,
     ...(actionContext.automatic ? { automatic: true } : {}),
   });
@@ -1563,7 +1572,7 @@ function applyEffect(
   }
   if(battle.pvpRules&&effect.type==='damage'&&!actionContext.pvpDamage)actionContext.pvpTargetSnapshot=targets.filter(t=>t.team!==actor.team).map(t=>t.id);
   const selectedAlly=effect.selectAlly?priorityTaggedAlly(battle,actor,effect.selectAlly):null;
-  const recipients = effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : targets;
+  const recipients = effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : effect.to==='primary'?targets.filter(t=>t.id===actionContext.primaryTargetId):targets;
   for (const target of recipients) {
     if (!living(target)) continue;
     if(effect.requiresDamageHit&&!actionContext.gearImpacts.some(hit=>hit.target.id===target.id))continue;
@@ -1787,7 +1796,7 @@ function resolveAction(
   const area = targetsAsGroup(skill);
   const targets = selectedTargets(battle,actor,skill,targetId);
   if (!targets.length) throw new Error("Mục tiêu không hợp lệ.");
-  if (skill.effects.some(effect=>effect.primaryMultiplier!==undefined) && !legal.some(target=>target.id===targetId)) throw new Error("Mục tiêu chính không hợp lệ.");
+  if (skill.effects.some(effect=>effect.primaryMultiplier!==undefined||effect.to==='primary') && !legal.some(target=>target.id===targetId)) throw new Error("Mục tiêu chính không hợp lệ.");
   if (skill.effects.some(effect=>effect.type==='edit_formula')) validateFormulaEdit(activeFormula(battle,actor),formulaEdit);
   const theorem=skill.effects.some(effect=>effect.formulaScaling) ? formulaSnapshot(battle,actor) : null;
   // Validate everything before mutating MP, resources or turn order.

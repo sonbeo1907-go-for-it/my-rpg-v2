@@ -173,7 +173,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if(effect.additionalElements)lines.push('Nguyên tố: '+elementLabel(effect,ELEMENT_NAMES)+' · điểm yếu chỉ áp dụng một lần.');
       const hitPrefix = effect.hits > 1 ? `${effect.hits} hit × (` : '';
       const hybrid = new Set(skill.effects.filter(effect => effect.type === 'damage').map(effect => effect.damageType)).size > 1;
-      lines.push(`Hệ số${hybrid ? effect.damageType === 'physical' ? ' phần vật lí (tính DEF)' : ' phần ma pháp (tính RES)' : ''}: ${hitPrefix}${formula}${hitPrefix ? ')' : ''}.`);
+      lines.push(`${effect.to==='primary'?'Mục tiêu chính · ':''}Hệ số${hybrid ? effect.damageType === 'physical' ? ' phần vật lí (tính DEF)' : ' phần ma pháp (tính RES)' : ''}: ${hitPrefix}${formula}${hitPrefix ? ')' : ''}.`);
       if (actor.passive?.type === 'field_growth' && !choices.live) {
         const passive = actor.passive;
         const growth = choices.fieldStacks ?? actor.statuses?.find(status => status.id === passive.statusId)?.growth ?? 0;

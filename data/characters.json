@@ -3914,5 +3914,162 @@
       "statusId": "akane_tailwind",
       "duration": 1
     }
+  },
+  {
+    "id": "eri",
+    "name": "Shimoe Eri",
+    "title": "Cọ Vẽ Của Học Viện",
+    "affiliation": "magic_academy",
+    "element": "earth",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "tags": [
+      "sword_soul",
+      "magic_academy"
+    ],
+    "description": "Gom sắc màu từ Hồn Kiếm đội đã tiêu ở vòng trước, rồi dồn ma lực vào một mục tiêu.",
+    "biography": "Học sinh Học Viện Ma Pháp, Eri dùng cọ vẽ để biến linh hồn và màu sắc thành những bức họa có sức mạnh ma thuật.",
+    "stats": {
+      "maxHp": 110,
+      "maxMp": 120,
+      "attack": 8,
+      "magic": 42,
+      "defense": 10,
+      "resistance": 25,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "abilities": [
+      "eri.stroke",
+      "eri.duet",
+      "eri.masterpiece"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "previous_round_team_spend_buff",
+      "name": "Sắc Màu Của Những Linh Hồn",
+      "description": "Đầu vòng, mỗi Hồn Kiếm đội đã tiêu ở vòng trước cho bản thân 20% MAG, tối đa 100%, đến hết vòng hiện tại.",
+      "resource": "sword_soul",
+      "statusId": "eri_palette",
+      "stat": "magic",
+      "perStack": 0.2,
+      "cap": 1
+    }
+  },
+  {
+    "id": "chiyoko",
+    "name": "Chiyoko",
+    "title": "Huyền Kiếm Trừ Yêu",
+    "affiliation": "youkai_hunters_guntai",
+    "element": "dark",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters",
+      "guntai"
+    ],
+    "description": "Dùng ATK thi triển kiếm thuật gây sát thương phép, hợp nhất tổ kiếm để tăng tiến những đòn chém liên hoàn.",
+    "biography": "Thợ săn yêu quái huyền thoại đang phục vụ trong quân đội Keijo. Thanh tachi của Chiyoko nối tiếp kiếm pháp và lời thề trừ yêu được tổ tiên truyền lại.",
+    "stats": {
+      "maxHp": 185,
+      "maxMp": 110,
+      "attack": 40,
+      "magic": 12,
+      "defense": 18,
+      "resistance": 22,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.8,
+        "scalingStat": "attack",
+        "hits": 2,
+        "additionalElements": [
+          "sword_soul"
+        ]
+      }
+    ],
+    "basicPresentation": "iaido_basic",
+    "abilities": [
+      "chiyoko.cut",
+      "chiyoko.sweep",
+      "chiyoko.awaken",
+      "chiyoko.finale"
+    ],
+    "normalAbilities": [
+      "chiyoko.cut",
+      "chiyoko.sweep",
+      "chiyoko.awaken"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "combat_mode",
+      "name": "Di Sản Bất Đoạn",
+      "description": "Trong Tổ Kiếm Hợp Nhất, nhận 30% ATK và xuyên 25% RES."
+    },
+    "combatModes": {
+      "ancestral_edge": {
+        "name": "Tổ Kiếm Hợp Nhất",
+        "lifetime": "permanent",
+        "baseStatBonuses": {
+          "attack": 10
+        },
+        "statModifiers": {
+          "attack": 0.3
+        },
+        "penetration": {
+          "damageType": "magical",
+          "ratio": 0.25
+        },
+        "boundStatuses": [
+          "escalation"
+        ],
+        "allowedAbilities": [
+          "$attack",
+          "chiyoko.cut",
+          "chiyoko.sweep",
+          "chiyoko.finale",
+          "$defend"
+        ],
+        "commandAbilities": [
+          "$attack",
+          "chiyoko.cut",
+          "chiyoko.sweep",
+          "chiyoko.finale",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "summary": "+10 ATK căn bản · +30% ATK · Xuyên 25% RES · Thăng Tiến",
+        "description": "Hợp nhất kiếm pháp tổ tiên đến hết trận. Thăng Tiến luôn hiệu lực khi dạng còn tồn tại."
+      }
+    }
   }
 ]

@@ -52,3 +52,5 @@ Kiểm chứng: `test/sword-soul.test.js`, `e2e/sword-soul.spec.ts`, full regres
 Mở rộng chính thức: [bốn nhân vật Hồn Kiếm mới](SWORD_SOUL_QUARTET.md). Xem riêng ngoại lệ Izuna tự Liên kích và Kaguya cap10; không áp ngoại lệ lên mọi nhân vật.
 
 Miyuki: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md) — tự vào mode ở6 Hồn Kiếm, kỹ năng Thủy/Hồn Kiếm và Choáng theo ATK.
+
+Bổ sung Chiyoko (05/11/2026): mọi đòn gây sát thương của cô, kể cả đánh thường, mang Ám + Hồn Kiếm. Đánh thường hai hệ vẫn không tạo Hồn Kiếm tự nhiên. Nhị Thức — Đoạn Không tạo trực tiếp1 Hồn Kiếm một lần sau chuỗi đánh; không theo hit/mục tiêu.

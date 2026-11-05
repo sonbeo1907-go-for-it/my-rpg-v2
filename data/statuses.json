@@ -1497,5 +1497,25 @@
       "attack": 0.5
     },
     "description": "Tăng ATK đến hết vòng hiện tại."
+  },
+  {
+    "id": "eri_palette",
+    "name": "Sắc Màu Linh Hồn",
+    "kind": "buff",
+    "durationClock": "round",
+    "defaultDuration": 1,
+    "modifiers": {
+      "magic": 0.2
+    },
+    "description": "Tăng MAG theo Hồn Kiếm đội đã tiêu ở vòng trước."
+  },
+  {
+    "id": "escalation",
+    "name": "Thăng Tiến",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "hitDamageGrowth": 0.05,
+    "description": "Mỗi đòn sau trên cùng mục tiêu tăng 5% sát thương cơ sở trong hành động, trước khuếch đại sát thương."
   }
 ]

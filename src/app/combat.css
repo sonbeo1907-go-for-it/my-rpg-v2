@@ -456,3 +456,12 @@
 .life-debt-meter progress { accent-color: #b64883; height: 6px; }
 .life-debt-meter progress::-webkit-progress-value { background: #b64883; }
 .life-debt-meter progress::-moz-progress-bar { background: #b64883; }
+
+/* Chiyoko: cold-blue iaido cuts. Target-local signatures, never a board/background override. */
+.iaido-signature{overflow:visible}.iaido-trail{transform-origin:50% 50%;animation:iaido-cut var(--vfx-duration,360ms) cubic-bezier(.12,.75,.2,1) both}.iaido-afterimage{animation:iaido-echo var(--vfx-duration,360ms) ease-out both}.iaido-flash{animation:iaido-flash var(--vfx-duration,360ms) ease-out both}.iaido-ring{transform-origin:center;animation:iaido-ring var(--vfx-duration,360ms) ease-out both}.iaido-sheath{transform-origin:center;animation:iaido-draw var(--vfx-duration,500ms) cubic-bezier(.16,.9,.25,1) both}
+@keyframes iaido-cut{0%{opacity:0;transform:scaleX(.05) translateX(-30%)}18%{opacity:1;transform:scaleX(1.06) translateX(0)}65%{opacity:.85}100%{opacity:0;transform:scaleX(1.12) translateX(5%)}}
+@keyframes iaido-echo{0%,8%{opacity:0}20%{opacity:.65}100%{opacity:0;transform:translateY(13px)}}
+@keyframes iaido-flash{0%{opacity:0}16%{opacity:.9}50%{opacity:.25}100%{opacity:0}}
+@keyframes iaido-ring{0%{opacity:0;transform:scale(.4)}24%{opacity:.9}100%{opacity:0;transform:scale(1.35)}}
+@keyframes iaido-draw{0%{opacity:0;transform:translateY(24px) scaleY(.65)}25%{opacity:1;transform:translateY(-8px) scaleY(1.03)}75%{opacity:.9}100%{opacity:0;transform:translateY(-16px) scaleY(1.05)}}
+@media(prefers-reduced-motion:reduce){.iaido-signature *{animation:none!important;transform:none!important}}

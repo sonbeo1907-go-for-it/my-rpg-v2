@@ -89,7 +89,9 @@
       "miyuki",
       "susanoo",
       "yukino",
-      "akane"
+      "akane",
+      "eri",
+      "chiyoko"
     ],
     "gearRates": [
       {
@@ -268,6 +270,14 @@
         },
         {
           "id": "akane",
+          "from": "2026-11-09"
+        },
+        {
+          "id": "eri",
+          "from": "2026-11-09"
+        },
+        {
+          "id": "chiyoko",
           "from": "2026-11-09"
         }
       ]

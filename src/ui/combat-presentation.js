@@ -60,6 +60,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const label = scalingLabel(effect,statNames);
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp,buffs:choices.buffCount });
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
+      if(effect.to==='primary')line='Chính: '+line;
       if(effect.divideAmongTargets)line+=' chia đều';
       if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} ${label} chính / ${percent(effect.multiplier)} ${label} ${skill.target==='enemy_splash'?'ô kề':'còn lại'}`;
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
@@ -116,7 +117,7 @@ export function combatSkillDetails(skill, actor, target, content) {
 export function statusDetails(status, actor, battle, content) {
   const definition = content.statuses[status.id];
   const source = battle.actors.find(item => item.id === status.sourceId) ?? battle.sourceActors?.find(item => item.id === status.sourceId) ?? actor;
-  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, baseStatModifiers:status.baseStatModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
+  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, baseStatModifiers:status.baseStatModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges,statusPermanent:status.modeBound===true });
   const lines = [...presentation.facts, ...presentation.rules];
   if(definition.healingDebt)lines.unshift(`Còn ${status.debtHp??0} HP Thế Chấp cần thanh toán. Thanh toán không kích hiệu ứng được hồi HP.`);
   if(definition.healingDebt&&actor.passive?.blockExternalHealing)lines.unshift('Khi còn Thế Chấp: chỉ hồi phục từ bản thân mới trả nợ và hồi HP. Nguồn khác bị chặn.');

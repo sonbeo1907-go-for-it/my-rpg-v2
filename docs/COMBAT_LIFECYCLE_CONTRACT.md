@@ -185,3 +185,7 @@ Hồn Kiếm: hai limiter tự nhiên theo đội/round dùng chung pha chính/p
 Hồn Kiếm mở rộng: Izuna reserve repeat trước Liên kích, chi phí ảo không phát resource-spent thật; Shion chỉ theo tạo trực tiếp, buff3 clock round; Amiya tạo đầu round kể cả1; Kaguya gộp blessed hits theo action context tối đa2/round, cap10 snapshot riêng đội. [Đặc tả](SWORD_SOUL_QUARTET.md).
 
 Miyuki: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md) dùng clock mode theo lượt chủ, tự vào từ biến động pool hoặc đầu lượt, không refresh mode đang hoạt động, không re-enter trong cùng callback exit. Choáng theo chỉ số đi qua pipeline applyStatus; boss miễn, ngoại lệ scripted nhện vỡ khiên được đánh dấu riêng.
+
+## Bổ sung Eri / Chiyoko — 05/11/2026
+
+Eri chốt lượng Hồn Kiếm phe mình thực tiêu ở vòng liền trước tại startRound, sau hết hạn hiệu ứng cũ và trước gear/summon/tạo tài nguyên vòng mới. Buff MAG có clock round đến hết vòng, cả Vòng Phụ; Choáng không chặn, gục không cấp. Chiyoko dùng mode permanent đến gục/kết thúc thật, không giảm vì skip/Extra/resource0; boundStatuses cấp Thăng Tiến ảo duy trì cùng mode. Bản escalation bình thường có clock main_turn; hitDamageGrowth đếm theo mục tiêu/hành động, không dùng đồng hồ lượt. Chi tiết và ma trận kiểm chứng: [ERI_CHIYOKO](ERI_CHIYOKO.md).

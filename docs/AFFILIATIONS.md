@@ -49,3 +49,5 @@ Bản tiếng Anh là *Rhett's self-proclaimed research facility*. Chọn "tự 
 - `npm.cmd run validate`, `npm.cmd run typecheck`, `npm.cmd test`.
 
 Bổ sung: `keijo_mountains` — Núi Keijo (Izuna); `youkai_hunters` — Hội Thợ Săn Yêu Quái (Shion, Miyuki). Cả hai thuộc cơ chế Hồn Kiếm nhưng có phe riêng.
+
+Bổ sung05/11: Eri thuộc `magic_academy` (Học viện Ma pháp); Chiyoko thuộc `youkai_hunters_guntai` (Hội Thợ Săn Yêu Quái / Quân đội Keijo), tags `youkai_hunters` và `guntai`. Đây là nhãn kép, không đổi phe của thành viên đã có.

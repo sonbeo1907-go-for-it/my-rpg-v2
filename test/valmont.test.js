@@ -284,6 +284,6 @@ test('validation rejects invalid tags, family bonuses, end-turn MP, scaling stat
     data => { data.characters.seraphine.basicAttack[0].multiplier = NaN; },
     data => { data.characters.seraphine.basicAttack[0].damageType = 'hybrid'; },
     data => { data.characters.seraphine.basicAttack[0].element = 'missing'; },
-    data => { data.characters.seraphine.basicAttack[0].hits = 2; }
+    data => { data.characters.seraphine.basicAttack[0].hits = 0; }
   ]) { const invalid = structuredClone(content); corrupt(invalid); assert.ok(validateContent(invalid).length); }
 });
