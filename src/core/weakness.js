@@ -39,7 +39,7 @@ export function resolveWeakness(content, attacker, target, effect, context) {
   const elementWeakness = matchedElements.length>0;
   const typeWeakness = target.damageTypeWeaknesses?.includes(effect.damageType) ?? false;
   const weakness = elementWeakness || typeWeakness;
-  const multiplier = weakness ? Math.max(WEAKNESS_MULTIPLIER, ...activeStatuses(attacker)
+  const multiplier = weakness ? Math.max(WEAKNESS_MULTIPLIER,attacker.combatModes?.[attacker.activeMode]?.weaknessMultiplier??WEAKNESS_MULTIPLIER, ...activeStatuses(attacker)
     .filter(active).map(status => content.statuses[status.id]?.weaknessMultiplier ?? WEAKNESS_MULTIPLIER)) : 1;
   return { elementWeakness, typeWeakness, weakness, multiplier, matchedElements };
 }

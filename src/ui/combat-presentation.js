@@ -54,6 +54,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   for (const authoredEffect of skill.effects) {
     const effect=spentTeamHits(exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks),choices.teamSpent),{correct:choices.formulaCorrect})),choices.teamSpent);
     if(effect.type==='steal_base_stat')parts.push('Cướp '+percent(effect.ratio)+' ATK căn bản · tối đa +'+effect.cap);
+    if(effect.type==='reduce_cooldowns')parts.push('Giảm '+effect.amount+' vòng hồi chiêu');
     if(effect.type==='team_resource')parts.push('+'+effect.amount+' '+teamResourceDefinition(content,effect.resource).name);
     if (effect.type === 'damage') {
       const label = scalingLabel(effect,statNames);

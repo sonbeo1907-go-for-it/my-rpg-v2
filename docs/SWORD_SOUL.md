@@ -4,7 +4,7 @@ Triển khai 05/11/2026. Tên hiển thị thống nhất **Hồn Kiếm**; “K
 
 ## Tài nguyên chung Keijo
 
-- Khi đội có nhân vật khai `teamResources.sword_soul`, tạo pool 0/6 cho toàn đội. Các khai báo cùng ID phải giống hoàn toàn. Đối thủ có pool/giới hạn riêng; owner gục không tự xóa pool.
+- Khi đội có nhân vật khai `teamResources.sword_soul`, tạo pool 0/6 cho toàn đội (Kaguya nâng trần đội mình lên10; Amiya có thể tạo ngay ở đầu vòng1). Các khai báo cùng ID phải giống hoàn toàn. Đối thủ có pool/giới hạn riêng; owner gục không tự xóa pool.
 - Mỗi vòng, tối đa hai lần tăng tự nhiên: kỹ năng chủ động đầu tiên của một thành viên tag Hồn Kiếm tạo 1; kỹ năng đầu tiên của thành viên không có tag tạo 1. Hạn mức theo **đội và nhóm**, không theo người. Mọi người trong một nhóm dùng chung một cơ hội.
 - Không tính đánh thường, Phòng thủ, phản công, Liên kích, chiêu tự động hoặc bỏ lượt do choáng. Kỹ năng hợp lệ không gây sát thương vẫn tính; né hoặc không áp được buff vẫn là dùng kỹ năng. Lệnh bị từ chối không tính.
 - Tăng tự nhiên sau hiệu ứng kỹ năng và sau kết toán đòn nguồn, trước các phản ứng từ kết thúc cast. Kỹ năng tạo riêng 1 Hồn Kiếm không tiêu hạn mức tự nhiên. Chiêu tạo riêng + tăng tự nhiên lần đầu có thể tạo tổng 2.
@@ -31,7 +31,7 @@ Nhân vật chính thức trong Chiêu Mộ thường, phe `keijo_shrine` (Đề
 | Đánh thường | 0 | 100% ATK vật lí Hỏa. Không tăng tự nhiên. |
 | Linh Hỏa — Nhất Kiếm | 6 / không CD | 200% ATK vật lí Hỏa / Hồn Kiếm, một địch. |
 | Lời Nguyện Trước Cổng Đền | 8 / CD2 | Tạo riêng 1 Hồn Kiếm; +50% ATK bản thân 3 lượt chính. |
-| Keijo Bí Kiếm — Tứ Hồn Quy Hỏa | 24 hoặc 4 Hồn Kiếm / CD2 | 3 hit ×200% ATK Hỏa/Hồn Kiếm. Đủ 4 Hồn Kiếm thì tiêu thay MP và thành 4 hit ×200%. |
+| Keijo Bí Kiếm — Tứ Hồn Quy Hỏa | 24 hoặc 4 Hồn Kiếm / CD2 | 3 hit ×175% ATK Hỏa/Hồn Kiếm. Đủ 4 Hồn Kiếm thì tiêu thay MP và thành 4 hit ×175%. |
 
 Nội tại **Linh Hỏa Gửi Trong Kiếm**: mỗi đơn vị tài nguyên được tạo hoặc tiêu +4 ATK căn bản trong 4 lượt chính, tối đa 3 tầng. Tiêu 4 có thể đầy ngay 3 tầng **trước hit đầu tiên**. Tạo khi đầy vẫn tính. Refresh toàn bộ thời hạn, kể cả đang đủ 3 tầng. Buff có thể bị Phong Ấn chặn/xóa như buff thường. Chủ gục không nhận buff.
 
@@ -43,8 +43,12 @@ Rank tăng damage từng hit 10%/cấp và buff ATK 5%/cấp; không tăng số 
 
 ## Trình bày
 
-Tái dùng bố cục bảng Bằng Chứng/Thuốc Súng và CombatPopover. Sáu ô là lửa xanh có trạng thái đầy/rỗng và tổng x/6. Hạn mức của hai nhóm hiện “Sẵn sàng/Đã tạo”.
+Tái dùng bố cục bảng Bằng Chứng/Thuốc Súng và CombatPopover. Sáu ô mặc định (mười khi có Kaguya) là lửa xanh có trạng thái đầy/rỗng và tổng x/6. Hạn mức của hai nhóm hiện “Sẵn sàng/Đã tạo”.
 
-Cổng torii có vị trí không đổi trong SVG nền bảng, mặt hồ tĩnh cho 0–3; 4–6 thêm nhánh anh đào và cánh hoa. SVG chỉ nằm trong bảng, tuyệt đối không ghi đè background game. Khi số giảm dưới4, về hồ; `prefers-reduced-motion` bỏ hoa rơi/chuyển cảnh. Đối thủ Arena có bảng riêng, không ghi đè bảng mình.
+Cổng torii có vị trí không đổi trong SVG nền bảng, mặt hồ tĩnh cho 0–3; 4 trở lên thêm nhánh anh đào và cánh hoa. SVG chỉ nằm trong bảng, tuyệt đối không ghi đè background game. Khi số giảm dưới4, về hồ; `prefers-reduced-motion` bỏ hoa rơi/chuyển cảnh. Đối thủ Arena có bảng riêng, không ghi đè bảng mình.
 
 Kiểm chứng: `test/sword-soul.test.js`, `e2e/sword-soul.spec.ts`, full regression/validate/typecheck/build. Các mốc MP/CD và chỉ số còn lại là cấu hình playtest do agent hoàn thiện, không phải kết luận cân bằng.
+
+Mở rộng chính thức: [bốn nhân vật Hồn Kiếm mới](SWORD_SOUL_QUARTET.md). Xem riêng ngoại lệ Izuna tự Liên kích và Kaguya cap10; không áp ngoại lệ lên mọi nhân vật.
+
+Miyuki: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md) — tự vào mode ở6 Hồn Kiếm, kỹ năng Thủy/Hồn Kiếm và Choáng theo ATK.

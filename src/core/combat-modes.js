@@ -54,7 +54,10 @@ export function checkCombatMode(battle,actor,reason,io) {
   const expired=modeLifetime(mode)==='rounds' ? (reason==='round_end' ? battle.round>=actor.modeExpiresAfterRound : battle.round>actor.modeExpiresAfterRound)
     : modeLifetime(mode)==='turns' ? (actor.modeTurnsRemaining??0)<=0 : false;
   const empty=modeLifetime(mode)==='team_resource' ? ['turn_start','round_end','action_end'].includes(reason)&&teamResourceValue(battle,actor,mode.resource)<=0 : modeLifetime(mode)==='resource' && (reason==='turn_start'||reason==='round_end') && (actor.resourceValues?.[mode?.resource]??0)<=0;
-  return mode && (ended||expired||empty) ? leaveCombatMode(battle,actor,reason,io) : false;
+  const exited=mode && (ended||expired||empty) ? leaveCombatMode(battle,actor,reason,io) : false;
+  const p=actor.passive;
+  if(!exited&&!actor.activeMode&&!ended&&['turn_start','team_resource_changed'].includes(reason)&&p?.type==='team_resource_mode'&&teamResourceValue(battle,actor,p.resource)>=p.threshold){io.announce?.(battle,actor,actor.id);enterCombatMode(battle,actor,p.modeId,io);return true;}
+  return exited;
 }
 // Turn-based modes count the owner's own turns, including the turn that entered the mode.
 export function spendModeTurn(actor) {

@@ -1229,5 +1229,86 @@
       "tsukiha.ember": 6,
       "tsukiha.burst": 10
     }
+  },
+  {
+    "id": "izuna",
+    "role": "magical_dps",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "izuna.offering"
+    ],
+    "burstAbilities": [
+      "izuna.burst"
+    ],
+    "skillBias": {
+      "izuna.strike": 6,
+      "izuna.offering": 12,
+      "izuna.burst": 10
+    }
+  },
+  {
+    "id": "shion",
+    "role": "offensive_support",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "shion.offering"
+    ],
+    "burstAbilities": [
+      "shion.burst"
+    ],
+    "skillBias": {
+      "shion.strike": 6,
+      "shion.offering": 12,
+      "shion.burst": 10
+    }
+  },
+  {
+    "id": "amiya",
+    "role": "offensive_support",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "amiya.offering"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "amiya.strike": 6,
+      "amiya.offering": 12,
+      "amiya.burst": 10
+    }
+  },
+  {
+    "id": "kaguya",
+    "role": "tank",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "kaguya.burst"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "kaguya.strike": 6,
+      "kaguya.offering": 12,
+      "kaguya.burst": 10
+    }
+  },
+  {
+    "id": "miyuki",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "miyuki.offering"
+    ],
+    "burstAbilities": [
+      "miyuki.burst"
+    ],
+    "skillBias": {
+      "miyuki.strike": 5,
+      "miyuki.offering": 6,
+      "miyuki.burst": 12
+    }
   }
 ]

@@ -9,15 +9,21 @@ export function initializeTeamResources(battle,previous){
  battle.teamResources={};
  for(const actor of battle.actors)for(const[id,definition]of Object.entries(actor.teamResources??{})){
   const side=battle.teamResources[actor.team]??={};if(side[id])continue;
+  const maximum=Math.max(definition.max,...battle.actors.filter(a=>a.team===actor.team&&a.passive?.type==='blessed_team_resource'&&a.passive.resource===id).map(a=>a.passive.maximum));
   const old=previous?.[actor.team]?.[id];
-  if(old&&(!Number.isSafeInteger(old.value)||old.value<0||old.value>definition.max||!Number.isSafeInteger(old.revision)||old.revision<0||!Number.isSafeInteger(old.spent)||old.spent<0))throw Error('Dữ liệu tài nguyên đội không hợp lệ.');
+  if(old&&(!Number.isSafeInteger(old.value)||old.value<0||old.value>maximum||!Number.isSafeInteger(old.revision)||old.revision<0||!Number.isSafeInteger(old.spent)||old.spent<0))throw Error('Dữ liệu tài nguyên đội không hợp lệ.');
   if(old?.growthRounds&&(typeof old.growthRounds!=='object'||Array.isArray(old.growthRounds)||Object.entries(old.growthRounds).some(([k,v])=>!['member','other'].includes(k)||!Number.isSafeInteger(v)||v<0)))throw Error('Dữ liệu tăng trưởng tài nguyên đội không hợp lệ.');
-  side[id]={growthRounds:structuredClone(old?.growthRounds??{}),name:definition.name,icon:definition.icon,max:definition.max,value:old?.value??0,revision:old?.revision??0,spentRound:old?.spentRound??0,spent:old?.spent??0};
+  side[id]={growthRounds:structuredClone(old?.growthRounds??{}),name:definition.name,icon:definition.icon,max:maximum,value:old?.value??0,revision:old?.revision??0,spentRound:old?.spentRound??0,spent:old?.spent??0};
  }
 }
 export const teamResourceState=(battle,actor,id)=>battle.teamResources?.[typeof actor==='string'?actor:actor.team]?.[id]??null;
 export const teamResourceValue=(battle,actor,id)=>teamResourceState(battle,actor,id)?.value??0;
 export const teamResourceSpent=(battle,actor,id)=>{const state=teamResourceState(battle,actor,id);return state?.spentRound===battle.round?state.spent:0;};
+export function priorityTaggedAlly(battle,actor,rule){
+ const allies=battle.actors.filter(a=>a.team===actor.team&&isAlive(a)&&(!rule.excludeSelf||a.id!==actor.id)).sort((a,b)=>(a.formationSlot??99)-(b.formationSlot??99));
+ return allies.find(a=>a.tags?.includes(rule.preferTag))??(rule.requireTag?null:allies[0]??null);
+}
+export function teamSpentPenetration(actor,context,effect){const p=actor.passive;return p?.type==='team_spend_penetration'&&p.damageType===effect.damageType&&(context.teamResourceSpent?.[p.resource]??0)>0?p.penetration:0;}
 export function selectedTeamCost(battle,actor,skill){const preferred=skill.cost?.preferTeamResource;return preferred&&teamResourceValue(battle,actor,preferred.id)>=preferred.amount?preferred:skill.cost?.teamResource??null;}
 export function spentTeamHits(effect,spent){const r=effect.hitsWhenTeamSpent;return r&&spent>=r.at?{...effect,hits:r.hits}:effect;}
 export function growTeamResources(battle,actor,skill,io){
@@ -52,6 +58,7 @@ export function changeTeamResource(battle,actor,id,amount,io){
   const baseStatModifiers=p.baseStatPerStack?Object.fromEntries(Object.entries(p.baseStatPerStack).map(([key,n])=>[key,n*nextStacks])):undefined;
   io.announce(battle,owner,owner.id);io.status(battle,owner,p.statusId,p.duration,owner.id,{stacks:created||spent,baseStatModifiers});
  }
+ io.checkModes?.(battle,actor.team);
  return event;
 }
 export function scaledTeamEffect(content,effect,count){
@@ -76,6 +83,14 @@ export function validateTeamResourceContent(content){
  for(const actor of actors){const p=actor.passive;
   if(p?.type==='team_resource_growth'&&(!definitions.has(p.resource)||!p.name||!p.description||!content.statuses[p.statusId]?.modifiersPerStack||!Number.isInteger(p.duration)||p.duration<1))fail(actor.id+': invalid resource growth');
   if(p?.baseStatPerStack!==undefined&&(p.type!=='team_resource_growth'||!Object.keys(p.baseStatPerStack).length||Object.entries(p.baseStatPerStack).some(([k,v])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(v)||v<=0||v>20)))fail(actor.id+': invalid shared growth base stat');
+  if(['team_spend_penetration','ally_team_creation','round_team_resource','blessed_team_resource','team_resource_mode'].includes(p?.type)){
+   if(!definitions.has(p.resource)||!p.name||!p.description)fail(actor.id+': invalid resource native');
+   if(p.type==='team_resource_mode'&&(!Number.isInteger(p.threshold)||p.threshold<1||p.threshold>20||!actor.combatModes?.[p.modeId]||actor.combatModes[p.modeId].lifetime!=='turns'))fail(actor.id+': invalid shared mode');
+   if(p.type==='team_spend_penetration'){const a=content.abilities[p.repeatAbility];if(p.damageType!=='magical'||!Number.isFinite(p.penetration)||p.penetration<=0||p.penetration>1||!actor.abilities.includes(p.repeatAbility)||a?.target!=='all_enemies'||a.effects.some(e=>e.type!=='damage')||!Number.isInteger(p.virtualSpent)||p.virtualSpent<1)fail(actor.id+': invalid resource repeat');}
+   if(p.type==='ally_team_creation'&&(p.amount!==1||!content.statuses[p.statusId]||content.statuses[p.statusId].durationClock!=='round'||!Number.isInteger(p.duration)||p.duration<1))fail(actor.id+': invalid creation support');
+   if(p.type==='round_team_resource'&&(p.amount!==1||p.enhancedAmount!==2||(!Number.isInteger(p.memberThreshold)||p.memberThreshold<2)||!Number.isFinite(p.enhancedTeamMpRatio)||p.enhancedTeamMpRatio<=0||p.enhancedTeamMpRatio>1||typeof p.memberTag!=='string'||!p.memberTag))fail(actor.id+': invalid round resource');
+   if(p.type==='blessed_team_resource'&&(!Number.isInteger(p.maximum)||p.maximum<definitions.get(p.resource)?.max||p.maximum>20||!content.statuses[p.blessingStatus]||p.amount!==1||p.perRound!==2))fail(actor.id+': invalid blessed resource');
+  }
   if(p?.type==='spent_resource_followup'){
    const a=content.abilities[p.followUpAbility];if(!definitions.has(p.resource)||!p.name||!p.description||a?.activation!=='passive'||a.target!=='enemy'||a.cost||a.cooldown||a.effects.some(e=>e.type!=='damage'))fail(actor.id+': invalid spent-resource follow-up');
   }

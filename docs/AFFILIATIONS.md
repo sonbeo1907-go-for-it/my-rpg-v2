@@ -29,10 +29,10 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `destiny_heralds` | Sứ giả Định Mệnh | 1 | Chelsea |
 | `wanderer` | Lãng khách | 1 | Mori |
 | `drageshelmfjall_merchants` | Hội Thương Nhân Drageshelmfjall | 1 | Myonne |
-| `keijo_shrine` | Đền Keijo | 1 | Tsukiha |
+| `keijo_shrine` | Đền Keijo | 3 | Amiya, Kaguya, Tsukiha |
 | `northern_forest` | Khu rừng phương Bắc | 1 | Minerva |
 
-81/82 nhân vật đã có phe. Verena chưa xác định gia tộc/phe phái nên để trống theo luật ở trên. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
+86/87 nhân vật đã có phe. Verena chưa xác định gia tộc/phe phái nên để trống theo luật ở trên. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
 
 ## Vì sao có tên "Viện Nghiên Cứu Tự Xưng của Rhett"
 
@@ -47,3 +47,5 @@ Bản tiếng Anh là *Rhett's self-proclaimed research facility*. Chọn "tự 
 - `test/affiliations.test.js`: slug hợp lệ, nhãn tiếng Việt đầy đủ, thành viên năm phe vừa bổ sung/điều chỉnh, ngữ nghĩa `owned`/`all`/`locked`.
 - `e2e/roster-defaults.spec.ts`: mặc định sở hữu + Level giảm dần, chuyển "Tất cả" thì thấy nhân vật chưa mở khóa và giữ được sau reload.
 - `npm.cmd run validate`, `npm.cmd run typecheck`, `npm.cmd test`.
+
+Bổ sung: `keijo_mountains` — Núi Keijo (Izuna); `youkai_hunters` — Hội Thợ Săn Yêu Quái (Shion, Miyuki). Cả hai thuộc cơ chế Hồn Kiếm nhưng có phe riêng.

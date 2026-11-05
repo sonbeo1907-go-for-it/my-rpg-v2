@@ -1,3 +1,5 @@
+import {statusApplicationChance} from '../core/status-chance.js';
+import {STAT_LABELS} from '../core/catalog.js';
 import {ELEMENT_NAMES} from '../core/content.js';
 import {elementLabel} from '../core/elements.js';
 import {selectedTeamCost,spentTeamHits} from '../core/team-resources.js';
@@ -221,6 +223,11 @@ export function skillScaling(skill, actor, content, choices = {}) {
     }
     if(effect.lifeStealRatio)lines.push('Hút máu '+percent(effect.lifeStealRatio)+' sát thương HP thực gây ra; không tính khiên hoặc overkill.');
     if(effect.type==='shield'&&effect.primaryMultiplier!==undefined)lines.push('Mục tiêu chính: '+percent(effect.primaryMultiplier)+' '+scalingLabel(effect,{defense:'DEF',speed:'SPD'})+'; các đồng đội còn lại: '+percent(effect.multiplier)+' cùng chỉ số.');
+    if(effect.type==='reduce_cooldowns')lines.push('Giảm '+effect.amount+' vòng hồi chiêu đang có, không xuống dưới 0.');
+    if(effect.selectAlly)lines.push('Chọn đồng đội Hồn Kiếm khác còn sống ở ô nhỏ nhất; thiếu mục tiêu thì chỉ bản thân nhận lượt.');
+    if(effect.onHitStatus?.chanceScaling){const q=effect.onHitStatus.chanceScaling;lines.push('Choáng: '+Number((statusApplicationChance(content,{...actor,statuses:actor.statuses??[]},q)*100).toFixed(1))+'%, tối đa '+Number(q.cap*100)+'% tại '+q.at+' '+STAT_LABELS[q.stat]+' ('+(q.basis==='base'?'căn bản':'hiện tại')+'). Boss miễn nhiễm.');}
+    if(effect.requiresDamageHit)lines.push('Cần mục tiêu thực sự nhận sát thương HP hoặc khiên từ chiêu.');
+    if(effect.onHitStatus?.primaryStacks)lines.push('Sơ Hở: '+effect.onHitStatus.primaryStacks+' tầng ở mục tiêu chính / '+effect.onHitStatus.stacks+' ở mục tiêu còn lại.');
     if (effect.type === 'grant_extra_turn') lines.push('Cấp 1 Lượt Thêm trong Vòng Phụ hiện tại; tối đa 1/người/vòng. Không chen lượt chính. Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     if (effect.onHitStatus) {
       const mark=content.statuses[effect.onHitStatus.status];

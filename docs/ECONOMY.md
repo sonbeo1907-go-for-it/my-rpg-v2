@@ -11,6 +11,10 @@ Nguồn: economy.json, banners.json, blacksmith.json, gearEffects.json; economy.
 - Astoria không trong gacha/đổi Pure, chỉ Developer Option; Tobin có đường nhận riêng ở Thợ Rèn sau10 intro QuyểnI, không tự cho miễn phí toàn roster.
 - Kết quả/pity/ví ghi trước animation. Skip/reveal/reload không cấp thưởng hoặc quay lại. RNG gacha độc lập RNG combat.
 
+## Chiêu Mộ theo phe — cập nhật 05/11/2026
+
+Lịch Thứ Hai–Tư /Thứ Năm–Bảy một banner; Chủ Nhật hai banner, mỗi banner1chính+2phụ. FIFO15 chống lặp; tỷ lệ có điều kiện25%/12,5%/12,5% và50% ngoài. Pity riêng cho mỗi banner theo đợt, kể cả hai banner Chủ Nhật; hết hạn đặt lại0, không chuyển banner, `standard` vẫn riêng; không có bảo hiểm thắng rate-up sau lệch. Cấu hình, roster chốt và contract save/UI ở [RATE_UP_BANNERS](RATE_UP_BANNERS.md).
+
 ## Thưởng Quest
 
 Mức gốc normal50 Coin hoặc5 Vụn, boss150 Coin hoặc15 Vụn, mỗi nhánh50%; nhân hệ số độ khó từ progressionRules. Thưởng lần đầu riêng vẫn nhận đầy đủ. Tier không đổi theo nhánh được roll.

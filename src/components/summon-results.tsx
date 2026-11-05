@@ -35,7 +35,7 @@ export function SummonResultsPage() {
     <main className="summon-results-page">
       <PageHeader
         title="Những hồi đáp từ Prisma"
-        subtitle={`${content.banners[batch.bannerId].name} · ${batch.results.length} kết quả đã lưu`}
+        subtitle={`${(batch.rateUp?content.banners.standard.rateUpRotation.groups.find((g:any)=>g.id===batch.rateUp.groupId)?.name:content.banners[batch.bannerId].name)} · ${batch.results.length} kết quả đã lưu`}
         back="/recruitment"
       />
       <div className="results-intro">

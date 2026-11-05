@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "../runtime/game-context";
 import {
@@ -8,6 +8,8 @@ import {
   convertCoinsToPrisma,
   economyRules,
 } from "../core/economy.js";
+import {characterDrawChance,rateUpPityKey} from "../core/rate-up.js";
+import {useRecruitmentSchedule,FactionArtwork,bannerWindow,bannerStyle} from "./rate-up-banner";
 import { gearSlotCapacity } from "../core/gear-slots.js";
 import { GEAR_NAMES } from "../core/catalog.js";
 import {
@@ -22,7 +24,7 @@ function RecruitmentInfo({ banner }: { banner: any }) {
   const { content, campaign } = useGame();
   const rules = economyRules(content);
   const rates = bannerRates(banner);
-  const pity = campaign.gacha.pity?.[banner.id] ?? 0;
+  const pity = campaign.gacha.pity?.[rateUpPityKey(banner)] ?? 0;
   const threshold = banner.pity?.characterAt;
   const batch = campaign.gacha.lastSummon;
   return (
@@ -53,7 +55,7 @@ function RecruitmentInfo({ banner }: { banner: any }) {
             </div>
             <progress max={threshold} value={pity} />
             <p>Còn tối đa {threshold - pity} lượt đến nhân vật tiếp theo.</p>
-            <small>Reset khi quay ra nhân vật, kể cả bản trùng.</small>
+            <small>Đặt lại khi ra nhân vật, kể cả bản trùng.{banner.featured?" Mỗi banner có bộ đếm riêng. Hết đợt, pity về 0 và không chuyển sang banner khác.":" Bộ đếm riêng của Chiêu Mộ thường."}</small>
           </div>
         )}
         {batch && (
@@ -81,11 +83,7 @@ function RecruitmentInfo({ banner }: { banner: any }) {
               {fmt(rates.byType[rate.typeId] * 100)}% mỗi lượt.
             </p>
           ))}
-          <p>
-            Mỗi nhân vật trong pool:{" "}
-            {fmt((rates.character / banner.characterPool.length) * 100)}% mỗi
-            lượt cơ bản.
-          </p>
+          {banner.featured?<><p>Khi ra nhân vật: 50% thuộc nhóm tăng cơ hội, 50% thuộc các nhân vật còn lại. Chưa có bảo hiểm thắng tăng cơ hội sau khi lệch.</p><table className="rateup-odds"><caption>Tỷ lệ theo đợt đang chọn</caption><thead><tr><th>Nhân vật</th><th>Khi ra nhân vật</th><th>Mỗi lượt cơ bản</th></tr></thead><tbody>{banner.featured.map((id:string)=><tr key={id}><td>{content.characters[id].name}</td><td>{fmt(characterDrawChance(banner,id)*100)}%</td><td>{new Intl.NumberFormat('vi-VN',{maximumFractionDigits:3}).format(characterDrawChance(banner,id)*rates.character*100)}%</td></tr>)}<tr><td>Các nhân vật còn lại</td><td>50%</td><td>2,5%</td></tr></tbody></table><p>Nhân vật chính thuộc phe; hai phụ có 50% khả năng một người đến từ phe khác. Mọi nhân vật được tăng cơ hội đều vào hàng đợi chống lặp 15 người. Hàng đợi tính theo lượt xuất hiện, không phải số ngày.</p></>:<p>Mỗi nhân vật trong danh sách: {new Intl.NumberFormat('vi-VN',{maximumFractionDigits:4}).format(rates.character/banner.characterPool.length*100)}% mỗi lượt cơ bản.</p>}
           <p>
             Bản trùng mở thêm một ô trang bị đến 6 và nhận{" "}
             <strong className="pure-prisma-text">
@@ -93,7 +91,7 @@ function RecruitmentInfo({ banner }: { banner: any }) {
             </strong>
             . Chiêu mộ bằng Pure Prisma tại Shop không thay đổi pity quay.
           </p>
-          <div className="banner-pool">
+          <details><summary>Danh sách {banner.characterPool.length} nhân vật</summary><div className="banner-pool">
             {banner.characterPool.map((id: string) => (
               <span key={id}>
                 {content.characters[id].name} ·{" "}
@@ -102,7 +100,7 @@ function RecruitmentInfo({ banner }: { banner: any }) {
                   : "Chưa sở hữu"}
               </span>
             ))}
-          </div>
+          </div></details>
         </details>
       </div>
     </section>
@@ -112,17 +110,21 @@ function RecruitmentInfo({ banner }: { banner: any }) {
 export function RecruitmentPage() {
   const { content, campaign, transact, busy } = useGame();
   const router = useRouter();
-  const [bannerId, setBannerId] = useState(Object.keys(content.banners)[0]);
+  const {banners,now}=useRecruitmentSchedule();
+  const params=useSearchParams();
+  const [bannerId, setBannerId] = useState("");
   const [awakening, setAwakening] = useState<any>(null);
   const [conversion, setConversion] = useState<{
     count: 1 | 10;
     missing: number;
     cost: number;
+    bannerId: string;
   } | null>(null);
   const inFlight = useRef(false);
   const skipped = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const banner = content.banners[bannerId];
+  const banner = banners.find((b:any)=>b.id===bannerId)??banners.find((b:any)=>b.id===params.get("banner"))??banners[0];
+  useEffect(()=>{setConversion(null);},[banner.id]);
   const rules = economyRules(content);
   useEffect(() => {
     if (!awakening) return;
@@ -141,10 +143,11 @@ export function RecruitmentPage() {
   }, [awakening, router]);
   async function summon(count: 1 | 10, convertMissing = false) {
     if (inFlight.current) return;
+    if(convertMissing&&conversion?.bannerId!==banner.id){setConversion(null);return;}
     const price = count === 10 ? rules.tenPullCost : rules.singlePullCost;
     const missing = Math.max(0, price - campaign.prisma);
     if (missing && !convertMissing) {
-      setConversion({ count, missing, cost: missing * rules.prismaCoinCost });
+      setConversion({ count, missing, cost: missing * rules.prismaCoinCost, bannerId:banner.id });
       return;
     }
     inFlight.current = true;
@@ -157,7 +160,7 @@ export function RecruitmentPage() {
         shortfall && convertMissing
           ? convertCoinsToPrisma(current, content, shortfall)
           : current;
-      outcome = pullGacha(funded, content, bannerId, count);
+      outcome = pullGacha(funded, content, banner.id, count);
       return outcome.campaign;
     }, "");
     if (ok) {
@@ -210,30 +213,13 @@ export function RecruitmentPage() {
         </section>
       ) : (
         <>
-          <div className="summon-layout">
-            <section className="summon-stage">
-              <div className="scene-background summon-background" />
+          <div className={"summon-layout rateup-layout"}>
+            <section className={"summon-stage"+(banner.featured?" rateup-stage":"")} style={bannerStyle(banner)} data-active-banner={banner.id}>
+              {banner.featured?<FactionArtwork banner={banner}/>:<div className="scene-background summon-background" /> }
               <div className="summon-stage-content">
-                <span className="eyebrow">KHẾ ƯỚC CỦA NHỮNG VÌ SAO</span>
-                <h2>
-                  Ai đang chờ
-                  <br />
-                  <em>bước cùng ngươi?</em>
-                </h2>
-                <p>
-                  Arthur… giữa những ngả đường định mệnh,
-                  <br />
-                  một linh hồn khác đang nghe thấy lời gọi.
-                </p>
-                <div className="summon-caption">
-                  <Icon />
-                  <span>
-                    {banner.name}
-                    <small>{banner.description}</small>
-                  </span>
-                </div>
+                {banner.featured?<><span className="rateup-period">{bannerWindow(banner)} · Kết thúc 23:59</span><h2>{banner.title}</h2><p>{banner.description}</p><div className="rateup-featured" aria-label="Nhân vật được tăng cơ hội">{banner.featured.map((id:string,i:number)=><Link key={id} href={'/characters/'+id}><small>{i===0?'Nhân vật chính':'Đồng hành'}</small><strong>{content.characters[id].name}</strong><b>{i===0?'25%':'12,5%'} khi ra nhân vật</b></Link>)}</div></>:<><h2>Ai đang chờ<br/>bước cùng ngươi?</h2><p>Arthur… giữa những ngả đường định mệnh,<br/>một linh hồn khác đang nghe thấy lời gọi.</p><div className="summon-caption"><Icon/><span>{banner.name}<small>{banner.description}</small></span></div></>}
                 <div className="summon-actions">
-                  <button disabled={busy} onClick={() => summon(1)}>
+                  <button disabled={busy||!now} onClick={() => summon(1)}>
                     <span>Chiêu mộ 1 lần</span>
                     <CurrencyAmount
                       kind="prisma"
@@ -242,26 +228,29 @@ export function RecruitmentPage() {
                   </button>
                   <button
                     className="gold"
-                    disabled={busy}
+                    disabled={busy||!now}
                     onClick={() => summon(10)}
                   >
                     <span>Chiêu mộ 10 lần</span>
                     <CurrencyAmount kind="prisma" amount={rules.tenPullCost} />
                   </button>
                 </div>
+                {banner.featured&&<p className="rateup-terms">Điều khoản: Mỗi banner có pity riêng, kể cả hai banner Chủ Nhật. Hết thời hạn banner, pity đặt lại về 0; không chuyển hoặc cộng dồn sang banner khác. Lượt 50 bảo đảm nhân vật, không bảo đảm nhân vật tăng cơ hội.</p>}
               </div>
             </section>
             <aside className="banner-sidebar">
-              <span className="eyebrow">NHỮNG CÁNH CỬA ĐỊNH MỆNH</span>
-              {Object.values(content.banners).map((item: any) => (
+              <h2>Chọn lời mời</h2>
+              {banners.map((item: any) => (
                 <button
-                  className={`banner-card ${item.id === bannerId ? "selected" : ""}`}
+                  className={`banner-card ${item.id === banner.id ? "selected" : ""}`}
                   key={item.id}
+                  style={bannerStyle(item)}
+                  aria-pressed={item.id===banner.id}
                   onClick={() => setBannerId(item.id)}
                 >
-                  <Icon />
+                  <FactionArtwork banner={item} compact/>
                   <strong>{item.name}</strong>
-                  <small>Chiêu mộ thường</small>
+                  <small>{item.featured?'Tăng cơ hội · '+bannerWindow(item):'Chiêu Mộ thường'}</small>
                 </button>
               ))}
             </aside>

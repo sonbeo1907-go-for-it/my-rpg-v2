@@ -72,7 +72,10 @@
       "enemy.smash",
       "enemy.quake"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "goblin_shaman",
@@ -117,7 +120,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_fire",
@@ -140,7 +146,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_water",
@@ -163,7 +172,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_earth",
@@ -186,7 +198,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_wind",
@@ -209,7 +224,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_thunder",
@@ -232,7 +250,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_light",
@@ -255,7 +276,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_dark",
@@ -278,7 +302,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_magical",
@@ -302,7 +329,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wyvern_physical",
@@ -326,7 +356,10 @@
       "enemy.wyvern_wings",
       "enemy.wyvern_breath"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wolf_leader",
@@ -348,7 +381,10 @@
       "enemy.wolf_pounce",
       "enemy.wolf_rend"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wolf",
@@ -391,7 +427,10 @@
       "enemy.pangolin_roll",
       "enemy.pangolin_tail"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "small_goblin",
@@ -446,7 +485,10 @@
       "enemy.alice_judgment",
       "enemy.alice_blade"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "miraebolis",
@@ -561,7 +603,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "giant_spider",
@@ -606,7 +651,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "wild_boar",
@@ -870,7 +918,10 @@
       "giant_boar.gore",
       "giant_boar.stampede"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "traveler_keith",
@@ -1109,7 +1160,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "bandit_vanguard",
@@ -1226,7 +1280,10 @@
       "bandit.command_cut",
       "bandit.command_sweep"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "ryoga",
@@ -1250,7 +1307,10 @@
       "ryoga.finish",
       "ryoga.sweep"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "shadow_arthur",
@@ -1341,7 +1401,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "bell_lock_guardian",
@@ -1384,7 +1447,10 @@
     "damageTypeWeaknesses": [
       "magical"
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "ash_cloaked_swordsman",
@@ -1425,7 +1491,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "salt_marsh_witch",
@@ -1467,7 +1536,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "slag_iron_bull",
@@ -1500,7 +1572,10 @@
         "multiplier": 1.2
       }
     ],
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "black_script_cleric",
@@ -1546,7 +1621,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "vesper",
@@ -1587,7 +1665,10 @@
         }
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "rauth",
@@ -1629,7 +1710,10 @@
         "rauth.crush"
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "prototype07",
@@ -1672,7 +1756,10 @@
         "prototype07.overload"
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "dry_river_guardian",
@@ -1715,7 +1802,10 @@
         "river_guardian.flood"
       ]
     },
-    "referenceLevel": 1
+    "referenceLevel": 1,
+    "controlImmunities": [
+      "stun"
+    ]
   },
   {
     "id": "time_quill",
@@ -2286,6 +2376,9 @@
         "status": "starveil_barrier",
         "stacks": 3
       }
+    ],
+    "controlImmunities": [
+      "stun"
     ]
   }
 ]

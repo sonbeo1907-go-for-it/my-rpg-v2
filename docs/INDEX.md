@@ -120,3 +120,9 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Verena: tự Thế Chấp, trả nợ thay MP và chặn hồi từ ngoài](VERENA.md) — cập nhật 04/11/2026.
 
 - [Hồn Kiếm / Tsukiha](SWORD_SOUL.md): nguyên tố mới, đòn Hỏa + Hồn Kiếm, tài nguyên đội 0–6 với hai nhóm tăng tự nhiên mỗi vòng; `preferTeamResource` / `hitsWhenTeamSpent` / `baseStatPerStack` dùng chung. Cập nhật 05/11/2026.
+
+- [Izuna / Shion / Amiya / Kaguya](SWORD_SOUL_QUARTET.md) — Hồn Kiếm: Liên kích kết liễu có tiêu ảo, tạo trực tiếp/đầu vòng, giảm CD, ưu tiên Lượt Thêm, Chúc Phúc và trần10 theo đội (05/11/2026).
+
+- [Chiêu Mộ theo phe và balance Hồn Kiếm](RATE_UP_BANNERS.md) — lịch Việt Nam, FIFO15, rate-up, pity riêng và hết hạn, carousel Chủ Nhật; Amiya cần3 thành viên và hồi MP toàn đội; burst Tsukiha175%/hit. Cập nhật05/11/2026.
+
+- [Miyuki và Choáng theo chỉ số](MIYUKI_AND_CONTROL.md) — mode tự vào khi đủ6 Hồn Kiếm, 3 lượt chủ, tái vào nếu còn đủ; boss miễn Choáng, giữ ngoại lệ nhện vỡ khiên. Shion chỉ cấp lượt cho đồng đội Hồn Kiếm. Pity từng banner, không chuyển/hết đợt đặt lại.

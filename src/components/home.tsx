@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { Icon, Modal, fmt } from "./ui";
 import { DailyCommissions } from "./daily-commissions";
+import { TavernRecruitment } from "./rate-up-banner";
 import { BrandLogo } from "./brand-logo";
 import {
   ProfileSelection,
@@ -148,7 +149,7 @@ export function HomePage() {
           {battle.outcome ? "Xem kết quả trận" : "Tiếp tục trận đang chơi"} →
         </Link>
       )}
-      <Link className="home-summon-banner" href="/recruitment" aria-label="Chiêu Mộ · Tiếng gọi Prisma"><img src="/art/summon-invitation.svg" alt=""/><span><small>TIẾNG GỌI PRISMA</small><strong>Chiêu Mộ</strong><em>Ai đang chờ bước cùng ngươi? →</em></span></Link>
+      <TavernRecruitment />
       {profileMenu&&<Modal title="Hồ sơ người chơi" onClose={()=>setProfileMenu(false)}><div className="stack-actions"><button onClick={()=>{setProfileMenu(false);setRenaming(true);}}>Đổi tên người chơi</button><SwitchProfileButton className="button" onLeave={()=>setProfileMenu(false)}/></div></Modal>}
       {renaming && (
         <ProfileNameDialog

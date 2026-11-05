@@ -177,3 +177,7 @@ Những tên file này là điểm bắt đầu, không giới hạn coverage. K
 Ngoại lệ Verena: Thế Chấp có thể tiêu làm chi phí; chốt native bonus và lượng tiêu trước damage. Khi đang nợ, nguồn hồi ngoài không trả nợ/hồi HP; tự hồi vẫn theo pipeline. Tất toán xóa nợ rồi mới hồi theo snapshot, choáng không tự xóa nợ. Xem [VERENA](VERENA.md).
 
 Hồn Kiếm: hai limiter tự nhiên theo đội/round dùng chung pha chính/phụ; tạo sau cast thành công, không từ skip/Defend/basic/automatic. Chi phí 4 được chốt trước, tạo mới không trả chi phí cast đó. Buff native +4 ATK/tầng refresh 4 lượt chính; tiêu tài nguyên kích trước hit đầu. Xem [SWORD_SOUL](SWORD_SOUL.md).
+
+Hồn Kiếm mở rộng: Izuna reserve repeat trước Liên kích, chi phí ảo không phát resource-spent thật; Shion chỉ theo tạo trực tiếp, buff3 clock round; Amiya tạo đầu round kể cả1; Kaguya gộp blessed hits theo action context tối đa2/round, cap10 snapshot riêng đội. [Đặc tả](SWORD_SOUL_QUARTET.md).
+
+Miyuki: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md) dùng clock mode theo lượt chủ, tự vào từ biến động pool hoặc đầu lượt, không refresh mode đang hoạt động, không re-enter trong cùng callback exit. Choáng theo chỉ số đi qua pipeline applyStatus; boss miễn, ngoại lệ scripted nhện vỡ khiên được đánh dấu riêng.

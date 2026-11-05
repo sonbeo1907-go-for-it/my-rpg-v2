@@ -10088,7 +10088,7 @@
           "sword_soul"
         ],
         "scalingStat": "attack",
-        "multiplier": 2,
+        "multiplier": 1.75,
         "hits": 3,
         "hitsWhenTeamSpent": {
           "id": "sword_soul",
@@ -10104,6 +10104,472 @@
     ],
     "rankable": true,
     "cooldown": 2,
-    "description": "Ba nhát chém, mỗi nhát 200% ATK Hỏa / Hồn Kiếm. Đủ 4 Hồn Kiếm: tiêu thay MP và chém bốn nhát."
+    "description": "Ba nhát chém, mỗi nhát 175% ATK Hỏa / Hồn Kiếm. Đủ 4 Hồn Kiếm: tiêu thay MP và chém bốn nhát."
+  },
+  {
+    "id": "izuna.strike",
+    "name": "Lôi Vũ — Cánh Nhỏ Gọi Giông",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1,
+        "scalingStat": "magic"
+      },
+      {
+        "type": "status",
+        "status": "izuna_magic",
+        "duration": 1,
+        "to": "self"
+      }
+    ],
+    "skillLineId": "izuna.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true,
+    "description": "Gây 100% MAG Lôi / Hồn Kiếm lên mọi địch; tăng 25% MAG bản thân trong 1 lượt chính."
+  },
+  {
+    "id": "izuna.offering",
+    "name": "Tiếng Sáo Trên Đỉnh Núi",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "status",
+        "status": "weakness_exploitation",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "izuna.offering",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "cooldown": 2,
+    "description": "Tạo 1 Hồn Kiếm và nhận Khai Phá Điểm Yếu trong 3 lượt chính.",
+    "fixedReason": "Hiệu quả tiện ích cố định; không tăng theo Rank."
+  },
+  {
+    "id": "izuna.burst",
+    "name": "Thiên Cẩu Bí Thuật — Ngũ Lôi Trùng Tấu",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 0.75,
+        "scalingStat": "magic",
+        "hits": 5
+      }
+    ],
+    "skillLineId": "izuna.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Năm hit, mỗi hit 75% MAG Lôi / Hồn Kiếm lên mọi địch. Kết liễu sẽ Liên kích lặp lại miễn phí, tối đa 1 lần/vòng."
+  },
+  {
+    "id": "shion.strike",
+    "name": "Địa Kiếm — Rạn Thế Yêu Ma",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 9
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1.2,
+        "scalingStat": "attack",
+        "onHitStatus": {
+          "status": "shion_shred",
+          "duration": 2
+        }
+      }
+    ],
+    "skillLineId": "shion.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 1,
+    "description": "Gây 120% ATK Thổ / Hồn Kiếm diện rộng; trúng đòn giảm 15% DEF và RES trong 2 lượt chính."
+  },
+  {
+    "id": "shion.offering",
+    "name": "Hiệu Lệnh — Song Kiếm Đồng Hành",
+    "target": "self",
+    "cost": {
+      "mp": 14
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "grant_extra_turn"
+      },
+      {
+        "type": "grant_extra_turn",
+        "selectAlly": {
+          "preferTag": "sword_soul",
+          "excludeSelf": true,
+          "requireTag": true
+        }
+      }
+    ],
+    "skillLineId": "shion.offering",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "cooldown": 2,
+    "description": "Tạo 1 Hồn Kiếm. Bản thân và một đồng đội Hồn Kiếm còn sống ở ô nhỏ nhất nhận Lượt Thêm.",
+    "fixedReason": "Hiệu quả tiện ích cố định; không tăng theo Rank."
+  },
+  {
+    "id": "shion.burst",
+    "name": "Phục Ma Song Trảm",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 3
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1.5,
+        "scalingStat": "attack",
+        "hits": 2
+      },
+      {
+        "type": "status",
+        "status": "buff_seal",
+        "charges": 1,
+        "requiresDamageHit": true
+      }
+    ],
+    "skillLineId": "shion.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Hai hit Thổ / Hồn Kiếm, mỗi hit 150% ATK. Mỗi địch trúng đòn nhận 1 Phong Ấn sau chiêu."
+  },
+  {
+    "id": "amiya.strike",
+    "name": "Quang Phù — Linh Đăng Khai Lộ",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 0.5,
+        "scalingStat": "magic",
+        "primaryMultiplier": 0.8,
+        "onHitStatus": {
+          "status": "exposure_sword_soul",
+          "stacks": 1,
+          "primaryStacks": 2
+        }
+      }
+    ],
+    "skillLineId": "amiya.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Gây 80% MAG Quang / Hồn Kiếm cho mục tiêu chính, 50% cho địch còn lại; trúng đòn gắn lần lượt 2 và 1 Sơ Hở Hồn Kiếm."
+  },
+  {
+    "id": "amiya.offering",
+    "name": "Hai Ngọn Đèn Chờ Người",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 2
+      }
+    ],
+    "skillLineId": "amiya.offering",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "cooldown": 1,
+    "description": "Tạo 2 Hồn Kiếm.",
+    "fixedReason": "Hiệu quả tiện ích cố định; không tăng theo Rank."
+  },
+  {
+    "id": "amiya.burst",
+    "name": "Lời Nguyện — Kiếm Hồn Đồng Tâm",
+    "target": "all_allies",
+    "cost": {
+      "mp": 18
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "amiya_concord",
+        "duration": 4
+      },
+      {
+        "type": "reduce_cooldowns",
+        "amount": 1
+      }
+    ],
+    "skillLineId": "amiya.burst",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "cooldown": 3,
+    "targetTag": "sword_soul",
+    "excludeSelf": true,
+    "description": "Các đồng đội Hồn Kiếm khác nhận 30% ATK và MAG trong 4 lượt chính; giảm 1 vòng hồi chiêu đang có."
+  },
+  {
+    "id": "kaguya.strike",
+    "name": "Ám Phù — Lặng Tiếng Binh Đao",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1.1,
+        "scalingStat": "magic",
+        "onHitStatus": {
+          "status": "kaguya_calm",
+          "duration": 3
+        }
+      }
+    ],
+    "skillLineId": "kaguya.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 1,
+    "description": "Gây 110% MAG Ám / Hồn Kiếm diện rộng; trúng đòn giảm 20% ATK và MAG trong 3 lượt chính."
+  },
+  {
+    "id": "kaguya.offering",
+    "name": "Lời Ru Bên Hồ Tĩnh",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "multiplier": 1.6,
+        "scalingStat": "magic"
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      }
+    ],
+    "skillLineId": "kaguya.offering",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal"
+    ],
+    "rankable": true,
+    "cooldown": 1,
+    "description": "Hồi 160% MAG HP cho toàn đội và tạo 1 Hồn Kiếm."
+  },
+  {
+    "id": "kaguya.burst",
+    "name": "Hồn Kiếm Chúc Phúc — Cổng Đền Bất Hoại",
+    "target": "all_allies",
+    "cost": {
+      "mp": 18
+    },
+    "effects": [
+      {
+        "type": "shield",
+        "multiplier": 1.8,
+        "scalingStats": [
+          "defense",
+          "resistance"
+        ]
+      },
+      {
+        "type": "status",
+        "status": "sword_soul_blessing",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "kaguya.burst",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield",
+      "stat_buff"
+    ],
+    "rankable": true,
+    "cooldown": 3,
+    "description": "Tạo khiên toàn đội bằng 180% trung bình DEF và RES; ban Chúc Phúc 3 lượt chính: +20% DEF/RES và giảm 25% sát thương nhận."
+  },
+  {
+    "id": "miyuki.strike",
+    "name": "Thủy Kiếm — Nhất Tuyến Trừ Yêu",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2
+      }
+    ],
+    "skillLineId": "miyuki.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Gây 200% ATK vật lí Thủy / Hồn Kiếm lên một địch."
+  },
+  {
+    "id": "miyuki.offering",
+    "name": "Tẩy Trần — Hồn Kiếm Quy Tâm",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "cleanse",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "miyuki.offering",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "description": "Tạo 1 Hồn Kiếm và giải mọi hiệu ứng bất lợi của bản thân.",
+    "cooldown": 2,
+    "fixedReason": "Tạo Hồn Kiếm và giải hiệu ứng là tiện ích cố định."
+  },
+  {
+    "id": "miyuki.burst",
+    "name": "Bí Kiếm — Lục Hồn Đoạn Thủy",
+    "target": "enemy",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 5.5,
+        "onHitStatus": {
+          "status": "stunned",
+          "duration": 1,
+          "chanceScaling": {
+            "stat": "attack",
+            "basis": "dynamic",
+            "at": 160,
+            "cap": 0.8
+          }
+        }
+      }
+    ],
+    "skillLineId": "miyuki.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Gây 550% ATK vật lí Thủy / Hồn Kiếm lên một địch. Khi trúng, có cơ hội gây Choáng 1 lượt theo ATK hiện tại, tối đa 80% tại 160 ATK. Boss miễn Choáng.",
+    "cooldown": 2
   }
 ]

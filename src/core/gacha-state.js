@@ -1,3 +1,4 @@
+import {validateRateUpSnapshot,rateUpPeriod,pruneRateUpPity} from './rate-up.js';
 import { validateGear } from './economy.js';
 // Pity belongs to each banner. Presentation history is saved with the rewards, never grants them again.
 export function normalizeGachaState(input, campaign, content) {
@@ -5,13 +6,14 @@ export function normalizeGachaState(input, campaign, content) {
   const pity = input.pity ?? {};
   if (!pity || typeof pity !== 'object' || Array.isArray(pity)) throw new Error('Bộ đếm pity không hợp lệ.');
   for (const [id, count] of Object.entries(pity)) {
-    const banner = content.banners[id];
-    if (!Object.hasOwn(content.banners, id) || !banner.pity || !Number.isSafeInteger(count) || count < 0 || count >= banner.pity.characterAt || count > input.totalPulls) throw new Error('Bộ đếm pity không hợp lệ.');
+    const banner = (id==='rate_up'||rateUpPeriod(id))?content.banners.standard:content.banners[id];
+    if (!(id==='rate_up'||rateUpPeriod(id)||Object.hasOwn(content.banners, id)) || !banner.pity || !Number.isSafeInteger(count) || count < 0 || count >= banner.pity.characterAt || count > input.totalPulls) throw new Error('Bộ đếm pity không hợp lệ.');
   }
   let lastSummon = null;
   if (input.lastSummon != null) {
     const batch = input.lastSummon; const banner = content.banners[batch.bannerId];
     if (!Object.hasOwn(content.banners, batch.bannerId) || batch.id !== `summon_${input.totalPulls}` || !Array.isArray(batch.results) || ![1, 10].includes(batch.results.length) || batch.results.length > input.totalPulls) throw new Error('Kết quả chiêu mộ không hợp lệ.');
+    if(batch.rateUp!==undefined&&!validateRateUpSnapshot(batch.rateUp,banner))throw Error('Lịch sử đợt Chiêu Mộ không hợp lệ.');
     const results = batch.results.map((result, index) => {
       if (result?.kind === 'gear') {
         const gear = campaign.gear.find(item => item.id === result.gear?.id);
@@ -28,7 +30,7 @@ export function normalizeGachaState(input, campaign, content) {
       }
       throw new Error('Loại kết quả chiêu mộ không hợp lệ.');
     });
-    lastSummon = { id: batch.id, bannerId: batch.bannerId, results };
+    lastSummon = { id: batch.id, bannerId: batch.bannerId, ...(batch.rateUp?{rateUp:structuredClone(batch.rateUp)}:{}), results };
   }
-  return { totalPulls: input.totalPulls, pity: { ...pity }, lastSummon };
+  return { totalPulls: input.totalPulls, pity: pruneRateUpPity(pity), lastSummon };
 }

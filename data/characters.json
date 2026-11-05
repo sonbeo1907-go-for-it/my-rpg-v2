@@ -3418,5 +3418,325 @@
         "attack": 4
       }
     }
+  },
+  {
+    "id": "izuna",
+    "name": "Izuna",
+    "title": "Tiểu Thiên Cẩu Của Núi Keijo",
+    "affiliation": "keijo_mountains",
+    "element": "thunder",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 110,
+      "attack": 10,
+      "magic": 36,
+      "defense": 13,
+      "resistance": 24,
+      "speed": 23
+    },
+    "tags": [
+      "sword_soul",
+      "keijo_mountains"
+    ],
+    "description": "Dồn sét vào năm nhịp tấn công; khi kết liễu, lặp lại đòn bằng sức Hồn Kiếm.",
+    "biography": "Một tengu trẻ sống trên núi Keijo. So với tuổi đời dài của đồng tộc, Izuna vẫn là một cô nhóc thích khoe những trò sấm sét mình vừa học được.",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "izuna.strike",
+      "izuna.offering",
+      "izuna.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "team_spend_penetration",
+      "name": "Sấm Vọng Qua Khe Núi",
+      "description": "Kỹ năng tiêu Hồn Kiếm xuyên 50% RES. Bão sét kết liễu địch sẽ Liên kích lặp lại một lần mỗi vòng, không trả chi phí và được tính là dùng Hồn Kiếm.",
+      "resource": "sword_soul",
+      "damageType": "magical",
+      "penetration": 0.5,
+      "repeatAbility": "izuna.burst",
+      "virtualSpent": 4
+    }
+  },
+  {
+    "id": "shion",
+    "name": "Shion",
+    "title": "Kiếm Khách Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "earth",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 100,
+      "attack": 28,
+      "magic": 12,
+      "defense": 19,
+      "resistance": 21,
+      "speed": 22
+    },
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Tiếp ứng nghi thức tạo Hồn Kiếm, cấp Lượt Thêm và phá thế phòng ngự.",
+    "biography": "Thành viên Hội Thợ Săn Yêu Quái, Shion quen lắng nghe linh hồn trong lưỡi kiếm trước khi bước vào lãnh địa của yêu quái.",
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "shion.strike",
+      "shion.offering",
+      "shion.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "ally_team_creation",
+      "name": "Một Kiếm Đáp Lời",
+      "description": "Khi đồng đội khác dùng kỹ năng tạo Hồn Kiếm trực tiếp, tạo thêm 1 Hồn Kiếm và nhận 40% ATK trong 3 vòng. Mỗi vòng 1 lần.",
+      "resource": "sword_soul",
+      "amount": 1,
+      "statusId": "shion_reply",
+      "duration": 3
+    }
+  },
+  {
+    "id": "amiya",
+    "name": "Amiya",
+    "title": "Ánh Đèn Cầu Nguyện Keijo",
+    "affiliation": "keijo_shrine",
+    "element": "light",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 125,
+      "attack": 10,
+      "magic": 28,
+      "defense": 15,
+      "resistance": 25,
+      "speed": 21
+    },
+    "tags": [
+      "sword_soul",
+      "keijo_shrine"
+    ],
+    "description": "Duy trì Hồn Kiếm, mở Sơ Hở và rút ngắn hồi chiêu cho những người cùng nghi thức.",
+    "biography": "Amiya giữ những lời cầu nguyện của đền Keijo. Trong ánh đèn của cô, các hồn kiếm tìm được một lối đi yên ổn giữa hai bờ.",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "amiya.strike",
+      "amiya.offering",
+      "amiya.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "round_team_resource",
+      "name": "Linh Đăng Dẫn Lối",
+      "description": "Đầu vòng tạo 1 Hồn Kiếm. Khi đội có ít nhất 3 thành viên Hồn Kiếm, gồm bản thân, tạo 2 và hồi 3% MP tối đa cho toàn đội còn sống.",
+      "resource": "sword_soul",
+      "amount": 1,
+      "memberTag": "sword_soul",
+      "memberThreshold": 3,
+      "enhancedAmount": 2,
+      "enhancedTeamMpRatio": 0.03
+    }
+  },
+  {
+    "id": "kaguya",
+    "name": "Kaguya",
+    "title": "Người Che Chở Cổng Trăng",
+    "affiliation": "keijo_shrine",
+    "element": "dark",
+    "role": "Thủ Hộ",
+    "roleGroup": "tank",
+    "stats": {
+      "maxHp": 280,
+      "maxMp": 110,
+      "attack": 12,
+      "magic": 24,
+      "defense": 28,
+      "resistance": 30,
+      "speed": 13
+    },
+    "tags": [
+      "sword_soul",
+      "keijo_shrine"
+    ],
+    "description": "Nâng trần Hồn Kiếm, ban Chúc Phúc và nuôi tài nguyên khi đội được bảo vệ chịu đòn.",
+    "biography": "Kaguya canh giữ cổng đền Keijo dưới bóng trăng. Khi linh hỏa quây quanh những người được cô chúc phúc, từng đòn đánh của kẻ thù lại tiếp sức cho lời nguyện.",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "kaguya.strike",
+      "kaguya.offering",
+      "kaguya.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "blessed_team_resource",
+      "name": "Ngàn Đêm Giữ Hồn",
+      "description": "Nâng trần Hồn Kiếm của đội lên 10. Khi một hành động gây sát thương HP hoặc khiên cho người mang Hồn Kiếm Chúc Phúc, tạo 1 Hồn Kiếm; tối đa 2 lần mỗi vòng.",
+      "resource": "sword_soul",
+      "maximum": 10,
+      "blessingStatus": "sword_soul_blessing",
+      "amount": 1,
+      "perRound": 2
+    }
+  },
+  {
+    "id": "miyuki",
+    "name": "Miyuki",
+    "title": "Lãng Kiếm Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "water",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Nương dòng Hồn Kiếm để thức tỉnh, dồn kiếm khí vào một mục tiêu và tìm cơ hội làm choáng.",
+    "biography": "Một kiếm khách của Hội Thợ Săn Yêu Quái. Miyuki lặng lẽ lắng nghe các hồn kiếm bên dòng nước, chờ khoảnh khắc họ cùng cất tiếng mới rút kiếm kết thúc cuộc săn.",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 95,
+      "attack": 32,
+      "magic": 10,
+      "defense": 18,
+      "resistance": 20,
+      "speed": 20
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "miyuki.strike",
+      "miyuki.offering",
+      "miyuki.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "team_resource_mode",
+      "name": "Lục Hồn Khai Kiếm",
+      "description": "Khi đội có ít nhất 6 Hồn Kiếm, vào Lục Hồn Thủy Kính trong 3 lượt của bản thân, không tiêu tài nguyên. Dạng tăng 25% ATK và cho Khai Phá Điểm Yếu. Hết dạng mà vẫn đủ 6, vào lại khi bắt đầu lượt kế.",
+      "resource": "sword_soul",
+      "threshold": 6,
+      "modeId": "soul_tide"
+    },
+    "combatModes": {
+      "soul_tide": {
+        "name": "Lục Hồn Thủy Kính",
+        "lifetime": "turns",
+        "durationTurns": 3,
+        "exitMpRatio": 0,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "attack": 0.25
+        },
+        "weaknessMultiplier": 2,
+        "allowedAbilities": [
+          "$attack",
+          "miyuki.strike",
+          "miyuki.offering",
+          "miyuki.burst",
+          "$defend"
+        ],
+        "presentationScope": "none",
+        "summary": "+25% ATK · Khai Phá Điểm Yếu · 3 lượt bản thân"
+      }
+    }
   }
 ]

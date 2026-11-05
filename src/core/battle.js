@@ -1,3 +1,4 @@
+import {statusApplicationChance,stunImmune} from './status-chance.js';
 import {applyPvpDamageCap,allowPvpHit,pvpPeriodicContext,reservePvpAutomatic} from './pvp-damage.js';
 import {chooseBattleAction} from './battle-ai.js';
 import {payMpTeamResources,sharedPenetration,spentSharedDamage,nativePenetration,lightningChargeEligible} from './powder-combat.js';
@@ -7,7 +8,7 @@ import {stealBaseStat} from './stat-theft.js';
 import {skillDamageBonus} from './damage-amplification.js';
 import {formationAbility} from './advanced-combat.js';
 import {damageElements,elementalResistance} from './elements.js';
-import {selectedTeamCost,growTeamResources,spentTeamHits,initializeTeamResources,teamResourceValue,teamResourceSpent,teamCostAvailability,changeTeamResource,scaledTeamEffect,teamCostAmount,teamSpendStatBonuses,scaledSpentTeamEffect} from './team-resources.js';
+import {priorityTaggedAlly,teamSpentPenetration,selectedTeamCost,growTeamResources,spentTeamHits,initializeTeamResources,teamResourceValue,teamResourceSpent,teamCostAvailability,changeTeamResource,scaledTeamEffect,teamCostAmount,teamSpendStatBonuses,scaledSpentTeamEffect} from './team-resources.js';
 import {captureDamageBuffs,settleDamageBuffs} from './charged-buffs.js';
 import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
@@ -73,11 +74,11 @@ import {lifeDebt,payLifeDebt,clearLifeDebt,preferredLifeDebtCost,externalHealing
 import { checkCombatMode, enterCombatMode, leaveCombatMode, modeAvailability, spendModeTurn } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
 import { mpCost, hpCost, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus, targetsAsGroup } from "./conditional-combat.js";
-const modeIO = { write, emit: emitEvent, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
+const modeIO = { announce:announcePassive, write, emit: emitEvent, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
   apply:(battle,actor,effects)=>{for(const effect of effects) applyEffect(battle,actor,[actor],effect,0,false);}
 };
 const specialIO={restore:gainResource,heal:healHp,status:applyStatus,stat,emit:emitEvent,write,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId)??t,[t],{type:'shield',flat},0,false)};
-const teamIO={emit:emitEvent,write,status:applyStatus,announce:announcePassive};
+const teamIO={emit:emitEvent,write,status:applyStatus,announce:announcePassive,checkModes:(b,team)=>{for(const a of b.actors.filter(a=>a.team===team))checkCombatMode(b,a,'team_resource_changed',modeIO);}};
 const gearIO={status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write,shield:(battle,actor,flat)=>applyEffect(battle,actor,[actor],{type:'shield',flat},0,false)};
 const living = isAlive;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -248,6 +249,7 @@ function modifier(battle, actor, key, ignoreConsumables = false) {
   return statusModifier(battle.content, actor, key, ignoreConsumables);
 }
 function flag(battle, actor, key) {
+  if(key==='skipTurn'&&stunImmune(battle.content,actor)&&!activeStatuses(actor).some(s=>s.bypassControlImmunity&&battle.content.statuses[s.id]?.skipTurn))return false;
   return statusDefinitions(battle, actor).some((status) => status[key]);
 }
 function stat(battle, actor, key, ignoreConsumables = false) {
@@ -305,8 +307,33 @@ function finishAttackContext(battle, actor, context) {
   triggerShieldSurvivalFollowups(battle,actor,context);
   triggerAllySkillCounters(battle,actor,context);
   triggerReceivedDamageCounters(battle,actor,context);
+  triggerBlessedResource(battle,context);
+  triggerKillRepeat(battle,actor,context);
 }
 
+// Reaction limits are reserved before creating resources or resolving repeated damage.
+function triggerBlessedResource(battle,context){
+ for(const id of context.blessedResourceOwners??[]){const owner=getActor(battle,id),p=owner?.passive;if(!living(owner)||p?.type!=='blessed_team_resource')continue;
+  const key=Array.from({length:p.perRound},(_,i)=>p.type+':'+i).find(key=>procAvailable(battle,owner,key));if(!key)continue;
+  markProc(battle,owner,key);announcePassive(battle,owner,owner.id);changeTeamResource(battle,owner,p.resource,p.amount,teamIO);
+ }
+}
+function triggerCreationSupport(battle,source,skill,context){
+ if(skill.id.startsWith('$')||skill.activation==='passive'||context.reaction||context.automatic)return;
+ for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||owner.team!==source.team||owner.id===source.id||p?.type!=='ally_team_creation'||!context.explicitTeamCreated?.has(p.resource)||!procAvailable(battle,owner,p.type))continue;
+  markProc(battle,owner,p.type);announcePassive(battle,owner,owner.id);changeTeamResource(battle,owner,p.resource,p.amount,teamIO);applyStatus(battle,owner,p.statusId,p.duration,owner.id);
+ }
+}
+function triggerKillRepeat(battle,owner,context){
+ const p=owner.passive;if(!living(owner)||p?.type!=='team_spend_penetration'||context.reaction||context.automatic||context.skillId!==p.repeatAbility||!context.directDefeats?.size||!procAvailable(battle,owner,'kill_repeat'))return;
+ const targets=battle.actors.filter(a=>a.team!==owner.team&&living(a));if(!targets.length||!reservePvpAutomatic(battle,owner,modeIO))return;
+ markProc(battle,owner,'kill_repeat');announcePassive(battle,owner,targets[0].id);
+ const skill=resolveRankedAbility(battle.content,owner,p.repeatAbility),reaction={...attackContext(battle,owner),pvpRegistered:true,skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',primaryTargetId:targets[0].id,teamResourceSpent:{[p.resource]:p.virtualSpent}};
+ write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+skill.name+' · tính là dùng Hồn Kiếm, không trả chi phí.');
+ emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(t=>t.id),area:true,abilityId:skill.id});
+ for(const effect of skill.effects)applyEffect(battle,owner,targets,effect,0,true,reaction);
+ finishAttackContext(battle,owner,reaction);
+}
 function startRound(battle) {
   battle.round += 1;
   battle.phase = "main";
@@ -324,6 +351,12 @@ function startRound(battle) {
   expireTurnOrderField(battle,modeIO);
   activateRoundGear(battle,{status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write});
   roundSummons(battle,"start",modeIO);
+  for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||p?.type!=='round_team_resource'||!procAvailable(battle,owner,p.type))continue;
+    markProc(battle,owner,p.type);const members=battle.actors.filter(a=>a.team===owner.team&&a.tags?.includes(p.memberTag)).length;
+    announcePassive(battle,owner,owner.id);changeTeamResource(battle,owner,p.resource,members>=p.memberThreshold?p.enhancedAmount:p.amount,teamIO);
+    if(members>=p.memberThreshold&&p.enhancedTeamMpRatio)for(const ally of battle.actors.filter(a=>a.team===owner.team&&living(a)))gainResource(battle,ally,"mp",Math.floor(battleMaxMp(battle.content,ally)*p.enhancedTeamMpRatio),owner.id);
+  }
+  for(const owner of battle.actors)checkCombatMode(battle,owner,'team_resource_changed',modeIO);
   if (checkOutcome(battle)) return;
   battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
   battle.mainTurnOrder = [...battle.queue];
@@ -671,6 +704,8 @@ export function targetsFor(battle, actor, skill) {
       (allies ? target.team === actor.team : target.team !== actor.team),
   );
   if(skill.targetElement)targets=targets.filter(target=>target.element===skill.targetElement);
+  if(skill.targetTag)targets=targets.filter(target=>target.tags?.includes(skill.targetTag));
+  if(skill.excludeSelf)targets=targets.filter(target=>target.id!==actor.id);
   if (skill.requiresTargetStatus) targets = targets.filter(target => target.statuses.some(status => status.id === skill.requiresTargetStatus && status.stacks > 0));
   if (skill.target === "enemy") {
     const taunting = targets.filter((target) => flag(battle, target, "taunt"));
@@ -688,7 +723,7 @@ export function selectedTargets(battle,actor,skill,targetId) {
 }
 
 export function abilityAvailability(battle, actor, skill) {
-  if(actor&&skill.targetElement&&!targetsFor(battle,actor,skill).length)return {ok:false,reason:"Không có đồng đội đúng hệ để nhận kỹ năng."};
+  if(actor&&(skill.targetElement||skill.targetTag||skill.excludeSelf)&&!targetsFor(battle,actor,skill).length)return {ok:false,reason:"Không có đồng đội phù hợp để nhận kỹ năng."};
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
   if(skill.requiresLifeDebt&&lifeDebt(actor)<=0)return {ok:false,reason:'Cần có Thế Chấp để tất toán.'};
@@ -1142,7 +1177,7 @@ function resolveHit(
   }
   const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus:0)+(actionContext.statRatioBonuses?.[key]??0),actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
-  const extraPenetration = (penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
+  const extraPenetration = (penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
   const defense =
     stat(
       battle,
@@ -1232,6 +1267,10 @@ function resolveHit(
   const life=applyLifeDamage(battle,target,amount,{element:effect.element,healthFloor:bossHealthFloor(target)},{write,emit:emitEvent});
   const lostHp=life.hpLost,vitalityDamage=life.hpLost+life.maxHpLost;
   const hpAfter=target.hp;
+  if(attacker.team!==target.team&&vitalityDamage+absorbed>0){
+    if(!living(target)){actionContext.directDefeats??=new Set();actionContext.directDefeats.add(target.id);}
+    for(const owner of battle.actors){const p=owner.passive;if(living(owner)&&owner.team===target.team&&p?.type==='blessed_team_resource'&&activeStatuses(target).some(s=>s.id===p.blessingStatus&&(s.remaining==null||s.remaining>0))){actionContext.blessedResourceOwners??=new Set();actionContext.blessedResourceOwners.add(owner.id);}}
+  }
   if(effect.lifeStealRatio&&lostHp>0)actionContext.lifeStealHp=(actionContext.lifeStealHp??0)+lostHp*effect.lifeStealRatio;
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0){
     if(counterRaw>0){actionContext.receivedCounterDamage??=new Map();actionContext.receivedCounterDamage.set(target.id,(actionContext.receivedCounterDamage.get(target.id)??0)+counterRaw);}
@@ -1316,7 +1355,7 @@ function resolveHit(
       announcePassive(battle,target,target.id,target.passive.name??"Vỡ khiên");
       write(battle, `${target.name} vỡ khiên!`);
       for (const status of target.passive.statuses)
-        applyStatus(battle, target, status.id, status.duration, attacker.id);
+        applyStatus(battle, target, status.id, status.duration, attacker.id,{bypassControlImmunity:true});
     }
   }
   if(vitalityDamage+absorbed>0) { gearAfterDirectHit(battle,target,{lostHp,absorbed,hpAfter},gearIO); if(weakness) gearObserveWeakness(battle,attacker,gearIO); }
@@ -1338,11 +1377,11 @@ function resolveHit(
       }
     }
     if (effect.onHitStatus) {
-      const applied = applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:effect.onHitStatus.stacks??1});
+      const applied = applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:target.id===actionContext.primaryTargetId?(effect.onHitStatus.primaryStacks??effect.onHitStatus.stacks??1):(effect.onHitStatus.stacks??1),chanceScaling:effect.onHitStatus.chanceScaling});
       if (applied && !actionContext.preMarkedTargets?.has(target.id + ":" + applied.id)) actionContext.newlyMarkedTargets.add(target.id + ":" + applied.id);
     }
   } else if (living(target) && effect.damageType !== "magical" && vitalityDamage + absorbed > 0 && effect.onHitStatus) {
-    applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:effect.onHitStatus.stacks??1});
+    applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:target.id===actionContext.primaryTargetId?(effect.onHitStatus.primaryStacks??effect.onHitStatus.stacks??1):(effect.onHitStatus.stacks??1),chanceScaling:effect.onHitStatus.chanceScaling});
   }
   if(living(target)&&vitalityDamage+absorbed>0&&effect.onHitDispelCount)dispelBuffs(battle,attacker,target,effect.onHitDispelCount);
   if (living(target) && attacker.team!==target.team && vitalityDamage+absorbed>0 && attacker.passive?.type==="attack_status") {
@@ -1371,10 +1410,12 @@ function applyStatus(
   statusId,
   duration,
   sourceId,
-  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers, debtMaxHpRatio } = {},
+  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers, debtMaxHpRatio, chanceScaling, bypassControlImmunity=false } = {},
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
+  if(definition.skipTurn&&!bypassControlImmunity&&stunImmune(battle.content,target)){write(battle,target.name+' miễn nhiễm Choáng.');emitEvent(battle,{type:'status_immune',sourceId,targetId:target.id,statusId});return null;}
+  if(chanceScaling){const chance=statusApplicationChance(battle.content,source,chanceScaling);if(battle.random()>=chance){write(battle,target.name+' không bị '+definition.name+'.');emitEvent(battle,{type:'status_resisted',sourceId,targetId:target.id,statusId,chance});return null;}}
   if(definition.kind==='buff'){
     const seal=target.statuses.find(s=>battle.content.statuses[s.id]?.buffRejection&&(s.charges??1)>0&&(s.remaining==null||s.remaining>0));
     if(seal){
@@ -1426,6 +1467,7 @@ function applyStatus(
     !(definition.exposedElement && battle.content.statuses[status.id].exposedElement));
   const applied = {
     id: statusId,
+    ...(bypassControlImmunity?{bypassControlImmunity:true}:{}),
     ...(definition.healingDebt?{debtHp:(previous?.debtHp??0)+debtAdded}:{}),
     ...(baseStatModifiers?{baseStatModifiers:{...baseStatModifiers}}:{}),
     ...(appliedModifiers?{appliedModifiers:{...appliedModifiers}}:{}),
@@ -1477,7 +1519,7 @@ function applyEffect(
   actionContext = attackContext(battle, actor),
 ) {
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
-  if(effect.type==='team_resource'){if(living(actor))changeTeamResource(battle,actor,effect.resource,effect.amount,teamIO);return;}
+  if(effect.type==='team_resource'){if(living(actor)){changeTeamResource(battle,actor,effect.resource,effect.amount,teamIO);actionContext.explicitTeamCreated??=new Set();actionContext.explicitTeamCreated.add(effect.resource);}return;}
   if(effect.type==='revive'){if(living(actor))reviveTeam(battle,actor,effect,actionContext);return;}
   if(effect.teamResourceScaling)effect=scaledTeamEffect(battle.content,effect,actionContext.teamResourceValues[effect.teamResourceScaling.id]??0);
   if(effect.spentTeamResourceScaling)effect=scaledSpentTeamEffect(effect,actionContext.teamResourceSpent?.[effect.spentTeamResourceScaling.id]??0);
@@ -1497,9 +1539,15 @@ function applyEffect(
     return;
   }
   if(battle.pvpRules&&effect.type==='damage'&&!actionContext.pvpDamage)actionContext.pvpTargetSnapshot=targets.filter(t=>t.team!==actor.team).map(t=>t.id);
-  const recipients = effect.to === "self" ? [actor] : targets;
+  const selectedAlly=effect.selectAlly?priorityTaggedAlly(battle,actor,effect.selectAlly):null;
+  const recipients = effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : targets;
   for (const target of recipients) {
     if (!living(target)) continue;
+    if(effect.requiresDamageHit&&!actionContext.gearImpacts.some(hit=>hit.target.id===target.id))continue;
+    if(effect.type==='reduce_cooldowns'){
+      let reduced=0;for(const id of Object.keys(target.cooldowns)){const before=target.cooldowns[id];target.cooldowns[id]=Math.max(0,before-effect.amount);reduced+=before-target.cooldowns[id];}
+      if(reduced){emitEvent(battle,{type:'cooldowns_reduced',sourceId:actor.id,targetId:target.id,amount:effect.amount});write(battle,target.name+': giảm '+effect.amount+' vòng hồi chiêu đang có.');}
+    }
     if (effect.type === "damage") {
       for (
         let i = 0;
@@ -1573,7 +1621,7 @@ function applyEffect(
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
       if (battle.content.statuses[effect.status].exposedElement) applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count});
       else for (let i = 0; i < count; i++) {
-        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio});
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio,chanceScaling:effect.chanceScaling});
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }
     }
@@ -1870,6 +1918,7 @@ function resolveAction(
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
   if (offensive) finishAttackContext(battle, actor, actionContext);
   growTeamResources(battle,actor,skill,teamIO);
+  triggerCreationSupport(battle,actor,skill,actionContext);
   triggerElementSupports(battle,actor,skill,actionContext);
   triggerOwnModeFollowup(battle,actor,skill,actionContext);
   triggerPowderFollowups(battle,actor,skill,actionContext);

@@ -70,3 +70,7 @@ Chữ người chơi nhìn thấy ưu tiên thuần Việt, độc lập ngôn n
 - Chi phí Thế Chấp: `cost.preferLifeDebtRatio`, hoặc `cost.consumeAllLifeDebt` + `requiresLifeDebt`; hồi self từ snapshot bằng `heal.spentLifeDebtRatio`. Native `life_mortgage_pact` có chặn hồi ngoài khi đang nợ. Xem [VERENA](VERENA.md), không giả nợ thành resource stack.
 
 - [Hồn Kiếm / Tsukiha](SWORD_SOUL.md): nguyên tố mới, đòn Hỏa + Hồn Kiếm, tài nguyên đội 0–6 với hai nhóm tăng tự nhiên mỗi vòng; `preferTeamResource` / `hitsWhenTeamSpent` / `baseStatPerStack` dùng chung. Cập nhật 05/11/2026.
+
+- [Izuna / Shion / Amiya / Kaguya](SWORD_SOUL_QUARTET.md) — Hồn Kiếm: Liên kích kết liễu có tiêu ảo, tạo trực tiếp/đầu vòng, giảm CD, ưu tiên Lượt Thêm, Chúc Phúc và trần10 theo đội (05/11/2026).
+
+Choáng theo chỉ số: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md). Boss mới cần khai `controlImmunities:["stun"]` trên template (không gắn cho mọi minion trong encounter). Đường áp kiểm cả metadata snapshot và definition hiện tại. `chanceScaling` khai stat/basis/at/cap; Rank không tự tăng xác suất. Ngoại lệ tự Choáng nhện vỡ khiên là hook riêng, không mở bypass cho skill JSON.

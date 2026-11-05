@@ -81,7 +81,12 @@
       "ember",
       "myonne",
       "verena",
-      "tsukiha"
+      "tsukiha",
+      "izuna",
+      "shion",
+      "amiya",
+      "kaguya",
+      "miyuki"
     ],
     "gearRates": [
       {
@@ -100,6 +105,157 @@
         "typeId": "t3_dual",
         "weight": 3
       }
-    ]
+    ],
+    "rateUpRotation": {
+      "version": 1,
+      "epoch": "2026-11-02",
+      "seed": "prisma-origin-factions-v1",
+      "queueLimit": 15,
+      "roster": [
+        "albeldo",
+        "aldric",
+        "amaryllis",
+        "amelia",
+        "amiya",
+        "arden",
+        "armie",
+        "artesia",
+        "astraea",
+        "auguste",
+        "aurora",
+        "benard",
+        "bennett",
+        "brant",
+        "cedric",
+        "cerise",
+        "charlemagnes",
+        "chelsea",
+        "chloe",
+        "dain",
+        "drake",
+        "elise",
+        "ember",
+        "finmel",
+        "flammelapis",
+        "fran",
+        "freya",
+        "gahallad",
+        "galliard",
+        "gawain",
+        "genevieve",
+        "heimdall",
+        "helena",
+        "henrris",
+        "isabelle",
+        "iwayn",
+        "izuna",
+        "joshua",
+        "judy",
+        "kaguya",
+        "karin",
+        "kreider",
+        "kyle",
+        "lanceveil",
+        "leonardo",
+        "lionel",
+        "lisbeth",
+        "logia",
+        "lucien",
+        "lumine",
+        "lyon",
+        "mandred",
+        "minerva",
+        "monica",
+        "mori",
+        "myonne",
+        "noctis",
+        "percival",
+        "rhett",
+        "rivia",
+        "roland",
+        "rowan",
+        "sandra",
+        "selene",
+        "seraphine",
+        "shion",
+        "sieg",
+        "simon",
+        "sylva",
+        "tsukiha",
+        "tywin",
+        "valery",
+        "verena",
+        "victorina",
+        "viktor",
+        "yufina",
+        "yumia"
+      ],
+      "groups": [
+        {
+          "id": "hunters",
+          "name": "Hội Thợ Săn",
+          "title": "Lời gọi nơi biên giới",
+          "description": "Những dấu chân trở về cùng một lời hẹn mới.",
+          "affiliations": [
+            "hunters_guild",
+            "hunters_guild_magic_academy"
+          ],
+          "art": "/art/rateup-hunters.svg",
+          "accent": "#b5c99a"
+        },
+        {
+          "id": "academy",
+          "name": "Học viện Ma pháp",
+          "title": "Khế ước dưới trời sao",
+          "description": "Một trang sách mở ra, những vì sao đổi hướng.",
+          "affiliations": [
+            "magic_academy",
+            "hunters_guild_magic_academy"
+          ],
+          "art": "/art/rateup-academy.svg",
+          "accent": "#bab2e8"
+        },
+        {
+          "id": "knights",
+          "name": "Kị sĩ đoàn Thủ đô",
+          "title": "Lời thề trước bình minh",
+          "description": "Dưới ngọn cờ này, không ai phải đứng một mình.",
+          "affiliations": [
+            "capital_knights"
+          ],
+          "art": "/art/rateup-knights.svg",
+          "accent": "#d7b879"
+        },
+        {
+          "id": "nobles",
+          "name": "Liên minh quý tộc",
+          "title": "Vũ hội sau màn nhung",
+          "description": "Gia huy, lời thề và những giao ước trong bóng tối.",
+          "affiliations": [
+            "house_valmont",
+            "vertosse_clan",
+            "house_ranoc",
+            "black_rose_mafia"
+          ],
+          "art": "/art/rateup-nobles.svg",
+          "accent": "#d6a3af"
+        },
+        {
+          "id": "souls",
+          "name": "Hồn Kiếm",
+          "title": "Dưới cổng đền, lời hẹn",
+          "description": "Những linh hồn xanh dẫn lối người trở lại Keijo.",
+          "tag": "sword_soul",
+          "art": "/art/rateup-souls.svg",
+          "accent": "#9dd4ec"
+        }
+      ],
+      "rosterAdditions": [
+        {
+          "id": "miyuki",
+          "from": "2026-11-09"
+        }
+      ]
+    }
   }
 ]

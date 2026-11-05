@@ -1406,5 +1406,64 @@
     "persistent": true,
     "maxStacks": 3,
     "exposedElement": "sword_soul"
+  },
+  {
+    "id": "izuna_magic",
+    "name": "Cánh Giông Non",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": 0.25
+    }
+  },
+  {
+    "id": "shion_reply",
+    "name": "Một Kiếm Đáp Lời",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifiers": {
+      "attack": 0.4
+    }
+  },
+  {
+    "id": "shion_shred",
+    "name": "Rạn Thế Yêu Ma",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.15,
+      "resistance": -0.15
+    }
+  },
+  {
+    "id": "amiya_concord",
+    "name": "Kiếm Hồn Đồng Tâm",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3,
+      "magic": 0.3
+    }
+  },
+  {
+    "id": "kaguya_calm",
+    "name": "Lặng Tiếng Binh Đao",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": -0.2,
+      "magic": -0.2
+    }
+  },
+  {
+    "id": "sword_soul_blessing",
+    "name": "Hồn Kiếm Chúc Phúc",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": 0.2,
+      "resistance": 0.2,
+      "damageReduction": 0.25
+    }
   }
 ]

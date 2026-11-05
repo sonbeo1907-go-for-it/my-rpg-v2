@@ -29,6 +29,7 @@ import "./brand.css";
 import "./progression.css";
 import "./combat-menus.css";
 import "./skill-upgrade.css";
+import "./rateup.css";
 export const metadata: Metadata = {
   title: "The Prisma Origin",
   description:
