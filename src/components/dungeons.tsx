@@ -175,7 +175,7 @@ export function DungeonQuestPage({ id }: { id: string }) {
   const canStart =
     selected.enabled && !busy && (daily.remaining ?? 0) > 0 && previewReady;
   const stageLabel = definition.stageLabel ?? "Đợt";
-  const reward=(item:any)=><DungeonReward reward={item.reward}/>;
+  const reward=(item:any)=><DungeonReward reward={item.reward} bookDrops={item.bookDrops??[]}/>;
   const cleared=campaign.dungeonClearedDifficulties?.[id]?.includes(selected.id);
   const canSweep=!busy&&!progressionLocked&&daily.remaining>0&&campaign.sweepTickets>0&&cleared;
   const recovery=daily.recharge?`Hồi 3 lượt lúc ${new Intl.DateTimeFormat("vi-VN",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Ho_Chi_Minh"}).format(daily.nextRecovery)} · tối đa 9 lượt`:"Đặt lại lượt lúc 00:00 giờ Việt Nam";

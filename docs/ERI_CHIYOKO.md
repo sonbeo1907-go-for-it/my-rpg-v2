@@ -49,3 +49,11 @@ AI dùng availability/cost/target chung: Eri ưu tiên burst khi đủ điều k
 Chiyoko: SVG đường rút kiếm, tàn ảnh kiếm, giao thoa tổ kiếm tông xanh lạnh/trắng. Đánh thường và mọi kỹ năng có `iaido_*`; animation đọc damage/dodge event, không sinh damage hay tác động bàn đấu. AoE có một signature/nhịp hit ở đội hình địch; hit cuối trở về card mục tiêu chính. Không nhân signature theo số địch; timer/portal được dọn khi hết cast, đổi trận, ẩn trang hoặc đổi reduced motion. Reduced motion bỏ chuyển động, giữ dấu hiệu ngắn.
 
 Kiểm tra: `test/eri-chiyoko.test.js` (cost, Rank, lượt thật, Choáng, KO, đa hit/lan/primary, restore, forecast, Arena mirror và timeline), `e2e/eri-chiyoko.spec.ts` (mobile, tooltip, thức tỉnh, VFX cleanup/reload). Full engine suite, validate, TypeScript và web build phải qua trước bàn giao. Kiểm thử cơ chế không chứng minh cân bằng DPS trên tất cả đội hình.
+
+## Choreography — cập nhật05/11/2026
+
+Ảnh Trảm: dấu lóe ở chuôi kiếm trên card người thi triển (35ms), sau đó nhát cắt mảnh vào mục tiêu (240ms từ cast ở tốc độ thường); dư ảnh tan nhanh. Đoạn Không: nhịp chém đầu180ms, nhịp trả kiếm360ms, hai hướng đối lập và nhịp hai ngắn/mạnh hơn. Hợp Mạch: sáu bóng kiếm tổ tiên hội tụ về một thanh kiếm, VFX900ms, chỉ trên card người thi triển.
+
+Tuyệt Thức: khoảng tĩnh trước chuỗi, năm nhịp cắt chéo đội hình tại340/445/550/655/760ms; nhát cuối tại1140ms, chỉ vào mục tiêu chính. Timeline và số sát thương dùng chung timestamp; hình ảnh không tính hoặc trì hoãn logic combat. Tốc độ nhanh nén nhịp; reduced motion bỏ chờ/anticipation và chuyển động, giữ dấu trúng ngắn. Không thêm đổi nền, nhạc, rung toàn màn hoặc phản ứng gameplay. Nguồn Chiyoko không nhảy lên xuống khi thi triển; toàn bộ timer/portal vẫn dọn bằng CombatEffects.
+
+Kiểm tra bổ sung `test/chiyoko-ux.test.js`: nhịp hit/number, khoảng nghỉ, fast/reduced, lọc Hồn Kiếm theo tags và đường trở về an toàn.

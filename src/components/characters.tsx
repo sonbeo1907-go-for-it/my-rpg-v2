@@ -1,4 +1,5 @@
 "use client";
+import {partyReturnPath,partyLinkHref} from "../ui/party-navigation.js";
 import {SkillUpgrade} from './skill-upgrade';
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {CharacterProgression} from "./character-progression";
@@ -256,14 +257,11 @@ export function PartyPage() {
   )
     ? returnParams.get("difficulty")!
     : "easy";
-  const partyPath =
-    fromDungeon && Object.hasOwn(content.dungeons, fromDungeon)
-      ? `/party?fromDungeon=${fromDungeon}&difficulty=${difficulty}`
-      : "/party";
-  const partyBack =
-    partyPath === "/party"
-      ? "/home"
-      : `/dungeon/${fromDungeon}?selected=${difficulty}`;
+  const dungeonReturn = fromDungeon && Object.hasOwn(content.dungeons, fromDungeon)
+    ? `/dungeon/${fromDungeon}?selected=${difficulty}` : "/home";
+  const partyBack = partyReturnPath(returnParams.get("back"), dungeonReturn);
+  const partyPath = returnParams.has("back") ? partyLinkHref(partyBack)
+    : dungeonReturn !== "/home" ? `/party?fromDungeon=${fromDungeon}&difficulty=${difficulty}` : "/party";
   const [name, setName] = useState(active.name);
   useEffect(() => setName(active.name), [active.name]);
   const roster: any[] = useMemo(

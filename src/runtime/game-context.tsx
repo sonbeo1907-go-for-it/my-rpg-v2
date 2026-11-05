@@ -151,6 +151,7 @@ export function GameProvider({
     return()=>{clearTimeout(timer);window.removeEventListener("focus",visible);document.removeEventListener("visibilitychange",visible);};
   },[]);
   const campaignRef = useRef<any>(null);
+  const sweepRewardAttempt = useRef<any>(null);
   const store = useRef<ReturnType<typeof createProfileStore> | null>(null);
   const initializing = useRef<Promise<any> | null>(null);
   const activeProfileId = useRef<number | null>(null);
@@ -807,8 +808,9 @@ export function GameProvider({
     breakCharacterLimit:id=>transact(c=>limitBreak(c,content,id,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã Đột Phá giới hạn."),
     sweepDungeon:async(id,difficultyId)=>{
       let receipt:any=null;
-      const ok=await transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession),onResult:(result:any)=>{receipt=result;}}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu.");
-      if(ok&&receipt)setSweepResult({...receipt,sessionId:'sweep-'+Date.now()});
+      if(sweepRewardAttempt.current?.campaign!==campaignRef.current)sweepRewardAttempt.current={campaign:campaignRef.current};
+      const ok=await transact(c=>sweepDungeonAction(c,content,id,difficultyId,()=>{},new Date(),{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession),rewardAttempt:sweepRewardAttempt.current,onResult:(result:any)=>{receipt=result;}}),"Đã Quét hầm ngục. Phần thưởng và EXP đã được lưu.");
+      if(ok&&receipt){sweepRewardAttempt.current=null;setSweepResult({...receipt,sessionId:'sweep-'+Date.now()});}
       return ok;
     },
     dailyNow,refreshCommissions,

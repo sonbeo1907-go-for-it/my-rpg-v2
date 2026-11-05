@@ -37,7 +37,7 @@ export function characterCatalog(content, campaign, filters = {}, ownedOnly = fa
   return Object.values(content.characters).filter(actor => {
     if (actor.developerOnly && !campaign.storyFlags.includes('developer.'+actor.id)) return false;
     const owned = campaign.unlockedCharacterIds.includes(actor.id);
-    return (!ownedOnly || owned) && (!ownershipFilter || owned === (ownershipFilter === 'owned')) && (!element || element==='agony' || actor.element === element)
+    return (!ownedOnly || owned) && (!ownershipFilter || owned === (ownershipFilter === 'owned')) && (!element || element==='agony' || actor.element === element || element==='sword_soul' && actor.tags?.includes('sword_soul'))
       && (!role || actor.roleGroup === role || actor.secondaryRoleGroups?.includes(role))
       && text(`${actor.name} ${actor.title} ${actor.role} ${actor.affiliation ?? ''} ${affiliationLabel(actor.affiliation)}`).includes(text(q));
   }).map(actor => resolveCharacter(content, campaign, actor.id)).sort((a, b) => {

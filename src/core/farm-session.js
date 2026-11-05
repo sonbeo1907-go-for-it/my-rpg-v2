@@ -1,5 +1,5 @@
 export const MAX_FARM_RUNS=999;
-export const FARM_CURRENCIES=['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','blueprints','limitBreakStones'];
+export const FARM_CURRENCIES=['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','blueprints','limitBreakStones','xpBooksGreen','xpBooksBlue','xpBooksPurple'];
 export function farmLimit(value){if(!Number.isSafeInteger(value)||value<1||value>MAX_FARM_RUNS)throw Error('Số lượt farm phải là số nguyên từ 1 đến 999.');return value;}
 export function validateFarmTarget(content,target){
  if(target?.kind==='quest'){const e=content.encounters[target.id];if(!e||e.travelerStory||e.category==='chronicle')throw Error('Nội dung này không hỗ trợ farm lặp lại.');}

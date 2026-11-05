@@ -144,8 +144,20 @@
           "maxHp": 1
         },
         "reward": {
-          "characterXp": 360
-        }
+          "characterXp": 1200
+        },
+        "bookDrops": [
+          {
+            "itemId": "xp_book_green",
+            "min": 10,
+            "max": 12
+          },
+          {
+            "itemId": "xp_book_blue",
+            "min": 3,
+            "max": 5
+          }
+        ]
       },
       {
         "id": "medium",
@@ -157,8 +169,25 @@
           "maxHp": 1
         },
         "reward": {
-          "characterXp": 900
-        }
+          "characterXp": 4400
+        },
+        "bookDrops": [
+          {
+            "itemId": "xp_book_blue",
+            "min": 8,
+            "max": 12
+          },
+          {
+            "itemId": "xp_book_green",
+            "min": 6,
+            "max": 9
+          },
+          {
+            "itemId": "xp_book_purple",
+            "min": 1,
+            "max": 1
+          }
+        ]
       },
       {
         "id": "hard",
@@ -170,8 +199,20 @@
           "maxHp": 1
         },
         "reward": {
-          "characterXp": 1900
-        }
+          "characterXp": 8800
+        },
+        "bookDrops": [
+          {
+            "itemId": "xp_book_purple",
+            "min": 4,
+            "max": 6
+          },
+          {
+            "itemId": "xp_book_blue",
+            "min": 10,
+            "max": 12
+          }
+        ]
       }
     ]
   },

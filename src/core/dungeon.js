@@ -1,3 +1,4 @@
+import {rollDungeonReward} from './progression-items.js';
 import {isValidParty} from './party.js';
 import {grantPartyXp} from './leveling.js';
 import {consumeTrainingCharge} from './training-charges.js';
@@ -69,7 +70,7 @@ export function createDungeonRun(
   campaign,
   id,
   difficultyId,
-  { random = Math.random, now = new Date(), preview = null } = {},
+  { random = Math.random, rewardRandom = Math.random, now = new Date(), preview = null } = {},
 ) {
   const definition = content.dungeons[id],
     difficulty = dungeonDifficulty(content, id, difficultyId);
@@ -94,7 +95,7 @@ export function createDungeonRun(
     waveIndex: 0,
     enemyScale: structuredClone(difficulty.enemyScale),
     enemyLevel:difficulty.enemyLevel??null,
-    reward: structuredClone(difficulty.reward),
+    reward: rollDungeonReward(content,difficulty,rewardRandom),
     partyCampaign: structuredClone(campaign),
     random,
     claimed: false,
@@ -216,7 +217,8 @@ export function sweepDungeon(campaign,content,id,difficultyId,persist=()=>{},now
  const difficulty=dungeonDifficulty(content,id,difficultyId);if(!difficulty?.enabled||content.dungeons[id]?.closed)throw Error('Hầm ngục chưa mở.');
  if(!campaign.dungeonClearedDifficulties?.[id]?.includes(difficultyId))throw Error('Cần chiến thắng mức này trước khi Quét.');if(campaign.sweepTickets<1)throw Error('Không đủ Thẻ Quét.');
  const next=structuredClone(campaign);next.sweepTickets--;
- const run={typeId:id,difficultyId,waveIds:Array(difficulty.waves).fill('sweep'),waveIndex:difficulty.waves-1,partyCampaign:structuredClone(campaign),reward:structuredClone(difficulty.reward),claimed:false,battle:{outcome:'victory',dungeon:{typeId:id}}};
+ const attempt=options.rewardAttempt??{};if(attempt.key!==id+':'+difficultyId){attempt.key=id+':'+difficultyId;delete attempt.reward;}attempt.reward??=rollDungeonReward(content,difficulty,options.random??Math.random);
+ const run={typeId:id,difficultyId,waveIds:Array(difficulty.waves).fill('sweep'),waveIndex:difficulty.waves-1,partyCampaign:structuredClone(campaign),reward:structuredClone(attempt.reward),claimed:false,battle:{outcome:'victory',dungeon:{typeId:id}}};
  const saved=claimDungeonReward(next,run,content,persist,now);
  options.onResult?.({sweep:true,outcome:'victory',rewardClaimed:true,dungeon:{typeId:id,difficultyId,reward:structuredClone(run.reward)},xpAwards:structuredClone(run.battle.xpAwards??[])});
  return saved;

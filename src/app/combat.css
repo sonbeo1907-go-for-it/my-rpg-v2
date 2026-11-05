@@ -457,11 +457,27 @@
 .life-debt-meter progress::-webkit-progress-value { background: #b64883; }
 .life-debt-meter progress::-moz-progress-bar { background: #b64883; }
 
-/* Chiyoko: cold-blue iaido cuts. Target-local signatures, never a board/background override. */
-.iaido-signature{overflow:visible}.iaido-trail{transform-origin:50% 50%;animation:iaido-cut var(--vfx-duration,360ms) cubic-bezier(.12,.75,.2,1) both}.iaido-afterimage{animation:iaido-echo var(--vfx-duration,360ms) ease-out both}.iaido-flash{animation:iaido-flash var(--vfx-duration,360ms) ease-out both}.iaido-ring{transform-origin:center;animation:iaido-ring var(--vfx-duration,360ms) ease-out both}.iaido-sheath{transform-origin:center;animation:iaido-draw var(--vfx-duration,500ms) cubic-bezier(.16,.9,.25,1) both}
-@keyframes iaido-cut{0%{opacity:0;transform:scaleX(.05) translateX(-30%)}18%{opacity:1;transform:scaleX(1.06) translateX(0)}65%{opacity:.85}100%{opacity:0;transform:scaleX(1.12) translateX(5%)}}
-@keyframes iaido-echo{0%,8%{opacity:0}20%{opacity:.65}100%{opacity:0;transform:translateY(13px)}}
-@keyframes iaido-flash{0%{opacity:0}16%{opacity:.9}50%{opacity:.25}100%{opacity:0}}
-@keyframes iaido-ring{0%{opacity:0;transform:scale(.4)}24%{opacity:.9}100%{opacity:0;transform:scale(1.35)}}
-@keyframes iaido-draw{0%{opacity:0;transform:translateY(24px) scaleY(.65)}25%{opacity:1;transform:translateY(-8px) scaleY(1.03)}75%{opacity:.9}100%{opacity:0;transform:translateY(-16px) scaleY(1.05)}}
-@media(prefers-reduced-motion:reduce){.iaido-signature *{animation:none!important;transform:none!important}}
+/* Chiyoko: motion stays within the actor/target formation, with quiet anticipation. */
+.shared-combat-fx.fx-anticipation{z-index:8;overflow:hidden;box-shadow:none}
+.shared-combat-fx.fx-anticipation[data-fx-area=true] svg{width:100%;height:100%}
+.iaido-signature{overflow:visible}
+.iaido-trail{transform-origin:center;animation:iaido-cut var(--vfx-duration,200ms) cubic-bezier(.1,.85,.15,1) both}
+.iaido-afterimage{animation:iaido-echo var(--vfx-duration,200ms) ease-out both}
+.iaido-edge,.iaido-final-mark{animation:iaido-edge var(--vfx-duration,200ms) ease-out both}
+.iaido-hilt-spark{transform-origin:center;animation:iaido-spark var(--vfx-duration,180ms) ease-out both}
+.iaido-still{animation:iaido-still var(--vfx-duration,180ms) ease-out both}
+.iaido-ancestor{transform-origin:300px 140px;animation:iaido-converge var(--vfx-duration,900ms) cubic-bezier(.35,0,.12,1) both}
+.iaido-united{animation:iaido-united var(--vfx-duration,900ms) ease-out both}
+.iaido-union-line{transform-origin:center;animation:iaido-union var(--vfx-duration,900ms) ease-out both}
+[data-iaido-phase=return-cut] .iaido-trail{animation-timing-function:cubic-bezier(0,.95,.1,1)}
+@keyframes iaido-cut{0%{opacity:0;transform:scaleX(.08)}8%{opacity:1;transform:scaleX(1)}45%{opacity:.9}100%{opacity:0;transform:scaleX(1.04)}}
+@keyframes iaido-echo{0%,15%{opacity:0}25%{opacity:.5}100%{opacity:0;transform:translateY(6px)}}
+@keyframes iaido-edge{0%{opacity:0}9%{opacity:.9}65%,100%{opacity:0}}
+@keyframes iaido-spark{0%{opacity:0;scale:.3}16%{opacity:1;scale:1}70%,100%{opacity:0;scale:1.15}}
+@keyframes iaido-still{0%{opacity:0}35%,75%{opacity:.55}100%{opacity:0}}
+@keyframes iaido-converge{0%,10%{opacity:0;transform:translate(var(--iaido-x),var(--iaido-y)) rotate(var(--iaido-angle)) scale(.75)}22%{opacity:.55}68%{opacity:.9;transform:translate(0,0) rotate(0deg) scale(1)}78%,100%{opacity:0;transform:translate(0,0) rotate(0deg) scale(1)}}
+@keyframes iaido-united{0%,46%{opacity:0}68%,84%{opacity:1}100%{opacity:0}}
+@keyframes iaido-union{0%,62%{opacity:0;scale:.1 1}73%{opacity:1;scale:1 1}100%{opacity:0;scale:1.1 1}}
+@media(prefers-reduced-motion:reduce){.iaido-signature *{animation:none!important;transform:none!important}.iaido-ancestor{display:none}.iaido-afterimage{display:none}}
+
+.shared-combat-fx.fx-signature[data-fx-presentation^="iaido_"]{overflow:hidden}

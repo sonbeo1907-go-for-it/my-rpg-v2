@@ -16,9 +16,11 @@ export function enemyScaleSummary(scale) {
 }
 
 export function dungeonRewardText(reward) {
-  if(reward.characterXp)return `${reward.characterXp} XP / nhân vật`;
-  if(reward.limitBreakStones)return `${reward.limitBreakStones} Tinh Thạch Phá Giới`;
-  return reward.coins
-    ? `${reward.coins} coin`
-    : `${reward.recruitmentShards} Pure Prisma`;
+  const parts=[];
+  if(reward.characterXp)parts.push(`${reward.characterXp} XP / nhân vật`);
+  if(reward.limitBreakStones)parts.push(`${reward.limitBreakStones} Tinh Thạch Phá Giới`);
+  if(reward.coins)parts.push(`${reward.coins} coin`);
+  if(reward.recruitmentShards)parts.push(`${reward.recruitmentShards} Pure Prisma`);
+  for(const [field,label]of [['xpBooksGreen','I'],['xpBooksBlue','II'],['xpBooksPurple','III']])if(reward[field])parts.push(`${reward[field]} Nhật kí hành trình ${label}`);
+  return parts.join(' · ');
 }

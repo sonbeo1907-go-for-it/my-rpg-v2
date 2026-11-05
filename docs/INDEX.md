@@ -134,3 +134,7 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Akane — nội tại đầu Vòng Phụ](AKANE.md)
 
 - [Shimoe Eri và Chiyoko](ERI_CHIYOKO.md) — tiêu Hồn Kiếm vòng trước, Thăng Tiến theo hit, mode vĩnh viễn và VFX kiếm pháp (05/11/2026).
+
+Điều hướng Đội Hình: PartyLink ghi route nguồn cùng query vào `back`, kiểm tra qua party-navigation.js; giữ đường về qua Chi Tiết/Trang Bị/reload. Link hầm ngục cũ dùng fromDungeon/difficulty vẫn giữ độ khó. Không có nguồn hợp lệ thì về Tavern.
+
+- [Nhật kí hành trình và thưởng Rèn Luyện](TRAINING_JOURNALS.md) — giá sách, dùng EXP có preview, đổi Tinh Thạch, tab Original cuối Shop và lưu thưởng đánh/Quét (05/11/2026).

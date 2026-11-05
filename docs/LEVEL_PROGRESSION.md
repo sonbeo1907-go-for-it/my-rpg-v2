@@ -73,7 +73,7 @@ Chi tiết công thức: [ENEMY_SCALING_TUNING.md](ENEMY_SCALING_TUNING.md). Bá
 | --- | --- | --- | --- | --- |
 | Mỏ vàng | Lv15, 3 đợt, 1.000 Coin | Lv30, 4 đợt, 2.000 Coin | Lv45, 4 đợt, 3.000 Coin | 3/ngày |
 | Hiểm trở | Lv15, 1 phòng, 1 Pure | Lv30, 2 phòng, 3 Pure | Lv45, 2 phòng, 5 Pure | 1/ngày |
-| Rèn Luyện | Lv15, 3 đợt, 360 EXP/người | Lv30, 4 đợt, 900 EXP/người | Lv45, 5 đợt, 1.900 EXP/người | Tích tối đa 9 |
+| Rèn Luyện | Lv15, 3 đợt, 1.200 EXP/người | Lv30, 4 đợt, 4.400 EXP/người | Lv45, 5 đợt, 8.800 EXP/người | Tích tối đa 9 |
 | Phá Giới | Lv20, 1 phòng, 1 Tinh Thạch | Lv30, 2 phòng, 2 Tinh Thạch | Lv40, 3 phòng, 3 Tinh Thạch | 2/ngày |
 
 Rèn Luyện bắt đầu với 9 lượt. Hồi +3 đúng 00:00 / 08:00 / 16:00 giờ Việt Nam, tính cả offline; chạm 9 thì dư mất, không giữ ngân hàng lượt. Không reset về 9 vào nửa đêm. Đồng hồ chạy lùi không tạo thêm lượt. Các giới hạn khác reset 00:00 giờ Việt Nam.
@@ -110,3 +110,5 @@ Các giao dịch clone trạng thái → kiểm tra → lưu → mới thay tr�
 Cấu hình playtest nằm ở `data/progressionRules.json`, `data/dungeons.json`, `data/enemies.json` và `data/encounters.json`. Logic dùng lại: `leveling.js`, `quest-difficulty.js`, `training-charges.js`, `enemy-scaling.js`, `dungeon.js`. Các giá trị EXP/thưởng đã được người thiết kế duyệt để playtest, chưa phải cân bằng cuối cùng.
 
 Truy Nã: nút Trở về chọn trận giữ cả boss và độ khó đang chơi, không trở về mặc định Lv25.
+
+05/11/2026: Rèn Luyện thêm ba cấp Nhật kí hành trình; sách dùng ngoài trận để cấp EXP cho một người, giá Shop400/2.000/6.000 Coin. Xem [TRAINING_JOURNALS](TRAINING_JOURNALS.md) cho drop, xác nhận/preview và save v7 tương thích.
