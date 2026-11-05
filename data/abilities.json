@@ -10647,7 +10647,7 @@
           "sword_soul"
         ],
         "scalingStat": "attack",
-        "multiplier": 7.5
+        "multiplier": 6
       }
     ],
     "description": "Dồn toàn lực vào một địch; ưu tiên dùng Hồn Kiếm thay MP.",
@@ -10748,7 +10748,7 @@
           "sword_soul"
         ],
         "scalingStat": "magic",
-        "multiplier": 6,
+        "multiplier": 4,
         "divideAmongTargets": true
       }
     ],
