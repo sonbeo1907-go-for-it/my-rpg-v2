@@ -1344,5 +1344,20 @@
       "yukino.offering": 8,
       "yukino.burst": 12
     }
+  },
+  {
+    "id": "akane",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "akane.burst"
+    ],
+    "skillBias": {
+      "akane.strike": 5,
+      "akane.wound": 8,
+      "akane.burst": 12
+    }
   }
 ]

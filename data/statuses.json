@@ -1486,5 +1486,16 @@
       "speed": -0.15
     },
     "description": "Giảm SPD."
+  },
+  {
+    "id": "akane_tailwind",
+    "name": "Mũi Tên Đón Gió",
+    "kind": "buff",
+    "durationClock": "round",
+    "defaultDuration": 1,
+    "modifiers": {
+      "attack": 0.5
+    },
+    "description": "Tăng ATK đến hết vòng hiện tại."
   }
 ]

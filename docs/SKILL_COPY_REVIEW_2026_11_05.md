@@ -2,7 +2,7 @@
 
 Ảnh chụp biên tập từ dữ liệu hiện hành; không thay thế bảng cân bằng. Thông số được sinh từ resolver khi chơi. Các mô tả không cần sửa được giữ nguyên. Tạo lại: `node scripts/audit-skill-copy.mjs`.
 
-Phạm vi: **89 nhân vật, 285 kỹ năng chủ động/nâng cấp/dạng** và nội tại tương ứng.
+Phạm vi: **90 nhân vật, 288 kỹ năng chủ động/nâng cấp/dạng** và nội tại tương ứng.
 
 ## Arthur
 
@@ -1071,4 +1071,16 @@ Tiếp ứng đồng đội tạo Hồn Kiếm, rồi gom linh hỏa thành mộ
 | Tuyết Vũ Qua Rừng | Gọi tuyết phủ mọi kẻ địch và làm chậm những mục tiêu trúng đòn. |
 | Ngàn Hoa Tuyết Tụ Hồn | Tấn công toàn địch và thu Hồn Kiếm từ những mục tiêu trúng đòn. |
 | Bạch Dạ — Vạn Hồn Quy Tuyết | Chia đều trận tuyết cho mọi địch; tiêu nhiều Hồn Kiếm để tăng MAG cho chiêu này. |
+
+## Akane
+
+Đón Lượt Thêm để tạo Hồn Kiếm, tăng ATK và dồn phong tiễn vào đội hình địch.
+
+**Mũi Tên Đón Gió:** Có Lượt Thêm sẽ tiếp sức cho Akane ngay đầu Vòng Phụ.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Phong Tiễn — Xuyên Diệp | Bắn một mũi phong tiễn vào kẻ địch. |
+| Liên Tiễn — Rạch Gió | Bắn xuyên đội hình địch và gây Vết Thương Sâu, tập trung vào mục tiêu chính. |
+| Bí Tiễn — Ưng Nhãn Đoạt Mệnh | Dồn phong tiễn vào mục tiêu chính và quét qua những kẻ địch còn lại. |
 

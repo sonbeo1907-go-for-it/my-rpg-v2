@@ -3855,5 +3855,64 @@
       "followUpAbility": "yukino.echo",
       "perRound": 2
     }
+  },
+  {
+    "id": "akane",
+    "name": "Akane",
+    "title": "Ưng Nhãn Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "wind",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Đón Lượt Thêm để tạo Hồn Kiếm, tăng ATK và dồn phong tiễn vào đội hình địch.",
+    "biography": "Cung thủ của Hội Thợ Săn Yêu Quái, có họ hàng với Shion. Akane phối hợp cùng bạn đồng hành, chờ một nhịp tiến công thuận lợi để giương cung.",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 95,
+      "attack": 33,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 19,
+      "speed": 25
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "akane.strike",
+      "akane.wound",
+      "akane.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "extra_phase_resource_buff",
+      "name": "Mũi Tên Đón Gió",
+      "description": "Khi có Lượt Thêm, vào đầu Vòng Phụ tạo 2 Hồn Kiếm và nhận 50% ATK đến hết vòng.",
+      "resource": "sword_soul",
+      "amount": 2,
+      "statusId": "akane_tailwind",
+      "duration": 1
+    }
   }
 ]

@@ -10790,5 +10790,98 @@
     "rankable": false,
     "fixedReason": "Liên kích nội tại giữ hệ số cố định.",
     "growthGroups": []
+  },
+  {
+    "id": "akane.strike",
+    "name": "Phong Tiễn — Xuyên Diệp",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2
+      }
+    ],
+    "description": "Bắn một mũi phong tiễn vào kẻ địch.",
+    "skillLineId": "akane.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "akane.wound",
+    "name": "Liên Tiễn — Rạch Gió",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1,
+        "primaryMultiplier": 1.5,
+        "onHitStatus": {
+          "status": "deep_wound",
+          "duration": 2
+        }
+      }
+    ],
+    "description": "Bắn xuyên đội hình địch và gây Vết Thương Sâu, tập trung vào mục tiêu chính.",
+    "skillLineId": "akane.wound",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2
+  },
+  {
+    "id": "akane.burst",
+    "name": "Bí Tiễn — Ưng Nhãn Đoạt Mệnh",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 3,
+        "primaryMultiplier": 4.5
+      }
+    ],
+    "description": "Dồn phong tiễn vào mục tiêu chính và quét qua những kẻ địch còn lại.",
+    "skillLineId": "akane.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2
   }
 ]

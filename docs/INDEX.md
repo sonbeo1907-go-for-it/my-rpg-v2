@@ -130,3 +130,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Susanoo và Yukino](SUSANOO_YUKINO.md)
 - [Quy chuẩn mô tả kỹ năng](SKILL_COPY_AND_UX_SPEC.md)
 - [Rà soát câu chữ 05/11](SKILL_COPY_REVIEW_2026_11_05.md)
+
+- [Akane — nội tại đầu Vòng Phụ](AKANE.md)

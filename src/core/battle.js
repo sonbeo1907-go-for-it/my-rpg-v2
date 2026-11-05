@@ -651,6 +651,16 @@ function advance(battle) {
   else beginTurn(battle);
 }
 
+function triggerExtraPhasePassives(battle) {
+  for(const id of battle.queue){
+    const actor=getActor(battle,id),p=actor?.passive;
+    if(!living(actor)||p?.type!=='extra_phase_resource_buff'||!procAvailable(battle,actor,p.type))continue;
+    markProc(battle,actor,p.type);announcePassive(battle,actor,actor.id);
+    changeTeamResource(battle,actor,p.resource,p.amount,teamIO);
+    applyStatus(battle,actor,p.statusId,p.duration,actor.id);
+  }
+}
+
 // The phase boundary is independent of recipient survival: even an empty extra phase resolves.
 function finishPhase(battle) {
   if (checkOutcome(battle)) return;
@@ -660,6 +670,7 @@ function finishPhase(battle) {
     battle.cursor = 0;
     write(battle, `— Vòng Phụ ${battle.round} —`);
     emitEvent(battle, { type: "phase", phase: "extra", round: battle.round });
+    triggerExtraPhasePassives(battle);
     if (battle.queue.length) { beginTurn(battle); return; }
   }
   finishMainRound(battle);

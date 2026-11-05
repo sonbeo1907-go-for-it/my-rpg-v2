@@ -100,6 +100,10 @@ Bản sửa Cerise hiện đã bổ sung tick mode tại đây. Không ghi lỗi
 
 **Engine hiện chưa có một `finishTurn` chung** cho mọi nhánh. `endTurn:false` không đủ để kết luận “không có effect”, và `resolveAction` không đủ để kết luận “vừa hết một lượt”. Hook `spendModeTurn` hiện vẫn nằm trong resolveAction; nếu tái dùng mode-turn cho boss nhiều move phải kiểm chứng không tiêu mỗi move. Tài liệu này không tuyên bố trường hợp đó đã được triển khai hoặc kiểm thử.
 
+### Nội tại khi bắt đầu Vòng Phụ
+
+`finishPhase` chốt queue Extra theo quyền đã cấp và người còn sống, phát sự kiện phase rồi chạy `triggerExtraPhasePassives` trước `beginTurn` của người đầu tiên. Native `extra_phase_resource_buff` (Akane) reserve quota theo unit/vòng rồi tạo tài nguyên, cấp buff clock round đến hết vòng. Không chạy ở từng cast hay mỗi lượt Extra. Choáng không chặn; KO trước ranh giới không vào queue. Nguồn tạo từ native không kích phản ứng kỹ năng tạo trực tiếp. Snapshot đang ở Extra không chạy lại hook chỉ vì restore. Xem AKANE.md.
+
 ### Chuyển tiếp và kết thúc
 
 `advance` kiểm tra kết quả, đi qua các ô gục bằng `isAlive`, rồi gọi beginTurn hoặc finishPhase. Hết main có quyền extra thì tạo hàng extra, kể cả trường hợp quyền đã cấp nhưng người nhận đều gục; cuối vòng kết toán sau toàn bộ extra.
