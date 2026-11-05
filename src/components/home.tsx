@@ -26,7 +26,13 @@ export function TitlePage() {
   );
 }
 const menu = [
-  {href:"/chronicles",name:"Biên Niên Ký",sub:"Những miền đất đang sống",icon:"book",side:"right"},
+  {
+    href: "/quests",
+    name: "Quest",
+    sub: "Những trang truyện chưa kể",
+    icon: "scroll",
+    side: "right",
+  },
   {href:"/stories",name:"Câu chuyện lữ hành",sub:"Những trang đời đồng hành",icon:"book",side:"right"},
   {href:"/blacksmith",name:"Thợ Rèn",sub:"Lửa lò & những món Trấn Phái",icon:"anvil",side:"left"},
   {
@@ -57,13 +63,7 @@ const menu = [
     icon: "book",
     side: "left",
   },
-  {
-    href: "/quests",
-    name: "Quest",
-    sub: "Những trang truyện chưa kể",
-    icon: "scroll",
-    side: "right",
-  },
+  {href:"/chronicles",name:"Biên Niên Ký",sub:"Những miền đất đang sống",icon:"book",side:"right"},
   {
     href: "/dungeon",
     name: "Khám Phá Hầm Ngục",

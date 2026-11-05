@@ -138,7 +138,7 @@ test('Gahallad is locked in old saves, recruitable and uses the normal duplicate
   campaign.coins = 200; campaign.prisma = 10;
   const pool = content.banners.standard.characterPool;
   for (let i = 0; i < 2; i++) {
-    const draws = [.95, (pool.indexOf('gahallad') + .5) / pool.length];
+    const draws = [.985, (pool.indexOf('gahallad') + .5) / pool.length];
     campaign = pullGacha(campaign, content, 'standard', 1, () => draws.shift()).campaign;
   }
   const restored = deserializeCampaign(serializeCampaign(campaign), content);

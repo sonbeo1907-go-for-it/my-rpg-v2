@@ -29,3 +29,6 @@ Save v7 thêm counter không bắt buộc `xpBooksGreen`, `xpBooksBlue`, `xpBook
 Nguồn: progression-items.js, dungeon.js, dungeon-rules.js, progression.js, data/items.json, data/dungeons.json. UI: progression-shop.tsx, experience-book-card.tsx, dungeon-rewards.tsx và battle-result.tsx. Kiểm tra: training-books.test.js, training-books.spec.ts, level-progression và hunter-quartet (đường tab Original mới).
 
 Farm lặp lại cộng ba counter sách vào tổng thưởng đã lưu; không cộng lần nữa khi replay cùng kết quả. Không thay luật tiêu lượt hoặc AI.
+
+## Dùng sách ở trang Cấp Độ — 06/11/2026
+Nút + mở bộ chọn cả ba cấp sách cho chính nhân vật đang xem. Thêm/bớt từng loại, xem cấp trước/sau và thanh EXP vàng cập nhật trực tiếp; cảnh báo EXP dư trước khi xác nhận. Toàn bộ sách được tính chung EXP một lần qua `book-bundle.js`, lưu cùng việc trừ sách. Hủy không tiêu sách; khóa trong trận/phiên; không bỏ qua Đột Phá. Luồng dùng sách riêng trong Túi đồ vẫn hoạt động. Không đổi save v7.

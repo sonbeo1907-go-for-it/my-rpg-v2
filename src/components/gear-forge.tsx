@@ -1,14 +1,14 @@
 "use client";
 import {gearEffectTiming,gearRecipeRequirement,gearRecipeSource} from '../core/gear-effect-schema.js';
 import {PrismaSparkles} from "./prisma-sparkles";
-import {useEffect,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
 import {useGame} from '../runtime/game-context';
 import {craftGear,beginGearReforge,finishGearReforge} from '../core/gear-forge.js';
 import {gearRecipeUnlocked,t4Stats,GEAR_STAT_KEYS} from '../core/gear-rules.js';
 import {gearOwner} from '../core/equipment.js';
-import {STAT_LABELS} from '../core/catalog.js';
-import {CurrencyAmount,GearCard,Modal,EmptyState,fmt,EquipmentIcon,Icon} from './ui';
+import {STAT_LABELS,gearCatalog} from '../core/catalog.js';
+import {CurrencyAmount,GearCard,Modal,EmptyState,fmt,EquipmentIcon,Icon,GearFilters} from './ui';
 import {GearPagination,useGearPagination} from './gear-pagination';
 const label=(k:string)=>(STAT_LABELS as any)[k];
 function Costs({cost}:{cost:any}){return <div className="t4-costs"><CurrencyAmount kind="fragments" amount={cost.prismaFragments}/><CurrencyAmount kind="coin" amount={cost.coins}/><span>+ 1 Gear T3 chưa trang bị</span></div>;}
@@ -16,13 +16,14 @@ export function GearForgePanel({kind}:{kind:'stats'|'effects'}){
  const {campaign,content,busy,transact}=useGame();
  const [primary,setPrimary]=useState('attack'),[material,setMaterial]=useState(''),[picker,setPicker]=useState(false),[recipe,setRecipe]=useState<string|null>(null),[confirm,setConfirm]=useState(false),[filters,setFilters]=useState<any>({page:'1'});
  const reforgeCost=content.blacksmith.default.secondaryReforgeCost;
- const owned=campaign.gear.filter((g:any)=>g.typeId==='t4_stats'),pager=useGearPagination(owned,filters,setFilters);
+ const [result,setResult]=useState<any>(null),forgeLock=useRef(false);
+ const owned=gearCatalog(content,campaign,{...filters,tier:'t4_stats'}).filter((g:any)=>(!filters.primary||g.primaryStat===filters.primary)&&(!filters.secondary||g.secondaryStat===filters.secondary)),pager=useGearPagination(owned,filters,setFilters);
  const materials=campaign.gear.filter((g:any)=>['t3_focused','t3_dual'].includes(g.typeId)&&!gearOwner(campaign,g.id));
  const [mf,setMf]=useState<any>({page:'1'}),mp=useGearPagination(materials,mf,setMf);
  const [rf,setRf]=useState<any>({page:'1'}),rp=useGearPagination(Object.values(content.gearEffects),rf,setRf);
  const effect=recipe?content.gearEffects[recipe]:null,cost=content.blacksmith.default.gearCraftCosts[kind==='stats'?'stats':effect?.costClass??'common'];
  const piece=materials.find((g:any)=>g.id===material),canPay=campaign.coins>=cost.coins&&campaign.prismaFragments>=cost.prismaFragments;
- async function forge(){if(await transact((current:any)=>craftGear(current,content,{materialId:material,primaryStat:kind==='stats'?primary:undefined,effectId:kind==='effects'?recipe:undefined}),'Đã rèn Gear Siêu Cấp và lưu vào túi đồ.')){setConfirm(false);setMaterial('');}}
+ async function forge(){if(forgeLock.current)return;forgeLock.current=true;try{let crafted:any=null;if(await transact((current:any)=>{const next=craftGear(current,content,{materialId:material,primaryStat:kind==='stats'?primary:undefined,effectId:kind==='effects'?recipe:undefined});crafted=structuredClone(next.gear.at(-1));return next;},'Đã rèn Gear Siêu Cấp và lưu vào túi đồ.')){setConfirm(false);setMaterial('');setResult(crafted);}}finally{forgeLock.current=false;}}
  return <>
   <section className="panel t4-forge-form">
    <h2>{kind==='stats'?'Rèn Chỉ Số':'Rèn Hiệu Ứng'}</h2>
@@ -31,7 +32,8 @@ export function GearForgePanel({kind}:{kind:'stats'|'effects'}){
    {(kind==='stats'||effect)&&<><Costs cost={cost}/><button className="gold" disabled={busy||!piece||!canPay||Boolean(effect&&!gearRecipeUnlocked(campaign,effect))} onClick={()=>setConfirm(true)}>Rèn Gear Siêu Cấp</button>{effect&&!gearRecipeUnlocked(campaign,effect)&&<Link href={gearRecipeSource(effect)}>{gearRecipeRequirement(content,effect)} →</Link>}</>}
    <p className="muted">Nguyên liệu T3 sẽ bị tiêu hao. Món mới không tự trang bị. Gear hiệu ứng chiếm ô thường; mỗi nhân vật chỉ mang một món cùng nhóm hiệu ứng.</p>
   </section>
-  {kind==='stats'&&<section className="t4-owned"><h2>Tái rèn dòng phụ</h2><p>{fmt(reforgeCost.prismaFragments)} Vụn Prisma + {fmt(reforgeCost.coins)} Coin mỗi lần roll. Dòng chính giữ nguyên; xem kết quả rồi giữ cũ hoặc nhận mới, không tốn thêm. Có thể roll trùng kết quả cũ.</p><GearPagination pager={pager}/><div className="gear-grid">{pager.items.map((g:any)=><div className="t4-reforge-card" key={g.id}><GearCard gear={g}/><button disabled={busy||Boolean(campaign.pendingReforge||campaign.pendingGearReforge)||campaign.prismaFragments<reforgeCost.prismaFragments||campaign.coins<reforgeCost.coins} onClick={()=>transact((s:any)=>beginGearReforge(s,content,g.id),'Đã roll dòng phụ và lưu kết quả chờ chọn.')}>Tái rèn dòng phụ</button></div>)}</div>{!owned.length&&<EmptyState>Chưa có Gear Cấp 4 chỉ số để tái rèn.</EmptyState>}</section>}
+  {kind==='stats'&&<section className="t4-owned"><h2>Tái rèn dòng phụ</h2><p>{fmt(reforgeCost.prismaFragments)} Vụn Prisma + {fmt(reforgeCost.coins)} Coin mỗi lần roll. Dòng chính giữ nguyên; xem kết quả rồi giữ cũ hoặc nhận mới, không tốn thêm. Có thể roll trùng kết quả cũ.</p><GearFilters hideTier filters={filters} onChange={f=>setFilters({...f,page:"1"})}/><div className="filter-bar reforge-line-filters">{["primary","secondary"].map(line=><label key={line}>{line==="primary"?"Lọc dòng chính":"Lọc dòng phụ"}<select value={filters[line]??""} onChange={e=>setFilters({...filters,[line]:e.target.value,page:"1"})}><option value="">Tất cả</option>{GEAR_STAT_KEYS.map(k=><option key={k} value={k}>{label(k)}</option>)}</select></label>)}</div><GearPagination pager={pager}/><div className="gear-grid">{pager.items.map((g:any)=><div className="t4-reforge-card" key={g.id}><GearCard gear={g}/><button disabled={busy||Boolean(campaign.pendingReforge||campaign.pendingGearReforge)||campaign.prismaFragments<reforgeCost.prismaFragments||campaign.coins<reforgeCost.coins} onClick={()=>transact((s:any)=>beginGearReforge(s,content,g.id),'Đã roll dòng phụ và lưu kết quả chờ chọn.')}>Tái rèn dòng phụ</button></div>)}</div>{!owned.length&&<EmptyState>Chưa có Gear Cấp 4 chỉ số để tái rèn.</EmptyState>}</section>}
+  {result&&<Modal title="Rèn thành công" onClose={()=>setResult(null)} footer={<button className="gold" onClick={()=>setResult(null)}>Tiếp tục rèn</button>}><div className="forge-result" role="status"><GearCard gear={result}/>{result.effectId&&<p>{content.gearEffects[result.effectId].description}</p>}<p>Đã lưu vào Túi đồ. Trang bị mới chưa được mặc.</p><Link className="button" href="/inventory">Mở Túi đồ</Link></div></Modal>}
   {picker&&<Modal title="Chọn nguyên liệu Gear T3" onClose={()=>setPicker(false)}><p>Chỉ hiện Gear T3 chưa được trang bị. Chọn một món sẽ quay lại bản thiết kế; chưa tiêu hao nguyên liệu.</p><GearPagination pager={mp}/><div className="gear-grid">{mp.items.map((g:any)=><GearCard gear={g} key={g.id} selected={g.id===material} onClick={()=>{setMaterial(g.id);setPicker(false);}}/>)}</div>{!materials.length&&<EmptyState>Không có Gear T3 chưa sử dụng.</EmptyState>}</Modal>}
   {confirm&&<Modal title="Xác nhận rèn Gear Siêu Cấp" onClose={()=>!busy&&setConfirm(false)} footer={<><button disabled={busy} onClick={()=>setConfirm(false)}>Hủy</button><button className="gold" disabled={busy||!canPay||!piece} onClick={forge}>Xác nhận chế tạo</button></>}><h3>{kind==='stats'?label(primary)+' +'+content.economy.default.gearStats.find((s:any)=>s.stat===primary).scale*5:effect?.name}</h3><Costs cost={cost}/><p>Tiêu hao Gear T3 #{piece?.id.slice(5)}. {kind==='stats'?'Dòng phụ được tạo khi xác nhận, không chọn trước.':effect?.description}</p></Modal>}
  </>;

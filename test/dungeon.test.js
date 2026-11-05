@@ -63,7 +63,7 @@ test('carried poison ticks once at the next real turn and keeps its original sou
 });
 
 test('intermediate waves never grant 50 Coin or first-clear unlocks; a completed chain grants exactly its reward once',()=>{
-  for(const [difficulty,coins] of [['easy',1000],['medium',2000],['hard',3000]]){
+  for(const [difficulty,coins] of [['easy',3000],['medium',6000],['hard',9000]]){
     const save=createGameSave(content),current=run(save,difficulty);clearWave(current);
     assert.equal(claimBattleReward(save,current.battle,content),save);assert.equal(claimDungeonReward(save,current,content,()=>{},now),save);
     finish(current);const granted=claimDungeonReward(save,current,content,()=>{},now);
@@ -79,7 +79,7 @@ test('daily limit is shared across difficulties; failed saves leave reward/quota
     assert.throws(()=>claimDungeonReward(save,current,content,()=>{throw new Error('quota');},now),/quota/);assert.equal(JSON.stringify(save),before);assert.equal(current.claimed,false);assert.equal(current.battle.rewardClaimed,undefined);
     save=claimDungeonReward(save,current,content,()=>{},now);
   }
-  assert.equal(save.coins,6000);assert.equal(dungeonDailyState(save,content,'gold_mine',now).remaining,0);
+  assert.equal(save.coins,18000);assert.equal(dungeonDailyState(save,content,'gold_mine',now).remaining,0);
   assert.throws(()=>run(save),/hết lượt/);assert.throws(()=>run(save,'medium'),/hết lượt/);assert.throws(()=>run(save,'hard'),/hết lượt/);
   assert.equal(dungeonDailyState(save,content,'dangerous',now).remaining,1);
 });

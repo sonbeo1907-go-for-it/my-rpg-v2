@@ -49,8 +49,8 @@ test('rooms carry party HP/MP, shields, status charges and cooldowns without cha
  const current=run(),previous=current.battle,actor=getActor(previous,'garrek');actor.hp=81;actor.mp=12;actor.shield=27;actor.shieldSourceId='elaine';actor.cooldowns['garrek.resolve']=2;actor.statuses=[{id:'effect_ward',sourceId:'garrek',remaining:null,stacks:1,charges:1}];getActor(previous,'arthur').hp=0;
  const before=structuredClone(actor);clear(current);advanceDungeonWave(content,current);const carried=getActor(current.battle,'garrek');for(const key of ['hp','mp','shield','shieldSourceId'])assert.equal(carried[key],before[key]);assert.deepEqual(carried.statuses,before.statuses);assert.equal(carried.cooldowns['garrek.resolve'],1);assert.equal(getActor(current.battle,'arthur').hp,0);
 });
-test('final completion grants only 1/3/5 Pure Prisma, once; failures do not consume the shared daily claim',()=>{
- for(const[level,amount]of[['easy',1],['medium',3],['hard',5]]){
+test('final completion grants only 3/6/10 Pure Prisma, once; failures do not consume the shared daily claim',()=>{
+ for(const[level,amount]of[['easy',3],['medium',6],['hard',10]]){
   const save=createGameSave(content),current=run(level,save);clear(current);assert.equal(claimBattleReward(save,current.battle,content),save);
   if(!isFinalDungeonWave(current))assert.equal(claimDungeonReward(save,current,content,()=>{},now),save);
   finish(current);assert.throws(()=>claimDungeonReward(save,current,content,()=>{throw new Error('disk full');},now),/disk full/);assert.equal(current.claimed,false);assert.equal(save.recruitmentShards,0);

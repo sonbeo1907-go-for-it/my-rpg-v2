@@ -260,7 +260,7 @@ test('older saves gain locked Valmont, every new character is recruitable and re
     assert.deepEqual(campaign.characters[id], { level: 1, xp: 0, allocations: {}, limitBreakRank: 0, skillRanks: {}, upgradeIds: [] });
     assert.equal(campaign.unlockedCharacterIds.includes(id), false);
     const pool = content.banners.standard.characterPool;
-    const draws = [.95, (pool.indexOf(id) + .5) / pool.length];
+    const draws = [.985, (pool.indexOf(id) + .5) / pool.length];
     campaign.coins = 100; campaign.prisma = 10;
     campaign = pullGacha(campaign, content, 'standard', 1, () => draws.shift()).campaign;
     assert.equal(campaign.unlockedCharacterIds.includes(id), true);

@@ -609,16 +609,18 @@ export function GearFilters({
   filters,
   onChange,
   hideStatus = false,
+  hideTier = false,
 }: {
   filters: any;
   onChange: (values: any) => void;
   hideStatus?: boolean;
+  hideTier?: boolean;
 }) {
   const set = (key: string, value: string) =>
     onChange({ ...filters, [key]: value });
   return (
     <div className="filter-bar">
-      <label>
+      {!hideTier && <label>
         Cấp trang bị
         <select
           value={filters.tier ?? ""}
@@ -631,7 +633,7 @@ export function GearFilters({
             </option>
           ))}
         </select>
-      </label>
+      </label>}
       <label>
         Chỉ số
         <select

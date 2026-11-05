@@ -3,8 +3,8 @@
     "id": "standard",
     "name": "Tiếng gọi Prisma",
     "description": "Những đồng đội mới đang chờ trên hành trình phía bắc.",
-    "gearWeight": 95,
-    "characterWeight": 5,
+    "gearWeight": 985,
+    "characterWeight": 15,
     "pity": {
       "characterAt": 50
     },
@@ -96,19 +96,19 @@
     "gearRates": [
       {
         "typeId": "t1",
-        "weight": 30
+        "weight": 300
       },
       {
         "typeId": "t2",
-        "weight": 50
+        "weight": 500
       },
       {
         "typeId": "t3_focused",
-        "weight": 12
+        "weight": 148
       },
       {
         "typeId": "t3_dual",
-        "weight": 3
+        "weight": 37
       }
     ],
     "rateUpRotation": {

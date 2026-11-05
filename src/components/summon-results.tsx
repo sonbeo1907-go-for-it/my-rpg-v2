@@ -10,14 +10,15 @@ import { resolveCharacter } from "../core/progression.js";
 
 export function SummonResultsPage() {
   const batch = useSummonBatch();
+  const recruitmentHref = batch ? `/recruitment?banner=${encodeURIComponent(batch.rateUp?.id??batch.bannerId)}` : "/recruitment";
   const { content, campaign } = useGame();
   const [selected, setSelected] = useState<any>(null);
   if (!batch)
     return (
       <main className="page">
-        <PageHeader title="Kết quả Chiêu Mộ" back="/recruitment" />
+        <PageHeader title="Kết quả Chiêu Mộ" back={recruitmentHref} />
         <EmptyState>Chưa có kết quả cho lượt này.</EmptyState>
-        <Link className="button gold" href="/recruitment">
+        <Link className="button gold" href={recruitmentHref}>
           Về Chiêu Mộ
         </Link>
       </main>
@@ -36,7 +37,7 @@ export function SummonResultsPage() {
       <PageHeader
         title="Những hồi đáp từ Prisma"
         subtitle={`${(batch.rateUp?content.banners.standard.rateUpRotation.groups.find((g:any)=>g.id===batch.rateUp.groupId)?.name:content.banners[batch.bannerId].name)} · ${batch.results.length} kết quả đã lưu`}
-        back="/recruitment"
+        back={recruitmentHref}
       />
       <div className="results-intro">
         <span className="eyebrow">MỖI CUỘC GẶP ĐỀU ĐỂ LẠI MỘT DẤU ẤN</span>
@@ -86,7 +87,7 @@ export function SummonResultsPage() {
           Xem lại reveal
         </Link>
         <span>Phần thưởng đã được lưu · Xem lại không tiêu coin</span>
-        <Link className="button gold" href="/recruitment">
+        <Link className="button gold" href={recruitmentHref}>
           Về Chiêu Mộ →
         </Link>
       </footer>

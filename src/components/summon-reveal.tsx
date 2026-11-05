@@ -98,15 +98,16 @@ export function SummonRevealPage() {
   const router = useRouter();
   const query = useSearchParams();
   const batch = useSummonBatch();
+  const recruitmentHref = batch ? `/recruitment?banner=${encodeURIComponent(batch.rateUp?.id??batch.bannerId)}` : "/recruitment";
   if (!batch)
     return (
       <main className="page">
-        <PageHeader title="Dấu ấn chưa xuất hiện" back="/recruitment" />
+        <PageHeader title="Dấu ấn chưa xuất hiện" back={recruitmentHref} />
         <EmptyState>
           Chưa có lượt chiêu mộ này. Kết quả gần nhất vẫn có thể xem từ trang
           Chiêu Mộ.
         </EmptyState>
-        <Link className="button gold" href="/recruitment">
+        <Link className="button gold" href={recruitmentHref}>
           Về Chiêu Mộ
         </Link>
       </main>
@@ -131,7 +132,7 @@ export function SummonRevealPage() {
       <PageHeader
         title="Những dấu ấn định mệnh"
         subtitle={`Thẻ ${index + 1} / ${batch.results.length}`}
-        back="/recruitment"
+        back={recruitmentHref}
       >
         <Link
           className="button summon-skip"

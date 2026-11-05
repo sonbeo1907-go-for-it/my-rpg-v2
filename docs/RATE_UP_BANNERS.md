@@ -20,14 +20,14 @@ Trang đang mở cập nhật khi qua nửa đêm, trở lại tab hoặc focus 
 
 ## Tỷ lệ và bảo hiểm
 
-Không đổi 30% gear thấp /50% trung /15% cao /5% nhân vật. Điều kiện đã ra nhân vật:
+Tất cả banner: 30% gear thấp /50% trung /18,5% cao /1,5% nhân vật. Phần 3,5% chuyển từ nhân vật sang Cấp III, giữ tỷ lệ chuyên biệt:đa dụng 4:1 (14,8% và 3,7%). Điều kiện đã ra nhân vật:
 
 | Nhánh | Xác suất có điều kiện | Mỗi lượt cơ bản |
 | --- | ---: | ---: |
-| Nhân vật chính | 25% | 1,25% |
-| Phụ 1 | 12,5% | 0,625% |
-| Phụ 2 | 12,5% | 0,625% |
-| Ngoài ba người trên, chia đều | 50% tổng | 2,5% tổng |
+| Nhân vật chính | 25% | 0,375% |
+| Phụ 1 | 12,5% | 0,1875% |
+| Phụ 2 | 12,5% | 0,1875% |
+| Ngoài ba người trên, chia đều | 50% tổng | 0,75% tổng |
 
 50% tăng cơ hội chia 50% chính /25% phụ1 /25% phụ2. Nhánh ngoài không chứa ba nhân vật đang tăng cơ hội. Pity chỉ bảo đảm **nhân vật**, không bảo đảm thắng rate-up. Không có 50/50 bảo hiểm sau khi lệch.
 
@@ -54,3 +54,5 @@ Tavern luôn hiện splash theo đợt. Chủ Nhật carousel trượt sau mỗi
 `test/rate-up.test.js`: lịch Việt Nam,100tuần FIFO, nhóm Chủ Nhật, xác suất biên, pity riêng/x10/save/đợt hết hạn. `test/soul-quartet.test.js`: hồi MP qua tiến trình vòng thật, choáng, KO, không kích ở Extra Turn; `test/sword-soul.test.js`: scale mới. `e2e/rate-up.spec.ts`: desktop/tablet/mobile, link Tavern, carousel10s, giao dịch/lịch sử và xác nhận quá nửa đêm. Bộ summon cũ chọn rõ `standard` để không nhầm lane pity mới.
 
 Miyuki thêm vào pool thường ngay; `rosterAdditions` cho phép cô vào danh sách chọn rate-up từ09/11/2026, không viết lại đợt đang mở. Cấu hình này là cách bổ sung roster theo ngày hiệu lực thay vì sửa lịch quá khứ.
+
+06/11/2026: Về Chiêu Mộ từ kết quả/reveal dùng bannerId (hoặc rateUp.id trong snapshot). Banner thường trở về `?banner=standard`; banner rate-up còn hoạt động trở về đúng đợt. Pity 50 không đổi.

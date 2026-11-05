@@ -60,3 +60,6 @@ Nguồn chính: `data/gearEffects.json`, `data/blacksmith.json`, `data/economy.j
 ## Batch Truy Nã
 
 Thêm 18 công thức qua năm boss, tổng 22 hiệu ứng. Luật hook, nguồn mở khóa, phân trang và nghiệm thu xem [BOUNTY_GEAR.md](BOUNTY_GEAR.md).
+
+## QoL 06/11/2026
+Sau xác nhận chế tạo và lưu thành công, modal kết quả hiện đúng món vừa rèn (chỉ số chính/phụ hoặc hiệu ứng), có Tiếp tục rèn và Mở Túi đồ. Lưu lỗi không hiện thành công. Không tự trang bị. Tái rèn chỉ số có bộ lọc chỉ số tổng, trạng thái, sắp xếp và dòng chính/dòng phụ riêng; thay bộ lọc về trang 1, vẫn dùng LT/RT.

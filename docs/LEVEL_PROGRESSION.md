@@ -71,10 +71,10 @@ Chi tiết công thức: [ENEMY_SCALING_TUNING.md](ENEMY_SCALING_TUNING.md). Bá
 
 | Loại | Dễ | Trung bình | Khó | Giới hạn |
 | --- | --- | --- | --- | --- |
-| Mỏ vàng | Lv15, 3 đợt, 1.000 Coin | Lv30, 4 đợt, 2.000 Coin | Lv45, 4 đợt, 3.000 Coin | 3/ngày |
-| Hiểm trở | Lv15, 1 phòng, 1 Pure | Lv30, 2 phòng, 3 Pure | Lv45, 2 phòng, 5 Pure | 1/ngày |
+| Mỏ vàng | Lv15, 3 đợt, 3.000 Coin | Lv30, 4 đợt, 6.000 Coin | Lv45, 4 đợt, 9.000 Coin | 3/ngày |
+| Hiểm trở | Lv15, 1 phòng, 3 Pure | Lv30, 2 phòng, 6 Pure | Lv45, 2 phòng, 10 Pure | 1/ngày |
 | Rèn Luyện | Lv15, 3 đợt, 1.200 EXP/người | Lv30, 4 đợt, 4.400 EXP/người | Lv45, 5 đợt, 8.800 EXP/người | Tích tối đa 9 |
-| Phá Giới | Lv20, 1 phòng, 1 Tinh Thạch | Lv30, 2 phòng, 2 Tinh Thạch | Lv40, 3 phòng, 3 Tinh Thạch | 2/ngày |
+| Phá Giới | Lv20, 1 phòng, 1 Tinh Thạch | Lv30, 2 phòng, 2 Tinh Thạch | Lv40, 3 phòng, 3 Tinh Thạch | 3/ngày |
 
 Rèn Luyện bắt đầu với 9 lượt. Hồi +3 đúng 00:00 / 08:00 / 16:00 giờ Việt Nam, tính cả offline; chạm 9 thì dư mất, không giữ ngân hàng lượt. Không reset về 9 vào nửa đêm. Đồng hồ chạy lùi không tạo thêm lượt. Các giới hạn khác reset 00:00 giờ Việt Nam.
 

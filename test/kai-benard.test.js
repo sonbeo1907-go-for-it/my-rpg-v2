@@ -167,7 +167,7 @@ test('poison never triggers Aurora and Benard is obtainable in the normal banner
   assert.equal(battle.events.some(event => event.sourceId === 'aurora'), false);
   const campaign = createCampaign(content); campaign.coins = 100; campaign.prisma = 1;
   let draw = 0; const index = content.banners.standard.characterPool.indexOf('benard');
-  const result = pullGacha(campaign, content, 'standard', 1, () => draw++ === 0 ? .95 : (index + .5) / content.banners.standard.characterPool.length);
+  const result = pullGacha(campaign, content, 'standard', 1, () => draw++ === 0 ? .985 : (index + .5) / content.banners.standard.characterPool.length);
   assert.ok(result.campaign.unlockedCharacterIds.includes('benard'));
 });
 
