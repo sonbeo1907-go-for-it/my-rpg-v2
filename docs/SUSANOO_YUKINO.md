@@ -13,7 +13,7 @@ Triển khai 05/11/2026. Chỉ số nền Lv1, Rank dùng quy tắc engine hiệ
 
 ## Yukino — tiếng đáp của Tuyết Nữ
 
-DPS phép Thủy. HP160 / MP120 / ATK10 / MAG35 / DEF15 / RES26 / SPD19 là bộ số playtest.
+DPS phép Thủy. HP160 / MP120 / ATK10 / MAG44 / DEF15 / RES26 / SPD19 là bộ số playtest.
 
 - Nội tại: kỹ năng chủ động của **đồng đội khác** tạo Hồn Kiếm trực tiếp → Liên kích150% MAG Thủy / Hồn Kiếm lên địch còn nhiều HP nhất rồi tạo1 Hồn Kiếm. Hòa HP chọn thứ tự đội hình. Tối đa2 lần/vòng, chung Vòng Chính/Phụ; chủ phải còn sống, Choáng không tắt nội tại. Tạo khi đầy vẫn tính. Không kích từ chính Yukino, đánh thường, Phòng thủ, tăng trưởng tự nhiên, nội tại hoặc Liên kích. Reserve hạn mức trước đòn và tài nguyên; Shion không kích từ lượng Hồn Kiếm nội tại tạo thêm.
 - Tuyết Vũ Qua Rừng: 8 MP,150% MAG toàn địch; mục tiêu trúng sát thương HP/khiên bị −15% SPD trong2 lượt chính của mục tiêu. Không CD. Thời hạn2 là lựa chọn playtest vì đề bài chưa chỉ định.
