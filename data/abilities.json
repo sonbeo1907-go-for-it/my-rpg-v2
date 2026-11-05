@@ -10781,7 +10781,7 @@
           "sword_soul"
         ],
         "scalingStat": "magic",
-        "multiplier": 1
+        "multiplier": 1.5
       }
     ],
     "description": "Liên kích một kẻ địch bằng tuyết lạnh.",

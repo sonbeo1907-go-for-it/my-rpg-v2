@@ -3849,10 +3849,11 @@
     "passive": {
       "type": "ally_creation_followup",
       "name": "Tuyết Đáp Tiếng Linh Hồn",
-      "description": "Khi đồng đội khác dùng kỹ năng trực tiếp tạo Hồn Kiếm, Liên kích và tạo thêm 1 Hồn Kiếm. Tối đa 1 lần mỗi vòng.",
+      "description": "Khi đồng đội khác dùng kỹ năng trực tiếp tạo Hồn Kiếm, Liên kích và tạo thêm 1 Hồn Kiếm. Tối đa 2 lần mỗi vòng.",
       "resource": "sword_soul",
       "amount": 1,
-      "followUpAbility": "yukino.echo"
+      "followUpAbility": "yukino.echo",
+      "perRound": 2
     }
   }
 ]

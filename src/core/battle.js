@@ -320,11 +320,14 @@ function triggerBlessedResource(battle,context){
 }
 function triggerCreationSupport(battle,source,skill,context){
  if(skill.id.startsWith('$')||skill.activation==='passive'||context.reaction||context.automatic)return;
- for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||owner.team!==source.team||owner.id===source.id||!['ally_team_creation','ally_creation_followup'].includes(p?.type)||!context.explicitTeamCreated?.has(p.resource)||!procAvailable(battle,owner,p.type))continue;
+ for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||owner.team!==source.team||owner.id===source.id||!['ally_team_creation','ally_creation_followup'].includes(p?.type)||!context.explicitTeamCreated?.has(p.resource))continue;
+  // Keep the first key compatible with saved one-use quotas; all uses share the round clock.
+  const limit=p.type==='ally_creation_followup'?(p.perRound??1):1;
+  const key=Array.from({length:limit},(_,i)=>i===0?p.type:p.type+':'+i).find(k=>procAvailable(battle,owner,k));if(!key)continue;
   if(p.type==='ally_creation_followup'){
    const target=battle.actors.filter(a=>a.team!==owner.team&&living(a)).sort((a,b)=>b.hp-a.hp||(a.formationSlot??99)-(b.formationSlot??99))[0];
    if(!target||!canTriggerFollowUp(owner,source,target)||!reservePvpAutomatic(battle,owner,modeIO))continue;
-   markProc(battle,owner,p.type);announcePassive(battle,owner,target.id);
+   markProc(battle,owner,key);announcePassive(battle,owner,target.id);
    const follow=resolveRankedAbility(battle.content,owner,p.followUpAbility),reaction={...attackContext(battle,owner),pvpRegistered:true,skill:follow,skillId:follow.id,reaction:true,reactionKind:'follow_up',primaryTargetId:target.id};
    emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:target.id,abilityId:follow.id});write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+follow.name+'.');
    for(const effect of follow.effects)applyEffect(battle,owner,[target],effect,0,false,reaction);finishAttackContext(battle,owner,reaction);
