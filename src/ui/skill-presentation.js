@@ -32,7 +32,7 @@ export function skillCost(skill, actor, battle) {
   const costs = [];
   if(skill.cost?.preferLifeDebtRatio){const n=Math.ceil(actor.stats.maxHp*skill.cost.preferLifeDebtRatio);costs.push('Ưu tiên '+n+' Thế Chấp ('+Math.round(skill.cost.preferLifeDebtRatio*100)+'% HP tối đa) · Không đủ: '+mpCost({...skill,cost:{mp:skill.cost.mp}},actor)+' MP');if(actor.hp!==undefined)costs.push('Hiện tại: '+(preferredLifeDebtCost(skill,actor)?n+' Thế Chấp':mpCost(skill,actor)+' MP'));}
   if(skill.cost?.consumeAllLifeDebt)costs.push('Toàn bộ Thế Chấp'+(actor.hp!==undefined?' ('+lifeDebt(actor)+' HP)':''));
-  if(skill.cost?.preferTeamResource){const r=skill.cost.preferTeamResource,name=actor.teamResources?.[r.id]?.name??'Hồn Kiếm';costs.push('Ưu tiên '+r.amount+' '+name+' · Thiếu: '+mpCost({...skill,cost:{mp:skill.cost.mp}},actor)+' MP');if(battle)costs.push('Hiện tại: '+(selectedTeamCost(battle,actor,skill)?r.amount+' '+name:mpCost(skill,actor,battle)+' MP'));}
+  if(skill.cost?.preferTeamResource){const r=skill.cost.preferTeamResource,name=actor.teamResources?.[r.id]?.name??'Hồn Kiếm';costs.push('Ưu tiên '+(r.all?'toàn bộ (ít nhất '+r.min+')':r.amount)+' '+name+' · Thiếu: '+mpCost({...skill,cost:{mp:skill.cost.mp}},actor)+' MP');if(battle)costs.push('Hiện tại: '+(selectedTeamCost(battle,actor,skill)?(r.all?battle.teamResources?.[actor.team]?.[r.id]?.value:r.amount)+' '+name:mpCost(skill,actor,battle)+' MP'));}
   const preferred=skill.cost?.preferResource;
   if (preferred) {
     const name=actor.resources[preferred.id].name;
@@ -122,7 +122,7 @@ const percent = value => `${number(value * 100)}%`;
 export function skillPreviewOptions(skill, actor, content) {
   const controls = [];
   if(actor.teamResources?.gunpowder&&previewPaidMp(skill,actor)>=5)controls.push({key:'powderSpent',label:'Thuốc Súng giả định',min:0,max:Math.min(6,Math.floor(previewPaidMp(skill,actor)/5))});
-  if(skill.cost?.preferTeamResource)controls.push({key:'teamSpent',label:'Hồn Kiếm tiêu giả định',min:0,max:skill.cost.preferTeamResource.amount});
+  if(skill.cost?.preferTeamResource)controls.push({key:'teamSpent',label:'Hồn Kiếm tiêu giả định',min:0,max:skill.cost.preferTeamResource.all?10:skill.cost.preferTeamResource.amount});
   if(skill.cost?.teamResource?.all){const r=skill.cost.teamResource;controls.push({key:'teamSpent',label:(actor.teamResources?.[r.id]?.name??'Bằng Chứng')+' tiêu giả định',min:r.min,max:actor.teamResources?.[r.id]?.max??6});}
   if(skill.formationVariants)controls.push({key:'formationPosition',label:'Vị trí giả định',min:1,max:4,initial:(actor.formationSlot??0)+1});
   const shared=skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling;if(shared)controls.push({key:'teamResourceStacks',label:(actor.teamResources?.[shared.id]?.name??'Tài nguyên đội')+' giả định',min:0,max:actor.teamResources?.[shared.id]?.max??6});
@@ -163,6 +163,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.type === 'damage') {
       const stat = scalingLabel(effect,{maxHp:'HP tối đa',attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'});
       let formula = effect.primaryMultiplier !== undefined ? `${percent(effect.primaryMultiplier)} ${stat} mục tiêu chính / ${percent(effect.multiplier)} ${stat} còn lại` : `${percent(effect.multiplier ?? 1)} ${stat}`;
+      if(effect.divideAmongTargets)formula+=' chia đều cho mọi địch';
       if (effect.perResource) formula += ` + ${percent(effect.perResource)} ${stat} mỗi ${resourceName} đã tiêu`;
       if (effect.perStack) formula += ` + ${percent(effect.perStack)} ${stat} mỗi ${content.statuses[effect.consumeStatus].name}`;
       if(effect.perTargetBuff)formula+=' + '+percent(effect.perTargetBuff)+' '+stat+' mỗi buff địch (tối đa '+effect.maxTargetBuffs+')';
@@ -296,6 +297,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     const spent=Math.min(cap,available);
     lines.push('Nội tại: tiêu thêm '+spent+'/'+cap+' MP một lần cho cả chiêu → sát thương ×'+number(1+actor.passive.maxDamageBonus*spent/cap)+'; không tính riêng mỗi mục tiêu/hit.');
   }
-  if(Object.keys(teamSpendStatBonuses(actor,skill,teamSpent)).length)lines.push('Nội tại: +'+percent(actor.passive.ratio)+' ATK riêng cho kỹ năng tiêu Bằng Chứng.');
+  if(actor.passive?.type==='spent_team_resource_stat'&&teamSpent>0)lines.push('Nội tại: +'+percent(actor.passive.ratio)+' ATK riêng cho kỹ năng tiêu Bằng Chứng.');
+  if(skill.spentTeamStatBonus){const r=skill.spentTeamStatBonus;lines.push('Mỗi Hồn Kiếm tiêu vượt '+r.above+': +'+percent(r.perStack)+' '+STAT_LABELS[r.stat]+' cho chiêu này.');}
   return lines;
 }

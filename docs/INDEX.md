@@ -126,3 +126,7 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Chiêu Mộ theo phe và balance Hồn Kiếm](RATE_UP_BANNERS.md) — lịch Việt Nam, FIFO15, rate-up, pity riêng và hết hạn, carousel Chủ Nhật; Amiya cần3 thành viên và hồi MP toàn đội; burst Tsukiha175%/hit. Cập nhật05/11/2026.
 
 - [Miyuki và Choáng theo chỉ số](MIYUKI_AND_CONTROL.md) — mode tự vào khi đủ6 Hồn Kiếm, 3 lượt chủ, tái vào nếu còn đủ; boss miễn Choáng, giữ ngoại lệ nhện vỡ khiên. Shion chỉ cấp lượt cho đồng đội Hồn Kiếm. Pity từng banner, không chuyển/hết đợt đặt lại.
+
+- [Susanoo và Yukino](SUSANOO_YUKINO.md)
+- [Quy chuẩn mô tả kỹ năng](SKILL_COPY_AND_UX_SPEC.md)
+- [Rà soát câu chữ 05/11](SKILL_COPY_REVIEW_2026_11_05.md)

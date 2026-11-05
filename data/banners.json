@@ -86,7 +86,9 @@
       "shion",
       "amiya",
       "kaguya",
-      "miyuki"
+      "miyuki",
+      "susanoo",
+      "yukino"
     ],
     "gearRates": [
       {
@@ -253,6 +255,14 @@
       "rosterAdditions": [
         {
           "id": "miyuki",
+          "from": "2026-11-09"
+        },
+        {
+          "id": "susanoo",
+          "from": "2026-11-09"
+        },
+        {
+          "id": "yukino",
           "from": "2026-11-09"
         }
       ]

@@ -320,8 +320,16 @@ function triggerBlessedResource(battle,context){
 }
 function triggerCreationSupport(battle,source,skill,context){
  if(skill.id.startsWith('$')||skill.activation==='passive'||context.reaction||context.automatic)return;
- for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||owner.team!==source.team||owner.id===source.id||p?.type!=='ally_team_creation'||!context.explicitTeamCreated?.has(p.resource)||!procAvailable(battle,owner,p.type))continue;
-  markProc(battle,owner,p.type);announcePassive(battle,owner,owner.id);changeTeamResource(battle,owner,p.resource,p.amount,teamIO);applyStatus(battle,owner,p.statusId,p.duration,owner.id);
+ for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||owner.team!==source.team||owner.id===source.id||!['ally_team_creation','ally_creation_followup'].includes(p?.type)||!context.explicitTeamCreated?.has(p.resource)||!procAvailable(battle,owner,p.type))continue;
+  if(p.type==='ally_creation_followup'){
+   const target=battle.actors.filter(a=>a.team!==owner.team&&living(a)).sort((a,b)=>b.hp-a.hp||(a.formationSlot??99)-(b.formationSlot??99))[0];
+   if(!target||!canTriggerFollowUp(owner,source,target)||!reservePvpAutomatic(battle,owner,modeIO))continue;
+   markProc(battle,owner,p.type);announcePassive(battle,owner,target.id);
+   const follow=resolveRankedAbility(battle.content,owner,p.followUpAbility),reaction={...attackContext(battle,owner),pvpRegistered:true,skill:follow,skillId:follow.id,reaction:true,reactionKind:'follow_up',primaryTargetId:target.id};
+   emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:target.id,abilityId:follow.id});write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+follow.name+'.');
+   for(const effect of follow.effects)applyEffect(battle,owner,[target],effect,0,false,reaction);finishAttackContext(battle,owner,reaction);
+   if(living(owner))changeTeamResource(battle,owner,p.resource,p.amount,teamIO);
+  }else{markProc(battle,owner,p.type);announcePassive(battle,owner,owner.id);changeTeamResource(battle,owner,p.resource,p.amount,teamIO);applyStatus(battle,owner,p.statusId,p.duration,owner.id);}
  }
 }
 function triggerKillRepeat(battle,owner,context){
@@ -1519,7 +1527,8 @@ function applyEffect(
   actionContext = attackContext(battle, actor),
 ) {
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
-  if(effect.type==='team_resource'){if(living(actor)){changeTeamResource(battle,actor,effect.resource,effect.amount,teamIO);actionContext.explicitTeamCreated??=new Set();actionContext.explicitTeamCreated.add(effect.resource);}return;}
+  if(effect.divideAmongTargets)effect={...effect,multiplier:effect.multiplier/Math.max(1,targets.filter(t=>living(t)).length)};
+  if(effect.type==='team_resource'){const amount=effect.amount*(effect.perHitTarget?Math.min(effect.maxTargets,new Set(actionContext.gearImpacts.map(h=>h.target.id)).size):1);if(living(actor)&&amount>0){changeTeamResource(battle,actor,effect.resource,amount,teamIO);actionContext.explicitTeamCreated??=new Set();actionContext.explicitTeamCreated.add(effect.resource);}return;}
   if(effect.type==='revive'){if(living(actor))reviveTeam(battle,actor,effect,actionContext);return;}
   if(effect.teamResourceScaling)effect=scaledTeamEffect(battle.content,effect,actionContext.teamResourceValues[effect.teamResourceScaling.id]??0);
   if(effect.spentTeamResourceScaling)effect=scaledSpentTeamEffect(effect,actionContext.teamResourceSpent?.[effect.spentTeamResourceScaling.id]??0);

@@ -60,6 +60,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const label = scalingLabel(effect,statNames);
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp,buffs:choices.buffCount });
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
+      if(effect.divideAmongTargets)line+=' chia đều';
       if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} ${label} chính / ${percent(effect.multiplier)} ${label} ${skill.target==='enemy_splash'?'ô kề':'còn lại'}`;
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;

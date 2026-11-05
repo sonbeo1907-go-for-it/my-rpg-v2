@@ -1304,7 +1304,7 @@
     "element": "water",
     "role": "DPS vật lí",
     "roleGroup": "physical_dps",
-    "description": "Biến ma lực thành kiếm thuật: đòn đánh vật lí lấy MAG, đối đầu DEF và vẫn có thể bị né.",
+    "description": "Dùng MAG cho kiếm thuật gây sát thương vật lí, xuyên qua DEF đối thủ.",
     "stats": {
       "maxHp": 165,
       "maxMp": 85,
@@ -1347,7 +1347,7 @@
     "element": "fire",
     "role": "Thủ Hộ bảo vệ toàn đội",
     "roleGroup": "tank",
-    "description": "Phủ hoa hồng lên chiến tuyến: khiên, DEF và RES toàn đội với chi phí thấp; không Khiêu khích.",
+    "description": "Duy trì khiên, DEF và RES cho toàn đội; khiên vỡ giúp người mang hồi MP.",
     "stats": {
       "maxHp": 240,
       "maxMp": 90,
@@ -1387,7 +1387,7 @@
     "element": "water",
     "role": "Đấu sĩ",
     "roleGroup": "fighter",
-    "description": "Tích Kiếm Kĩ, dựng kết giới bảo hộ cả đội rồi tung bí kiếm. Rất chậm nhưng bền bỉ.",
+    "description": "Tích Kiếm Kĩ, dựng kết giới bảo hộ cả đội rồi tung bí kiếm.",
     "biography": "Một kiếm sĩ elf phục vụ trong Kị sĩ đoàn Thủ đô. Sieg rèn kiếm qua nhiều năm, chuộng thế trận vững chắc hơn những bước tiến vội vàng.",
     "tags": [
       "capital_knights",
@@ -1430,7 +1430,7 @@
     "element": "earth",
     "role": "Hỗ trợ phòng thủ",
     "roleGroup": "defensive_support",
-    "description": "Dùng Hộ Ấn và giải hiệu ứng để bảo vệ đồng đội; khả năng hồi máu trực tiếp yếu.",
+    "description": "Dùng Hộ Ấn và thanh tẩy để bảo vệ đồng đội, kèm hồi phục nhẹ.",
     "biography": "Sống lẩn khuất trong rừng dưới sự che chở của Gahallad, Minerva hiểu rõ nỗi đau của lời nguyền. Cô dùng điều ấy để xoa dịu những người chịu hiệu ứng bất lợi.",
     "tags": [
       "forest"
@@ -2923,7 +2923,7 @@
     "tags": [
       "wanderer"
     ],
-    "description": "Một tay kiếm lãng du, lấy tốc độ làm sức mạnh. Bảo hộ bạn đường rồi tung lôi kiếm dọn sạch chiến trường.",
+    "description": "Tăng sức mạnh từ tốc độ, bảo hộ bạn đường rồi quét lôi kiếm qua chiến trường.",
     "biography": "Một tay kiếm lãng du, lấy tốc độ làm sức mạnh. Bảo hộ bạn đường rồi tung lôi kiếm dọn sạch chiến trường."
   },
   {
@@ -2959,7 +2959,7 @@
       "capital_knights",
       "order_librarian"
     ],
-    "description": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết.",
+    "description": "Xóa buff, ngăn viện trợ và trừng phạt kẻ địch không còn buff.",
     "biography": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết."
   },
   {
@@ -2996,7 +2996,7 @@
     "tags": [
       "hunter_guild"
     ],
-    "description": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm.",
+    "description": "Gây Vết Thương Sâu, thanh tẩy bạn đồng hành và kết thúc bằng kiếm Hội Tâm.",
     "biography": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm."
   },
   {
@@ -3149,7 +3149,7 @@
     "tags": [
       "rhett_lab"
     ],
-    "description": "Chỉ chữa lành: hồi HP rất mạnh theo MAG và chuyển một phần lượng hồi thành MP cho bản thân.",
+    "description": "Chuyên hồi HP theo MAG, chuyển một phần lượng hồi thành MP cho bản thân.",
     "biography": "Cô gái hiền từ của nhà thờ Thủ đô, quen việc giữ đèn và chăm sóc người bệnh. Một đêm tuổi mới lớn, cô lẻn ra ngoài chơi rồi lạc vào khu cơ sở hạ tầng của Rhett; từ đó cô ở lại, vẫn giữ thói quen chữa lành cho bất cứ ai cần.",
     "stats": {
       "maxHp": 150,
@@ -3737,6 +3737,122 @@
         "presentationScope": "none",
         "summary": "+25% ATK · Khai Phá Điểm Yếu · 3 lượt bản thân"
       }
+    }
+  },
+  {
+    "id": "susanoo",
+    "name": "Susanoo",
+    "title": "Sức Mạnh Của Núi Keijo",
+    "affiliation": "youkai_hunters",
+    "element": "thunder",
+    "role": "Đấu sĩ",
+    "roleGroup": "fighter",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Gia cố phòng ngự để tăng ATK căn bản, rồi dồn Hồn Kiếm vào một đòn quyết định.",
+    "biography": "Thành viên Hội Thợ Săn Yêu Quái, Susanoo tin một cú đánh đủ mạnh có thể giải quyết những việc suy nghĩ mãi vẫn chưa xong.",
+    "stats": {
+      "maxHp": 210,
+      "maxMp": 90,
+      "attack": 32,
+      "magic": 10,
+      "defense": 25,
+      "resistance": 23,
+      "speed": 13
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "susanoo.strike",
+      "susanoo.offering",
+      "susanoo.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "defense_average_conversion",
+      "name": "Cơ Bắp Biết Trả Lời",
+      "description": "Tăng ATK căn bản theo trung bình DEF và RES hiện tại, tối đa 25 ATK khi trung bình đạt 100.",
+      "toStat": "attack",
+      "ratio": 0.25,
+      "cap": 25
+    }
+  },
+  {
+    "id": "yukino",
+    "name": "Yukino",
+    "title": "Tuyết Nữ Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "water",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Tiếp ứng đồng đội tạo Hồn Kiếm, rồi gom linh hỏa thành một trận tuyết chia đều sức mạnh.",
+    "biography": "Một Tuyết Nữ gia nhập Hội Thợ Săn Yêu Quái. Yukino dùng hơi lạnh để nối tiếng gọi của những hồn kiếm với người còn sống.",
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 120,
+      "attack": 10,
+      "magic": 35,
+      "defense": 15,
+      "resistance": 26,
+      "speed": 19
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "yukino.strike",
+      "yukino.offering",
+      "yukino.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "ally_creation_followup",
+      "name": "Tuyết Đáp Tiếng Linh Hồn",
+      "description": "Khi đồng đội khác dùng kỹ năng trực tiếp tạo Hồn Kiếm, Liên kích và tạo thêm 1 Hồn Kiếm. Tối đa 1 lần mỗi vòng.",
+      "resource": "sword_soul",
+      "amount": 1,
+      "followUpAbility": "yukino.echo"
     }
   }
 ]

@@ -228,7 +228,7 @@ export function CharacterDetail({ id }: { id: string }) {
         </div>
         <p>Hệ số theo tiến trình và chỉ số chuẩn bị hiện tại.</p>
       </div>
-      <RulesDisclosure title="Quy ước chiến đấu"><div className="character-copy-guide"><p>ATK/MAG quyết định sức mạnh; đòn vật lí tính DEF, phép tính RES. Hệ số sát thương hiển thị trước phòng thủ và điểm yếu.</p><p>Lượt là lượt của người mang hiệu ứng; buff tự dùng bắt đầu tính từ lượt kế tiếp. Vòng gồm lượt chính và Vòng Phụ; giới hạn một lần/vòng dùng chung cả hai. “Cuối lượt” khác “cuối vòng”.</p><p>Hồi HP/MP không vượt tối đa; hồi MP theo tỷ lệ làm tròn lên. Khiên không cộng dồn, giữ khiên mạnh hơn. Hiệu ứng cùng tên làm mới; chỉ cộng tầng khi có ghi rõ.</p></div></RulesDisclosure>
+      <RulesDisclosure title="Quy ước chiến đấu"><div className="character-copy-guide"><p>ATK/MAG quyết định sức mạnh; đòn vật lí tính DEF, phép tính RES. Hệ số sát thương hiển thị trước phòng thủ và điểm yếu.</p><p>Lượt chính là lượt chính của người mang hiệu ứng; Lượt Thêm không giảm thời hạn này. Hiệu ứng ghi “lượt” có thể tính cả Lượt Thêm. Vòng gồm Vòng Chính và Vòng Phụ; giới hạn mỗi vòng dùng chung cả hai.</p><p>Hồi HP/MP không vượt tối đa; hồi MP theo tỷ lệ làm tròn lên. Khiên không cộng dồn, giữ khiên mạnh hơn. Hiệu ứng cùng tên làm mới; chỉ cộng tầng khi có ghi rõ. Buff khuếch đại sát thương lấy mức cao nhất đủ điều kiện; các lần dùng hợp lệ vẫn tiêu.</p></div></RulesDisclosure>
       <div className="skill-grid">
         {skills.map((skill: any) => (
           <SkillCard key={skill.id} skill={skill} actor={actor} />

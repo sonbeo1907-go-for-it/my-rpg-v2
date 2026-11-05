@@ -24,7 +24,7 @@ export function priorityTaggedAlly(battle,actor,rule){
  return allies.find(a=>a.tags?.includes(rule.preferTag))??(rule.requireTag?null:allies[0]??null);
 }
 export function teamSpentPenetration(actor,context,effect){const p=actor.passive;return p?.type==='team_spend_penetration'&&p.damageType===effect.damageType&&(context.teamResourceSpent?.[p.resource]??0)>0?p.penetration:0;}
-export function selectedTeamCost(battle,actor,skill){const preferred=skill.cost?.preferTeamResource;return preferred&&teamResourceValue(battle,actor,preferred.id)>=preferred.amount?preferred:skill.cost?.teamResource??null;}
+export function selectedTeamCost(battle,actor,skill){const preferred=skill.cost?.preferTeamResource;return preferred&&teamResourceValue(battle,actor,preferred.id)>=(preferred.all?preferred.min:preferred.amount)?preferred:skill.cost?.teamResource??null;}
 export function spentTeamHits(effect,spent){const r=effect.hitsWhenTeamSpent;return r&&spent>=r.at?{...effect,hits:r.hits}:effect;}
 export function growTeamResources(battle,actor,skill,io){
  if(skill.id.startsWith('$')||skill.activation==='passive')return;
@@ -36,7 +36,7 @@ export function growTeamResources(battle,actor,skill,io){
  }
 }
 export const teamCostAmount=(cost,value)=>cost?.all?value:cost?.amount??0;
-export function teamSpendStatBonuses(actor,skill,spent){const p=actor.passive;return p?.type==='spent_team_resource_stat'&&p.resource===skill.cost?.teamResource?.id&&spent>0?{[p.stat]:p.ratio}:{};}
+export function teamSpendStatBonuses(actor,skill,spent){const p=actor.passive,r=skill.spentTeamStatBonus,bonuses=p?.type==='spent_team_resource_stat'&&p.resource===skill.cost?.teamResource?.id&&spent>0?{[p.stat]:p.ratio}:{};if(r&&spent>r.above)bonuses[r.stat]=(bonuses[r.stat]??0)+(spent-r.above)*r.perStack;return bonuses;}
 export function scaledSpentTeamEffect(effect,spent){const r=effect.spentTeamResourceScaling;if(!r)return effect;const full=r.fullSpend&&spent>=r.fullSpend.at?r.fullSpend:{};return {...effect,multiplier:(effect.multiplier??1)+r.perStack*spent,penetration:(effect.penetration??0)+(full.penetration??0),spentResourceDamageBonus:full.damageBonus??0};}
 export function teamCostAvailability(battle,actor,skill){
  const cost=skill.cost?.teamResource;if(!cost)return null;
@@ -83,8 +83,9 @@ export function validateTeamResourceContent(content){
  for(const actor of actors){const p=actor.passive;
   if(p?.type==='team_resource_growth'&&(!definitions.has(p.resource)||!p.name||!p.description||!content.statuses[p.statusId]?.modifiersPerStack||!Number.isInteger(p.duration)||p.duration<1))fail(actor.id+': invalid resource growth');
   if(p?.baseStatPerStack!==undefined&&(p.type!=='team_resource_growth'||!Object.keys(p.baseStatPerStack).length||Object.entries(p.baseStatPerStack).some(([k,v])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(v)||v<=0||v>20)))fail(actor.id+': invalid shared growth base stat');
-  if(['team_spend_penetration','ally_team_creation','round_team_resource','blessed_team_resource','team_resource_mode'].includes(p?.type)){
+  if(['team_spend_penetration','ally_team_creation','round_team_resource','blessed_team_resource','team_resource_mode','ally_creation_followup'].includes(p?.type)){
    if(!definitions.has(p.resource)||!p.name||!p.description)fail(actor.id+': invalid resource native');
+   if(p.type==='ally_creation_followup'){const a=content.abilities[p.followUpAbility];if(p.amount!==1||a?.activation!=='passive'||a.target!=='enemy'||a.cost||a.cooldown||a.effects.some(e=>e.type!=='damage'))fail(actor.id+': invalid creation follow-up');}
    if(p.type==='team_resource_mode'&&(!Number.isInteger(p.threshold)||p.threshold<1||p.threshold>20||!actor.combatModes?.[p.modeId]||actor.combatModes[p.modeId].lifetime!=='turns'))fail(actor.id+': invalid shared mode');
    if(p.type==='team_spend_penetration'){const a=content.abilities[p.repeatAbility];if(p.damageType!=='magical'||!Number.isFinite(p.penetration)||p.penetration<=0||p.penetration>1||!actor.abilities.includes(p.repeatAbility)||a?.target!=='all_enemies'||a.effects.some(e=>e.type!=='damage')||!Number.isInteger(p.virtualSpent)||p.virtualSpent<1)fail(actor.id+': invalid resource repeat');}
    if(p.type==='ally_team_creation'&&(p.amount!==1||!content.statuses[p.statusId]||content.statuses[p.statusId].durationClock!=='round'||!Number.isInteger(p.duration)||p.duration<1))fail(actor.id+': invalid creation support');
@@ -100,10 +101,13 @@ export function validateTeamResourceContent(content){
  }
  for(const skill of Object.values(content.abilities)){
   const preferred=skill.cost?.preferTeamResource;
-  if(preferred&&(!definitions.has(preferred.id)||!Number.isInteger(preferred.amount)||preferred.amount<1||preferred.amount>definitions.get(preferred.id).max||!(skill.cost.mp>0)||Object.keys(skill.cost).some(k=>!['mp','preferTeamResource'].includes(k))||Object.keys(preferred).some(k=>!['id','amount'].includes(k))))fail(skill.id+': invalid preferred team cost');
+  if(preferred&&(!definitions.has(preferred.id)||(preferred.all===true?preferred.amount!==undefined||!Number.isInteger(preferred.min)||preferred.min<1||preferred.min>definitions.get(preferred.id).max:preferred.all!==undefined||preferred.min!==undefined||!Number.isInteger(preferred.amount)||preferred.amount<1||preferred.amount>definitions.get(preferred.id).max)||!(skill.cost.mp>0)||Object.keys(skill.cost).some(k=>!['mp','preferTeamResource'].includes(k))||Object.keys(preferred).some(k=>!['id','amount','all','min'].includes(k))))fail(skill.id+': invalid preferred team cost');
+  const bonus=skill.spentTeamStatBonus;if(bonus&&(!definitions.has(bonus.resource)||skill.cost?.preferTeamResource?.id!==bonus.resource||!skill.cost.preferTeamResource.all||!['attack','magic'].includes(bonus.stat)||!Number.isSafeInteger(bonus.above)||bonus.above<0||!Number.isFinite(bonus.perStack)||bonus.perStack<=0||bonus.perStack>1))fail(skill.id+': invalid spent stat bonus');
   const cost=skill.cost?.teamResource;
   if(cost&&(!definitions.has(cost.id)||(cost.all===true?cost.amount!==undefined||!Number.isSafeInteger(cost.min)||cost.min<1||cost.min>definitions.get(cost.id).max:cost.all!==undefined||cost.min!==undefined||!Number.isSafeInteger(cost.amount)||cost.amount<1||cost.amount>definitions.get(cost.id).max)||Object.keys(cost).some(k=>!['id','amount','all','min'].includes(k))))fail(skill.id+': invalid team cost');
   for(const e of skill.effects??[]){
+   if(e.divideAmongTargets!==undefined&&(e.type!=='damage'||e.divideAmongTargets!==true||skill.target!=='all_enemies'))fail(skill.id+': invalid shared damage');
+   if(e.perHitTarget!==undefined&&(e.type!=='team_resource'||e.perHitTarget!==true||!Number.isInteger(e.maxTargets)||e.maxTargets<1||e.maxTargets>10||!skill.effects.some(x=>x.type==='damage')))fail(skill.id+': invalid per-target creation');
    if(e.type==='team_resource'&&(!definitions.has(e.resource)||!Number.isSafeInteger(e.amount)||e.amount<1||e.amount>99||e.to||e.teamResourceScaling))fail(skill.id+': invalid team gain');
    const conditional=e.hitsWhenTeamSpent;if(conditional&&(!definitions.has(conditional.id)||e.type!=='damage'||(skill.cost?.preferTeamResource??cost)?.id!==conditional.id||conditional.at!==(skill.cost?.preferTeamResource??cost)?.amount||!Number.isInteger(conditional.hits)||conditional.hits<1||conditional.hits>10))fail(skill.id+': invalid conditional team hits');
    const spent=e.spentTeamResourceScaling;if(spent&&(!definitions.has(spent.id)||e.type!=='damage'||skill.cost?.teamResource?.id!==spent.id||!Number.isFinite(spent.perStack)||spent.perStack<=0||spent.perStack>2||spent.fullSpend&&(!Number.isInteger(spent.fullSpend.at)||spent.fullSpend.at<1||spent.fullSpend.at>definitions.get(spent.id).max||!Number.isFinite(spent.fullSpend.damageBonus??0)||spent.fullSpend.damageBonus<0||spent.fullSpend.damageBonus>1||!Number.isFinite(spent.fullSpend.penetration??0)||spent.fullSpend.penetration<0||spent.fullSpend.penetration>1)))fail(skill.id+': invalid spent team-resource scaling');

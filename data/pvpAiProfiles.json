@@ -1310,5 +1310,39 @@
       "miyuki.offering": 6,
       "miyuki.burst": 12
     }
+  },
+  {
+    "id": "susanoo",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "susanoo.offering"
+    ],
+    "burstAbilities": [
+      "susanoo.burst"
+    ],
+    "skillBias": {
+      "susanoo.strike": 5,
+      "susanoo.offering": 8,
+      "susanoo.burst": 12
+    }
+  },
+  {
+    "id": "yukino",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "yukino.offering"
+    ],
+    "burstAbilities": [
+      "yukino.burst"
+    ],
+    "skillBias": {
+      "yukino.strike": 5,
+      "yukino.offering": 8,
+      "yukino.burst": 12
+    }
   }
 ]

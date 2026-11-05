@@ -1465,5 +1465,26 @@
       "resistance": 0.2,
       "damageReduction": 0.25
     }
+  },
+  {
+    "id": "susanoo_guard",
+    "name": "Thân Thép Chấn Sơn",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": 0.2,
+      "resistance": 0.2
+    },
+    "description": "Tăng DEF và RES."
+  },
+  {
+    "id": "yukino_frost",
+    "name": "Gió Tuyết Níu Chân",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.15
+    },
+    "description": "Giảm SPD."
   }
 ]
