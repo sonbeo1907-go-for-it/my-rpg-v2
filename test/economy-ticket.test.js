@@ -1,0 +1,10 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {loadContent} from '../scripts/load-content.mjs';import {createGameSave,decodeGameSave,encodeGameSave} from '../src/core/game-save.js';
+import {recruitCharacter} from '../src/core/economy.js';import {beginReforge,finishReforge} from '../src/core/blacksmith.js';
+const c=await loadContent();
+test('ticket migration, validation and chosen recruitment spend a ticket without spending Pure Prisma or changing pity',()=>{
+ const s=createGameSave(c),raw=JSON.parse(encodeGameSave(s,c));delete raw.recruitmentTickets;assert.equal(decodeGameSave(JSON.stringify(raw),c).recruitmentTickets,0);s.recruitmentShards=500;assert.throws(()=>recruitCharacter(s,c,'standard','dain'),/Vé Chiêu Mộ/);s.recruitmentTickets=1;const n=recruitCharacter(s,c,'standard','dain');assert.equal(n.recruitmentTickets,0);assert.equal(n.recruitmentShards,500);assert.equal(n.unlockedCharacterIds.includes('dain'),true);assert.equal(s.unlockedCharacterIds.includes('dain'),false);assert.deepEqual(n.gacha,s.gacha);assert.deepEqual(decodeGameSave(encodeGameSave(n,c),c),n);assert.throws(()=>recruitCharacter({...n,recruitmentTickets:1},c,'standard','dain'));for(const value of [-1,1.5,'1',Number.MAX_SAFE_INTEGER+1])assert.throws(()=>encodeGameSave({...s,recruitmentTickets:value},c));
+});
+test('exclusive reroll spends exactly ten Pure Prisma, never Original, and old paid pending choices still resolve',()=>{
+ const s=createGameSave(c),template=Object.values(c.exclusiveGear).find(t=>t.characterId==='arthur');s.exclusiveGear=[{templateId:template.id,statKey:'attack',statValue:5}];s.recruitmentShards=10;s.originalPrisma=0;const n=beginReforge(s,c,template.id,()=>0);assert.equal(n.recruitmentShards,0);assert.equal(n.originalPrisma,0);assert.equal(s.recruitmentShards,10);assert.throws(()=>beginReforge({...s,recruitmentShards:9,originalPrisma:100},c,template.id));const old=structuredClone(n);old.recruitmentShards=0;assert.equal(finishReforge(old,c,old.pendingReforge.id,false).pendingReforge,null);assert.equal(finishReforge(old,c,old.pendingReforge.id,true).exclusiveGear[0].statKey,'maxHp');
+});

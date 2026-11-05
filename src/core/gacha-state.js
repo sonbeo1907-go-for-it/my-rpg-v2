@@ -3,6 +3,7 @@ import { validateGear } from './economy.js';
 // Pity belongs to each banner. Presentation history is saved with the rewards, never grants them again.
 export function normalizeGachaState(input, campaign, content) {
   if (!input || !Number.isSafeInteger(input.totalPulls) || input.totalPulls < 0) throw new Error('Số lượt quay không hợp lệ.');
+  const rateUpMileage=input.rateUpMileage??0;if(!Number.isSafeInteger(rateUpMileage)||rateUpMileage<0||rateUpMileage>input.totalPulls)throw Error('Tiến độ Vé Chiêu Mộ không hợp lệ.');
   const pity = input.pity ?? {};
   if (!pity || typeof pity !== 'object' || Array.isArray(pity)) throw new Error('Bộ đếm pity không hợp lệ.');
   for (const [id, count] of Object.entries(pity)) {
@@ -14,6 +15,7 @@ export function normalizeGachaState(input, campaign, content) {
     const batch = input.lastSummon; const banner = content.banners[batch.bannerId];
     if (!Object.hasOwn(content.banners, batch.bannerId) || batch.id !== `summon_${input.totalPulls}` || !Array.isArray(batch.results) || ![1, 10].includes(batch.results.length) || batch.results.length > input.totalPulls) throw new Error('Kết quả chiêu mộ không hợp lệ.');
     if(batch.rateUp!==undefined&&!validateRateUpSnapshot(batch.rateUp,banner))throw Error('Lịch sử đợt Chiêu Mộ không hợp lệ.');
+    if(batch.ticketReward!==undefined&&(!batch.rateUp||!Number.isInteger(batch.ticketReward)||batch.ticketReward<0||batch.ticketReward>1||rateUpMileage<batch.results.length||batch.ticketReward!==Math.floor(rateUpMileage/300)-Math.floor((rateUpMileage-batch.results.length)/300)))throw Error('Kết quả nhận Vé Chiêu Mộ không hợp lệ.');
     const results = batch.results.map((result, index) => {
       if (result?.kind === 'gear') {
         const gear = campaign.gear.find(item => item.id === result.gear?.id);
@@ -30,7 +32,7 @@ export function normalizeGachaState(input, campaign, content) {
       }
       throw new Error('Loại kết quả chiêu mộ không hợp lệ.');
     });
-    lastSummon = { id: batch.id, bannerId: batch.bannerId, ...(batch.rateUp?{rateUp:structuredClone(batch.rateUp)}:{}), results };
+    lastSummon = { id: batch.id, bannerId: batch.bannerId, ...(batch.rateUp?{rateUp:structuredClone(batch.rateUp)}:{}),...(batch.ticketReward!==undefined?{ticketReward:batch.ticketReward}:{}), results };
   }
-  return { totalPulls: input.totalPulls, pity: pruneRateUpPity(pity), lastSummon };
+  return { totalPulls: input.totalPulls,rateUpMileage, pity: pruneRateUpPity(pity), lastSummon };
 }

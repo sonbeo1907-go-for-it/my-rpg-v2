@@ -50,7 +50,9 @@
     "description": "Khi ba câu chuyện đã khép, thanh kiếm còn một lời chưa nói.",
     "art": "/art/story-epilogue.svg",
     "chapters": [
-      "epilogue_unfinished"
+      "epilogue_shadow_easy",
+      "epilogue_unfinished",
+      "epilogue_shadow_hard"
     ]
   },
   {

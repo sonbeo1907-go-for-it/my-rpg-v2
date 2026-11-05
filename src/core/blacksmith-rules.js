@@ -22,17 +22,24 @@ export function validateBlacksmithContent(content) {
   if (!whole(rules.maxDismantle) || rules.maxDismantle < 1 || rules.maxDismantle > 99) errors.push('blacksmith: invalid dismantle limit');
   for(const id of ['t1','t2','t3_focused','t3_dual']) if(!whole(rules.dismantleYield?.[id]) || rules.dismantleYield[id]<1) errors.push(`blacksmith: invalid yield ${id}`);
   if(!rules.craftCost || Object.keys(rules.craftCost).length!==4 || FORGE_CURRENCIES.some(key=>!whole(rules.craftCost[key])||rules.craftCost[key]<1)) errors.push('blacksmith: invalid craft cost');
+  if(rules.reforgeCurrency!=='recruitmentShards')errors.push('blacksmith: invalid reforge currency');
   if(!whole(rules.reforgeCost)||rules.reforgeCost<1||!whole(rules.rollMinPoints)||rules.rollMinPoints<1||!whole(rules.rollMaxPoints)||rules.rollMaxPoints<rules.rollMinPoints) errors.push('blacksmith: invalid roll/cost');
   if(rules.rollPolicy!=='uniform_stat_then_integer'||rules.allowIdenticalReforge!==true||rules.requireOwnedCharacter!==true) errors.push('blacksmith: unsupported roll/ownership policy');
   for(const template of Object.values(content.exclusiveGear)) {
     if(!Object.hasOwn(content.characters,template.characterId)||typeof template.enabled!=='boolean'||!template.name?.trim()||!template.description?.trim()||!template.passive?.description?.trim()) errors.push(`exclusiveGear: invalid template ${template.id}`);
+    const owner=content.characters[template.characterId];
+    for(const p of template.passive?.type==='bundle'?(Array.isArray(template.passive.effects)?template.passive.effects:[]):[template.passive]){
+      if(p?.type==='native_passive_override'&&p.passiveType!==owner?.passive?.type)errors.push('exclusiveGear: incompatible native override '+template.id);
+      if(['resource_skill_penetration','resource_chance_bonus'].includes(p?.type)&&!owner?.resources?.[p.resourceId])errors.push('exclusiveGear: invalid owner resource '+template.id);
+      if(p?.type==='mode_mp_discount'&&!owner?.combatModes?.[p.modeId])errors.push('exclusiveGear: invalid owner mode '+template.id);
+    }
     // New combat passive types must get an explicit, tested adapter before being enabled.
     if(!validateExclusivePassive(template.passive,content)) errors.push('exclusiveGear: unsupported passive '+template.id);
     if(template.initialStat&&!validExclusiveStat(content,template.initialStat.statKey,template.initialStat.statValue))errors.push('exclusiveGear: invalid initial stat '+template.id);
     if(template.requires?.firstClear&&!content.encounters[template.requires.firstClear]?.firstClearRewards?.some(r=>r.type==='exclusive_recipe'&&r.templateId===template.id))errors.push('exclusiveGear: invalid recipe gate '+template.id);
     if(template.source && (template.source.type!=='quest' || !content.encounters[template.source.encounterId] || !validExclusiveStat(content,template.source.statKey,template.source.statValue))) errors.push('exclusiveGear: invalid quest source '+template.id);
   }
-  for(const item of Object.values(content.items)) if(!['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets','blueprints','xpBooksGreen','xpBooksBlue','xpBooksPurple'].includes(item.field)||!item.name?.trim()||!item.description?.trim()||!['coin','prisma','pure','original','fragments','breakthrough','ticket','blueprint','xp_book_green','xp_book_blue','xp_book_purple'].includes(item.kind)) errors.push(`items: invalid resource ${item.id}`);
+  for(const item of Object.values(content.items)) if(!['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets','blueprints','xpBooksGreen','xpBooksBlue','xpBooksPurple','recruitmentTickets'].includes(item.field)||!item.name?.trim()||!item.description?.trim()||!['coin','prisma','pure','original','fragments','breakthrough','ticket','blueprint','xp_book_green','xp_book_blue','xp_book_purple','recruitment_ticket'].includes(item.kind)) errors.push(`items: invalid resource ${item.id}`);
   for(const item of Object.values(content.items)){if(item.kind.startsWith('xp_book_')&&(!Number.isSafeInteger(item.xp)||item.xp<1||!Number.isSafeInteger(item.coinCost)||item.coinCost<1||item.field!==({xp_book_green:'xpBooksGreen',xp_book_blue:'xpBooksBlue',xp_book_purple:'xpBooksPurple'})[item.kind]))errors.push('items: invalid experience book '+item.id);if(item.coinCost!==undefined&&(!Number.isSafeInteger(item.coinCost)||item.coinCost<1))errors.push('items: invalid purchase cost '+item.id);}
   return [...errors,...validateT4Content(content)];
 }

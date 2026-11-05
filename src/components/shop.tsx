@@ -26,7 +26,7 @@ import { MerchantScene } from "./merchant-scene";
 
 const keeperGreetings = [
   "Chào mừng… Tiệm vẫn mở. Còn mắt tôi thì đang cố gắng.",
-  "Coin đổi Prisma, Pure Prisma gọi đồng đội. Cà phê thì… không gọi nổi tôi tỉnh nữa.",
+  "Coin đổi Prisma, vé gọi đồng đội. Cà phê thì… không gọi nổi tôi tỉnh nữa.",
   "Cứ chọn thong thả nhé. Tôi chỉ đang đếm xem mình đã tăng ca bao nhiêu đêm thôi.",
   "Hàng mới đã lên kệ. Giấc ngủ của tôi thì vẫn đang trên đường giao tới.",
   "Muốn tìm bạn đồng hành à? Nhớ rủ cả người biết trông tiệm giúp tôi nhé.",
@@ -81,7 +81,7 @@ export function ShopPage() {
             ),
       confirm.kind === "prisma"
         ? "Đã chuyển Coin thành Prisma."
-        : "Đã chiêu mộ đồng đội bằng Pure Prisma.",
+        : "Đã chiêu mộ đồng đội bằng Vé Chiêu Mộ.",
     );
     if (ok) setConfirm(null);
     pending.current = false;
@@ -188,20 +188,20 @@ export function ShopPage() {
               <div className="panel shop-recruitment-heading">
                 <div>
                   <span className="eyebrow">
-                    PURE PRISMA · LỜI HẸN ƯỚC THUẦN KHIẾT
+                    VÉ CHIÊU MỘ · LỜI HẸN ƯỚC THUẦN KHIẾT
                   </span>
                   <h2>Một người đồng hành tự chọn</h2>
                   <p>
                     Mỗi nhân vật chưa sở hữu cần{" "}
                     <strong className="pure-prisma-text">
-                      {rules.recruitCost} Pure Prisma
+                      1 Vé Chiêu Mộ
                     </strong>
                     . Bản trùng khi quay vẫn nhận {rules.duplicateShards} Pure
                     Prisma và mở ô trang bị như trước.
                   </p>
                   <small>Chiêu mộ tại Shop không thay đổi pity quay.</small>
                 </div>
-                <CurrencyAmount kind="pure" amount={campaign.recruitmentShards} />
+                <CurrencyAmount kind="recruitment_ticket" amount={campaign.recruitmentTickets} />
               </div>
               <label className="shop-search">
                 Tìm đồng đội
@@ -248,13 +248,13 @@ export function ShopPage() {
                   busy ||
                   (confirm.kind === "prisma"
                     ? campaign.coins < confirm.cost
-                    : campaign.recruitmentShards < rules.recruitCost)
+                    : campaign.recruitmentTickets < 1)
                 }
                 onClick={purchase}
               >
                 {confirm.kind === "prisma"
                   ? "Xác nhận chuyển đổi"
-                  : "Chiêu mộ bằng Pure Prisma"}
+                  : "Chiêu mộ bằng Vé Chiêu Mộ"}
               </button>
             </>
           }
@@ -278,13 +278,13 @@ export function ShopPage() {
                 Chiêu mộ <strong>{content.characters[confirm.id].name}</strong>{" "}
                 bằng{" "}
                 <strong className="pure-prisma-text">
-                  {rules.recruitCost} Pure Prisma
+                  1 Vé Chiêu Mộ
                 </strong>
                 ?
               </p>
-              <p>Pure Prisma hiện có: {fmt(campaign.recruitmentShards)}.</p>
-              {campaign.recruitmentShards < rules.recruitCost && (
-                <p className="warning">Bạn chưa đủ Pure Prisma.</p>
+              <p>Vé Chiêu Mộ hiện có: {fmt(campaign.recruitmentTickets)}.</p>
+              {campaign.recruitmentTickets < 1 && (
+                <p className="warning">Bạn chưa có Vé Chiêu Mộ.</p>
               )}
             </>
           )}

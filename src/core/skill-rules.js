@@ -23,16 +23,20 @@ export function skillGrowthGroups(content,skill){
 export const skillRules=content=>content?.progressionRules?.default?.skillProgression??DEFAULT_SKILL_RULES;
 export const skillRankCap=(level,rules=DEFAULT_SKILL_RULES)=>rules.characterLevelRequired.filter(required=>level>=required).length;
 export const skillUpgradeCost=(rank,rules=DEFAULT_SKILL_RULES)=>rank>=1&&rank<rules.maxRank?rules.coins.base*rules.coins.multiplier**(rank-1):0;
-export const coefficientFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.coefficientGrowthPerRank**(rank-1);
-export const statBuffFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.statBuffGrowthPerRank**(rank-1);
-export const outputMpFactor=(rank,rules=DEFAULT_SKILL_RULES)=>Math.max(rules.outputBuffMpCostFloorRatio,rules.outputBuffMpMultiplierPerRank**(rank-1));
+export const masteryGrowthFactor=(rank,steps)=>steps.slice(0,Math.max(0,rank-5)).reduce((factor,n)=>factor*n,1);
+export const coefficientFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.coefficientGrowthPerRank**(Math.min(rank,5)-1)*masteryGrowthFactor(rank,rules.mastery?.coefficientGrowthByTier??[1.12,1.12,1.15]);
+export const statBuffFactor=(rank,rules=DEFAULT_SKILL_RULES)=>rules.statBuffGrowthPerRank**(Math.min(rank,5)-1)*masteryGrowthFactor(rank,rules.mastery?.statBuffGrowthByTier??[1.06,1.06,1.075]);
+export const outputMpFactor=(rank,rules=DEFAULT_SKILL_RULES)=>Math.max(rules.outputBuffMpCostFloorRatio,rules.outputBuffMpMultiplierPerRank**(Math.min(rank,5)-1))*(rules.mastery?.outputMpMultiplier??.9)**Math.max(0,rank-5);
 export const skillLineId=skill=>skill.id==='$attack'?'basic':skill.skillLineId??skill.id;
-export const getActorSkillRank=(actor,skill)=>(actor?.team==='enemy'&&actor?.actorKind!=='character')?1:actor?.skillRanks?.[skillLineId(skill)]??1;
+export const getActorSkillRank=(actor,skill)=>{const rank=(actor?.team==='enemy'&&actor?.actorKind!=='character')?1:actor?.skillRanks?.[skillLineId(skill)]??1;return actor?.masteryDisabled?Math.min(5,rank):rank;};
+export const masteryEnabled=(content,id)=>Boolean(skillRules(content).mastery?.characterIds.includes(id));
+export const skillRankLabel=rank=>rank>5?'Rank 5 · Thông Thạo '+(rank-5):'Rank '+rank;
+export const skillMasteryClass=rank=>rank>5?'skill-mastery skill-mastery-'+(rank-5):'';
 export const getSkillRank=(campaign,id,line)=>campaign.characters[id]?.skillRanks?.[line]??1;
 export function normalizeSkillRanks(ranks,level,rules=DEFAULT_SKILL_RULES){
  if(ranks===undefined)return {};
  if(!ranks||typeof ranks!=='object'||Array.isArray(ranks)||Object.getPrototypeOf(ranks)!==Object.prototype&&Object.getPrototypeOf(ranks)!==null)throw Error('Dữ liệu cấp kỹ năng không hợp lệ.');
- for(const[key,rank]of Object.entries(ranks))if(!key||!Number.isInteger(rank)||rank<1||rank>rules.maxRank||rank>skillRankCap(level,rules))throw Error('Cấp kỹ năng vượt giới hạn nhân vật.');
+ for(const[key,rank]of Object.entries(ranks))if(!key||!Number.isInteger(rank)||rank<1||rank>(rules.mastery?.maxRank??rules.maxRank)||rank>(level>=50?(rules.mastery?.maxRank??rules.maxRank):skillRankCap(level,rules)))throw Error('Cấp kỹ năng vượt giới hạn nhân vật.');
  return {...ranks};
 }
 export function characterSkillIds(content,state,id){
@@ -49,6 +53,8 @@ export function validateCharacterSkillRanks(content,campaign,id){
  const ids=characterSkillIds(content,state,id);
  for(const key of Object.keys(ranks)){
   const skill=key==='basic'?{growthProfile:'basic',rankable:true}:ids.map(id=>content.abilities[id]).find(skill=>skillLineId(skill)===key);
+  if(skill?.rankUnlockFlag&&ranks[key]>1&&!campaign.storyFlags.includes(skill.rankUnlockFlag))throw Error('Chưa mở nâng Rank kỹ năng qua cốt truyện.');
+  if(ranks[key]>5&&(!masteryEnabled(content,id)||skill?.masteryEligible===false))throw Error('Nhân vật chưa mở Thông Thạo Kĩ năng.');
   if(!campaign.unlockedCharacterIds.includes(id)||!skill||skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive')throw Error('Cấp kỹ năng không thuộc nhân vật đã sở hữu hoặc kỹ năng chưa mở khóa.');
  }
  return ranks;
@@ -56,6 +62,7 @@ export function validateCharacterSkillRanks(content,campaign,id){
 export function validateSkillProgression(content){
  const errors=[],r=content.progressionRules?.default?.skillProgression;
  if(!r||Object.entries(DEFAULT_SKILL_RULES).some(([key,value])=>typeof value==='object'?Array.isArray(value)?JSON.stringify(r[key])!==JSON.stringify(value):Object.entries(value).some(([k,n])=>r[key]?.[k]!==n):r[key]!==value))errors.push('Invalid common skill progression rules');
+ const m=r?.mastery;if(!m||m.maxRank!==8||JSON.stringify(m.costs)!=='[1,2,3]'||JSON.stringify(m.coefficientGrowthByTier)!=='[1.12,1.12,1.15]'||JSON.stringify(m.statBuffGrowthByTier)!=='[1.06,1.06,1.075]'||m.outputMpMultiplier!==.9||!Array.isArray(m.characterIds)||new Set(m.characterIds).size!==m.characterIds.length||m.characterIds.some(id=>!content.characters[id]||content.characters[id].developerOnly))errors.push('Invalid skill mastery rules');
  for(const skill of Object.values(content.abilities??{})){
   if(!SKILL_PROFILES.includes(skill.growthProfile)||typeof skill.skillLineId!=='string'||!skill.skillLineId)errors.push(skill.id+': missing skill growth profile/line');
   if(skill.growthProfile==='fixed'&&(!skill.fixedReason||skill.rankable!==false))errors.push(skill.id+': fixed skill requires a reason');
@@ -69,7 +76,9 @@ export function validateSkillProgression(content){
   if(skill.growthProfile==='output_buff_mp'&&(!(skill.cost?.mp>0)||!outputBuff||Math.ceil(skill.cost.mp*outputMpFactor(5))>=skill.cost.mp))errors.push(skill.id+': no MP growth');
   if(skill.growthAdapter!==undefined&&!['mode_stat_buff','mode_command'].includes(skill.growthAdapter))errors.push(skill.id+': unknown growth adapter');
   if(skill.growthAdapter==='mode_stat_buff'&&(skill.growthProfile!=='stat_buff'||!skill.effects.some(e=>e.type==='enter_mode')))errors.push(skill.id+': invalid mode stat adapter');
-  if(skill.id.startsWith('arthur.ogres_bane')&&(skill.growthProfile!=='fixed'||skill.fixedByStory!==true||skill.rankable!==false))errors.push(skill.id+': Ogre Bane must remain story fixed');
+  if(skill.rankUnlockFlag!==undefined&&(typeof skill.rankUnlockFlag!=='string'||!Object.values(content.upgrades??{}).some(u=>u.requires?.storyFlag===skill.rankUnlockFlag)))errors.push(skill.id+': invalid rank unlock flag');
+  if(skill.masteryEligible!==undefined&&typeof skill.masteryEligible!=='boolean')errors.push(skill.id+': invalid mastery eligibility');
+  if(skill.id.startsWith('arthur.ogres_bane')&&(skill.rankUnlockFlag!=='arthur.ogre_ranks_unlocked'||skill.masteryEligible!==false||skill.growthProfile!=='damage'||skill.rankable!==true))errors.push(skill.id+': Ogre Bane requires story-gated Rank1–5');
   if(skill.growthProfile!=='fixed'&&skill.rankable!==true)errors.push(skill.id+': growing skills must explicitly be rankable');
   const groups=skillGrowthGroups(content,skill);
   if(skill.growthGroups!==undefined&&(!Array.isArray(skill.growthGroups)||JSON.stringify(skill.growthGroups)!==JSON.stringify(groups)))errors.push(skill.id+': growth groups must include every eligible effect');

@@ -1517,5 +1517,29 @@
     "defaultDuration": 2,
     "hitDamageGrowth": 0.05,
     "description": "Mỗi đòn sau trên cùng mục tiêu tăng 5% sát thương cơ sở trong hành động, trước khuếch đại sát thương."
+  },
+  {
+    "id": "kreider_exclusive_magic",
+    "name": "Nghịch âm dâng trào",
+    "kind": "buff",
+    "defaultDuration": 4,
+    "maxStacks": 2,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "magic": 0.25
+    },
+    "description": "Mỗi tầng tăng 25% MAG. Tối đa 2 tầng, làm mới thời hạn khi nhận thêm tầng."
+  },
+  {
+    "id": "elise_exclusive_magic",
+    "name": "Đức tin phán xét",
+    "kind": "buff",
+    "defaultDuration": 4,
+    "maxStacks": 2,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "magic": 0.25
+    },
+    "description": "Mỗi tầng tăng 25% MAG. Tối đa 2 tầng, làm mới thời hạn khi nhận thêm tầng."
   }
 ]

@@ -189,3 +189,10 @@ Miyuki: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md) dùng clock mode theo lượ
 ## Bổ sung Eri / Chiyoko — 05/11/2026
 
 Eri chốt lượng Hồn Kiếm phe mình thực tiêu ở vòng liền trước tại startRound, sau hết hạn hiệu ứng cũ và trước gear/summon/tạo tài nguyên vòng mới. Buff MAG có clock round đến hết vòng, cả Vòng Phụ; Choáng không chặn, gục không cấp. Chiyoko dùng mode permanent đến gục/kết thúc thật, không giảm vì skip/Extra/resource0; boundStatuses cấp Thăng Tiến ảo duy trì cùng mode. Bản escalation bình thường có clock main_turn; hitDamageGrowth đếm theo mục tiêu/hành động, không dùng đồng hồ lượt. Chi tiết và ma trận kiểm chứng: [ERI_CHIYOKO](ERI_CHIYOKO.md).
+
+## Arthur — 06/11/2026
+`starting_resource_skill_chance` cấp tài nguyên khởi đầu sau initializeTeamResources cho actor mới, không cấp lại options.partyActors. Sau cast abilityId tương ứng mới xét xác suất theo baseStatValue; Choáng/skip không kích, LượtThêm có cast vẫn kích. Đây không phải tick đầu/cuối vòng. Phase giữ actor không gọi lại khởi tạo. Phòng mới giữ actor và tài nguyên; trận độc lập lấy lạiinitial. `test/arthur-revision.test.js` đi qua advance/beginTurn khi Choáng, Vòng Phụ, chuyển phòng và chuyển phase thật.
+
+## Trấn Phái quan sát trạng thái và cơ hội tài nguyên — 06/11/2026
+Kreider/Elise kích sau khi buff/debuff thực sự được apply lên đối thủ; refresh cũng tính. Hộ Ấn/Phong Ấn chặn thì không phát observer. Buff nhận +25%MAG/tầng, cap2, làm mới thời hạn chung4 lượt của người mang; tính cả Lượt Thêm và lượt chính bị Choáng. Instance refresh trong lượt không bị trừ ngay theo oldStatuses. Buff phản ứng từ observer không kích observer khác để tránh đối xứng Elise tự lặp. Gục không nhận; dispel theo buff thường; phòng/wave/phase giữ theo actor carry; trận độc lập đặt lại. Forecast chỉ sửa trial.
+Judy chỉ roll bonus khi nội tại thực tăng tài nguyên và còn chỗ cho tầng phụ. Mỗi thất bại +15 điểm%, cap100%; thành công +1 thật reset50%; đầy/nguồn không hợp lệ không roll, không tăng failure. Bộ đếm nằm trên actor, giữ qua phòng/wave/phase, không ghi save chiến dịch; gục không tự reset. Bonus không tự kích lại bonus.

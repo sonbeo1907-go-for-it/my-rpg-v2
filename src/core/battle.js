@@ -1,3 +1,4 @@
+﻿import {baseStatValue} from './combat-math.js';
 import {statusApplicationChance,stunImmune} from './status-chance.js';
 import {applyPvpDamageCap,allowPvpHit,pvpPeriodicContext,reservePvpAutomatic} from './pvp-damage.js';
 import {chooseBattleAction} from './battle-ai.js';
@@ -15,8 +16,8 @@ import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
 import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,expireAgony} from './actor-life.js';
 import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
-import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked} from './exclusive-runtime.js';
-import {specialPassives,specialSkillStatBonuses} from './exclusive-specials.js';
+import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked,exclusiveEnemyStatusApplied,exclusiveResourceBonus} from './exclusive-runtime.js';
+import {specialPassives,specialSkillStatBonuses,specialHitStatBonus,specialResourcePenetration} from './exclusive-specials.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 import {questDifficulty} from './quest-difficulty.js';
 import {shieldedDamageBonus} from './exclusive-field.js';
@@ -158,6 +159,7 @@ export function createBattle(
       );
     })),
   ];
+  if(opponent||options.pvpRules)for(const actor of actors){actor.masteryDisabled=true;actor.skillRanks=Object.fromEntries(Object.entries(actor.skillRanks??{}).map(([key,rank])=>[key,Math.min(5,rank)]));}
   if(opponent)for(const actor of actors){
     actor.actorKind='character';actor.characterId=actor.definitionId;actor.characterName=actor.name;if(actor.team==='enemy')actor.name+=' (đối thủ)';
     actor.formationSlot=(actor.team==='party'?campaign:opponent).party.indexOf(actor.characterId);
@@ -210,6 +212,7 @@ export function createBattle(
   };
   for(const actor of actors)for(const initial of actor.initialStatuses??[])applyStatus(battle,actor,initial.status,initial.duration,actor.id,{stacks:initial.stacks??1,silent:true});
   initializeTeamResources(battle,options.teamResources);
+  for(const actor of actors){const p=actor.passive;if(p?.type==='starting_resource_skill_chance'&&!(options.partyActors??[]).some(a=>a.id===actor.id))gainResource(battle,actor,p.resource,p.initial);}
   if (!actors.some((actor) => actor.team === "party" && living(actor))) {
     battle.outcome = "defeat";
     write(battle, "Không còn đồng đội đứng vững để tiếp tục đợt mới.");
@@ -963,7 +966,7 @@ function chargeReceivedElement(battle,source,target,effect,context){
  if(!lightningChargeEligible(context.skill,context))return;
  for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_received_charge'||!living(owner)||owner.team!==source.team||target.team===owner.team||!damageElements(effect).includes(p.element))continue;
   const before=owner.resourceValues[p.resource]??0;gainResource(battle,owner,p.resource,p.amount,source.id);
-  if(owner.resourceValues[p.resource]>before){announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
+  if(owner.resourceValues[p.resource]>before){exclusiveResourceBonus(battle,owner,p.resource,specialIO);announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
  }
 }
 function triggerPowderFollowups(battle,source,skill,parent){
@@ -988,7 +991,7 @@ function chargeElementAllies(battle,source,context,damageElement){
  context.elementCharged??=new Set();
  for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_ally_charge'||!living(owner)||owner.id===source.id||owner.team!==source.team||((p.elementMatch==='different')?!(p.elementSource==='damage'?damageElement:[source.element]).some(e=>e!==p.element):!(p.elementSource==='damage'?damageElement:[source.element]).includes(p.element))||context.elementCharged.has(owner.id))continue;
   context.elementCharged.add(owner.id);const before=owner.resourceValues[p.resource]??0;gainResource(battle,owner,p.resource,p.amount,source.id);
-  if(owner.resourceValues[p.resource]>before){announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
+  if(owner.resourceValues[p.resource]>before){exclusiveResourceBonus(battle,owner,p.resource,specialIO);announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
  }
 }
 function triggerReceivedDamageCounters(battle,attacker,context){
@@ -1025,7 +1028,7 @@ function chargeSupportModes(battle,source,context){
  const scope=battle.supportChargeScope??context;scope.supportCharged??=new Set();
  for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='mode_support_charge'||!living(owner)||owner.activeMode!==p.modeId||scope.supportCharged.has(owner.id))continue;
   scope.supportCharged.add(owner.id);const before=owner.resourceValues[p.resource]??0;gainResource(battle,owner,p.resource,p.amount,source.id);
-  if(owner.resourceValues[p.resource]>before){announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
+  if(owner.resourceValues[p.resource]>before){exclusiveResourceBonus(battle,owner,p.resource,specialIO);announcePassive(battle,owner,source.id);write(battle,owner.name+': '+p.name+' → '+owner.resourceValues[p.resource]+'/'+owner.resources[p.resource].max+' '+owner.resources[p.resource].name+'.');}
  }
 }
 
@@ -1204,9 +1207,9 @@ function resolveHit(
       if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += specialPassives(ally,'marked_ally_ratio').find(p=>p.statusId===passive.statusId&&(target.statuses.find(s=>s.id===p.statusId)?.stacks??0)>=p.stacks)?.ratio??passive.ratio;
     }
   }
-  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus:0)+(actionContext.statRatioBonuses?.[key]??0),actionContext.baseStatBonuses?.[key]??0));
+  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus:0)+(actionContext.statRatioBonuses?.[key]??0)+specialHitStatBonus(attacker,target,actionContext,key),actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
-  const extraPenetration = modePenetration(attacker,effect.damageType)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
+  const extraPenetration = modePenetration(attacker,effect.damageType)+specialResourcePenetration(attacker,actionContext.skillId,effect,spent)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
   const defense =
     stat(
       battle,
@@ -1441,7 +1444,7 @@ function applyStatus(
   statusId,
   duration,
   sourceId,
-  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers, debtMaxHpRatio, chanceScaling, bypassControlImmunity=false } = {},
+  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers, debtMaxHpRatio, chanceScaling, bypassControlImmunity=false, exclusiveReaction=false } = {},
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
@@ -1524,6 +1527,7 @@ function applyStatus(
   }
   clampBattleMp(battle.content,target);
   gearBuffApplied(battle,source,target,definition,gearIO);
+  if(!silent&&!exclusiveReaction)exclusiveEnemyStatusApplied(battle,target,definition,specialIO);
   if (!silent) emitEvent(battle,{type:"status",sourceId,targetId:target.id,statusId,element:source?.element,beneficial:definition.kind!=="debuff"});
   if (!silent) write(battle, `${target.name}: ${definition.name}.`);
   if (definition.kind==='debuff' && source && source.team!==target.team && living(target) && (target.hp<target.stats.maxHp||lifeDebt(target)>0)) {
@@ -1878,6 +1882,7 @@ function resolveAction(
     ).size > 1;
   for (const effect of skill.effects)
     applyEffect(battle, actor, targets, effect, spent, area, actionContext);
+  const resourcePassive=actor.passive;if(living(actor)&&resourcePassive?.type==='starting_resource_skill_chance'&&skill.id===resourcePassive.abilityId&&(actor.resourceValues[resourcePassive.resource]??0)<actor.resources[resourcePassive.resource].max){const chance=Math.min(resourcePassive.cap,Math.max(0,baseStatValue(actor,resourcePassive.stat))/resourcePassive.atStat*resourcePassive.cap);if(battle.random()<chance){announcePassive(battle,actor,actor.id);gainResource(battle,actor,resourcePassive.resource,resourcePassive.amount);}}
   for(const exclusive of exclusivePassives(actor).filter(p=>(!p.abilityIds||p.abilityIds.includes(skill.id))&&living(actor))) {
     if (exclusive.type === "after_skill_status") {
       for (const target of exclusive.to === "targets" ? targets.filter(living) : [actor]) applyStatus(battle,target,exclusive.statusId,exclusive.duration,actor.id);
@@ -2087,3 +2092,4 @@ export function executeEnemyTurn(battle,plannedCommand) {
   }
   executeAction(battle,{actorId:actor.id,abilityId:skill.id,targetId:target?.id});
 }
+

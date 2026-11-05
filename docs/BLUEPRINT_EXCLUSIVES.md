@@ -68,3 +68,5 @@ Khiên từ Trấn tuân theo quy tắc Khiên mạnh nhất, không cộng dồ
 Core: migration và dữ liệu lỗi; mở/craft đúng nguồn; tỷ lệ và mốc thưởng; chống nhận thưởng/mua lặp; lỗi lưu và thử lại; đủ 20 hiệu ứng Trấn; điều kiện/giới hạn mỗi vòng; hệ số Rank; chuyển đổi MP; mặc định và scale Level.
 
 UI: mua/hủy/tải lại, lỗi ghi save, mobile, số dư vật phẩm, chỉ số gear, preview Fran/Kai, cấp quest/lữ khách, và nhận Blueprint sau trận Truy Nã thực tế.
+
+Đợt tiếp theo bổ sung 13 công thức cùng giá10 Bản Thiết Kế: Iwayn, Percival, Mandred, Kreider, Logia, Yufina, Elise, Yumia, Valery, Tobin, Rivia, Bennett và Judy. Xem [đặc tả và ngoại lệ mới](EXCLUSIVE_BALANCE_2026_11_06.md).

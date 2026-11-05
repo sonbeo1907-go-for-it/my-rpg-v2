@@ -70,3 +70,8 @@ Hồn Kiếm: hai hạn mức tăng tự nhiên theo đội/vòng, dùng chung m
 ## Thăng Tiến và Hồn Kiếm vòng trước (05/11/2026)
 
 `escalation.hitDamageGrowth` tăng sát thương cơ sở trước mọi damage amp (không thuộc nhóm amp chỉ lấy lớn nhất), nhân mỗi hit sau trên cùng mục tiêu trong một hành động; mặc định ×1,05, reset từng action/target. Buff thường theo2 lượt chính; Chiyoko duy trì bản boundStatuses cùng mode permanent, không dispel riêng. Mode penetration khai báo theo damageType. Eri đọc spentRound/spent của phe mình ở đầu vòng, chỉ vòng liền trước và cap+100% MAG. Xem [ERI_CHIYOKO](ERI_CHIYOKO.md).
+
+## Mastery PvE và Arthur — 06/11/2026
+Mastery là tiến trình PvE: mọi trận có opponentCampaign/PvP rules clamp actor skillRanks và resolver tối đa5 cả hai phe; cache/override không được vượt. Ogre có masteryEligible:false, gateRank sau HardArthur, tối đa5 kể cả previewoverride. PassiveArthur mới cấp3 tài nguyên ở trận độc lập, không ở carry/phase; sauKiếmQuang dùng baseATK/150 cho +1, không từ skip. Xem ARTHUR_COMPLETE_CONTROL/SKILL_MASTERY.
+
+Mastery hiện dùng bảng theo mức: output1,12/1,12/1,15; stat buff1,06/1,06/1,075. Trấn native_passive_override thay tham số trên clone loadout, không mutate data hoặc cộng lại nội tại. Quan sát trạng thái chỉ từ apply thành công, không từ bị chặn, và có guard phản ứng. Xem EXCLUSIVE_BALANCE_2026_11_06.

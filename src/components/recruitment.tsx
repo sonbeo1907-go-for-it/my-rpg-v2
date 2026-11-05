@@ -44,7 +44,7 @@ function RecruitmentInfo({ banner }: { banner: any }) {
           <CurrencyAmount kind="coin" amount={campaign.coins} />
           <CurrencyAmount kind="prisma" amount={campaign.prisma} />
         </div>
-        <p>{fmt(campaign.gacha.totalPulls)} lượt đã chiêu mộ</p>
+        <p>{fmt(campaign.gacha.totalPulls)} lượt đã chiêu mộ</p><div className="recruitment-mileage"><strong>Vé Chiêu Mộ · {(campaign.gacha.rateUpMileage??0)%300}/300</strong><progress aria-label="Tiến độ nhận Vé Chiêu Mộ" max={300} value={(campaign.gacha.rateUpMileage??0)%300}/><CurrencyAmount kind="recruitment_ticket" amount={campaign.recruitmentTickets??0}/><small>Cứ 300 lượt ở các banner tăng cơ hội nhận 1 vé chọn đồng đội tại Shop. Cộng dồn qua mọi đợt, không đặt lại khi ra nhân vật; banner thường không tính. Chỉ tính lượt quay từ bản cập nhật Thông Thạo.</small></div>
         {threshold && (
           <div className="pity-panel">
             <div>
@@ -89,7 +89,7 @@ function RecruitmentInfo({ banner }: { banner: any }) {
             <strong className="pure-prisma-text">
               {rules.duplicateShards} Pure Prisma
             </strong>
-            . Chiêu mộ bằng Pure Prisma tại Shop không thay đổi pity quay.
+            . Chiêu mộ bằng Vé Chiêu Mộ tại Shop không thay đổi pity quay.
           </p>
           <details><summary>Danh sách {banner.characterPool.length} nhân vật</summary><div className="banner-pool">
             {banner.characterPool.map((id: string) => (

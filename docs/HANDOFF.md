@@ -32,7 +32,7 @@ Với task liên quan thời hạn, lượt hoặc phản ứng, đọc [COMBAT_
 - Hầm Ngục Ảo Ảnh đã gỡ. Không khôi phục node/roguelike/loot/weight từ tài liệu cũ. `legacy-illusion-*`, trường illusion và flag cũ tồn tại để load save, không chứng minh chế độ còn chơi được.
 - Alice được mở qua Biên Niên Ký I; Miraebolis qua finale Quyển II. Legacy flag có thể vẫn tồn tại; tra quest-catalog.js, không tự mở khóa toàn bộ siêu trùm.
 - Mọi enemy template hiện dùng chỉ số nền Lv 1. HP curve chọn theo encounter, không theo từng enemy. Không trở lại ref 25/ref 60, không chồng hệ số dungeon cũ lên curve Level.
-- Level không tự tăng stat: điểm phân bổ và Rank là tiến trình riêng. Truyện ba chương Lv 10/20/30; epilogue Arthur Lv30. Skill Rank tăng tất cả nhóm hợp lệ; damage/heal/shield 10%, stat buff hợp lệ 5%, không tự tăng damage amp.
+- Level không tự tăng stat: điểm phân bổ và Rank là tiến trình riêng. Truyện ba chương Lv 10/20/30; epilogue Arthur Dễ/Thường/Khó Lv1/30/60. Skill Rank tăng tất cả nhóm hợp lệ; damage/heal/shield 10%, stat buff hợp lệ 5%, không tự tăng damage amp.
 - Arena là prototype AI offline. Không có banlist/app admin/update JSON bên ngoài EXE được triển khai. Monica không perma-ban trong code; dùng AI chung. PvP override là bản clone bất biến theo trận; không sửa dữ liệu PvE.
 - **Bản sắc lớp Thuật Sư:** ưu tiên VFX nhận diện riêng gắn với cơ chế đặc trưng (triệu hồi, trường thời gian, ma trận, sắc lệnh…). Trong PvE có thể có hiệu ứng trên bàn đấu hoặc scene riêng theo thiết kế; không bắt buộc đổi background cho mọi Thuật Sư. Đây là định hướng authoring, không phải renderer tự cấp hiệu ứng chỉ từ roleGroup.
 - Không phải ai có combatMode cũng được đổi nền. Yufina/Joshua/Selene dùng nhãn cục bộ; Sandra có VFX chiêu tạm thời, không có background riêng. Arena chuẩn hóa mọi mode trong card, không để đối thủ ghi đè nền/BGM.
@@ -94,3 +94,11 @@ Ember/Myonne: [ELEMENT_SUPPORTS](ELEMENT_SUPPORTS.md) ghi contract hỗ trợ th
 - [Chiêu Mộ theo phe và balance Hồn Kiếm](RATE_UP_BANNERS.md) — lịch Việt Nam, FIFO15, rate-up, pity riêng và hết hạn, carousel Chủ Nhật; Amiya cần3 thành viên và hồi MP toàn đội; burst Tsukiha175%/hit. Cập nhật05/11/2026.
 
 - [Miyuki và Choáng theo chỉ số](MIYUKI_AND_CONTROL.md) — mode tự vào khi đủ6 Hồn Kiếm, 3 lượt chủ, tái vào nếu còn đủ; boss miễn Choáng, giữ ngoại lệ nhện vỡ khiên. Shion chỉ cấp lượt cho đồng đội Hồn Kiếm. Pity từng banner, không chuyển/hết đợt đặt lại.
+
+## Kinh tế và Thông Thạo — 06/11/2026
+#1–#31 mở Thông Thạo sau Rank5/Lv50, trừ kỹ năng fixed và mọi nhánh Ogre’s Bane. Chi phí1/2/3 Original; output Bạc/Vàng/Cầu Vồng lần lượt ×1,12/×1,12/×1,15, buff chỉ số ×1,06/×1,06/×1,075, chiêu giảmMP tiếp ×0,9 sau sànRank5. Savev7 dùng rank6–8 nội bộ. Tái rèn Trấn nay10Pure. Shop chọn nhân vật dùng1Vé; 300rate-up mới/ vé, cộng dồn mọi đợt; không hồi tố hoặc tính banner thường. Xem SKILL_MASTERY, RATE_UP_BANNERS, SCALING_REVIEW_AFTER_31. Từ #32 chỉ mở Mastery cho tám nhân vật được chỉ định ở bổ sung dưới; không tự mở hoặc buff các nhân vật khác.
+
+## Bổ sung Arthur/Thông Thạo — 06/11/2026
+Mở Mastery cho Sylva, Monica, Logia, Tywin, Tobin, Lumine, Rivia, Elise ngoài nhóm#1–31. Mastery chỉ PvE; mọi PvP kể cả mirror/practice giới hạn hiệu lực Rank5 hai bên, không sửa save. Vĩ thanh Arthur chuyển Dễ1/Thường30/Khó60; giữ IDThường cũ. Dễ cấp cờ Phương Đông+ô gear, Thường cấp hai chiêu, Khó cấp nội tại mở trận3 Cộng hưởng/KiếmQuang thêm1 xác suất ATK căn bản/150 và quyền Rank1–5 Ogre, không Mastery. Chi tiết ARTHUR_COMPLETE_CONTROL, SKILL_MASTERY. Đã áp dụng hệ số12%/6% ở Bạc/Vàng và15%/7,5% ở Cầu Vồng theo từng mức trước. Giảm MP-only vẫn10%/mức.
+
+Trấn Phái mới cho Iwayn/Percival/Mandred/Kreider/Logia/Yufina/Elise/Yumia/Valery/Tobin/Rivia/Bennett/Judy: mở công thức10 Blueprint, chỉ khi trang bị. Iwayn dùng chênh HP% tuyệt đối, +1,5% ATK/mỗi1% chênh, cap75%, không thay native damage30%. Yufina chốt tăng giảm MP trong mode từ12% lên24%, không giảmCD. Xem EXCLUSIVE_BALANCE_2026_11_06.

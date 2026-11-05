@@ -45,7 +45,7 @@ export function craftExclusive(campaign,content,id,random=Math.random) {
 export function beginReforge(campaign,content,id,random=Math.random) {
   const next=normalized(campaign,content);templateFor(content,id);const item=ownedFor(next,id);
   if(next.pendingReforge||next.pendingGearReforge)throw new Error('Hãy chọn kết quả tái rèn đang chờ trước.');
-  next.originalPrisma=add(next.originalPrisma,-blacksmithRules(content).reforgeCost);
+  const rules=blacksmithRules(content);next[rules.reforgeCurrency]=add(next[rules.reforgeCurrency],-rules.reforgeCost);
   const stat=rollExclusiveStat(content,random);
   next.pendingReforge={id:revision(next),templateId:id,previousStatKey:item.statKey,previousStatValue:item.statValue,nextStatKey:stat.statKey,nextStatValue:stat.statValue};return next;
 }

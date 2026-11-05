@@ -30,6 +30,9 @@
 
 ## Tiến trình / nội dung / kinh tế
 
+- [Thông Thạo và cập nhật Vé Chiêu Mộ](SKILL_MASTERY.md)
+- [Rà soát scaling nhóm #32 trở đi](SCALING_REVIEW_AFTER_31.md)
+
 - [Kinh tế và quyền sở hữu](ECONOMY.md)
 
 - [Level, Đột Phá và hầm ngục — bản playtest 01/11/2026](LEVEL_PROGRESSION.md)
@@ -138,3 +141,7 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 Điều hướng Đội Hình: PartyLink ghi route nguồn cùng query vào `back`, kiểm tra qua party-navigation.js; giữ đường về qua Chi Tiết/Trang Bị/reload. Link hầm ngục cũ dùng fromDungeon/difficulty vẫn giữ độ khó. Không có nguồn hợp lệ thì về Tavern.
 
 - [Nhật kí hành trình và thưởng Rèn Luyện](TRAINING_JOURNALS.md) — giá sách, dùng EXP có preview, đổi Tinh Thạch, tab Original cuối Shop và lưu thưởng đánh/Quét (05/11/2026).
+
+- [Kreider Rank5 và Lisbeth Thông Thạo3; phân tích phương án tăng trưởng](KREIDER_LISBETH_MASTERY_REVIEW.md) — 06/11/2026.
+
+- [Đợt Trấn Phái mở rộng và hệ số Thông Thạo theo mức](EXCLUSIVE_BALANCE_2026_11_06.md).

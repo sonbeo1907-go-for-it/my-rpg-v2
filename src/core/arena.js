@@ -18,6 +18,7 @@ export function normalizedArenaCampaign(content,source,party,rules){
  for(const id of party.filter(Boolean)){
   const level=rules.normalization.level,state=c.characters[id],def=content.characters[id];
   Object.assign(state,{level,limitBreakRank:level>40?3:level>30?2:level>20?1:0,upgradeIds:rules.normalization.storyUpgrades?Object.values(content.upgrades).filter(u=>u.characterId===id).map(u=>u.id):[]});
+  for(const key of state.upgradeIds){const flag=content.upgrades[key].requires.storyFlag;if(!c.storyFlags.includes(flag))c.storyFlags.push(flag);}
   let primary=def.roleGroup==='physical_dps'||def.roleGroup==='fighter'?'attack':'magic';
   const keys=def.abilities.flatMap(id=>content.abilities[id].effects).filter(e=>['damage','heal'].includes(e.type)).map(e=>e.scalingStat??(e.damageType==='physical'?'attack':'magic'));
   if(keys.length&&keys.every(k=>k==='attack'))primary='attack';else if(keys.length&&keys.every(k=>k==='magic'))primary='magic';else if(keys.includes('maxHp'))primary='maxHp';

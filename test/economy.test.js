@@ -156,8 +156,9 @@ test('duplicates within a ten-pull batch become shards and can redeem exactly on
   outcome.campaign.prisma = 3;
   let last = outcome.campaign;
   for (let i = 0; i < 3; i++) last = pullGacha(last, content, 'standard', 1, sequence([.985, 0])).campaign;
+  last.recruitmentTickets=1;
   const redeemed = recruitCharacter(last, content, 'standard', 'lisbeth');
-  assert.equal(redeemed.recruitmentShards, 0);
+  assert.equal(redeemed.recruitmentShards, 120);
   assert.equal(ownsCharacter(redeemed, 'lisbeth'), true);
   assert.equal(last.recruitmentShards, 120);
   assert.throws(() => recruitCharacter(redeemed, content, 'standard', 'lisbeth'));

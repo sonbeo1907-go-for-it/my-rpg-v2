@@ -56,3 +56,6 @@ Tavern luôn hiện splash theo đợt. Chủ Nhật carousel trượt sau mỗi
 Miyuki thêm vào pool thường ngay; `rosterAdditions` cho phép cô vào danh sách chọn rate-up từ09/11/2026, không viết lại đợt đang mở. Cấu hình này là cách bổ sung roster theo ngày hiệu lực thay vì sửa lịch quá khứ.
 
 06/11/2026: Về Chiêu Mộ từ kết quả/reveal dùng bannerId (hoặc rateUp.id trong snapshot). Banner thường trở về `?banner=standard`; banner rate-up còn hoạt động trở về đúng đợt. Pity 50 không đổi.
+
+## Vé Chiêu Mộ — 06/11/2026
+Mỗi 300 lượt quay **rate-up** mới nhận 1 Vé Chiêu Mộ. `gacha.rateUpMileage` cộng dồn qua mọi banner/đợt, không reset khi ra nhân vật hoặc banner hết hạn; banner thường không tính. Save cũ thiếu trường này mặc định0, không trả vé theo totalPulls lịch sử. Vé cộng cùng giao dịch quay, không cấp khi xem lại kết quả. Một vé chọn một nhân vật chưa sở hữu trong pool Shop, thay hoàn toàn nguồn đổi120Pure; không nhận bản trùng, không thay pity. Vé ở Túi đồ có khung cầu vồng/lấp lánh và link dùng tại Shop.

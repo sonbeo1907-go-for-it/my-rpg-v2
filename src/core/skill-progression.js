@@ -1,23 +1,25 @@
-import {skillRules,skillLineId,skillRankCap,skillUpgradeCost,getSkillRank,characterSkillIds,validateCharacterSkillRanks} from './skill-rules.js';
+import {skillRules,skillLineId,skillRankCap,skillUpgradeCost,getSkillRank,characterSkillIds,validateCharacterSkillRanks,masteryEnabled} from './skill-rules.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 export {getSkillRank,skillRankCap,skillUpgradeCost} from './skill-rules.js';
 
 export function skillUpgradeQuote(campaign,content,id,line,options={}){
  const state=campaign.characters[id],rules=skillRules(content);
  const skill=line==='basic'?{id:'$attack',name:'Đánh thường',target:'enemy',growthProfile:'basic',effects:content.characters[id]?.basicAttack??[{type:'damage',damageType:content.characters[id]?.basicDamageType??'physical',element:content.characters[id]?.element,multiplier:1}]}:characterSkillIds(content,state??{},id).map(id=>content.abilities[id]).find(skill=>skillLineId(skill)===line);
- const rank=getSkillRank(campaign,id,line),nextRank=rank+1,coinCost=skillUpgradeCost(rank,rules),requiredLevel=rules.characterLevelRequired[rank];
+ const rank=getSkillRank(campaign,id,line),nextRank=rank+1,maxRank=masteryEnabled(content,id)&&skill?.masteryEligible!==false?rules.mastery.maxRank:rules.maxRank,mastery=rank>=5,originalCost=mastery?(rules.mastery?.costs[rank-5]??0):0,coinCost=skillUpgradeCost(rank,rules),requiredLevel=mastery?50:rules.characterLevelRequired[rank];
  let reason='';
  try{if(state)validateCharacterSkillRanks(content,campaign,id);}catch(error){reason=error.message;}
  if(reason)return {ok:false,reason,rank:1,nextRank:2,coinCost:0,requiredLevel:15,fixed:true,skill,current:null,next:null};
  if(!state||!campaign.unlockedCharacterIds.includes(id))reason='Chưa sở hữu nhân vật này.';
  else if(!skill)reason='Kỹ năng chưa mở khóa.';
  else if(skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive')reason=skill.fixedReason??'Kỹ năng cố định, không có cấp nâng.';
- else if(rank>=rules.maxRank)reason='Đã đạt cấp kỹ năng tối đa.';
- else if(options.battleActive||options.dungeonActive||options.locked)reason='Hãy kết thúc trận hoặc chuyến hầm ngục trước khi nâng kỹ năng.';
+ else if(skill.rankUnlockFlag&&!campaign.storyFlags.includes(skill.rankUnlockFlag))reason='Hoàn thành Hắc Ảnh Arthur — Khó để mở nâng Rank.';
+ else if(rank>=maxRank)reason='Đã đạt cấp kỹ năng tối đa.';
+ else if(options.battleActive||options.dungeonActive||options.locked||campaign.chronicles?.activeSession)reason='Hãy kết thúc trận hoặc chuyến hầm ngục trước khi nâng kỹ năng.';
  else if(state.level<requiredLevel)reason='Cần nhân vật Lv'+requiredLevel+'.';
+ else if(mastery&&(!Number.isSafeInteger(campaign.originalPrisma)||campaign.originalPrisma<originalCost))reason='Không đủ Original Prisma.';
  else if(campaign.coins<coinCost)reason='Không đủ Coin.';
  const actor={...content.characters[id],skillRanks:state?.skillRanks??{},skillProgression:rules};
- return {ok:!reason,reason,rank,nextRank:Math.min(rules.maxRank,nextRank),coinCost,requiredLevel,fixed:!skill||skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive',skill,current:skill?resolveRankedAbility(content,actor,skill,rank):null,next:skill&&rank<rules.maxRank?resolveRankedAbility(content,actor,skill,nextRank):null};
+ return {ok:!reason,reason,rank,nextRank:Math.min(maxRank,nextRank),maxRank,mastery,originalCost,coinCost,requiredLevel,fixed:!skill||skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive',skill,current:skill?resolveRankedAbility(content,actor,skill,rank):null,next:skill&&rank<maxRank?resolveRankedAbility(content,actor,skill,nextRank):null};
 }
 // Clone before changing either balance or rank. Caller publishes only after persistence succeeds.
 export function upgradeSkill(campaign,content,id,line,options={}){
@@ -27,6 +29,7 @@ export function upgradeSkill(campaign,content,id,line,options={}){
  if(options.expectedRank!==undefined&&options.expectedRank!==quote.rank)throw Error('Cấp kỹ năng đã thay đổi. Hãy xem lại nâng cấp.');
  const next=structuredClone(campaign);
  next.coins-=quote.coinCost;
+ next.originalPrisma-=quote.originalCost;
  next.characters[id].skillRanks={...next.characters[id].skillRanks,[line]:quote.nextRank};
  validateCharacterSkillRanks(content,next,id);
  return next;

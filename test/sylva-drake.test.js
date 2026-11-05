@@ -20,7 +20,7 @@ const ready=(b,id)=>until(b,()=>activeActor(b)?.id===id);
 const drake=b=>getActor(b,'drake');
 
 test('Sylva and Drake are official Fire/Earth Sorcerers at zero duplicates with save/recruitment compatibility',()=>{
- for(const [id,element]of [['sylva','fire'],['drake','earth']]){const a=content.characters[id];assert.equal(a.roleGroup,'sorcerer');assert.equal(a.element,element);assert.ok(content.banners.standard.characterPool.includes(id));const save=createGameSave(content);assert.equal(save.unlockedCharacterIds.includes(id),false);save.recruitmentShards=120;const next=recruitCharacter(save,content,'standard',id);assert.equal(next.extraGearSlots[id]??0,0);assert.deepEqual(decodeGameSave(encodeGameSave(next,content),content),next);}
+ for(const [id,element]of [['sylva','fire'],['drake','earth']]){const a=content.characters[id];assert.equal(a.roleGroup,'sorcerer');assert.equal(a.element,element);assert.ok(content.banners.standard.characterPool.includes(id));const save=createGameSave(content);assert.equal(save.unlockedCharacterIds.includes(id),false);save.recruitmentShards=120;save.recruitmentTickets=1;const next=recruitCharacter(save,content,'standard',id);assert.equal(next.extraGearSlots[id]??0,0);assert.deepEqual(decodeGameSave(encodeGameSave(next,content),content),next);}
 });
 test('Drake has a single preparation command before armor; stale locked actions cannot spend MP',()=>{
  const {b}=setup(),d=drake(b);assert.deepEqual(commandAbilityIds(d),['drake.armor','$defend']);assert.equal(abilityAvailability(b,d,basicAbility(d)).ok,false);assert.equal(abilityAvailability(b,d,content.abilities['drake.ward']).ok,false);assert.throws(()=>act(b,'drake.ward'),/Cần/);assert.equal(d.mp,120);

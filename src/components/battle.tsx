@@ -1,4 +1,5 @@
 "use client";
+import {skillMasteryClass} from "../core/skill-rules.js";
 import {lifeDebt} from '../core/life-debt.js';
 import {FarmPanel} from './farm';
 import {ArenaPlayerBar} from './arena-experience';
@@ -305,7 +306,7 @@ function SkillCommand({
       }
     >
       <button
-        className={`skill-command ${selected ? "selected" : ""}`}
+        className={`skill-command ${selected ? "selected" : ""} ${skillMasteryClass(resolveRankedAbility(content,actor,skill).skillRank)}`}
         data-gamepad-skill={skill.id}
         aria-pressed={selected}
         aria-disabled={busy || !available.ok}

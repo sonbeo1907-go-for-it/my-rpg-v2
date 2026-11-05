@@ -18,14 +18,14 @@
     "name": "Pure Prisma",
     "field": "recruitmentShards",
     "kind": "pure",
-    "description": "Dùng để chiêu mộ đồng đội tự chọn và chế tạo Trấn Phái."
+    "description": "Dùng tái rèn Trấn Phái, chế tạo và chuyển đổi Original Prisma tại Shop."
   },
   {
     "id": "original",
     "name": "Original Prisma",
     "field": "originalPrisma",
     "kind": "original",
-    "description": "Prisma cầu vồng dùng chế tạo và tái rèn Trấn Phái. Nhận từ Ủy Thác và các chương lữ hành."
+    "description": "Prisma cầu vồng dùng chế tạo Trấn Phái và nâng Thông Thạo Kĩ năng."
   },
   {
     "id": "fragments",
@@ -82,5 +82,12 @@
     "xp": 6000,
     "coinCost": 6000,
     "description": "Sách kinh nghiệm cấp III. màu tím. Dùng ngoài trận để cấp 6.000 EXP cho một nhân vật đã sở hữu."
+  },
+  {
+    "id": "recruitment_ticket",
+    "field": "recruitmentTickets",
+    "kind": "recruitment_ticket",
+    "name": "Vé Chiêu Mộ",
+    "description": "Đổi tại Shop để chọn một nhân vật chưa sở hữu trong danh sách Chiêu Mộ. Không làm thay đổi pity."
   }
 ]

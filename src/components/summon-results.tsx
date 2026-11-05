@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { SummonCardFront } from "./summon-cards";
 import { useSummonBatch } from "./summon-reveal";
-import { EmptyState, PageHeader, Modal, StatGrid, RoleIcon } from "./ui";
+import { EmptyState, PageHeader, Modal, StatGrid, RoleIcon, CurrencyAmount } from "./ui";
 import { GEAR_NAMES, STAT_LABELS } from "../core/catalog.js";
 import { resolveCharacter } from "../core/progression.js";
 
@@ -70,7 +70,7 @@ export function SummonResultsPage() {
         </div>
       </div>
       <div className="summon-result-summary">
-        <span>{gearCount} trang bị</span>
+        <span>{gearCount} trang bị</span>{batch.ticketReward>0&&<CurrencyAmount kind="recruitment_ticket" amount={batch.ticketReward}/>}
         <span>
           {characters.length} nhân vật · {newCount} đồng đội mới
         </span>

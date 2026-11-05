@@ -31,13 +31,13 @@ test('manual sequential upgrades only spend Coins and do not mutate the original
  assert.equal(skillUpgradeQuote(c,content,'iris','iris.formula').rank,1);
  for(let rank=1;rank<5;rank++){c=upgradeSkill(c,content,'iris','iris.formula',{expectedRank:rank});assert.equal(c.characters.iris.skillRanks['iris.formula'],rank+1);}
  assert.equal(c.coins,original.coins-6000);assert.deepEqual(original.characters.iris.skillRanks,{});for(const[k,n]of Object.entries(balances))assert.equal(c[k],n);
- assert.throws(()=>upgradeSkill(c,content,'iris','iris.formula'),/tối đa/);
+ assert.throws(()=>upgradeSkill({...c,originalPrisma:0},content,'iris','iris.formula'),/Original Prisma/);
 });
 test('ownership, level, unlock, fixed, stale quote and all progression locks reject without changes',()=>{
  const c=save(),before=structuredClone(c);
  for(const opts of [{battleActive:true},{dungeonActive:true},{locked:true},{expectedRank:2}])assert.throws(()=>upgradeSkill(c,content,'iris','iris.formula',opts));
  assert.throws(()=>upgradeSkill(c,content,'arthur','arthur.ogres_bane_mastered'),/chưa mở khóa/);
- assert.throws(()=>upgradeSkill(c,content,'arthur','arthur.ogres_bane'),/cốt truyện/);
+ assert.throws(()=>upgradeSkill(c,content,'arthur','arthur.ogres_bane'),/Hắc Ảnh/);
  assert.throws(()=>upgradeSkill(c,content,'iris','iris.fake'));
  assert.deepEqual(c,before);c.coins=399;assert.throws(()=>upgradeSkill(c,content,'iris','basic'),/Coin/);
  c.coins=10000;c.characters.iris.level=14;assert.throws(()=>upgradeSkill(c,content,'iris','basic'),/Lv15/);
@@ -52,14 +52,14 @@ test('v7 sparse migration, all presets and upgraded ranks round-trip; invalid or
  const c=save();for(const s of Object.values(c.characters))delete s.skillRanks;const old=decodeGameSave(encodeGameSave(c,content),content);
  assert.deepEqual(old.characters.iris.skillRanks,{});assert.equal(old.coins,c.coins);assert.deepEqual(old.partyPresets,c.partyPresets);
  let next=upgradeSkill(old,content,'iris','iris.formula');assert.equal(decodeGameSave(encodeGameSave(next,content),content).characters.iris.skillRanks['iris.formula'],2);
- for(const ranks of [{'iris.formula':0},{'iris.formula':6},{'iris.formula':2.5},{'yufina.pierce':2},{'iris.missing':2},{'arthur.ogres_bane_mastered':2}]){const bad=save();bad.characters.iris.skillRanks=ranks;assert.throws(()=>encodeGameSave(bad,content));}
+ for(const ranks of [{'iris.formula':0},{'iris.formula':9},{'iris.formula':2.5},{'yufina.pierce':2},{'iris.missing':2},{'arthur.ogres_bane_mastered':2}]){const bad=save();bad.characters.iris.skillRanks=ranks;assert.throws(()=>encodeGameSave(bad,content));}
  const locked=save();locked.characters.arthur.skillRanks={'arthur.partial_release':2};assert.throws(()=>encodeGameSave(locked,content));
  const low=save();low.characters.iris.level=15;low.characters.iris.limitBreakRank=0;low.characters.iris.skillRanks={'iris.formula':3};assert.throws(()=>encodeGameSave(low,content));
 });
-test('story replacement inherits Fiona rank; all Ogre Bane forms and post-buff remain fixed',()=>{
+test('story replacement inherits Fiona rank; Ogre Bane is story-gated, Rank1–5, without mastery',()=>{
  let c=save();c=upgradeSkill(c,content,'fiona','fiona.refraction');completeStoryEvent(c,content,'fiona.refraction_story_cleared');
  const f=resolveCharacter(content,c,'fiona');assert.ok(f.abilities.includes('fiona.refraction_complete'));assert.equal(resolveRankedAbility(content,f,'fiona.refraction_complete').skillRank,2);assert.doesNotThrow(()=>encodeGameSave(c,content));
- for(const id of ['arthur.ogres_bane','arthur.ogres_bane_controlled','arthur.ogres_bane_mastered','arthur.ogres_bane_flash']){const s=resolveRankedAbility(content,resolveCharacter(content,c,'arthur'),id,5);assert.equal(s.skillRank,1);assert.deepEqual(s.effects,content.abilities[id].effects);}
+ for(const id of ['arthur.ogres_bane','arthur.ogres_bane_controlled','arthur.ogres_bane_mastered','arthur.ogres_bane_flash']){const s=resolveRankedAbility(content,resolveCharacter(content,c,'arthur'),id,5);assert.equal(s.skillRank,5);assert.equal(content.abilities[id].masteryEligible,false);assert.equal(content.abilities[id].rankUnlockFlag,'arthur.ogre_ranks_unlocked');}
 });
 test('damage override precedes Rank exactly once, including all dynamic coefficients',()=>{
  const c=save(),actor=resolveCharacter(content,c,'yufina');actor.skillRanks={'yufina.pierce':5};const s=resolveRankedAbility(content,actor,'yufina.pierce');const e=exclusiveDamageEffect(actor,s.id,s.effects[0]);near(e.multiplier,3.80666);assert.equal(e.penetration,.25);assert.deepEqual(exclusiveDamageEffect(actor,s.id,e),e);
@@ -111,12 +111,12 @@ test('ranked mixed SPD buffs scale eligible stats only; utility, DoT/HoT/field/c
  assert.match(skillScaling(r,actor,content).join(' '),/18,23%/);
 });
 test('three-chapter stories are 10/20/30; waves preserve locked ranks without rereading the campaign',()=>{
- for(const story of Object.values(content.travelerStories))if(story.chapters.length===3)assert.deepEqual(story.chapters.map(id=>content.encounters[id].enemyLevel),[10,20,30]);
+ for(const story of Object.values(content.travelerStories))if(story.chapters.length===3&&story.id!=='epilogue')assert.deepEqual(story.chapters.map(id=>content.encounters[id].enemyLevel),[10,20,30]);
  const c=save(['arthur','fiona','iris','elaine']);c.claimedFirstClearRewards.push('iris_story_growth','iris_story_pride');c.characters.arthur.skillRanks={basic:4};const run=createStoryRun(content,c,'fiona_story_eins',()=>.5);assert.equal(getActor(run.battle,'arthur').skillRanks.basic,4);c.characters.arthur.skillRanks.basic=1;run.battle.outcome='victory';advanceStoryWave(content,run);assert.equal(run.battle.enemyLevel,10);assert.equal(getActor(run.battle,'arthur').skillRanks.basic,4);
 });
 
 test('all authoring profiles require a legitimate growth group and fixed sources cannot masquerade as active growth',()=>{
- for(const [id,change]of [['iris.formula',{growthProfile:'heal'}],['yufina.ignite',{growthAdapter:undefined}],['arthur.ogres_bane_mastered',{growthProfile:'damage',rankable:true}],['takeshi.counter_awakened',{growthProfile:'damage',rankable:true}],['iris.formula',{cost:{mp:1}}]]){const copy=structuredClone(content);Object.assign(copy.abilities[id],change);assert.ok(validateSkillProgression(copy).length,id);}
+ for(const [id,change]of [['iris.formula',{growthProfile:'heal'}],['yufina.ignite',{growthAdapter:undefined}],['arthur.ogres_bane_mastered',{rankUnlockFlag:undefined,masteryEligible:true}],['takeshi.counter_awakened',{growthProfile:'damage',rankable:true}],['iris.formula',{cost:{mp:1}}]]){const copy=structuredClone(content);Object.assign(copy.abilities[id],change);assert.ok(validateSkillProgression(copy).length,id);}
 });
 test('random-target four-hit and hybrid skills scale every authored component, not hits or final mitigation',()=>{
  const copy=structuredClone(content),c=save(['seraphine','iris','elaine','arthur']),id='arthur.random';copy.abilities[id]={id,name:'Test random',skillLineId:id,growthProfile:'damage',rankable:true,target:'random_enemies',effects:[{type:'damage',damageType:'physical',element:'plain',multiplier:1.8,hits:4}]};copy.characters.arthur.abilities.push(id);c.characters.arthur.skillRanks={[id]:5};c.characters.seraphine.skillRanks={'seraphine.blade':5};const b=fixture(c,copy),a=getActor(b,'arthur');use(b,'arthur',id,'enemy_0');assert.equal(hits(b).length,4);for(const hit of hits(b))assert.equal(hit.amount,Math.floor(a.stats.attack*1.8*1.4641-11));

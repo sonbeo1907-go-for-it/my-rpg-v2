@@ -1,6 +1,7 @@
 // Reusable schemas shared by native passives and story upgrades.
 export function validReactivePassive(passive, content, actor) {
   if (!passive || !passive.name?.trim()) return false;
+  if(passive.type==='starting_resource_skill_chance')return Boolean(actor.resources?.[passive.resource]&&Number.isInteger(passive.initial)&&passive.initial>=0&&passive.initial<=actor.resources[passive.resource].max&&actor.abilities.includes(passive.abilityId)&&Number.isInteger(passive.amount)&&passive.amount>0&&['maxHp','maxMp','attack','magic','defense','resistance','speed'].includes(passive.stat)&&Number.isFinite(passive.atStat)&&passive.atStat>0&&Number.isFinite(passive.cap)&&passive.cap>0&&passive.cap<=1);
   if (passive.type === 'detonation_base_growth') return passive.stat==='magic' && content.statuses[passive.statusId]?.kind==='debuff' && Number.isInteger(passive.increment) && passive.increment>0 && Number.isInteger(passive.cap) && passive.cap>=passive.increment && passive.cap<=100;
   if (passive.type === 'buffed_ally_mp') {
     return Number.isInteger(passive.amount) && passive.amount > 0

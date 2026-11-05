@@ -48,7 +48,7 @@ test('a natural character resets pity; ten pulls process pity in order and keep 
 
 test('redemption and first-clear characters leave summon pity and last batch unchanged', () => {
   let save = pullGacha(funded(7), content, 'standard', 1, () => 0).campaign;
-  save.recruitmentShards = 120;
+  save.recruitmentShards = 120;save.recruitmentTickets=1;
   const recruited = recruitCharacter(save, content, 'standard', 'dain');
   assert.deepEqual(recruited.gacha, save.gacha);
   const rewarded = claimBattleReward(recruited, { outcome: 'victory', encounterId: 'goblin_forest_ambush' }, content);

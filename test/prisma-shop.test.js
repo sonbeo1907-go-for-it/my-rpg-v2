@@ -7,12 +7,12 @@ import { validateContent } from '../src/core/content.js';
 const content = await loadContent();
 const restore = save => decodeGameSave(encodeGameSave(save, content), content);
 
-test('conversion costs 300 Coin per Prisma, rejects invalid/overflow quantities and cannot spend Pure Prisma', () => {
-  const save = createGameSave(content); save.coins = 3500; save.prisma = 2; save.recruitmentShards = 123;
-  assert.equal(prismaConversionCost(content, 10), 3000);
+test('conversion costs 600 Coin per Prisma, rejects invalid/overflow quantities and cannot spend Pure Prisma', () => {
+  const save = createGameSave(content); save.coins = 6500; save.prisma = 2; save.recruitmentShards = 123;
+  assert.equal(prismaConversionCost(content, 10), 6000);
   const next = convertCoinsToPrisma(save, content, 10);
   assert.equal(next.coins, 500); assert.equal(next.prisma, 12); assert.equal(next.recruitmentShards, 123);
-  assert.equal(save.coins, 3500); assert.equal(save.prisma, 2);
+  assert.equal(save.coins, 6500); assert.equal(save.prisma, 2);
   assert.deepEqual(restore(next), next);
   for (const quantity of [0, -1, .5, NaN, Infinity, '1', Number.MAX_SAFE_INTEGER]) assert.throws(() => convertCoinsToPrisma(save, content, quantity));
   assert.throws(() => convertCoinsToPrisma(next, content, 2), /Không đủ Coin/);
@@ -21,25 +21,25 @@ test('conversion costs 300 Coin per Prisma, rejects invalid/overflow quantities 
 });
 
 test('pulls consume only ordinary Prisma; conversion plus summon can commit as one immutable transaction', () => {
-  const save = createGameSave(content); save.coins = 2400; save.prisma = 3; save.recruitmentShards = 55;
+  const save = createGameSave(content); save.coins = 4800; save.prisma = 3; save.recruitmentShards = 55;
   assert.throws(() => pullGacha(save, content, 'standard', 10), /Không đủ Prisma/);
   const one = pullGacha(save, content, 'standard', 1, () => 0).campaign;
-  assert.equal(one.prisma, 2); assert.equal(one.coins, 2400); assert.equal(one.recruitmentShards, 55);
+  assert.equal(one.prisma, 2); assert.equal(one.coins, 4800); assert.equal(one.recruitmentShards, 55);
   const ten = pullGacha(convertCoinsToPrisma(save, content, 7), content, 'standard', 10, () => 0).campaign;
-  assert.equal(ten.coins, 300); assert.equal(ten.prisma, 0); assert.equal(ten.gacha.totalPulls, 10);
-  assert.equal(save.coins, 2400); assert.equal(save.prisma, 3); assert.equal(save.gear.length, 0);
+  assert.equal(ten.coins, 600); assert.equal(ten.prisma, 0); assert.equal(ten.gacha.totalPulls, 10);
+  assert.equal(save.coins, 4800); assert.equal(save.prisma, 3); assert.equal(save.gear.length, 0);
   assert.throws(() => pullGacha(convertCoinsToPrisma(save, content, 7), content, 'standard', 10, () => NaN));
-  assert.equal(save.coins, 2400); assert.equal(save.gacha.totalPulls, 0);
+  assert.equal(save.coins, 4800); assert.equal(save.gacha.totalPulls, 0);
 });
 
-test('Pure Prisma selects one locked hero for 120, leaves other currencies and pity unchanged', () => {
-  const save = createGameSave(content); save.coins = 900; save.prisma = 4; save.recruitmentShards = 130;
+test('Recruitment ticket selects one locked hero, leaves other currencies and pity unchanged', () => {
+  const save = createGameSave(content); save.coins = 900; save.prisma = 4; save.recruitmentShards = 130;save.recruitmentTickets=1;
   save.gacha.totalPulls = 25; save.gacha.pity.standard = 25;
   const next = recruitCharacter(save, content, 'standard', 'dain');
-  assert.equal(next.recruitmentShards, 10); assert.equal(next.coins, 900); assert.equal(next.prisma, 4);
+  assert.equal(next.recruitmentShards, 130); assert.equal(next.coins, 900); assert.equal(next.prisma, 4);
   assert.ok(next.unlockedCharacterIds.includes('dain')); assert.deepEqual(next.gacha, save.gacha);
   assert.throws(() => recruitCharacter(next, content, 'standard', 'dain'));
-  assert.throws(() => recruitCharacter(next, content, 'standard', 'freya'), /Pure Prisma/);
+  assert.throws(() => recruitCharacter(next, content, 'standard', 'freya'), /Vé Chiêu Mộ/);
   assert.deepEqual(restore(next), next);
 });
 

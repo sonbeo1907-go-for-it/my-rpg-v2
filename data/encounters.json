@@ -719,9 +719,9 @@
     "referenceLevel": 1
   },
   {
-    "id": "epilogue_unfinished",
-    "name": "Câu chuyện đang dang dở...",
-    "description": "Ba hành trình hội tụ bên bờ một bình minh khác. Arthur đối diện hắc ảnh của chính mình và tiếng gọi từ Ogre’s Bane. Chỉ khi làm chủ thanh kiếm, cậu mới có thể bước tiếp cùng những người bạn.",
+    "id": "epilogue_shadow_easy",
+    "name": "Hắc Ảnh Arthur — Dễ",
+    "description": "Bước đầu đối diện bóng tối trong thanh kiếm. Chiến thắng để mở dấu mốc Thảo Phạt Phương Đông và thêm một ô trang bị cho Arthur.",
     "enemies": [
       "shadow_arthur"
     ],
@@ -741,10 +741,74 @@
     "firstClearRewards": [
       {
         "type": "upgrade",
+        "upgradeId": "arthur.eastern_hunts"
+      },
+      {
+        "type": "gear_slot",
+        "characterId": "arthur"
+      }
+    ],
+    "enemyLevel": 1,
+    "referenceLevel": 1
+  },
+  {
+    "id": "epilogue_unfinished",
+    "name": "Hắc Ảnh Arthur — Thường",
+    "description": "Làm chủ tiếng gọi Ogre’s Bane để mở Kiểm soát hoàn toàn và Thiểm Quang Kiếm.",
+    "enemies": [
+      "shadow_arthur"
+    ],
+    "bgm": "ogrebane",
+    "rewardTier": "super",
+    "travelerStory": "epilogue",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ],
+      "firstClear": "epilogue_shadow_easy"
+    },
+    "requiredPartyIds": [
+      "arthur"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
         "upgradeId": "arthur.complete_control"
       }
     ],
     "enemyLevel": 30,
+    "referenceLevel": 1
+  },
+  {
+    "id": "epilogue_shadow_hard",
+    "name": "Hắc Ảnh Arthur — Khó",
+    "description": "Vượt qua hắc ảnh ở đỉnh sức mạnh để mở nội tại Arthur và nâng Rank các chiêu Ogre’s Bane.",
+    "enemies": [
+      "shadow_arthur"
+    ],
+    "bgm": "ogrebane",
+    "rewardTier": "super",
+    "travelerStory": "epilogue",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ],
+      "firstClear": "epilogue_unfinished"
+    },
+    "requiredPartyIds": [
+      "arthur"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "arthur.hero_awakening"
+      }
+    ],
+    "enemyLevel": 60,
     "referenceLevel": 1
   },
   {

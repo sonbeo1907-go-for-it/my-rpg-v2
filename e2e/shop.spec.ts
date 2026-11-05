@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+﻿import { test, expect, type Page } from "@playwright/test";
 import { loadContent } from "../scripts/load-content.mjs";
 import { createGameSave, encodeGameSave } from "../src/core/game-save.js";
 const content: any = await loadContent();
@@ -6,7 +6,7 @@ async function seed(
   page: Page,
   balances = { coins: 3000, prisma: 0, recruitmentShards: 120 },
 ) {
-  const save = createGameSave(content);
+  const save = createGameSave(content);save.recruitmentTickets=1;
   Object.assign(save, balances);
   save.gacha.totalPulls = 17;
   save.gacha.pity.standard = 17;
@@ -47,7 +47,7 @@ test("Shop is accessible from tavern/header, currencies have distinct colors and
       ),
     );
   expect(new Set(colors).size).toBe(3);
-  await page.getByRole("link", { name: /Chiêu Mộ/ }).click();
+  await page.getByRole("link", { name: /Chiêu Mộ/ }).click();await page.locator(".banner-card").filter({hasText:"Chiêu Mộ thường"}).click();
   await expect(page.locator(".banner-sidebar")).not.toContainText("Bảo hiểm");
   await expect(page.locator(".banner-sidebar .currency-amount")).toHaveCount(0);
   await expect(page.locator(".recruitment-status")).toContainText(
@@ -59,8 +59,8 @@ test("Shop is accessible from tavern/header, currencies have distinct colors and
   await expect(
     page.getByRole("heading", { name: "Đổi mảnh chiêu mộ" }),
   ).toHaveCount(0);
-  await page.locator(".recruitment-status summary").click();
-  await expect(page.locator(".recruitment-status details")).toContainText(
+  await page.locator(".recruitment-status summary").first().click();
+  await expect(page.locator(".recruitment-status details").first()).toContainText(
     "30% cấp thấp",
   );
   await page.screenshot({
@@ -69,10 +69,10 @@ test("Shop is accessible from tavern/header, currencies have distinct colors and
   });
 });
 
-test("Shop converts at 300 Coin per Prisma and recruits for 120 Pure Prisma without changing pity", async ({
+test("Shop converts at 600 Coin per Prisma and recruits for one ticket without changing pity", async ({
   page,
 }) => {
-  await seed(page, { coins: 1200, prisma: 0, recruitmentShards: 120 });
+  await seed(page, { coins: 1800, prisma: 0, recruitmentShards: 120 });
   await page.goto("/shop");
   await expect.poll(() => page.locator('.shop-scene img').evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true);
   const stock = await page.locator('.shop-stock').boundingBox();
@@ -86,7 +86,7 @@ test("Shop converts at 300 Coin per Prisma and recruits for 120 Pure Prisma with
   await page
     .getByRole("button", { name: "Chuyển đổi Prisma", exact: true })
     .click();
-  await expect(page.getByRole("dialog")).toContainText("600 Coin");
+  await expect(page.getByRole("dialog")).toContainText("1.200 Coin");
   await page
     .getByRole("button", { name: "Xác nhận chuyển đổi", exact: true })
     .click();
@@ -103,13 +103,13 @@ test("Shop converts at 300 Coin per Prisma and recruits for 120 Pure Prisma with
   });
   await page.locator(".shop-tabs a").nth(1).click();
   await page.getByRole("button", { name: /Dain/ }).click();
-  await expect(page.getByRole("dialog")).toContainText("120 Pure Prisma");
+  await expect(page.getByRole("dialog")).toContainText("1 Vé Chiêu Mộ");
   await page
-    .getByRole("button", { name: "Chiêu mộ bằng Pure Prisma", exact: true })
+    .getByRole("button", { name: "Chiêu mộ bằng Vé Chiêu Mộ", exact: true })
     .click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
   const state = await saved(page);
-  expect(state.recruitmentShards).toBe(0);
+  expect(state.recruitmentShards).toBe(120);expect(state.recruitmentTickets).toBe(0);
   expect(state.prisma).toBe(2);
   expect(state.coins).toBe(600);
   expect(state.unlockedCharacterIds).toContain("dain");
@@ -148,12 +148,12 @@ test("Shop converts at 300 Coin per Prisma and recruits for 120 Pure Prisma with
 test("a summon shortfall confirms only missing Prisma; cancel is free and conversion plus rewards save once", async ({
   page,
 }) => {
-  await seed(page, { coins: 3000, prisma: 3, recruitmentShards: 0 });
+  await seed(page, { coins: 6000, prisma: 3, recruitmentShards: 0 });
   await page.goto("/recruitment");
   const before = await saved(page);
   await page.getByRole("button", { name: /Chiêu mộ 10 lần/ }).click();
   await expect(page.getByRole("dialog")).toContainText("7 Prisma");
-  await expect(page.getByRole("dialog")).toContainText("2.100");
+  await expect(page.getByRole("dialog")).toContainText("4.200");
   await page.getByRole("button", { name: "Hủy", exact: true }).click();
   expect(await saved(page)).toEqual(before);
   await page.getByRole("button", { name: /Chiêu mộ 10 lần/ }).click();
@@ -164,7 +164,7 @@ test("a summon shortfall confirms only missing Prisma; cancel is free and conver
   await page.getByRole("button", { name: "Bỏ qua → Kết quả" }).click();
   await expect(page.locator(".summon-result")).toHaveCount(10);
   const after = await saved(page);
-  expect(after.coins).toBe(900);
+  expect(after.coins).toBe(1800);
   expect(after.prisma).toBe(0);
   expect(after.gacha.totalPulls).toBe(27);
   await page.reload();
@@ -175,7 +175,7 @@ test("a summon shortfall confirms only missing Prisma; cancel is free and conver
 test("insufficient Coin and a failed save cannot partially convert currency or grant summon results", async ({
   page,
 }) => {
-  await seed(page, { coins: 299, prisma: 0, recruitmentShards: 0 });
+  await seed(page, { coins: 599, prisma: 0, recruitmentShards: 0 });
   await page.goto("/recruitment");
   const before = await saved(page);
   await page.getByRole("button", { name: /Chiêu mộ 1 lần/ }).click();
@@ -189,7 +189,7 @@ test("insufficient Coin and a failed save cannot partially convert currency or g
     const key = "northern-prisma.profiles.v1";
     const bundle = JSON.parse(localStorage.getItem(key)!);
     const value = JSON.parse(bundle.entries[0].text);
-    value.coins = 300;
+    value.coins = 600;
     bundle.entries[0].text = JSON.stringify(value);bundle.entries[0].revision = 'external-change';
     localStorage.setItem(key, JSON.stringify(bundle));
   });
@@ -211,3 +211,4 @@ test("insufficient Coin and a failed save cannot partially convert currency or g
   await expect(page.locator(".stone-awakening")).toHaveCount(0);
   expect(await saved(page)).toEqual(funded);
 });
+

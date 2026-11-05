@@ -1,6 +1,7 @@
 "use client";
 import {partyReturnPath,partyLinkHref} from "../ui/party-navigation.js";
 import {SkillUpgrade} from './skill-upgrade';
+import {skillMasteryClass} from '../core/skill-rules.js';
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {CharacterProgression} from "./character-progression";
 import Link from "next/link";
@@ -126,7 +127,7 @@ export function SkillCard({ skill, actor }: { skill: any; actor: any }) {
   skill=resolveRankedAbility(content,actor,skill);
   const controls = skillPreviewOptions(skill, actor, content);
   return (
-    <article className="skill-card">
+    <article className={"skill-card "+skillMasteryClass(skill.skillRank)} data-mastery={Math.max(0,(skill.skillRank??1)-5)}>
       <div className="skill-heading">
         <h3>{skill.name}</h3>
         <span>{skillCost(skill, actor)}</span>

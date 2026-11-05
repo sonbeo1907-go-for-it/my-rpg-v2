@@ -203,7 +203,67 @@
       "coefficientGrowthPerRank": 1.1,
       "statBuffGrowthPerRank": 1.05,
       "outputBuffMpMultiplierPerRank": 0.9,
-      "outputBuffMpCostFloorRatio": 0.7
+      "outputBuffMpCostFloorRatio": 0.7,
+      "mastery": {
+        "characterIds": [
+          "arthur",
+          "iris",
+          "takeshi",
+          "fiona",
+          "elaine",
+          "garrek",
+          "dain",
+          "rowan",
+          "freya",
+          "arden",
+          "rhett",
+          "galliard",
+          "armie",
+          "fran",
+          "aurora",
+          "lisbeth",
+          "kai",
+          "benard",
+          "lanceveil",
+          "gahallad",
+          "gawain",
+          "lucien",
+          "seraphine",
+          "lyon",
+          "cedric",
+          "helena",
+          "leonardo",
+          "kyle",
+          "iwayn",
+          "percival",
+          "mandred",
+          "sylva",
+          "monica",
+          "logia",
+          "tywin",
+          "tobin",
+          "lumine",
+          "rivia",
+          "elise"
+        ],
+        "maxRank": 8,
+        "costs": [
+          1,
+          2,
+          3
+        ],
+        "outputMpMultiplier": 0.9,
+        "coefficientGrowthByTier": [
+          1.12,
+          1.12,
+          1.15
+        ],
+        "statBuffGrowthByTier": [
+          1.06,
+          1.06,
+          1.075
+        ]
+      }
     }
   }
 ]

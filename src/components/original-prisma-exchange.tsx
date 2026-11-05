@@ -11,7 +11,7 @@ export function OriginalPrismaExchange(){
  async function exchange(){if(pending.current)return;pending.current=true;try{if(await transact(current=>exchangePureForOriginal(current,new Date()),'Đã đổi 10 Pure Prisma thành 1 Original Prisma.'))setConfirm(false);}finally{pending.current=false;}}
  return <section className="panel original-exchange" data-original-exchange>
   <span className="eyebrow">TINH LUYỆN ÁNH SÁNG</span><h2><ResourceIcon kind="original"/> Đổi Original Prisma</h2>
-  <p>Nguyên liệu chế tạo và tái rèn Trấn Phái.</p>
+  <p>Nguyên liệu chế tạo Trấn Phái và nâng Thông Thạo Kĩ năng.</p>
   <div className="exchange-rate"><CurrencyAmount kind="pure" amount={10}/><span>→</span><CurrencyAmount kind="original" amount={1}/></div>
   <p className="original-exchange-quota">Đã đổi {state.originalExchanges}/3 hôm nay · Còn {state.remaining} lượt</p>
   <p className="muted">Làm mới lúc 00:00 giờ Việt Nam. Hạn mức dùng riêng cho hồ sơ này.</p>

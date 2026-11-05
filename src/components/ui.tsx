@@ -226,6 +226,7 @@ export function ResourceIcon({kind}:{kind:string}) {
   const id=useId().replace(/:/g,'');
   if(EXPERIENCE_BOOK_KINDS.includes(kind))return <svg className="icon experience-book-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 3h14v18H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM7 3v18M3 17h16"/><path d="m13 6 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" fill="currentColor" fillOpacity=".2"/></svg>;
   if(kind==='blueprint')return <Icon name="scroll"/>;
+  if(kind==='recruitment_ticket')return <svg className="icon recruitment-ticket-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5Z"/><path d="m12 8 3 4-3 4-3-4 3-4Z"/></svg>;
   if(kind==='ticket')return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Z"/><path d="M9 6v12m4-8h5m-5 4h5" strokeDasharray="2 2"/></svg>;
   if(kind==='breakthrough')return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m12 2 8 7-2 11-6 3-7-4-1-11Z"/><path d="m12 2-3 8 6 3-5 10m-6-15 5 2m6 3 5-4"/></svg>;
   if(kind!=='original')return <Icon name={kind==='coin'?'coin':kind==='fragments'?'fragments':'prism'}/>;
@@ -236,12 +237,12 @@ export function CurrencyAmount({
   amount,
   label = true,
 }: {
-  kind: "coin" | "prisma" | "pure" | "original" | "fragments" | "ticket" | "breakthrough" | "blueprint" | "xp_book_green" | "xp_book_blue" | "xp_book_purple";
+  kind: "recruitment_ticket" | "coin" | "prisma" | "pure" | "original" | "fragments" | "ticket" | "breakthrough" | "blueprint" | "xp_book_green" | "xp_book_blue" | "xp_book_purple";
   amount: number;
   label?: boolean;
 }) {
   const name =
-    EXPERIENCE_BOOK_KINDS.includes(kind) ? EXPERIENCE_BOOK_NAMES[EXPERIENCE_BOOK_KINDS.indexOf(kind)] : kind === "blueprint" ? "Bản Thiết Kế" : kind === "ticket" ? "Thẻ Quét" : kind === "breakthrough" ? "Tinh Thạch Phá Giới" : kind === "coin" ? "Coin" : kind === "pure" ? "Pure Prisma" : kind === "original" ? "Original Prisma" : kind === "fragments" ? "Vụn Prisma" : "Prisma";
+    EXPERIENCE_BOOK_KINDS.includes(kind) ? EXPERIENCE_BOOK_NAMES[EXPERIENCE_BOOK_KINDS.indexOf(kind)] : kind === "recruitment_ticket" ? "Vé Chiêu Mộ" : kind === "blueprint" ? "Bản Thiết Kế" : kind === "ticket" ? "Thẻ Quét" : kind === "breakthrough" ? "Tinh Thạch Phá Giới" : kind === "coin" ? "Coin" : kind === "pure" ? "Pure Prisma" : kind === "original" ? "Original Prisma" : kind === "fragments" ? "Vụn Prisma" : "Prisma";
   return (
     <span
       className={`currency-amount currency-${kind}`}

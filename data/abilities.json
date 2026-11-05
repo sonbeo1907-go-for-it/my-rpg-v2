@@ -85,12 +85,14 @@
     "rules": [
       "Kiệt sức chặn tích Cộng hưởng đến hết lượt kế tiếp."
     ],
-    "fixedByStory": true,
     "skillLineId": "arthur.ogres_bane",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "arthur.ogres_bane_controlled",
@@ -121,12 +123,14 @@
     "rules": [
       "Dư chấn giảm ATK đến hết lượt kế tiếp."
     ],
-    "fixedByStory": true,
-    "skillLineId": "arthur.ogres_bane_controlled",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "skillLineId": "arthur.ogres_bane",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "arthur.partial_release",
@@ -5712,12 +5716,15 @@
       "Không gây Kiệt sức hoặc Dư chấn."
     ],
     "presentation": "hero_mastered",
-    "fixedByStory": true,
-    "skillLineId": "arthur.ogres_bane_mastered",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "skillLineId": "arthur.ogres_bane",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "arthur.ogres_bane_flash",
@@ -5740,12 +5747,14 @@
       }
     ],
     "presentation": "hero_flash",
-    "fixedByStory": true,
     "skillLineId": "arthur.ogres_bane_flash",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "bandit.advance",

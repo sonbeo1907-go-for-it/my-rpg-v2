@@ -24,7 +24,7 @@ export const SAVE_VERSION = 3;
 export function createCampaign(content) {
   return {
     version: SAVE_VERSION,
-    xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
+    recruitmentTickets:0,xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
     party: ["arthur", "iris", "elaine", "garrek"],
     characters: Object.fromEntries(
       Object.keys(content.characters).map((id) => [
@@ -42,7 +42,7 @@ export function createCampaign(content) {
     gear: [],
     equipment: {},
     extraGearSlots: {},
-    gacha: { totalPulls: 0, pity: {}, lastSummon: null },
+    gacha: { rateUpMileage:0,totalPulls: 0, pity: {}, lastSummon: null },
     dungeonDaily: { day: null, clears: {} },
     dailyCommissions: emptyDailyCommissions(),
     shopDaily: emptyShopDaily(),
@@ -139,7 +139,7 @@ export function serializeCampaign(campaign) {
     claimedFirstClearRewards = [],
   } = campaign;
   return JSON.stringify({
-    xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
+    recruitmentTickets:campaign.recruitmentTickets??0,xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
     version,
     party,
     characters,
@@ -194,7 +194,7 @@ export function deserializeCampaign(raw, content) {
     throw new Error("Tiến trình nhân vật trong save không hợp lệ.");
   const result = createCampaign(content);
   if(input.levelProgressionVersion!==undefined&&input.levelProgressionVersion!==1)throw Error("Phiên bản tiến trình không hợp lệ.");
-  for(const key of ["limitBreakStones","sweepTickets","xpBooksGreen","xpBooksBlue","xpBooksPurple"]){const value=input[key]===undefined?0:input[key];if(!Number.isSafeInteger(value)||value<0)throw Error("Vật phẩm tiến trình không hợp lệ.");result[key]=value;}
+  for(const key of ["recruitmentTickets","limitBreakStones","sweepTickets","xpBooksGreen","xpBooksBlue","xpBooksPurple"]){const value=input[key]===undefined?0:input[key];if(!Number.isSafeInteger(value)||value<0)throw Error("Vật phẩm tiến trình không hợp lệ.");result[key]=value;}
   result.trainingCharges=normalizeTrainingCharges(input.trainingCharges);
   const cleared=input.dungeonClearedDifficulties===undefined?{}:input.dungeonClearedDifficulties;if(!cleared||typeof cleared!=="object"||Array.isArray(cleared))throw Error("Tiến trình quét không hợp lệ.");
   for(const[id,list]of Object.entries(cleared)){if(!content.dungeons[id]||!Array.isArray(list)||new Set(list).size!==list.length||list.some(key=>!content.dungeons[id].difficulties.some(d=>d.id===key&&d.enabled)))throw Error("Mức hầm ngục đã vượt không hợp lệ.");}result.dungeonClearedDifficulties=structuredClone(cleared);
@@ -243,7 +243,8 @@ export function deserializeCampaign(raw, content) {
       input.gacha.totalPulls < 0
     )
       throw new Error("Số lượt quay không hợp lệ.");
-    result.gacha = { totalPulls: input.gacha.totalPulls };
+    const mileage=input.gacha.rateUpMileage??0;if(!Number.isSafeInteger(mileage)||mileage<0||mileage>input.gacha.totalPulls)throw Error('Tiến độ Vé Chiêu Mộ không hợp lệ.');
+    result.gacha = { totalPulls: input.gacha.totalPulls,rateUpMileage:mileage };
     if (
       !Array.isArray(input.gear) ||
       input.gear.some(

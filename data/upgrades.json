@@ -143,5 +143,41 @@
         "ability": "arthur.ogres_bane_flash"
       }
     ]
+  },
+  {
+    "id": "arthur.eastern_hunts",
+    "characterId": "arthur",
+    "name": "Thảo Phạt Phương Đông · Chờ khai mở",
+    "order": 21,
+    "requires": {
+      "storyFlag": "eastern_hunts_unlocked"
+    },
+    "changes": []
+  },
+  {
+    "id": "arthur.hero_awakening",
+    "characterId": "arthur",
+    "name": "Ánh sáng không lùi bước & Rank Ogre’s Bane",
+    "order": 22,
+    "requires": {
+      "storyFlag": "arthur.ogre_ranks_unlocked"
+    },
+    "changes": [
+      {
+        "type": "set_passive",
+        "passive": {
+          "type": "starting_resource_skill_chance",
+          "name": "Ánh sáng không lùi bước",
+          "description": "Bắt đầu trận với 3 Cộng Hưởng. Kiếm Quang có cơ hội tạo thêm 1 Cộng Hưởng theo ATK căn bản, tối đa 100% tại 150 ATK.",
+          "resource": "resonance",
+          "initial": 3,
+          "abilityId": "arthur.light_slash",
+          "amount": 1,
+          "stat": "attack",
+          "atStat": 150,
+          "cap": 1
+        }
+      }
+    ]
   }
 ]

@@ -15,7 +15,6 @@
     "duplicateShards": 10,
     "baseGearSlots": 3,
     "maxGearSlots": 6,
-    "recruitCost": 120,
     "gearStats": [
       {
         "stat": "maxHp",
@@ -56,7 +55,7 @@
     "bossVictoryCoins": 150,
     "superVictoryCoins": 1000,
     "legacyVictoryCoins": 100,
-    "prismaCoinCost": 300,
+    "prismaCoinCost": 600,
     "coinRewardChance": 0.5,
     "normalFragmentReward": 5,
     "bossFragmentReward": 15,
@@ -80,6 +79,8 @@
           "amount": 5
         }
       ]
-    }
+    },
+    "recruitTicketCost": 1,
+    "rateUpTicketEvery": 300
   }
 ]

@@ -5,10 +5,10 @@ Nguồn: economy.json, banners.json, blacksmith.json, gearEffects.json; economy.
 ## Chiêu Mộ và quyền sở hữu
 
 - Mở sẵn Arthur/Iris/Takeshi/Elaine/Garrek/Fiona. State tiến trình tồn tại không có nghĩa đã sở hữu; kiểm tra unlockedCharacterIds.
--300 Coin →1 Prisma tím. Quay1/10 tốn1/10 Prisma; nếu thiếu, modal xác nhận chuyển đúng lượng thiếu rồi quay trong cùng transaction.
-- Tỷ lệ30%T1,50%T2,15%T3,5%nhân vật. Pity ở lượt50 không ra nhân vật; ra nhân vật kể cả dupe reset. Quay10 xử lý tuần tự; đổi tự chọn/thưởng truyện không reset pity.
--120 Pure Prisma → một nhân vật tự chọn chưa sở hữu trong nguồn cho phép. Dupe mở thêm1 ô thường tối đa6 và nhận10 Pure; không đoán lịch sử dupe để cấp bù.
-- Astoria không trong gacha/đổi Pure, chỉ Developer Option; Tobin có đường nhận riêng ở Thợ Rèn sau10 intro QuyểnI, không tự cho miễn phí toàn roster.
+-600 Coin →1 Prisma tím. Quay1/10 tốn1/10 Prisma; nếu thiếu, modal xác nhận chuyển đúng lượng thiếu rồi quay trong cùng transaction.
+- Tỷ lệ30%T1,50%T2,18,5%T3,1,5%nhân vật. Pity ở lượt50 không ra nhân vật; ra nhân vật kể cả dupe reset. Quay10 xử lý tuần tự; đổi tự chọn/thưởng truyện không reset pity.
+-1 Vé Chiêu Mộ → một nhân vật tự chọn chưa sở hữu trong nguồn cho phép. Dupe mở thêm1 ô thường tối đa6 và nhận10 Pure; không đoán lịch sử dupe để cấp bù.
+- Astoria không trong gacha/đổi vé, chỉ Developer Option; Tobin có đường nhận riêng ở Thợ Rèn sau10 intro QuyểnI, không tự cho miễn phí toàn roster.
 - Kết quả/pity/ví ghi trước animation. Skip/reveal/reload không cấp thưởng hoặc quay lại. RNG gacha độc lập RNG combat.
 
 ## Chiêu Mộ theo phe — cập nhật 05/11/2026
