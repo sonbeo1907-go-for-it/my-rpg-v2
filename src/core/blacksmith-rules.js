@@ -30,8 +30,9 @@ export function validateBlacksmithContent(content) {
     const owner=content.characters[template.characterId];
     for(const p of template.passive?.type==='bundle'?(Array.isArray(template.passive.effects)?template.passive.effects:[]):[template.passive]){
       if(p?.type==='native_passive_override'&&p.passiveType!==owner?.passive?.type)errors.push('exclusiveGear: incompatible native override '+template.id);
-      if(['resource_skill_penetration','resource_chance_bonus'].includes(p?.type)&&!owner?.resources?.[p.resourceId])errors.push('exclusiveGear: invalid owner resource '+template.id);
+      if(['resource_skill_penetration','resource_chance_bonus','resource_keep_chance'].includes(p?.type)&&!owner?.resources?.[p.resourceId])errors.push('exclusiveGear: invalid owner resource '+template.id);
       if(p?.type==='mode_mp_discount'&&!owner?.combatModes?.[p.modeId])errors.push('exclusiveGear: invalid owner mode '+template.id);
+      if(p?.type==='mode_stat_boost'&&!owner?.combatModes?.[p.modeId])errors.push('exclusiveGear: invalid owner mode '+template.id);
     }
     // New combat passive types must get an explicit, tested adapter before being enabled.
     if(!validateExclusivePassive(template.passive,content)) errors.push('exclusiveGear: unsupported passive '+template.id);

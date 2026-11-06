@@ -1096,5 +1096,53 @@
       "name": "Lõi Tụ Điện Bất Ổn",
       "rules": []
     }
+  },
+  {
+    "id": "astoria.crown",
+    "characterId": "astoria",
+    "name": "Vương Miện Hố Đen",
+    "description": "Trấn Phái riêng của Astoria. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Hợp Âm Hố Đen",
+      "description": "Khi Magnamut hiện diện, MAG tăng thêm 35%. Mệnh lệnh hủy diệt có cơ hội không tiêu Vết nứt, đạt 100% tại 150 MAG căn bản.",
+      "effects": [
+        {
+          "type": "mode_stat_boost",
+          "name": "Cộng Hưởng Magnamut",
+          "description": "Khi Magnamut hiện diện, MAG của Astoria tăng thêm 35%.",
+          "modeId": "magnamut",
+          "stat": "magic",
+          "ratio": 0.35,
+          "rules": [
+            "Chỉ có hiệu lực khi Magnamut đang hiện diện; rời dạng mất ngay.",
+            "Cộng vào nhóm phần trăm MAG, không nhân với buff tạm thời."
+          ]
+        },
+        {
+          "type": "resource_keep_chance",
+          "name": "Vết Nứt Bền Bỉ",
+          "description": "Mệnh lệnh hủy diệt có cơ hội không tiêu Vết nứt: min(100%, MAG căn bản / 150).",
+          "abilityIds": [
+            "astoria.command"
+          ],
+          "resourceId": "space_rift",
+          "stat": "magic",
+          "atStat": 150,
+          "cap": 1,
+          "rules": [
+            "MAG căn bản gồm chỉ số gốc và +15 MAG của Magnamut, không gồm phần trăm buff tạm.",
+            "Mỗi lần thi triển mới tung xác suất; không tiêu Vết nứt thì không có hiệu ứng hoàn trả nào khác."
+          ]
+        }
+      ],
+      "rules": [
+        "Hiệu ứng chỉ hoạt động khi trang bị đúng Trấn và chỉ tính một lần mỗi lần thi triển."
+      ]
+    }
   }
 ]
