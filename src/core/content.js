@@ -32,6 +32,9 @@ export const ROLE_GROUPS = {
 };
 export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel', 'revive', 'reduce_cooldowns'];
 
+// Release #33 was Astoria's technical-test slot. Never assign it to another character.
+export const DEPRECATED_CHARACTER_RELEASE_IDS = Object.freeze([33]);
+
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
 }
@@ -49,6 +52,11 @@ export function validateContent(content) {
     if (!content[key] || typeof content[key] !== 'object') fail(`Missing collection: ${key}`);
   }
   if (errors.length) return errors;
+  const releaseIds = new Set();
+  for (const actor of Object.values(content.characters)) {
+    if (!Number.isSafeInteger(actor.releaseId) || actor.releaseId < 1 || DEPRECATED_CHARACTER_RELEASE_IDS.includes(actor.releaseId) || releaseIds.has(actor.releaseId)) fail(actor.id + ': invalid or reserved character releaseId');
+    releaseIds.add(actor.releaseId);
+  }
   errors.push(...validateSkillProgression(content));
   for (const [id, actor] of Object.entries({ ...content.characters, ...content.enemies })) {
     if(content.enemies[id]===actor&&(!Number.isInteger(actor.referenceLevel)||actor.referenceLevel<1||actor.referenceLevel>99))fail(id+': invalid reference level');
@@ -469,7 +477,7 @@ export function validateContent(content) {
     exists('music', encounter.bgm ?? 'normal', id);
     if(encounter.category!==undefined&&!['bounty','chronicle'].includes(encounter.category)) fail(id+': invalid quest category');
     if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
-    if(encounter.superLevels!==undefined&&(id!=='alice_superboss'||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
+    if(encounter.superLevels!==undefined&&(!['alice_superboss','miraebolis_superboss'].includes(id)||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');
     if (encounter.firstClearRewards !== undefined) {
       if (!Array.isArray(encounter.firstClearRewards) || !encounter.firstClearRewards.length) fail(`${id}: invalid first clear rewards`);

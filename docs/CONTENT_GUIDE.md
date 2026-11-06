@@ -9,7 +9,7 @@ JSON thuần, ID ổn định; đổi tên hiển thị không đổi ID. Đọc
 - Stats là giá trị thô trước passive. Không ghi sẵn bonus rồi áp thêm lần hai. scalingStat và damageType độc lập: scale ATK vẫn có thể gây sát thương phép.
 - Ability/status dùng ID tham chiếu, target, cost, cooldown và effect được validator hỗ trợ. Cơ chế mới cần handler, validator, preview và test; không chỉ thêm một field JSON.
 - Skill Rank khai báo skillLineId/growthProfile/growthGroups/rankable; fixed có fixedReason. Mọi nhóm hợp lệ cùng tăng: damage/heal/shield ×1,1 mỗi Rank; stat buff hợp lệ ×1,05. Damage amp giữ nguyên, kỹ năng output buff có quy tắc giảm MP riêng. Replacement cùng skill line giữ Rank.
-- Nhân vật mới chính thức: cập nhật pool khi được duyệt, AI profile, preview và asset vai trò. Save cũ thêm state khóa, không tự mở. Astoria không vào pool chính thức; Monica dùng AI chung.
+- Nhân vật mới chính thức: cập nhật pool khi được duyệt, AI profile, preview và asset vai trò. Save cũ thêm state khóa, không tự mở. Astoria đã vào pool chính thức; Monica dùng AI chung. `releaseId` là số ra mắt bất biến, không dùng vị trí mảng: #33 deprecated, Chiyoko #92, Astoria #93. Stable string ID `astoria` giữ nguyên cho save và skill.
 
 ## Status và phản ứng
 

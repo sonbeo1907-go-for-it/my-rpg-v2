@@ -13,7 +13,7 @@ function setup(party = ['arthur', 'iris', 'elaine', 'garrek'], random = () => .9
   const campaign = createCampaign(source); campaign.party = party;
   campaign.storyFlags.push('illusion.sinister_unlocked');
   campaign.unlockedCharacterIds = Object.keys(source.characters);
-  const base=structuredClone(source);base.encounters.miraebolis_superboss.enemyLevel=1;
+  const base=structuredClone(source);base.encounters.miraebolis_superboss.enemyLevel=1;delete base.encounters.miraebolis_superboss.superLevels;
   return createBattle(base, campaign, 'miraebolis_superboss', random);
 }
 function use(battle, actorId, abilityId, targetId = actorId) {
@@ -211,7 +211,7 @@ test('boss definitions reject bad thresholds, rotations, suppression, telegraphs
 });
 
 test('historical base-HP starter clear still exercises all phases, turn order and MP cycles', () => {
-  const content=structuredClone(globalContent);content.encounters.miraebolis_superboss.hpReferenceLevel=1;content.encounters.miraebolis_superboss.enemyLevel=1;
+  const content=structuredClone(globalContent);content.encounters.miraebolis_superboss.hpReferenceLevel=1;content.encounters.miraebolis_superboss.enemyLevel=1;delete content.encounters.miraebolis_superboss.superLevels;
   let campaign = createCampaign(content);
   campaign.storyFlags.push('illusion.sinister_unlocked');
   campaign.party = ['arthur', 'iris', 'garrek', 'elaine'];

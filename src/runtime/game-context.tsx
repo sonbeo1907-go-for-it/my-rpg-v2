@@ -56,7 +56,6 @@ import {createStoryRun,advanceStoryWave,isFinalStoryWave} from '../core/story-wa
 const isFinalRun=(run:any)=>run.kind==='story'?isFinalStoryWave(run):isFinalDungeonWave(run);
 const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(content,run):advanceDungeonWave(content,run);
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
-import { setAstoriaEnabled as configureAstoria } from "../core/developer.js";
 type GameContextValue = {
   farm:any;
   startFarming:(target:any,limit:number)=>boolean;
@@ -76,7 +75,6 @@ type GameContextValue = {
   dailyNow: number;
   claimCommissions: (keys?: string[]) => Promise<boolean>;
   refreshCommissions: () => Promise<boolean>;
-  setAstoriaEnabled: (enabled: boolean) => Promise<boolean>;
   content: any;
   campaign: any;
   battle: any;
@@ -875,7 +873,6 @@ export function GameProvider({
     dailyNow,refreshCommissions,
     claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
     startArena,reserveCompetition,beginCompetition,settleCompetition,abandonCompetition,
-    setAstoriaEnabled: (enabled) => transact(current => configureAstoria(current,enabled,{battleActive:Boolean(runtime.current && !runtime.current.outcome) || Boolean(dungeonRun.current && !runtime.current?.outcome)}), enabled ? "Đã bật Astoria · bản trùng 0." : "Đã tắt Astoria."),
     content:path==='/battle'&&runtime.current?.arena?runtime.current.content:content,
     profiles,
     saveDirectory,

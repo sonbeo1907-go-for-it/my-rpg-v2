@@ -5,7 +5,7 @@ Rà soát 03/11/2026. Trang này thay bảng roster nguyên mẫu; thông số �
 | Hệ thống | Trạng thái |
 | --- | --- |
 | Combat | Vòng Chính/Phụ, Rank/loadout, mode/companion, phản công/Liên kích, status/weakness, boss nhiều phase |
-| Nhân vật | Sáu starter; roster bổ sung qua gacha/nguồn riêng; Astoria chỉ developer. Level 1–50, phân bổ, Đột Phá và Rank riêng |
+| Nhân vật | Sáu starter; roster bổ sung qua gacha/nguồn riêng; Astoria đã chính thức (#93, vị trí #33 deprecated). Level 1–50, phân bổ, Đột Phá và Rank riêng |
 | Quest | Thảo Phạt, Truy Nã, Hiểm Ác; năm độ khó 5/15/25/35/45 cho normal/boss/bounty, mặc định Rất dễ |
 | Lữ Hành | Chín sách hiện có; ba chương Lv10/20/30, epilogue Arthur Dễ/Thường/Khó Lv1/30/60; yêu cầu đội theo từng màn |
 | Chronicle | Quyển I theo địa điểm; Quyển II phiên pháo đài, khóa đội/gear, HP/MP xuyên encounter; có checkpoint combat riêng |

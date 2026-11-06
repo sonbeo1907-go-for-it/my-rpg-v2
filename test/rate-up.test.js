@@ -32,7 +32,7 @@ test('conditional probabilities partition 25%, 12.5%, 12.5%, 50% exactly and off
  const b=first('2026-11-05');let tally={};for(let i=0;i<8000;i++){const id=drawBannerCharacter(b,(i+.5)/8000);tally[id]=(tally[id]??0)+1;}
  assert.deepEqual(b.featured.map(id=>tally[id]),[2000,1000,1000]);assert.ok(Math.abs(b.characterPool.reduce((sum,id)=>sum+characterDrawChance(b,id),0)-1)<1e-12);
  assert.deepEqual([0,.25,.375].map(n=>drawBannerCharacter(b,n)),b.featured);assert.ok(!b.featured.includes(drawBannerCharacter(b,.5)));
- assert.equal(characterDrawChance(b,'astoria'),0);assert.equal(characterDrawChance(c.banners.standard,'dain'),1/c.banners.standard.characterPool.length);
+ assert.ok(characterDrawChance(b,'astoria')>0);assert.equal(characterDrawChance(c.banners.standard,'dain'),1/c.banners.standard.characterPool.length);
 });
 test('each Sunday banner has its own pity and cannot borrow from its neighbor or standard',()=>{
  const now=day('2026-11-08'),b=schedule(now).banners;let s=createGameSave(c);s.prisma=100;s.gacha.totalPulls=49;s.gacha.pity={[b[0].id]:49,standard:7};
@@ -55,7 +55,7 @@ test('ten pulls settle pity sequentially and historical rate-up survives a calen
  values=[0,0,0,.25,...Array.from({length:8},()=>[0,0,0]).flat()];const out=pullGacha(s,c,b.id,10,()=>{assert.ok(values.length);return values.shift();},now);
  assert.equal(out.results[1].characterId,b.featured[1]);assert.equal(out.campaign.gacha.pity[b.id],8);assert.equal(out.campaign.prisma,10);
  assert.deepEqual(decodeGameSave(encodeGameSave(out.campaign,c),c).gacha.lastSummon,out.campaign.gacha.lastSummon);
- assert.ok(validateRateUpSnapshot(out.campaign.gacha.lastSummon.rateUp,c.banners.standard));const bad=structuredClone(out.campaign);bad.gacha.lastSummon.rateUp.featured[0]='astoria';assert.throws(()=>encodeGameSave(bad,c),/lịch sử|Lịch sử/);
+ assert.ok(validateRateUpSnapshot(out.campaign.gacha.lastSummon.rateUp,c.banners.standard));const bad=structuredClone(out.campaign);bad.gacha.lastSummon.rateUp.featured[0]='unknown_character';assert.throws(()=>encodeGameSave(bad,c),/lịch sử|Lịch sử/);
 });
 test('rate-up roster excludes starters, developer and free recruitment-only characters; definitions validate',()=>{
  assert.deepEqual(validateContent(c),[]);for(const id of c.banners.standard.rateUpRotation.roster){assert.ok(!c.characters[id].developerOnly);assert.ok(!c.characters[id].recruitmentOnly);assert.ok(!c.economy.default.starterCharacters.includes(id));}

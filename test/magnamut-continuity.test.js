@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
-import {setAstoriaEnabled} from '../src/core/developer.js';
+import {unlockCharacter} from '../src/core/ownership.js';
+function withAstoria(campaign) { unlockCharacter(campaign,content,'astoria'); return campaign; }
 import {createBattle,activeActor,getActor,executeAction,abilityAvailability,DEFEND} from '../src/core/battle.js';
 import {createDungeonRun,createDungeonPreview,advanceDungeonWave,isFinalDungeonWave} from '../src/core/dungeon.js';
 import {effectiveStat} from '../src/core/combat-math.js';
@@ -12,7 +13,7 @@ import {createGameMusic} from '../src/ui/game-music.js';
 const content=await loadContent(),now=new Date('2026-10-30T05:00:00Z');
 function fixture(party=['astoria','elaine']) {
  const source=structuredClone(content);source.characters.astoria.stats.speed=100;
- const save=setAstoriaEnabled(createGameSave(source),true);save.party=party;save.storyFlags.push('illusion.sinister_unlocked');
+ const save=withAstoria(createGameSave(source));save.party=party;save.storyFlags.push('illusion.sinister_unlocked');
  return {source,save};
 }
 function act(b,skill='$defend',target){const a=activeActor(b);executeAction(b,{actorId:a.id,abilityId:skill,targetId:target??(skill==='$defend'||skill==='astoria.summon'?a.id:b.actors.find(a=>a.team==='enemy'&&a.hp>0).id)});}

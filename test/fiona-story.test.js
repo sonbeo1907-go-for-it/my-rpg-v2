@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave,encodeGameSave,decodeGameSave} from '../src/core/game-save.js';
 import {createBattle,getActor,executeAction,executeEnemyTurn,activeActor} from '../src/core/battle.js';
-import {setAstoriaEnabled} from '../src/core/developer.js';
+import {unlockCharacter} from '../src/core/ownership.js';
+function withAstoria(campaign) { unlockCharacter(campaign,content,'astoria'); return campaign; }
 import {createStoryRun,advanceStoryWave,isFinalStoryWave} from '../src/core/story-waves.js';
 import {claimBattleReward} from '../src/core/economy.js';
 import {completeStoryEvent,resolveCharacter} from '../src/core/progression.js';
@@ -89,7 +90,7 @@ test('malformed wave definitions, growth schemas and phased boss configuration a
 });
 
 test('actual story wave victories preserve Magnamut until final victory, then refund MP once',()=>{
- const c=setAstoriaEnabled(save(),true);c.party=['astoria','fiona'];const run=createStoryRun(content,c,chapters[0],()=>.99);
+ const c=withAstoria(save());c.party=['astoria','fiona'];const run=createStoryRun(content,c,chapters[0],()=>.99);
  const a=getActor(run.battle,'astoria');a.activeMode='magnamut';a.resourceValues.space_rift=4;a.mp=30;
  for(let wave=0;wave<3;wave++) {
   const b=run.battle;for(const e of b.actors.filter(a=>a.team==='enemy'))e.hp=1;

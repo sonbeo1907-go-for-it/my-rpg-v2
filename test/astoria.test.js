@@ -2,17 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave,encodeGameSave,decodeGameSave} from '../src/core/game-save.js';
-import {setAstoriaEnabled} from '../src/core/developer.js';
+import {unlockCharacter} from '../src/core/ownership.js';
+function withAstoria(campaign) { unlockCharacter(campaign,content,'astoria'); return campaign; }
 import {createBattle,activeActor,getActor,executeAction,abilityAvailability,basicAbility,DEFEND} from '../src/core/battle.js';
 import {effectiveStat} from '../src/core/combat-math.js';
 import {leaveCombatMode,battlePresentation} from '../src/core/combat-modes.js';
 import {characterCatalog} from '../src/core/catalog.js';
 import {createGameMusic} from '../src/ui/game-music.js';
-import {recruitCharacter} from '../src/core/economy.js';
 const content=await loadContent();
 function setup(party=['astoria']) {
  const c=structuredClone(content);c.characters.astoria.stats.speed=100;
- let save=setAstoriaEnabled(createGameSave(c),true);save.party=[...party];save.unlockedCharacterIds=[...new Set([...save.unlockedCharacterIds,...party])];
+ let save=withAstoria(createGameSave(c));save.party=[...party];save.unlockedCharacterIds=[...new Set([...save.unlockedCharacterIds,...party])];
  const b=createBattle(c,save,'forest_patrol',()=>.99);
  for(const e of b.actors.filter(a=>a.team==='enemy')){e.hp=e.stats.maxHp=100000;e.stats.defense=e.stats.resistance=0;e.statuses=[];e.weaknesses=[];e.resistances={};delete e.passive;}
  return b;
@@ -23,31 +23,28 @@ function astoriaTurn(b){until(b,()=>activeActor(b)?.id==='astoria');}
 function summon(b){const a=getActor(b,'astoria');a.resourceValues.space_rift=5;act(b,'astoria.summon');return a;}
 const hits=b=>b.events.filter(e=>e.type==='damage'&&e.sourceId==='astoria');
 
-test('developer option is per save, defaults off, grants duplicate zero and never changes banners',()=>{
- const original=createGameSave(content),banner=structuredClone(content.banners);
- assert.equal(characterCatalog(content,original).some(a=>a.id==='astoria'),false);
- const enabled=setAstoriaEnabled(original,true);
- assert.equal(original.unlockedCharacterIds.includes('astoria'),false);
- assert.equal(enabled.unlockedCharacterIds.filter(id=>id==='astoria').length,1);
+test('Astoria is official, locked until acquired and eligible for standard recruitment',()=>{
+ const save=createGameSave(content);
+ assert.equal(content.characters.astoria.developerOnly,undefined);
+ assert.equal(save.unlockedCharacterIds.includes('astoria'),false);
+ assert.equal(characterCatalog(content,save).some(a=>a.id==='astoria'),true);
+ assert.equal(characterCatalog(content,save,{},true).some(a=>a.id==='astoria'),false);
+ assert.ok(content.banners.standard.characterPool.includes('astoria'));
+ const enabled=withAstoria(save);
  assert.equal(enabled.extraGearSlots.astoria??0,0);
- assert.equal(characterCatalog(content,enabled,{},true).some(a=>a.id==='astoria'),true);
  assert.deepEqual(decodeGameSave(encodeGameSave(enabled,content),content),enabled);
- for(const b of Object.values(content.banners))assert.equal(b.characterPool.includes('astoria'),false);
- assert.throws(()=>recruitCharacter(original,content,'standard','astoria'));
- assert.deepEqual(content.banners,banner);
- assert.throws(()=>setAstoriaEnabled(enabled,false,{battleActive:true}),/Kết thúc/);
 });
-test('disabling returns gear without deleting it and cleans every preset including a solo Astoria party',()=>{
- let save=setAstoriaEnabled(createGameSave(content),true);
+
+test('legacy developer ownership, equipment and presets survive the official release',()=>{
+ const save=withAstoria(createGameSave(content));
+ save.storyFlags.push('developer.astoria');
  save.gear=[{id:'gear_1',typeId:'t2',stats:{magic:3}}];save.gacha.totalPulls=1;
  save.equipment.astoria=['gear_1',null,null];save.party=['astoria',null,null,null];save.partyPresets[0].slots=[...save.party];save.partyPresets[1].slots=['iris','astoria',null,null];
- const off=setAstoriaEnabled(save,false);
- assert.deepEqual(off.gear,save.gear);assert.equal(off.equipment.astoria,undefined);
- assert.deepEqual(off.party,['arthur',null,null,null]);assert.deepEqual(off.partyPresets[1].slots,['iris',null,null,null]);
- assert.equal(off.storyFlags.includes('developer.astoria'),false);
- assert.equal(off.unlockedCharacterIds.includes('astoria'),false);
- assert.doesNotThrow(()=>encodeGameSave(off,content));
+ const restored=decodeGameSave(encodeGameSave(save,content),content);
+ assert.deepEqual(restored,save);
+ assert.equal(characterCatalog(content,restored,{},true).some(a=>a.id==='astoria'),true);
 });
+
 test('Astoria has the specified class and stats; basic attack is two separate 60% magical hits',()=>{
  assert.equal(content.characters.astoria.roleGroup,'sorcerer');assert.equal(content.characters.astoria.stats.speed,16);
  assert.deepEqual(content.characters.astoria.stats,{maxHp:175,maxMp:120,attack:12,magic:36,defense:18,resistance:22,speed:16});

@@ -36,7 +36,7 @@ Với task liên quan thời hạn, lượt hoặc phản ứng, đọc [COMBAT_
 - Arena là prototype AI offline. Không có banlist/app admin/update JSON bên ngoài EXE được triển khai. Monica không perma-ban trong code; dùng AI chung. PvP override là bản clone bất biến theo trận; không sửa dữ liệu PvE.
 - **Bản sắc lớp Thuật Sư:** ưu tiên VFX nhận diện riêng gắn với cơ chế đặc trưng (triệu hồi, trường thời gian, ma trận, sắc lệnh…). Trong PvE có thể có hiệu ứng trên bàn đấu hoặc scene riêng theo thiết kế; không bắt buộc đổi background cho mọi Thuật Sư. Đây là định hướng authoring, không phải renderer tự cấp hiệu ứng chỉ từ roleGroup.
 - Không phải ai có combatMode cũng được đổi nền. Yufina/Joshua/Selene dùng nhãn cục bộ; Sandra có VFX chiêu tạm thời, không có background riêng. Arena chuẩn hóa mọi mode trong card, không để đối thủ ghi đè nền/BGM.
-- Astoria là developer test, opt-in theo hồ sơ, dupe 0, không trong gacha. Magnamut ở phòng giữa dungeon không biến mất/refund; phase Miraebolis không phải mode exit.
+- Astoria là nhân vật chính thức #93, sau Chiyoko #92; #33 deprecated. Giữ stable ID `astoria` và toàn bộ sở hữu/tiến trình từ bản thử nghiệm. Có trong gacha, không còn nút bật/tắt developer. Magnamut ở phòng giữa dungeon không biến mất/refund; phase Miraebolis không phải mode exit.
 - Lore: Simon thuộc Vertosse, không mang họ Vertosse. Oán Hận là trạng thái/group, **không phải nguyên tố**. Nguyệt là nguyên tố riêng, chưa có nhân vật chính thức dùng.
 - Phe phái: `affiliation` là slug tiếng Anh, nhãn Việt trong `AFFILIATION_LABELS`; danh sách và luật ở [AFFILIATIONS](AFFILIATIONS.md). Trang `/characters` mặc định chỉ nhân vật đã sở hữu, sắp Level giảm dần.
 - Hai nhân vật mới 04/11/2026: **Amaryllis** (Rhett facility, Thổ, hồi máu + hồi sinh toàn đội, xem [AMARYLLIS](AMARYLLIS.md)) và **Brant** (Hội Thợ Săn, Thủ Hộ chắn đòn AoE/Liên kích, xem [BRANT](BRANT.md)). Effect `revive` và VFX hồi sinh dùng chung; `coverArea`/`coverReactions`/`cover_guard` mở rộng Che chắn có kiểm chứng hai kịch bản Mori+Artesia và Joshua. Cả hai đã vào pool banner `standard`; Che chắn và Khiêu Khích của Brant dùng chung clock `main_turn` nên Vòng Phụ không bào thời hạn.
@@ -105,7 +105,7 @@ Trấn Phái mới cho Iwayn/Percival/Mandred/Kreider/Logia/Yufina/Elise/Yumia/V
 
 
 ## Đấu Trường: Danh Dự và Đấu Hạng (06/11/2026)
-Xem [ARENA_RANKED_HONOR](ARENA_RANKED_HONOR.md). Tìm Trận có Đấu Thường chuẩn hóa50/5 và Đấu Hạng dùng build thật, cần16 người chính thức (không Astoria). Chỉ hạng có chọn5/cấm1 mỗi bên, không trùng, không bước bảo vệ. Danh Dự20/5/0, trần100/ngày; mốc thắng1/3/5 thưởng1/1/2 Pure độc lập. Đổi Pure20 Danh Dự,35/tuần; Original300,1/tuần. Điểm+20/−10, mốc0/100/250/450/700. Save v7 thêm tùy chọn `honor`/`arenaProgress`; pending lưu trước, receipt một lần sau trận; pending khi khởi động lại xử thua. Không app admin/online/banlist mới. Shop bốn tab, Original cuối Đổi thông thường.
+Xem [ARENA_RANKED_HONOR](ARENA_RANKED_HONOR.md). Tìm Trận có Đấu Thường chuẩn hóa50/5 và Đấu Hạng dùng build thật, cần16 người chính thức (tính cả Astoria đã sở hữu). Chỉ hạng có chọn5/cấm1 mỗi bên, không trùng, không bước bảo vệ. Danh Dự20/5/0, trần100/ngày; mốc thắng1/3/5 thưởng1/1/2 Pure độc lập. Đổi Pure20 Danh Dự,35/tuần; Original300,1/tuần. Điểm+20/−10, mốc0/100/250/450/700. Save v7 thêm tùy chọn `honor`/`arenaProgress`; pending lưu trước, receipt một lần sau trận; pending khi khởi động lại xử thua. Không app admin/online/banlist mới. Shop bốn tab, Original cuối Đổi thông thường.
 
 
 ## Cấm chung và cap PvP hai ngưỡng — 06/11/2026

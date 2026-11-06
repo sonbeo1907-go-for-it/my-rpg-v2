@@ -6,14 +6,14 @@ Quyết định đã duyệt ngày 06/11/2026. Đây là prototype AI offline; k
 
 - `/arena` chọn Tìm Trận hoặc Luyện Tập. `/arena/match?mode=normal|ranked` chọn Đấu Thường / Đấu Hạng.
 - Đấu Thường: bốn người hiện tại; hai bên Lv50, Rank5, không trang bị/Trấn, mở nâng cấp truyện và phân bổ điểm như prototype cũ.
-- Đấu Hạng: cần **16 nhân vật chính thức đã sở hữu**, không tính Astoria. Không yêu cầu 16 người đạt một cấp cụ thể. Dùng cấp, phân bổ, ô đồ, Trấn và kỹ năng thật của người chơi. Thông Thạo chỉ có hiệu lực đến Rank5 trong mọi PvP, không sửa save PvE.
+- Đấu Hạng: cần **16 nhân vật chính thức đã sở hữu**, tính cả Astoria đã sở hữu. Không yêu cầu 16 người đạt một cấp cụ thể. Dùng cấp, phân bổ, ô đồ, Trấn và kỹ năng thật của người chơi. Thông Thạo chỉ có hiệu lực đến Rank5 trong mọi PvP, không sửa save PvE.
 - Luyện Tập giữ ảnh gương và preset; không nhận thưởng, không tăng điểm hay mốc thắng.
 - Tìm đối thủ khoảng2,4giây → thông báo đã tìm được trận → Đấu Hạng cấm chung → chọn/cấm → chỉnh thứ tự → tải5–8giây → chiến đấu. Đấu Thường bỏ qua chọn/cấm. Màn chuyển trận hiển thị username VS username.
 - Sau kết quả, Tìm trận mới tạo ID/seed/đối thủ mới, giữ lựa chọn thường/hạng. Không tự đánh lại đội trước.
 
 ## Chọn, cấm và thứ tự
 
-Trước khi chọn có modal **Cấm trước khi chọn**, mặc định hiển thị toàn bộ91 nhân vật chính thức, gồm chưa sở hữu; Astoria không tham gia. Tái sử dụng tìm kiếm, lọc hệ/vai trò/sở hữu và sắp xếp tên/cấp/chỉ số, tăng/giảm. Chọn một người rồi xác nhận; không cấm ngay khi chỉ focus hoặc đổi sort.
+Trước khi chọn có modal **Cấm trước khi chọn**, mặc định hiển thị toàn bộ92 nhân vật chính thức, gồm chưa sở hữu và Astoria. Tái sử dụng tìm kiếm, lọc hệ/vai trò/sở hữu và sắp xếp tên/cấp/chỉ số, tăng/giảm. Chọn một người rồi xác nhận; không cấm ngay khi chỉ focus hoặc đổi sort.
 
 - Đồng/Bạc: **cả trận2 lượt cấm**, mỗi bên1.
 - Vàng/Kim Cương/Prisma: **cả trận4 lượt cấm**, mỗi bên2.

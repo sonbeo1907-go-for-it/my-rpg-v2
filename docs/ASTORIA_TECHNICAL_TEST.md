@@ -1,6 +1,10 @@
-# Astoria · Technical test
+# Astoria · Nhân vật chính thức và Magnamut
 
-Astoria is opt-in per profile through Settings → Developer Option. It grants ownership with zero duplicates (3 gear slots). It never enters a banner or Pure Prisma recruitment pool. Disabling removes her from every party preset and unequips gear without deleting inventory. Changes are blocked during an unfinished battle/run. The application save envelope is now v7; `developer.astoria` is a profile flag.
+Cập nhật 06/11/2026: Astoria đã ra mắt chính thức. `releaseId=93`, ngay sau Chiyoko #92. Slot thử nghiệm #33 bị deprecated vĩnh viễn; không tái sử dụng hoặc đánh lại số nhân vật khác. Stable ID vẫn là `astoria`, không thay các ability ID hoặc khóa save.
+
+Astoria xuất hiện trong danh mục chưa sở hữu, pool banner thường và pool ngoài rate-up. Lịch rate-up đã công bố được giữ; thêm cô ấy vào roster quay vòng từ đợt 09/11/2026, có thể ở vị trí phụ ngoài phe. Không đổi phe `time_travelers` chỉ để khớp banner.
+
+Gỡ nút Developer Option và lệnh bật/tắt Astoria khỏi runtime. Save từng bật thử vẫn giữ quyền sở hữu, cấp độ, Rank, gear, preset và dupe; flag `developer.astoria` cũ không còn điều khiển quyền truy cập. Save chưa sở hữu không được tặng miễn phí. Không tự thêm Thông Thạo. Astoria được tính vào điều kiện 16 nhân vật và pool Đấu Hạng như các nhân vật chính thức khác. Bộ kỹ năng/VFX/giới hạn PvP Rank 5 giữ nguyên.
 
 ## Content
 

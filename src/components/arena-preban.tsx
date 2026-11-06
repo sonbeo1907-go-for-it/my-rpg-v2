@@ -17,7 +17,7 @@ export function ArenaPreban({draft,pending,onBan,onLeave}:{draft:any;pending:any
    <p>Mọi nhân vật bị cấm ở bước này đều không thể được chọn bởi cả hai bên.</p>
    <div className="arena-preban-records">{(['party','enemy'] as const).map(team=><section key={team}><strong>{team==='party'?pending.playerName:pending.opponentName}</strong><div>{draft.preBans[team].length?draft.preBans[team].map((id:string)=><span key={id}>{content.characters[id].name}</span>):<small>Chưa cấm nhân vật nào</small>}</div></section>)}</div>
    <button className="preban-filter-toggle" aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}>{expanded?"Thu gọn bộ lọc":"Thêm bộ lọc"}</button><CharacterFilters filters={filters} onChange={setFilters}/>
-   <p className="muted">{all.length} nhân vật · Bao gồm nhân vật chưa sở hữu · Astoria chưa tham gia Đấu Hạng</p>
+   <p className="muted">{all.length} nhân vật · Bao gồm nhân vật chưa sở hữu</p>
    <div className="arena-preban-grid" aria-label="Toàn bộ nhân vật chính thức">{all.map((c:any)=>{const disabled=banned.includes(c.id);return <button key={c.id} className={(selected===c.id?'selected ':'')+(disabled?'prebanned':'')} aria-pressed={selected===c.id} disabled={disabled||!playerTurn||busy} onClick={()=>setSelection({cursor:draft.preBanCursor,id:c.id})}><RoleIcon roleGroup={c.roleGroup}/><strong>{c.name}</strong><ElementBadge element={c.element}/><small>{disabled?'Đã cấm':campaign.unlockedCharacterIds.includes(c.id)?`Đã sở hữu · Lv. ${c.level}`:'Chưa sở hữu'}</small></button>;})}</div>
    {!all.length&&<p>Không có nhân vật phù hợp với bộ lọc.</p>}
  </Modal>;

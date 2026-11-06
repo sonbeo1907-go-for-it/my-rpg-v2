@@ -57,3 +57,7 @@ Core: đầy đủ50 sự kiện/DAG; migration; cấp trung bình/cap40; snapsh
 UI: kệ sách/desktop/mobile; bắt đầu/rời/tiếp tục; lỗi ghi save; combat thực tế và reload; quay về hậu chiến; hết quota vẫn có cờ; quan sát bí mật; rút lui; thắng Alice intro thật rồi hiện đúng một boss; Xbox/bàn phím; lỗi checkpoint không đổi lượt/RNG.
 
 Đây là cấu hình playtest. Kiểm thử chức năng và smoke test không thay thế đánh giá độ khó, thời lượng và độ dễ nhận biết manh mối với người chơi mới.
+
+## Miraebolis · Các cấp thử thách
+
+Miraebolis ở tab Hiểm Ác cho chọn tự do Lv60/70/80/90 sau khi mở khóa từ finale Quyển II (hoặc cờ legacy hợp lệ). Dùng chung selector và scaling siêu trùm với Alice; không thêm hệ số, phần thưởng hay điều kiện clear tuần tự. Đổi phase, BGM và kỹ năng giữ nguyên; màn finale Biên Niên Ký không đổi cấp.
