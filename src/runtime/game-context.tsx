@@ -1,4 +1,7 @@
 "use client";
+import {createCompetitiveArena} from '../core/arena-ranked.js';
+import {reserveArenaMatch,settleArenaMatch} from '../core/arena-progression.js';
+import {validateDraftFormation,arrangeDraftAI} from '../core/arena-draft.js';
 import {createArenaBattle} from '../core/arena.js';
 import {forfeitArenaBattle} from '../core/arena-identity.js';
 import {saveArenaSession,takeAbandonedArena} from './arena-session.js';
@@ -60,6 +63,10 @@ type GameContextValue = {
   stopFarming:()=>void;
   toggleAutoBattle:()=>void;
   startArena:(teamId:string,seed?:number)=>boolean;
+  reserveCompetition:(match:any)=>Promise<boolean>;
+  beginCompetition:(draft?:any,party?:string[])=>boolean;
+  settleCompetition:()=>Promise<boolean>;
+  abandonCompetition:()=>Promise<boolean>;
   fortressCommand:(kind:string,payload?:any)=>Promise<boolean>;
   visitChronicle:(locationId:string,observe?:boolean)=>Promise<boolean>;
   actChronicleScene:(locationId:string,instanceId:string,stepId:string,actionId:string)=>Promise<boolean>;
@@ -304,10 +311,54 @@ export function GameProvider({
     },160);
     return ()=>clearTimeout(timer);
   },[path,busy,battle?.sessionId,battle?.activeId,battle?.round,battle?.phase,battle?.outcome,battle?.rewardClaimed,farm?.enabled,farm?.completed]);
+  // Campaign receipt is the durable source of truth; battle actors never enter the save.
+  async function settleCompetition(){
+    const current=runtime.current,pending=campaignRef.current?.arenaProgress?.pending;
+    if(!pending)return true;
+    if(!current?.arena?.matchId||current.arena.matchId!==pending.id||!current.outcome||saveLock.current)return false;
+    const profileId=activeProfileId.current;if(profileId===null||!store.current)return false;
+    saveLock.current=true;setBusy(true);
+    current.arena.completedAt??=new Date().toISOString();
+    try{
+      const next=settleArenaMatch(campaignRef.current,content,pending.id,current.outcome,{forfeited:Boolean(current.arena.forfeited),now:new Date(current.arena.completedAt)});
+      const saved=await store.current.save(profileId,next);
+      if(activeProfileId.current===profileId){campaignRef.current=next;setCampaign(next);setActiveProfile(saved);syncProfiles();current.arena.result=next.arenaProgress.lastResult;current.rewardClaimed=true;publish();}
+      return true;
+    }catch{notify('Chưa lưu được kết quả Đấu Trường. Hãy bấm Lưu lại kết quả trước khi tìm trận mới.');return false;}
+    finally{saveLock.current=false;if(!lock.current)setBusy(false);}
+  }
+  async function recoverCompetition(profile:any){
+    const pending=profile?.campaign?.arenaProgress?.pending;if(!pending)return profile;
+    const next=settleArenaMatch(profile.campaign,content,pending.id,'defeat',{forfeited:true});
+    return await store.current!.save(profile.id,next);
+  }
+  async function abandonCompetition(){
+    const pending=campaignRef.current?.arenaProgress?.pending;if(!pending)return true;
+    if(runtime.current?.arena?.matchId===pending.id){if(forfeitArenaBattle(runtime.current))publish();return settleCompetition();}
+    if(saveLock.current||lock.current)return false;
+    saveLock.current=true;setBusy(true);
+    try{const next=settleArenaMatch(campaignRef.current,content,pending.id,'defeat',{forfeited:true});await persist(next);campaignRef.current=next;setCampaign(next);notify('Bạn đã rời bước chọn đội · Xử thua.');return true;}
+    catch{notify('Chưa lưu được kết quả rời trận. Hãy thử lại.');return false;}finally{saveLock.current=false;setBusy(false);}
+  }
+  async function reserveCompetition(match:any){
+    if(inAdventure()||lock.current||saveLock.current||activeProfileId.current===null){notify('Hãy kết thúc trận đang dở trước.');return false;}
+    return transact(c=>reserveArenaMatch(c,content,match),'');
+  }
+  function beginCompetition(draft?:any,party?:string[]){
+    if(lock.current||saveLock.current||activeProfileId.current===null)return false;
+    const pending=campaignRef.current?.arenaProgress?.pending;if(!pending)return false;
+    try{
+      const playerParty=pending.mode==='ranked'?validateDraftFormation(draft,party,content):undefined;
+      if(pending.mode==='ranked'&&(draft.seed!==pending.seed||draft.rankId!==pending.rankAtEntry||draft.preBanCursor!==draft.preBanOrder.length))throw Error('Đợt chọn đội không khớp trận.');
+      const candidate:any=createCompetitiveArena(content,campaignRef.current,pending,{playerParty,opponentParty:pending.mode==='ranked'?arrangeDraftAI(content,draft):undefined});
+      runtime.current=candidate;dungeonRun.current=null;candidate.rewardClaimed=false;
+      try{saveArenaSession(localStorage,activeProfileId.current,candidate);}catch{}battleSerial.current++;setBattleUI({allyId:'',enemyId:'',skillId:'$attack'});publish();notify('');return true;
+    }catch(error){notify((error as Error).message);return false;}
+  }
   function recoverAbandonedArena(profile:any){
     if(!profile||runtime.current?.chronicle)return;
     const record=takeAbandonedArena(localStorage,profile.id);
-    if(!record||record.party.some((id:string)=>!content.characters[id]))return;
+    if(!record||record.matchId||record.party.some((id:string)=>!content.characters[id]))return;
     try{const saved={...profile.campaign,party:record.party};
       const restored=createArenaBattle(content,saved,record.teamId,record.seed,{playerName:record.playerName});
       restored.round=Number.isSafeInteger(record.round)&&record.round>0?Math.min(record.round,restored.arena!.maxRounds):1;
@@ -316,7 +367,7 @@ export function GameProvider({
     }catch{notify('Trận Đấu Trường đã rời được tính là thất bại.');}
   }
   function forfeitArena(){
-    if(forfeitArenaBattle(runtime.current)){publish();music.current?.stop();notify('Bạn đã rời trận Đấu Trường · Xử thua.');}
+    if(forfeitArenaBattle(runtime.current)){publish();void settleCompetition();music.current?.stop();notify('Bạn đã rời trận Đấu Trường · Xử thua.');}
   }
   useEffect(()=>{
     const current=runtime.current;
@@ -324,7 +375,8 @@ export function GameProvider({
       if(path==='/battle')current.arena.enteredBattle=true;
       else if(current.arena.enteredBattle&&!current.outcome)forfeitArena();
     }
-  },[path,battle?.sessionId]);
+    if(campaignRef.current?.arenaProgress?.pending&&runtime.current?.arena?.matchId!==campaignRef.current.arenaProgress.pending.id&&path!=='/arena/match')void abandonCompetition();
+  },[path,battle?.sessionId,campaign?.arenaProgress?.pending?.id]);
   useEffect(()=>{
     const leave=()=>forfeitArena();window.addEventListener('pagehide',leave);
     return ()=>window.removeEventListener('pagehide',leave);
@@ -361,6 +413,7 @@ export function GameProvider({
               ) ?? repository.entries.find((p: any) => !p.error);
           }
         } catch {}
+        if(chosen?.campaign?.arenaProgress?.pending)chosen=await recoverCompetition(chosen);
         let loaded = chosen?.campaign ?? createGameSave(content);
         if(chosen && needsDailyVisit(loaded)){
           try{chosen=await repository.save(chosen.id,visitDailyCommissions(loaded));loaded=chosen.campaign;syncProfiles();}
@@ -420,6 +473,7 @@ export function GameProvider({
     saveLock.current = true;
     setBusy(true);
     try {
+      if(campaignRef.current?.arenaProgress?.pending)throw Error('Hãy hoàn tất trận Đấu Trường trước khi thay đổi hồ sơ.');
       const next = operation(campaignRef.current);
       assertFortressLoadoutUnchanged(campaignRef.current,next,content);
       await persist(next);
@@ -440,9 +494,9 @@ export function GameProvider({
     return transact(current=>visitDailyCommissions(current),"");
   }
   useEffect(()=>{
-    if(!ready||!entered||busy||activeProfileId.current===null||!campaignRef.current||!needsDailyVisit(campaignRef.current,new Date(dailyNow)))return;
+    if(!ready||!entered||busy||campaignRef.current?.arenaProgress?.pending||activeProfileId.current===null||!campaignRef.current||!needsDailyVisit(campaignRef.current,new Date(dailyNow)))return;
     const key=activeProfileId.current+":"+dungeonDay(new Date(dailyNow));if(dailyAttempt.current===key)return;dailyAttempt.current=key;void refreshCommissions();
-  },[ready,entered,busy,activeProfile?.id,dailyNow]);
+  },[ready,entered,busy,activeProfile?.id,dailyNow,campaign?.arenaProgress?.pending?.id]);
 
   function restoreChronicleRuntime(current:any){
     const snapshot=activeChronicleSnapshot(current);
@@ -489,7 +543,7 @@ export function GameProvider({
   }
 
   async function claimReward() {
-    if(runtime.current?.arena)return;
+    if(runtime.current?.arena){await settleCompetition();return;}
     if(runtime.current?.chronicle){await claimChronicleFight();return;}
     if (
       !runtime.current ||
@@ -620,6 +674,7 @@ export function GameProvider({
         if (music.current?.state().group !== "victory") music.current?.start("victory");
         await claimReward();
       } else if (runtime.current.outcome) music.current?.stop();
+      if(runtime.current.arena&&runtime.current.outcome)await settleCompetition();
     } catch (error) {
       if(farmRef.current?.enabled)stopFarming('Dừng vì lỗi chiến đấu: '+(error as Error).message);
       notify((error as Error).message);
@@ -629,6 +684,7 @@ export function GameProvider({
     }
   }
   function startArena(teamId:string,seed=1){
+    if(campaignRef.current?.arenaProgress?.pending){notify('Hãy hoàn tất trận Đấu Trường trước.');return false;}
     if(lock.current||saveLock.current||activeProfileId.current===null)return false;
     if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài trước khi vào Đấu Trường.');return false;}
     if(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==='victory'&&!runtime.current.rewardClaimed)){notify('Hãy kết thúc trận và nhận thưởng trước khi vào Đấu Trường.');return false;}
@@ -641,6 +697,7 @@ export function GameProvider({
     }catch(error){notify((error as Error).message);return false;}
   }
   function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number,farmSeed?:number) {
+    if(campaignRef.current?.arenaProgress?.pending){notify('Hãy hoàn tất trận Đấu Trường trước.');return false;}
     if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài qua cổng trước khi bắt đầu nội dung khác.');return false;}
     if(content.encounters[id]?.category==='chronicle'){notify('Hãy bắt đầu từ địa điểm trong Biên Niên Ký.');return false;}
     if(runtime.current?.chronicle&&!runtime.current.outcome){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
@@ -687,6 +744,7 @@ export function GameProvider({
     }
   }
   function startDungeon(id: string, difficultyId: string, confirmed = false) {
+    if(campaignRef.current?.arenaProgress?.pending){notify('Hãy hoàn tất trận Đấu Trường trước.');return false;}
     if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài qua cổng trước khi bắt đầu nội dung khác.');return false;}
     if(runtime.current?.chronicle&&!runtime.current.outcome){notify('Hãy tiếp tục hoặc rút khỏi trận đang diễn ra.');return false;}
     if (lock.current || saveLock.current || activeProfileId.current === null)
@@ -787,6 +845,7 @@ export function GameProvider({
   }
   function canLeave() {
     if (lock.current || saveLock.current) return false;
+    if(campaignRef.current?.arenaProgress?.pending){void abandonCompetition();notify('Đang lưu kết quả rời trận. Vui lòng đổi hồ sơ sau khi lưu xong.');return false;}
     if (
       runtime.current?.outcome === "victory" &&
       !runtime.current.rewardClaimed &&
@@ -797,7 +856,7 @@ export function GameProvider({
     }
     return true;
   }
-  const inAdventure=()=>Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
+  const inAdventure=()=>Boolean(campaignRef.current?.arenaProgress?.pending)||Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
     farm,startFarming,stopFarming:()=>stopFarming(),toggleAutoBattle,
     sweepResult,dismissSweepResult:()=>setSweepResult(null),
@@ -815,7 +874,7 @@ export function GameProvider({
     },
     dailyNow,refreshCommissions,
     claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
-    startArena,
+    startArena,reserveCompetition,beginCompetition,settleCompetition,abandonCompetition,
     setAstoriaEnabled: (enabled) => transact(current => configureAstoria(current,enabled,{battleActive:Boolean(runtime.current && !runtime.current.outcome) || Boolean(dungeonRun.current && !runtime.current?.outcome)}), enabled ? "Đã bật Astoria · bản trùng 0." : "Đã tắt Astoria."),
     content:path==='/battle'&&runtime.current?.arena?runtime.current.content:content,
     profiles,
@@ -839,7 +898,8 @@ export function GameProvider({
         const selected = await store.current.load(id);
         if (selected.error) throw new Error(selected.error);
         // Upgrade old save schemas durably before entering; retain the prior file as backup.
-        const saved = await store.current.save(id, needsDailyVisit(selected.campaign)?visitDailyCommissions(selected.campaign):selected.campaign);
+        const recovered=await recoverCompetition(selected);
+        const saved = await store.current.save(id, needsDailyVisit(recovered.campaign)?visitDailyCommissions(recovered.campaign):recovered.campaign);
         activate(saved);
         return true;
       }),

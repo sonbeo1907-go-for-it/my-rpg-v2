@@ -1,3 +1,4 @@
+import {emptyArenaProgress,normalizeArenaProgress} from './arena-progression.js';
 import {emptyChronicleState,normalizeChronicleState} from './chronicle-state.js';
 import {applySpecialLoadout} from './exclusive-loadout.js';
 import {validateCharacterSkillRanks,skillRules} from './skill-rules.js';
@@ -24,6 +25,7 @@ export const SAVE_VERSION = 3;
 export function createCampaign(content) {
   return {
     version: SAVE_VERSION,
+    honor:0,arenaProgress:emptyArenaProgress(),
     recruitmentTickets:0,xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
     party: ["arthur", "iris", "elaine", "garrek"],
     characters: Object.fromEntries(
@@ -140,6 +142,7 @@ export function serializeCampaign(campaign) {
   } = campaign;
   return JSON.stringify({
     recruitmentTickets:campaign.recruitmentTickets??0,xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
+    honor:campaign.honor??0,arenaProgress:campaign.arenaProgress??emptyArenaProgress(),
     version,
     party,
     characters,
@@ -193,6 +196,7 @@ export function deserializeCampaign(raw, content) {
   )
     throw new Error("Tiến trình nhân vật trong save không hợp lệ.");
   const result = createCampaign(content);
+  const honor=input.honor??0;if(!Number.isSafeInteger(honor)||honor<0)throw Error('Danh Dự không hợp lệ.');result.honor=honor;result.arenaProgress=normalizeArenaProgress(input.arenaProgress,content);
   if(input.levelProgressionVersion!==undefined&&input.levelProgressionVersion!==1)throw Error("Phiên bản tiến trình không hợp lệ.");
   for(const key of ["recruitmentTickets","limitBreakStones","sweepTickets","xpBooksGreen","xpBooksBlue","xpBooksPurple"]){const value=input[key]===undefined?0:input[key];if(!Number.isSafeInteger(value)||value<0)throw Error("Vật phẩm tiến trình không hợp lệ.");result[key]=value;}
   result.trainingCharges=normalizeTrainingCharges(input.trainingCharges);

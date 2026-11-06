@@ -1,4 +1,5 @@
 "use client";
+import {HonorShop} from './arena-honor';
 import {ProgressionShop} from "./progression-shop";
 import {BlueprintShop} from './blueprint-shop';
 import {OriginalPrismaExchange} from './original-prisma-exchange';
@@ -38,7 +39,7 @@ const keeperGreetings = [
 export function ShopPage() {
   const { content, campaign, transact, busy } = useGame();
   const params=useSearchParams();
-  const tab=params.get("tab")==="original"?"original":params.get("tab")==="books"?"books":params.get("tab")==="blueprints"?"blueprints":params.get("tab")==="recruitment"?"recruitment":"prisma";
+  const tab=['honor','blueprints','recruitment'].includes(params.get('tab')??'')?params.get('tab'):'prisma';
   const rules = economyRules(content);
   const [quantity, setQuantity] = useState("1");
   const [confirm, setConfirm] = useState<any>(null);
@@ -93,28 +94,8 @@ export function ShopPage() {
             title="Tiệm Prisma"
             subtitle="Ánh đèn còn sáng. Người bán thì sắp ngủ."
           />
-          <nav className="shop-tabs" aria-label="Các mục Shop">
-            <Link
-              className={tab === "prisma" ? "selected" : ""}
-              href="/shop"
-              aria-current={tab === "prisma" ? "page" : undefined}
-            >
-              <Icon name="prism" />
-              Chuyển đổi Prisma
-            </Link>
-            <Link
-              className={tab === "recruitment" ? "selected" : ""}
-              href="/shop?tab=recruitment"
-              aria-current={tab === "recruitment" ? "page" : undefined}
-            >
-              <Icon name="party" />
-              Chiêu Mộ
-            </Link>
-            <Link href="/shop?tab=books" className={tab==="books"?"selected":""} aria-current={tab==="books"?"page":undefined}><Icon name="book"/>Nhật kí hành trình</Link>
-            <Link href="/shop?tab=blueprints" className={tab==="blueprints"?"selected":""} aria-current={tab==="blueprints"?"page":undefined}><Icon name="scroll"/>Công thức Trấn Phái</Link>
-            <Link href="/shop?tab=original" className={tab==="original"?"selected":""} aria-current={tab==="original"?"page":undefined}><ResourceIcon kind="original"/>Original Prisma</Link>
-          </nav>
-          {tab === "original" ? <OriginalPrismaExchange/> : tab === "books" ? <ProgressionShop books/> : tab === "blueprints" ? <BlueprintShop/> : tab === "prisma" ? (
+          <nav className="shop-tabs" aria-label="Các mục Shop">{[{id:'prisma',name:'Đổi thông thường',icon:'prism'},{id:'honor',name:'Đổi danh dự',icon:'shield'},{id:'blueprints',name:'Công thức Trấn Phái',icon:'scroll'},{id:'recruitment',name:'Chiêu Mộ',icon:'party'}].map(t=><Link key={t.id} href={t.id==='prisma'?'/shop':'/shop?tab='+t.id} className={tab===t.id?'selected':''} aria-current={tab===t.id?'page':undefined}><Icon name={t.icon}/>{t.name}</Link>)}</nav>
+          {tab === "honor" ? <HonorShop/> : tab === "blueprints" ? <BlueprintShop/> : tab === "prisma" ? (
             <>
             <section className="panel prisma-exchange">
               <div className="shop-prisma-art" aria-hidden="true">
@@ -182,6 +163,8 @@ export function ShopPage() {
               </div>
             </section>
             <ProgressionShop/>
+            <ProgressionShop books/>
+            <OriginalPrismaExchange/>
             </>
           ) : (
             <section className="shop-recruitment">

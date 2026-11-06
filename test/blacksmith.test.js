@@ -22,7 +22,7 @@ function rng(...values){return()=>values.shift()??0;}
 
 test('shipping content contains 51 authored exclusive templates; removed illusion is absent',()=>{
  assert.equal(Object.keys(content.exclusiveGear).length,51);assert.equal(Object.hasOwn(content.dungeons,'illusion'),false);
- assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets','blueprints','xpBooksGreen','xpBooksBlue','xpBooksPurple','recruitmentTickets']);
+ assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets','blueprints','xpBooksGreen','xpBooksBlue','xpBooksPurple','recruitmentTickets','honor']);
 });
 test('v4 migrates to the current envelope without losing presets, ordinary gear, currencies, progression or daily quota',()=>{
  let original=selectPreset(gearSave(),'party-3');original=renamePreset(original,'Đội đã lưu');original.dungeonDaily={day:'2026-10-29',clears:{gold_mine:2}};

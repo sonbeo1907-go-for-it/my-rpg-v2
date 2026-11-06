@@ -89,5 +89,12 @@
     "kind": "recruitment_ticket",
     "name": "Vé Chiêu Mộ",
     "description": "Đổi tại Shop để chọn một nhân vật chưa sở hữu trong danh sách Chiêu Mộ. Không làm thay đổi pity."
+  },
+  {
+    "id": "honor",
+    "name": "Danh Dự",
+    "description": "Tiền tệ Đấu Trường. Đổi Pure Prisma và Original Prisma tại Tiệm Prisma.",
+    "field": "honor",
+    "kind": "honor"
   }
 ]

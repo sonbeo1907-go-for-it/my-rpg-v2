@@ -54,7 +54,7 @@
 ## Arena
 
 - [Đấu Trường — nền móng prototype](ARENA_FOUNDATION.md)
-- [Luật PvP và AI — prototype 0.2](PVP_RULES_AI.md)
+- [Luật PvP và AI — prototype 0.3](PVP_RULES_AI.md)
 - [Trải nghiệm Đấu Trường](ARENA_EXPERIENCE.md)
 - [BGM Đấu Trường](ARENA_MUSIC.md)
 - [Rà UI với taste-skill](ARENA_UI_REVIEW.md)
@@ -145,3 +145,4 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Kreider Rank5 và Lisbeth Thông Thạo3; phân tích phương án tăng trưởng](KREIDER_LISBETH_MASTERY_REVIEW.md) — 06/11/2026.
 
 - [Đợt Trấn Phái mở rộng và hệ số Thông Thạo theo mức](EXCLUSIVE_BALANCE_2026_11_06.md).
+- [Danh Dự, Đấu Hạng và chọn/cấm](ARENA_RANKED_HONOR.md) — 16 nhân vật, AI build theo hạng, shop và transaction kết quả.

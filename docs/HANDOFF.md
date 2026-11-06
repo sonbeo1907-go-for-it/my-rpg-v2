@@ -102,3 +102,11 @@ Ember/Myonne: [ELEMENT_SUPPORTS](ELEMENT_SUPPORTS.md) ghi contract hỗ trợ th
 Mở Mastery cho Sylva, Monica, Logia, Tywin, Tobin, Lumine, Rivia, Elise ngoài nhóm#1–31. Mastery chỉ PvE; mọi PvP kể cả mirror/practice giới hạn hiệu lực Rank5 hai bên, không sửa save. Vĩ thanh Arthur chuyển Dễ1/Thường30/Khó60; giữ IDThường cũ. Dễ cấp cờ Phương Đông+ô gear, Thường cấp hai chiêu, Khó cấp nội tại mở trận3 Cộng hưởng/KiếmQuang thêm1 xác suất ATK căn bản/150 và quyền Rank1–5 Ogre, không Mastery. Chi tiết ARTHUR_COMPLETE_CONTROL, SKILL_MASTERY. Đã áp dụng hệ số12%/6% ở Bạc/Vàng và15%/7,5% ở Cầu Vồng theo từng mức trước. Giảm MP-only vẫn10%/mức.
 
 Trấn Phái mới cho Iwayn/Percival/Mandred/Kreider/Logia/Yufina/Elise/Yumia/Valery/Tobin/Rivia/Bennett/Judy: mở công thức10 Blueprint, chỉ khi trang bị. Iwayn dùng chênh HP% tuyệt đối, +1,5% ATK/mỗi1% chênh, cap75%, không thay native damage30%. Yufina chốt tăng giảm MP trong mode từ12% lên24%, không giảmCD. Xem EXCLUSIVE_BALANCE_2026_11_06.
+
+
+## Đấu Trường: Danh Dự và Đấu Hạng (06/11/2026)
+Xem [ARENA_RANKED_HONOR](ARENA_RANKED_HONOR.md). Tìm Trận có Đấu Thường chuẩn hóa50/5 và Đấu Hạng dùng build thật, cần16 người chính thức (không Astoria). Chỉ hạng có chọn5/cấm1 mỗi bên, không trùng, không bước bảo vệ. Danh Dự20/5/0, trần100/ngày; mốc thắng1/3/5 thưởng1/1/2 Pure độc lập. Đổi Pure20 Danh Dự,35/tuần; Original300,1/tuần. Điểm+20/−10, mốc0/100/250/450/700. Save v7 thêm tùy chọn `honor`/`arenaProgress`; pending lưu trước, receipt một lần sau trận; pending khi khởi động lại xử thua. Không app admin/online/banlist mới. Shop bốn tab, Original cuối Đổi thông thường.
+
+
+## Cấm chung và cap PvP hai ngưỡng — 06/11/2026
+Đấu Hạng có modal cấm chung trước chọn: toàn roster chính thức, có sort/filter; Đồng/Bạc tổng2 lượt (1/bên), Vàng trở lên tổng4 (2/bên), A/B luân phiên, chặn dùng lại ở cả hai pool. Vẫn chọn5/cấm1 cuối như cũ. Hạng lấy pending.rankAtEntry, không tăng điều kiện16 người. PvP ruleset arena-0.3.0 thêm T2=2×T1, lấy tổng sau cap1 để áp cap2; 1.000 đơn →325 →231,25, floor231. AoE/random chia cả hai ngân sách; multi-hit cộng dồn một đường cong. PvE giữ nguyên. Chi tiết ARENA_RANKED_HONOR/PVP_RULES_AI, test arena-preban-caps.

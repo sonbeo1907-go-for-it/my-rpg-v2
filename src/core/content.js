@@ -1,3 +1,4 @@
+import {validateArenaProgressionRules} from './arena-progression.js';
 import {validStatusChance} from './status-chance.js';
 import {validatePvpAi} from './arena-ai.js';
 import {validatePvpRules} from './pvp-rules.js';
@@ -37,7 +38,7 @@ export function indexById(items) {
 
 // Validate references before running a game, rather than failing midway through a battle.
 export function validateContent(content) {
-  const errors = [...validateStatTheft(content),...validateTeamResourceContent(content),...validatePowderContent(content),...validateTacticalPassives(content),...validateAdvancedCombat(content)];
+  const errors = [...validateArenaProgressionRules(content),...validateStatTheft(content),...validateTeamResourceContent(content),...validatePowderContent(content),...validateTacticalPassives(content),...validateAdvancedCombat(content)];
   errors.push(...validatePvpAi(content));
   if(content.pvpRules?.default)errors.push(...validatePvpRules(content.pvpRules.default,content));
   const fail = message => errors.push(message);

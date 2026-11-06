@@ -81,6 +81,106 @@
       ]
     },
     "recruitTicketCost": 1,
-    "rateUpTicketEvery": 300
+    "rateUpTicketEvery": 300,
+    "arena": {
+      "rankedMinimumOwned": 16,
+      "dailyHonorLimit": 100,
+      "honor": {
+        "victory": 20,
+        "defeat": 5,
+        "draw": 5
+      },
+      "rating": {
+        "win": 20,
+        "loss": 10
+      },
+      "milestones": [
+        {
+          "wins": 1,
+          "pure": 1
+        },
+        {
+          "wins": 3,
+          "pure": 1
+        },
+        {
+          "wins": 5,
+          "pure": 2
+        }
+      ],
+      "shop": {
+        "pure": {
+          "cost": 20,
+          "field": "recruitmentShards",
+          "amount": 1,
+          "weeklyLimit": 35
+        },
+        "original": {
+          "cost": 300,
+          "field": "originalPrisma",
+          "amount": 1,
+          "weeklyLimit": 1
+        }
+      },
+      "tiers": [
+        {
+          "id": "bronze",
+          "name": "Đồng",
+          "minimumRating": 0,
+          "levelMin": 18,
+          "levelMax": 28,
+          "slots": 3,
+          "skillMin": 1,
+          "skillMax": 2
+        },
+        {
+          "id": "silver",
+          "name": "Bạc",
+          "minimumRating": 100,
+          "levelMin": 32,
+          "levelMax": 44,
+          "slots": 3,
+          "skillMin": 2,
+          "skillMax": 3
+        },
+        {
+          "id": "gold",
+          "name": "Vàng",
+          "minimumRating": 250,
+          "levelMin": 50,
+          "levelMax": 50,
+          "slots": 4,
+          "skillMin": 4,
+          "skillMax": 5
+        },
+        {
+          "id": "diamond",
+          "name": "Kim Cương",
+          "minimumRating": 450,
+          "levelMin": 50,
+          "levelMax": 50,
+          "slots": 5,
+          "skillMin": 5,
+          "skillMax": 5
+        },
+        {
+          "id": "prisma",
+          "name": "Prisma",
+          "minimumRating": 700,
+          "levelMin": 50,
+          "levelMax": 50,
+          "slots": 6,
+          "skillMin": 5,
+          "skillMax": 5
+        }
+      ],
+      "preBansPerSide": {
+        "bronze": 1,
+        "silver": 1,
+        "gold": 2,
+        "diamond": 2,
+        "prisma": 2
+      }
+    }
   }
 ]

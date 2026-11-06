@@ -247,7 +247,7 @@ test('Brant survives a Mori cleave buffed by Artesia in the extra phase under Pv
   else if(actor.team==='enemy'){
    if(actor.characterId==='artesia') move={abilityId:battle.round===1?'artesia.twinstars':'artesia.destiny',targetId:mori.id};
    else if(actor.characterId==='mori'){
-    if(battle.phase==='extra'){preStorm={round:battle.round,hp:Object.fromEntries(battle.actors.filter(item=>item.team==='party').map(item=>[item.characterId,item.hp]))};move={abilityId:'mori.storm',targetId:brant.id};}
+    if(battle.phase==='extra'){preStorm={round:battle.round,shield:brant.shield,hp:Object.fromEntries(battle.actors.filter(item=>item.team==='party').map(item=>[item.characterId,item.hp]))};move={abilityId:'mori.storm',targetId:brant.id};}
     else if(battle.round===1) move={abilityId:'$defend',targetId:actor.id};
     else move={abilityId:'mori.unbound',targetId:actor.id};
    }
@@ -257,12 +257,14 @@ test('Brant survives a Mori cleave buffed by Artesia in the extra phase under Pv
   if(storm){assert.ok(preStorm);break;}
  }
  assert.ok(preStorm,'phải tới lượt Mori thi triển Vạn Lý Lôi Vũ trong Vòng Phụ');
- assert.equal(battle.pvpRules?.rulesetVersion,'arena-0.2.0','phải chạy dưới luật PvP');
+ assert.equal(battle.pvpRules?.rulesetVersion,base.pvpRules.default.rulesetVersion,'phải chạy dưới luật PvP');
  assert.equal(brant.level,50,'nhân vật phải được chuẩn hóa Lv50');
- assert.ok(battle.log.some(line=>line.includes('[PvP arena-0.2.0]')&&line.includes('soft cap')),'sát thương phải đi qua soft cap PvP');
+ assert.ok(battle.log.some(line=>line.includes('[PvP '+base.pvpRules.default.rulesetVersion+']')&&line.includes('soft cap')),'sát thương phải đi qua soft cap PvP');
  assert.ok(brant.hp>0,'Brant phải sống sót qua đòn AoE đã buff');
  assert.ok(brant.hp>brant.stats.maxHp*0.25,'Brant phải còn trên 25% HP sau đòn AoE');
- assert.equal(brant.shield,0,'khiên phải bị đánh thủng sau đòn AoE');
+ const absorbed=battle.events.filter(event=>event.type==='damage'&&event.targetId===brant.id).reduce((n,event)=>n+(event.absorbed??0),0);
+ assert.ok(absorbed>0,'khiên phải hấp thụ sát thương sau soft cap');
+ assert.equal(preStorm.shield-brant.shield,absorbed,'giảm khiên đúng lượng hấp thụ, kể cả khi cap mới giúp khiên còn lại');
  for(const ally of battle.actors.filter(actor=>actor.team==='party'&&actor.id!==brant.id)){
   assert.equal(ally.hp,preStorm.hp[ally.characterId],ally.name+' không được mất HP');
  }
@@ -371,9 +373,9 @@ test('Brant holds both Plan B hits from Joshua under PvP rules and keeps every a
  }
  assert.ok(preAttack,'Joshua phải hành động trong Vòng Phụ khi ở Kế Hoạch B');
  assert.equal(joshua.activeMode,'plan_b');
- assert.equal(battle.pvpRules?.rulesetVersion,'arena-0.2.0','phải chạy dưới luật PvP');
+ assert.equal(battle.pvpRules?.rulesetVersion,base.pvpRules.default.rulesetVersion,'phải chạy dưới luật PvP');
  assert.equal(brant.level,50,'nhân vật phải được chuẩn hóa Lv50');
- assert.ok(battle.log.some(line=>line.includes('[PvP arena-0.2.0]')&&line.includes('soft cap')),'sát thương phải đi qua soft cap PvP');
+ assert.ok(battle.log.some(line=>line.includes('[PvP '+base.pvpRules.default.rulesetVersion+']')&&line.includes('soft cap')),'sát thương phải đi qua soft cap PvP');
  const hits=battle.events.filter(event=>event.type==='damage');
  assert.ok(hits.length>=2,'Kế Hoạch B phải quật tối thiểu hai lần');
  assert.ok(brant.hp>0,'Brant phải trụ được chuỗi hai đòn');
