@@ -1,4 +1,4 @@
-﻿import {baseStatValue} from './combat-math.js';
+import {baseStatValue} from './combat-math.js';
 import {statusApplicationChance,stunImmune} from './status-chance.js';
 import {applyPvpDamageCap,allowPvpHit,pvpPeriodicContext,reservePvpAutomatic} from './pvp-damage.js';
 import {chooseBattleAction} from './battle-ai.js';
@@ -17,7 +17,7 @@ import {fortressSupport} from './fortress-rules.js';
 import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,expireAgony} from './actor-life.js';
 import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
 import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked,exclusiveEnemyStatusApplied,exclusiveResourceBonus} from './exclusive-runtime.js';
-import {specialPassives,specialSkillStatBonuses,specialHitStatBonus,specialResourcePenetration} from './exclusive-specials.js';
+import {specialPassives,specialSkillStatBonuses,specialHitStatBonus,specialResourcePenetration,specialResourceKeepChance} from './exclusive-specials.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 import {questDifficulty} from './quest-difficulty.js';
 import {shieldedDamageBonus} from './exclusive-field.js';
@@ -1911,11 +1911,17 @@ function resolveAction(
   exclusiveAfterSkill(battle,actor,skill,actionContext,specialIO);
   if (deferredResource) {
     const resourceId = selectedResource.id;
-    actor.resourceValues[resourceId] = Math.max(
-      0,
-      actor.resourceValues[resourceId] - spent,
-    );
-    exclusiveResourceChanged(battle,actor,resourceId,-spent,specialIO);
+    const keep=specialResourceKeepChance(actor,skill.id,resourceId,key=>baseStatValue(actor,key));
+    if(keep&&battle.random()<keep.chance){
+      announcePassive(battle,actor,actor.id,keep.passive.name);
+      write(battle,`${actor.name}: ${keep.passive.name} giữ lại ${actor.resources[resourceId].name}.`);
+    }else{
+      actor.resourceValues[resourceId] = Math.max(
+        0,
+        actor.resourceValues[resourceId] - spent,
+      );
+      exclusiveResourceChanged(battle,actor,resourceId,-spent,specialIO);
+    }
   }
   const offensive = skill.effects.some((effect) => effect.type === "damage");
   // Once per attack action, after its damage and resource cost. New points belong to the next attack.

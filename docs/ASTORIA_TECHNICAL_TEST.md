@@ -42,3 +42,19 @@ Magnamut uses `public/art/magnamut.svg` and the supplied `/bgm/bgm_astoria.mp3`.
 Cosmic Effects renders one bounded SVG per cast, 12 fixed particles, no animation dependency in simulation. Formation effects anchor to the enemy grid; single-target slashes anchor to the target card. Timers are cancelled on replacement/unmount and session changes. Reduced motion uses a short static effect.
 
 The role icon, skill facts and catalog use the shared data-driven systems. This character tests lifecycle, multi-hit, primary AoE, turn manipulation and scene overrides; it is not a synthetic many-entity throughput benchmark.
+
+## Trấn Phái · Vương Miện Hố Đen
+
+`astoria.crown` mở công thức bằng **10 Bản Thiết Kế** tại tab Công thức Trấn Phái của Shop và chế tạo tại Thợ Rèn như các Trấn blueprint khác; có thể mở công thức trước khi sở hữu Astoria.
+
+Nội tại **Hợp Âm Hố Đen** (chỉ khi trang bị đúng Trấn):
+
+- Khi `activeMode === "magnamut"`: **+35% MAG**, cộng vào nhóm phần trăm của engine. Rời dạng mất ngay; không áp dụng cho trạng thái Magnamut đã kết thúc.
+- **Mệnh lệnh hủy diệt** (`astoria.command`) có cơ hội **không tiêu Vết nứt**:
+  `chance = min(100%, MAG căn bản / 150)`.
+  MAG căn bản lấy từ `baseStatValue` nên gồm chỉ số gốc +15 MAG của Magnamut nhưng **không** gồm phần trăm buff tạm. 150 MAG căn bản = 100%; dưới mức đó tuyến tính (75 → 50%). Xác suất được tung mỗi lần thi triển, sau khi sát thương đã giải xong; trượt thì tiêu 1 Vết nứt như bình thường.
+- Không trang bị Trấn thì Mệnh lệnh luôn tiêu Vết nứt; không có thay đổi nào cho kit gốc.
+
+Engine dùng hai adapter Trấn dùng chung: `mode_stat_boost` (chỉ số theo mode đang bật) và `resource_keep_chance` (xác suất giữ tài nguyên có công thức theo chỉ số căn bản), được khai báo trong `src/core/exclusive-specials.js` và kiểm bằng `validateContent`.
+
+`test/astoria-exclusive.test.js` khoá: dữ liệu/công thức, MAG +35% chỉ khi Magnamut, ngưỡng 100% tại 150 MAG, tuyến tính 50% tại 75 MAG (Mode +15), tiêu Vết nứt khi trượt hoặc không trang bị, mua công thức 10 Bản Thiết Kế, chế tạo/trang bị và round-trip save. UI được kiểm bằng `e2e/blueprint-ui.spec.ts` (card trong Shop và Thợ Rèn).
