@@ -17,14 +17,18 @@ Dark / Thuật Sư; HP175 MP120 ATK12 MAG36 DEF18 RES22 SPD16.
 | Không gian rạn nứt | 12 MP, CD3 | One 160% MAG hit; −25% RES for 4 **target main turns**; +2 rifts |
 | Triệu hồi Magnamut | 0 MP; requires 5 rifts, consumes none | Enter Magnamut mode; grant one Extra Turn in the current extra phase |
 | Mệnh lệnh hủy diệt | 1 rift, spent after damage | Primary 360%, others 200% MAG |
+| Thu Hồi Lỗ Hổng | 0 MP, no cooldown | Replaces Defend while Magnamut is present: recalls Magnamut and returns Astoria to her normal command set; **remaining rifts are preserved** |
 
-Rifts cap at 5. Mode grants +15 **base** MAG before percentage modifiers. It owns no independent actor, HP, SPD, action or party slot. Every other command remains visible and unavailable, including Basic and Defend. Engine availability also rejects forged commands.
+Rifts cap at 5. Mode grants +15 **base** MAG before percentage modifiers. It owns no independent actor, HP, SPD, action or party slot. While Magnamut is present, Defend is **replaced** by Thu Hồi Lỗ Hổng; Basic and every other normal skill stay visible and unavailable. Engine availability also rejects forged commands.
+
+Thu Hồi Lỗ Hổng is the player-facing voluntary exit: it does not spend or clear rifts, and the normal mode-exit rules still apply (35% max-MP refund from the native passive, one `mode_exit` event). Empty-resource auto-exit at turn-start/round-end is unchanged. `test/astoria-recall.test.js` covers recall on main and extra turns, rift values 5/3/1/0, MP refund clamping, re-summoning with 5 rifts, and the unavailable-command branches.
 
 ## Lifecycle
 
 `enter_mode` uses the actor's reusable `combatModes` definition: allowed commands, resource, base bonuses, exit MP ratio, background, music.
 
 - Empty resource: check at the beginning of **every** turn and at main round end **after** the extra phase. Turn-start exit preserves the current action.
+- Voluntary recall: `astoria.recall` applies `end_mode` immediately during the owner's action; it does not consume the action twice, does not grant an Extra Turn, preserves the current rift count, and still applies the normal exit MP refund.
 - Resource reaches zero during damage: finish all hits using the mode bonus before spending the resource. No immediate exit hook on spending.
 - Replenishing before the next check preserves the mode.
 - Owner KO, defeat/draw, standalone battle victory and the final dungeon-room victory terminate the mode.
