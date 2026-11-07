@@ -3910,6 +3910,29 @@
     ]
   },
   {
+    "id": "astoria.recall",
+    "name": "Thu Hồi Lỗ Hổng",
+    "description": "Astoria cắt kết nối với lỗ sâu, thu hồi Magnamut để trở lại đội hình. Toàn bộ Vết nứt còn lại được giữ nguyên.",
+    "target": "self",
+    "requiresMode": "magnamut",
+    "effects": [
+      {
+        "type": "end_mode",
+        "mode": "magnamut",
+        "to": "self"
+      }
+    ],
+    "rules": [
+      "Dùng thay cho Phòng thủ khi Magnamut hiện diện.",
+      "Không tiêu hay xóa Vết nứt; thu hồi xong Astoria dùng lại kỹ năng thường từ lượt kế tiếp.",
+      "Vẫn nhận hồi MP khi Magnamut rời sân theo nội tại."
+    ],
+    "skillLineId": "astoria.recall",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng thu hồi cố định; hiệu lực không đổi theo Rank."
+  },
+  {
     "id": "monica.formula",
     "name": "Thuật thức thời gian",
     "description": "Làm chậm nhịp tấn công của cả đội hình địch.",

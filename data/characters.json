@@ -4128,7 +4128,8 @@
       "astoria.slash",
       "astoria.rift",
       "astoria.summon",
-      "astoria.command"
+      "astoria.command",
+      "astoria.recall"
     ],
     "resources": {
       "space_rift": {
@@ -4146,7 +4147,12 @@
         "name": "Magnamut",
         "resource": "space_rift",
         "allowedAbilities": [
-          "astoria.command"
+          "astoria.command",
+          "astoria.recall"
+        ],
+        "commandAbilities": [
+          "astoria.command",
+          "astoria.recall"
         ],
         "baseStatBonuses": {
           "magic": 15
@@ -4155,7 +4161,7 @@
         "music": "astoria",
         "background": "/art/magnamut.svg",
         "emptyExit": "turn_start_or_round_end",
-        "description": "Chỉ dùng được Mệnh lệnh hủy diệt khi Magnamut hiện diện."
+        "description": "Chỉ dùng Mệnh lệnh hủy diệt hoặc Thu hồi Magnamut khi hiện diện."
       }
     },
     "tags": [

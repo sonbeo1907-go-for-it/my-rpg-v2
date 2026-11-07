@@ -72,10 +72,11 @@ test('summon requires five without spending them, grants one extra right and loc
  a.mp=0;const mp=a.mp;summon(b);assert.equal(a.resourceValues.space_rift,5);assert.equal(a.mp,mp);assert.equal(effectiveStat(a,'magic',.5),76.5);
  assert.equal(b.extraTurnGrants.has(a.id),true);assert.equal(b.phase,'main');assert.equal(battlePresentation(b.actors).music,'astoria');
  until(b,()=>b.phase==='extra');assert.equal(activeActor(b).id,'astoria');
- for(const skill of [basicAbility(a),DEFEND,...a.abilities.filter(id=>id!=='astoria.command').map(id=>content.abilities[id])]) {
+ for(const skill of [basicAbility(a),DEFEND,...a.abilities.filter(id=>!['astoria.command','astoria.recall'].includes(id)).map(id=>content.abilities[id])]) {
    assert.equal(abilityAvailability(b,a,skill).ok,false);assert.throws(()=>act(b,skill.id),/Magnamut đang hiện diện/);
  }
  assert.equal(abilityAvailability(b,a,content.abilities['astoria.command']).ok,true);
+ assert.equal(abilityAvailability(b,a,content.abilities['astoria.recall']).ok,true);
 });
 test('last command still has +15 base MAG through all hits, spends after damage and leaves at round end once',()=>{
  const b=setup(),a=summon(b);until(b,()=>b.phase==='extra');a.resourceValues.space_rift=1;a.mp=0;
