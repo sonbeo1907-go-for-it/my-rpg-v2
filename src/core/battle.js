@@ -1,5 +1,6 @@
 import {baseStatValue} from './combat-math.js';
 import {statusApplicationChance,stunImmune} from './status-chance.js';
+import {shieldAuraBonus,captureShieldAuras} from './shield-aura.js';
 import {applyPvpDamageCap,allowPvpHit,pvpPeriodicContext,reservePvpAutomatic} from './pvp-damage.js';
 import {chooseBattleAction} from './battle-ai.js';
 import {payMpTeamResources,sharedPenetration,spentSharedDamage,nativePenetration,lightningChargeEligible} from './powder-combat.js';
@@ -257,7 +258,8 @@ function flag(battle, actor, key) {
   return statusDefinitions(battle, actor).some((status) => status[key]);
 }
 function stat(battle, actor, key, ignoreConsumables = false) {
-  return battleStat(battle.content, actor, key, ignoreConsumables);
+  const aura=key==='magic'?shieldAuraBonus(battle,actor):0;
+  return battleStat(battle.content, actor, key, ignoreConsumables, aura);
 }
 
 function attackContext(battle, actor) {
@@ -352,6 +354,7 @@ function triggerKillRepeat(battle,owner,context){
 function startRound(battle) {
   battle.round += 1;
   battle.phase = "main";
+  delete battle.shieldAuraSnapshot;
   battle.extraTurnGrants = new Set();
   battle.extraTurnUsed = new Set();
   battle.extraPhaseRequired = false;
@@ -463,6 +466,7 @@ function beginTurn(battle) {
     if (status.remaining <= 0)
       actor.statuses = actor.statuses.filter((item) => item !== status);
     if (!living(actor)) {
+      if(tryVengefulRevive(battle,actor))continue;
       actor.statuses = actor.statuses.filter(
         (item) => !battle.content.statuses[item.id].turnStartAbility,
       );
@@ -587,6 +591,30 @@ function endTurnPassive(battle, actor) {
   }
 }
 
+function tryVengefulRevive(battle,target){
+ const passive=target?.passive;
+ if(passive?.type!=='vengeful_revive')return false;
+ if(battle.round<(target.vengefulReadyRound??0))return false;
+ const status=battle.content.statuses[passive.statusId];
+ if(!status?.maxStacks||status.maxStacks<(passive.stacks??5))return false;
+ const ratio=passive.hpRatio??1;
+ target.hp=Math.max(1,Math.min(target.stats.maxHp,Math.round(target.stats.maxHp*ratio)));
+ target.mp=battleMaxMp(battle.content,target);
+ target.shield=0;target.shieldSourceId=null;delete target.shieldExpiresAfterRound;
+ clearLifeDebt(target);
+ target.statuses=target.statuses.filter(status=>battle.content.statuses[status.id]?.healingReceivedReduction);
+ applyStatus(battle,target,passive.statusId,undefined,target.id,{stacks:passive.stacks??5});
+ applyEffect(battle,target,[target],{type:'grant_extra_turn'},0,false);
+ for(const exclusive of specialPassives(target,'on_revive_reset_cooldown')){
+  target.cooldowns??={};
+  for(const id of exclusive.abilityIds??[])target.cooldowns[id]=0;
+ }
+ target.vengefulReadyRound=battle.round+(passive.cooldownRounds??5);
+ announcePassive(battle,target);
+ write(battle,`${target.name} hồi sinh ngay lập tức, nhận Lượt Thêm và ${passive.stacks??5} Ám Ảnh.`);
+ emitEvent(battle,{type:'revive',targetId:target.id,sourceId:target.id,fallen:true,amount:target.hp,mp:target.mp});
+ return true;
+}
 function onActorDefeated(battle,killer,target) {
   clearLifeDebt(target);
   const passive=killer?.passive;
@@ -697,6 +725,13 @@ function finishMainRound(battle) {
       const ratio=Math.min(passive.cap,teamResourceSpent(battle,source,passive.resource)*passive.perStack);
       if(ratio>0){announcePassive(battle,source);write(battle,source.name+' kích hoạt '+passive.name+': hồi '+Math.round(ratio*100)+'% MP toàn đội.');for(const ally of battle.actors.filter(a=>a.team===source.team&&living(a)))gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*ratio),source.id);}
       continue;
+    }
+    for(const exclusive of exclusivePassives(source).filter(p=>p.type==='end_round_shielded_mp')){
+      const shielded=battle.actors.filter(ally=>ally.team===source.team&&living(ally)&&ally.shield>0).length;
+      if(!shielded)continue;
+      const amount=Math.ceil(battleMaxMp(battle.content,source)*exclusive.ratio*shielded);
+      write(battle,source.name+' kích hoạt '+exclusive.name+': hồi '+amount+' MP ('+shielded+' thành viên có khiên).');
+      gainResource(battle,source,'mp',amount,source.id);
     }
     if (passive?.type === "end_round_team_mp") {
       announcePassive(battle,source);
@@ -1207,9 +1242,10 @@ function resolveHit(
       if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += specialPassives(ally,'marked_ally_ratio').find(p=>p.statusId===passive.statusId&&(target.statuses.find(s=>s.id===p.statusId)?.stacks??0)>=p.stacks)?.ratio??passive.ratio;
     }
   }
-  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus:0)+(actionContext.statRatioBonuses?.[key]??0)+specialHitStatBonus(attacker,target,actionContext,key),actionContext.baseStatBonuses?.[key]??0));
+  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus+shieldAuraBonus(battle,attacker):0)+(actionContext.statRatioBonuses?.[key]??0)+specialHitStatBonus(attacker,target,actionContext,key),actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
-  const extraPenetration = modePenetration(attacker,effect.damageType)+specialResourcePenetration(attacker,actionContext.skillId,effect,spent)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0);
+  const selfStacks=effect.consumeSelfStatus?(attacker.statuses.find(status=>status.id===effect.consumeSelfStatus)?.stacks??0):0;
+  const extraPenetration = modePenetration(attacker,effect.damageType)+specialResourcePenetration(attacker,actionContext.skillId,effect,spent)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0)+selfStacks*(effect.penetrationPerSelfStack??0);
   const defense =
     stat(
       battle,
@@ -1422,6 +1458,7 @@ function resolveHit(
     if (applyStatus(battle,target,attacker.passive.statusId,attacker.passive.duration,attacker.id)) announcePassive(battle,attacker,target.id);
   }
   if (!living(target)) {
+    if (tryVengefulRevive(battle,target)) return;
     target.statuses = target.statuses.filter(
       (status) => !battle.content.statuses[status.id].turnStartAbility,
     );
@@ -1449,7 +1486,7 @@ function applyStatus(
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
   if(definition.skipTurn&&!bypassControlImmunity&&stunImmune(battle.content,target)){write(battle,target.name+' miễn nhiễm Choáng.');emitEvent(battle,{type:'status_immune',sourceId,targetId:target.id,statusId});return null;}
-  if(chanceScaling){const chance=statusApplicationChance(battle.content,source,chanceScaling);if(battle.random()>=chance){write(battle,target.name+' không bị '+definition.name+'.');emitEvent(battle,{type:'status_resisted',sourceId,targetId:target.id,statusId,chance});return null;}}
+  if(chanceScaling){const chance=statusApplicationChance(battle.content,source,chanceScaling,battle);if(battle.random()>=chance){write(battle,target.name+' không bị '+definition.name+'.');emitEvent(battle,{type:'status_resisted',sourceId,targetId:target.id,statusId,chance});return null;}}
   if(definition.kind==='buff'){
     const seal=target.statuses.find(s=>battle.content.statuses[s.id]?.buffRejection&&(s.charges??1)>0&&(s.remaining==null||s.remaining>0));
     if(seal){
@@ -1592,6 +1629,17 @@ function applyEffect(
       ) {
         actionContext.hitIndex=i;
         hit(battle, actor, target, effect.primaryMultiplier !== undefined ? {...effect,multiplier:target.id===actionContext.primaryTargetId ? effect.primaryMultiplier : effect.multiplier} : effect, spent, { area, reaction:actionContext.reaction===true, actionContext });
+      }
+    }
+    if (effect.type === "damage" && effect.randomSecondaryMultiplier && !actionContext.randomSecondaryDone && living(actor)) {
+      actionContext.randomSecondaryDone=true;
+      const primaryId=actionContext.primaryTargetId??target.id;
+      const others=battle.actors.filter(item=>item.team!==actor.team&&living(item)&&item.id!==primaryId);
+      if(others.length){
+        const roll=battle.random();
+        const secondary=others[Math.floor(roll*others.length)];
+        emitEvent(battle,{type:'random_target',sourceId:actor.id,targetId:secondary.id,hitIndex:actionContext.hitIndex??0,secondary:true});
+        hit(battle,actor,secondary,{...effect,multiplier:effect.randomSecondaryMultiplier,hits:1,randomSecondaryMultiplier:undefined},spent,{area:false,reaction:actionContext.reaction===true,actionContext});
       }
     }
     if (effect.type === "formula_field") openFormula(battle,target,actionContext.skill,effect,modeIO);
@@ -1804,6 +1852,7 @@ function resolveAction(
   if (skill.effects.some(effect=>effect.type==='edit_formula')) validateFormulaEdit(activeFormula(battle,actor),formulaEdit);
   const theorem=skill.effects.some(effect=>effect.formulaScaling) ? formulaSnapshot(battle,actor) : null;
   // Validate everything before mutating MP, resources or turn order.
+  captureShieldAuras(battle);
   if (resetEvents) battle.events = [];
   const supportScopeBefore=battle.supportChargeScope;battle.supportChargeScope={supportCharged:new Set()};
   const oldStatuses = [...actor.statuses];
@@ -1882,6 +1931,7 @@ function resolveAction(
     ).size > 1;
   for (const effect of skill.effects)
     applyEffect(battle, actor, targets, effect, spent, area, actionContext);
+  for(const effect of skill.effects)if(effect.consumeSelfStatus)actor.statuses=actor.statuses.filter(status=>status.id!==effect.consumeSelfStatus);
   const resourcePassive=actor.passive;if(living(actor)&&resourcePassive?.type==='starting_resource_skill_chance'&&skill.id===resourcePassive.abilityId&&(actor.resourceValues[resourcePassive.resource]??0)<actor.resources[resourcePassive.resource].max){const chance=Math.min(resourcePassive.cap,Math.max(0,baseStatValue(actor,resourcePassive.stat))/resourcePassive.atStat*resourcePassive.cap);if(battle.random()<chance){announcePassive(battle,actor,actor.id);gainResource(battle,actor,resourcePassive.resource,resourcePassive.amount);}}
   for(const exclusive of exclusivePassives(actor).filter(p=>(!p.abilityIds||p.abilityIds.includes(skill.id))&&living(actor))) {
     if (exclusive.type === "after_skill_status") {

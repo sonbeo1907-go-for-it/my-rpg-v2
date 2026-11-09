@@ -171,7 +171,7 @@ test('content rejects invalid element/cap/kind/multiplier/stacks and accepts reu
   assert.deepEqual(validateContent(content),[]);
   for(const patch of [{exposedElement:'ice'},{maxStacks:4},{kind:'buff'}]){const c=structuredClone(content);Object.assign(c.statuses.exposure_fire,patch);assert.match(validateContent(c).join('\n'),/invalid elemental exposure/);}
   for(const value of [1.5,3,NaN,'2']){const c=structuredClone(content);c.statuses.weakness_exploitation.weaknessMultiplier=value;assert.match(validateContent(c).join('\n'),/invalid weakness multiplier/);}
-  for(const stacks of [0,4,1.5]){const c=structuredClone(content);c.abilities['arthur.light_slash'].effects.push({type:'status',status:'exposure_fire',stacks});assert.match(validateContent(c).join('\n'),/invalid exposure stacks/);}
+  for(const stacks of [0,4,1.5]){const c=structuredClone(content);c.abilities['arthur.light_slash'].effects.push({type:'status',status:'exposure_fire',stacks});assert.match(validateContent(c).join('\n'),/invalid status stacks/);}
   const c=structuredClone(content);c.abilities['arthur.light_slash'].effects[0].onHitStatus={status:'exposure_fire',stacks:3};assert.deepEqual(validateContent(c),[]);
 });
 

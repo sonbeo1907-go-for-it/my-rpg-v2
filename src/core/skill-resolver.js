@@ -21,7 +21,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
   if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat','spentLifeDebtRatio'])if(next[key]!==undefined)next[key]*=f10;
   if(groups.includes('stat_buff')&&['status','toggle_status'].includes(effect.type)){
    const status=content.statuses[effect.status];
-   if(status?.kind==='buff')next.appliedModifiers=rankedModifiers(status.modifiers,f05);
+   if(status?.kind==='buff'&&!status.fixedModifiers)next.appliedModifiers=rankedModifiers(status.modifiers,f05);
    next.linkedAppliedModifiers=Object.fromEntries((effect.linkedStatuses??[]).filter(id=>content.statuses[id]?.kind==='buff').map(id=>[id,rankedModifiers(content.statuses[id].modifiers,f05)]));
   }
   if(groups.includes('stat_buff')&&source.growthAdapter==='mode_stat_buff'&&effect.type==='enter_mode')next.modeAppliedModifiers=rankedModifiers(actor.combatModes[effect.mode].statModifiers,f05);

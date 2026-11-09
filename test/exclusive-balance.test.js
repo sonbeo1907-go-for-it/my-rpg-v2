@@ -18,6 +18,13 @@ test('thirteen recipes buy/craft through Blueprints, round-trip saves and never 
  let s=createGameSave(c);s.unlockedCharacterIds=Object.keys(c.characters);Object.assign(s,{blueprints:130,coins:200000,prismaFragments:40000,recruitmentShards:100,originalPrisma:20});for(const id of ids){const t=c.exclusiveGear[id+'.signature'];assert.equal(t.characterId,id);s=buyExclusiveRecipe(s,c,t.id);s=craftExclusive(s,c,t.id,()=>0);assert.ok(s.exclusiveGear.some(x=>x.templateId===t.id));}assert.equal(s.blueprints,0);assert.deepEqual(decodeGameSave(encodeGameSave(s,c),c),s);
  assert.equal(c.characters.logia.passive.ratio,.25);assert.equal(c.characters.mandred.passive.ratio,.08);assert.equal(c.characters.tobin.passive.ratio,.08);assert.equal(c.characters.rivia.passive.odd.modifiers.attack,.2);assert.equal(c.characters.yufina.combatModes.radiant_fists.mpCostReduction,.12);
 });
+test('Iwayn exclusive copy tolerates a skill without an id and still applies only to damage',()=>{
+ const b=fixture(['iwayn','iris']),actor=a(b,'iwayn');
+ const fake={...c.abilities['iwayn.advance'],id:undefined};
+ assert.doesNotThrow(()=>skillPresentation(fake,actor,c));
+ const info=skillPresentation({...c.abilities['iwayn.advance']},actor,c);
+ assert.ok(info.facts.some(fact=>fact.includes('Quang Thương Bất Thoái')||fact.includes('chênh lệch')));
+});
 test('Iwayn receives per-skill ATK from absolute HP% difference capped at 75%; basics do not inherit it',()=>{
  for(const [self,target]of [[.8,.3],[.3,.8],[1,.1],[.5,.5]]){const b=fixture(['iwayn','iris']),w=a(b,'iwayn'),e=a(b,'enemy_0');w.stats.maxHp=1000;w.hp=self*1000;e.hp=target*e.stats.maxHp;const atk=battleStat(b.content,w,'attack'),diff=Math.abs(self-target),boost=Math.min(.75,diff*1.5);use(b,w.id,'iwayn.advance',e.id);assert.equal(hits(b,w.id)[0].amount,Math.floor(atk*(1+boost)*1.1*(1+Math.min(.3,diff))));near(battleStat(b.content,w,'attack'),atk);}
  const bare=fixture(['iwayn','iris'],[]),equipped=fixture(['iwayn','iris']);for(const b of [bare,equipped]){a(b,'iwayn').hp=1;use(b,'iwayn','$attack','enemy_0');}assert.equal(hits(bare,'iwayn')[0].amount,hits(equipped,'iwayn')[0].amount);
