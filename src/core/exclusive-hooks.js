@@ -27,7 +27,8 @@ export function validateExclusivePassive(passive,content) {
   if(passive.type==='skill_scaling_override'&&(!Number.isFinite(passive.multiplier)||passive.multiplier<=0||passive.multiplier>10))return false;
   if (['skill_damage','skill_penetration','dodge_heal','shield_break_heal_bonus','cover_damage_reduction','next_turn_heal'].includes(passive.type) && (!Number.isFinite(passive.ratio) || passive.ratio <= 0 || passive.ratio > 1)) return false;
   if (['after_skill_status','fresh_mark_bonus','consumed_targets_mp','skill_status_duration'].includes(passive.type) && !content.statuses[passive.statusId]) return false;
-  if (['after_skill_status','fresh_mark_bonus'].includes(passive.type) && (!Number.isInteger(passive.duration) || passive.duration < 1)) return false;
+  if (passive.type==='after_skill_status' && !content.statuses[passive.statusId].persistent && (!Number.isInteger(passive.duration) || passive.duration < 1)) return false;
+  if (passive.type==='fresh_mark_bonus' && (!Number.isInteger(passive.duration) || passive.duration < 1)) return false;
   if (['skill_resource_bonus','consumed_targets_mp','fresh_mark_bonus'].includes(passive.type) && (!Number.isInteger(passive.amount) || passive.amount < 1)) return false;
   if (passive.type==='skill_status_duration' && (!Number.isInteger(passive.extraDuration) || passive.extraDuration < 1)) return false;
   if (passive.type==='consumed_targets_mp' && (!Number.isInteger(passive.minTargets) || passive.minTargets < 1)) return false;

@@ -1,4 +1,4 @@
-﻿import test from 'node:test';
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
@@ -22,6 +22,7 @@ function fixture(party,gearIds=[]){
 }
 function act(b,id,abilityId,targetId){const a=getActor(b,id);b.queue=[a.id,...b.actors.filter(x=>x.id!==a.id&&x.hp>0).map(x=>x.id)];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:a.id,abilityId,targetId:targetId??a.id});}
 function enemyStrike(b,targetId,power=100){const e=b.actors.find(a=>a.team==='enemy');e.stats.attack=power;e.abilities=['$attack'];b.queue=[e.id];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:e.id,abilityId:'$attack',targetId});}
+function nextRound(b){const start=b.round;for(let i=0;i<80&&b.round===start;i++){const actor=activeActor(b);executeAction(b,{actorId:actor.id,abilityId:'$defend',targetId:actor.id});}assert.ok(b.round>start);}
 
 test('Ardelia has correct identity and living +10 DEF/RES aura',()=>{
  const a=content.characters.ardelia;
@@ -50,6 +51,9 @@ test('Ardelia Trấn strengthens RES shield and grants Hộ Ấn to the team',()
  const {b}=fixture(['ardelia','iris'],['ardelia.field_kit']);const ar=getActor(b,'ardelia'),iris=getActor(b,'iris');act(b,'ardelia','ardelia.aegis',ar.id);
  assert.ok(ar.shield>plain,'Trấn phải tăng khiên theo RES');
  assert.ok(ar.statuses.some(s=>s.id==='effect_ward'));assert.ok(iris.statuses.some(s=>s.id==='effect_ward'));
+ assert.equal(iris.statuses.find(s=>s.id==='effect_ward').remaining,null,'Hộ Ấn persistent phải vô thời hạn');
+ nextRound(b);
+ assert.ok(iris.statuses.some(s=>s.id==='effect_ward'),'Hộ Ấn không được tự hết sau lượt của người nhận');
 });
 
 test('Minerva Trấn adds 120% MAG shield to every ally after Hộ Ấn and scales with Rank',()=>{

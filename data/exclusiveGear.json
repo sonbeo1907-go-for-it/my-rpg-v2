@@ -1348,7 +1348,6 @@
             "ardelia.aegis"
           ],
           "statusId": "effect_ward",
-          "duration": 1,
           "to": "targets",
           "rules": [
             "Hộ Ấn chặn hiệu ứng bất lợi tiếp theo; dùng lại làm mới charge theo luật status."

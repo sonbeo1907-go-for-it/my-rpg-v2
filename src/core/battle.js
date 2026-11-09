@@ -1958,7 +1958,8 @@ function resolveAction(
   const resourcePassive=actor.passive;if(living(actor)&&resourcePassive?.type==='starting_resource_skill_chance'&&skill.id===resourcePassive.abilityId&&(actor.resourceValues[resourcePassive.resource]??0)<actor.resources[resourcePassive.resource].max){const chance=Math.min(resourcePassive.cap,Math.max(0,baseStatValue(actor,resourcePassive.stat))/resourcePassive.atStat*resourcePassive.cap);if(battle.random()<chance){announcePassive(battle,actor,actor.id);gainResource(battle,actor,resourcePassive.resource,resourcePassive.amount);}}
   for(const exclusive of exclusivePassives(actor).filter(p=>(!p.abilityIds||p.abilityIds.includes(skill.id))&&living(actor))) {
     if (exclusive.type === "after_skill_status") {
-      for (const target of exclusive.to === "targets" ? targets.filter(living) : [actor]) applyStatus(battle,target,exclusive.statusId,exclusive.duration,actor.id);
+      const duration=battle.content.statuses[exclusive.statusId]?.persistent?undefined:exclusive.duration;
+      for (const target of exclusive.to === "targets" ? targets.filter(living) : [actor]) applyStatus(battle,target,exclusive.statusId,duration,actor.id);
     }
     if (exclusive.type === "skill_resource_bonus" && (!exclusive.oncePerRound || procAvailable(battle,actor,"exclusive_resource"))) {
       const before = actor.resourceValues[exclusive.resource] ?? 0;

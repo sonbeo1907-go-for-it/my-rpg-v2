@@ -219,7 +219,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(p.type==='skill_penetration')facts.push(tag+(p.minSpent?`Tiêu từ ${p.minSpent} ${resourceName(actor,cost?.id)} → `:'')+`xuyên thêm ${pct(p.ratio)} DEF`);
     if(p.type==='skill_resource_bonus')facts.push(tag+`+${p.amount} ${resourceName(actor,p.resource)}${p.oncePerRound?' · 1 lần/vòng':''}`);
     if(p.type==='after_skill_status'){
-      const start=facts.length;statusFacts({type:'status',status:p.statusId,duration:p.duration,to:p.to==='targets'?'targets':'self'});
+      const start=facts.length;statusFacts({type:'status',status:p.statusId,duration:content.statuses[p.statusId]?.persistent?undefined:p.duration,to:p.to==='targets'?'targets':'self'});
       for(let i=start;i<facts.length;i++)facts[i]=tag+facts[i];
     }
     if(p.type==='next_turn_heal')facts.push(tag+`Đầu lượt kế tiếp, hồi ${pct(p.ratio)} HP tối đa một lần`);
