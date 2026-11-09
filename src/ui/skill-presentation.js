@@ -9,7 +9,8 @@ import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
-import {exclusiveDamageEffect,exclusivePassive} from '../core/exclusive-hooks.js';
+import {exclusiveDamageEffect,exclusivePassive,exclusivePassives} from '../core/exclusive-hooks.js';
+import {exclusiveShieldAmount} from '../core/exclusive-shield.js';
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
@@ -289,8 +290,18 @@ export function skillScaling(skill, actor, content, choices = {}) {
       }
     }
   }
-  const exclusive=actor.exclusiveGear?.template?.passive;
-  if (exclusive && (!exclusive.abilityIds || exclusive.abilityIds.includes(skill.id))) lines.push('Trấn Phái · ' + exclusive.name + ': ' + exclusive.description);
+  const exclusives=exclusivePassives(actor);
+  for(const p of exclusives){
+    if(p.abilityIds&&!p.abilityIds.includes(skill.id))continue;
+    if(p.type==='after_skill_shield'){
+      const stats={attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'};
+      const amount=exclusiveShieldAmount(content,p,skill,key=>valueOf(key));
+      const where=p.target==='all_allies'?'toàn đội':p.target==='self'?'bản thân':'đồng đội HP thấp nhất';
+      lines.push(`Trấn Phái · ${p.name}: Khiên ${where} ${number(amount)} (${percent(p.ratio)} ${stats[p.stat]??p.stat} · Rank ${skill.skillRank??1}).`);
+    } else {
+      lines.push('Trấn Phái · ' + p.name + ': ' + p.description);
+    }
+  }
   if (actor.passive?.type==='extra_mp_damage' && skill.cost?.mp > 0 && skill.effects.some(effect=>effect.type==='damage')) {
     const cap=Math.ceil(skill.cost.mp*actor.passive.extraCostRatio);
     const available=choices.live ? Math.max(0,actor.mp-skill.cost.mp) : cap;

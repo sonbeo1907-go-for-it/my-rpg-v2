@@ -34,3 +34,8 @@
 ## Kiểm chứng
 
 `test/ardelia-exclusives.test.js`: giảm sát thương đội có Khiên, liên kích 140%, xóa buff, Khiên 120% MAG của Minerva và tăng theo Rank, Kinh Cầu sẵn sàng + Khiên 350% MAG + MP giảm theo Rank. `test/amaryllis.test.js` kiểm tra trần Rank 5 và cooldown không đổi.
+
+## Hiển thị trong UI
+
+Khi Trấn được trang bị, mô tả kỹ năng của **Hộ Ấn Rừng Lặng** và **Kinh Cầu Hồi Sinh** hiển thị **số Khiên thực tế** theo Rank hiện tại của kỹ năng, dùng cùng công thức với handler khi cast: ound(stat × ratio × rankFactor). Ví dụ Minerva Rank 1 = 34 Khiên, Rank 5 = 49 Khiên; Amaryllis Rank 1 = 140 Khiên, Rank 5 = 205 Khiên với MAG/RES nền tương ứng.
+

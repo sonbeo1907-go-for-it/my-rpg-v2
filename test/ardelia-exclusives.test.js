@@ -1,4 +1,4 @@
-import test from 'node:test';
+﻿import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
@@ -6,6 +6,7 @@ import {createBattle,getActor,executeAction,activeActor} from '../src/core/battl
 import {resolveRankedAbility} from '../src/core/skill-resolver.js';
 import {exclusiveDamageEffect} from '../src/core/exclusive-hooks.js';
 import {mpCost} from '../src/core/conditional-combat.js';
+import {skillPresentation} from '../src/ui/skill-copy.js';
 import {validateContent} from '../src/core/content.js';
 import {exclusiveRollRange} from '../src/core/blacksmith-rules.js';
 const content=await loadContent();
@@ -73,6 +74,21 @@ test('Amaryllis Trấn starts Litany ready and adds 350% MAG team shield; rank r
  for(const ally of b.actors.filter(a=>a.team==='party'))assert.equal(ally.shield,140,'Khiên Kinh Cầu rank 1 = 350% MAG');
  const high=fixture(['amaryllis'],['amaryllis.litany_lamp']);const amh=getActor(high.b,'amaryllis');amh.skillRanks['amaryllis.litany']=5;amh.mp=amh.stats.maxMp;act(high.b,'amaryllis','amaryllis.litany',amh.id);assert.ok(amh.shield>140,'Khiên tăng theo Rank');
  const r1=resolveRankedAbility(c,am,'amaryllis.litany',1),r5=resolveRankedAbility(c,am,'amaryllis.litany',5);assert.ok(mpCost(r5,am)<mpCost(r1,am));assert.equal(c.abilities['amaryllis.litany'].rankable,true);assert.equal(c.abilities['amaryllis.litany'].growthProfile,'output_buff_mp');
+});
+
+
+
+test('Trấn skill descriptions show the actual rank-scaled shield amount',()=>{
+ const m1=fixture(['minerva','iris'],['minerva.silent_forest']);const minerva1=getActor(m1.b,'minerva');minerva1.skillRanks['minerva.ward']=1;
+ const one=skillPresentation(m1.c.abilities['minerva.ward'],minerva1,m1.c).facts.join(' ');
+ assert.match(one,/Khiên toàn đội: 34/);assert.match(one,/Rank 1/);
+ const m5=fixture(['minerva','iris'],['minerva.silent_forest']);const minerva5=getActor(m5.b,'minerva');minerva5.skillRanks['minerva.ward']=5;
+ const five=skillPresentation(m5.c.abilities['minerva.ward'],minerva5,m5.c).facts.join(' ');
+ assert.match(five,/Khiên toàn đội: 49/);assert.match(five,/Rank 5/);
+ const a1=fixture(['amaryllis'],['amaryllis.litany_lamp']);const am1=getActor(a1.b,'amaryllis');am1.skillRanks['amaryllis.litany']=1;
+ assert.match(skillPresentation(a1.c.abilities['amaryllis.litany'],am1,a1.c).facts.join(' '),/Khiên toàn đội: 140/);
+ const a5=fixture(['amaryllis'],['amaryllis.litany_lamp']);const am5=getActor(a5.b,'amaryllis');am5.skillRanks['amaryllis.litany']=5;
+ assert.match(skillPresentation(a5.c.abilities['amaryllis.litany'],am5,a5.c).facts.join(' '),/Khiên toàn đội: 205/);
 });
 
 

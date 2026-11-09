@@ -9,6 +9,7 @@ import {resolveRankedAbility,modeModifiersForPreview} from '../core/skill-resolv
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
 import {exclusiveDamageEffect,exclusivePassive,exclusivePassives} from '../core/exclusive-hooks.js';
+import {exclusiveShieldAmount} from '../core/exclusive-shield.js';
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
@@ -227,7 +228,12 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(p.type==='dodge_heal')facts.push(tag+`Né vật lí: hồi ${pct(p.ratio)} HP tối đa · 1 lần/vòng`);
     if(p.type==='shield_break_heal_bonus')facts.push(tag+`+${pct(p.ratio)} lượng hồi từ vỡ khiên`);
     if(p.type==='cover_damage_reduction')facts.push(tag+`Nhận đòn thay: giảm thêm ${pct(p.ratio)} sát thương`);
-    if(SPECIAL_EXCLUSIVE_TYPES.includes(p.type))facts.push(tag+p.description);
+    if(p.type==='after_skill_shield'){
+      const amount=exclusiveShieldAmount(content,p,skill,key=>battleStat(content,actor,key));
+      const where=p.target==='all_allies'?'toàn đội':p.target==='self'?'bản thân':'đồng đội HP thấp nhất';
+      facts.push(tag+`Khiên ${where}: ${number(amount)} (${pct(p.ratio)} ${statName(p.stat)} · Rank ${skill.skillRank??1})`);
+    }
+    if(SPECIAL_EXCLUSIVE_TYPES.includes(p.type)&&p.type!=='after_skill_shield')facts.push(tag+p.description);
     rules.push(...(p.rules??[]));
   }
   }
