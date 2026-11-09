@@ -78,6 +78,8 @@
 - [Patricia — Nhà Nghiên Cứu Địa Tầng](PATRICIA.md)
 - [Vilgard — Kẻ Mang Mối Thù Không Tàn](VILGARD.md)
 - [Ardelia — Quân Y Tiền Tuyến](ARDELIA.md)
+- [Belochkin — Đại Tướng Viễn Chinh](BELOCHKIN.md)
+- [Chen — Kiếm Sĩ Lao Vào Trận](CHEN.md)
 - [Trấn hỗ trợ Amelia / Minerva / Amaryllis](SUPPORT_EXCLUSIVES_2026_11_09.md)
 - [Chelsea — Sứ giả định mệnh](CHELSEA.md)
 - [Heimdall Valmont và Finmel — cấu hình playtest](HEIMDALL_FINMEL.md)

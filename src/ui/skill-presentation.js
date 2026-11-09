@@ -10,7 +10,7 @@ import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
 import {exclusiveDamageEffect,exclusivePassive,exclusivePassives} from '../core/exclusive-hooks.js';
-import {exclusiveShieldAmount} from '../core/exclusive-shield.js';
+import {exclusiveShieldAmount,previewExclusiveStat} from '../core/exclusive-shield.js';
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
@@ -57,7 +57,8 @@ export function skillCost(skill, actor, battle) {
   if (skill.requiresResource) costs.push('Cần '+skill.requiresResource.min+' '+actor.resources[skill.requiresResource.id].name);
   const exitCooldown=actor.combatModes?.[skill.effects?.find(e=>e.type==='enter_mode')?.mode]?.exitCooldown;
   if(exitCooldown?.abilityId===skill.id)costs.push('Hồi chiêu sau khi rời dạng: '+exitCooldown.rounds+' vòng');
-  if(skill.initialCooldown)costs.push('Khởi đầu: '+skill.initialCooldown+' vòng');
+  const initialCooldownZero=exclusivePassives(actor).some(p=>p.type==='initial_cooldown_zero'&&p.abilityIds?.includes(skill.id));
+  if(skill.initialCooldown)costs.push(initialCooldownZero?'Khởi đầu: sẵn sàng nhờ Trấn Phái':'Khởi đầu: '+skill.initialCooldown+' vòng');
   if (skill.cooldown) costs.push(`Hồi chiêu: ${skill.cooldown} vòng`);
   return costs.join(' · ') || 'Không tốn MP';
 }
@@ -295,7 +296,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if(p.abilityIds&&!p.abilityIds.includes(skill.id))continue;
     if(p.type==='after_skill_shield'){
       const stats={attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'};
-      const amount=exclusiveShieldAmount(content,p,skill,key=>valueOf(key));
+      const amount=exclusiveShieldAmount(content,p,skill,key=>previewExclusiveStat(content,actor,key));
       const where=p.target==='all_allies'?'toàn đội':p.target==='self'?'bản thân':'đồng đội HP thấp nhất';
       lines.push(`Trấn Phái · ${p.name}: Khiên ${where} ${number(amount)} (${percent(p.ratio)} ${stats[p.stat]??p.stat} · Rank ${skill.skillRank??1}).`);
     } else {

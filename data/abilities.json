@@ -11404,5 +11404,196 @@
       "damage"
     ],
     "rankable": true
+  },
+  {
+    "id": "belochkin.gale",
+    "name": "Gió Xé Tuyến",
+    "description": "Quét gió sắc qua toàn địch, bào mòn giáp của những kẻ trúng đòn.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "onHitStatus": {
+          "status": "belochkin_sunder",
+          "duration": 2
+        }
+      }
+    ],
+    "skillLineId": "belochkin.gale",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "belochkin.command",
+    "name": "Lệnh Tiến Công",
+    "description": "Ban lệnh tiến công cho bản thân và một đồng đội, tăng mạnh ATK và cho cả hai thêm lượt.",
+    "target": "self",
+    "cost": {
+      "mp": 25
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "belochkin_command",
+        "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "belochkin_command",
+        "duration": 3,
+        "selectAlly": {
+          "preferTag": "expedition_corps",
+          "excludeSelf": true
+        }
+      },
+      {
+        "type": "grant_extra_turn"
+      },
+      {
+        "type": "grant_extra_turn",
+        "selectAlly": {
+          "preferTag": "expedition_corps",
+          "excludeSelf": true
+        }
+      }
+    ],
+    "skillLineId": "belochkin.command",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "belochkin.storm",
+    "name": "Bão Gươm Viễn Chinh",
+    "description": "Gọi một cơn bão gươm lên toàn địch, đồng thời khuếch đại sát thương vật lý của cả đội.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 2.8
+      },
+      {
+        "type": "status",
+        "to": "all_allies",
+        "status": "belochkin_offensive"
+      }
+    ],
+    "skillLineId": "belochkin.storm",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "chen.slash",
+    "name": "Nhất Trảm",
+    "description": "Một nhát chém dứt khoát vào mục tiêu, phá giáp của kẻ địch.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 2,
+        "onHitStatus": {
+          "status": "chen_sunder",
+          "duration": 2
+        }
+      }
+    ],
+    "skillLineId": "chen.slash",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "chen.double",
+    "name": "Song Trảm",
+    "description": "Hai nhát chém liên tiếp, mở ra Sơ hở Thường trên mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "hits": 2
+      },
+      {
+        "type": "status",
+        "status": "exposure_plain",
+        "stacks": 1
+      }
+    ],
+    "skillLineId": "chen.double",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "chen.fulfill",
+    "name": "Lục Kiếm Quyết",
+    "description": "Năm nhát chém dồn lực, kết thúc bằng một nhát chém nặng hơn.",
+    "target": "enemy",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 1.6,
+        "hits": 5
+      },
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 2.4
+      }
+    ],
+    "skillLineId": "chen.fulfill",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
   }
 ]

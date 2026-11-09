@@ -29,8 +29,8 @@ test('every selectable Miraebolis level uses the engine curve, own level and ret
 test('official Astoria keeps stable identity and reserved historical numbering',()=>{
  assert.deepEqual(DEPRECATED_CHARACTER_RELEASE_IDS,[33]);
  assert.equal(content.characters.astoria.releaseId,93);assert.equal(content.characters.chiyoko.releaseId,92);
- assert.equal(Object.keys(content.characters).at(-1),'ardelia');
- assert.equal(new Set(Object.values(content.characters).map(c=>c.releaseId)).size,95);
+ assert.equal(Object.keys(content.characters).at(-1),'chen');
+ assert.equal(new Set(Object.values(content.characters).map(c=>c.releaseId)).size,97);
  const invalid=structuredClone(content);invalid.characters.astoria.releaseId=33;
  assert.ok(validateContent(invalid).some(e=>e.includes('releaseId')));
  invalid.characters.astoria.releaseId=92;assert.ok(validateContent(invalid).some(e=>e.includes('releaseId')));

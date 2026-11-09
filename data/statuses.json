@@ -1587,5 +1587,49 @@
       "magic": -0.15
     },
     "description": "Giảm 15% ATK và MAG trong 3 lượt chính."
+  },
+  {
+    "id": "belochkin_sunder",
+    "name": "Giáp Rạn Gió",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "defense": -0.25
+    },
+    "description": "Giảm 25% DEF trong 2 lượt chính."
+  },
+  {
+    "id": "belochkin_command",
+    "name": "Lệnh Tiến Công",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 3,
+    "modifiers": {
+      "attack": 0.4
+    },
+    "description": "Tăng 40% ATK trong 3 lượt chính."
+  },
+  {
+    "id": "belochkin_offensive",
+    "name": "Thế Công Phá",
+    "kind": "buff",
+    "persistent": true,
+    "damageUses": 2,
+    "modifiers": {
+      "damageBonusPhysical": 0.35
+    },
+    "description": "Tăng 35% sát thương vật lý cho 2 lần gây sát thương tiếp theo."
+  },
+  {
+    "id": "chen_sunder",
+    "name": "Phá Giáp",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "defense": -0.3
+    },
+    "description": "Giảm 30% DEF trong 2 lượt chính."
   }
 ]

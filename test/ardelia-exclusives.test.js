@@ -51,6 +51,7 @@ test('Ardelia Trấn strengthens RES shield and grants Hộ Ấn to the team',()
  const {b}=fixture(['ardelia','iris'],['ardelia.field_kit']);const ar=getActor(b,'ardelia'),iris=getActor(b,'iris');act(b,'ardelia','ardelia.aegis',ar.id);
  assert.ok(ar.shield>plain,'Trấn phải tăng khiên theo RES');
  assert.ok(ar.statuses.some(s=>s.id==='effect_ward'));assert.ok(iris.statuses.some(s=>s.id==='effect_ward'));
+ assert.match(skillPresentation(b.content.abilities['ardelia.aegis'],ar,b.content).facts.join(' '),/Khiên toàn đội: 50/,'UI phải tính cả +10 RES nội tại');
  assert.equal(iris.statuses.find(s=>s.id==='effect_ward').remaining,null,'Hộ Ấn persistent phải vô thời hạn');
  nextRound(b);
  assert.ok(iris.statuses.some(s=>s.id==='effect_ward'),'Hộ Ấn không được tự hết sau lượt của người nhận');
@@ -91,8 +92,11 @@ test('Trấn skill descriptions show the actual rank-scaled shield amount',()=>{
  assert.match(five,/Khiên toàn đội: 49/);assert.match(five,/Rank 5/);
  const a1=fixture(['amaryllis'],['amaryllis.litany_lamp']);const am1=getActor(a1.b,'amaryllis');am1.skillRanks['amaryllis.litany']=1;
  assert.match(skillPresentation(a1.c.abilities['amaryllis.litany'],am1,a1.c).facts.join(' '),/Khiên toàn đội: 140/);
+ assert.match(skillPresentation(a1.c.abilities['amaryllis.litany'],am1,a1.c).facts.join(' '),/sẵn sàng ngay/);
+ const plainLitany=fixture(['amaryllis']);assert.match(skillPresentation(plainLitany.c.abilities['amaryllis.litany'],getActor(plainLitany.b,'amaryllis'),plainLitany.c).facts.join(' '),/hồi chiêu 6 vòng/);
  const a5=fixture(['amaryllis'],['amaryllis.litany_lamp']);const am5=getActor(a5.b,'amaryllis');am5.skillRanks['amaryllis.litany']=5;
  assert.match(skillPresentation(a5.c.abilities['amaryllis.litany'],am5,a5.c).facts.join(' '),/Khiên toàn đội: 205/);
 });
+
 
 

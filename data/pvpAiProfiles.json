@@ -1443,5 +1443,37 @@
       "ardelia.aegis": 26,
       "ardelia.purge": 18
     }
+  },
+  {
+    "id": "belochkin",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "belochkin.command"
+    ],
+    "burstAbilities": [
+      "belochkin.storm"
+    ],
+    "skillBias": {
+      "belochkin.gale": 20,
+      "belochkin.command": 28,
+      "belochkin.storm": 24
+    }
+  },
+  {
+    "id": "chen",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "chen.fulfill"
+    ],
+    "skillBias": {
+      "chen.slash": 18,
+      "chen.double": 20,
+      "chen.fulfill": 28
+    }
   }
 ]

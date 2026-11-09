@@ -1,4 +1,4 @@
-﻿# Ardelia — Quân Y Tiền Tuyến
+# Ardelia — Quân Y Tiền Tuyến
 
 Hỗ trợ phòng thủ hệ Thủy, **Kị sĩ Sư đoàn Viễn Chinh** (`expedition_corps`), release 96. Cô giữ tuyến bằng DEF/RES, hồi máu, giải debuff và dựng Khiên từ RES.
 
@@ -33,6 +33,7 @@ HP240 / MP125 / ATK10 / MAG14 / DEF24 / RES32 / SPD15. SPD15 là mức điền n
 - Sau khi dùng **Lá Chắn Quân Y**, tạo Khiên toàn đội bằng **120% RES** (thay vì 80% RES); lượng Khiên tăng theo Rank của kỹ năng.
 - Đồng thời cấp **Hộ Ấn** (`effect_ward`) cho toàn đội để chặn hiệu ứng bất lợi tiếp theo.
 - Khiên mạnh nhất được giữ; Khiên Trấn không cộng dồn.
+- UI mô tả kỹ năng hiển thị **số Khiên thực tế** theo Rank, đã tính +10 RES căn bản từ nội tại Ardelia. Ví dụ Rank 1 với RES nền 32: Khiên Trấn = **50**, không phải 38.
 
 ## Kiểm chứng
 

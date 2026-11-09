@@ -4312,5 +4312,132 @@
       }
     },
     "releaseId": 96
+  },
+  {
+    "id": "belochkin",
+    "name": "Belochkin",
+    "title": "Đại Tướng Viễn Chinh",
+    "affiliation": "expedition_corps",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "wind",
+    "description": "Đại tướng của Sư đoàn Viễn Chinh: chỉ huy đội hình bằng gió, mở nhịp tiến công và khuếch đại sức mạnh vật lý của toàn quân.",
+    "biography": "Belochkin học cách chỉ huy từ Charlemagnes, nhưng tin rằng một đạo quân chỉ mạnh khi mọi nhịp đánh được kết nối. Ông dùng gió để giữ đội hình, ra lệnh tiến công và biến từng đợt phối hợp thành bão gươm.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "commander"
+    ],
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 90,
+      "attack": 32,
+      "magic": 10,
+      "defense": 18,
+      "resistance": 20,
+      "speed": 24
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "belochkin.gale",
+      "belochkin.command",
+      "belochkin.storm"
+    ],
+    "passive": {
+      "type": "round_category_mp",
+      "name": "Nhịp Tiến Công",
+      "description": "Cuối vòng, nếu đội đã dùng ít nhất 2 trong 3 nhóm kỹ năng (Khiên/Hồi phục, đơn mục tiêu, đa mục tiêu), hồi 8% MP tối đa cho toàn đội.",
+      "ratio": 0.08,
+      "requiredCategories": 2
+    },
+    "releaseId": 97
+  },
+  {
+    "id": "chen",
+    "name": "Chen",
+    "title": "Kiếm Sĩ Lao Vào Trận",
+    "affiliation": "expedition_corps",
+    "role": "DPS vật lý",
+    "roleGroup": "physical_dps",
+    "element": "plain",
+    "description": "Kiếm sĩ điêu luyện của Sư đoàn Viễn Chinh, lao thẳng vào kẻ địch lớn và giữ nhịp chém cho đến khi mọi trùm gục xuống.",
+    "biography": "Chen không chờ đối thủ yếu đi. Hắn tìm kẻ mạnh nhất, bước vào tầm kiếm và biến mỗi nhịp thở thành một nhát chém. Càng đối mặt với trùm, lưỡi kiếm của hắn càng trở nên sắc bén.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "swordsman"
+    ],
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 90,
+      "attack": 38,
+      "magic": 8,
+      "defense": 22,
+      "resistance": 16,
+      "speed": 16
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "chen.slash",
+      "chen.double",
+      "chen.fulfill"
+    ],
+    "passive": {
+      "type": "boss_hunter_mode",
+      "name": "Lưỡi Kiếm Quyết Đấu",
+      "description": "Khi có trùm hoặc siêu trùm còn sống, Chen vào dạng Quyết Đấu đến khi mọi trùm hoặc siêu trùm gục.",
+      "modeId": "duelist_edge"
+    },
+    "combatModes": {
+      "duelist_edge": {
+        "name": "Quyết Đấu",
+        "lifetime": "permanent",
+        "exitCondition": "no_boss",
+        "baseStatBonuses": {
+          "attack": 10
+        },
+        "statModifiers": {
+          "attack": 0.35
+        },
+        "boundStatuses": [
+          "escalation"
+        ],
+        "allowedAbilities": [
+          "$attack",
+          "chen.slash",
+          "chen.double",
+          "chen.fulfill",
+          "$defend"
+        ],
+        "commandAbilities": [
+          "$attack",
+          "chen.slash",
+          "chen.double",
+          "chen.fulfill",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "summary": "+10 ATK căn bản · +35% ATK · Thăng Tiến",
+        "description": "Chỉ kích hoạt khi có trùm hoặc siêu trùm; giữ đến khi toàn bộ trùm gục. Không thể bị dispel."
+      }
+    },
+    "releaseId": 98
   }
 ]

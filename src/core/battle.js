@@ -272,6 +272,24 @@ function livingTeamFlatGuard(battle,actor,key){
  }
  return sum;
 }
+function enemyBossAlive(battle,team){return battle.actors.some(actor=>actor.team!==team&&isAlive(actor)&&actor.boss);}
+function enterBossHunterModes(battle){
+ for(const actor of battle.actors){
+  const passive=actor.passive;
+  if(!isAlive(actor)||passive?.type!=='boss_hunter_mode'||actor.activeMode)continue;
+  if(enemyBossAlive(battle,actor.team))enterCombatMode(battle,actor,passive.modeId,modeIO);
+ }
+}
+function recordRoundCategory(battle,actor,skill){
+ if(!skill||skill.activation==='passive'||typeof skill.id!=='string'||skill.id.startsWith('$'))return;
+ const usage=(battle.categoryUsage??={});
+ const categories=(usage[actor.team]??=new Set());
+ if(skill.effects.some(effect=>['shield','heal','revive'].includes(effect.type)))categories.add('support');
+ if(skill.effects.some(effect=>effect.type==='damage')){
+  if(['all_enemies','enemy_splash','random_enemies'].includes(skill.target))categories.add('multi');
+  else if(skill.target==='enemy')categories.add('single');
+ }
+}
 function shieldedTeamGuard(battle,team){
  if(!battle.actors.some(ally=>ally.team===team&&isAlive(ally)&&ally.shield>0))return 0;
  let ratio=0;
@@ -379,6 +397,8 @@ function startRound(battle) {
   battle.round += 1;
   battle.phase = "main";
   delete battle.shieldAuraSnapshot;
+  battle.categoryUsage = {};
+  enterBossHunterModes(battle);
   battle.extraTurnGrants = new Set();
   battle.extraTurnUsed = new Set();
   battle.extraPhaseRequired = false;
@@ -748,6 +768,15 @@ function finishMainRound(battle) {
       const amount=Math.ceil(battleMaxMp(battle.content,source)*exclusive.ratio*shielded);
       write(battle,source.name+' kích hoạt '+exclusive.name+': hồi '+amount+' MP ('+shielded+' thành viên có khiên).');
       gainResource(battle,source,'mp',amount,source.id);
+    }
+    if(passive?.type==='round_category_mp'){
+      const categories=battle.categoryUsage?.[source.team];
+      if((categories?.size??0)>=passive.requiredCategories){
+        announcePassive(battle,source);
+        write(battle,source.name+' kích hoạt '+passive.name+': hồi '+Math.round(passive.ratio*100)+'% MP toàn đội ('+categories.size+'/3 nhóm kỹ năng).');
+        for(const ally of battle.actors.filter(a=>a.team===source.team&&living(a)))gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*passive.ratio),source.id);
+      }
+      continue;
     }
     if(passive?.type==='spent_resource_team_mp'){
       const ratio=Math.min(passive.cap,teamResourceSpent(battle,source,passive.resource)*passive.perStack);
@@ -1317,7 +1346,7 @@ function resolveHit(
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRaw=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
   let amount = Math.max(
     1,
     Math.floor(
@@ -1338,7 +1367,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            skillDamageBonus(battle.content,attacker,target,actionContext.automatic) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0),
+            skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -1636,7 +1665,7 @@ function applyEffect(
   }
   if(battle.pvpRules&&effect.type==='damage'&&!actionContext.pvpDamage)actionContext.pvpTargetSnapshot=targets.filter(t=>t.team!==actor.team).map(t=>t.id);
   const selectedAlly=effect.selectAlly?priorityTaggedAlly(battle,actor,effect.selectAlly):null;
-  const recipients = effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : effect.to==='primary'?targets.filter(t=>t.id===actionContext.primaryTargetId):targets;
+  const recipients = effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : effect.to==='primary'?targets.filter(t=>t.id===actionContext.primaryTargetId):effect.to==='all_allies'?battle.actors.filter(t=>t.team===actor.team&&living(t)):targets;
   for (const target of recipients) {
     if (!living(target)) continue;
     if(effect.requiresDamageHit&&!actionContext.gearImpacts.some(hit=>hit.target.id===target.id))continue;
@@ -1954,6 +1983,7 @@ function resolveAction(
     ).size > 1;
   for (const effect of skill.effects)
     applyEffect(battle, actor, targets, effect, spent, area, actionContext);
+  recordRoundCategory(battle,actor,skill);
   for(const effect of skill.effects)if(effect.consumeSelfStatus)actor.statuses=actor.statuses.filter(status=>status.id!==effect.consumeSelfStatus);
   const resourcePassive=actor.passive;if(living(actor)&&resourcePassive?.type==='starting_resource_skill_chance'&&skill.id===resourcePassive.abilityId&&(actor.resourceValues[resourcePassive.resource]??0)<actor.resources[resourcePassive.resource].max){const chance=Math.min(resourcePassive.cap,Math.max(0,baseStatValue(actor,resourcePassive.stat))/resourcePassive.atStat*resourcePassive.cap);if(battle.random()<chance){announcePassive(battle,actor,actor.id);gainResource(battle,actor,resourcePassive.resource,resourcePassive.amount);}}
   for(const exclusive of exclusivePassives(actor).filter(p=>(!p.abilityIds||p.abilityIds.includes(skill.id))&&living(actor))) {
@@ -2172,4 +2202,5 @@ export function executeEnemyTurn(battle,plannedCommand) {
   }
   executeAction(battle,{actorId:actor.id,abilityId:skill.id,targetId:target?.id});
 }
+
 
