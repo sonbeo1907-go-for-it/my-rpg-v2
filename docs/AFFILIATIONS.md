@@ -13,7 +13,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 
 | Slug | Nhãn | Số | Thành viên |
 | --- | --- | --- | --- |
-| `capital_knights` | Kị sĩ đoàn Thủ đô | 17 | Albeldo, Benard, Cerise, Charlemagnes, Gahallad, Gawain, Iwayn, Lanceveil, Lionel, Mandred, Percival, Rivia, Roland, Sandra, Sieg, Valery, Victorina |
+| `capital_knights` | Kị sĩ đoàn Thủ đô | 17 | Albedo, Benard, Cerise, Charlemagnes, Gahallad, Gawain, Iwayn, Lanceveil, Lionel, Mandred, Percival, Rivia, Roland, Sandra, Sieg, Valery, Victorina |
 | `hunters_guild` | Hội Thợ Săn | 19 | Bennett, Brant, Chloe, Dain, Ember, Flammelapis, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Sylva, Takeshi, Tywin, Yumia |
 | `northern_village` | Làng Phía Bắc | 8 | Armie, Arthur, Astraea, Elaine, Fiona, Garrek, Kai, Tobin |
 | `magic_academy` | Học viện Ma pháp | 9 | Artesia, Auguste, Aurora, Drake, Finmel, Fran, Kreider, Lumine, Monica |

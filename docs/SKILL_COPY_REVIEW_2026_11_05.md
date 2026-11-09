@@ -774,11 +774,11 @@ Tích Hàn Tinh từ sát thương khác hệ Thủy của đồng đội rồi 
 | Tâm Điểm Tuyết Lặng | Tĩnh tâm để gia tăng sức mạnh phép và kháng phép. |
 | Băng Táng Tĩnh Lặng | Kết tinh cả ba Hàn Tinh thành một đòn băng duy nhất. |
 
-## Albeldo Dragun
+## Albedo Dragun
 
 Tăng nhịp độ toàn đội và dựng Phong Bích; SPD căn bản giảm sát thương vật lí cho đồng minh.
 
-**Gió Lặng Sau Hàng Khiên:** SPD căn bản của Albeldo che chở toàn đội trước sát thương vật lí.
+**Gió Lặng Sau Hàng Khiên:** SPD căn bản của Albedo che chở toàn đội trước sát thương vật lí.
 
 | Kỹ năng | Mô tả |
 |---|---|

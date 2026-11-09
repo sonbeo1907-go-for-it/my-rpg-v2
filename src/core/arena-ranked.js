@@ -19,7 +19,7 @@ export function buildWeights(content,id){
  for(const e of skills.filter(e=>['heal','shield'].includes(e.type))){if(e.scalingStat)weights[e.scalingStat]=Math.max(weights[e.scalingStat]??0,2);}
  const p=d.passive??{};
  if(p.type==='mp_stat_conversion'||id==='aldric'){weights.maxMp=.65;}
- if(['benard','chelsea','albedo','mori'].includes(id))weights.speed=3;
+ if(['benard','chelsea','albeldo','mori'].includes(id))weights.speed=3;
  if(['heimdall','mandred'].includes(id))weights.maxHp=.6;
  if(id==='susanoo'){weights.defense=1.8;weights.resistance=1.8;}
  return weights;

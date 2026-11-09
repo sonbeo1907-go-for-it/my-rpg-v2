@@ -31,7 +31,7 @@ Kinh Cầu dùng `initialCooldown: 6` (cùng cơ chế với `aldric.reservoir`)
 `amaryllis.litany_lamp`, mở bằng **10 Bản Thiết Kế** tại Shop, chế tạo tại Thợ Rèn.
 
 - Kinh Cầu Hồi Sinh **sẵn sàng ngay từ đầu trận** khi Trấn được trang bị từ đầu; sau khi dùng vẫn vào hồi chiêu 10 vòng.
-- Sau khi dùng Kinh Cầu, tạo **Khiên toàn đội bằng 350% MAG** của Amaryllis; lượng Khiên tăng theo Rank của Kinh Cầu.
+- Sau khi dùng Kinh Cầu, tạo **Khiên toàn đội bằng 350% MAG** của Amaryllis tại **Kĩ Năng Cấp Độ 1**; lượng Khiên tăng theo Rank của Kinh Cầu.
 - Khiên tạo sau hồi sinh, không cấp thêm Lượt Thêm và không cộng dồn với Khiên mạnh hơn.
 
 ## Nội tại · Đèn Dầu Không Tắt

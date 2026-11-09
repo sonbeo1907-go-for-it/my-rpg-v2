@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
-import {createBattle,getActor,executeAction,activeActor} from '../src/core/battle.js';
+import {createBattle,getActor,executeAction,activeActor,targetsFor} from '../src/core/battle.js';
 import {battleStat} from '../src/core/stat-values.js';
 import {activeStatuses} from '../src/core/status-state.js';
 import {validateContent} from '../src/core/content.js';
+import {skillPresentation,passivePresentation} from '../src/ui/skill-copy.js';
 const content=await loadContent();
 function fixture(party,encounter='forest_patrol'){
  const c=structuredClone(content),save=createGameSave(c);
@@ -18,6 +19,11 @@ function fixture(party,encounter='forest_patrol'){
 function act(b,id,abilityId,targetId){const actor=getActor(b,id);b.queue=[actor.id,...b.actors.filter(a=>a.id!==actor.id&&a.hp>0).map(a=>a.id)];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:actor.id,abilityId,targetId:targetId??actor.id});}
 function nextRound(b,after){const start=b.round;for(let i=0;i<100&&b.round===start;i++){const actor=activeActor(b);if(!actor)break;executeAction(b,{actorId:actor.id,abilityId:'$defend',targetId:actor.id});after?.(actor);}assert.ok(b.round>start);}
 
+test('Belochkin command lets the player choose a different ally',()=>{
+ const {b,c}=fixture(['belochkin','ardelia','iris']);const be=getActor(b,'belochkin'),ar=getActor(b,'ardelia'),ir=getActor(b,'iris');
+ const ids=targetsFor(b,be,c.abilities['belochkin.command']).map(a=>a.id);assert.ok(ids.includes(ar.id));assert.ok(ids.includes(ir.id));assert.ok(!ids.includes(be.id));
+ act(b,'belochkin','belochkin.command',ir.id);assert.ok(ir.statuses.some(s=>s.id==='belochkin_command'));assert.ok(b.extraTurnGrants.has(ir.id));assert.ok(!ar.statuses.some(s=>s.id==='belochkin_command'));
+});
 test('Belochkin and Chen have correct expedition identities',()=>{
  const be=content.characters.belochkin,ch=content.characters.chen;
  assert.equal(be.roleGroup,'offensive_support');assert.equal(be.element,'wind');assert.equal(be.affiliation,'expedition_corps');assert.deepEqual(be.stats,{maxHp:160,maxMp:90,attack:32,magic:10,defense:18,resistance:20,speed:24});
@@ -29,7 +35,7 @@ test('Belochkin and Chen have correct expedition identities',()=>{
 });
 
 test('Belochkin command buffs self and one ally, grants both an extra turn',()=>{
- const {b}=fixture(['belochkin','ardelia']);const be=getActor(b,'belochkin'),ar=getActor(b,'ardelia');act(b,'belochkin','belochkin.command',be.id);
+ const {b}=fixture(['belochkin','ardelia']);const be=getActor(b,'belochkin'),ar=getActor(b,'ardelia');act(b,'belochkin','belochkin.command',ar.id);
  assert.ok(be.statuses.some(s=>s.id==='belochkin_command'));assert.ok(ar.statuses.some(s=>s.id==='belochkin_command'));
  assert.ok(b.extraTurnGrants.has(be.id));assert.ok(b.extraTurnGrants.has(ar.id));
 });
@@ -69,3 +75,15 @@ test('Chen skills apply DEF break, one exposure and six total hits',()=>{
 });
 
 
+
+
+test('New-unit tooltips are player-facing Vietnamese without internal modifier keys',()=>{
+ const storm=skillPresentation(content.abilities['belochkin.storm'],content.characters.belochkin,content).facts.join(' ');
+ assert.match(storm,/35% sát thương vật lí/);assert.doesNotMatch(storm,/damageBonus/);
+ const passive=passivePresentation(content.characters.belochkin,content);
+ const facts=passive.facts.join(' ');
+ for(const group of ['Tạo Khiên hoặc hồi HP','Tấn công một mục tiêu','Tấn công nhiều mục tiêu'])assert.match(facts,new RegExp(group));
+ assert.match(skillPresentation(content.abilities['vilgard.cleave'],content.characters.vilgard,content).facts.join(' '),/\+2 Ám Ảnh/);
+ assert.match(skillPresentation(content.abilities['vilgard.reckoning'],content.characters.vilgard,content).facts.join(' '),/20% DEF/);
+ assert.doesNotMatch(passivePresentation(content.characters.chen,content).rules.join(' '),/dispel/i);
+});

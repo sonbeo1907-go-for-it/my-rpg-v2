@@ -11436,8 +11436,8 @@
   {
     "id": "belochkin.command",
     "name": "Lệnh Tiến Công",
-    "description": "Ban lệnh tiến công cho bản thân và một đồng đội, tăng mạnh ATK và cho cả hai thêm lượt.",
-    "target": "self",
+    "description": "Ban lệnh tiến công cho bản thân và đồng đội được chọn, tăng mạnh ATK và cho cả hai thêm lượt.",
+    "target": "ally",
     "cost": {
       "mp": 25
     },
@@ -11446,26 +11446,20 @@
       {
         "type": "status",
         "status": "belochkin_command",
-        "duration": 3
+        "duration": 3,
+        "to": "self"
       },
       {
         "type": "status",
         "status": "belochkin_command",
-        "duration": 3,
-        "selectAlly": {
-          "preferTag": "expedition_corps",
-          "excludeSelf": true
-        }
-      },
-      {
-        "type": "grant_extra_turn"
+        "duration": 3
       },
       {
         "type": "grant_extra_turn",
-        "selectAlly": {
-          "preferTag": "expedition_corps",
-          "excludeSelf": true
-        }
+        "to": "self"
+      },
+      {
+        "type": "grant_extra_turn"
       }
     ],
     "skillLineId": "belochkin.command",
@@ -11473,7 +11467,8 @@
     "growthGroups": [
       "stat_buff"
     ],
-    "rankable": true
+    "rankable": true,
+    "excludeSelf": true
   },
   {
     "id": "belochkin.storm",
@@ -11566,7 +11561,7 @@
   {
     "id": "chen.fulfill",
     "name": "Lục Kiếm Quyết",
-    "description": "Năm nhát chém dồn lực, kết thúc bằng một nhát chém nặng hơn.",
+    "description": "Sáu nhát chém: năm nhát dồn lực, kết thúc bằng một nhát chém nặng hơn.",
     "target": "enemy",
     "cost": {
       "mp": 20

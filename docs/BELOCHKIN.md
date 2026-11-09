@@ -1,4 +1,4 @@
-﻿# Belochkin — Đại Tướng Viễn Chinh
+# Belochkin — Đại Tướng Viễn Chinh
 
 Hỗ trợ tấn công hệ Phong, **Kị sĩ Sư đoàn Viễn Chinh** (`expedition_corps`), release 97. Belochkin điều phối đội hình bằng các nhóm kỹ năng và biến nhịp phối hợp thành MP cho toàn đội.
 
@@ -26,7 +26,8 @@ HP160 / MP90 / ATK32 / MAG10 / DEF18 / RES20 / SPD24. MAG10 là mức điền n�
 | Lệnh Tiến Công `belochkin.command` | 25 / 3 | Bản thân + một đồng đội khác: **+40% ATK** trong 3 lượt chính; cả hai nhận **Lượt Thêm** |
 | Bão Gươm Viễn Chinh `belochkin.storm` | 18 / 2 | **280% ATK** toàn địch; toàn đội nhận **+35% sát thương vật lý** cho **2 lần gây sát thương** |
 
-- Lệnh Tiến Công chọn đồng đội ưu tiên tag `expedition_corps`, nếu không có thì chọn đồng đội khác còn sống theo thứ tự ô.
+- Lệnh Tiến Công cho người chơi **chọn trực tiếp một đồng đội khác**; Belochkin và đồng đội đó cùng nhận buff và Lượt Thêm. Không tự ưu tiên theo tag hay thứ tự ô.
+- Mốc **+40% ATK** là tại **Kĩ Năng Cấp Độ 1**; vì là buff tăng Rank, từ Rank 2 trở lên hệ số tăng theo chuẩn `stat_buff`.
 - Thế Công Phá là buff persistent có `damageUses: 2`; chỉ khuếch đại đòn **vật lý**, tiêu 1 lần cho mỗi hành động gây sát thương trực tiếp.
 - Các buff/debuff dùng clock `main_turn` chuẩn.
 

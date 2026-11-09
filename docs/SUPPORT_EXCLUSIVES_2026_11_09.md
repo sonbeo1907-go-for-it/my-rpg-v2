@@ -1,4 +1,4 @@
-﻿# Trấn Phái hỗ trợ — Amelia, Minerva, Amaryllis (09/11/2026)
+# Trấn Phái hỗ trợ — Amelia, Minerva, Amaryllis (09/11/2026)
 
 ## Amelia — Gương Băng Hộ Giá
 
@@ -13,7 +13,7 @@
 
 `minerva.silent_forest`, mở bằng 10 Bản Thiết Kế.
 
-- Sau khi dùng **Hộ Ấn Rừng Lặng**, tạo Khiên toàn đội bằng **120% MAG**.
+- Tại **Kĩ Năng Cấp Độ 1**, sau khi dùng **Hộ Ấn Rừng Lặng**, tạo Khiên toàn đội bằng **120% MAG**.
 - Lượng Khiên tăng theo **Rank của Hộ Ấn Rừng Lặng**; kỹ năng này được chuyển sang dạng tăng Rank chỉ phục vụ lượng Khiên Trấn, không thêm hiệu ứng nền khác.
 - Khiên tạo sau khi Hộ Ấn được áp; Khiên mạnh hơn đang có không bị thay bằng Khiên yếu hơn.
 
@@ -22,7 +22,7 @@
 `amaryllis.litany_lamp`, mở bằng 10 Bản Thiết Kế.
 
 - **Kinh Cầu sẵn sàng từ đầu trận** khi Trấn được trang bị từ đầu; sau khi dùng vẫn hồi chiêu 10 vòng.
-- Sau khi dùng Kinh Cầu, tạo Khiên toàn đội bằng **350% MAG**; lượng Khiên tăng theo Rank của Kinh Cầu.
+- Tại **Kĩ Năng Cấp Độ 1**, sau khi dùng Kinh Cầu, tạo Khiên toàn đội bằng **350% MAG**; lượng Khiên tăng theo Rank của Kinh Cầu.
 - Khiên tạo sau hồi sinh, không cấp thêm Lượt Thêm.
 
 ## Balance Patch — Kinh Cầu Hồi Sinh
@@ -37,5 +37,5 @@
 
 ## Hiển thị trong UI
 
-Khi Trấn được trang bị, mô tả kỹ năng của **Hộ Ấn Rừng Lặng** và **Kinh Cầu Hồi Sinh** hiển thị **số Khiên thực tế** theo Rank hiện tại của kỹ năng, dùng cùng công thức với handler khi cast: ound(stat × ratio × rankFactor). Ví dụ Minerva Rank 1 = 34 Khiên, Rank 5 = 49 Khiên; Amaryllis Rank 1 = 140 Khiên, Rank 5 = 205 Khiên với MAG/RES nền tương ứng.
+Khi Trấn được trang bị, mô tả kỹ năng của **Hộ Ấn Rừng Lặng** và **Kinh Cầu Hồi Sinh** hiển thị **số Khiên thực tế** theo Rank hiện tại của kỹ năng, dùng cùng công thức với handler khi cast: `round(stat × ratio × rankFactor)`. Các mốc 120%/350% trong mô tả Trấn là giá trị tại **Kĩ Năng Cấp Độ 1**. Ví dụ Minerva Rank 1 = 34 Khiên, Rank 5 = 49 Khiên; Amaryllis Rank 1 = 140 Khiên, Rank 5 = 205 Khiên với MAG nền tương ứng.
 

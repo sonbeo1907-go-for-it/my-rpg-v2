@@ -255,7 +255,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if(status.shieldReceivedReduction)lines.push(`Giảm ${percent(status.shieldReceivedReduction)} khiên mới nhận; giữ khiên đang có · ${duration}.`);
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);
       if (effect.type === 'toggle_status') lines.push(`Bật/tắt ${status.name}; dùng lại để xuống ngựa, không cộng dồn.`);
-      const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', evasion: 'khả năng né đòn vật lí' };
+      const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', damageBonusPhysical: 'sát thương vật lí', damageBonusMagical: 'sát thương ma pháp', evasion: 'khả năng né đòn vật lí' };
       for (const [key, value] of Object.entries(effect.appliedModifiers ?? status.modifiers ?? {})) {
         if (key === 'damageVsShielded') lines.push(`Gây thêm ${percent(value)} sát thương nếu mục tiêu có khiên lúc từng hit bắt đầu; so mức lớn nhất với buff khuếch đại khác, áp dụng cả khiên và sát thương tràn vào HP · ${duration}.`);
         else if (key === 'attackMultiplier') lines.push(`Đòn tấn công kế tiếp gây ${percent(value)} sát thương, chỉ lấy mức lớn nhất với buff khuếch đại khác · ${duration}.`);

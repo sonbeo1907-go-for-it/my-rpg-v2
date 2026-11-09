@@ -9,6 +9,7 @@ import {mpCost} from '../src/core/conditional-combat.js';
 import {skillPresentation} from '../src/ui/skill-copy.js';
 import {validateContent} from '../src/core/content.js';
 import {exclusiveRollRange} from '../src/core/blacksmith-rules.js';
+import {resolveCharacter} from '../src/core/progression.js';
 const content=await loadContent();
 const gearStat={statKey:'maxMp',statValue:exclusiveRollRange(content,'maxMp').min};
 function fixture(party,gearIds=[]){
@@ -100,3 +101,10 @@ test('Trấn skill descriptions show the actual rank-scaled shield amount',()=>{
 
 
 
+
+test('Skill preview works for out-of-battle characters without statuses',()=>{
+ for(const [owner,gearId,abilityId] of [['amaryllis','amaryllis.litany_lamp','amaryllis.litany'],['minerva','minerva.silent_forest','minerva.ward'],['ardelia','ardelia.field_kit','ardelia.aegis']]){
+  const {save,c}=fixture([owner],[gearId]);const actor=resolveCharacter(c,save,owner);delete actor.statuses;
+  assert.doesNotThrow(()=>skillPresentation(c.abilities[abilityId],actor,c),owner+' không được crash khi thiếu statuses');
+ }
+});

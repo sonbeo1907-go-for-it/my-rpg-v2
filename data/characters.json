@@ -2591,7 +2591,7 @@
   },
   {
     "id": "albeldo",
-    "name": "Albeldo Dragun",
+    "name": "Albedo Dragun",
     "title": "Kị Sĩ Lá Chắn Gió",
     "affiliation": "capital_knights",
     "tags": [
@@ -2612,7 +2612,7 @@
       "speed": 24
     },
     "description": "Tăng nhịp độ toàn đội và dựng Phong Bích; SPD căn bản giảm sát thương vật lí cho đồng minh.",
-    "biography": "Albeldo đem kỷ luật của gia tộc Dragun vào hàng ngũ kị sĩ thủ đô. Anh dùng những bước chân nhanh để khép kín mọi khoảng hở trong hàng phòng thủ.",
+    "biography": "Albedo đem kỷ luật của gia tộc Dragun vào hàng ngũ kị sĩ thủ đô. Anh dùng những bước chân nhanh để khép kín mọi khoảng hở trong hàng phòng thủ.",
     "abilities": [
       "albeldo.march",
       "albeldo.aegis",
@@ -2621,7 +2621,7 @@
     "passive": {
       "type": "base_speed_physical_guard",
       "name": "Gió Lặng Sau Hàng Khiên",
-      "description": "Giảm sát thương vật lí cho toàn đội theo SPD căn bản của Albeldo, tối đa 30% tại 90 SPD căn bản. Buff SPD trong trận không tăng hiệu quả.",
+      "description": "Giảm sát thương vật lí cho toàn đội theo SPD căn bản của Albedo, tối đa 30% tại 90 SPD căn bản. Buff SPD trong trận không tăng hiệu quả.",
       "cap": 0.3,
       "atSpeed": 90
     },

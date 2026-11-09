@@ -64,7 +64,7 @@
 - [Phe phái, slug và nhãn hiển thị — 04/11/2026](AFFILIATIONS.md)
 - [Mori / Sandra / Tywin — cấu hình playtest](MORI_SANDRA_TYWIN.md)
 - [Astoria · Ra mắt chính thức và Magnamut](ASTORIA_TECHNICAL_TEST.md)
-- [Finmel, Albeldo, Henrris và Joshua — cấu hình playtest](ALBELDO_HENRRIS_JOSHUA.md)
+- [Finmel, Albedo, Henrris và Joshua — cấu hình playtest](ALBELDO_HENRRIS_JOSHUA.md)
 - [Damage amp và Aldric / Rivia / Valery — playtest](ALDRIC_RIVIA_VALERY.md)
 - [Artesia — cấu hình playtest](ARTESIA.md)
 - [Arthur — Nâng cấp Kiểm soát hoàn toàn (phần thưởng vĩ thanh)](ARTHUR_COMPLETE_CONTROL.md)

@@ -3,7 +3,7 @@ import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave,encodeGameSave,decodeGameSave} from '../src/core/game-save.js';
 import {arenaWeek,arenaCalendar,arenaTier,rankedOwnedCount,reserveArenaMatch,settleArenaMatch,claimArenaMilestone,buyHonorItem} from '../src/core/arena-progression.js';
 import {createArenaDraft,prebanDraftCharacter,prebanCandidates,chooseDraftPreban,draftCandidates,pickDraftCharacter,banDraftCharacter,draftSurvivors,chooseDraftPick,chooseDraftBan,validateDraftFormation,arrangeDraftAI} from '../src/core/arena-draft.js';
-import {buildRankedOpponent,createCompetitiveArena} from '../src/core/arena-ranked.js';
+import {buildRankedOpponent,createCompetitiveArena,buildWeights} from '../src/core/arena-ranked.js';
 import {activeActor,executeAction,executeEnemyTurn,abilityAvailability,targetsFor,basicAbility} from '../src/core/battle.js';
 import {chooseArenaAction} from '../src/core/arena-ai.js';
 const content=await loadContent(),now=new Date('2026-11-06T12:00:00Z');
@@ -25,3 +25,8 @@ for(const tier of ['bronze','silver','gold','diamond','prisma'])test('AI '+tier+
 test('ranked preserves actual player build and PvE Mastery, normal remains normalized',()=>{const c=all();c.party=['arthur','iris','elaine','garrek'];c.partyPresets[0].slots=[...c.party];c.characters.arthur.level=50;c.characters.arthur.limitBreakRank=3;c.characters.arthur.skillRanks={basic:8};const before=JSON.stringify(c),pending=reserveArenaMatch(c,content,match('battle','ranked'),now).arenaProgress.pending,b=createCompetitiveArena(content,c,pending,{playerParty:c.party,opponentParty:['chelsea','artesia','kaguya','yufina']});assert.equal(b.actors.find(a=>a.team==='party'&&a.characterId==='iris').level,1);assert.equal(b.actors.find(a=>a.team==='party'&&a.characterId==='arthur').skillRanks.basic,5);assert.equal(JSON.stringify(c),before);assert.equal(b.arena.normalized,false);const normal=createCompetitiveArena(content,c,{...pending,mode:'normal'});assert.ok(normal.actors.every(a=>a.level===50));assert.equal(normal.arena.normalized,true);});
 test('ranked real engine progresses both sides with crafted gear, reactions and no PvE rewards',()=>{const c=all(),p=reserveArenaMatch(c,content,match('run','ranked'),now).arenaProgress.pending,b=createCompetitiveArena(content,c,{...p,rankAtEntry:'prisma'},{playerParty:['arthur','iris','elaine','garrek'],opponentParty:['chelsea','yufina','artesia','kaguya']});for(let i=0;i<120&&!b.outcome;i++){const a=activeActor(b);if(a.team==='enemy')executeEnemyTurn(b);else executeAction(b,chooseArenaAction(b,a,{abilityAvailability,targetsFor,basicAbility}));}assert.ok(b.log.length>10);assert.ok(b.actors.every(a=>Object.values(a.skillRanks).every(n=>n<=5)));assert.equal(c.honor,0);});
 test('every official character has a legal highest-rank AI loadout',()=>{const ids=Object.keys(content.characters).filter(id=>!content.characters[id].developerOnly);for(let i=0;i<ids.length;i+=4){const party=ids.slice(i,i+4);for(const id of ids)if(party.length<4&&!party.includes(id))party.push(id);encodeGameSave(buildRankedOpponent(content,party,'prisma',i),content);}});
+test('Albedo Dragun arena weights prioritize SPD through his legacy stable ID',()=>{
+ assert.equal(content.characters.albeldo.name,'Albedo Dragun');
+ assert.equal(buildWeights(content,'albeldo').speed,3);
+ assert.equal(buildWeights(content,'benard').speed,3);
+});

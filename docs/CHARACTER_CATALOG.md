@@ -68,7 +68,7 @@ Sinh trực tiếp từ data JSON trong lần rà soát tài liệu. **Stats th�
 | `noctis` | Noctis | dark / physical_dps | 155 / 75 / 32 / 12 / 16 / 18 / 27 | Có |
 | `heimdall` | Heimdall Valmont | light / fighter | 320 / 70 / 18 / 12 / 25 / 24 / 9 | Có |
 | `finmel` | Finmel | water / magical_dps | 145 / 110 / 10 / 38 / 15 / 25 / 19 | Có |
-| `albeldo` | Albeldo Dragun | wind / tank | 270 / 85 / 17 / 10 / 27 / 22 / 24 | Có |
+| `albeldo` | Albedo Dragun | wind / tank | 270 / 85 / 17 / 10 / 27 / 22 / 24 | Có |
 | `henrris` | Henrris | wind / physical_dps | 155 / 85 / 30 / 10 / 16 / 18 / 24 | Có |
 | `joshua` | Joshua | fire / physical_dps | 195 / 80 / 32 / 10 / 18 / 18 / 17 | Có |
 | `bennett` | Gregory Bennett | thunder / physical_dps | 165 / 65 / 29 / 8 / 16 / 17 / 28 | Có |

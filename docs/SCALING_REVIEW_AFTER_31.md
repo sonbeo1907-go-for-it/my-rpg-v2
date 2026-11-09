@@ -28,7 +28,7 @@
 
 #47 Drake cần xem DPS golem theo DEF và bảo vệ, #48 Yufina scaleATK/phép là chủ ý, #51 Yumia có counter mạnh. #52Chelsea, #54Astraea, #55Artesia và các nhóm Vertosse/Mafia có bộ khuếch đại/tài nguyên/nhịp đội mạnh, chưa đề xuất mở Mastery theo đợt này.
 
-#59Aldric, #61Valery, #62Noctis, #63Heimdall, #64Finmel, #65Albeldo, #66Henrris, #67Joshua, #69Judy, #70Isabelle, #71Viktor, #72Mori, #73Sandra, #75Cerise, #76Flammelapis, #77Amaryllis, #78Brant, #79Ember, #80Myonne, #81Verena có điều kiện/độ bao phủ riêng; không tìm thấy cơ sở từ review tĩnh để buff cả nhóm. Riêng conditional AoE/counter phải đo số hành động và uptime thực, không chỉ hệ số một skill.
+#59Aldric, #61Valery, #62Noctis, #63Heimdall, #64Finmel, #65Albedo, #66Henrris, #67Joshua, #69Judy, #70Isabelle, #71Viktor, #72Mori, #73Sandra, #75Cerise, #76Flammelapis, #77Amaryllis, #78Brant, #79Ember, #80Myonne, #81Verena có điều kiện/độ bao phủ riêng; không tìm thấy cơ sở từ review tĩnh để buff cả nhóm. Riêng conditional AoE/counter phải đo số hành động và uptime thực, không chỉ hệ số một skill.
 
 #82–#92 Hồn Kiếm dùng tài nguyên chung, đòn hai hệ, nhiều hit và hỗ trợ lẫn nhau. Chưa mở Thông Thạo. Đây là cohort so sánh sức mạnh đầu tư tương đương, không dùng làm chuẩn hệ số cho mọi nhân vật cũ.
 
