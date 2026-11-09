@@ -4,6 +4,19 @@ export function isInAgony(actor){return actor?.group==='agony'&&Boolean(actor.ag
 export function isAlive(actor){return Boolean(actor&&(actor.hp>0||isInAgony(actor)));}
 export function routesToMaxHp(actor){return isInAgony(actor);}
 export function agonyReduction(actor){return isInAgony(actor)?actor.agony.damageReduction:0;}
+function applyLowHpImmortality(battle,target,hpAfter,io){
+ const p=target.passive;
+ if(p?.type!=='low_hp_immortality'||target.battleProcs?.lowHpImmortality||!Number.isFinite(p.threshold)||target.hp<=0)return;
+ const definition=battle.content.statuses[p.immortalityStatus];
+ if(!definition?.preventDeath)return;
+ if(activeStatuses(target).some(status=>battle.content.statuses[status.id]?.preventDeath))return;
+ if(hpAfter>target.stats.maxHp*p.threshold)return;
+ target.battleProcs={...(target.battleProcs??{}),lowHpImmortality:true};
+ target.statuses.push({id:p.immortalityStatus,remaining:1,sourceId:target.id,stacks:1,expiresAfterRound:battle.round});
+ io?.write?.(battle,target.name+': '+p.name+' — Bất Tử đến hết vòng.');
+ io?.emit?.(battle,{type:'status',sourceId:target.id,targetId:target.id,statusId:p.immortalityStatus,beneficial:true});
+}
+export function maybeGrantLowHpImmortality(battle,target,hpAfter,io){applyLowHpImmortality(battle,target,hpAfter,io);}
 export function applyLifeDamage(battle,target,amount,{element,healthFloor=0}={},io){
  const result={hpLost:0,maxHpLost:0,entered:false};if(!isAlive(target)||!Number.isFinite(amount)||amount<=0)return result;
  amount=Math.max(0,Math.floor(amount));
@@ -14,6 +27,7 @@ export function applyLifeDamage(battle,target,amount,{element,healthFloor=0}={},
   if(target.stats.maxHp===0){target.hp=0;if(target.agonyState)target.agonyState.active=false;}
   return result;
  }
+ applyLowHpImmortality(battle,target,Math.max(healthFloor,target.hp-Math.min(target.hp,amount)),io);
  if(activeStatuses(target).some(s=>battle.content.statuses[s.id]?.preventDeath))healthFloor=Math.max(healthFloor,1);
  result.hpLost=Math.min(Math.max(0,target.hp-healthFloor),amount);target.hp-=result.hpLost;
  if(target.hp===0&&target.stats.maxHp>0&&target.group==='agony'&&target.agony){

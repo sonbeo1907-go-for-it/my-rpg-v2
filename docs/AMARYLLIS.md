@@ -30,10 +30,10 @@ Kinh Cầu dùng `initialCooldown: 6` (cùng cơ chế với `aldric.reservoir`)
 
 `type: heal_mp_regen`, `ratio: 0.1`, `cap: 10`.
 
-Mỗi lần cô hồi máu, cô hồi thêm **10% lượng hồi cô tạo ra cho từng người** thành MP, tối đa **10 MP mỗi người được hồi**.
+Khi hồi máu cho đồng đội, cô đồng thời hồi MP cho **người được hồi** bằng **10% lượng hồi cô tạo ra**, tối đa **10 MP mỗi người** — kể cả khi người đó đang đầy HP. MP về người nhận, không dồn về Amaryllis; nếu Amaryllis nằm trong mục tiêu (ví dụ Vòng Tay Che Chở) thì cô cũng nhận phần của mình.
 
 - Tính trên **lượng hồi Amaryllis tạo ra**, trước giảm hồi của người nhận và trước trần HP: mục tiêu đầy HP vẫn tính, Vết Thương Sâu trên người nhận không làm giảm MP nhận được.
-- **Heal toàn đội tính theo đầu người**: mỗi người được hồi cộng riêng 10% lượng hồi của chính người đó, trần 10 MP/người — không gộp tổng lượng heal rồi mới tính. Heal 4 người đủ lớn có thể hồi tới 40 MP.
+- **Heal toàn đội tính theo đầu người**: mỗi người được hồi cộng riêng 10% lượng hồi của chính người đó, trần 10 MP/người — không gộp tổng lượng heal rồi mới tính. Heal 4 người đủ lớn có thể chia tới 40 MP cho cả đội, không dồn vào một người.
 - MP đầy vẫn kích hoạt bình thường ("kể cả ở Max MP") nhưng phần vượt bị chặn ở MP tối đa.
 - Chỉ tính phần hồi từ **kỹ năng của chính cô**; hồi máu từ đồng đội, regen, hút máu hoặc Độc không kích hoạt.
 
@@ -65,4 +65,4 @@ Engine phát event `revive` cho từng người; timeline và `combat-effects` v
 
 ## Kiểm chứng
 
-`test/amaryllis.test.js`: định danh/chỉ số, heal 180%/80% theo MAG, không CD, trần 10 MP và trạng thái MP đầy, MP vẫn hồi khi mục tiêu đầy HP, hồi sinh toàn đội + xóa Kế Ước/giữ Vết Thương Sâu + hồi chiêu, Kinh Cầu cố định không nâng Rank và CD luôn 10, sống/chết không xóa buff-debuff, pool Chiêu Mộ. Ngoài ra chạy `validate`, typecheck và toàn bộ unit test.
+`test/amaryllis.test.js`: định danh/chỉ số, heal 180%/80% theo MAG, không CD, MP về người được hồi (trần 10 MP/người, kể cả mục tiêu đầy HP/MP), hồi sinh toàn đội + xóa Kế Ước/giữ Vết Thương Sâu + hồi chiêu, Kinh Cầu cố định không nâng Rank và CD luôn 10, sống/chết không xóa buff-debuff, pool Chiêu Mộ. Ngoài ra chạy `validate`, typecheck và toàn bộ unit test.

@@ -10260,7 +10260,6 @@
       "damage"
     ],
     "rankable": true,
-    "cooldown": 1,
     "description": "Tấn công toàn địch và giảm DEF, RES của những mục tiêu trúng đòn."
   },
   {

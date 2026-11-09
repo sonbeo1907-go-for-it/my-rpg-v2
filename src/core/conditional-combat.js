@@ -27,7 +27,7 @@ export function buffTypeCount(content,target) {
   return new Set(activeStatuses({...target,statuses:target.statuses??[]}).filter(s=>content.statuses[s.id]?.kind==='buff'&&(s.remaining==null||s.remaining>0)&&(s.stacks??1)>0).map(s=>s.id)).size;
 }
 export function buffDamageBonus(passive,count) {return passive?.type==='unbuffed_target_damage' ? count===0?passive.ratio:0 : passive?.type==='target_buff_damage' ? Math.min(passive.cap,Math.max(0,count)*passive.ratio) : 0;}
-export function lowHpDamageBonus(passive,hpRatio) {return passive?.type==='low_hp_damage' ? passive.ratio*(1-Math.max(0,Math.min(1,hpRatio))) : 0;}
+export function lowHpDamageBonus(passive,hpRatio) {return ['low_hp_damage','low_hp_immortality'].includes(passive?.type) ? (passive.ratio??0)*(1-Math.max(0,Math.min(1,hpRatio))) : 0;}
 export function debuffTypeCount(content,target) {
   if (!target) return 0;
   return new Set(activeStatuses({...target,statuses:target.statuses??[]}).filter(status=>

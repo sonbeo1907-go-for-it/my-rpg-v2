@@ -58,6 +58,12 @@ test('Amiya three-member threshold restores team MP once at round start, even wh
  assert.ok(restores.every(e=>e.amount===6));b.phase='extra';use(b,unit('shion'),'$attack',b.actors.find(x=>x.team==='enemy'));
  assert.equal(b.events.filter(e=>e.type==='mp_restore'&&e.sourceId===a.id).length,0);
 });
+test('balance 09/11: Địa Kiếm — Rạn Thế Yêu Ma has no cooldown',()=>{
+ assert.equal(c0.abilities['shion.strike'].cooldown??0,0);
+ const {b,unit}=setup(['shion','arthur','iris','elaine']),a=unit('shion');
+ use(b,a,'shion.strike');
+ assert.equal(a.cooldowns['shion.strike']??0,0);
+});
 test('Amiya with only two members generates one and never restores MP; no overflow at full MP',()=>{
  const {b,unit}=setup(['amiya','shion','arthur','elaine']);for(const x of b.actors.filter(x=>x.team==='party'))x.mp=100;state(b).value=0;waitRound(b);assert.equal(state(b).value,1);assert.equal(unit('arthur').mp,100);
  const full=setup(['amiya','shion','tsukiha','arthur']);for(const x of full.b.actors.filter(x=>x.team==='party'))x.mp=x.stats.maxMp;waitRound(full.b);assert.ok(full.b.actors.every(x=>x.mp<=x.stats.maxMp));
