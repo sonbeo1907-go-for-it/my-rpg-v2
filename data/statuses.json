@@ -1631,5 +1631,40 @@
       "defense": -0.3
     },
     "description": "Giảm 30% DEF trong 2 lượt chính."
+  },
+  {
+    "id": "angelica_curse",
+    "name": "Suy Giảm Thuật Thức",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "defense": -0.15,
+      "resistance": -0.15
+    },
+    "description": "Giảm 15% DEF và RES trong 2 lượt chính."
+  },
+  {
+    "id": "melpiphia_bless",
+    "name": "Dòng Nước Dẫn Lối",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 3,
+    "modifiers": {
+      "magic": 0.4
+    },
+    "description": "Tăng 40% MAG trong 3 lượt chính."
+  },
+  {
+    "id": "melpiphia_curse",
+    "name": "Xoáy Nước Nặng",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 3,
+    "modifiers": {
+      "resistance": -0.3,
+      "speed": -0.15
+    },
+    "description": "Giảm 30% RES và 15% SPD trong 3 lượt chính."
   }
 ]

@@ -27,6 +27,8 @@ export function validateTacticalPassives(content){
    const mode=a.combatModes?.[p.modeId];
    if(!p.name||!p.description||!mode||mode.lifetime!=='permanent'||mode.exitCondition!=='no_boss'||!mode.allowedAbilities?.length)errors.push(a.id+': invalid boss hunter mode');
   }
+  if(p?.type==='speed_lock_ally'&&(!p.name||!p.description))errors.push(a.id+': invalid speed lock ally');
+  if(p?.type==='water_ally_mp'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>0.1))errors.push(a.id+': invalid water ally MP');
  }
  return errors;
 }

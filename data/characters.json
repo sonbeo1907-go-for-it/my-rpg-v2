@@ -4439,5 +4439,96 @@
       }
     },
     "releaseId": 98
+  },
+  {
+    "id": "angelica",
+    "name": "Angelica",
+    "title": "Thuật Sư Hậu Cần",
+    "affiliation": "expedition_corps",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "element": "light",
+    "description": "Cô gái trẻ vừa tốt nghiệp Học viện Ma pháp, gia nhập hội hậu cần của Sư đoàn Viễn Chinh với những vòng ấn trói buộc chiến trường.",
+    "biography": "Angelica mang theo sổ tay chú thuật và một la bàn ánh sáng. Cô không nhanh chân, nhưng luôn tìm được người dẫn đường nhanh nhất trong đội để bám theo và biến nhịp hành quân của họ thành nhịp thi triển của mình.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "quartermaster"
+    ],
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 130,
+      "attack": 8,
+      "magic": 24,
+      "defense": 14,
+      "resistance": 24,
+      "speed": 1
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "angelica.seal",
+      "angelica.curse",
+      "angelica.iconic"
+    ],
+    "passive": {
+      "type": "speed_lock_ally",
+      "name": "Bám Nhịp Hậu Cần",
+      "description": "Một lần ở đầu trận, khóa đồng đội có SPD cao nhất còn sống. Khi người đó còn sống, SPD của Angelica luôn bằng SPD của người đó trừ 1; nếu người đó gục, SPD của Angelica trở về 1."
+    },
+    "releaseId": 99
+  },
+  {
+    "id": "melpiphia",
+    "name": "Melpiphia",
+    "title": "Hỗ Trợ Tấn Công",
+    "affiliation": "expedition_corps",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "water",
+    "description": "Nghiêm túc khi đánh đấm, tưng tửng ngoài giờ làm việc; Melpiphia dẫn dòng nước qua chiến trường và tiếp sức cho những đồng đội cùng hệ Thủy.",
+    "biography": "Melpiphia luôn có một câu đùa cho mọi cuộc họp hậu cần, nhưng khi tiếng còi trận vang lên thì nụ cười biến mất. Cô dùng các xoáy nước để bào mòn phòng thủ địch và kéo đồng đội hệ Thủy tiến lên.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "water_support"
+    ],
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 100,
+      "attack": 10,
+      "magic": 30,
+      "defense": 18,
+      "resistance": 22,
+      "speed": 20
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "melpiphia.strike",
+      "melpiphia.bless",
+      "melpiphia.undertow"
+    ],
+    "passive": {
+      "type": "water_ally_mp",
+      "name": "Tiếp Nước",
+      "description": "Cuối vòng, hồi 2,5% MP tối đa cho toàn đội với mỗi nhân vật hệ Thủy còn sống trong đội, trừ Melpiphia.",
+      "ratio": 0.025
+    },
+    "releaseId": 100
   }
 ]

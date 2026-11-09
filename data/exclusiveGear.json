@@ -1355,5 +1355,54 @@
         }
       ]
     }
+  },
+  {
+    "id": "amiya.lantern",
+    "characterId": "amiya",
+    "name": "Đèn Hồn Kiếm",
+    "description": "Trấn Phái riêng của Amiya. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "exposure_stack_bonus",
+      "name": "Đèn Soi Hai Lối",
+      "description": "Quang Phù — Linh Đăng Khai Lộ tạo thêm 1 tầng Sơ hở Hồn Kiếm cho cả mục tiêu chính và mục tiêu phụ.",
+      "abilityIds": [
+        "amiya.strike"
+      ],
+      "amount": 1,
+      "rules": [
+        "Mục tiêu chính nhận 3 tầng, mục tiêu phụ nhận 2 tầng.",
+        "Chỉ áp dụng cho Quang Phù; không đổi các kỹ năng khác."
+      ]
+    }
+  },
+  {
+    "id": "kaguya.moon_cradle",
+    "characterId": "kaguya",
+    "name": "Nôi Trăng Hồn Kiếm",
+    "description": "Trấn Phái riêng của Kaguya. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "soul_create_team_base_stat",
+      "name": "Nôi Trăng Giữ Hồn",
+      "description": "Mỗi khi Kaguya tạo Hồn Kiếm bằng kỹ năng, tăng 4 DEF và RES căn bản cho cả đội đến hết trận; tối đa 3 lần.",
+      "amount": 4,
+      "stats": [
+        "defense",
+        "resistance"
+      ],
+      "maxStacks": 3,
+      "rules": [
+        "Mỗi kỹ năng tạo Hồn Kiếm chỉ cộng một tầng, kể cả khi kỹ năng tạo nhiều hơn một.",
+        "Cộng trực tiếp vào DEF/RES căn bản; các hiệu ứng tăng phần trăm áp dụng sau.",
+        "Hiệu lực đến hết trận; tối đa 3 tầng."
+      ]
+    }
   }
 ]

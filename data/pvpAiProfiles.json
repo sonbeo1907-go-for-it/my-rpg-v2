@@ -1475,5 +1475,39 @@
       "chen.double": 20,
       "chen.fulfill": 28
     }
+  },
+  {
+    "id": "angelica",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "angelica.curse"
+    ],
+    "burstAbilities": [
+      "angelica.iconic"
+    ],
+    "skillBias": {
+      "angelica.seal": 20,
+      "angelica.curse": 24,
+      "angelica.iconic": 30
+    }
+  },
+  {
+    "id": "melpiphia",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "melpiphia.bless"
+    ],
+    "burstAbilities": [
+      "melpiphia.undertow"
+    ],
+    "skillBias": {
+      "melpiphia.strike": 18,
+      "melpiphia.bless": 22,
+      "melpiphia.undertow": 24
+    }
   }
 ]
