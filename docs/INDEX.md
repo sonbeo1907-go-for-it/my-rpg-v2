@@ -75,6 +75,8 @@
 - [Flammelapis — Người giữ kiếm cổ](FLAMMELAPIS.md)
 - [Amaryllis — Người giữ đèn nhà thờ](AMARYLLIS.md)
 - [Brant — Lá chắn của Hội Thợ Săn](BRANT.md)
+- [Patricia — Nhà Nghiên Cứu Địa Tầng](PATRICIA.md)
+- [Vilgard — Kẻ Mang Mối Thù Không Tàn](VILGARD.md)
 - [Chelsea — Sứ giả định mệnh](CHELSEA.md)
 - [Heimdall Valmont và Finmel — cấu hình playtest](HEIMDALL_FINMEL.md)
 - [Yufina, Karin, Elise, Yumia và đổi Original Prisma](HUNTER_QUARTET.md)

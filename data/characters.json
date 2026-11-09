@@ -4170,5 +4170,98 @@
       "time_traveler"
     ],
     "releaseId": 93
+  },
+  {
+    "id": "patricia",
+    "name": "Patricia",
+    "title": "Nhà Nghiên Cứu Địa Tầng",
+    "affiliation": "expedition_corps",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "earth",
+    "description": "Nghiên cứu địa chất ngoài chiến trường: biến Khiên của đồng đội thành cộng hưởng MAG, rồi khoan thẳng vào lõi địch.",
+    "biography": "Patricia tin rằng mọi lớp đất đá đều ghi lại một câu chuyện. Cô mang theo la bàn địa tầng và những mẫu khoáng vật, dùng chính lớp khiên bảo vệ của đội làm thấu kính hội tụ phép thuật.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights"
+    ],
+    "stats": {
+      "maxHp": 140,
+      "maxMp": 100,
+      "attack": 9,
+      "magic": 36,
+      "defense": 16,
+      "resistance": 22,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "patricia.bedrock",
+      "patricia.survey",
+      "patricia.core"
+    ],
+    "passive": {
+      "type": "shielded_ally_magic",
+      "name": "Cộng Hưởng Khiên Đá",
+      "description": "Mỗi thành viên trong đội đang có Khiên (từ bất kỳ nguồn nào) tăng thêm 15% MAG cho Patricia; luôn hoạt động, tính cả bản thân nếu đang có Khiên.",
+      "ratio": 0.15
+    },
+    "releaseId": 94
+  },
+  {
+    "id": "vilgard",
+    "name": "Vilgard",
+    "title": "Kẻ Mang Mối Thù Không Tàn",
+    "affiliation": "expedition_corps",
+    "role": "DPS vật lý",
+    "roleGroup": "physical_dps",
+    "element": "dark",
+    "description": "Kẻ mang mối thù không tàn: chết đi để trỗi dậy mạnh hơn, dồn Ám Ảnh vào một nhát trả thù xuyên giáp.",
+    "biography": "Vilgard không quên. Mỗi vết thương, mỗi cái chết đều được khắc vào lưỡi kiếm đen; hắn quay lại từ cõi chết với nhiều mối thù hơn, miễn là kẻ thù còn đứng trước mặt.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights"
+    ],
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 90,
+      "attack": 40,
+      "magic": 8,
+      "defense": 18,
+      "resistance": 18,
+      "speed": 18
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "vilgard.pursuit",
+      "vilgard.cleave",
+      "vilgard.reckoning"
+    ],
+    "passive": {
+      "type": "vengeful_revive",
+      "name": "Mối Thù Chưa Trả",
+      "description": "Mỗi 5 vòng một lần, khi Vilgard chết, hồi sinh ngay lập tức, nhận Lượt Thêm và 5 tầng Ám Ảnh.",
+      "cooldownRounds": 5,
+      "hpRatio": 1,
+      "statusId": "obsession",
+      "stacks": 5
+    },
+    "releaseId": 95
   }
 ]

@@ -33,7 +33,7 @@ test('designation tag is exclusive to its own character',()=>{
 
 test('other factions keep their own affiliation slug',()=>{
  for(const c of Object.values(content.characters)){
-  if(c.affiliation==='capital_knights')continue;
+  if(['capital_knights','expedition_corps'].includes(c.affiliation))continue;
   assert.ok(!/Kị sĩ|Hiệp sĩ/i.test(affiliationLabel(c.affiliation)),`${c.id} còn nhãn Kị sĩ cũ: ${c.affiliation}`);
  }
 });

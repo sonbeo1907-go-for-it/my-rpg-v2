@@ -370,6 +370,7 @@
     "id": "young_oath",
     "name": "Lời thề của kị sĩ trẻ",
     "kind": "buff",
+    "durationClock": "main_turn",
     "modifiers": {
       "attack": 0.25
     }
@@ -1549,5 +1550,18 @@
       "magic": 0.25
     },
     "description": "Mỗi tầng tăng 25% MAG. Tối đa 2 tầng, làm mới thời hạn khi nhận thêm tầng."
+  },
+  {
+    "id": "obsession",
+    "name": "Ám Ảnh",
+    "kind": "buff",
+    "persistent": true,
+    "maxStacks": 5,
+    "modifiersPerStack": true,
+    "fixedModifiers": true,
+    "modifiers": {
+      "attack": 0.1
+    },
+    "description": "Mỗi tầng tăng 10% ATK, tối đa 5 tầng. Bị tiêu hết khi Vilgard dùng đòn trả thù diện rộng."
   }
 ]

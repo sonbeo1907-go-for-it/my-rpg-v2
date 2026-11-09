@@ -91,7 +91,7 @@ test('healing a target at full MP never overflows capacity',()=>{
  assert.equal(am.mp,am.stats.maxMp-10,'Amaryllis chỉ trả chi phí chiêu');
 });
 
-test('Litany revives the team full, pays the mortgage but keeps Deep Wound',()=>{
+test('Litany revives the team full and clears every status on the fallen',()=>{
  const {battle,am,arthur,iris,takeshi}=fixture();
  am.mp=am.stats.maxMp;
  arthur.hp=0;iris.hp=1;takeshi.hp=0;
@@ -101,16 +101,16 @@ test('Litany revives the team full, pays the mortgage but keeps Deep Wound',()=>
  am.cooldowns['amaryllis.litany']=0;
  executeAction(battle,{actorId:am.id,abilityId:'amaryllis.litany',targetId:am.id});
  for(const ally of [arthur,iris,takeshi,am]){
-  assert.equal(ally.hp,ally.stats.maxHp,ally.name+' phải hồi đầy HP dù còn Vết Thương Sâu');
+  assert.equal(ally.hp,ally.stats.maxHp,ally.name+' phải hồi đầy HP');
   assert.equal(ally.mp,ally.stats.maxMp,ally.name+' phải hồi đầy MP');
  }
- for(const ally of [arthur,iris]){
-  const ids=ally.statuses.map(status=>status.id);
-  assert.ok(!ids.includes('life_mortgage'),ally.name+' phải được xóa Kế Ước Thế Chấp');
-  assert.ok(ids.includes('deep_wound'),ally.name+' phải giữ Vết Thương Sâu');
- }
+ assert.deepEqual(arthur.statuses,[],'người đã gục được hồi sinh phải sạch mọi status');
+ assert.deepEqual(takeshi.statuses,[],'người đã gục được hồi sinh phải sạch mọi status');
+ const irisIds=iris.statuses.map(status=>status.id);
+ assert.ok(!irisIds.includes('life_mortgage'),'người còn sống vẫn trả nợ Kế Ước');
+ assert.ok(irisIds.includes('shield_fracture'),'debuff khác trên người còn sống được giữ');
+ assert.ok(irisIds.includes('deep_wound'),'Vết Thương Sâu trên người còn sống không bị cleanse');
  assert.equal(arthur.statuses.some(status=>status.id==='shield_fracture'),false,'debuff khác trên người đã gục bị xóa');
- assert.ok(iris.statuses.some(status=>status.id==='shield_fracture'),'debuff khác trên người còn sống được giữ');
  const revives=battle.events.filter(event=>event.type==='revive');
  assert.equal(revives.length,4);
  assert.equal(revives.filter(event=>event.fallen).length,2);
@@ -181,6 +181,6 @@ test('cái chết chỉ xóa Kế Ước cùng nợ HP; các buff/debuff khác v
  am.cooldowns['amaryllis.litany']=0;
  cast(battle,am.id,'amaryllis.litany',am.id);
  assert.equal(arthur.hp,arthur.stats.maxHp,'hồi sinh đưa Arthur về đầy HP');
- assert.deepEqual(arthur.statuses.map(status=>status.id),['deep_wound'],'hồi sinh chỉ giữ Vết Thương Sâu');
+ assert.deepEqual(arthur.statuses,[],'hồi sinh xóa mọi status, kể cả Vết Thương Sâu');
  assert.equal(lifeDebt(arthur),0);
 });

@@ -25,14 +25,15 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `rhett_research_facility` | Viện Nghiên Cứu Tự Xưng của Rhett | 3 | Amaryllis, Arden, Rhett |
 | `mikaielis_order` | Giáo đoàn Mikaielis | 1 | Elise |
 | `mage_circle` | Giới pháp sư | 1 | Aldric |
-| `time_travelers` | Lữ khách thời không | 1 | Astoria (chỉ developer) |
+| `time_travelers` | Lữ khách thời không | 1 | Astoria |
+| `expedition_corps` | Kị sĩ Sư đoàn Viễn Chinh | 2 | Patricia, Vilgard |
 | `destiny_heralds` | Sứ giả Định Mệnh | 1 | Chelsea |
 | `wanderer` | Lãng khách | 1 | Mori |
 | `drageshelmfjall_merchants` | Hội Thương Nhân Drageshelmfjall | 1 | Myonne |
 | `keijo_shrine` | Đền Keijo | 3 | Amiya, Kaguya, Tsukiha |
 | `northern_forest` | Khu rừng phương Bắc | 1 | Minerva |
 
-86/87 nhân vật đã có phe. Verena chưa xác định gia tộc/phe phái nên để trống theo luật ở trên. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
+93/94 nhân vật đã có phe. Verena chưa xác định gia tộc/phe phái nên để trống theo luật ở trên. Rhett đứng tên "viện" của chính mình cùng Arden và Amaryllis; Fran thuộc Học viện Ma pháp — "Học viện Phép Thuật" là một trong các cách viết cũ đã gộp vào slug `magic_academy`, nhãn hiển thị thống nhất là "Học viện Ma pháp".
 
 ## Vì sao có tên "Viện Nghiên Cứu Tự Xưng của Rhett"
 

@@ -11143,5 +11143,178 @@
     "presentation": "iaido_eclipse",
     "requiresMode": "ancestral_edge",
     "cooldown": 3
+  },
+  {
+    "id": "patricia.bedrock",
+    "name": "Lớp Chắn Địa Tầng",
+    "description": "Dựng một lớp khiên đá cho toàn đội, hội tụ từ nền địa tầng dưới chân.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "magic",
+        "multiplier": 0.65
+      }
+    ],
+    "skillLineId": "patricia.bedrock",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "patricia.survey",
+    "name": "Quét Sóng Địa Chấn",
+    "description": "Gửi một đợt sóng địa chấn quét qua toàn bộ chiến trường.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1.8
+      }
+    ],
+    "skillLineId": "patricia.survey",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "patricia.core",
+    "name": "Khoan Phá Lõi Đá",
+    "description": "Dồn toàn bộ cộng hưởng địa chất vào một điểm, có cơ hội làm Choáng mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 4.8,
+        "onHitStatus": {
+          "status": "stunned",
+          "duration": 1,
+          "chanceScaling": {
+            "stat": "magic",
+            "basis": "dynamic",
+            "at": 160,
+            "cap": 0.8
+          }
+        }
+      }
+    ],
+    "skillLineId": "patricia.core",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.pursuit",
+    "name": "Truy Sát Không Rời",
+    "description": "Chém kẻ địch chỉ định; nếu còn kẻ khác, lưỡi kiếm thù hận tự tìm thêm một mục tiêu ngẫu nhiên.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.8,
+        "randomSecondaryMultiplier": 1.8
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "obsession",
+        "stacks": 1
+      }
+    ],
+    "skillLineId": "vilgard.pursuit",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.cleave",
+    "name": "Nhát Chém Oán Hận",
+    "description": "Chém mục tiêu chính và kẻ kề bên, để lại Rạn Khiên; mối thù chồng thêm hai tầng.",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.5,
+        "primaryMultiplier": 2.2,
+        "onHitStatus": {
+          "status": "shield_fracture",
+          "duration": 2
+        }
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "obsession",
+        "stacks": 2
+      }
+    ],
+    "skillLineId": "vilgard.cleave",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.reckoning",
+    "name": "Trả Thù Toàn Diện",
+    "description": "Trút toàn bộ Ám Ảnh vào một nhát chém diện rộng; mỗi tầng xuyên thêm 20% DEF, sau đó mối thù tan biến.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 3.8,
+        "consumeSelfStatus": "obsession",
+        "penetrationPerSelfStack": 0.2
+      }
+    ],
+    "skillLineId": "vilgard.reckoning",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
   }
 ]

@@ -1392,5 +1392,39 @@
       "chiyoko.awaken": 18,
       "chiyoko.finale": 14
     }
+  },
+  {
+    "id": "patricia",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "patricia.bedrock"
+    ],
+    "burstAbilities": [
+      "patricia.core"
+    ],
+    "skillBias": {
+      "patricia.bedrock": 22,
+      "patricia.survey": 16,
+      "patricia.core": 28
+    }
+  },
+  {
+    "id": "vilgard",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "vilgard.pursuit"
+    ],
+    "burstAbilities": [
+      "vilgard.reckoning"
+    ],
+    "skillBias": {
+      "vilgard.pursuit": 16,
+      "vilgard.cleave": 20,
+      "vilgard.reckoning": 30
+    }
   }
 ]

@@ -42,10 +42,9 @@ Khi hồi máu cho đồng đội, cô đồng thời hồi MP cho **người đ
 `amaryllis.litany` dùng effect `revive` (dùng chung, không riêng Amaryllis):
 
 - Mọi người cùng đội: người đã gục trở lại với **100% HP tối đa** và **100% MP tối đa**; người còn sống cũng được hồi đầy HP/MP.
-- **Xóa Kế Ước Thế Chấp** (kèm nợ HP) trên toàn đội, kể cả người chưa gục. **Không xóa Vết Thương Sâu** — Vết Thương Sâu vẫn nằm trên người mang và tiếp tục giảm các lần hồi sau.
-- **Lượng hồi của hồi sinh luôn đủ lớn để vượt Vết Thương Sâu**: HP được đặt thẳng về 100%, nên dù còn Vết Thương Sâu thì lần hồi sinh này vẫn đầy HP.
-- Người đã gục được làm sạch mọi hiệu ứng bất lợi khác khi trở lại; người còn sống giữ nguyên các debuff khác.
-- **Cái chết không xóa buff/debuff**: khi gục, Kế Ước bị xóa cùng nợ HP, còn các status khác (kể cả Vết Thương Sâu) vẫn nằm trên người gục. Vì vậy Vết Thương Sâu vẫn còn đó lúc hồi sinh và lần hồi sinh vẫn phải vượt qua nó. Xem thêm [hợp đồng vòng đời](COMBAT_LIFECYCLE_CONTRACT.md).
+- **Xóa Kế Ước Thế Chấp** (kèm nợ HP) trên toàn đội, kể cả người chưa gục. Người **đã gục** được hồi sinh sẽ bị xóa **toàn bộ status, kể cả Vết Thương Sâu**; người còn sống giữ Vết Thương Sâu và các debuff khác.
+- Người đã gục được làm sạch mọi hiệu ứng khi trở lại; người còn sống giữ nguyên các debuff khác.
+- **Cái chết không xóa buff/debuff**: khi gục, Kế Ước bị xóa cùng nợ HP, còn các status khác vẫn nằm trên người gục cho tới khi hồi sinh. Effect hồi sinh sau đó xóa sạch toàn bộ, không giữ Vết Thương Sâu. Xem thêm [hợp đồng vòng đời](COMBAT_LIFECYCLE_CONTRACT.md).
 - Người hồi sinh **không hành động trong vòng đang diễn ra**; vòng kế tiếp mới được xếp lượt.
 - Không hồi sinh kẻ địch, không hồi sinh người ngoài đội, không cấp Lượt Thêm.
 - Hồi sinh không tính là "hồi máu" cho nội tại Đèn Dầu Không Tắt.
@@ -65,4 +64,4 @@ Engine phát event `revive` cho từng người; timeline và `combat-effects` v
 
 ## Kiểm chứng
 
-`test/amaryllis.test.js`: định danh/chỉ số, heal 180%/80% theo MAG, không CD, MP về người được hồi (trần 10 MP/người, kể cả mục tiêu đầy HP/MP), hồi sinh toàn đội + xóa Kế Ước/giữ Vết Thương Sâu + hồi chiêu, Kinh Cầu cố định không nâng Rank và CD luôn 10, sống/chết không xóa buff-debuff, pool Chiêu Mộ. Ngoài ra chạy `validate`, typecheck và toàn bộ unit test.
+`test/amaryllis.test.js`: định danh/chỉ số, heal 180%/80% theo MAG, không CD, MP về người được hồi (trần 10 MP/người, kể cả mục tiêu đầy HP/MP), hồi sinh toàn đội + xóa Kế Ước + xóa sạch status người đã gục + hồi chiêu, Kinh Cầu cố định không nâng Rank và CD luôn 10, sống/chết không xóa buff-debuff, pool Chiêu Mộ. Ngoài ra chạy `validate`, typecheck và toàn bộ unit test.

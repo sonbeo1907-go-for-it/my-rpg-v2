@@ -1144,5 +1144,47 @@
         "Hiệu ứng chỉ hoạt động khi trang bị đúng Trấn và chỉ tính một lần mỗi lần thi triển."
       ]
     }
+  },
+  {
+    "id": "patricia.geode",
+    "characterId": "patricia",
+    "name": "Thấu Kính Địa Tầng",
+    "description": "Trấn Phái riêng của Patricia. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "end_round_shielded_mp",
+      "name": "Tinh Thể Tích Tụ",
+      "description": "Cuối vòng, hồi 2% MP tối đa cho Patricia với mỗi thành viên trong đội đang có Khiên.",
+      "ratio": 0.02,
+      "rules": [
+        "Đếm mọi Khiên còn giá trị trên người đồng đội còn sống, gồm cả Patricia.",
+        "Hồi theo MP tối đa hiện tại; không vượt trần MP."
+      ]
+    }
+  },
+  {
+    "id": "vilgard.grudge",
+    "characterId": "vilgard",
+    "name": "Lưỡi Kiếm Oán Hận",
+    "description": "Trấn Phái riêng của Vilgard. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "on_revive_reset_cooldown",
+      "name": "Trỗi Dậy Trong Căm Hờn",
+      "description": "Sau khi hồi sinh, lập tức hồi chiêu Trả Thù Toàn Diện.",
+      "abilityIds": [
+        "vilgard.reckoning"
+      ],
+      "rules": [
+        "Chỉ hồi chiêu sau lần hồi sinh của nội tại, không hồi các kỹ năng khác.",
+        "Nếu kỹ năng đang không hồi chiêu, giữ nguyên trạng thái sẵn sàng."
+      ]
+    }
   }
 ]
