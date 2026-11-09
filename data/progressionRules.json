@@ -97,6 +97,24 @@
         "level": 45,
         "xp": 965,
         "rewardMultiplier": 2
+      },
+      "east_35": {
+        "name": "Phương Đông · 35",
+        "level": 35,
+        "xp": 615,
+        "rewardMultiplier": 1.75
+      },
+      "east_45": {
+        "name": "Phương Đông · 45",
+        "level": 45,
+        "xp": 965,
+        "rewardMultiplier": 2
+      },
+      "east_55": {
+        "name": "Phương Đông · 55",
+        "level": 55,
+        "xp": 1350,
+        "rewardMultiplier": 2.25
       }
     },
     "enemyGrowth": {
@@ -144,6 +162,10 @@
         {
           "untilLevel": 50,
           "growth": 0.025
+        },
+        {
+          "untilLevel": 55,
+          "growth": 0.025
         }
       ],
       "boss": [
@@ -154,6 +176,10 @@
         {
           "untilLevel": 50,
           "growth": 0.04
+        },
+        {
+          "untilLevel": 55,
+          "growth": 0.025
         }
       ],
       "superboss": [

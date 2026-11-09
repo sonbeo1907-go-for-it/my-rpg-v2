@@ -11768,5 +11768,25 @@
       "damage"
     ],
     "rankable": true
+  },
+  {
+    "id": "enemy.east_basic",
+    "name": "Đòn thử",
+    "description": "Đòn đánh cơ bản miễn phí của thủ lĩnh Phương Đông.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "skillLineId": "enemy.east_basic",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Đòn dự phòng cố định của boss."
   }
 ]

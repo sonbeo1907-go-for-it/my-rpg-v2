@@ -1,11 +1,11 @@
-﻿# Gear Hồn Kiếm và Trấn Amiya/Kaguya — 09/11/2026
+# Gear Hồn Kiếm và Trấn Amiya/Kaguya — 09/11/2026
 
 ## Gear hiệu ứng mới
 
 ### Giếng Hồn Kiếm — `soul_wellspring`
 
 - MP của người trang bị tăng **20%**.
-- Khi người trang bị tạo Hồn Kiếm bằng kỹ năng, hồi **3% MP tối đa cho cả đội**.
+- Khi người trang bị **trực tiếp tạo Hồn Kiếm bằng hiệu ứng kỹ năng**, hồi **3% MP tối đa cho cả đội**.
 - Một lần kích hoạt cho mỗi hành động tạo Hồn Kiếm, kể cả khi kỹ năng tạo nhiều hơn một.
 - Nhóm hiệu ứng `gear_soul_wellspring`; không cộng dồn với trang bị cùng tên/nhóm trên cùng người.
 

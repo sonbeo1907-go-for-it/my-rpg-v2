@@ -15,6 +15,7 @@ test('the two soul gear recipes and two new trấn validate',()=>{
  assert.deepEqual(validateContent(content),[]);
  assert.equal(Object.keys(content.gearEffects).length,27);
  assert.equal(content.gearEffects.soul_wellspring.effect.type,'soul_creation_mp');
+ assert.match(content.gearEffects.soul_wellspring.description,/trực tiếp tạo Hồn Kiếm bằng hiệu ứng kỹ năng/);
  assert.equal(content.gearEffects.soul_forge_sigil.effect.type,'soul_spend_damage');
  assert.ok(content.exclusiveGear['amiya.lantern']);assert.ok(content.exclusiveGear['kaguya.moon_cradle']);
 });

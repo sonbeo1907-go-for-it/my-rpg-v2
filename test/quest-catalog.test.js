@@ -17,7 +17,7 @@ test('default board contains normal then boss quests, stable within reward group
   assert.deepEqual(rewards, [...rewards].sort((a,b)=>a-b));
   assert.deepEqual([...new Set(rewards)], [50, 150]);
   for(const tier of ['normal','boss']) {
-    assert.deepEqual(questCatalog(content,save,{type:tier}).map(e=>e.id),Object.values(content.encounters).filter(e=>!e.travelerStory&&!['bounty','chronicle'].includes(e.category)&&encounterTier(e)===tier).map(e=>e.id));
+    assert.deepEqual(questCatalog(content,save,{type:tier}).map(e=>e.id),Object.values(content.encounters).filter(e=>!e.travelerStory&&!['bounty','chronicle','east_key','east_hunt'].includes(e.category)&&encounterTier(e)===tier).map(e=>e.id));
   }
   assert.equal(questCatalog(content,save,{q:'LỢN RỪNG'})[0].id,'boar_field');
   assert.ok(questCatalog(content,save,{tab:'extermination',selected:'alice_superboss'}).every(e=>encounterTier(e)!=='super'));

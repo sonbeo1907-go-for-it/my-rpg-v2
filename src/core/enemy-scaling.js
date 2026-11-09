@@ -76,7 +76,7 @@ export function levelScaledEnemyStats(enemy,level,content,override=1,encounter={
 export function validateEnemyScalingRules(content) {
   const r=content.progressionRules?.default, errors=[];
   if(r?.enemyBaselineLevel!==1)errors.push('Invalid enemy baseline level');
-  for (const [profile,max] of [['normal',50],['boss',50],['superboss',90]]) {
+  for (const [profile,max] of [['normal',55],['boss',55],['superboss',90]]) {
     const segments=r?.enemyHpCurves?.[profile];
     if (!Array.isArray(segments) || !segments.length || segments.at(-1)?.untilLevel!==max
       || segments.some((s,i)=>!s || !Number.isInteger(s.untilLevel) || s.untilLevel<= (i?segments[i-1]?.untilLevel:1)

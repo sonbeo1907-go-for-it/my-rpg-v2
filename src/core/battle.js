@@ -116,6 +116,12 @@ export function createBattle(
   }
   const scale = enemyStatMultipliers(options.enemyScale ?? 1);
   const difficulty=questDifficulty(content,encounter,options.questDifficulty);
+  if(['east_key','east_hunt'].includes(encounter.category)){
+    const chosen=options.questDifficulty??encounter.defaultDifficulty;
+    if(encounter.allowedDifficulties&&!encounter.allowedDifficulties.includes(chosen))throw Error('Độ khó Phương Đông không hợp lệ.');
+    if(encounter.fixedEnemyLevel!==undefined&&difficulty?.level!==encounter.fixedEnemyLevel)throw Error('Key Event Phương Đông dùng cấp cố định.');
+    if(options.enemyLevel!==undefined&&options.enemyLevel!==difficulty?.level)throw Error('Cấp đối thủ Phương Đông không khớp độ khó.');
+  }
   const requestedLevel=difficulty?(Object.hasOwn(options,"enemyLevel")?options.enemyLevel:difficulty.level):encounter.superLevels?(options.enemyLevel??encounter.superLevels[0]):encounter.category==='chronicle'?options.enemyLevel:encounter.enemyLevel;
   if (
     !Number.isSafeInteger(options.roundOffset ?? 0) ||

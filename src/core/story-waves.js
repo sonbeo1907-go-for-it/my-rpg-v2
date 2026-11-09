@@ -3,6 +3,7 @@ import {createBattle} from './battle.js';
 function makeWave(content,run,previous=null) {
   return createBattle(content,run.partyCampaign,run.encounterId,run.random,{
     storyWaveIndex:run.waveIndex,
+    questDifficulty:run.questDifficulty,
     partyActors:previous?.actors.filter(actor=>actor.team==='party'),
     sourceActors:previous?[...(previous.sourceActors??[]),...previous.actors.filter(actor=>actor.team==='enemy')]:[],
     turnOrderField:previous?.turnOrderField,
@@ -12,10 +13,10 @@ function makeWave(content,run,previous=null) {
     log:[...(previous?.log??[]).slice(-197),'— '+content.encounters[run.encounterId].name+' · Đợt '+(run.waveIndex+1)+'/'+run.waveCount+' —']
   });
 }
-export function createStoryRun(content,campaign,encounterId,random) {
+export function createStoryRun(content,campaign,encounterId,random,options={}) {
   const encounter=content.encounters[encounterId];
-  if (!encounter?.travelerStory || !encounter.waves) throw new Error('Chương không có chuỗi đợt quái.');
-  const run={kind:'story',encounterId,waveIndex:0,waveCount:encounter.waves.length,partyCampaign:structuredClone(campaign),random,claimed:false,battle:null};
+  if (!encounter?.waves || (!encounter.travelerStory && !['east_key','east_hunt'].includes(encounter.category))) throw new Error('Chương không có chuỗi đợt quái.');
+  const run={kind:'story',encounterId,waveIndex:0,waveCount:encounter.waves.length,partyCampaign:structuredClone(campaign),random,questDifficulty:options.questDifficulty,claimed:false,battle:null};
   run.battle=makeWave(content,run);return run;
 }
 export function isFinalStoryWave(run) {return run.waveIndex===run.waveCount-1;}

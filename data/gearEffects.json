@@ -433,7 +433,7 @@
   {
     "id": "soul_wellspring",
     "name": "Giếng Hồn Kiếm",
-    "description": "MP của người trang bị tăng 20%. Khi người trang bị tạo Hồn Kiếm bằng kỹ năng, hồi 3% MP tối đa cho cả đội. Không cộng dồn với trang bị cùng tên trên người trang bị.",
+    "description": "MP của người trang bị tăng 20%. Khi người trang bị trực tiếp tạo Hồn Kiếm bằng hiệu ứng kỹ năng, hồi 3% MP tối đa cho cả đội. Không cộng dồn với trang bị cùng tên trên người trang bị.",
     "costClass": "common",
     "effectGroup": "gear_soul_wellspring",
     "cooldownRounds": 0,

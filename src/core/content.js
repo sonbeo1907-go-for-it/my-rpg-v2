@@ -448,6 +448,9 @@ export function validateContent(content) {
   }
   for (const [id, encounter] of Object.entries(content.encounters)) {
     if(!Number.isInteger(encounter.enemyLevel)||encounter.enemyLevel<1||encounter.enemyLevel>99)fail(id+": invalid encounter level");
+    if(encounter.enemyLevel>50&&!['east_key','east_hunt'].includes(encounter.category)&&!encounter.superLevels&&encounter.rewardTier!=='super'&&!encounter.travelerStory)fail(id+': invalid encounter level');
+    if(encounter.fixedEnemyLevel!==undefined&&(!Number.isInteger(encounter.fixedEnemyLevel)||encounter.fixedEnemyLevel!==encounter.enemyLevel))fail(id+': invalid fixed enemy level');
+    if(encounter.allowedDifficulties!==undefined&&(!Array.isArray(encounter.allowedDifficulties)||!encounter.allowedDifficulties.length||new Set(encounter.allowedDifficulties).size!==encounter.allowedDifficulties.length||encounter.allowedDifficulties.some(key=>!content.progressionRules?.default?.questDifficulties[key])))fail(id+': invalid allowed difficulties');
     if(encounter.referenceLevel!==undefined&&(!Number.isInteger(encounter.referenceLevel)||encounter.referenceLevel<1||encounter.referenceLevel>99))fail(id+': invalid encounter reference level');
     if(encounter.hpReferenceLevel!==undefined&&(!Number.isInteger(encounter.hpReferenceLevel)||encounter.hpReferenceLevel<1||encounter.hpReferenceLevel>99))fail(id+': invalid HP reference level');
     try {
@@ -467,7 +470,7 @@ export function validateContent(content) {
     if (encounter.requires?.firstClears!==undefined && (!Array.isArray(encounter.requires.firstClears)||!encounter.requires.firstClears.length||new Set(encounter.requires.firstClears).size!==encounter.requires.firstClears.length||encounter.requires.firstClears.some(key=>key===id||!content.encounters[key]))) fail(id+': invalid prerequisite chapters');
     if (encounter.requiredPartyIds !== undefined && (!Array.isArray(encounter.requiredPartyIds) || !encounter.requiredPartyIds.length || new Set(encounter.requiredPartyIds).size !== encounter.requiredPartyIds.length || encounter.requiredPartyIds.some(characterId=>!content.characters[characterId]))) fail(`${id}: invalid required party`);
     if (encounter.waves !== undefined) {
-      if ((!encounter.travelerStory && encounter.category!=='chronicle') || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
+      if ((!encounter.travelerStory && !['chronicle','east_key','east_hunt'].includes(encounter.category)) || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
       else for(const wave of encounter.waves) {
         if (!Array.isArray(wave) || !wave.length || wave.length>4 || wave.some(enemy=>!content.enemies[enemy]) || (wave.length!==1 && wave.some(enemy=>content.enemies[enemy]?.boss))) fail(id+': invalid story wave enemies');
       }
@@ -477,7 +480,7 @@ export function validateContent(content) {
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);
     if(encounter.rewardTier==='super'&&encounter.enemies?.length===1){const boss=content.enemies[encounter.enemies[0]];if(boss&&!boss.boss&&!boss.controlImmunities?.includes('stun'))fail(id+': superboss requires stun immunity');}
     exists('music', encounter.bgm ?? 'normal', id);
-    if(encounter.category!==undefined&&!['bounty','chronicle'].includes(encounter.category)) fail(id+': invalid quest category');
+    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt'].includes(encounter.category)) fail(id+': invalid quest category');
     if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
     if(encounter.superLevels!==undefined&&(!['alice_superboss','miraebolis_superboss'].includes(id)||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');
