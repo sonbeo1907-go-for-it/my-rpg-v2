@@ -1186,5 +1186,175 @@
         "Nếu kỹ năng đang không hồi chiêu, giữ nguyên trạng thái sẵn sàng."
       ]
     }
+  },
+  {
+    "id": "amelia.mirror",
+    "characterId": "amelia",
+    "name": "Gương Băng Hộ Giá",
+    "description": "Trấn Phái riêng của Amelia. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Gương Băng Hộ Giá",
+      "description": "Khi đội có Khiên, giảm 20% sát thương nhận vào; liên kích đạt 140% và xóa 1 buff của mục tiêu.",
+      "effects": [
+        {
+          "type": "shielded_team_guard",
+          "name": "Màn Khiên Tập Thể",
+          "description": "Khi bất kỳ thành viên còn sống nào của đội có Khiên, toàn đội giảm 20% sát thương nhận vào.",
+          "ratio": 0.2,
+          "rules": [
+            "Chỉ cần một Khiên còn giá trị trên đội; không cần Amelia là người mang Khiên.",
+            "Giảm sát thương cộng dồn với các nguồn giảm sát thương khác theo engine hiện hành."
+          ]
+        },
+        {
+          "type": "skill_scaling_override",
+          "name": "Liên Kích 140%",
+          "description": "Liên kích Băng kính phản chiếu dùng hệ số 140% MAG thay vì 65%.",
+          "abilityIds": [
+            "amelia.echo"
+          ],
+          "multiplier": 1.4,
+          "rules": [
+            "Chỉ áp dụng cho liên kích Amelia tạo ra, không đổi kỹ năng chủ động."
+          ]
+        },
+        {
+          "type": "skill_on_hit_dispel",
+          "name": "Xóa Một Buff",
+          "description": "Mỗi mục tiêu trúng liên kích bị xóa 1 buff có lợi.",
+          "abilityIds": [
+            "amelia.echo"
+          ],
+          "count": 1,
+          "rules": [
+            "Xóa buff sau khi đòn trúng và gây sát thương; không xóa debuff.",
+            "Mỗi mục tiêu xử lý riêng, tối đa 1 buff mỗi lần trúng."
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "minerva.silent_forest",
+    "characterId": "minerva",
+    "name": "Rừng Lặng Bảo Hộ",
+    "description": "Trấn Phái riêng của Minerva. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "after_skill_shield",
+      "name": "Rừng Lặng Bảo Hộ",
+      "description": "Sau khi dùng Hộ Ấn Rừng Lặng, tạo Khiên toàn đội bằng 120% MAG; lượng Khiên tăng theo Rank của kỹ năng.",
+      "abilityIds": [
+        "minerva.ward"
+      ],
+      "target": "all_allies",
+      "stat": "magic",
+      "ratio": 1.2,
+      "rankGrowth": true,
+      "rules": [
+        "Khiên tạo sau khi Hộ Ấn được áp; không thay thế Khiên mạnh hơn đang có.",
+        "Hệ số Khiên dùng hệ số tăng theo Rank của Hộ Ấn Rừng Lặng."
+      ]
+    }
+  },
+  {
+    "id": "amaryllis.litany_lamp",
+    "characterId": "amaryllis",
+    "name": "Đèn Dầu Phục Sinh",
+    "description": "Trấn Phái riêng của Amaryllis. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Đèn Dầu Phục Sinh",
+      "description": "Kinh Cầu Hồi Sinh sẵn sàng từ đầu trận; khi dùng tạo Khiên toàn đội bằng 350% MAG, tăng theo Rank.",
+      "effects": [
+        {
+          "type": "initial_cooldown_zero",
+          "name": "Kinh Cầu Sẵn Sàng",
+          "description": "Kinh Cầu Hồi Sinh bắt đầu trận với hồi chiêu 0.",
+          "abilityIds": [
+            "amaryllis.litany"
+          ],
+          "rules": [
+            "Chỉ áp dụng khi Trấn được trang bị ngay từ đầu trận.",
+            "Sau khi dùng, hồi chiêu 10 vòng vẫn tính bình thường."
+          ]
+        },
+        {
+          "type": "after_skill_shield",
+          "name": "Khiên Kinh Cầu",
+          "description": "Sau khi dùng Kinh Cầu Hồi Sinh, tạo Khiên toàn đội bằng 350% MAG; lượng Khiên tăng theo Rank của Kinh Cầu.",
+          "abilityIds": [
+            "amaryllis.litany"
+          ],
+          "target": "all_allies",
+          "stat": "magic",
+          "ratio": 3.5,
+          "rankGrowth": true,
+          "rules": [
+            "Khiên tạo sau hồi sinh; không cấp thêm Lượt Thêm.",
+            "Khiên không cộng dồn, chỉ thay thế nếu mạnh hơn."
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "ardelia.field_kit",
+    "characterId": "ardelia",
+    "name": "Huy Hiệu Quân Y",
+    "description": "Trấn Phái riêng của Ardelia. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Huy Hiệu Quân Y",
+      "description": "Lá Chắn Quân Y tạo Khiên bằng 120% RES và cấp Hộ Ấn cho toàn đội.",
+      "effects": [
+        {
+          "type": "after_skill_shield",
+          "name": "Khiên Quân Y",
+          "description": "Sau khi dùng Lá Chắn Quân Y, tạo Khiên toàn đội bằng 120% RES; lượng Khiên tăng theo Rank của kỹ năng.",
+          "abilityIds": [
+            "ardelia.aegis"
+          ],
+          "target": "all_allies",
+          "stat": "resistance",
+          "ratio": 1.2,
+          "rankGrowth": true,
+          "rules": [
+            "Khiên mạnh nhất được giữ; Khiên cũ yếu hơn bị thay thế.",
+            "Khiên tính theo RES hiện tại của Ardelia."
+          ]
+        },
+        {
+          "type": "after_skill_status",
+          "name": "Hộ Ấn Quân Y",
+          "description": "Sau khi dùng Lá Chắn Quân Y, cấp Hộ Ấn cho toàn đội.",
+          "abilityIds": [
+            "ardelia.aegis"
+          ],
+          "statusId": "effect_ward",
+          "duration": 1,
+          "to": "targets",
+          "rules": [
+            "Hộ Ấn chặn hiệu ứng bất lợi tiếp theo; dùng lại làm mới charge theo luật status."
+          ]
+        }
+      ]
+    }
   }
 ]

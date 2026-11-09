@@ -21,6 +21,7 @@ export function validateTacticalPassives(content){
   if(p?.type==='low_hp_immortality'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Number.isFinite(p.threshold)||p.threshold<=0||p.threshold>=1||!content.statuses[p.immortalityStatus]?.preventDeath||content.statuses[p.immortalityStatus]?.durationClock!=='round'))errors.push(a.id+': invalid low HP immortality');
   if(p?.type==='shielded_ally_magic'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1))errors.push(a.id+': invalid shielded ally magic');
   if(p?.type==='vengeful_revive'&&(!p.name||!p.description||!Number.isInteger(p.cooldownRounds)||p.cooldownRounds<1||p.cooldownRounds>20||!Number.isFinite(p.hpRatio)||p.hpRatio<=0||p.hpRatio>1||!Number.isInteger(p.stacks)||p.stacks<1||!content.statuses[p.statusId]?.maxStacks||content.statuses[p.statusId].maxStacks<p.stacks))errors.push(a.id+': invalid vengeful revive');
+  if(p?.type==='living_team_flat_guard'&&(!p.name||!p.description||!p.modifiers||Array.isArray(p.modifiers)||!Object.keys(p.modifiers).length||Object.entries(p.modifiers).some(([key,n])=>!['defense','resistance'].includes(key)||!Number.isFinite(n)||n<=0)))errors.push(a.id+': invalid living team flat guard');
  }
  return errors;
 }

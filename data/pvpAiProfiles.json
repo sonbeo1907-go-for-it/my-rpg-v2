@@ -1426,5 +1426,22 @@
       "vilgard.cleave": 20,
       "vilgard.reckoning": 30
     }
+  },
+  {
+    "id": "ardelia",
+    "role": "defensive_support",
+    "healBelow": 0.55,
+    "reserveMpRatio": 0.2,
+    "setupAbilities": [
+      "ardelia.triage"
+    ],
+    "burstAbilities": [
+      "ardelia.aegis"
+    ],
+    "skillBias": {
+      "ardelia.triage": 30,
+      "ardelia.aegis": 26,
+      "ardelia.purge": 18
+    }
   }
 ]

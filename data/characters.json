@@ -4263,5 +4263,54 @@
       "stacks": 5
     },
     "releaseId": 95
+  },
+  {
+    "id": "ardelia",
+    "name": "Ardelia",
+    "title": "Quân Y Tiền Tuyến",
+    "affiliation": "expedition_corps",
+    "role": "Hỗ trợ phòng thủ",
+    "roleGroup": "defensive_support",
+    "element": "water",
+    "description": "Bác sĩ quân y của Sư đoàn Viễn Chinh: giữ tuyến bằng DEF/RES, hồi máu, giải độc và dựng khiên từ chính sức chịu đựng của đội.",
+    "biography": "Ardelia không chỉ mổ xẻ vết thương mà còn mổ xẻ cả chiến thuật. Cô tin một đội sống sót là một đội còn chiến đấu, nên luôn đứng giữa làn đạn với hộp dụng cụ và lá chắn nước.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "medic"
+    ],
+    "stats": {
+      "maxHp": 240,
+      "maxMp": 125,
+      "attack": 10,
+      "magic": 14,
+      "defense": 24,
+      "resistance": 32,
+      "speed": 15
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "ardelia.triage",
+      "ardelia.aegis",
+      "ardelia.purge"
+    ],
+    "passive": {
+      "type": "living_team_flat_guard",
+      "name": "Tuyến Phòng Thủ Quân Y",
+      "description": "Khi Ardelia còn sống, toàn đội tăng 10 DEF và 10 RES căn bản.",
+      "modifiers": {
+        "defense": 10,
+        "resistance": 10
+      }
+    },
+    "releaseId": 96
   }
 ]

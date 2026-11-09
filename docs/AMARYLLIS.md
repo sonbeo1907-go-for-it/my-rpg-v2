@@ -20,11 +20,19 @@ MP 150 đủ để duy trì heal liên tục; DEF thấp nên cô cần được
 | --- | --- | --- |
 | Lời Cầu Dịu Êm `amaryllis.mend` | 10 / không CD | Hồi một đồng đội 180% MAG |
 | Vòng Tay Che Chở `amaryllis.blessing` | 16 / không CD | Hồi toàn đội 80% MAG mỗi người |
-| Kinh Cầu Hồi Sinh `amaryllis.litany` | 20 / CD10 · **khóa 6 vòng đầu** | Hồi sinh toàn đội về 100% HP và hồi toàn đội 100% MP |
+| Kinh Cầu Hồi Sinh `amaryllis.litany` | 20 → giảm theo Rank / CD10 · **khóa 6 vòng đầu** (0 khi có Trấn) | Hồi sinh toàn đội về 100% HP và hồi toàn đội 100% MP |
 
-Hai kỹ năng hồi máu dùng `growthProfile: heal` — Rank ×1,1 mỗi cấp. **Kinh Cầu là kỹ năng cố định**: không có cấp nâng, hồi chiêu giữ nguyên **10 vòng**; việc nâng Rank đã bị bỏ theo quyết định 04/11/2026. Quy tắc chung ở [SKILL_RANKS](SKILL_RANKS.md).
+Hai kỹ năng hồi máu dùng `growthProfile: heal` — Rank ×1,1 mỗi cấp. **Kinh Cầu dùng `output_buff_mp`, chỉ tăng Rank để giảm MP**: MP giảm theo Rank, tối đa **Rank 5**; hồi chiêu vẫn giữ **10 vòng**, không đổi theo Rank. Quy tắc chung ở [SKILL_RANKS](SKILL_RANKS.md).
 
 Kinh Cầu dùng `initialCooldown: 6` (cùng cơ chế với `aldric.reservoir`): vào trận đã bị khóa 6 vòng, chỉ dùng được từ **vòng 7**; sau đó mới tính hồi chiêu 10 vòng. Engine lưu giá trị +1 và giảm ở đầu mỗi Vòng Chính, nên “khóa 6 vòng” = không dùng được trong vòng 1–6.
+
+## Trấn Phái · Đèn Dầu Phục Sinh
+
+`amaryllis.litany_lamp`, mở bằng **10 Bản Thiết Kế** tại Shop, chế tạo tại Thợ Rèn.
+
+- Kinh Cầu Hồi Sinh **sẵn sàng ngay từ đầu trận** khi Trấn được trang bị từ đầu; sau khi dùng vẫn vào hồi chiêu 10 vòng.
+- Sau khi dùng Kinh Cầu, tạo **Khiên toàn đội bằng 350% MAG** của Amaryllis; lượng Khiên tăng theo Rank của Kinh Cầu.
+- Khiên tạo sau hồi sinh, không cấp thêm Lượt Thêm và không cộng dồn với Khiên mạnh hơn.
 
 ## Nội tại · Đèn Dầu Không Tắt
 

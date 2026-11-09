@@ -182,6 +182,12 @@ export function createBattle(
     if (siblings.length > 1)
       actor.name = `${actor.name} ${siblings.indexOf(actor) < 26 ? String.fromCharCode(65 + siblings.indexOf(actor)) : siblings.indexOf(actor) + 1}`;
   }
+  for (const actor of actors) {
+    for(const passive of specialPassives(actor,'initial_cooldown_zero')){
+      actor.cooldowns??={};
+      for(const id of passive.abilityIds??[])actor.cooldowns[id]=0;
+    }
+  }
   for (const actor of actors) { initializeBoss(actor); clampBattleMp(content,actor); }
   const battle = {
     content,
@@ -257,9 +263,27 @@ function flag(battle, actor, key) {
   if(key==='skipTurn'&&stunImmune(battle.content,actor)&&!activeStatuses(actor).some(s=>s.bypassControlImmunity&&battle.content.statuses[s.id]?.skipTurn))return false;
   return statusDefinitions(battle, actor).some((status) => status[key]);
 }
+function livingTeamFlatGuard(battle,actor,key){
+ if(!['defense','resistance'].includes(key))return 0;
+ let sum=0;
+ for(const ally of battle.actors){
+  if(ally.team!==actor.team||!isAlive(ally)||ally.passive?.type!=='living_team_flat_guard')continue;
+  sum+=ally.passive.modifiers?.[key]??0;
+ }
+ return sum;
+}
+function shieldedTeamGuard(battle,team){
+ if(!battle.actors.some(ally=>ally.team===team&&isAlive(ally)&&ally.shield>0))return 0;
+ let ratio=0;
+ for(const ally of battle.actors){
+  if(ally.team!==team||!isAlive(ally))continue;
+  for(const passive of exclusivePassives(ally))if(passive.type==='shielded_team_guard')ratio=Math.max(ratio,passive.ratio??0);
+ }
+ return ratio;
+}
 function stat(battle, actor, key, ignoreConsumables = false) {
   const aura=key==='magic'?shieldAuraBonus(battle,actor):0;
-  return battleStat(battle.content, actor, key, ignoreConsumables, aura);
+  return battleStat(battle.content, actor, key, ignoreConsumables, aura, livingTeamFlatGuard(battle,actor,key));
 }
 
 function attackContext(battle, actor) {
@@ -1270,7 +1294,7 @@ function resolveHit(
     hpRatio: attacker.hp / attacker.stats.maxHp,
     buffs: buffTypeCount(battle.content,target),
   });
-  let reduction = agonyReduction(target)+modifier(battle, target, "damageReduction")-bypassedBarrierReduction(battle.content,target,attacker)+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0);
+  let reduction = agonyReduction(target)+modifier(battle, target, "damageReduction")-bypassedBarrierReduction(battle.content,target,attacker)+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0)+shieldedTeamGuard(battle,target.team);
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
@@ -1450,7 +1474,9 @@ function resolveHit(
   } else if (living(target) && effect.damageType !== "magical" && vitalityDamage + absorbed > 0 && effect.onHitStatus) {
     applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:target.id===actionContext.primaryTargetId?(effect.onHitStatus.primaryStacks??effect.onHitStatus.stacks??1):(effect.onHitStatus.stacks??1),chanceScaling:effect.onHitStatus.chanceScaling});
   }
-  if(living(target)&&vitalityDamage+absorbed>0&&effect.onHitDispelCount)dispelBuffs(battle,attacker,target,effect.onHitDispelCount);
+  const exclusiveDispel=specialPassives(attacker,'skill_on_hit_dispel').find(p=>p.abilityIds.includes(actionContext.skillId));
+  const dispelCount=effect.onHitDispelCount??exclusiveDispel?.count;
+  if(living(target)&&vitalityDamage+absorbed>0&&dispelCount)dispelBuffs(battle,attacker,target,dispelCount);
   if (living(target) && attacker.team!==target.team && vitalityDamage+absorbed>0 && attacker.passive?.type==="attack_status") {
     if (applyStatus(battle,target,attacker.passive.statusId,attacker.passive.duration,attacker.id)) announcePassive(battle,attacker,target.id);
   }

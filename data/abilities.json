@@ -4528,10 +4528,12 @@
       }
     ],
     "skillLineId": "minerva.ward",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
-    "growthGroups": []
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankOnly": true
   },
   {
     "id": "minerva.cleanse",
@@ -9743,9 +9745,13 @@
     ],
     "description": "Hồi sinh và phục hồi đầy HP, MP cho toàn đội.",
     "skillLineId": "amaryllis.litany",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Kỹ năng hồi sinh cố định; hồi chiêu 10 vòng và không có cấp nâng."
+    "growthProfile": "output_buff_mp",
+    "growthGroups": [
+      "output_buff_mp"
+    ],
+    "mpOnlyGrowth": true,
+    "rankable": true,
+    "masteryEligible": false
   },
   {
     "id": "brant.bulwark",
@@ -11311,6 +11317,88 @@
       }
     ],
     "skillLineId": "vilgard.reckoning",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ardelia.triage",
+    "name": "Ca Mổ Tiền Tuyến",
+    "description": "Hồi HP toàn đội theo RES và củng cố DEF/RES của mọi đồng đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "resistance",
+        "multiplier": 0.5
+      },
+      {
+        "type": "status",
+        "status": "ardelia_guard",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "ardelia.triage",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ardelia.aegis",
+    "name": "Lá Chắn Quân Y",
+    "description": "Giải mọi debuff trên đồng đội và dựng khiên nước theo RES.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "cleanse"
+      },
+      {
+        "type": "shield",
+        "scalingStat": "resistance",
+        "multiplier": 0.8
+      }
+    ],
+    "skillLineId": "ardelia.aegis",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ardelia.purge",
+    "name": "Sóng Xung Kích",
+    "description": "Quét toàn địch bằng xung lực nước, làm suy yếu ATK và MAG của chúng.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "scalingStat": "resistance",
+        "multiplier": 2.4,
+        "onHitStatus": {
+          "status": "ardelia_weaken",
+          "duration": 3
+        }
+      }
+    ],
+    "skillLineId": "ardelia.purge",
     "growthProfile": "damage",
     "growthGroups": [
       "damage"

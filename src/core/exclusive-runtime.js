@@ -2,6 +2,7 @@
 import {isAlive} from "./actor-life.js";
 import {specialPassives,hasLiveStatus} from './exclusive-specials.js';
 import {procAvailable,markProc} from './exclusive-hooks.js';
+import {coefficientFactor,skillRules} from './skill-rules.js';
 const alive=isAlive;
 function announce(b,a,p,io,targetId=a.id){io.emit(b,{type:'passive',sourceId:a.id,targetId,label:p.name,exclusive:true});io.write(b,a.name+' kích hoạt '+p.name+'.');}
 export function exclusiveResourceChanged(b,a,id,delta,io){if(!delta||!alive(a))return;for(const p of specialPassives(a,'resource_stat_status'))if(p.resourceId===id){announce(b,a,p,io);io.status(b,a,p.statusId,p.duration,a.id);}}
@@ -17,7 +18,14 @@ export function exclusiveAfterSkill(b,a,skill,context,io){
  for(const p of specialPassives(a)){
   if(p.type==='defend_recovery'&&skill.id==='$defend'){announce(b,a,p,io);io.restore(b,a,p.resourceId,p.amount);io.heal(b,a,a.stats.maxHp*p.hpRatio,a.id,p.name);}
   if(p.abilityIds&&!p.abilityIds.includes(skill.id))continue;
-  if(p.type==='after_skill_shield'){const t=p.target==='self'?a:[...team].sort((x,y)=>x.hp/x.stats.maxHp-y.hp/y.stats.maxHp)[0];if(t){announce(b,a,p,io,t.id);io.shield(b,t,Math.round(io.stat(b,a,p.stat)*p.ratio),a.id);}}
+  if(p.type==='after_skill_shield'){
+   const rankFactor=p.rankGrowth?(skill.rankDamageFactor??coefficientFactor(skill.skillRank??1,skillRules(b.content))):1;
+   const targets=p.target==='all_allies'?team:p.target==='self'?[a]:[[...team].sort((x,y)=>x.hp/x.stats.maxHp-y.hp/y.stats.maxHp)[0]].filter(Boolean);
+   if(targets.length){
+    announce(b,a,p,io,targets[0].id);
+    for(const t of targets)io.shield(b,t,Math.round(io.stat(b,a,p.stat)*p.ratio*rankFactor),a.id);
+   }
+  }
   if(p.type==='after_skill_mp'&&(!p.requiresStatus||context.startStatusIds?.has(p.requiresStatus))){const amount=p.amount*(p.perAlly?team.filter(t=>t.tags?.includes(p.tag)).length:1);if(amount){announce(b,a,p,io);io.restore(b,a,'mp',amount);}}
  }
 }

@@ -1563,5 +1563,29 @@
       "attack": 0.1
     },
     "description": "Mỗi tầng tăng 10% ATK, tối đa 5 tầng. Bị tiêu hết khi Vilgard dùng đòn trả thù diện rộng."
+  },
+  {
+    "id": "ardelia_guard",
+    "name": "Phòng Tuyến Quân Y",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 3,
+    "modifiers": {
+      "defense": 0.2,
+      "resistance": 0.2
+    },
+    "description": "Tăng 20% DEF và RES trong 3 lượt chính."
+  },
+  {
+    "id": "ardelia_weaken",
+    "name": "Suy Nhược",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 3,
+    "modifiers": {
+      "attack": -0.15,
+      "magic": -0.15
+    },
+    "description": "Giảm 15% ATK và MAG trong 3 lượt chính."
   }
 ]
