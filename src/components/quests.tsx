@@ -150,7 +150,12 @@ export function QuestPage() {
                 );
             }}
           >
-            {encounters.map((encounter) => (
+            {encounters.map((encounter) => {
+              const cardDifficulty = encounter.allowedDifficulties &&
+                !encounter.allowedDifficulties.includes(difficultyId)
+                ? encounter.defaultDifficulty
+                : difficultyId;
+              return (
               <button
                 className={`quest-card ${selected?.id === encounter.id ? "selected" : ""}`}
                 data-encounter-id={encounter.id}
@@ -176,7 +181,7 @@ export function QuestPage() {
                 <span>
                   <strong>{encounter.name}</strong>
                   <small>
-                    {encounter.enemies.length} đối thủ · {victoryRewardPreview(content, encounter.id,difficultyId,campaign)}
+                    {encounter.enemies.length} đối thủ · {victoryRewardPreview(content, encounter.id, cardDifficulty, campaign)}
                     {campaign.claimedFirstClearRewards.includes(encounter.id)
                       ? " · Đã nhận thưởng lần đầu"
                       : encounter.firstClearRewards?.length
@@ -186,7 +191,8 @@ export function QuestPage() {
                 </span>
                 <span aria-hidden="true">›</span>
               </button>
-            ))}
+              );
+            })}
             {!encounters.length && (
               <EmptyState>Không tìm thấy nhiệm vụ phù hợp.</EmptyState>
             )}
