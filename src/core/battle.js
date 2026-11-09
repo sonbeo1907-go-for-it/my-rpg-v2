@@ -707,6 +707,14 @@ function tryVengefulRevive(battle,target){
 function onActorDefeated(battle,killer,target) {
   clearLifeDebt(target);
   syncSpeedLocks(battle);
+  if(target.addTag==='web_anchor'&&!battle.actors.some(actor=>actor.addTag==='web_anchor'&&living(actor))){
+    for(const ally of battle.actors.filter(actor=>actor.team==='party'&&living(actor)))ally.statuses=ally.statuses.filter(status=>status.id!=='east_web_tether');
+    write(battle,'Nhện giăng tơ bị hạ: toàn bộ Tơ Trói tan biến.');
+  }
+  if(target.addTag==='orochi_head'){
+    const boss=battle.actors.find(actor=>actor.id===target.summonedBy);
+    if(boss&&living(boss)){applyStatus(battle,boss,'east_head_severed',3,target.id);write(battle,'Một đầu xà bị chém: Orochi suy yếu.');}
+  }
   const passive=killer?.passive;
   if (!killer || killer.team===target.team || passive?.type!=="kill_mp_discount" || killer.statuses.some(status=>status.id===passive.statusId)) return;
   announcePassive(battle,killer);
@@ -1390,6 +1398,15 @@ function resolveHit(
     : 0;
   const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements } =
     resolveWeakness(battle.content, attacker, target, effect, actionContext);
+  if(attacker.team!==target.team&&(target.soulBreak??target.boss?.soulBreak)&&damageElements(effect).includes('sword_soul')){
+    const rule=target.soulBreak??target.boss.soulBreak,guard=target.statuses.find(status=>status.id===rule.guardStatus);
+    if(guard){
+      target.statuses=target.statuses.filter(status=>status!==guard);
+      applyStatus(battle,target,rule.exposedStatus,rule.duration,attacker.id);
+      emitEvent(battle,{type:'boss_soul_break',sourceId:attacker.id,targetId:target.id,statusId:rule.exposedStatus});
+      write(battle,`${target.name}: Phong Ấn Hồn Kiếm vỡ! Nhận thêm 50% sát thương trong ${rule.duration} lượt chính.`);
+    }
+  }
   // Element and damage type share one weakness multiplier, never additive bonuses.
   const weakness = elementWeakness || typeWeakness;
   const weaknessReason = [
@@ -1440,6 +1457,11 @@ function resolveHit(
   const baseAbsorbed=maxHpRoute?0:Math.min(target.shield,amount);
   const absorbed=Math.min(target.shield,baseAbsorbed+gearShieldExtra(attacker,baseAbsorbed));
   target.shield-=absorbed;
+  if(absorbed>0&&target.shield===0&&target.shieldBreak&&attacker.team!==target.team){
+    applyStatus(battle,target,target.shieldBreak.status,2,attacker.id);
+    emitEvent(battle,{type:'boss_shield_break',sourceId:attacker.id,targetId:target.id,statusId:target.shieldBreak.status});
+    write(battle,`${target.name}: Giáp Quỷ vỡ! DEF/RES giảm và nhận thêm sát thương.`);
+  }
   amount-=baseAbsorbed; // Extra shield damage never changes the original HP spill.
   const life=applyLifeDamage(battle,target,amount,{element:effect.element,healthFloor:bossHealthFloor(target)},{write,emit:emitEvent});
   const lostHp=life.hpLost,vitalityDamage=life.hpLost+life.maxHpLost;
@@ -1690,6 +1712,25 @@ function applyStatus(
   return applied;
 }
 
+function spawnSummonedEnemy(battle,owner,effect){
+  if(!living(owner)||battle.outcome)return 0;
+  const definition=battle.content.enemies[effect.enemyId];if(!definition)return 0;
+  const tag=effect.addTag??effect.enemyId;
+  const active=battle.actors.filter(actor=>actor.summonedBy===owner.id&&actor.addTag===tag&&living(actor)).length;
+  const count=Math.max(0,Math.min(effect.count,effect.maxAdds-active));if(!count)return 0;
+  const encounter=battle.content.encounters[battle.encounterId];
+  const scaled=levelScaledEnemyStats(definition,battle.enemyLevel??1,battle.content,1,encounter);
+  for(let index=0;index<count;index++){
+    battle.summonSerial=(battle.summonSerial??0)+1;
+    const id='summon_'+owner.id+'_'+tag+'_'+battle.summonSerial;
+    const add={...structuredClone(definition),definitionId:definition.id,id,team:owner.team,hp:scaled.maxHp,mp:scaled.maxMp,stats:scaled,shield:0,shieldSourceId:null,statuses:[],cooldowns:{},reactionRound:0,followUpRound:0,resourceValues:Object.fromEntries(Object.keys(definition.resources??{}).map(key=>[key,0])),summonedBy:owner.id,addTag:tag};
+    battle.actors.push(add);if(Array.isArray(battle.queue))battle.queue.push(id);
+    emitEvent(battle,{type:'summon_enemy',sourceId:owner.id,targetId:add.id,enemyId:definition.id,addTag:tag});
+    write(battle,owner.name+' triệu hồi '+definition.name+'.');
+  }
+  return count;
+}
+
 function applyEffect(
   battle,
   actor,
@@ -1726,6 +1767,7 @@ function applyEffect(
   for (const target of recipients) {
     if (!living(target)) continue;
     if(effect.requiresDamageHit&&!actionContext.gearImpacts.some(hit=>hit.target.id===target.id))continue;
+    if(effect.type==='summon_enemy'){spawnSummonedEnemy(battle,actor,effect);continue;}
     if(effect.type==='reduce_cooldowns'){
       let reduced=0;for(const id of Object.keys(target.cooldowns)){const before=target.cooldowns[id];target.cooldowns[id]=Math.max(0,before-effect.amount);reduced+=before-target.cooldowns[id];}
       if(reduced){emitEvent(battle,{type:'cooldowns_reduced',sourceId:actor.id,targetId:target.id,amount:effect.amount});write(battle,target.name+': giảm '+effect.amount+' vòng hồi chiêu đang có.');}

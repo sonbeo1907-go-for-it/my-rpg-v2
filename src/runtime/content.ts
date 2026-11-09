@@ -20,13 +20,13 @@ import gearEffects from "../../data/gearEffects.json";
 import exclusiveGear from "../../data/exclusiveGear.json";
 import items from "../../data/items.json";
 import travelerStories from "../../data/travelerStories.json";
-import { eastEnemies, eastEncounters, eastMusic } from "../core/east-campaign.js";
+import { eastEnemies, eastEncounters, eastMusic, eastBossAbilities } from "../core/east-campaign.js";
 export function getContent(): any {
   return assembleContent({
     chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
     progressionRules,
     characters,
-    abilities,
+    abilities:[...abilities,...eastBossAbilities],
     statuses,
     upgrades,
     enemies:[...enemies,...eastEnemies],

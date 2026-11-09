@@ -1666,5 +1666,129 @@
       "speed": -0.15
     },
     "description": "Giảm 30% RES và 15% SPD trong 3 lượt chính."
+  },
+  {
+    "id": "east_soul_guard",
+    "name": "Phong Ấn Hồn Kiếm",
+    "kind": "buff",
+    "persistent": true,
+    "modifiers": {
+      "damageReduction": 0.3
+    },
+    "description": "Giảm 30% sát thương nhận. Một đòn Hồn Kiếm sẽ phá phong ấn."
+  },
+  {
+    "id": "east_soul_exposed",
+    "name": "Phong Ấn Vỡ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "damageTakenBonus": 0.5
+    },
+    "description": "Nhận thêm 50% sát thương trong 2 lượt chính."
+  },
+  {
+    "id": "east_burn",
+    "name": "Lửa Ma",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "damageOverTime": {
+      "flat": 3,
+      "scalingStat": "attack",
+      "multiplier": 0.2
+    },
+    "description": "Chịu sát thương lửa ma mỗi lượt trong 2 lượt chính."
+  },
+  {
+    "id": "east_chill",
+    "name": "Hàn Khí",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "maxStacks": 3,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "speed": -0.1,
+      "attack": -0.05
+    },
+    "description": "Mỗi tầng giảm 10% SPD và 5% ATK; tối đa 3 tầng trong 2 lượt chính."
+  },
+  {
+    "id": "east_illusion",
+    "name": "Ảo Ảnh",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "evasion": 0.3
+    },
+    "description": "Tăng 30% né đòn vật lí trong 2 lượt chính."
+  },
+  {
+    "id": "east_bulwark",
+    "name": "Bùa Hộ",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "defense": 0.2,
+      "resistance": 0.2
+    },
+    "description": "Tăng 20% DEF và RES trong 2 lượt chính."
+  },
+  {
+    "id": "east_night",
+    "name": "Bách Quỷ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "attack": -0.2,
+      "magic": -0.2
+    },
+    "description": "Giảm 20% ATK và MAG trong 2 lượt chính."
+  },
+  {
+    "id": "east_guard_broken",
+    "name": "Giáp Quỷ Vỡ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "defense": -0.2,
+      "resistance": -0.2,
+      "damageTakenBonus": 0.15
+    },
+    "description": "Khiên vỡ làm giảm 20% DEF/RES và tăng 15% sát thương nhận trong 2 lượt chính."
+  },
+  {
+    "id": "east_web_tether",
+    "name": "Tơ Trói",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "modifiers": {
+      "speed": -0.2
+    },
+    "damageOverTime": {
+      "flat": 2,
+      "scalingStat": "attack",
+      "multiplier": 0.1
+    },
+    "description": "Tơ trói làm chậm và gây sát thương theo lượt. Giết nhện giăng tơ hoặc giải hiệu ứng để phá."
+  },
+  {
+    "id": "east_head_severed",
+    "name": "Đầu Xà Bị Chém",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "defaultDuration": 3,
+    "modifiers": {
+      "defense": -0.15,
+      "attack": -0.1
+    },
+    "description": "Mỗi đầu xà bị chém làm boss yếu đi trong 3 lượt chính."
   }
 ]

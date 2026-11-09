@@ -39,8 +39,8 @@ test('offense and defense hit exact endpoints, ignore legacy milestones and free
  for(const l of [1,25,50,60])for(const k of ['maxMp','speed'])assert.equal(enemyStatFactor(k,l,content),1+content.progressionRules.default.enemyGrowth[k]*(l-1));
 });
 
-test('all 103 template references are identities without HP overrides; no template mutation or rounding drift',()=>{
- assert.equal(Object.keys(content.enemies).length,103);const before=JSON.stringify(content.enemies);
+test('all 121 template references are identities without HP overrides; no template mutation or rounding drift',()=>{
+ assert.equal(Object.keys(content.enemies).length,121);const before=JSON.stringify(content.enemies);
  for(const e of Object.values(content.enemies)){
   const context={hpScalingProfile:e.referenceLevel>50?'superboss':'normal'};
   assert.deepEqual(levelScaledEnemyStats(e,e.referenceLevel,content,1,context),e.stats,e.id);
@@ -107,7 +107,7 @@ test('all authored encounters and five selectable difficulties wire the same imm
  const save=createGameSave(content);save.unlockedCharacterIds=Object.keys(content.characters);
  save.claimedFirstClearRewards=Object.keys(content.encounters);
  save.chronicles.aliceFirstEncounterCleared=true;save.chronicles.eventClearIds.push('book1.j04');
- save.storyFlags.push('illusion.sinister_unlocked',...Object.values(content.encounters).map(e=>e.requires?.storyFlag).filter(Boolean));
+ save.storyFlags.push('illusion.sinister_unlocked','eastern_hunts_unlocked',...Object.values(content.encounters).map(e=>e.requires?.storyFlag).filter(Boolean));
  for(const encounter of Object.values(content.encounters).filter(e=>e.category!=='chronicle')){
   save.party=encounter.requiredPartyIds?.length?[...encounter.requiredPartyIds]:['arthur','iris','elaine','garrek'];
   const selectable=!encounter.travelerStory&&encounter.rewardTier!=='super';

@@ -30,7 +30,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel', 'revive', 'reduce_cooldowns', 'increase_cooldowns'];
+export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'summon_enemy', 'dispel', 'revive', 'reduce_cooldowns', 'increase_cooldowns'];
 
 // Release #33 was Astoria's technical-test slot. Never assign it to another character.
 export const DEPRECATED_CHARACTER_RELEASE_IDS = Object.freeze([33]);
@@ -338,6 +338,7 @@ export function validateContent(content) {
       if(effect.perTargetBuff!==undefined && (effect.type!=='damage'||!Number.isFinite(effect.perTargetBuff)||effect.perTargetBuff<=0||!Number.isInteger(effect.maxTargetBuffs)||effect.maxTargetBuffs<1||effect.maxTargetBuffs>10))fail(id+': invalid target buff scaling');
       if(effect.maxTargetBuffs!==undefined&&effect.perTargetBuff===undefined)fail(id+': missing target buff scaling');
       if (effect.type==='summon_companion' && (typeof effect.companion!=='string' || !effect.companion || skill.target!=='self')) fail(id+': invalid companion summon');
+      if (effect.type==='summon_enemy' && (typeof effect.enemyId!=='string' || !content.enemies[effect.enemyId] || !Number.isInteger(effect.count) || effect.count<1 || effect.count>4 || !Number.isInteger(effect.maxAdds) || effect.maxAdds<1 || effect.maxAdds>8 || effect.to!=='self' || (effect.addTag!==undefined&&(typeof effect.addTag!=='string'||!effect.addTag.trim())))) fail(id+': invalid enemy summon');
       if (effect.primaryMultiplier !== undefined && (!(effect.type==='damage'&&['all_enemies','enemy_splash'].includes(skill.target)||effect.type==='shield'&&skill.target==='all_allies') || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
       if(effect.type==='revive' && (skill.target!=='all_allies'
         || (effect.hpRatio!==undefined&&(!Number.isFinite(effect.hpRatio)||effect.hpRatio<=0||effect.hpRatio>1))
