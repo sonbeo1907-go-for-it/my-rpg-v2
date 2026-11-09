@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { Icon, Modal, fmt } from "./ui";
 import { DailyCommissions } from "./daily-commissions";
+import { TavernRecruitment } from "./rate-up-banner";
 import { BrandLogo } from "./brand-logo";
 import {
   ProfileSelection,
@@ -25,7 +26,13 @@ export function TitlePage() {
   );
 }
 const menu = [
-  {href:"/chronicles",name:"Biên Niên Ký",sub:"Những miền đất đang sống",icon:"book",side:"right"},
+  {
+    href: "/quests",
+    name: "Quest",
+    sub: "Những trang truyện chưa kể",
+    icon: "scroll",
+    side: "right",
+  },
   {href:"/stories",name:"Câu chuyện lữ hành",sub:"Những trang đời đồng hành",icon:"book",side:"right"},
   {href:"/blacksmith",name:"Thợ Rèn",sub:"Lửa lò & những món Trấn Phái",icon:"anvil",side:"left"},
   {
@@ -56,13 +63,7 @@ const menu = [
     icon: "book",
     side: "left",
   },
-  {
-    href: "/quests",
-    name: "Quest",
-    sub: "Những trang truyện chưa kể",
-    icon: "scroll",
-    side: "right",
-  },
+  {href:"/chronicles",name:"Biên Niên Ký",sub:"Những miền đất đang sống",icon:"book",side:"right"},
   {
     href: "/dungeon",
     name: "Khám Phá Hầm Ngục",
@@ -148,7 +149,7 @@ export function HomePage() {
           {battle.outcome ? "Xem kết quả trận" : "Tiếp tục trận đang chơi"} →
         </Link>
       )}
-      <Link className="home-summon-banner" href="/recruitment" aria-label="Chiêu Mộ · Tiếng gọi Prisma"><img src="/art/summon-invitation.svg" alt=""/><span><small>TIẾNG GỌI PRISMA</small><strong>Chiêu Mộ</strong><em>Ai đang chờ bước cùng ngươi? →</em></span></Link>
+      <TavernRecruitment />
       {profileMenu&&<Modal title="Hồ sơ người chơi" onClose={()=>setProfileMenu(false)}><div className="stack-actions"><button onClick={()=>{setProfileMenu(false);setRenaming(true);}}>Đổi tên người chơi</button><SwitchProfileButton className="button" onLeave={()=>setProfileMenu(false)}/></div></Modal>}
       {renaming && (
         <ProfileNameDialog

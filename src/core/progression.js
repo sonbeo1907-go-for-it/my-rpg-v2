@@ -1,3 +1,4 @@
+import {emptyArenaProgress,normalizeArenaProgress} from './arena-progression.js';
 import {emptyChronicleState,normalizeChronicleState} from './chronicle-state.js';
 import {applySpecialLoadout} from './exclusive-loadout.js';
 import {validateCharacterSkillRanks,skillRules} from './skill-rules.js';
@@ -24,7 +25,8 @@ export const SAVE_VERSION = 3;
 export function createCampaign(content) {
   return {
     version: SAVE_VERSION,
-    levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
+    honor:0,arenaProgress:emptyArenaProgress(),
+    recruitmentTickets:0,xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
     party: ["arthur", "iris", "elaine", "garrek"],
     characters: Object.fromEntries(
       Object.keys(content.characters).map((id) => [
@@ -42,7 +44,7 @@ export function createCampaign(content) {
     gear: [],
     equipment: {},
     extraGearSlots: {},
-    gacha: { totalPulls: 0, pity: {}, lastSummon: null },
+    gacha: { rateUpMileage:0,totalPulls: 0, pity: {}, lastSummon: null },
     dungeonDaily: { day: null, clears: {} },
     dailyCommissions: emptyDailyCommissions(),
     shopDaily: emptyShopDaily(),
@@ -111,7 +113,7 @@ export function resolveCharacter(content, campaign, characterId) {
   for (const [key, amount] of Object.entries(team.bonuses))
     character.stats[key] += amount;
   applySpecialLoadout(content,campaign,character);
-  const nativeStats=character.passive?.type==='mp_stat_conversion'?[character.passive.toStat]:character.passive?.type==='formation_stance'?Object.keys(character.passive[(character.formationSlot%2===0?'odd':'even')].modifiers):[];
+  const nativeStats=['mp_stat_conversion','defense_average_conversion'].includes(character.passive?.type)?[character.passive.toStat]:character.passive?.type==='formation_stance'?Object.keys(character.passive[(character.formationSlot%2===0?'odd':'even')].modifiers):[];
   if (nativeStats.length || ["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers || character.exclusiveTeamModifiers) {
     character.baseStats = structuredClone(character.stats);
     for (const key of new Set([...nativeStats,...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...Object.keys(character.exclusiveTeamModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
@@ -139,7 +141,8 @@ export function serializeCampaign(campaign) {
     claimedFirstClearRewards = [],
   } = campaign;
   return JSON.stringify({
-    levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
+    recruitmentTickets:campaign.recruitmentTickets??0,xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
+    honor:campaign.honor??0,arenaProgress:campaign.arenaProgress??emptyArenaProgress(),
     version,
     party,
     characters,
@@ -193,8 +196,9 @@ export function deserializeCampaign(raw, content) {
   )
     throw new Error("Tiến trình nhân vật trong save không hợp lệ.");
   const result = createCampaign(content);
+  const honor=input.honor??0;if(!Number.isSafeInteger(honor)||honor<0)throw Error('Danh Dự không hợp lệ.');result.honor=honor;result.arenaProgress=normalizeArenaProgress(input.arenaProgress,content);
   if(input.levelProgressionVersion!==undefined&&input.levelProgressionVersion!==1)throw Error("Phiên bản tiến trình không hợp lệ.");
-  for(const key of ["limitBreakStones","sweepTickets"]){const value=input[key]===undefined?0:input[key];if(!Number.isSafeInteger(value)||value<0)throw Error("Vật phẩm tiến trình không hợp lệ.");result[key]=value;}
+  for(const key of ["recruitmentTickets","limitBreakStones","sweepTickets","xpBooksGreen","xpBooksBlue","xpBooksPurple"]){const value=input[key]===undefined?0:input[key];if(!Number.isSafeInteger(value)||value<0)throw Error("Vật phẩm tiến trình không hợp lệ.");result[key]=value;}
   result.trainingCharges=normalizeTrainingCharges(input.trainingCharges);
   const cleared=input.dungeonClearedDifficulties===undefined?{}:input.dungeonClearedDifficulties;if(!cleared||typeof cleared!=="object"||Array.isArray(cleared))throw Error("Tiến trình quét không hợp lệ.");
   for(const[id,list]of Object.entries(cleared)){if(!content.dungeons[id]||!Array.isArray(list)||new Set(list).size!==list.length||list.some(key=>!content.dungeons[id].difficulties.some(d=>d.id===key&&d.enabled)))throw Error("Mức hầm ngục đã vượt không hợp lệ.");}result.dungeonClearedDifficulties=structuredClone(cleared);
@@ -243,7 +247,8 @@ export function deserializeCampaign(raw, content) {
       input.gacha.totalPulls < 0
     )
       throw new Error("Số lượt quay không hợp lệ.");
-    result.gacha = { totalPulls: input.gacha.totalPulls };
+    const mileage=input.gacha.rateUpMileage??0;if(!Number.isSafeInteger(mileage)||mileage<0||mileage>input.gacha.totalPulls)throw Error('Tiến độ Vé Chiêu Mộ không hợp lệ.');
+    result.gacha = { totalPulls: input.gacha.totalPulls,rateUpMileage:mileage };
     if (
       !Array.isArray(input.gear) ||
       input.gear.some(

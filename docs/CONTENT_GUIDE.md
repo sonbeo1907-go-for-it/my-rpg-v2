@@ -9,7 +9,7 @@ JSON thuần, ID ổn định; đổi tên hiển thị không đổi ID. Đọc
 - Stats là giá trị thô trước passive. Không ghi sẵn bonus rồi áp thêm lần hai. scalingStat và damageType độc lập: scale ATK vẫn có thể gây sát thương phép.
 - Ability/status dùng ID tham chiếu, target, cost, cooldown và effect được validator hỗ trợ. Cơ chế mới cần handler, validator, preview và test; không chỉ thêm một field JSON.
 - Skill Rank khai báo skillLineId/growthProfile/growthGroups/rankable; fixed có fixedReason. Mọi nhóm hợp lệ cùng tăng: damage/heal/shield ×1,1 mỗi Rank; stat buff hợp lệ ×1,05. Damage amp giữ nguyên, kỹ năng output buff có quy tắc giảm MP riêng. Replacement cùng skill line giữ Rank.
-- Nhân vật mới chính thức: cập nhật pool khi được duyệt, AI profile, preview và asset vai trò. Save cũ thêm state khóa, không tự mở. Astoria không vào pool chính thức; Monica dùng AI chung.
+- Nhân vật mới chính thức: cập nhật pool khi được duyệt, AI profile, preview và asset vai trò. Save cũ thêm state khóa, không tự mở. Astoria đã vào pool chính thức; Monica dùng AI chung. `releaseId` là số ra mắt bất biến, không dùng vị trí mảng: #33 deprecated, Chiyoko #92, Astoria #93. Stable string ID `astoria` giữ nguyên cho save và skill.
 
 ## Status và phản ứng
 
@@ -64,3 +64,13 @@ App save v7; thêm trường phải normalize/validate và giữ migration. Đ�
 Chữ người chơi nhìn thấy ưu tiên thuần Việt, độc lập ngôn ngữ implementation. Quét cả tooltip, trạng thái khóa, lỗi, xác nhận, nhật ký và kết quả, không chỉ tiêu đề. Tái dùng thuật ngữ trong GLOSSARY. Giữ tên riêng/ký hiệu có chủ ý; không lộ key, enum, tên handler hoặc exception thô. Mô tả hiển thị mới còn tiếng Anh ngoài các ngoại lệ đã chốt được tính là chưa hoàn thiện; không thay ID để dịch giao diện.
 
 - Sinh Mệnh Thế Chấp dùng effect `{type:"status",status:"life_mortgage"}`; có thể thêm `debtMaxHpRatio:0.15` cho diện rộng. Không khai duration/stack/charge; không tăng nợ theo Rank. Xem [LIFE_MORTGAGE](LIFE_MORTGAGE.md).
+
+- Hỗ trợ nguyên tố: `targetElement` giới hạn người nhận buff theo hệ; `element_ally_followup`/`element_ally_weakness_mp` là nội tại theo kỹ năng của đồng đội khác. Damage có `onHitDispelCount` xóa buff chỉ khi gây sát thương, trên người thực sự trúng. Xem [ELEMENT_SUPPORTS](ELEMENT_SUPPORTS.md).
+
+- Chi phí Thế Chấp: `cost.preferLifeDebtRatio`, hoặc `cost.consumeAllLifeDebt` + `requiresLifeDebt`; hồi self từ snapshot bằng `heal.spentLifeDebtRatio`. Native `life_mortgage_pact` có chặn hồi ngoài khi đang nợ. Xem [VERENA](VERENA.md), không giả nợ thành resource stack.
+
+- [Hồn Kiếm / Tsukiha](SWORD_SOUL.md): nguyên tố mới, đòn Hỏa + Hồn Kiếm, tài nguyên đội 0–6 với hai nhóm tăng tự nhiên mỗi vòng; `preferTeamResource` / `hitsWhenTeamSpent` / `baseStatPerStack` dùng chung. Cập nhật 05/11/2026.
+
+- [Izuna / Shion / Amiya / Kaguya](SWORD_SOUL_QUARTET.md) — Hồn Kiếm: Liên kích kết liễu có tiêu ảo, tạo trực tiếp/đầu vòng, giảm CD, ưu tiên Lượt Thêm, Chúc Phúc và trần10 theo đội (05/11/2026).
+
+Choáng theo chỉ số: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md). Boss mới cần khai `controlImmunities:["stun"]` trên template (không gắn cho mọi minion trong encounter). Đường áp kiểm cả metadata snapshot và definition hiện tại. `chanceScaling` khai stat/basis/at/cap; Rank không tự tăng xác suất. Ngoại lệ tự Choáng nhện vỡ khiên là hook riêng, không mở bypass cho skill JSON.

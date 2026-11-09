@@ -1,7 +1,9 @@
 "use client";
+import {skillMasteryClass} from "../core/skill-rules.js";
 import {lifeDebt} from '../core/life-debt.js';
 import {FarmPanel} from './farm';
 import {ArenaPlayerBar} from './arena-experience';
+import {SwordSoulBoard} from './sword-soul';
 import {EvidenceBoard,GunpowderBoard,LocalCombatMode} from './vertosse';
 import {isAlive,isInAgony} from "../core/actor-life.js";
 
@@ -235,7 +237,7 @@ function SkillInfo({
       <span className="eyebrow">THÔNG TIN KỸ NĂNG</span>
       <h3>{skill.name}</h3>
       <div className="popover-meta">
-        <span>{skillCost(skill, actor)}</span>
+        <span>{skillCost(skill, actor, battle)}</span>
         <span>{(TARGET_NAMES as any)[skill.target]}</span>
       </div>
       {reason && <p className="unavailable-reason">{reason}</p>}
@@ -260,7 +262,7 @@ function SkillInfo({
       )}
       <p className="popover-target">
         {skill.target === "adjacent_allies" ? "Hai ô kề: " + targetsFor({...battle,content},actor,skill).map((item:any)=>item.name).join(" · ") : skill.target === "random_enemies" ? randomTargetLabel(skill) : skill.target.startsWith("all_")
-          ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
+          ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined||effect.to==='primary') ? ` · Chính: ${target?.name ?? ""}` : "")
           : `Mục tiêu: ${target?.name ?? actor.name}`}
       </p>
 
@@ -304,7 +306,7 @@ function SkillCommand({
       }
     >
       <button
-        className={`skill-command ${selected ? "selected" : ""}`}
+        className={`skill-command ${selected ? "selected" : ""} ${skillMasteryClass(resolveRankedAbility(content,actor,skill).skillRank)}`}
         data-gamepad-skill={skill.id}
         aria-pressed={selected}
         aria-disabled={busy || !available.ok}
@@ -386,7 +388,8 @@ function BattleResultControls() {
     startArena,
     runBattle,
   } = useGame();
-  if(battle.arena)return <div className="stack-actions result-actions"><h2>Trận đấu kết thúc</h2><p>{battle.arena.forfeited?'Rời trận đang diễn ra · Xử thua.':'Không cấp phần thưởng, EXP hoặc tiến độ nhiệm vụ ngày.'}</p>{battle.arena.mode==='match'?<Link className="button gold" href="/arena/match?search=1">Tìm trận mới →</Link>:<button className="gold" disabled={busy} onClick={()=>startArena(battle.arena.teamId,battle.arena.seed)}>↻ Đánh lại cùng đội</button>}<Link className="button" href={battle.arena.mode==='match'?'/arena/match':'/arena/practice'}>Trở về Đấu Trường</Link></div>;
+  if(battle.arena){const result=battle.arena.result,mode=battle.arena.matchType??'normal',competitive=Boolean(battle.arena.matchId),settled=!competitive||Boolean(result);return <div className="stack-actions result-actions"><h2>Trận đấu kết thúc</h2>{battle.arena.forfeited&&<p>Rời trận · Xử thua.</p>}{competitive?<>{result?<><p><strong>+{result.honorAwarded} Danh Dự</strong> · Đã lưu{result.capped?' · Đã chạm trần Danh Dự ngày':''}</p>{mode==='ranked'&&<p>Điểm xếp hạng: {result.ratingBefore} → <strong>{result.ratingAfter}</strong></p>}</>:<><p>Đang chờ lưu kết quả. Không tìm trận mới cho đến khi lưu thành công.</p><button disabled={busy} onClick={()=>claimReward()}>Lưu lại kết quả</button></>}</>:<p>Không cấp thưởng hoặc EXP trong Luyện Tập.</p>}{battle.arena.mode==='match'?settled?<Link className="button gold" href={'/arena/match?mode='+mode+'&search=1'}>Tìm trận mới →</Link>:null:<button className="gold" disabled={busy} onClick={()=>startArena(battle.arena.teamId,battle.arena.seed)}>↻ Đánh lại cùng đội</button>}<Link className="button" href={battle.arena.mode==='match'?'/arena/match?mode='+mode:'/arena/practice'}>Trở về Đấu Trường</Link></div>;}
+
   const dungeon = battle.dungeon;
   const progress = dungeon ?? battle.storyWave;
   const betweenWaves =
@@ -729,9 +732,9 @@ export function BattlePage() {
   const hasFormulaField=battle.actors.some((item:any)=>activeFormula({...battle,content},item));
   const arenaVersion=battle.arena?.rulesetVersion?` · Luật ${battle.arena.rulesetVersion}`:'';
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
-    ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined) ? ` · Chính: ${target?.name ?? ""}` : "")
+    ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined||effect.to==='primary') ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
-  if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · Đấu tập với AI</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
+  if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · {battle.arena.matchType==="ranked"?"Đấu Hạng với AI":battle.arena.mode==="match"?"Đấu Thường với AI":"Luyện Tập"}</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(isBattleFinished(battle)&&!busy&&!farm?.enabled)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel)}/><FarmPanel/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
   return (
     <main
@@ -860,7 +863,7 @@ export function BattlePage() {
           </div>
           <TurnOrder onHover={setHovered} />
           <FormulaBoards battle={{...battle,content}} content={content}/>
-          <EvidenceBoard battle={{...battle,content}}/>{battle.arena&&<EvidenceBoard battle={{...battle,content}} team="enemy"/>}<GunpowderBoard battle={{...battle,content}}/>{battle.arena&&<GunpowderBoard battle={{...battle,content}} team="enemy"/>}
+          <SwordSoulBoard battle={{...battle,content}}/>{battle.arena&&<SwordSoulBoard battle={{...battle,content}} team="enemy"/>}<EvidenceBoard battle={{...battle,content}}/>{battle.arena&&<EvidenceBoard battle={{...battle,content}} team="enemy"/>}<GunpowderBoard battle={{...battle,content}}/>{battle.arena&&<GunpowderBoard battle={{...battle,content}} team="enemy"/>}
           <div className="ally-grid">
             {battle.actors
               .filter((item: any) => item.team === "party")

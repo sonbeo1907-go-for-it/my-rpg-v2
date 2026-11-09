@@ -27,7 +27,8 @@
       "arthur.release",
       "arthur.ogres_bane"
     ],
-    "roleGroup": "physical_dps"
+    "roleGroup": "physical_dps",
+    "releaseId": 1
   },
   {
     "id": "iris",
@@ -58,7 +59,8 @@
       "iris.calibrate",
       "iris.assault"
     ],
-    "roleGroup": "offensive_support"
+    "roleGroup": "offensive_support",
+    "releaseId": 2
   },
   {
     "id": "takeshi",
@@ -92,7 +94,8 @@
       "takeshi.slash",
       "takeshi.riposte"
     ],
-    "roleGroup": "physical_dps"
+    "roleGroup": "physical_dps",
+    "releaseId": 3
   },
   {
     "id": "fiona",
@@ -117,7 +120,8 @@
       "fiona.refraction",
       "fiona.collapse"
     ],
-    "roleGroup": "magical_dps"
+    "roleGroup": "magical_dps",
+    "releaseId": 4
   },
   {
     "id": "elaine",
@@ -146,7 +150,8 @@
       "elaine.veil",
       "elaine.sanctuary"
     ],
-    "roleGroup": "defensive_support"
+    "roleGroup": "defensive_support",
+    "releaseId": 5
   },
   {
     "id": "garrek",
@@ -174,7 +179,8 @@
       "garrek.fortress",
       "garrek.resolve"
     ],
-    "roleGroup": "tank"
+    "roleGroup": "tank",
+    "releaseId": 6
   },
   {
     "id": "dain",
@@ -211,7 +217,8 @@
       "dain.brace",
       "dain.crush"
     ],
-    "roleGroup": "fighter"
+    "roleGroup": "fighter",
+    "releaseId": 7
   },
   {
     "id": "rowan",
@@ -246,7 +253,8 @@
       "type": "true_strike",
       "name": "Mũi tên không lạc",
       "description": "Mọi đòn tấn công của Rowan có Hội Tâm, bỏ qua né tránh."
-    }
+    },
+    "releaseId": 8
   },
   {
     "id": "freya",
@@ -277,7 +285,8 @@
       "freya.inferno",
       "freya.cool"
     ],
-    "roleGroup": "magical_dps"
+    "roleGroup": "magical_dps",
+    "releaseId": 9
   },
   {
     "id": "arden",
@@ -302,7 +311,8 @@
       "arden.tonic",
       "arden.garden"
     ],
-    "roleGroup": "defensive_support"
+    "roleGroup": "defensive_support",
+    "releaseId": 10
   },
   {
     "id": "rhett",
@@ -332,7 +342,8 @@
       "rhett.shot",
       "rhett.overload"
     ],
-    "roleGroup": "physical_dps"
+    "roleGroup": "physical_dps",
+    "releaseId": 11
   },
   {
     "id": "galliard",
@@ -356,7 +367,8 @@
       "galliard.wall",
       "galliard.hold"
     ],
-    "roleGroup": "tank"
+    "roleGroup": "tank",
+    "releaseId": 12
   },
   {
     "id": "armie",
@@ -381,7 +393,8 @@
       "armie.treatment",
       "armie.emergency"
     ],
-    "roleGroup": "defensive_support"
+    "roleGroup": "defensive_support",
+    "releaseId": 13
   },
   {
     "id": "fran",
@@ -406,7 +419,8 @@
       "fran.fracture",
       "fran.night"
     ],
-    "roleGroup": "offensive_support"
+    "roleGroup": "offensive_support",
+    "releaseId": 14
   },
   {
     "id": "aurora",
@@ -449,7 +463,8 @@
       "aurora.amplify",
       "aurora.storm"
     ],
-    "biography": "Pháp sư vừa tốt nghiệp Học Viện Ma Pháp, mang sức mạnh Lôi."
+    "biography": "Pháp sư vừa tốt nghiệp Học Viện Ma Pháp, mang sức mạnh Lôi.",
+    "releaseId": 15
   },
   {
     "id": "lisbeth",
@@ -482,7 +497,8 @@
       "lisbeth.lance",
       "lisbeth.judgment"
     ],
-    "biography": "Tiểu thư nhà Ranoc, dòng quý tộc có tổ tiên lập khế ước với quỷ. Kiêu ngạo và tsundere, cô luôn phủ nhận sự quan tâm dành cho người khác."
+    "biography": "Tiểu thư nhà Ranoc, dòng quý tộc có tổ tiên lập khế ước với quỷ. Kiêu ngạo và tsundere, cô luôn phủ nhận sự quan tâm dành cho người khác.",
+    "releaseId": 16
   },
   {
     "id": "kai",
@@ -515,7 +531,8 @@
       "kai.shield",
       "kai.formation"
     ],
-    "biography": "Cậu bé làng phía Bắc luôn ngưỡng mộ Garrek và tập dùng khiên gỗ để bảo vệ mọi người."
+    "biography": "Cậu bé làng phía Bắc luôn ngưỡng mộ Garrek và tập dùng khiên gỗ để bảo vệ mọi người.",
+    "releaseId": 17
   },
   {
     "id": "benard",
@@ -549,7 +566,8 @@
     "tags": [
       "capital_knights",
       "gale_knight"
-    ]
+    ],
+    "releaseId": 18
   },
   {
     "id": "lanceveil",
@@ -586,7 +604,8 @@
     "tags": [
       "capital_knights",
       "firelance_knight"
-    ]
+    ],
+    "releaseId": 19
   },
   {
     "id": "gahallad",
@@ -620,7 +639,8 @@
     "tags": [
       "capital_knights",
       "black_knight"
-    ]
+    ],
+    "releaseId": 20
   },
   {
     "id": "gawain",
@@ -657,7 +677,8 @@
     "tags": [
       "capital_knights",
       "storm_knight"
-    ]
+    ],
+    "releaseId": 21
   },
   {
     "id": "lucien",
@@ -694,7 +715,8 @@
       "lucien.sweep",
       "lucien.tempest",
       "lucien.ward"
-    ]
+    ],
+    "releaseId": 22
   },
   {
     "id": "seraphine",
@@ -749,7 +771,8 @@
       "seraphine.crest",
       "seraphine.blade",
       "seraphine.spell"
-    ]
+    ],
+    "releaseId": 23
   },
   {
     "id": "lyon",
@@ -786,7 +809,8 @@
       "lyon.shield",
       "lyon.formation",
       "lyon.ward"
-    ]
+    ],
+    "releaseId": 24
   },
   {
     "id": "cedric",
@@ -823,7 +847,8 @@
       "cedric.rally",
       "cedric.aid",
       "cedric.strike"
-    ]
+    ],
+    "releaseId": 25
   },
   {
     "id": "helena",
@@ -858,7 +883,8 @@
     "tags": [
       "ranoc"
     ],
-    "basicDamageType": "magical"
+    "basicDamageType": "magical",
+    "releaseId": 26
   },
   {
     "id": "leonardo",
@@ -893,7 +919,8 @@
     "description": "Bảo vệ đồng đội bằng kháng phép, nhận đòn thay và thanh tẩy.",
     "tags": [
       "ranoc"
-    ]
+    ],
+    "releaseId": 27
   },
   {
     "id": "kyle",
@@ -928,7 +955,8 @@
     "tags": [
       "ranoc"
     ],
-    "basicDamageType": "magical"
+    "basicDamageType": "magical",
+    "releaseId": 28
   },
   {
     "id": "iwayn",
@@ -962,7 +990,8 @@
     "tags": [
       "capital_knights",
       "young_knight"
-    ]
+    ],
+    "releaseId": 29
   },
   {
     "id": "percival",
@@ -996,7 +1025,8 @@
     "tags": [
       "capital_knights",
       "tide_knight"
-    ]
+    ],
+    "releaseId": 30
   },
   {
     "id": "mandred",
@@ -1032,7 +1062,8 @@
     "tags": [
       "capital_knights",
       "lion_knight"
-    ]
+    ],
+    "releaseId": 31
   },
   {
     "id": "lionel",
@@ -1067,80 +1098,8 @@
       "capital_knights",
       "guide_knight"
     ],
-    "basicDamageType": "magical"
-  },
-  {
-    "id": "astoria",
-    "name": "Astoria",
-    "title": "Kẻ du hành xuyên không thời gian",
-    "element": "dark",
-    "role": "Thuật Sư",
-    "roleGroup": "sorcerer",
-    "developerOnly": true,
-    "affiliation": "time_travelers",
-    "description": "Tích Vết nứt để triệu hồi Magnamut, thay đổi chiến trường và ra lệnh hủy diệt.",
-    "stats": {
-      "maxHp": 175,
-      "maxMp": 120,
-      "attack": 12,
-      "magic": 36,
-      "defense": 18,
-      "resistance": 22,
-      "speed": 16
-    },
     "basicDamageType": "magical",
-    "basicAttack": [
-      {
-        "type": "damage",
-        "damageType": "magical",
-        "element": "dark",
-        "multiplier": 0.6
-      },
-      {
-        "type": "damage",
-        "damageType": "magical",
-        "element": "dark",
-        "multiplier": 0.6
-      }
-    ],
-    "basicPresentation": "cosmic_double",
-    "abilities": [
-      "astoria.slash",
-      "astoria.rift",
-      "astoria.summon",
-      "astoria.command"
-    ],
-    "resources": {
-      "space_rift": {
-        "name": "Vết nứt không gian",
-        "max": 5
-      }
-    },
-    "passive": {
-      "type": "combat_mode",
-      "name": "Cộng hưởng không gian và thời gian",
-      "description": "Magnamut hiện diện: +15 MAG căn bản. Mỗi lần Magnamut rời sân, hồi 35% MP tối đa."
-    },
-    "combatModes": {
-      "magnamut": {
-        "name": "Magnamut",
-        "resource": "space_rift",
-        "allowedAbilities": [
-          "astoria.command"
-        ],
-        "baseStatBonuses": {
-          "magic": 15
-        },
-        "exitMpRatio": 0.35,
-        "music": "astoria",
-        "background": "/art/magnamut.svg",
-        "emptyExit": "turn_start_or_round_end",
-        "description": "Chỉ dùng được Mệnh lệnh hủy diệt khi Magnamut hiện diện."
-      }
-    },
-    "tags": [
-      "time_traveler"
-    ]
+    "releaseId": 32
   },
   {
     "id": "monica",
@@ -1189,7 +1148,8 @@
     },
     "tags": [
       "magic_academy"
-    ]
+    ],
+    "releaseId": 34
   },
   {
     "id": "charlemagnes",
@@ -1224,7 +1184,8 @@
     "tags": [
       "capital_knights",
       "grand_general"
-    ]
+    ],
+    "releaseId": 35
   },
   {
     "id": "kreider",
@@ -1259,7 +1220,8 @@
     },
     "tags": [
       "magic_academy"
-    ]
+    ],
+    "releaseId": 36
   },
   {
     "id": "roland",
@@ -1294,7 +1256,8 @@
       "capital_knights",
       "order_captain"
     ],
-    "basicDamageType": "magical"
+    "basicDamageType": "magical",
+    "releaseId": 37
   },
   {
     "id": "lumine",
@@ -1304,7 +1267,7 @@
     "element": "water",
     "role": "DPS vật lí",
     "roleGroup": "physical_dps",
-    "description": "Biến ma lực thành kiếm thuật: đòn đánh vật lí lấy MAG, đối đầu DEF và vẫn có thể bị né.",
+    "description": "Dùng MAG cho kiếm thuật gây sát thương vật lí, xuyên qua DEF đối thủ.",
     "stats": {
       "maxHp": 165,
       "maxMp": 85,
@@ -1337,7 +1300,8 @@
         "multiplier": 1,
         "scalingStat": "magic"
       }
-    ]
+    ],
+    "releaseId": 38
   },
   {
     "id": "victorina",
@@ -1347,7 +1311,7 @@
     "element": "fire",
     "role": "Thủ Hộ bảo vệ toàn đội",
     "roleGroup": "tank",
-    "description": "Phủ hoa hồng lên chiến tuyến: khiên, DEF và RES toàn đội với chi phí thấp; không Khiêu khích.",
+    "description": "Duy trì khiên, DEF và RES cho toàn đội; khiên vỡ giúp người mang hồi MP.",
     "stats": {
       "maxHp": 240,
       "maxMp": 90,
@@ -1377,7 +1341,8 @@
       "capital_knights",
       "rose_knight",
       "dragun"
-    ]
+    ],
+    "releaseId": 39
   },
   {
     "id": "sieg",
@@ -1387,7 +1352,7 @@
     "element": "water",
     "role": "Đấu sĩ",
     "roleGroup": "fighter",
-    "description": "Tích Kiếm Kĩ, dựng kết giới bảo hộ cả đội rồi tung bí kiếm. Rất chậm nhưng bền bỉ.",
+    "description": "Tích Kiếm Kĩ, dựng kết giới bảo hộ cả đội rồi tung bí kiếm.",
     "biography": "Một kiếm sĩ elf phục vụ trong Kị sĩ đoàn Thủ đô. Sieg rèn kiếm qua nhiều năm, chuộng thế trận vững chắc hơn những bước tiến vội vàng.",
     "tags": [
       "capital_knights",
@@ -1420,7 +1385,8 @@
       "name": "Tĩnh tâm trong sóng",
       "description": "Khi đang có khiên, bản thân gây thêm sát thương.",
       "ratio": 0.08
-    }
+    },
+    "releaseId": 40
   },
   {
     "id": "minerva",
@@ -1430,7 +1396,7 @@
     "element": "earth",
     "role": "Hỗ trợ phòng thủ",
     "roleGroup": "defensive_support",
-    "description": "Dùng Hộ Ấn và giải hiệu ứng để bảo vệ đồng đội; khả năng hồi máu trực tiếp yếu.",
+    "description": "Dùng Hộ Ấn và thanh tẩy để bảo vệ đồng đội, kèm hồi phục nhẹ.",
     "biography": "Sống lẩn khuất trong rừng dưới sự che chở của Gahallad, Minerva hiểu rõ nỗi đau của lời nguyền. Cô dùng điều ấy để xoa dịu những người chịu hiệu ứng bất lợi.",
     "tags": [
       "forest"
@@ -1456,7 +1422,8 @@
       "description": "Khi đồng đội thực nhận debuff từ địch, hồi một ít HP cho người đó, gồm bản thân.",
       "multiplier": 0.5,
       "oncePerRecipientPerRound": true
-    }
+    },
+    "releaseId": 41
   },
   {
     "id": "auguste",
@@ -1508,7 +1475,8 @@
       "description": "Khi thi triển Đại định lý, mỗi đồng đội khác nhau trong ba dấu tăng MAG căn bản cho cả kỹ năng.",
       "amount": 3,
       "maxSources": 3
-    }
+    },
+    "releaseId": 42
   },
   {
     "id": "logia",
@@ -1545,7 +1513,8 @@
         "logia_venom"
       ],
       "ratio": 0.25
-    }
+    },
+    "releaseId": 43
   },
   {
     "id": "amelia",
@@ -1582,7 +1551,8 @@
       "description": "Liên kích toàn địch khi đồng đội khác bị đánh nhưng còn khiên sau chiêu.",
       "followUpAbility": "amelia.echo",
       "oncePerRound": true
-    }
+    },
+    "releaseId": 44
   },
   {
     "id": "chloe",
@@ -1617,7 +1587,8 @@
       "description": "Đòn trực tiếp trúng địch làm giảm ATK và MAG của người đó.",
       "statusId": "cat_intimidation",
       "duration": 1
-    }
+    },
+    "releaseId": 45
   },
   {
     "id": "sylva",
@@ -1689,7 +1660,8 @@
         "summary": "+6 MAG căn bản · Kỹ năng đồng hành · 3 vòng",
         "description": "Azurius ở lại 3 vòng tính cả vòng gọi; ba kỹ năng thường được thay bằng kỹ năng phối hợp. Hết hạn hoặc Sylva gục thì rời sân."
       }
-    }
+    },
+    "releaseId": 46
   },
   {
     "id": "drake",
@@ -1774,7 +1746,8 @@
         "background": "/art/drake-golem.svg",
         "summary": "Golem · Liên kích toàn địch đầu và cuối vòng · 3 vòng"
       }
-    }
+    },
+    "releaseId": 47
   },
   {
     "id": "yufina",
@@ -1856,7 +1829,8 @@
         "presentationScope": "none",
         "bypassEvasion": true
       }
-    }
+    },
+    "releaseId": 48
   },
   {
     "id": "karin",
@@ -1890,7 +1864,8 @@
       "name": "Cơn cuồng chiến",
       "description": "Mất càng nhiều tỷ lệ HP, sát thương trực tiếp càng tăng.",
       "ratio": 0.6
-    }
+    },
+    "releaseId": 49
   },
   {
     "id": "elise",
@@ -1927,7 +1902,8 @@
       "description": "Mỗi loại buff trên mục tiêu làm tăng sát thương của bản thân.",
       "ratio": 0.2,
       "cap": 0.6
-    }
+    },
+    "releaseId": 50
   },
   {
     "id": "yumia",
@@ -1962,7 +1938,8 @@
       "description": "Sau kỹ năng địch đánh trúng đồng đội khác, phản đòn vào kẻ tấn công.",
       "counterAbility": "yumia.counter",
       "oncePerRound": true
-    }
+    },
+    "releaseId": 51
   },
   {
     "id": "chelsea",
@@ -2002,7 +1979,8 @@
           "magical"
         ]
       }
-    }
+    },
+    "releaseId": 52
   },
   {
     "id": "tobin",
@@ -2044,7 +2022,8 @@
       "tobin.hammer",
       "tobin.stoke",
       "tobin.quench"
-    ]
+    ],
+    "releaseId": 53
   },
   {
     "id": "astraea",
@@ -2106,7 +2085,8 @@
         "summary": "+50% MAG · Liên kích tối đa 2 lần/vòng · thêm 50% MAG hệ số",
         "description": "Duy trì 3 vòng tính cả vòng thi triển. Hết ở cuối vòng sau Vòng Phụ; lượt kế tiếp có thể dùng lại. Kỹ năng bản thân không kích hoạt Liên kích."
       }
-    }
+    },
+    "releaseId": 54
   },
   {
     "id": "artesia",
@@ -2141,7 +2121,8 @@
       "name": "Quỹ Đạo Song Tinh",
       "description": "Sau khi dùng Phòng thủ, hồi 3% MP tối đa hiện tại cho mỗi đồng đội còn sống ở hai ô kề. Nối vòng ô 1 và 4; không hồi cho bản thân.",
       "ratio": 0.03
-    }
+    },
+    "releaseId": 55
   },
   {
     "id": "selene",
@@ -2227,7 +2208,8 @@
           "rounds": 2
         }
       }
-    }
+    },
+    "releaseId": 56
   },
   {
     "id": "simon",
@@ -2270,7 +2252,8 @@
       "description": "Sau mỗi kỹ năng của đồng đội khác thực sự tiêu Bằng Chứng, Liên kích 160% ATK vào địch còn nhiều HP nhất và gắn 2 Sơ Hở Thủy nếu trúng. Mỗi kỹ năng kích một lần, không tính theo số tầng tiêu.",
       "resource": "evidence",
       "followUpAbility": "simon.objection"
-    }
+    },
+    "releaseId": 57
   },
   {
     "id": "genevieve",
@@ -2314,7 +2297,8 @@
       "resource": "evidence",
       "perStack": 0.04,
       "cap": 0.12
-    }
+    },
+    "releaseId": 58
   },
   {
     "id": "aldric",
@@ -2348,7 +2332,8 @@
       "toStat": "magic",
       "ratio": 0.05,
       "cap": 25
-    }
+    },
+    "releaseId": 59
   },
   {
     "id": "rivia",
@@ -2397,7 +2382,8 @@
           "resistance": 0.15
         }
       }
-    }
+    },
+    "releaseId": 60
   },
   {
     "id": "valery",
@@ -2464,7 +2450,8 @@
         "summary": "+40% MAG · tích tối đa 6 Điểm Ngắm Gió",
         "description": "Duy trì 3 vòng tính cả vòng thi triển. Tích tầng từ Phòng thủ hoặc khiên của hai phe, mỗi hành động một lần. Tung Xuyên Vân Nhất Tiễn sẽ tiêu hết tầng và rời dạng; hết thời gian cũng xóa tầng."
       }
-    }
+    },
+    "releaseId": 61
   },
   {
     "id": "noctis",
@@ -2508,7 +2495,8 @@
       "resource": "evidence",
       "stat": "attack",
       "ratio": 0.35
-    }
+    },
+    "releaseId": 62
   },
   {
     "id": "heimdall",
@@ -2553,7 +2541,8 @@
       "counterAbility": "heimdall.reprisal",
       "minimum": 0.5,
       "maximum": 2
-    }
+    },
+    "releaseId": 63
   },
   {
     "id": "finmel",
@@ -2595,7 +2584,8 @@
       "amount": 1,
       "elementMatch": "different",
       "elementSource": "damage"
-    }
+    },
+    "releaseId": 64
   },
   {
     "id": "albeldo",
@@ -2632,7 +2622,8 @@
       "description": "Giảm sát thương vật lí cho toàn đội theo SPD căn bản của Albeldo, tối đa 30% tại 90 SPD căn bản. Buff SPD trong trận không tăng hiệu quả.",
       "cap": 0.3,
       "atSpeed": 90
-    }
+    },
+    "releaseId": 65
   },
   {
     "id": "henrris",
@@ -2663,7 +2654,8 @@
       "name": "Mắt Thấy Kẽ Hở",
       "description": "Gây thêm 50% sát thương trực tiếp khi DEF hiện tại của mục tiêu khác DEF căn bản. Tăng hoặc giảm DEF đều tính; xuyên DEF đơn thuần không tính.",
       "ratio": 0.5
-    }
+    },
+    "releaseId": 66
   },
   {
     "id": "joshua",
@@ -2721,7 +2713,8 @@
         "summary": "+85% ATK · kỹ năng công kích kèm truy kích hút máu",
         "description": "Tính cả vòng kích hoạt. Không có nền bàn đấu hoặc BGM riêng. Mỗi kỹ năng chủ động công kích của Joshua gọi một Liên kích riêng, không tạo chuỗi. Kết thúc dạng có hai vòng không thể kích hoạt lại."
       }
-    }
+    },
+    "releaseId": 67
   },
   {
     "id": "bennett",
@@ -2753,7 +2746,8 @@
       "description": "Mọi đòn vật lí của Bennett xuyên 50% DEF. Không làm thay đổi DEF thật của địch.",
       "damageType": "physical",
       "ratio": 0.5
-    }
+    },
+    "releaseId": 68
   },
   {
     "id": "judy",
@@ -2793,7 +2787,8 @@
       "element": "thunder",
       "resource": "storm_charge",
       "amount": 1
-    }
+    },
+    "releaseId": 69
   },
   {
     "id": "isabelle",
@@ -2840,7 +2835,8 @@
       "perRound": 2,
       "penetrationPerCharge": 0.1,
       "generatedAfterPowered": 1
-    }
+    },
+    "releaseId": 70
   },
   {
     "id": "viktor",
@@ -2886,7 +2882,8 @@
       "resource": "gunpowder",
       "perCharge": 0.3,
       "cap": 0.9
-    }
+    },
+    "releaseId": 71
   },
   {
     "id": "mori",
@@ -2923,8 +2920,9 @@
     "tags": [
       "wanderer"
     ],
-    "description": "Một tay kiếm lãng du, lấy tốc độ làm sức mạnh. Bảo hộ bạn đường rồi tung lôi kiếm dọn sạch chiến trường.",
-    "biography": "Một tay kiếm lãng du, lấy tốc độ làm sức mạnh. Bảo hộ bạn đường rồi tung lôi kiếm dọn sạch chiến trường."
+    "description": "Tăng sức mạnh từ tốc độ, bảo hộ bạn đường rồi quét lôi kiếm qua chiến trường.",
+    "biography": "Một tay kiếm lãng du, lấy tốc độ làm sức mạnh. Bảo hộ bạn đường rồi tung lôi kiếm dọn sạch chiến trường.",
+    "releaseId": 72
   },
   {
     "id": "sandra",
@@ -2959,8 +2957,9 @@
       "capital_knights",
       "order_librarian"
     ],
-    "description": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết.",
-    "biography": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết."
+    "description": "Xóa buff, ngăn viện trợ và trừng phạt kẻ địch không còn buff.",
+    "biography": "Thủ thư của Hội Hiệp sĩ. Tước bỏ đặc ân, phong ấn viện trợ và dùng địa thuật buộc đối phương tuân theo phán quyết.",
+    "releaseId": 73
   },
   {
     "id": "tywin",
@@ -2996,8 +2995,9 @@
     "tags": [
       "hunter_guild"
     ],
-    "description": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm.",
-    "biography": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm."
+    "description": "Gây Vết Thương Sâu, thanh tẩy bạn đồng hành và kết thúc bằng kiếm Hội Tâm.",
+    "biography": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm.",
+    "releaseId": 74
   },
   {
     "id": "cerise",
@@ -3064,7 +3064,8 @@
         "summary": "+30% ATK · né 50% vật lí và phép · 3 lượt",
         "description": "Duy trì 3 lượt của Cerise, tính cả lượt thi triển. Cô áp sát và né 50% đòn vật lí lẫn phép; hết lượt thứ ba thì rời dạng."
       }
-    }
+    },
+    "releaseId": 75
   },
   {
     "id": "flammelapis",
@@ -3136,7 +3137,8 @@
         "summary": "+35% ATK · Phá Thành · 2 lượt",
         "description": "Duy trì 2 lượt của Flammelapis. ATK +35% và nhận Phá Thành; hết lượt thứ hai thì rời dạng."
       }
-    }
+    },
+    "releaseId": 76
   },
   {
     "id": "amaryllis",
@@ -3149,7 +3151,7 @@
     "tags": [
       "rhett_lab"
     ],
-    "description": "Chỉ chữa lành: hồi HP rất mạnh theo MAG và chuyển một phần lượng hồi thành MP cho bản thân.",
+    "description": "Chuyên hồi HP theo MAG, chuyển một phần lượng hồi thành MP cho bản thân.",
     "biography": "Cô gái hiền từ của nhà thờ Thủ đô, quen việc giữ đèn và chăm sóc người bệnh. Một đêm tuổi mới lớn, cô lẻn ra ngoài chơi rồi lạc vào khu cơ sở hạ tầng của Rhett; từ đó cô ở lại, vẫn giữ thói quen chữa lành cho bất cứ ai cần.",
     "stats": {
       "maxHp": 150,
@@ -3180,7 +3182,8 @@
       "description": "Mỗi lần hồi máu, hồi thêm MP bằng 10% lượng hồi Amaryllis tạo ra cho từng người, tối đa 10 MP mỗi người được hồi.",
       "ratio": 0.1,
       "cap": 10
-    }
+    },
+    "releaseId": 77
   },
   {
     "id": "brant",
@@ -3222,6 +3225,1041 @@
       "name": "Thân Chắn Bão Tố",
       "description": "Khi thực sự nhận đòn thay đồng đội qua Che chắn, giảm thêm 20% sát thương của đòn đó.",
       "ratio": 0.2
-    }
+    },
+    "releaseId": 78
+  },
+  {
+    "id": "ember",
+    "name": "Ember",
+    "title": "Phù Thủy Của Những Sự Cố",
+    "affiliation": "hunters_guild",
+    "element": "fire",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "tags": [
+      "hunter_guild"
+    ],
+    "description": "Tiếp sức cho đội Hỏa, tạo Sơ Hở rồi vô tình làm ngọn lửa cháy thêm bằng Liên kích.",
+    "biography": "Cô phù thủy hậu đậu của Hội Thợ Săn luôn quả quyết rằng lần này mình đã đọc đúng thần chú. Những tai nạn nhỏ của Ember thường khiến cả bãi săn bốc cháy — may mà đồng đội biết tận dụng.",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 110,
+      "attack": 9,
+      "magic": 30,
+      "defense": 14,
+      "resistance": 22,
+      "speed": 25
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "ember.mark",
+      "ember.cheer",
+      "ember.firebreak"
+    ],
+    "passive": {
+      "type": "element_ally_followup",
+      "name": "Ơ, Nó Cháy Tiếp Kìa!",
+      "description": "Khi đồng đội Hỏa khác dùng kỹ năng chủ động gây sát thương Hỏa, Liên kích 100% MAG Hỏa vào mục tiêu còn sống đã nhận đòn. Mỗi vòng 1 lần.",
+      "element": "fire",
+      "followUpAbility": "ember.follow_up"
+    },
+    "releaseId": 79
+  },
+  {
+    "id": "myonne",
+    "name": "Myonne",
+    "title": "Người Bán Những Điều Khoản Nhỏ",
+    "affiliation": "drageshelmfjall_merchants",
+    "element": "dark",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "tags": [
+      "drageshelmfjall_merchants"
+    ],
+    "description": "Chuẩn bị Sơ Hở Ám và ưu đãi Khai Phá Điểm Yếu cho một chủ lực, rồi thu xếp hoàn phí MP.",
+    "biography": "Thương nhân đến từ Drageshelmfjall, Myonne luôn nở nụ cười dễ mến khi trao hợp đồng. Ưu đãi của cô rất thật; những điều kiện viết nhỏ phía dưới cũng vậy.",
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 105,
+      "attack": 10,
+      "magic": 29,
+      "defense": 15,
+      "resistance": 21,
+      "speed": 24
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "scalingStat": "magic",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "myonne.clause",
+      "myonne.offer",
+      "myonne.collect"
+    ],
+    "passive": {
+      "type": "element_ally_weakness_mp",
+      "name": "Khách Quen Được Hoàn Phí",
+      "description": "Khi đồng đội Ám khác dùng kỹ năng chủ động gây sát thương Ám trúng điểm yếu, người đó hồi 3 MP. Mỗi vòng 1 lần.",
+      "element": "dark",
+      "amount": 3
+    },
+    "releaseId": 80
+  },
+  {
+    "id": "verena",
+    "name": "Verena",
+    "title": "Người Giữ Những Bình Minh",
+    "element": "fire",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "noble"
+    ],
+    "description": "Thế chấp khả năng hồi phục để duy trì tấn công, rồi tất toán để tự hồi máu.",
+    "biography": "Một nữ quý tộc đã dành cả tuổi thanh xuân gây dựng quỹ từ thiện cho trẻ em mồ côi. Verena đặt tương lai của những đứa trẻ lên trước sự an toàn của chính mình.",
+    "stats": {
+      "maxHp": 190,
+      "maxMp": 85,
+      "attack": 32,
+      "magic": 10,
+      "defense": 17,
+      "resistance": 18,
+      "speed": 19
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "verena.tomorrow",
+      "verena.pledge",
+      "verena.dawn"
+    ],
+    "passive": {
+      "type": "life_mortgage_pact",
+      "name": "Một Lời Hứa Chưa Trả",
+      "description": "Khi có Thế Chấp, gây thêm 15% sát thương và chỉ nhận hồi HP từ bản thân. Hồi phục từ nguồn khác không hồi HP hoặc thanh toán nợ.",
+      "damageBonus": 0.15,
+      "blockExternalHealing": true
+    },
+    "releaseId": 81
+  },
+  {
+    "id": "tsukiha",
+    "name": "Tsukiha",
+    "title": "Vu Nữ Của Đền Keijo",
+    "affiliation": "keijo_shrine",
+    "element": "fire",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "sword_soul",
+      "keijo_shrine"
+    ],
+    "description": "Tạo Hồn Kiếm, tích ATK căn bản rồi dồn linh hỏa vào những nhát chém đơn mục tiêu.",
+    "biography": "Vu nữ phụng sự ngôi đền Keijo. Trước cổng torii soi bóng mặt hồ, Tsukiha dẫn những hồn kiếm lang thang về nơi an nghỉ, rồi mượn sức họ để bảo vệ người còn sống.",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 90,
+      "attack": 35,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 20,
+      "speed": 16
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "tsukiha.ember",
+      "tsukiha.offering",
+      "tsukiha.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "team_resource_growth",
+      "name": "Linh Hỏa Gửi Trong Kiếm",
+      "description": "Mỗi Hồn Kiếm được tạo hoặc tiêu cho Tsukiha +4 ATK căn bản trong 4 lượt chính, tối đa 3 tầng. Tăng tầng làm mới thời hạn toàn bộ.",
+      "resource": "sword_soul",
+      "statusId": "tsukiha_soul",
+      "duration": 4,
+      "baseStatPerStack": {
+        "attack": 4
+      }
+    },
+    "releaseId": 82
+  },
+  {
+    "id": "izuna",
+    "name": "Izuna",
+    "title": "Tiểu Thiên Cẩu Của Núi Keijo",
+    "affiliation": "keijo_mountains",
+    "element": "thunder",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 110,
+      "attack": 10,
+      "magic": 36,
+      "defense": 13,
+      "resistance": 24,
+      "speed": 23
+    },
+    "tags": [
+      "sword_soul",
+      "keijo_mountains"
+    ],
+    "description": "Dồn sét vào năm nhịp tấn công; khi kết liễu, lặp lại đòn bằng sức Hồn Kiếm.",
+    "biography": "Một tengu trẻ sống trên núi Keijo. So với tuổi đời dài của đồng tộc, Izuna vẫn là một cô nhóc thích khoe những trò sấm sét mình vừa học được.",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "izuna.strike",
+      "izuna.offering",
+      "izuna.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "team_spend_penetration",
+      "name": "Sấm Vọng Qua Khe Núi",
+      "description": "Kỹ năng tiêu Hồn Kiếm xuyên 50% RES. Bão sét kết liễu địch sẽ Liên kích lặp lại một lần mỗi vòng, không trả chi phí và được tính là dùng Hồn Kiếm.",
+      "resource": "sword_soul",
+      "damageType": "magical",
+      "penetration": 0.5,
+      "repeatAbility": "izuna.burst",
+      "virtualSpent": 4
+    },
+    "releaseId": 83
+  },
+  {
+    "id": "shion",
+    "name": "Shion",
+    "title": "Kiếm Khách Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "earth",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 100,
+      "attack": 28,
+      "magic": 12,
+      "defense": 19,
+      "resistance": 21,
+      "speed": 22
+    },
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Tiếp ứng nghi thức tạo Hồn Kiếm, cấp Lượt Thêm và phá thế phòng ngự.",
+    "biography": "Thành viên Hội Thợ Săn Yêu Quái, Shion quen lắng nghe linh hồn trong lưỡi kiếm trước khi bước vào lãnh địa của yêu quái.",
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "shion.strike",
+      "shion.offering",
+      "shion.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "ally_team_creation",
+      "name": "Một Kiếm Đáp Lời",
+      "description": "Khi đồng đội khác dùng kỹ năng tạo Hồn Kiếm trực tiếp, tạo thêm 1 Hồn Kiếm và nhận 40% ATK trong 3 vòng. Mỗi vòng 1 lần.",
+      "resource": "sword_soul",
+      "amount": 1,
+      "statusId": "shion_reply",
+      "duration": 3
+    },
+    "releaseId": 84
+  },
+  {
+    "id": "amiya",
+    "name": "Amiya",
+    "title": "Ánh Đèn Cầu Nguyện Keijo",
+    "affiliation": "keijo_shrine",
+    "element": "light",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 125,
+      "attack": 10,
+      "magic": 28,
+      "defense": 15,
+      "resistance": 25,
+      "speed": 21
+    },
+    "tags": [
+      "sword_soul",
+      "keijo_shrine"
+    ],
+    "description": "Duy trì Hồn Kiếm, mở Sơ Hở và rút ngắn hồi chiêu cho những người cùng nghi thức.",
+    "biography": "Amiya giữ những lời cầu nguyện của đền Keijo. Trong ánh đèn của cô, các hồn kiếm tìm được một lối đi yên ổn giữa hai bờ.",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "amiya.strike",
+      "amiya.offering",
+      "amiya.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "round_team_resource",
+      "name": "Linh Đăng Dẫn Lối",
+      "description": "Đầu vòng tạo 1 Hồn Kiếm. Khi đội có ít nhất 3 thành viên Hồn Kiếm, gồm bản thân, tạo 2 và hồi 3% MP tối đa cho toàn đội còn sống.",
+      "resource": "sword_soul",
+      "amount": 1,
+      "memberTag": "sword_soul",
+      "memberThreshold": 3,
+      "enhancedAmount": 2,
+      "enhancedTeamMpRatio": 0.03
+    },
+    "releaseId": 85
+  },
+  {
+    "id": "kaguya",
+    "name": "Kaguya",
+    "title": "Người Che Chở Cổng Trăng",
+    "affiliation": "keijo_shrine",
+    "element": "dark",
+    "role": "Thủ Hộ",
+    "roleGroup": "tank",
+    "stats": {
+      "maxHp": 280,
+      "maxMp": 110,
+      "attack": 12,
+      "magic": 24,
+      "defense": 28,
+      "resistance": 30,
+      "speed": 13
+    },
+    "tags": [
+      "sword_soul",
+      "keijo_shrine"
+    ],
+    "description": "Nâng trần Hồn Kiếm, ban Chúc Phúc và nuôi tài nguyên khi đội được bảo vệ chịu đòn.",
+    "biography": "Kaguya canh giữ cổng đền Keijo dưới bóng trăng. Khi linh hỏa quây quanh những người được cô chúc phúc, từng đòn đánh của kẻ thù lại tiếp sức cho lời nguyện.",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "kaguya.strike",
+      "kaguya.offering",
+      "kaguya.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "blessed_team_resource",
+      "name": "Ngàn Đêm Giữ Hồn",
+      "description": "Nâng trần Hồn Kiếm của đội lên 10. Khi một hành động gây sát thương HP hoặc khiên cho người mang Hồn Kiếm Chúc Phúc, tạo 1 Hồn Kiếm; tối đa 2 lần mỗi vòng.",
+      "resource": "sword_soul",
+      "maximum": 10,
+      "blessingStatus": "sword_soul_blessing",
+      "amount": 1,
+      "perRound": 2
+    },
+    "releaseId": 86
+  },
+  {
+    "id": "miyuki",
+    "name": "Miyuki",
+    "title": "Lãng Kiếm Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "water",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Nương dòng Hồn Kiếm để thức tỉnh, dồn kiếm khí vào một mục tiêu và tìm cơ hội làm choáng.",
+    "biography": "Một kiếm khách của Hội Thợ Săn Yêu Quái. Miyuki lặng lẽ lắng nghe các hồn kiếm bên dòng nước, chờ khoảnh khắc họ cùng cất tiếng mới rút kiếm kết thúc cuộc săn.",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 95,
+      "attack": 32,
+      "magic": 10,
+      "defense": 18,
+      "resistance": 20,
+      "speed": 20
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "miyuki.strike",
+      "miyuki.offering",
+      "miyuki.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "team_resource_mode",
+      "name": "Lục Hồn Khai Kiếm",
+      "description": "Khi đội có ít nhất 6 Hồn Kiếm, vào Lục Hồn Thủy Kính trong 3 lượt của bản thân, không tiêu tài nguyên. Dạng tăng 25% ATK và cho Khai Phá Điểm Yếu. Hết dạng mà vẫn đủ 6, vào lại khi bắt đầu lượt kế.",
+      "resource": "sword_soul",
+      "threshold": 6,
+      "modeId": "soul_tide"
+    },
+    "combatModes": {
+      "soul_tide": {
+        "name": "Lục Hồn Thủy Kính",
+        "lifetime": "turns",
+        "durationTurns": 3,
+        "exitMpRatio": 0,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "attack": 0.25
+        },
+        "weaknessMultiplier": 2,
+        "allowedAbilities": [
+          "$attack",
+          "miyuki.strike",
+          "miyuki.offering",
+          "miyuki.burst",
+          "$defend"
+        ],
+        "presentationScope": "none",
+        "summary": "+25% ATK · Khai Phá Điểm Yếu · 3 lượt bản thân"
+      }
+    },
+    "releaseId": 87
+  },
+  {
+    "id": "susanoo",
+    "name": "Susanoo",
+    "title": "Sức Mạnh Của Núi Keijo",
+    "affiliation": "youkai_hunters",
+    "element": "thunder",
+    "role": "Đấu sĩ",
+    "roleGroup": "fighter",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Gia cố phòng ngự để tăng ATK căn bản, rồi dồn Hồn Kiếm vào một đòn quyết định.",
+    "biography": "Thành viên Hội Thợ Săn Yêu Quái, Susanoo tin một cú đánh đủ mạnh có thể giải quyết những việc suy nghĩ mãi vẫn chưa xong.",
+    "stats": {
+      "maxHp": 210,
+      "maxMp": 90,
+      "attack": 32,
+      "magic": 10,
+      "defense": 25,
+      "resistance": 23,
+      "speed": 13
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "susanoo.strike",
+      "susanoo.offering",
+      "susanoo.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "defense_average_conversion",
+      "name": "Cơ Bắp Biết Trả Lời",
+      "description": "Tăng ATK căn bản theo trung bình DEF và RES hiện tại, tối đa 25 ATK khi trung bình đạt 100.",
+      "toStat": "attack",
+      "ratio": 0.25,
+      "cap": 25
+    },
+    "releaseId": 88
+  },
+  {
+    "id": "yukino",
+    "name": "Yukino",
+    "title": "Tuyết Nữ Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "water",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Tiếp ứng đồng đội tạo Hồn Kiếm, rồi gom linh hỏa thành một trận tuyết chia đều sức mạnh.",
+    "biography": "Một Tuyết Nữ gia nhập Hội Thợ Săn Yêu Quái. Yukino dùng hơi lạnh để nối tiếng gọi của những hồn kiếm với người còn sống.",
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 120,
+      "attack": 10,
+      "magic": 44,
+      "defense": 15,
+      "resistance": 26,
+      "speed": 19
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "yukino.strike",
+      "yukino.offering",
+      "yukino.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "ally_creation_followup",
+      "name": "Tuyết Đáp Tiếng Linh Hồn",
+      "description": "Khi đồng đội khác dùng kỹ năng trực tiếp tạo Hồn Kiếm, Liên kích và tạo thêm 1 Hồn Kiếm. Tối đa 2 lần mỗi vòng.",
+      "resource": "sword_soul",
+      "amount": 1,
+      "followUpAbility": "yukino.echo",
+      "perRound": 2
+    },
+    "releaseId": 89
+  },
+  {
+    "id": "akane",
+    "name": "Akane",
+    "title": "Ưng Nhãn Săn Yêu",
+    "affiliation": "youkai_hunters",
+    "element": "wind",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters"
+    ],
+    "description": "Đón Lượt Thêm để tạo Hồn Kiếm, tăng ATK và dồn phong tiễn vào đội hình địch.",
+    "biography": "Cung thủ của Hội Thợ Săn Yêu Quái, có họ hàng với Shion. Akane phối hợp cùng bạn đồng hành, chờ một nhịp tiến công thuận lợi để giương cung.",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 95,
+      "attack": 33,
+      "magic": 10,
+      "defense": 16,
+      "resistance": 19,
+      "speed": 25
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "akane.strike",
+      "akane.wound",
+      "akane.burst"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "extra_phase_resource_buff",
+      "name": "Mũi Tên Đón Gió",
+      "description": "Khi có Lượt Thêm, vào đầu Vòng Phụ tạo 2 Hồn Kiếm và nhận 50% ATK đến hết vòng.",
+      "resource": "sword_soul",
+      "amount": 2,
+      "statusId": "akane_tailwind",
+      "duration": 1
+    },
+    "releaseId": 90
+  },
+  {
+    "id": "eri",
+    "name": "Shimoe Eri",
+    "title": "Cọ Vẽ Của Học Viện",
+    "affiliation": "magic_academy",
+    "element": "earth",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "tags": [
+      "sword_soul",
+      "magic_academy"
+    ],
+    "description": "Gom sắc màu từ Hồn Kiếm đội đã tiêu ở vòng trước, rồi dồn ma lực vào một mục tiêu.",
+    "biography": "Học sinh Học Viện Ma Pháp, Eri dùng cọ vẽ để biến linh hồn và màu sắc thành những bức họa có sức mạnh ma thuật.",
+    "stats": {
+      "maxHp": 110,
+      "maxMp": 120,
+      "attack": 8,
+      "magic": 42,
+      "defense": 10,
+      "resistance": 25,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "abilities": [
+      "eri.stroke",
+      "eri.duet",
+      "eri.masterpiece"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "previous_round_team_spend_buff",
+      "name": "Sắc Màu Của Những Linh Hồn",
+      "description": "Đầu vòng, mỗi Hồn Kiếm đội đã tiêu ở vòng trước cho bản thân 20% MAG, tối đa 100%, đến hết vòng hiện tại.",
+      "resource": "sword_soul",
+      "statusId": "eri_palette",
+      "stat": "magic",
+      "perStack": 0.2,
+      "cap": 1
+    },
+    "releaseId": 91
+  },
+  {
+    "id": "chiyoko",
+    "name": "Chiyoko",
+    "title": "Huyền Kiếm Trừ Yêu",
+    "affiliation": "youkai_hunters_guntai",
+    "element": "dark",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "tags": [
+      "sword_soul",
+      "youkai_hunters",
+      "guntai"
+    ],
+    "description": "Dùng ATK thi triển kiếm thuật gây sát thương phép, hợp nhất tổ kiếm để tăng tiến những đòn chém liên hoàn.",
+    "biography": "Thợ săn yêu quái huyền thoại đang phục vụ trong quân đội Keijo. Thanh tachi của Chiyoko nối tiếp kiếm pháp và lời thề trừ yêu được tổ tiên truyền lại.",
+    "stats": {
+      "maxHp": 185,
+      "maxMp": 110,
+      "attack": 40,
+      "magic": 12,
+      "defense": 18,
+      "resistance": 22,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.8,
+        "scalingStat": "attack",
+        "hits": 2,
+        "additionalElements": [
+          "sword_soul"
+        ]
+      }
+    ],
+    "basicPresentation": "iaido_basic",
+    "abilities": [
+      "chiyoko.cut",
+      "chiyoko.sweep",
+      "chiyoko.awaken",
+      "chiyoko.finale"
+    ],
+    "normalAbilities": [
+      "chiyoko.cut",
+      "chiyoko.sweep",
+      "chiyoko.awaken"
+    ],
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "passive": {
+      "type": "combat_mode",
+      "name": "Di Sản Bất Đoạn",
+      "description": "Trong Tổ Kiếm Hợp Nhất, nhận 30% ATK và xuyên 25% RES."
+    },
+    "combatModes": {
+      "ancestral_edge": {
+        "name": "Tổ Kiếm Hợp Nhất",
+        "lifetime": "permanent",
+        "baseStatBonuses": {
+          "attack": 10
+        },
+        "statModifiers": {
+          "attack": 0.3
+        },
+        "penetration": {
+          "damageType": "magical",
+          "ratio": 0.25
+        },
+        "boundStatuses": [
+          "escalation"
+        ],
+        "allowedAbilities": [
+          "$attack",
+          "chiyoko.cut",
+          "chiyoko.sweep",
+          "chiyoko.finale",
+          "$defend"
+        ],
+        "commandAbilities": [
+          "$attack",
+          "chiyoko.cut",
+          "chiyoko.sweep",
+          "chiyoko.finale",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "summary": "+10 ATK căn bản · +30% ATK · Xuyên 25% RES · Thăng Tiến",
+        "description": "Hợp nhất kiếm pháp tổ tiên đến hết trận. Thăng Tiến luôn hiệu lực khi dạng còn tồn tại."
+      }
+    },
+    "releaseId": 92
+  },
+  {
+    "id": "astoria",
+    "name": "Astoria",
+    "title": "Kẻ du hành xuyên không thời gian",
+    "element": "dark",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "affiliation": "time_travelers",
+    "description": "Tích Vết nứt để triệu hồi Magnamut, thay đổi chiến trường và ra lệnh hủy diệt.",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 120,
+      "attack": 12,
+      "magic": 36,
+      "defense": 18,
+      "resistance": 22,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.6
+      },
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 0.6
+      }
+    ],
+    "basicPresentation": "cosmic_double",
+    "abilities": [
+      "astoria.slash",
+      "astoria.rift",
+      "astoria.summon",
+      "astoria.command",
+      "astoria.recall"
+    ],
+    "resources": {
+      "space_rift": {
+        "name": "Vết nứt không gian",
+        "max": 5
+      }
+    },
+    "passive": {
+      "type": "combat_mode",
+      "name": "Cộng hưởng không gian và thời gian",
+      "description": "Magnamut hiện diện: +15 MAG căn bản. Mỗi lần Magnamut rời sân, hồi 35% MP tối đa."
+    },
+    "combatModes": {
+      "magnamut": {
+        "name": "Magnamut",
+        "resource": "space_rift",
+        "allowedAbilities": [
+          "astoria.command",
+          "astoria.recall"
+        ],
+        "commandAbilities": [
+          "astoria.command",
+          "astoria.recall"
+        ],
+        "baseStatBonuses": {
+          "magic": 15
+        },
+        "exitMpRatio": 0.35,
+        "music": "astoria",
+        "background": "/art/magnamut.svg",
+        "emptyExit": "turn_start_or_round_end",
+        "description": "Chỉ dùng Mệnh lệnh hủy diệt hoặc Thu hồi Magnamut khi hiện diện."
+      }
+    },
+    "tags": [
+      "time_traveler"
+    ],
+    "releaseId": 93
+  },
+  {
+    "id": "patricia",
+    "name": "Patricia",
+    "title": "Nhà Nghiên Cứu Địa Tầng",
+    "affiliation": "expedition_corps",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "earth",
+    "description": "Nghiên cứu địa chất ngoài chiến trường: biến Khiên của đồng đội thành cộng hưởng MAG, rồi khoan thẳng vào lõi địch.",
+    "biography": "Patricia tin rằng mọi lớp đất đá đều ghi lại một câu chuyện. Cô mang theo la bàn địa tầng và những mẫu khoáng vật, dùng chính lớp khiên bảo vệ của đội làm thấu kính hội tụ phép thuật.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights"
+    ],
+    "stats": {
+      "maxHp": 140,
+      "maxMp": 100,
+      "attack": 9,
+      "magic": 36,
+      "defense": 16,
+      "resistance": 22,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "patricia.bedrock",
+      "patricia.survey",
+      "patricia.core"
+    ],
+    "passive": {
+      "type": "shielded_ally_magic",
+      "name": "Cộng Hưởng Khiên Đá",
+      "description": "Mỗi thành viên trong đội đang có Khiên (từ bất kỳ nguồn nào) tăng thêm 15% MAG cho Patricia; luôn hoạt động, tính cả bản thân nếu đang có Khiên.",
+      "ratio": 0.15
+    },
+    "releaseId": 94
+  },
+  {
+    "id": "vilgard",
+    "name": "Vilgard",
+    "title": "Kẻ Mang Mối Thù Không Tàn",
+    "affiliation": "expedition_corps",
+    "role": "DPS vật lý",
+    "roleGroup": "physical_dps",
+    "element": "dark",
+    "description": "Kẻ mang mối thù không tàn: chết đi để trỗi dậy mạnh hơn, dồn Ám Ảnh vào một nhát trả thù xuyên giáp.",
+    "biography": "Vilgard không quên. Mỗi vết thương, mỗi cái chết đều được khắc vào lưỡi kiếm đen; hắn quay lại từ cõi chết với nhiều mối thù hơn, miễn là kẻ thù còn đứng trước mặt.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights"
+    ],
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 90,
+      "attack": 40,
+      "magic": 8,
+      "defense": 18,
+      "resistance": 18,
+      "speed": 18
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "vilgard.pursuit",
+      "vilgard.cleave",
+      "vilgard.reckoning"
+    ],
+    "passive": {
+      "type": "vengeful_revive",
+      "name": "Mối Thù Chưa Trả",
+      "description": "Mỗi 5 vòng một lần, khi Vilgard chết, hồi sinh ngay lập tức, nhận Lượt Thêm và 5 tầng Ám Ảnh.",
+      "cooldownRounds": 5,
+      "hpRatio": 1,
+      "statusId": "obsession",
+      "stacks": 5
+    },
+    "releaseId": 95
   }
 ]

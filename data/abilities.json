@@ -59,7 +59,7 @@
   {
     "id": "arthur.ogres_bane",
     "name": "Ogre’s Bane — Bất kham",
-    "description": "Tung đòn chém cực mạnh, sau đó rơi vào Kiệt sức.",
+    "description": "Giải phóng Ogre’s Bane vào một địch, sau đó chịu Kiệt sức.",
     "target": "enemy",
     "cost": {
       "mp": 8,
@@ -85,12 +85,14 @@
     "rules": [
       "Kiệt sức chặn tích Cộng hưởng đến hết lượt kế tiếp."
     ],
-    "fixedByStory": true,
     "skillLineId": "arthur.ogres_bane",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "arthur.ogres_bane_controlled",
@@ -121,12 +123,14 @@
     "rules": [
       "Dư chấn giảm ATK đến hết lượt kế tiếp."
     ],
-    "fixedByStory": true,
-    "skillLineId": "arthur.ogres_bane_controlled",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "skillLineId": "arthur.ogres_bane",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "arthur.partial_release",
@@ -1225,7 +1229,7 @@
   {
     "id": "lisbeth.judgment",
     "name": "Phán quyết kiêu hãnh",
-    "description": "Dồn ma lực thành đòn phép Quang cực mạnh.",
+    "description": "Dồn ma lực thành một đòn phán quyết Quang.",
     "target": "enemy",
     "cost": {
       "mp": 28
@@ -2192,7 +2196,7 @@
   {
     "id": "gahallad.charge",
     "name": "Vạn vó chôn quân",
-    "description": "Dồn khí thế kị binh vào một đòn chém Ám cực mạnh.",
+    "description": "Dồn khí thế kị binh vào một đòn chém Ám.",
     "target": "enemy",
     "cost": {
       "mp": 14
@@ -3193,7 +3197,7 @@
         "duration": 3
       }
     ],
-    "description": "Lập lời thề, tăng ATK bản thân. Cấp Hội Tâm trong 3 lượt chính.",
+    "description": "Tăng ATK bản thân và nhận Hội Tâm.",
     "skillLineId": "iwayn.oath",
     "growthProfile": "stat_buff",
     "rankable": true,
@@ -3418,7 +3422,7 @@
         "duration": 1
       }
     ],
-    "description": "Cấp một Lượt Thêm, thực hiện trong Vòng Phụ của vòng này. Cấp Hội Tâm trong 1 lượt chính.",
+    "description": "Trao Lượt Thêm và Hội Tâm cho một đồng đội.",
     "rules": [
       "Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.",
       "Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu."
@@ -3906,6 +3910,29 @@
     ]
   },
   {
+    "id": "astoria.recall",
+    "name": "Thu Hồi Lỗ Hổng",
+    "description": "Astoria cắt kết nối với lỗ sâu, thu hồi Magnamut để trở lại đội hình. Toàn bộ Vết nứt còn lại được giữ nguyên.",
+    "target": "self",
+    "requiresMode": "magnamut",
+    "effects": [
+      {
+        "type": "end_mode",
+        "mode": "magnamut",
+        "to": "self"
+      }
+    ],
+    "rules": [
+      "Dùng thay cho Phòng thủ khi Magnamut hiện diện.",
+      "Không tiêu hay xóa Vết nứt; thu hồi xong Astoria dùng lại kỹ năng thường từ lượt kế tiếp.",
+      "Vẫn nhận hồi MP khi Magnamut rời sân theo nội tại."
+    ],
+    "skillLineId": "astoria.recall",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Kỹ năng thu hồi cố định; hiệu lực không đổi theo Rank."
+  },
+  {
     "id": "monica.formula",
     "name": "Thuật thức thời gian",
     "description": "Làm chậm nhịp tấn công của cả đội hình địch.",
@@ -4231,7 +4258,7 @@
       "mp": 12
     },
     "cooldown": 3,
-    "description": "Tăng MAG để cường hóa kiếm thuật. Cấp Hội Tâm trong 3 lượt chính.",
+    "description": "Tăng MAG bản thân và nhận Hội Tâm để cường hóa kiếm thuật.",
     "effects": [
       {
         "type": "status",
@@ -4617,7 +4644,7 @@
     "requiresFormula": true,
     "minFormulaEntries": 1,
     "presentation": "academic_edit",
-    "description": "Đổi chỗ hai dấu hoặc viết lại một dấu. Đổi chỗ giữ nguồn; viết lại mang nguồn Auguste.",
+    "description": "Đổi chỗ hai dấu hoặc viết lại một dấu trong Đại Đồ Thức.",
     "effects": [
       {
         "type": "edit_formula"
@@ -4899,7 +4926,7 @@
   {
     "id": "chloe.pounce",
     "name": "Vồ lấy sơ hở",
-    "description": "Bất ngờ vồ vào một đối thủ. Có Hội Tâm: bỏ qua né tránh.",
+    "description": "Vồ vào một đối thủ bằng đòn Hội Tâm.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -5712,12 +5739,15 @@
       "Không gây Kiệt sức hoặc Dư chấn."
     ],
     "presentation": "hero_mastered",
-    "fixedByStory": true,
-    "skillLineId": "arthur.ogres_bane_mastered",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "skillLineId": "arthur.ogres_bane",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "arthur.ogres_bane_flash",
@@ -5740,12 +5770,14 @@
       }
     ],
     "presentation": "hero_flash",
-    "fixedByStory": true,
     "skillLineId": "arthur.ogres_bane_flash",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Nâng cấp cốt truyện cố định; không tiêu Coin nâng Rank.",
-    "growthGroups": []
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage"
+    ],
+    "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
+    "masteryEligible": false
   },
   {
     "id": "bandit.advance",
@@ -7176,7 +7208,7 @@
   {
     "id": "tobin.hammer",
     "name": "Búa thử thép",
-    "description": "Giáng búa Hỏa và tích 1 Nhiệt Lò.",
+    "description": "Giáng búa Hỏa và tích Nhiệt Lò.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -7202,7 +7234,7 @@
   {
     "id": "tobin.stoke",
     "name": "Đốt lò quá tay",
-    "description": "Tạo 2 Nhiệt Lò; tăng ATK nhưng giảm SPD trong 2 lượt chính.",
+    "description": "Tích Nhiệt Lò và tăng ATK, đổi lại giảm SPD bản thân.",
     "target": "self",
     "cost": {
       "mp": 7
@@ -9251,7 +9283,7 @@
         "duration": 2
       }
     ],
-    "description": "Chém một địch, giảm 20% DEF trong 2 lượt chính.",
+    "description": "Chém một địch và làm suy yếu DEF.",
     "skillLineId": "mori.sundering",
     "growthProfile": "damage",
     "rankable": true,
@@ -9282,7 +9314,7 @@
         "to": "self"
       }
     ],
-    "description": "Cấp Hộ Ấn toàn đội; bản thân tăng 40% ATK trong 2 lượt chính và nhận Lượt Thêm.",
+    "description": "Cấp Hộ Ấn toàn đội; bản thân tăng ATK và nhận Lượt Thêm.",
     "skillLineId": "mori.unbound",
     "growthProfile": "stat_buff",
     "rankable": true,
@@ -9315,7 +9347,7 @@
         "count": 2
       }
     ],
-    "description": "Chém toàn bộ địch, giảm 15% SPD trong 2 lượt chính và xóa 2 buff mỗi mục tiêu.",
+    "description": "Quét kiếm qua toàn địch, giảm SPD và xóa buff.",
     "skillLineId": "mori.storm",
     "growthProfile": "damage",
     "rankable": true,
@@ -9342,7 +9374,7 @@
         "charges": 2
       }
     ],
-    "description": "Xóa mọi buff của toàn bộ địch, sau đó cấp mỗi mục tiêu 2 lần Phong Ấn.",
+    "description": "Xóa toàn bộ buff của địch rồi gắn Phong Ấn.",
     "skillLineId": "sandra.interdict",
     "growthProfile": "fixed",
     "rankable": false,
@@ -9394,7 +9426,7 @@
         "status": "mana_disruption"
       }
     ],
-    "description": "Gây sát thương toàn bộ địch và gắn 1 Nhiễu Ma Lực mỗi mục tiêu.",
+    "description": "Tấn công toàn địch và gắn Nhiễu Ma Lực.",
     "skillLineId": "sandra.disruption",
     "growthProfile": "damage",
     "rankable": true,
@@ -9422,7 +9454,7 @@
         "duration": 2
       }
     ],
-    "description": "Chém một địch, gắn Vết Thương Sâu trong 2 lượt chính.",
+    "description": "Chém một địch và gây Vết Thương Sâu.",
     "skillLineId": "tywin.wound",
     "growthProfile": "damage",
     "rankable": true,
@@ -9446,7 +9478,7 @@
         "type": "cleanse"
       }
     ],
-    "description": "Giải toàn bộ debuff cho bản thân và một đồng đội khác.",
+    "description": "Thanh tẩy bản thân và một đồng đội khác.",
     "skillLineId": "tywin.purify",
     "growthProfile": "fixed",
     "rankable": false,
@@ -9590,7 +9622,7 @@
         "multiplier": 1.5
       }
     ],
-    "description": "Nhát chém nước dồn dập, không có thời gian hồi chiêu.",
+    "description": "Chém một kẻ địch bằng thủy kiếm.",
     "skillLineId": "flammelapis.slash",
     "growthProfile": "damage",
     "rankable": true,
@@ -9612,7 +9644,7 @@
         "duration": 2
       }
     ],
-    "description": "Khắc ấn cổ kiếm lên một đồng đội: Phá Thành trong 2 lượt, không có thời gian hồi chiêu.",
+    "description": "Trao Phá Thành cho một đồng đội.",
     "skillLineId": "flammelapis.edict",
     "growthProfile": "output_buff_mp",
     "rankable": true,
@@ -9663,7 +9695,7 @@
         "multiplier": 1.8
       }
     ],
-    "description": "Hồi máu đơn mục tiêu rất mạnh theo MAG; không có hồi chiêu.",
+    "description": "Hồi HP cho một đồng đội.",
     "skillLineId": "amaryllis.mend",
     "growthProfile": "heal",
     "rankable": true,
@@ -9685,7 +9717,7 @@
         "multiplier": 0.8
       }
     ],
-    "description": "Hồi máu toàn đội theo MAG; không có hồi chiêu.",
+    "description": "Hồi HP toàn đội.",
     "skillLineId": "amaryllis.blessing",
     "growthProfile": "heal",
     "rankable": true,
@@ -9709,7 +9741,7 @@
         "mpRatio": 1
       }
     ],
-    "description": "Hồi sinh toàn đội về đầy HP và hồi đầy MP; vào trận đã hồi chiêu 6 vòng, sau đó hồi chiêu 10 vòng và không có cấp nâng.",
+    "description": "Hồi sinh và phục hồi đầy HP, MP cho toàn đội.",
     "skillLineId": "amaryllis.litany",
     "growthProfile": "fixed",
     "rankable": false,
@@ -9732,7 +9764,7 @@
         "durationRounds": 3
       }
     ],
-    "description": "Dựng khiên cho bản thân bằng DEF; giữ 3 vòng.",
+    "description": "Tạo khiên cho bản thân.",
     "skillLineId": "brant.bulwark",
     "growthProfile": "shield",
     "rankable": true,
@@ -9760,10 +9792,1530 @@
         "duration": 2
       }
     ],
-    "description": "Mở Che chắn cho cả đội và Khiêu Khích địch; cả hai kéo dài 2 lượt chính của Brant.",
+    "description": "Khiêu khích và che chắn cho cả đội.",
     "skillLineId": "brant.challenge",
     "growthProfile": "fixed",
     "rankable": false,
     "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng."
+  },
+  {
+    "id": "ember.mark",
+    "name": "Khoan Đã, Chỗ Đó Dễ Cháy!",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "exposure_fire",
+        "stacks": 3
+      }
+    ],
+    "skillLineId": "ember.mark",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "description": "Mở Sơ Hở Hỏa trên một kẻ địch.",
+    "cooldown": 2,
+    "fixedReason": "Hiệu quả tiện ích cố định."
+  },
+  {
+    "id": "ember.cheer",
+    "name": "Lần Này Chắc Chắn Thành Công!",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "ember_fervor",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "ember.cheer",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "targetElement": "fire",
+    "description": "Tăng ATK và MAG cho các đồng đội Hỏa.",
+    "cooldown": 2,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "ember.firebreak",
+    "name": "Chữa Cháy Theo Nghĩa Đen",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 1.6
+      }
+    ],
+    "skillLineId": "ember.firebreak",
+    "growthProfile": "damage",
+    "rankable": true,
+    "description": "Phóng phép Hỏa vào một địch.",
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "ember.follow_up",
+    "name": "Lửa Bén Ngoài Ý Muốn",
+    "target": "enemy",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 1
+      }
+    ],
+    "skillLineId": "ember.follow_up",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Liên kích cố định từ nội tại.",
+    "description": "Liên kích 100% MAG phép Hỏa; tiêu Sơ Hở theo luật chung."
+  },
+  {
+    "id": "myonne.clause",
+    "name": "Điều Khoản Chữ Nhỏ",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "exposure_dark",
+        "stacks": 2
+      }
+    ],
+    "skillLineId": "myonne.clause",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "description": "Mở Sơ Hở Ám trên một kẻ địch.",
+    "cooldown": 1,
+    "fixedReason": "Hiệu quả tiện ích cố định."
+  },
+  {
+    "id": "myonne.offer",
+    "name": "Ưu Đãi Dành Riêng Cho Ngài",
+    "target": "ally",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "myonne_vip",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "myonne.offer",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "targetElement": "dark",
+    "description": "Tăng ATK, MAG và trao Khai Phá Điểm Yếu cho một đồng đội Ám.",
+    "cooldown": 2,
+    "growthGroups": [
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "myonne.collect",
+    "name": "Xin Đọc Kỹ Trước Khi Ký",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "scalingStat": "magic",
+        "multiplier": 1.5,
+        "onHitDispelCount": 1
+      }
+    ],
+    "skillLineId": "myonne.collect",
+    "growthProfile": "damage",
+    "rankable": true,
+    "description": "Tấn công một địch và xóa buff nếu gây sát thương.",
+    "cooldown": 2,
+    "growthGroups": [
+      "damage"
+    ]
+  },
+  {
+    "id": "verena.tomorrow",
+    "name": "Ngọn Lửa Vì Ngày Mai",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10,
+      "preferLifeDebtRatio": 0.1
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "primaryMultiplier": 1.8
+      }
+    ],
+    "skillLineId": "verena.tomorrow",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Tấn công mục tiêu chính và lan sang toàn địch; ưu tiên tiêu Thế Chấp thay MP."
+  },
+  {
+    "id": "verena.pledge",
+    "name": "Đặt Cược Cả Thanh Xuân",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "life_mortgage",
+        "debtMaxHpRatio": 0.4
+      },
+      {
+        "type": "status",
+        "status": "verena_promise",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "verena.pledge",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "description": "Tự nhận Thế Chấp để tăng ATK.",
+    "cooldown": 3
+  },
+  {
+    "id": "verena.dawn",
+    "name": "Tất Cả Cho Những Bình Minh",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 14,
+      "consumeAllLifeDebt": true
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "scalingStat": "attack",
+        "multiplier": 2.4
+      },
+      {
+        "type": "heal",
+        "to": "self",
+        "spentLifeDebtRatio": 0.75
+      }
+    ],
+    "skillLineId": "verena.dawn",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "heal"
+    ],
+    "rankable": true,
+    "description": "Tiêu hết Thế Chấp để tấn công toàn địch rồi tự hồi HP.",
+    "cooldown": 3,
+    "requiresLifeDebt": true
+  },
+  {
+    "id": "tsukiha.ember",
+    "name": "Linh Hỏa — Nhất Kiếm",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2
+      }
+    ],
+    "skillLineId": "tsukiha.ember",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Chém một địch bằng kiếm Hỏa và Hồn Kiếm."
+  },
+  {
+    "id": "tsukiha.offering",
+    "name": "Lời Nguyện Trước Cổng Đền",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "status",
+        "status": "tsukiha_prayer",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "tsukiha.offering",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Tạo Hồn Kiếm và tăng ATK bản thân."
+  },
+  {
+    "id": "tsukiha.burst",
+    "name": "Keijo Bí Kiếm — Tứ Hồn Quy Hỏa",
+    "target": "enemy",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "fire",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.75,
+        "hits": 3,
+        "hitsWhenTeamSpent": {
+          "id": "sword_soul",
+          "at": 4,
+          "hits": 4
+        }
+      }
+    ],
+    "skillLineId": "tsukiha.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Chém liên tiếp một địch; dùng Hồn Kiếm sẽ thêm một nhát chém."
+  },
+  {
+    "id": "izuna.strike",
+    "name": "Lôi Vũ — Cánh Nhỏ Gọi Giông",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1,
+        "scalingStat": "magic"
+      },
+      {
+        "type": "status",
+        "status": "izuna_magic",
+        "duration": 1,
+        "to": "self"
+      }
+    ],
+    "skillLineId": "izuna.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true,
+    "description": "Tấn công toàn địch và tăng MAG bản thân."
+  },
+  {
+    "id": "izuna.offering",
+    "name": "Tiếng Sáo Trên Đỉnh Núi",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "status",
+        "status": "weakness_exploitation",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "izuna.offering",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "cooldown": 2,
+    "description": "Tạo Hồn Kiếm và nhận Khai Phá Điểm Yếu.",
+    "fixedReason": "Hiệu quả tiện ích cố định; không tăng theo Rank."
+  },
+  {
+    "id": "izuna.burst",
+    "name": "Thiên Cẩu Bí Thuật — Ngũ Lôi Trùng Tấu",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 0.75,
+        "scalingStat": "magic",
+        "hits": 5
+      }
+    ],
+    "skillLineId": "izuna.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Dồn năm nhịp sét lên toàn địch; kết liễu sẽ kích thêm một Liên kích lặp lại."
+  },
+  {
+    "id": "shion.strike",
+    "name": "Địa Kiếm — Rạn Thế Yêu Ma",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 9
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1.2,
+        "scalingStat": "attack",
+        "onHitStatus": {
+          "status": "shion_shred",
+          "duration": 2
+        }
+      }
+    ],
+    "skillLineId": "shion.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 1,
+    "description": "Tấn công toàn địch và giảm DEF, RES của những mục tiêu trúng đòn."
+  },
+  {
+    "id": "shion.offering",
+    "name": "Hiệu Lệnh — Song Kiếm Đồng Hành",
+    "target": "self",
+    "cost": {
+      "mp": 28
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "grant_extra_turn"
+      },
+      {
+        "type": "grant_extra_turn",
+        "selectAlly": {
+          "preferTag": "sword_soul",
+          "excludeSelf": true,
+          "requireTag": true
+        }
+      }
+    ],
+    "skillLineId": "shion.offering",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "cooldown": 2,
+    "description": "Tạo Hồn Kiếm; trao Lượt Thêm cho bản thân và đồng đội Hồn Kiếm ưu tiên ô đầu.",
+    "fixedReason": "Hiệu quả tiện ích cố định; không tăng theo Rank."
+  },
+  {
+    "id": "shion.burst",
+    "name": "Phục Ma Song Trảm",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 3
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1.5,
+        "scalingStat": "attack",
+        "hits": 2
+      },
+      {
+        "type": "status",
+        "status": "buff_seal",
+        "charges": 1,
+        "requiresDamageHit": true
+      }
+    ],
+    "skillLineId": "shion.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "description": "Tấn công toàn địch hai lần rồi gắn Phong Ấn lên mục tiêu trúng đòn."
+  },
+  {
+    "id": "amiya.strike",
+    "name": "Quang Phù — Linh Đăng Khai Lộ",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 0.5,
+        "scalingStat": "magic",
+        "primaryMultiplier": 0.8,
+        "onHitStatus": {
+          "status": "exposure_sword_soul",
+          "stacks": 1,
+          "primaryStacks": 2
+        }
+      }
+    ],
+    "skillLineId": "amiya.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Tấn công toàn địch và mở Sơ Hở Hồn Kiếm, tập trung vào mục tiêu chính."
+  },
+  {
+    "id": "amiya.offering",
+    "name": "Hai Ngọn Đèn Chờ Người",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 2
+      }
+    ],
+    "skillLineId": "amiya.offering",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "cooldown": 1,
+    "description": "Tạo Hồn Kiếm cho đội.",
+    "fixedReason": "Hiệu quả tiện ích cố định; không tăng theo Rank."
+  },
+  {
+    "id": "amiya.burst",
+    "name": "Lời Nguyện — Kiếm Hồn Đồng Tâm",
+    "target": "all_allies",
+    "cost": {
+      "mp": 18
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "amiya_concord",
+        "duration": 4
+      },
+      {
+        "type": "reduce_cooldowns",
+        "amount": 1
+      }
+    ],
+    "skillLineId": "amiya.burst",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "cooldown": 3,
+    "targetTag": "sword_soul",
+    "excludeSelf": true,
+    "description": "Tăng ATK, MAG và rút ngắn hồi chiêu cho các đồng đội Hồn Kiếm khác."
+  },
+  {
+    "id": "kaguya.strike",
+    "name": "Ám Phù — Lặng Tiếng Binh Đao",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "multiplier": 1.1,
+        "scalingStat": "magic",
+        "onHitStatus": {
+          "status": "kaguya_calm",
+          "duration": 3
+        }
+      }
+    ],
+    "skillLineId": "kaguya.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 1,
+    "description": "Tấn công toàn địch và giảm ATK, MAG của những mục tiêu trúng đòn."
+  },
+  {
+    "id": "kaguya.offering",
+    "name": "Lời Ru Bên Hồ Tĩnh",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "multiplier": 1.6,
+        "scalingStat": "magic"
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      }
+    ],
+    "skillLineId": "kaguya.offering",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal"
+    ],
+    "rankable": true,
+    "cooldown": 1,
+    "description": "Hồi HP toàn đội và tạo Hồn Kiếm."
+  },
+  {
+    "id": "kaguya.burst",
+    "name": "Hồn Kiếm Chúc Phúc — Cổng Đền Bất Hoại",
+    "target": "all_allies",
+    "cost": {
+      "mp": 18
+    },
+    "effects": [
+      {
+        "type": "shield",
+        "multiplier": 1.8,
+        "scalingStats": [
+          "defense",
+          "resistance"
+        ]
+      },
+      {
+        "type": "status",
+        "status": "sword_soul_blessing",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "kaguya.burst",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield",
+      "stat_buff"
+    ],
+    "rankable": true,
+    "cooldown": 3,
+    "description": "Dựng khiên toàn đội và ban Hồn Kiếm Chúc Phúc."
+  },
+  {
+    "id": "miyuki.strike",
+    "name": "Thủy Kiếm — Nhất Tuyến Trừ Yêu",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2
+      }
+    ],
+    "skillLineId": "miyuki.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Chém một địch bằng kiếm Thủy và Hồn Kiếm."
+  },
+  {
+    "id": "miyuki.offering",
+    "name": "Tẩy Trần — Hồn Kiếm Quy Tâm",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "cleanse",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "miyuki.offering",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "description": "Tạo Hồn Kiếm và thanh tẩy bản thân.",
+    "cooldown": 2,
+    "fixedReason": "Tạo Hồn Kiếm và giải hiệu ứng là tiện ích cố định."
+  },
+  {
+    "id": "miyuki.burst",
+    "name": "Bí Kiếm — Lục Hồn Đoạn Thủy",
+    "target": "enemy",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 5.5,
+        "onHitStatus": {
+          "status": "stunned",
+          "duration": 1,
+          "chanceScaling": {
+            "stat": "attack",
+            "basis": "dynamic",
+            "at": 160,
+            "cap": 0.8
+          }
+        }
+      }
+    ],
+    "skillLineId": "miyuki.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "description": "Dồn kiếm khí vào một địch, có cơ hội gây Choáng theo ATK hiện tại.",
+    "cooldown": 2
+  },
+  {
+    "id": "susanoo.strike",
+    "name": "Một Đấm Khai Sơn",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2.4
+      }
+    ],
+    "description": "Dồn sức đánh một kẻ địch.",
+    "skillLineId": "susanoo.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "susanoo.offering",
+    "name": "Thân Thép Chấn Sơn",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "status",
+        "status": "susanoo_guard",
+        "duration": 3
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      }
+    ],
+    "description": "Tăng DEF và RES bản thân, đồng thời tạo Hồn Kiếm.",
+    "skillLineId": "susanoo.offering",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "cooldown": 2
+  },
+  {
+    "id": "susanoo.burst",
+    "name": "Lôi Quyền — Khỏi Cần Nghĩ!",
+    "target": "enemy",
+    "cost": {
+      "mp": 28,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 6
+      }
+    ],
+    "description": "Dồn toàn lực vào một địch; ưu tiên dùng Hồn Kiếm thay MP.",
+    "skillLineId": "susanoo.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 3
+  },
+  {
+    "id": "yukino.strike",
+    "name": "Tuyết Vũ Qua Rừng",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 1.5
+      },
+      {
+        "type": "status",
+        "status": "yukino_frost",
+        "duration": 2,
+        "requiresDamageHit": true
+      }
+    ],
+    "description": "Gọi tuyết phủ mọi kẻ địch và làm chậm những mục tiêu trúng đòn.",
+    "skillLineId": "yukino.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "yukino.offering",
+    "name": "Ngàn Hoa Tuyết Tụ Hồn",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 1.2
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1,
+        "perHitTarget": true,
+        "maxTargets": 3
+      }
+    ],
+    "description": "Tấn công toàn địch và thu Hồn Kiếm từ những mục tiêu trúng đòn.",
+    "skillLineId": "yukino.offering",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2
+  },
+  {
+    "id": "yukino.burst",
+    "name": "Bạch Dạ — Vạn Hồn Quy Tuyết",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 28,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "all": true,
+        "min": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 4,
+        "divideAmongTargets": true
+      }
+    ],
+    "description": "Chia đều trận tuyết cho mọi địch; tiêu nhiều Hồn Kiếm để tăng MAG cho chiêu này.",
+    "skillLineId": "yukino.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2,
+    "spentTeamStatBonus": {
+      "resource": "sword_soul",
+      "stat": "magic",
+      "above": 4,
+      "perStack": 0.1
+    }
+  },
+  {
+    "id": "yukino.echo",
+    "name": "Tuyết Đáp Tiếng Linh Hồn",
+    "target": "enemy",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 1.5
+      }
+    ],
+    "description": "Liên kích một kẻ địch bằng tuyết lạnh.",
+    "skillLineId": "yukino.echo",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Liên kích nội tại giữ hệ số cố định.",
+    "growthGroups": []
+  },
+  {
+    "id": "akane.strike",
+    "name": "Phong Tiễn — Xuyên Diệp",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2
+      }
+    ],
+    "description": "Bắn một mũi phong tiễn vào kẻ địch.",
+    "skillLineId": "akane.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "akane.wound",
+    "name": "Liên Tiễn — Rạch Gió",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1,
+        "primaryMultiplier": 1.5,
+        "onHitStatus": {
+          "status": "deep_wound",
+          "duration": 2
+        }
+      }
+    ],
+    "description": "Bắn xuyên đội hình địch và gây Vết Thương Sâu, tập trung vào mục tiêu chính.",
+    "skillLineId": "akane.wound",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2
+  },
+  {
+    "id": "akane.burst",
+    "name": "Bí Tiễn — Ưng Nhãn Đoạt Mệnh",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 4
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 3,
+        "primaryMultiplier": 4.5
+      }
+    ],
+    "description": "Dồn phong tiễn vào mục tiêu chính và quét qua những kẻ địch còn lại.",
+    "skillLineId": "akane.burst",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 2
+  },
+  {
+    "id": "eri.stroke",
+    "name": "Nét Cọ — Chấm Sơn",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 2.2
+      }
+    ],
+    "description": "Chấm một nét địa thuật lên kẻ địch.",
+    "skillLineId": "eri.stroke",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "eri.duet",
+    "name": "Song Sắc — Vẽ Núi",
+    "target": "enemy",
+    "cost": {
+      "mp": 14
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 1.8,
+        "hits": 2
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      }
+    ],
+    "description": "Vẽ hai nét phép lên một địch và tạo Hồn Kiếm.",
+    "skillLineId": "eri.duet",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 1
+  },
+  {
+    "id": "eri.masterpiece",
+    "name": "Đại Họa — Giang Sơn Nhập Mộng",
+    "target": "enemy",
+    "cost": {
+      "mp": 32,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 6
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 2.4,
+        "hits": 3
+      }
+    ],
+    "description": "Dồn ma lực vào ba nét vẽ trên một mục tiêu.",
+    "skillLineId": "eri.masterpiece",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "cooldown": 3
+  },
+  {
+    "id": "chiyoko.cut",
+    "name": "Nhất Thức — Ảnh Trảm",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 2.2
+      }
+    ],
+    "description": "Rút tachi chém một địch bằng kiếm khí Ám.",
+    "skillLineId": "chiyoko.cut",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "presentation": "iaido_draw"
+  },
+  {
+    "id": "chiyoko.sweep",
+    "name": "Nhị Thức — Đoạn Không",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 16
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.75,
+        "primaryMultiplier": 2.5,
+        "hits": 2
+      },
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      }
+    ],
+    "description": "Chém hai nhịp vào mục tiêu chính và hai ô kề, tạo 1 Hồn Kiếm.",
+    "skillLineId": "chiyoko.sweep",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "presentation": "iaido_twin",
+    "cooldown": 2
+  },
+  {
+    "id": "chiyoko.awaken",
+    "name": "Tổ Kiếm — Hợp Mạch",
+    "target": "self",
+    "cost": {
+      "teamResource": {
+        "id": "sword_soul",
+        "amount": 6
+      }
+    },
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "ancestral_edge"
+      }
+    ],
+    "description": "Hợp nhất kiếm pháp tổ tiên đến hết trận, mở Tuyệt Thức.",
+    "presentation": "iaido_awaken",
+    "skillLineId": "chiyoko.awaken",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Biến hình và nội tại cố định, không tăng theo Rank."
+  },
+  {
+    "id": "chiyoko.finale",
+    "name": "Tuyệt Thức — Vạn Ảnh Quy Kiếm",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 28,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 6
+      }
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "hits": 5
+      },
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.8,
+        "to": "primary",
+        "penetration": 1
+      }
+    ],
+    "description": "Chém toàn địch năm nhịp, rồi kết liễu mục tiêu chính bằng một nhát xuyên RES.",
+    "skillLineId": "chiyoko.finale",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "presentation": "iaido_eclipse",
+    "requiresMode": "ancestral_edge",
+    "cooldown": 3
+  },
+  {
+    "id": "patricia.bedrock",
+    "name": "Lớp Chắn Địa Tầng",
+    "description": "Dựng một lớp khiên đá cho toàn đội, hội tụ từ nền địa tầng dưới chân.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "magic",
+        "multiplier": 0.65
+      }
+    ],
+    "skillLineId": "patricia.bedrock",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "patricia.survey",
+    "name": "Quét Sóng Địa Chấn",
+    "description": "Gửi một đợt sóng địa chấn quét qua toàn bộ chiến trường.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1.8
+      }
+    ],
+    "skillLineId": "patricia.survey",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "patricia.core",
+    "name": "Khoan Phá Lõi Đá",
+    "description": "Dồn toàn bộ cộng hưởng địa chất vào một điểm, có cơ hội làm Choáng mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 4.8,
+        "onHitStatus": {
+          "status": "stunned",
+          "duration": 1,
+          "chanceScaling": {
+            "stat": "magic",
+            "basis": "dynamic",
+            "at": 160,
+            "cap": 0.8
+          }
+        }
+      }
+    ],
+    "skillLineId": "patricia.core",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.pursuit",
+    "name": "Truy Sát Không Rời",
+    "description": "Chém kẻ địch chỉ định; nếu còn kẻ khác, lưỡi kiếm thù hận tự tìm thêm một mục tiêu ngẫu nhiên.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.8,
+        "randomSecondaryMultiplier": 1.8
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "obsession",
+        "stacks": 1
+      }
+    ],
+    "skillLineId": "vilgard.pursuit",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.cleave",
+    "name": "Nhát Chém Oán Hận",
+    "description": "Chém mục tiêu chính và kẻ kề bên, để lại Rạn Khiên; mối thù chồng thêm hai tầng.",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.5,
+        "primaryMultiplier": 2.2,
+        "onHitStatus": {
+          "status": "shield_fracture",
+          "duration": 2
+        }
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "obsession",
+        "stacks": 2
+      }
+    ],
+    "skillLineId": "vilgard.cleave",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.reckoning",
+    "name": "Trả Thù Toàn Diện",
+    "description": "Trút toàn bộ Ám Ảnh vào một nhát chém diện rộng; mỗi tầng xuyên thêm 20% DEF, sau đó mối thù tan biến.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 3.8,
+        "consumeSelfStatus": "obsession",
+        "penetrationPerSelfStack": 0.2
+      }
+    ],
+    "skillLineId": "vilgard.reckoning",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
   }
 ]

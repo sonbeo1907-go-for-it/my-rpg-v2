@@ -18,14 +18,14 @@
     "name": "Pure Prisma",
     "field": "recruitmentShards",
     "kind": "pure",
-    "description": "Dùng để chiêu mộ đồng đội tự chọn và chế tạo Trấn Phái."
+    "description": "Dùng tái rèn Trấn Phái, chế tạo và chuyển đổi Original Prisma tại Shop."
   },
   {
     "id": "original",
     "name": "Original Prisma",
     "field": "originalPrisma",
     "kind": "original",
-    "description": "Prisma cầu vồng dùng chế tạo và tái rèn Trấn Phái. Nhận từ Ủy Thác và các chương lữ hành."
+    "description": "Prisma cầu vồng dùng chế tạo Trấn Phái và nâng Thông Thạo Kĩ năng."
   },
   {
     "id": "fragments",
@@ -39,7 +39,8 @@
     "name": "Tinh Thạch Phá Giới",
     "field": "limitBreakStones",
     "kind": "breakthrough",
-    "description": "Đột Phá ở Level 20/30/40 để mở giới hạn 30/40/50. Nhận từ Hầm ngục Phá Giới."
+    "description": "Đột Phá ở Level 20/30/40 để mở giới hạn 30/40/50. Nhận từ Hầm ngục Phá Giới hoặc đổi 20.000 Coin tại Shop.",
+    "coinCost": 20000
   },
   {
     "id": "sweep_ticket",
@@ -54,5 +55,46 @@
     "kind": "blueprint",
     "name": "Bản Thiết Kế",
     "description": "Rơi khi đánh lại Truy Nã từ Lv25. Đổi 10 bản tại Shop để mở một công thức Trấn Phái."
+  },
+  {
+    "id": "xp_book_green",
+    "name": "Nhật kí hành trình I",
+    "field": "xpBooksGreen",
+    "kind": "xp_book_green",
+    "xp": 400,
+    "coinCost": 400,
+    "description": "Sách kinh nghiệm cấp I. màu xanh lá. Dùng ngoài trận để cấp 400 EXP cho một nhân vật đã sở hữu."
+  },
+  {
+    "id": "xp_book_blue",
+    "name": "Nhật kí hành trình II",
+    "field": "xpBooksBlue",
+    "kind": "xp_book_blue",
+    "xp": 2000,
+    "coinCost": 2000,
+    "description": "Sách kinh nghiệm cấp II. màu xanh dương. Dùng ngoài trận để cấp 2.000 EXP cho một nhân vật đã sở hữu."
+  },
+  {
+    "id": "xp_book_purple",
+    "name": "Nhật kí hành trình III",
+    "field": "xpBooksPurple",
+    "kind": "xp_book_purple",
+    "xp": 6000,
+    "coinCost": 6000,
+    "description": "Sách kinh nghiệm cấp III. màu tím. Dùng ngoài trận để cấp 6.000 EXP cho một nhân vật đã sở hữu."
+  },
+  {
+    "id": "recruitment_ticket",
+    "field": "recruitmentTickets",
+    "kind": "recruitment_ticket",
+    "name": "Vé Chiêu Mộ",
+    "description": "Đổi tại Shop để chọn một nhân vật chưa sở hữu trong danh sách Chiêu Mộ. Không làm thay đổi pity."
+  },
+  {
+    "id": "honor",
+    "name": "Danh Dự",
+    "description": "Tiền tệ Đấu Trường. Đổi Pure Prisma và Original Prisma tại Tiệm Prisma.",
+    "field": "honor",
+    "kind": "honor"
   }
 ]

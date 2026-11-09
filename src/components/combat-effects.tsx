@@ -1,6 +1,7 @@
 "use client";
 import {EdictGlyph} from './edict-glyph';
 import {NatureGlyph} from './nature-glyph';
+import {IaidoGlyph} from './iaido-glyph';
 import {HeroGlyph} from './hero-glyph';
 import {useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
@@ -28,7 +29,7 @@ export function CombatEffects({events,content,sessionId,speed,onCue}:{events:any
   for(const frame of plan.frames.slice(0,128))later(()=>{
    const source=frame.kind==='source'||frame.kind==='passive',card=findCard(source?frame.sourceId:frame.targetId);
    let anchor:HTMLElement|undefined=card;
-   if(frame.kind==='formation'||frame.kind==='signature'&&frame.area){
+   if(frame.kind==='formation'||['signature','anticipation'].includes(frame.kind)&&frame.area){
     const team=card?.dataset.team??findCard(frame.sourceId)?.dataset.team;
     anchor=document.querySelector<HTMLElement>(team==='party'?'.ally-grid':'.enemy-grid')??undefined;
     if(!card)anchor=document.querySelector<HTMLElement>(findCard(frame.sourceId)?.dataset.team==='party'?'.enemy-grid':'.ally-grid')??undefined;
@@ -37,7 +38,7 @@ export function CombatEffects({events,content,sessionId,speed,onCue}:{events:any
    if(frame.kind==="source")onCue?.({sourceId:frame.sourceId,label:frame.label});
    if(card&&!reduced){
     let keys:Keyframe[]|null=null;
-    if(frame.kind==='source'&&!frame.automatic)keys=[{translate:'0 0'},{translate:`0 ${frame.attack?(card.dataset.team==='party'?-7:7):-3}px`,offset:.35},{translate:'0 0'}];
+    if(frame.kind==='source'&&!frame.automatic&&!frame.presentation?.startsWith('iaido_'))keys=[{translate:'0 0'},{translate:`0 ${frame.attack?(card.dataset.team==='party'?-7:7):-3}px`,offset:.35},{translate:'0 0'}];
     if(frame.kind==='hurt')keys=[{transform:'translateX(0)'},{transform:'translateX(-3px)'},{transform:'translateX(3px)'},{transform:'translateX(0)'}];
     if(keys){animations.current=animations.current.filter(animation=>animation.playState==='running');animations.current.push(card.animate(keys,{duration:frame.duration,easing:'ease-out'}));}
    }
@@ -53,7 +54,7 @@ export function CombatEffects({events,content,sessionId,speed,onCue}:{events:any
   const text=cue?frame.label:frame.kind==='hurt'?`−${frame.amount}${frame.maxHpDamage?' HP tối đa':''}`:frame.kind==='block'?`Chặn ${frame.absorbed}`:frame.kind==='zero'?'0':frame.kind==='dodge'?'Né!':frame.kind==='heal'?`+${frame.amount} HP`:frame.kind==='revive'?`Hồi sinh · +${frame.amount} HP`:frame.kind==='mp_restore'?`+${frame.amount} MP`:frame.kind==='shield'?`+${frame.amount} Khiên`:frame.kind==='effect_blocked'?'Miễn nhiễm':frame.kind==='cleanse'?'Thanh tẩy':frame.kind==='dispel'?'Xóa '+frame.amount+' buff':frame.kind==='hp_spent'?'−'+frame.amount+' HP (chi phí)':null;
   const hitGlyph=!cue&&!frame.custom&&!frame.periodic&&!['zero','dodge'].includes(frame.kind);
   return createPortal(<div className={`shared-combat-fx fx-${frame.kind} ${frame.primary?'primary-hit':''} ${frame.reduced?'reduced':''}`} data-combat-fx={frame.kind} data-fx-presentation={frame.presentation} data-fx-area={Boolean(frame.area)} data-fx-source={frame.sourceId} data-fx-target={frame.targetId} data-fx-damage-type={frame.damageType} data-fx-hit={frame.hitIndex} data-fx-id={frame.id} data-fx-custom={Boolean(frame.custom)} data-beneficial={frame.beneficial} style={{'--vfx-color':color,'--vfx-duration':`${frame.duration}ms`,'--vfx-hit-offset':`${((frame.hitIndex??0)%3)*22}px`} as React.CSSProperties} aria-hidden="true">
-   {frame.kind==='signature'?(frame.presentation?.startsWith('edict_')?<EdictGlyph seal={frame.presentation==='edict_seal'}/>:frame.presentation?.startsWith('nature_')?<NatureGlyph/>:<HeroGlyph presentation={frame.presentation} id={frame.id}/>):cue?<span className={`cast-cue ${frame.kind==='passive'?'passive-cue':''}`}>{frame.kind==='passive'?'◇ ':frame.reaction?'↗ ':'◆ '}{text}</span>:<>{hitGlyph&&<Glyph kind={frame.kind} damageType={frame.damageType}/>}<span className="vfx-number">{text}</span></>}
+   {['signature','anticipation'].includes(frame.kind)?(frame.presentation?.startsWith('iaido_')?<IaidoGlyph presentation={frame.presentation} id={frame.id} hitIndex={frame.hitIndex??0} final={frame.primaryOnly}/>:frame.presentation?.startsWith('edict_')?<EdictGlyph seal={frame.presentation==='edict_seal'}/>:frame.presentation?.startsWith('nature_')?<NatureGlyph/>:<HeroGlyph presentation={frame.presentation} id={frame.id}/>):cue?<span className={`cast-cue ${frame.kind==='passive'?'passive-cue':''}`}>{frame.kind==='passive'?'◇ ':frame.reaction?'↗ ':'◆ '}{text}</span>:<>{hitGlyph&&<Glyph kind={frame.kind} damageType={frame.damageType}/>}<span className="vfx-number">{text}</span></>}
   </div>,frame.anchor,frame.id);
  })}</>;
 }

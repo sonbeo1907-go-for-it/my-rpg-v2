@@ -1,5 +1,6 @@
 import {isAlive} from './actor-life.js';
-export function softCapValue(amount,rule){return amount<=rule.threshold?amount:rule.threshold+(amount-rule.threshold)*rule.overflowRatio;}
+export function firstSoftCapValue(amount,rule){return amount<=rule.threshold?amount:rule.threshold+(amount-rule.threshold)*rule.overflowRatio;}
+export function softCapValue(amount,rule){const first=firstSoftCapValue(amount,rule);return rule.secondThreshold===undefined||first<=rule.secondThreshold?first:rule.secondThreshold+(first-rule.secondThreshold)*rule.secondOverflowRatio;}
 export function pvpDamageKind(ctx,area=false){
  if(ctx.periodic)return 'periodic';
  const group=area||['all_enemies','enemy_splash','random_enemies'].includes(ctx.skill?.target);
@@ -39,14 +40,15 @@ export function applyPvpDamageCap(b,source,target,amount,ctx,area,io){
   const targets=capTargets(b,source,target,ctx,kind),damageEffects=ctx.skill?.effects?.filter(e=>e.type==='damage')??[];
   const weight=a=>damageEffects.reduce((n,e)=>n+(a.id===ctx.primaryTargetId?(e.primaryMultiplier??e.multiplier??1):(e.multiplier??1))*(e.hits??1),0)||1;
   const totalWeight=targets.reduce((n,a)=>n+weight(a),0);
-  ctx.pvpDamage={kind,targets:Object.fromEntries(targets.map(a=>[a.id,{raw:0,threshold:Math.min(rule.threshold,rule.totalThreshold===undefined?rule.threshold:rule.totalThreshold*weight(a)/totalWeight)}]))};
+  ctx.pvpDamage={kind,targets:Object.fromEntries(targets.map(a=>[a.id,{raw:0,threshold:Math.min(rule.threshold,rule.totalThreshold===undefined?rule.threshold:rule.totalThreshold*weight(a)/totalWeight),...(rule.secondThreshold===undefined?{}:{secondThreshold:Math.min(rule.secondThreshold,rule.secondTotalThreshold===undefined?rule.secondThreshold*(rule.totalThreshold===undefined?1:Math.min(1,rule.totalThreshold*weight(a)/totalWeight/rule.threshold)):rule.secondTotalThreshold*weight(a)/totalWeight)})}]))};
  }
- const record=ctx.pvpDamage.targets[target.id]??=( {raw:0,threshold:rule.threshold} );
+ const record=ctx.pvpDamage.targets[target.id]??=( {raw:0,threshold:rule.threshold,secondThreshold:rule.secondThreshold} );
  const before=record.raw;record.raw+=amount;
- const config={...rule,threshold:record.threshold};
+ const config={...rule,threshold:record.threshold,secondThreshold:record.secondThreshold};
  const capped=Math.max(0,Math.floor(softCapValue(record.raw,config))-Math.floor(softCapValue(before,config)));
- const info={before:amount,after:capped,kind,threshold:record.threshold,cumulativeBefore:before,cumulativeAfter:record.raw,rulesetVersion:b.pvpRules.rulesetVersion};
- if(b.pvpRules.debugDamage){io.emit(b,{type:'pvp_soft_cap',sourceId:source?.id,targetId:target.id,...info});io.write(b,`[PvP ${info.rulesetVersion}] ${source?.name??'Hiệu ứng'} → ${target.name}: ${amount} → ${capped} sát thương qua soft cap (${names[kind]}).`);}
+ const afterFirstCap=Math.max(0,Math.floor(firstSoftCapValue(record.raw,config))-Math.floor(firstSoftCapValue(before,config)));
+ const info={before:amount,afterFirstCap,after:capped,kind,threshold:record.threshold,secondThreshold:record.secondThreshold,cumulativeBefore:before,cumulativeAfter:record.raw,rulesetVersion:b.pvpRules.rulesetVersion};
+ if(b.pvpRules.debugDamage){io.emit(b,{type:'pvp_soft_cap',sourceId:source?.id,targetId:target.id,...info});io.write(b,`[PvP ${info.rulesetVersion}] ${source?.name??'Hiệu ứng'} → ${target.name}: ${amount} → ${afterFirstCap} → ${capped} sát thương qua soft cap hai ngưỡng (${names[kind]}).`);}
  return {amount:capped,info};
 }
 export function pvpPeriodicContext(b,source,target){

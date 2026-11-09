@@ -5,8 +5,13 @@ export const GEAR_NAMES = { t1: 'Trang bị cấp thấp', t2: 'Trang bị cấp
 // Giá trị affiliation lưu slug tiếng Anh trong JSON; mọi nhãn người chơi thấy đều ở đây.
 // Thêm phe mới: thêm slug vào characters.json + nhãn tiếng Việt vào bảng này (test/affiliations.test.js chặn thiếu nhãn).
 export const AFFILIATION_LABELS = {
+  keijo_mountains: 'Núi Keijo',
+  youkai_hunters: 'Hội Thợ Săn Yêu Quái',
+  youkai_hunters_guntai: 'Hội Thợ Săn Yêu Quái / Quân đội Keijo',
+  keijo_shrine: 'Đền Keijo',
   capital_knights: 'Kị sĩ đoàn Thủ đô',
   hunters_guild: 'Hội Thợ Săn',
+  drageshelmfjall_merchants: 'Hội Thương Nhân Drageshelmfjall',
   hunters_guild_magic_academy: 'Hội Thợ Săn / Học viện Ma pháp',
   magic_academy: 'Học viện Ma pháp',
   house_valmont: 'Gia tộc Valmont',
@@ -20,6 +25,7 @@ export const AFFILIATION_LABELS = {
   destiny_heralds: 'Sứ giả Định Mệnh',
   wanderer: 'Lãng khách',
   northern_forest: 'Khu rừng phương Bắc',
+  expedition_corps: 'Kị sĩ Sư đoàn Viễn Chinh',
   rhett_research_facility: 'Viện Nghiên Cứu Tự Xưng của Rhett',
 };
 export const affiliationLabel = value => (value ? (AFFILIATION_LABELS[value] ?? value) : '');
@@ -32,7 +38,7 @@ export function characterCatalog(content, campaign, filters = {}, ownedOnly = fa
   return Object.values(content.characters).filter(actor => {
     if (actor.developerOnly && !campaign.storyFlags.includes('developer.'+actor.id)) return false;
     const owned = campaign.unlockedCharacterIds.includes(actor.id);
-    return (!ownedOnly || owned) && (!ownershipFilter || owned === (ownershipFilter === 'owned')) && (!element || element==='agony' || actor.element === element)
+    return (!ownedOnly || owned) && (!ownershipFilter || owned === (ownershipFilter === 'owned')) && (!element || element==='agony' || actor.element === element || element==='sword_soul' && actor.tags?.includes('sword_soul'))
       && (!role || actor.roleGroup === role || actor.secondaryRoleGroups?.includes(role))
       && text(`${actor.name} ${actor.title} ${actor.role} ${actor.affiliation ?? ''} ${affiliationLabel(actor.affiliation)}`).includes(text(q));
   }).map(actor => resolveCharacter(content, campaign, actor.id)).sort((a, b) => {

@@ -36,10 +36,10 @@ function cast(b,options={},target='enemy_0'){const id=attack(b,options);use(b,op
 const exposure=(b,target='enemy_0')=>getActor(b,target).statuses.find(s=>b.content.statuses[s.id].exposedElement);
 function buff(b,id='arthur'){grant(b,id,'weakness_exploitation',1,3);}
 
-test('all elemental exposures exist; only Simon explicitly grants weakness exploitation',()=>{
+test('all elemental exposures exist and specialist skills explicitly grant exposure or exploitation',()=>{
   assert.equal(content.statuses.weakness_exploitation.weaknessMultiplier,2);
   for(const element of ELEMENTS){const s=content.statuses['exposure_'+element];assert.equal(s.exposedElement,element);assert.equal(s.maxStacks,3);assert.equal(s.kind,'debuff');}
-  assert.deepEqual(Object.values(content.characters).flatMap(c=>c.abilities.map(id=>content.abilities[id])).filter(s=>s.effects.some(e=>content.statuses[e.status]?.exposedElement||e.status==='weakness_exploitation')).map(s=>s.id),['simon.cross_examine']);
+  assert.deepEqual(Object.values(content.characters).flatMap(c=>c.abilities.map(id=>content.abilities[id])).filter(s=>s.effects.some(e=>content.statuses[e.status]?.exposedElement||e.status==='weakness_exploitation')).map(s=>s.id),['simon.cross_examine','ember.mark','myonne.clause','izuna.offering']);
 });
 
 test('exploitation replaces 150% with 200%, applies to innate/type weaknesses and never creates weakness itself',()=>{
@@ -171,7 +171,7 @@ test('content rejects invalid element/cap/kind/multiplier/stacks and accepts reu
   assert.deepEqual(validateContent(content),[]);
   for(const patch of [{exposedElement:'ice'},{maxStacks:4},{kind:'buff'}]){const c=structuredClone(content);Object.assign(c.statuses.exposure_fire,patch);assert.match(validateContent(c).join('\n'),/invalid elemental exposure/);}
   for(const value of [1.5,3,NaN,'2']){const c=structuredClone(content);c.statuses.weakness_exploitation.weaknessMultiplier=value;assert.match(validateContent(c).join('\n'),/invalid weakness multiplier/);}
-  for(const stacks of [0,4,1.5]){const c=structuredClone(content);c.abilities['arthur.light_slash'].effects.push({type:'status',status:'exposure_fire',stacks});assert.match(validateContent(c).join('\n'),/invalid exposure stacks/);}
+  for(const stacks of [0,4,1.5]){const c=structuredClone(content);c.abilities['arthur.light_slash'].effects.push({type:'status',status:'exposure_fire',stacks});assert.match(validateContent(c).join('\n'),/invalid status stacks/);}
   const c=structuredClone(content);c.abilities['arthur.light_slash'].effects[0].onHitStatus={status:'exposure_fire',stacks:3};assert.deepEqual(validateContent(c),[]);
 });
 

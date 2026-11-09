@@ -1,3 +1,6 @@
+import {elementLabel} from '../core/elements.js';
+import {selectedTeamCost,spentTeamHits} from '../core/team-resources.js';
+import {lifeDebt} from '../core/life-debt.js';
 import {projectedPowderSpend,previewPaidMp,nativePenetration,sharedPenetration,spentSharedDamage} from '../core/powder-combat.js';
 
 import {scaledTeamEffect,teamResourceValue,teamResourceDefinition,scaledSpentTeamEffect,teamCostAmount} from '../core/team-resources.js';
@@ -39,7 +42,7 @@ export function liveSkillChoices(skill, actor, target, battle) {
   const theorem=battle && skill.effects.some(effect=>effect.formulaScaling)?formulaSnapshot(battle,actor):null;
   const baseStatBonuses=battle?skillBaseStatBonuses(battle,actor,skill,selected):{};
   if(theorem?.baseMagic) baseStatBonuses.magic=(baseStatBonuses.magic??0)+theorem.baseMagic;
-  return { powderSpent:battle?projectedPowderSpend(battle.content??{characters:{},enemies:{}},battle,actor,previewPaidMp(skill,actor)).gunpowder??0:0, teamSpent:battle&&skill.cost?.teamResource?teamCostAmount(skill.cost.teamResource,teamResourceValue(battle,actor,skill.cost.teamResource.id)):skill.cost?.teamResource?.min??skill.cost?.teamResource?.amount??0, live: true, formationPosition:(actor.formationSlot??0)+1, teamResourceStacks:battle?teamResourceValue(battle,actor,skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling.id):0, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
+  return { powderSpent:battle?projectedPowderSpend(battle.content??{characters:{},enemies:{}},battle,actor,previewPaidMp(skill,actor,battle)).gunpowder??0:0, teamSpent:battle&&selectedTeamCost(battle,actor,skill)?teamCostAmount(selectedTeamCost(battle,actor,skill),teamResourceValue(battle,actor,selectedTeamCost(battle,actor,skill).id)):skill.cost?.teamResource?.min??skill.cost?.teamResource?.amount??0, live: true, formationPosition:(actor.formationSlot??0)+1, teamResourceStacks:battle?teamResourceValue(battle,actor,skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling.id):0, formulaCorrect:theorem?.correct??0,formulaContributors:theorem?.contributors??0,debuffCount: battle ? debuffTypeCount(battle.content,target) : 0,buffCount:battle?buffTypeCount(battle.content,target):0, baseStatBonuses, spent: cost ? cost.all ? actor.resourceValues?.[cost.id] ?? 0 : cost.amount ?? 0 : 0,
     stacks: effect ? target?.statuses?.find(status => status.id === effect.consumeStatus)?.stacks ?? 0 : 0,
     hpPercent: actor.hp / actor.stats.maxHp * 100,
     fieldStacks: actor.statuses?.find(status => status.id === actor.passive?.statusId)?.growth ?? 0 };
@@ -49,13 +52,16 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   const choices = liveSkillChoices(skill, actor, target, battle ? {...battle,content} : undefined);
   const parts = [];
   for (const authoredEffect of skill.effects) {
-    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks),choices.teamSpent),{correct:choices.formulaCorrect}));
+    const effect=spentTeamHits(exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks),choices.teamSpent),{correct:choices.formulaCorrect})),choices.teamSpent);
     if(effect.type==='steal_base_stat')parts.push('Cướp '+percent(effect.ratio)+' ATK căn bản · tối đa +'+effect.cap);
+    if(effect.type==='reduce_cooldowns')parts.push('Giảm '+effect.amount+' vòng hồi chiêu');
     if(effect.type==='team_resource')parts.push('+'+effect.amount+' '+teamResourceDefinition(content,effect.resource).name);
     if (effect.type === 'damage') {
       const label = scalingLabel(effect,statNames);
       const multiplier = damageMultiplier(effect, { spent: choices.spent, stacks: choices.stacks, hpRatio: actor.hp / actor.stats.maxHp,buffs:choices.buffCount });
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
+      if(effect.to==='primary')line='Chính: '+line;
+      if(effect.divideAmongTargets)line+=' chia đều';
       if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} ${label} chính / ${percent(effect.multiplier)} ${label} ${skill.target==='enemy_splash'?'ô kề':'còn lại'}`;
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;
@@ -64,6 +70,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       if(effect.penetration)parts.push('Xuyên '+percent(effect.penetration)+' '+(effect.damageType==='physical'?'DEF':'RES'));
       if(effect.spentResourceDamageBonus)parts.push('+'+percent(effect.spentResourceDamageBonus)+' sát thương');
       if(effect.formulaScaling && choices.formulaCorrect===3)parts.push('Xuyên '+percent(effect.penetration)+' RES');
+    } else if(effect.spentLifeDebtRatio!==undefined){parts.push('Hồi '+percent(effect.spentLifeDebtRatio)+' nợ đã tiêu → '+Math.round(lifeDebt(actor)*effect.spentLifeDebtRatio)+' HP');
     } else if (effect.type === 'heal' || effect.type === 'shield') {
       const label = scalingLabel(effect,statNames);
       const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? effect.flat : ''].filter(Boolean).join(' + ');
@@ -110,9 +117,11 @@ export function combatSkillDetails(skill, actor, target, content) {
 export function statusDetails(status, actor, battle, content) {
   const definition = content.statuses[status.id];
   const source = battle.actors.find(item => item.id === status.sourceId) ?? battle.sourceActors?.find(item => item.id === status.sourceId) ?? actor;
-  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, baseStatModifiers:status.baseStatModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges });
+  const presentation = skillPresentation({ target: 'self', effects: [{ type: 'status', status: status.id, appliedModifiers:status.appliedModifiers, baseStatModifiers:status.baseStatModifiers, ...(status.remaining !== null ? { duration: status.remaining } : {}) }] }, source, content, { live: true, statusCharges: status.charges,statusPermanent:status.modeBound===true });
   const lines = [...presentation.facts, ...presentation.rules];
   if(definition.healingDebt)lines.unshift(`Còn ${status.debtHp??0} HP Thế Chấp cần thanh toán. Thanh toán không kích hiệu ứng được hồi HP.`);
+  if(definition.healingDebt&&actor.passive?.blockExternalHealing)lines.unshift('Khi còn Thế Chấp: chỉ hồi phục từ bản thân mới trả nợ và hồi HP. Nguồn khác bị chặn.');
+  if(status.baseStatModifiers&&definition.modifiersPerStack)lines.unshift(Object.entries(status.baseStatModifiers).map(([key,n])=>'+'+n+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'}[key]??key)+' căn bản').join(' · ')+' · '+status.stacks+' tầng');
   if(status.innate)lines.push('Khiêu Khích do nội tại: luôn có ngoài Kế Hoạch B; không thể gỡ bằng xóa buff.');
   if (status.potency !== undefined) {
     const index = lines.findIndex(line => line.startsWith('Độc:'));

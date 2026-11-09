@@ -1,4 +1,7 @@
 "use client";
+import {PrismaSparkles} from "./prisma-sparkles";
+import {ExperienceBookCard} from "./experience-book-card";
+import {isExperienceBook} from "../core/progression-items.js";
 import {gearName} from '../core/gear-rules.js';
 import {GearPagination,useGearPagination} from './gear-pagination';
 import { useEffect, useState } from "react";
@@ -44,7 +47,7 @@ export function InventoryPage() {
         subtitle={`${campaign.gear.length} trang bị · ${campaign.exclusiveGear.length} Trấn Phái`}
       ><Link className="button inventory-forge-link" href="/blacksmith">Thợ Rèn →</Link></PageHeader>
       <nav className="inventory-tabs shop-tabs" aria-label="Các mục Túi đồ"><button className={tab==='equipment'?'active':''} aria-current={tab==='equipment'?'page':undefined} onClick={()=>setFilters({...filters,tab:'equipment'})}>Trang bị</button><button className={tab==='exclusive'?'active':''} aria-current={tab==='exclusive'?'page':undefined} onClick={()=>setFilters({...filters,tab:'exclusive'})}>Trấn Phái</button><button className={tab==='items'?'active':''} aria-current={tab==='items'?'page':undefined} onClick={()=>setFilters({...filters,tab:'items'})}>Vật phẩm</button></nav>
-      {tab==='exclusive'? <ExclusiveInventory filters={filters} onChange={setFilters}/>:tab==='items'? <section className="resource-grid" aria-label="Vật phẩm trong túi">{Object.values(content.items).map((item:any)=><article className={`panel resource-card currency-${item.kind}`} key={item.id} data-item={item.id}><ResourceIcon kind={item.kind}/><h2>{item.name}</h2><CurrencyAmount kind={item.kind} amount={campaign[item.field]}/><p>{item.description}</p></article>)}</section>: <>
+      {tab==='exclusive'? <ExclusiveInventory filters={filters} onChange={setFilters}/>:tab==='items'? <section className="resource-grid" aria-label="Vật phẩm trong túi">{Object.values(content.items).map((item:any)=>isExperienceBook(item)?<ExperienceBookCard key={item.id} item={item}/>:<article className={`panel resource-card currency-${item.kind}`} key={item.id} data-item={item.id}>{item.kind==='recruitment_ticket'&&<PrismaSparkles/>}<ResourceIcon kind={item.kind}/><h2>{item.name}</h2><CurrencyAmount kind={item.kind} amount={campaign[item.field]}/><p>{item.description}</p>{item.kind==='recruitment_ticket'&&<Link className="button" href="/shop?tab=recruitment">Dùng Vé Chiêu Mộ</Link>}</article>)}</section>: <>
       <GearFilters filters={filters} onChange={values=>setFilters({...values,page:"1"})} />
       <div className="inventory-layout">
         <section>

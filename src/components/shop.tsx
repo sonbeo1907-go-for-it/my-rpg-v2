@@ -1,4 +1,6 @@
 "use client";
+import {HonorShop} from './arena-honor';
+import {ProgressionShop} from "./progression-shop";
 import {BlueprintShop} from './blueprint-shop';
 import {OriginalPrismaExchange} from './original-prisma-exchange';
 import Link from "next/link";
@@ -14,6 +16,7 @@ import {
 import {
   CharacterCard,
   CurrencyAmount,
+  ResourceIcon,
   EmptyState,
   Icon,
   Modal,
@@ -24,7 +27,7 @@ import { MerchantScene } from "./merchant-scene";
 
 const keeperGreetings = [
   "Chào mừng… Tiệm vẫn mở. Còn mắt tôi thì đang cố gắng.",
-  "Coin đổi Prisma, Pure Prisma gọi đồng đội. Cà phê thì… không gọi nổi tôi tỉnh nữa.",
+  "Coin đổi Prisma, vé gọi đồng đội. Cà phê thì… không gọi nổi tôi tỉnh nữa.",
   "Cứ chọn thong thả nhé. Tôi chỉ đang đếm xem mình đã tăng ca bao nhiêu đêm thôi.",
   "Hàng mới đã lên kệ. Giấc ngủ của tôi thì vẫn đang trên đường giao tới.",
   "Muốn tìm bạn đồng hành à? Nhớ rủ cả người biết trông tiệm giúp tôi nhé.",
@@ -36,7 +39,7 @@ const keeperGreetings = [
 export function ShopPage() {
   const { content, campaign, transact, busy } = useGame();
   const params=useSearchParams();
-  const tab=params.get("tab")==="blueprints"?"blueprints":params.get("tab")==="recruitment"?"recruitment":"prisma";
+  const tab=['honor','blueprints','recruitment'].includes(params.get('tab')??'')?params.get('tab'):'prisma';
   const rules = economyRules(content);
   const [quantity, setQuantity] = useState("1");
   const [confirm, setConfirm] = useState<any>(null);
@@ -79,7 +82,7 @@ export function ShopPage() {
             ),
       confirm.kind === "prisma"
         ? "Đã chuyển Coin thành Prisma."
-        : "Đã chiêu mộ đồng đội bằng Pure Prisma.",
+        : "Đã chiêu mộ đồng đội bằng Vé Chiêu Mộ.",
     );
     if (ok) setConfirm(null);
     pending.current = false;
@@ -91,26 +94,8 @@ export function ShopPage() {
             title="Tiệm Prisma"
             subtitle="Ánh đèn còn sáng. Người bán thì sắp ngủ."
           />
-          <nav className="shop-tabs" aria-label="Các mục Shop">
-            <Link
-              className={tab === "prisma" ? "selected" : ""}
-              href="/shop"
-              aria-current={tab === "prisma" ? "page" : undefined}
-            >
-              <Icon name="prism" />
-              Chuyển đổi Prisma
-            </Link>
-            <Link
-              className={tab === "recruitment" ? "selected" : ""}
-              href="/shop?tab=recruitment"
-              aria-current={tab === "recruitment" ? "page" : undefined}
-            >
-              <Icon name="party" />
-              Chiêu Mộ
-            </Link>
-            <Link href="/shop?tab=blueprints" className={tab==="blueprints"?"selected":""} aria-current={tab==="blueprints"?"page":undefined}><Icon name="scroll"/>Công thức Trấn Phái</Link>
-          </nav>
-          {tab === "blueprints" ? <BlueprintShop/> : tab === "prisma" ? (
+          <nav className="shop-tabs" aria-label="Các mục Shop">{[{id:'prisma',name:'Đổi thông thường',icon:'prism'},{id:'honor',name:'Đổi danh dự',icon:'shield'},{id:'blueprints',name:'Công thức Trấn Phái',icon:'scroll'},{id:'recruitment',name:'Chiêu Mộ',icon:'party'}].map(t=><Link key={t.id} href={t.id==='prisma'?'/shop':'/shop?tab='+t.id} className={tab===t.id?'selected':''} aria-current={tab===t.id?'page':undefined}><Icon name={t.icon}/>{t.name}</Link>)}</nav>
+          {tab === "honor" ? <HonorShop/> : tab === "blueprints" ? <BlueprintShop/> : tab === "prisma" ? (
             <>
             <section className="panel prisma-exchange">
               <div className="shop-prisma-art" aria-hidden="true">
@@ -177,6 +162,8 @@ export function ShopPage() {
                 </button>
               </div>
             </section>
+            <ProgressionShop/>
+            <ProgressionShop books/>
             <OriginalPrismaExchange/>
             </>
           ) : (
@@ -184,20 +171,20 @@ export function ShopPage() {
               <div className="panel shop-recruitment-heading">
                 <div>
                   <span className="eyebrow">
-                    PURE PRISMA · LỜI HẸN ƯỚC THUẦN KHIẾT
+                    VÉ CHIÊU MỘ · LỜI HẸN ƯỚC THUẦN KHIẾT
                   </span>
                   <h2>Một người đồng hành tự chọn</h2>
                   <p>
                     Mỗi nhân vật chưa sở hữu cần{" "}
                     <strong className="pure-prisma-text">
-                      {rules.recruitCost} Pure Prisma
+                      1 Vé Chiêu Mộ
                     </strong>
                     . Bản trùng khi quay vẫn nhận {rules.duplicateShards} Pure
                     Prisma và mở ô trang bị như trước.
                   </p>
                   <small>Chiêu mộ tại Shop không thay đổi pity quay.</small>
                 </div>
-                <CurrencyAmount kind="pure" amount={campaign.recruitmentShards} />
+                <CurrencyAmount kind="recruitment_ticket" amount={campaign.recruitmentTickets} />
               </div>
               <label className="shop-search">
                 Tìm đồng đội
@@ -244,13 +231,13 @@ export function ShopPage() {
                   busy ||
                   (confirm.kind === "prisma"
                     ? campaign.coins < confirm.cost
-                    : campaign.recruitmentShards < rules.recruitCost)
+                    : campaign.recruitmentTickets < 1)
                 }
                 onClick={purchase}
               >
                 {confirm.kind === "prisma"
                   ? "Xác nhận chuyển đổi"
-                  : "Chiêu mộ bằng Pure Prisma"}
+                  : "Chiêu mộ bằng Vé Chiêu Mộ"}
               </button>
             </>
           }
@@ -274,13 +261,13 @@ export function ShopPage() {
                 Chiêu mộ <strong>{content.characters[confirm.id].name}</strong>{" "}
                 bằng{" "}
                 <strong className="pure-prisma-text">
-                  {rules.recruitCost} Pure Prisma
+                  1 Vé Chiêu Mộ
                 </strong>
                 ?
               </p>
-              <p>Pure Prisma hiện có: {fmt(campaign.recruitmentShards)}.</p>
-              {campaign.recruitmentShards < rules.recruitCost && (
-                <p className="warning">Bạn chưa đủ Pure Prisma.</p>
+              <p>Vé Chiêu Mộ hiện có: {fmt(campaign.recruitmentTickets)}.</p>
+              {campaign.recruitmentTickets < 1 && (
+                <p className="warning">Bạn chưa có Vé Chiêu Mộ.</p>
               )}
             </>
           )}

@@ -370,6 +370,7 @@
     "id": "young_oath",
     "name": "Lời thề của kị sĩ trẻ",
     "kind": "buff",
+    "durationClock": "main_turn",
     "modifiers": {
       "attack": 0.25
     }
@@ -1350,5 +1351,209 @@
     "taunt": true,
     "durationClock": "main_turn",
     "description": "Đòn đơn mục tiêu của địch buộc nhắm Brant; thời hạn chỉ giảm theo lượt chính của Brant."
+  },
+  {
+    "id": "ember_fervor",
+    "name": "Lần Này Chắc Chắn Thành Công!",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3,
+      "magic": 0.3
+    }
+  },
+  {
+    "id": "myonne_vip",
+    "name": "Ưu Đãi Riêng",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "weaknessMultiplier": 2,
+    "modifiers": {
+      "attack": 0.25,
+      "magic": 0.25
+    }
+  },
+  {
+    "id": "verena_promise",
+    "name": "Lời Hứa Bình Minh",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3
+    }
+  },
+  {
+    "id": "tsukiha_soul",
+    "name": "Linh Hỏa Gửi Trong Kiếm",
+    "kind": "buff",
+    "maxStacks": 3,
+    "modifiersPerStack": true,
+    "modifiers": {},
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "tsukiha_prayer",
+    "name": "Lời Nguyện Keijo",
+    "kind": "buff",
+    "modifiers": {
+      "attack": 0.5
+    },
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "exposure_sword_soul",
+    "name": "Sơ Hở — Hồn Kiếm",
+    "kind": "debuff",
+    "persistent": true,
+    "maxStacks": 3,
+    "exposedElement": "sword_soul"
+  },
+  {
+    "id": "izuna_magic",
+    "name": "Cánh Giông Non",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": 0.25
+    }
+  },
+  {
+    "id": "shion_reply",
+    "name": "Một Kiếm Đáp Lời",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifiers": {
+      "attack": 0.4
+    }
+  },
+  {
+    "id": "shion_shred",
+    "name": "Rạn Thế Yêu Ma",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.15,
+      "resistance": -0.15
+    }
+  },
+  {
+    "id": "amiya_concord",
+    "name": "Kiếm Hồn Đồng Tâm",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3,
+      "magic": 0.3
+    }
+  },
+  {
+    "id": "kaguya_calm",
+    "name": "Lặng Tiếng Binh Đao",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": -0.2,
+      "magic": -0.2
+    }
+  },
+  {
+    "id": "sword_soul_blessing",
+    "name": "Hồn Kiếm Chúc Phúc",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": 0.2,
+      "resistance": 0.2,
+      "damageReduction": 0.25
+    }
+  },
+  {
+    "id": "susanoo_guard",
+    "name": "Thân Thép Chấn Sơn",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": 0.2,
+      "resistance": 0.2
+    },
+    "description": "Tăng DEF và RES."
+  },
+  {
+    "id": "yukino_frost",
+    "name": "Gió Tuyết Níu Chân",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.15
+    },
+    "description": "Giảm SPD."
+  },
+  {
+    "id": "akane_tailwind",
+    "name": "Mũi Tên Đón Gió",
+    "kind": "buff",
+    "durationClock": "round",
+    "defaultDuration": 1,
+    "modifiers": {
+      "attack": 0.5
+    },
+    "description": "Tăng ATK đến hết vòng hiện tại."
+  },
+  {
+    "id": "eri_palette",
+    "name": "Sắc Màu Linh Hồn",
+    "kind": "buff",
+    "durationClock": "round",
+    "defaultDuration": 1,
+    "modifiers": {
+      "magic": 0.2
+    },
+    "description": "Tăng MAG theo Hồn Kiếm đội đã tiêu ở vòng trước."
+  },
+  {
+    "id": "escalation",
+    "name": "Thăng Tiến",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 2,
+    "hitDamageGrowth": 0.05,
+    "description": "Mỗi đòn sau trên cùng mục tiêu tăng 5% sát thương cơ sở trong hành động, trước khuếch đại sát thương."
+  },
+  {
+    "id": "kreider_exclusive_magic",
+    "name": "Nghịch âm dâng trào",
+    "kind": "buff",
+    "defaultDuration": 4,
+    "maxStacks": 2,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "magic": 0.25
+    },
+    "description": "Mỗi tầng tăng 25% MAG. Tối đa 2 tầng, làm mới thời hạn khi nhận thêm tầng."
+  },
+  {
+    "id": "elise_exclusive_magic",
+    "name": "Đức tin phán xét",
+    "kind": "buff",
+    "defaultDuration": 4,
+    "maxStacks": 2,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "magic": 0.25
+    },
+    "description": "Mỗi tầng tăng 25% MAG. Tối đa 2 tầng, làm mới thời hạn khi nhận thêm tầng."
+  },
+  {
+    "id": "obsession",
+    "name": "Ám Ảnh",
+    "kind": "buff",
+    "persistent": true,
+    "maxStacks": 5,
+    "modifiersPerStack": true,
+    "fixedModifiers": true,
+    "modifiers": {
+      "attack": 0.1
+    },
+    "description": "Mỗi tầng tăng 10% ATK, tối đa 5 tầng. Bị tiêu hết khi Vilgard dùng đòn trả thù diện rộng."
   }
 ]

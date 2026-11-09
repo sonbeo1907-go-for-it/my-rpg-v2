@@ -1,4 +1,5 @@
 "use client";
+import {PartyLink} from "./party-link";
 import Link from "next/link";
 import {levelScaledEnemyStats} from '../core/enemy-scaling.js';
 import {firstClearRewardLabel} from "../core/first-clear-labels.js";
@@ -94,7 +95,7 @@ export function TravelerStoryPage({id}:{id:string}) {
             <h3>Đối thủ{selected.id==="iris_story_revenge"?" · Đấu đội":""}</h3>
             <StoryOpponents content={content} encounter={selected}/>
             {!selected.unlocked&&<p className="warning" role="status">Hoàn thành chương trước để mở khóa chương này.</p>}
-            {selected.requiredPartyIds?.length>0&&<p className={missing.length?"warning":"first-clear"} role="status">{missing.length?`Bắt buộc có ${missing.map((id:string)=>content.characters[id].name).join(', ')} trong đội hình để xuất chiến.`:`✓ ${selected.requiredPartyIds.map((id:string)=>content.characters[id].name).join(', ')} đã sẵn sàng tham chiến.`} <Link href="/party">Chỉnh đội hình →</Link></p>}
+            {selected.requiredPartyIds?.length>0&&<p className={missing.length?"warning":"first-clear"} role="status">{missing.length?`Bắt buộc có ${missing.map((id:string)=>content.characters[id].name).join(', ')} trong đội hình để xuất chiến.`:`✓ ${selected.requiredPartyIds.map((id:string)=>content.characters[id].name).join(', ')} đã sẵn sàng tham chiến.`} <PartyLink>Chỉnh đội hình →</PartyLink></p>}
             <button className="gold embark" disabled={!canStart} onClick={()=>setConfirm(true)}><Icon name="sword"/>Xuất chiến<span>→</span></button>
           </div>
         </>}

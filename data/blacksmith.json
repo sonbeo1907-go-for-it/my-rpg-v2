@@ -16,7 +16,7 @@
       "recruitmentShards": 3,
       "originalPrisma": 1
     },
-    "reforgeCost": 1,
+    "reforgeCost": 10,
     "rollMinPoints": 5,
     "rollMaxPoints": 10,
     "rollPolicy": "uniform_stat_then_integer",
@@ -39,6 +39,7 @@
     "secondaryReforgeCost": {
       "prismaFragments": 450,
       "coins": 2500
-    }
+    },
+    "reforgeCurrency": "recruitmentShards"
   }
 ]

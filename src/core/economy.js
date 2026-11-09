@@ -1,3 +1,4 @@
+import {pruneRateUpPity,resolveRecruitmentBanner,rateUpPityKey,drawBannerCharacter,rateUpSnapshot,validateRateUpContent} from './rate-up.js';
 import {grantPartyXp} from './leveling.js';
 import {questExperience} from './quest-difficulty.js';
 import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
@@ -32,10 +33,10 @@ export function convertCoinsToPrisma(campaign, content, quantity) {
 }
 
 export function validateEconomyContent(content) {
-  const errors = [];
+  const errors = validateRateUpContent(content);
   const rules = content.economy?.default;
   if (!rules || !content.banners || !content.gearTypes) return ['Missing economy, banners or gearTypes'];
-  for (const key of ['victoryCoins', 'bossVictoryCoins', 'superVictoryCoins', 'legacyVictoryCoins', 'prismaCoinCost', 'singlePullCost', 'tenPullCost', 'duplicateShards', 'recruitCost']) {
+  for (const key of ['victoryCoins', 'bossVictoryCoins', 'superVictoryCoins', 'legacyVictoryCoins', 'prismaCoinCost', 'singlePullCost', 'tenPullCost', 'duplicateShards', 'recruitTicketCost', 'rateUpTicketEvery']) {
     if (!positiveInt(rules[key])) errors.push(`economy: invalid ${key}`);
   }
   if(!Number.isFinite(rules.coinRewardChance)||rules.coinRewardChance<=0||rules.coinRewardChance>=1||!positiveInt(rules.normalFragmentReward)||!positiveInt(rules.bossFragmentReward))errors.push('economy: invalid Quest reward split');
@@ -162,26 +163,27 @@ function weighted(items, random) {
 }
 
 // Pure transaction: persist the complete result before replacing live campaign state.
-export function pullGacha(campaign, content, bannerId, count, random = Math.random) {
-  const banner = Object.hasOwn(content.banners, bannerId) ? content.banners[bannerId] : null;
-  if (!banner || ![1, 10].includes(count)) throw new Error('Lượt quay không hợp lệ.');
+export function pullGacha(campaign, content, bannerId, count, random = Math.random, now = new Date()) {
+  const banner = resolveRecruitmentBanner(content,bannerId,now);
+  if (!banner || ![1, 10].includes(count)) throw new Error('Đợt Chiêu Mộ đã thay đổi hoặc lượt quay không hợp lệ. Hãy chọn lại banner.');
+  const pityKey=rateUpPityKey(banner);
   const rules = economyRules(content);
   const cost = count === 10 ? rules.tenPullCost : rules.singlePullCost;
   if (!Number.isSafeInteger(campaign.prisma) || campaign.prisma < cost) throw new Error('Không đủ Prisma.');
   const next = structuredClone(campaign);
   next.prisma -= cost;
-  next.gacha.pity ??= {};
-  const pityCount = next.gacha.pity[bannerId] ?? 0;
+  next.gacha.pity = pruneRateUpPity(next.gacha.pity??{},now);
+  const pityCount = next.gacha.pity[pityKey] ?? 0;
   if (!Number.isSafeInteger(pityCount) || pityCount < 0 || (banner.pity && pityCount >= banner.pity.characterAt)) throw new Error('Bộ đếm pity không hợp lệ.');
   const results = [];
   for (let index = 0; index < count; index += 1) {
     next.gacha.totalPulls = checkedAdd(next.gacha.totalPulls, 1);
-    const guaranteed = Boolean(banner.pity && (next.gacha.pity[bannerId] ?? 0) >= banner.pity.characterAt - 1);
+    const guaranteed = Boolean(banner.pity && (next.gacha.pity[pityKey] ?? 0) >= banner.pity.characterAt - 1);
     const character = guaranteed || roll(random) >= banner.gearWeight / (banner.gearWeight + banner.characterWeight);
     if (character) {
-      const characterId = banner.characterPool[Math.floor(roll(random) * banner.characterPool.length)];
+      const characterId = drawBannerCharacter(banner,roll(random));
       results.push({ kind: 'character', ...grantCharacterCopy(next, content, characterId), guaranteed });
-      if (banner.pity) next.gacha.pity[bannerId] = 0;
+      if (banner.pity) next.gacha.pity[pityKey] = 0;
     } else {
       const type = content.gearTypes[weighted(banner.gearRates, random).typeId];
       const pool = [...rules.gearStats];
@@ -193,20 +195,21 @@ export function pullGacha(campaign, content, bannerId, count, random = Math.rand
       const gear = { id: `gear_${next.gacha.totalPulls}`, typeId: type.id, stats };
       next.gear.push(gear);
       results.push({ kind: 'gear', gear: structuredClone(gear) });
-      if (banner.pity) next.gacha.pity[bannerId] = (next.gacha.pity[bannerId] ?? 0) + 1;
+      if (banner.pity) next.gacha.pity[pityKey] = (next.gacha.pity[pityKey] ?? 0) + 1;
     }
   }
-  next.gacha.lastSummon = { id: `summon_${next.gacha.totalPulls}`, bannerId, results: structuredClone(results) };
+  if(banner.featured){const before=next.gacha.rateUpMileage??0;if(!Number.isSafeInteger(before)||before<0)throw Error('Tiến độ Vé Chiêu Mộ không hợp lệ.');const after=checkedAdd(before,count),earned=Math.floor(after/rules.rateUpTicketEvery)-Math.floor(before/rules.rateUpTicketEvery);next.gacha.rateUpMileage=after;next.recruitmentTickets=checkedAdd(next.recruitmentTickets??0,earned);}
+  next.gacha.lastSummon = { id: `summon_${next.gacha.totalPulls}`, bannerId:banner.baseBannerId??bannerId, ...(banner.featured?{rateUp:rateUpSnapshot(banner),ticketReward:Math.floor(next.gacha.rateUpMileage/rules.rateUpTicketEvery)-Math.floor((next.gacha.rateUpMileage-count)/rules.rateUpTicketEvery)}:{}), results: structuredClone(results) };
   return { campaign: next, results };
 }
 
 export function recruitCharacter(campaign, content, bannerId, id) {
   const banner = Object.hasOwn(content.banners, bannerId) ? content.banners[bannerId] : null;
   if (!banner?.characterPool.includes(id) || ownsCharacter(campaign, id)) throw new Error('Nhân vật không thể chiêu mộ.');
-  const cost = economyRules(content).recruitCost;
-  if (!Number.isSafeInteger(campaign.recruitmentShards) || campaign.recruitmentShards < cost) throw new Error('Không đủ Pure Prisma.');
+  const cost=economyRules(content).recruitTicketCost;
+  if (!Number.isSafeInteger(campaign.recruitmentTickets) || campaign.recruitmentTickets < cost) throw new Error('Không đủ Vé Chiêu Mộ.');
   const next = structuredClone(campaign);
-  next.recruitmentShards -= cost;
+  next.recruitmentTickets -= cost;
   unlockCharacter(next, content, id);
   return next;
 }

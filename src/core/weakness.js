@@ -1,3 +1,4 @@
+import {damageElements} from './elements.js';
 import { activeStatuses } from './status-state.js';
 import { WEAKNESS_MULTIPLIER } from './content.js';
 
@@ -34,12 +35,13 @@ function eligibleExposure(target, element, context) {
 }
 
 export function resolveWeakness(content, attacker, target, effect, context) {
-  const elementWeakness = Boolean(target.weaknesses?.includes(effect.element) || eligibleExposure(target, effect.element, context));
+  const matchedElements=damageElements(effect).filter(element=>target.weaknesses?.includes(element)||eligibleExposure(target,element,context));
+  const elementWeakness = matchedElements.length>0;
   const typeWeakness = target.damageTypeWeaknesses?.includes(effect.damageType) ?? false;
   const weakness = elementWeakness || typeWeakness;
-  const multiplier = weakness ? Math.max(WEAKNESS_MULTIPLIER, ...activeStatuses(attacker)
+  const multiplier = weakness ? Math.max(WEAKNESS_MULTIPLIER,attacker.combatModes?.[attacker.activeMode]?.weaknessMultiplier??WEAKNESS_MULTIPLIER, ...activeStatuses(attacker)
     .filter(active).map(status => content.statuses[status.id]?.weaknessMultiplier ?? WEAKNESS_MULTIPLIER)) : 1;
-  return { elementWeakness, typeWeakness, weakness, multiplier };
+  return { elementWeakness, typeWeakness, weakness, multiplier, matchedElements };
 }
 
 export function reserveExposure(target, element, context) {

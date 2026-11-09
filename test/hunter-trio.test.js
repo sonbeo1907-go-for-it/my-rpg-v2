@@ -30,7 +30,7 @@ const fua=b=>b.events.filter(e=>e.type==='reaction'&&e.sourceId==='amelia');
 
 test('official Hunter Guild recruits use existing roles and are locked at zero duplicates; recruitment/save round trips work',()=>{
  assert.equal(content.characters.logia.element,'thunder');assert.equal(content.characters.logia.roleGroup,'physical_dps');assert.equal(content.characters.amelia.roleGroup,'defensive_support');assert.equal(content.characters.chloe.element,'plain');assert.equal(content.characters.chloe.roleGroup,'offensive_support');
- for(const id of ['logia','amelia','chloe']){const save=createGameSave(content);assert.ok(content.banners.standard.characterPool.includes(id));assert.equal(save.unlockedCharacterIds.includes(id),false);save.recruitmentShards=120;const next=recruitCharacter(save,content,'standard',id);assert.equal(next.extraGearSlots[id]??0,0);assert.deepEqual(decodeGameSave(encodeGameSave(next,content),content),next);}
+ for(const id of ['logia','amelia','chloe']){const save=createGameSave(content);assert.ok(content.banners.standard.characterPool.includes(id));assert.equal(save.unlockedCharacterIds.includes(id),false);save.recruitmentShards=120;save.recruitmentTickets=1;const next=recruitCharacter(save,content,'standard',id);assert.equal(next.extraGearSlots[id]??0,0);assert.deepEqual(decodeGameSave(encodeGameSave(next,content),content),next);}
 });
 test('Logia has physical Thunder hits and stacking poison snapshots ATK and his native exactly once',()=>{
  const {b}=setup();cast(b,'logia','logia.fang');let e=getActor(b,'enemy_0'),dot=e.statuses.find(s=>s.id==='logia_venom');assert.equal(dot.stacks,1);assert.equal(dot.potency,17);assert.equal(dot.remaining,3);

@@ -1,11 +1,11 @@
 # Sinh Mệnh Thế Chấp
 
-Triển khai 04/11/2026. Đây là cơ chế engine dùng chung, chưa cấp cho boss/nhân vật hiện hành.
+Triển khai 04/11/2026. Đây là cơ chế engine dùng chung, đã cấp cho Verena để tự nhận nợ và dùng nợ làm chi phí; xem [VERENA](VERENA.md).
 
 ## Dữ liệu
 
 Status `life_mortgage`: debuff persistent, `healingDebt: {maxHpRatio:0.25, capMaxHpRatio:0.5}`.
-Kỹ năng dùng `{type:"status",status:"life_mortgage"}` cho đơn mục tiêu, hoặc thêm `debtMaxHpRatio:0.15` cho diện rộng. Không khai duration/charges/stacks; Rank không tăng nợ. Bản đầu không hỗ trợ onHitStatus, linked status, tự nhận nợ để đổi sức mạnh hoặc mode entry.
+Kỹ năng dùng `{type:"status",status:"life_mortgage"}` cho đơn mục tiêu, hoặc thêm `debtMaxHpRatio:0.15` cho diện rộng. Không khai duration/charges/stacks; Rank không tăng nợ. Không hỗ trợ onHitStatus, linked status hoặc mode entry. Verena bổ sung tự nhận nợ và chi phí nợ bằng các trường dữ liệu dùng chung; không đổi luật hồi phục của các đơn vị khác.
 
 ## Hợp đồng vòng đời
 
@@ -21,3 +21,5 @@ Kỹ năng dùng `{type:"status",status:"life_mortgage"}` cho đơn mục tiêu,
 Thanh đỏ tím dưới HP ghi `Thế Chấp: N HP`; badge/tooltip hiển thị lượng nợ, không giả làm stack/thời hạn. Log phân biệt trả nợ với hồi HP. Không đổ màu vào thanh HP hoặc thay đổi tỷ lệ HP.
 
 Tests ở `test/life-debt.test.js`: cộng/trần, Hộ Ấn/cleanse, hồi dư/đầy HP, Vết Thương Sâu, hút máu/regen/gear, không kích hồi MP khi chỉ trả nợ, lifecycle/forecast và validator. Browser test kiểm tra thanh nợ, tooltip và bố cục di động bằng fixture riêng.
+
+Ngoại lệ nội tại Verena: khi có nợ chỉ nhận hồi từ chính actor ID; hồi từ nguồn khác không trả nợ hoặc hồi HP. Chiêu tất toán xóa nợ trước rồi hồi dựa trên snapshot. Xem [VERENA](VERENA.md).

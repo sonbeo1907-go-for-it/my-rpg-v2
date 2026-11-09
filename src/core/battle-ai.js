@@ -54,7 +54,7 @@ function evaluate(b,trial,a,skill,p,threats){
   protection+=healing*.8+Math.max(0,lifeDebt(x)-lifeDebt(y))+shield*.28+ward+reduction;
   const removed=activeStatuses(x).filter(s=>b.content.statuses[s.id]?.kind==='debuff'&&!activeStatuses(y).some(v=>v.id===s.id));cleanses+=removed.length;
   if(isAlive(x)&&(x.hp/x.stats.maxHp<p.healBelow||x.hp+x.shield<(threats[x.id]??0)*.8)&&(healing+shield+ward+reduction>0||removed.length))rescues+=1;
-  for(const status of fresh.filter(s=>b.content.statuses[s.id]?.kind==='buff')){const def=b.content.statuses[status.id],mods=status.appliedModifiers??def.modifiers??{};buffs+=12+Object.entries(mods).reduce((n,[key,v])=>n+Math.max(0,key==='attackMultiplier'?v-1:v)*(['damageBonus','attackMultiplier'].includes(key)?100*(status.charges??def.damageUses??1):key==='maxMp'?40:90),0);}
+  for(const status of fresh.filter(s=>b.content.statuses[s.id]?.kind==='buff')){const def=b.content.statuses[status.id],mods=status.appliedModifiers??def.modifiers??{};const focus=skill.target==='ally'&&skill.targetElement&&['physical_dps','magical_dps','fighter','sorcerer'].includes(x.roleGroup)?1.4:1;buffs+=focus*(12+Object.entries(mods).reduce((n,[key,v])=>n+Math.max(0,key==='attackMultiplier'?v-1:v)*(['damageBonus','attackMultiplier'].includes(key)?100*(status.charges??def.damageUses??1):key==='maxMp'?40:90),0));}
  }
  const newMode=after.activeMode!==a.activeMode&&after.activeMode||after.pendingMode&&!a.pendingMode||after.formulaField&&!a.formulaField;
  const newCompanion=Object.keys(after.companionStates??{}).length>Object.keys(a.companionStates??{}).length;
@@ -80,7 +80,7 @@ export function chooseBattleAction(b,actor,io){
   if(!raw||raw.activation==='passive')continue;
   const skill=resolveRankedAbility(b.content,actor,raw);if(!io.abilityAvailability(b,actor,skill).ok)continue;
   const edit=skill.effects.some(e=>e.type==='edit_formula')?bestEdit(b,actor,skill):undefined;if(edit===null)continue;
-  let targets=io.targetsFor(b,actor,skill);if(['self','all_allies','all_enemies','adjacent_allies','random_enemies'].includes(skill.target)&&!skill.effects.some(e=>e.primaryMultiplier!==undefined))targets=targets.slice(0,1);
+  let targets=io.targetsFor(b,actor,skill);if(['self','all_allies','all_enemies','adjacent_allies','random_enemies'].includes(skill.target)&&!skill.effects.some(e=>e.primaryMultiplier!==undefined||e.to==='primary'))targets=targets.slice(0,1);
   for(const target of targets)candidates.push({skill,score:cheapScore(b,actor,skill,target,p),command:{actorId:actor.id,abilityId:id,targetId:target.id,...(edit?{formulaEdit:edit}:{})}});
  }
  candidates.sort((a,b)=>b.score-a.score);

@@ -23,15 +23,15 @@ test('four illustrated doors and Quest-style difficulty boards show current scop
   for(const file of ['dungeon-gold.svg','dungeon-danger.svg','dungeon-training.svg','dungeon-breakthrough.svg']){const result=await request.get(`/art/${file}`);expect(result.ok()).toBe(true);expect(await result.text()).toContain('<svg');}
   await page.screenshot({path:'test-results/visual-dungeon-doors.png',fullPage:true});
   await page.locator('a.dungeon-choice[href="/dungeon/gold_mine"]').click();
-  await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.quest-card.selected')).toContainText('Dễ');await expect(page.locator('.quest-illustration')).toContainText('1.000');
+  await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.quest-card.selected')).toContainText('Dễ');await expect(page.locator('.quest-illustration')).toContainText('3.000');
   await page.getByRole('button',{name:/Trung bình/}).click();await expect(page.locator('.quest-illustration')).toContainText('Level 30');await expect(page.locator('.quest-illustration')).toContainText('MP ×2,25');await expect(page.locator('.quest-illustration')).not.toContainText('ATK ×1,25');
   await page.getByRole('button',{name:/Khó/}).click();await expect(page.locator('.embark')).toBeEnabled();await expect(page.locator('.quest-illustration')).toContainText('Level 45');await expect(page.locator('.quest-illustration')).not.toContainText('ATK ×1,6');
-  await page.goto('/dungeon/dangerous');await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.embark')).toBeEnabled();await expect(page.locator('.quest-card').last()).toContainText('5');await expect(page.locator('.dungeon-room-card')).toHaveCount(0);await page.locator('.embark').click();await expect(page.getByRole('dialog').locator('.dungeon-room-card')).toHaveCount(1);
+  await page.goto('/dungeon/dangerous');await expect(page.locator('.quest-card')).toHaveCount(3);await expect(page.locator('.embark')).toBeEnabled();await expect(page.locator('.quest-card').last()).toContainText('10');await expect(page.locator('.dungeon-room-card')).toHaveCount(0);await page.locator('.embark').click();await expect(page.getByRole('dialog').locator('.dungeon-room-card')).toHaveCount(1);
   await page.setViewportSize({width:390,height:844});
   for(const route of ['/dungeon','/dungeon/gold_mine','/dungeon/dangerous']){await page.goto(route);await expect(page.locator('main')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),route).toBe(true);}
   await page.screenshot({path:'test-results/visual-dungeon-phone.png',fullPage:true});
 });
-for(const [difficulty,waves,reward] of [['easy',3,1000],['medium',4,2000],['hard',4,3000]] as const){
+for(const [difficulty,waves,reward] of [['easy',3,3000],['medium',4,6000],['hard',4,9000]] as const){
   test(`gold ${difficulty} automatically clears ${waves} waves, carries MP and saves only the final reward/quota`,async({page})=>{
     test.setTimeout(90000);await seed(page);await page.goto(`/dungeon/gold_mine?selected=${difficulty}`);
     await page.locator('.embark').click();await page.getByRole('dialog').getByRole('button',{name:'Bắt đầu thám hiểm',exact:true}).click();await expect(page).toHaveURL(/battle$/);

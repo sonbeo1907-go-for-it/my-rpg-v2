@@ -27,7 +27,7 @@ test('quest first clear grants fixed ATK+5 exclusive and Arthur/Iris/Takeshi dup
 test('already-owned quest exclusive keeps reforged stat; intro is eligible for ordinary reforge without changing passive',()=>{
  let c=campaign();c.exclusiveGear=[{templateId:'arthur.intro',statKey:'speed',statValue:9}];
  const next=claimBattleReward(c,{outcome:'victory',questDifficulty:'very_easy',rewardRandom:()=>0,encounterId:'giant_boar_trial'},content);assert.equal(next.exclusiveGear[0].statKey,'speed');assert.equal(next.exclusiveGear[0].statValue,9);
- c=beginReforge(next,content,'arthur.intro',()=>0);assert.equal(c.originalPrisma,19);assert.equal(c.exclusiveGear[0].statKey,'speed');c=finishReforge(c,content,c.pendingReforge.id,true);assert.equal(c.exclusiveGear[0].statKey,'maxHp');assert.equal(c.exclusiveGear[0].statValue,25);assert.equal(content.exclusiveGear['arthur.intro'].passive.type,'skill_damage');
+ c=beginReforge(next,content,'arthur.intro',()=>0);assert.equal(c.originalPrisma,20);assert.equal(c.exclusiveGear[0].statKey,'speed');c=finishReforge(c,content,c.pendingReforge.id,true);assert.equal(c.exclusiveGear[0].statKey,'maxHp');assert.equal(c.exclusiveGear[0].statValue,25);assert.equal(content.exclusiveGear['arthur.intro'].passive.type,'skill_damage');
 });
 test('all 12 authored craft templates can be crafted/reforged/equipped once in separate slot and round-trip save',()=>{
  for(const t of Object.values(content.exclusiveGear).filter(t=>!t.source&&!t.requires)){

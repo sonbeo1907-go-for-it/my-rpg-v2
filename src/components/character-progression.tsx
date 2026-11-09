@@ -1,5 +1,6 @@
 "use client";
 import {useEffect,useState} from 'react';
+import {CharacterBookDialog} from './character-books';
 import Link from 'next/link';
 import {useGame} from '../runtime/game-context';
 import {ALLOCATION_STATS,allocationLimit,allocationSpent,levelCap,levelRules,unspentPoints,xpRequired} from '../core/leveling.js';
@@ -9,6 +10,7 @@ import {CurrencyAmount,Modal,fmt} from './ui';
 export function CharacterProgression({id}:{id:string}){
  const {content,campaign,busy,progressionLocked,updateAllocations,breakCharacterLimit}=useGame();
  const state=campaign.characters[id],owned=campaign.unlockedCharacterIds.includes(id),r=levelRules(content),cap=levelCap(state,content);
+ const [booksOpen,setBooksOpen]=useState(false);
  const [draft,setDraft]=useState<Record<string,number>>({...state.allocations}),[confirm,setConfirm]=useState<'reset'|'break'|null>(null);
  useEffect(()=>setDraft({...state.allocations}),[id,state.level,JSON.stringify(state.allocations)]);
  const remaining=state.level-1-allocationSpent(content,draft),changed=JSON.stringify(Object.fromEntries(Object.entries(draft).filter(([,n])=>n)))!==JSON.stringify(Object.fromEntries(Object.entries(state.allocations).filter(([,n])=>n)));
@@ -17,6 +19,8 @@ export function CharacterProgression({id}:{id:string}){
  const adjust=(key:string,count:number)=>{const old=draft[key]??0,max=Math.min(allocationLimit(content,state.level,key),old+Math.floor(remaining/r.allocations[key].cost));setDraft({...draft,[key]:Math.max(0,Math.min(max,Math.floor(count)||0))});};
  return <section className="panel character-progression" aria-label="Cấp độ và Đột Phá">
   <header className="level-heading"><div><span className="eyebrow">HÀNH TRÌNH TRƯỞNG THÀNH</span><h2>Level {state.level}<small> / {cap}</small></h2></div><div className="level-points"><strong>{remaining}</strong> điểm chưa dùng<small>Đột Phá {state.limitBreakRank}/3</small></div></header>
+  <button className="book-add-button" aria-label="Dùng Nhật kí hành trình" disabled={locked} onClick={()=>setBooksOpen(true)}>+ <span>Dùng Nhật kí hành trình</span></button>
+  {booksOpen&&<CharacterBookDialog key={id} id={id} onClose={()=>setBooksOpen(false)}/>}
   <progress className="xp-progress" max={need||1} value={need?state.xp:1} aria-label="Kinh nghiệm nhân vật"/>
   <p className="level-xp">{need?`${fmt(state.xp)} / ${fmt(need)} XP${state.level===cap?' · Đã đạt giới hạn hiện tại — cần Đột Phá':''}`:'Đã đạt Level 50 · EXP nhận thêm không được tích trữ.'}</p>
   {progressionLocked&&<p className="warning">Kết thúc trận và nhận thưởng trước khi phân bổ hoặc Đột Phá.</p>}

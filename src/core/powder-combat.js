@@ -17,11 +17,11 @@ export function validatePowderContent(content){
  const errors=[],actors=[...Object.values(content.characters),...Object.values(content.enemies)];
  for(const a of actors){const p=a.passive;
   if(p?.type==='damage_penetration'&&(!p.name||!p.description||!['physical','magical'].includes(p.damageType)||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1))errors.push(a.id+': invalid native penetration');
-  if(p?.type==='element_received_charge'&&(!p.name||!p.description||!a.resources?.[p.resource]||!['plain','fire','water','earth','wind','thunder','light','dark','moon'].includes(p.element)||p.amount!==1))errors.push(a.id+': invalid received element charge');
+  if(p?.type==='element_received_charge'&&(!p.name||!p.description||!a.resources?.[p.resource]||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||p.amount!==1))errors.push(a.id+': invalid received element charge');
   if(p?.type==='spent_shared_damage'&&(!p.name||!p.description||!teamResourceDefinition(content,p.resource)||!Number.isFinite(p.perCharge)||p.perCharge<=0||!Number.isFinite(p.cap)||p.cap<=0||p.cap>2))errors.push(a.id+': invalid shared spending bonus');
   if(p?.type==='powder_ally_followup'){const f=content.abilities[p.followUpAbility];if(!p.name||!p.description||!teamResourceDefinition(content,p.resource)||f?.activation!=='passive'||f?.target!=='enemy_splash'||f?.cost||f?.cooldown||f?.effects.some(e=>e.type!=='damage')||!Number.isInteger(p.perRound)||p.perRound<1||p.perRound>5||!Number.isFinite(p.penetrationPerCharge)||p.penetrationPerCharge<=0||p.penetrationPerCharge>1||p.generatedAfterPowered!==1)errors.push(a.id+': invalid powder follow-up');}
  }
  return errors;
 }
 
-export function previewPaidMp(skill,actor){const primary=mpCost(skill,actor);if(actor.passive?.type!=='extra_mp_damage'||!skill.effects.some(e=>e.type==='damage')||!skill.cost?.mp)return primary;const cap=Math.ceil(skill.cost.mp*actor.passive.extraCostRatio);return primary+Math.min(cap,actor.mp===undefined?cap:Math.max(0,actor.mp-primary));}
+export function previewPaidMp(skill,actor,battle){const primary=mpCost(skill,actor,battle);if(actor.passive?.type!=='extra_mp_damage'||!skill.effects.some(e=>e.type==='damage')||!skill.cost?.mp)return primary;const cap=Math.ceil(skill.cost.mp*actor.passive.extraCostRatio);return primary+Math.min(cap,actor.mp===undefined?cap:Math.max(0,actor.mp-primary));}

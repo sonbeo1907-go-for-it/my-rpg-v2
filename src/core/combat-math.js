@@ -1,5 +1,6 @@
 import {activeStatuses} from './status-state.js';
 import {mpConversionBonus,formationStance} from './advanced-combat.js';
+import {specialPassives} from './exclusive-specials.js';
 export const EMERGENCY_HP_THRESHOLD = 0.35;
 export const EMERGENCY_HEAL_MULTIPLIER = 1.6;
 
@@ -10,10 +11,12 @@ export function mpRestoreAmount(effect, maxMp) {
 export function baseStatValue(actor,key){
   return (actor.baseStats?.[key]??actor.stats[key])+(actor.combatModes?.[actor.activeMode]?.baseStatBonuses?.[key]??0)+activeStatuses({...actor,statuses:actor.statuses??[]}).reduce((sum,s)=>sum+(s.baseStatModifiers?.[key]??0),0);
 }
+export function defenseAverageBonus(actor, defense=effectiveStat(actor,'defense'), resistance=effectiveStat(actor,'resistance')) {const p=actor.passive;return p?.type==='defense_average_conversion'?Math.min(p.cap,Math.max(0,(defense+resistance)/2)*p.ratio):0;}
 export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) {
   if(key==='maxHp')return actor.stats.maxHp;
   let base = Math.max(0,baseStatValue(actor,key)) + baseBonus;
   if (actor.passive?.type === 'stat_conversion' && actor.passive.toStat === key) base += actor.passive.cap===undefined ? (actor.baseStats?.[actor.passive.fromStat] ?? actor.stats[actor.passive.fromStat]) * actor.passive.ratio : Math.min(actor.passive.cap,Math.max(0,baseStatValue(actor,actor.passive.fromStat))*actor.passive.ratio);
+  if(actor.passive?.type==='defense_average_conversion'&&actor.passive.toStat===key)base+=defenseAverageBonus(actor);
   if(actor.passive?.type==='mp_stat_conversion'&&actor.passive.toStat===key)base+=mpConversionBonus(actor);
   const stance=formationStance(actor)?.modifiers?.[key]??0;
   const permanent = actor.passive?.type === 'stat_boost' ? actor.passive.modifiers[key] ?? 0 : 0;
@@ -22,7 +25,8 @@ export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) 
   const field = actor.passive?.type === 'field_growth' && actor.passive.stat === key
     ? actor.statuses?.find(status => status.id === actor.passive.statusId) : null;
   const fieldBonus = field ? Math.min(actor.passive.maxStacks, field.growth ?? 0) * actor.passive.ratio : 0;
-  return base * Math.max(0.1, 1 + (actor.encounterModifiers?.[key]??0) + (actor.turnFieldModifiers?.[key]??0) + permanent + stance + (actor.exclusiveModifiers?.[key] ?? 0) + (actor.exclusiveTeamModifiers?.[key]??0) + resourceBonus + fieldBonus + (actor.modeAppliedModifiers?.[key]??actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0) + temporaryModifier);
+  const exclusiveModeBonus = specialPassives(actor,'mode_stat_boost').reduce((sum,p)=>sum+(p.stat===key&&p.modeId===actor.activeMode?p.ratio:0),0);
+  return base * Math.max(0.1, 1 + (actor.encounterModifiers?.[key]??0) + (actor.turnFieldModifiers?.[key]??0) + permanent + stance + (actor.exclusiveModifiers?.[key] ?? 0) + (actor.exclusiveTeamModifiers?.[key]??0) + resourceBonus + fieldBonus + exclusiveModeBonus + (actor.modeAppliedModifiers?.[key]??actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0) + temporaryModifier);
 }
 
 export function damageMultiplier(effect, { spent = 0, stacks = 0, hpRatio = 1, buffs = 0 } = {}) {

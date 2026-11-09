@@ -19,7 +19,7 @@
           "magic": 1
         },
         "reward": {
-          "coins": 1000
+          "coins": 3000
         },
         "enemyLevel": 15
       },
@@ -35,7 +35,7 @@
           "magic": 1
         },
         "reward": {
-          "coins": 2000
+          "coins": 6000
         },
         "enemyLevel": 30
       },
@@ -44,7 +44,7 @@
         "name": "Khó",
         "enabled": true,
         "reward": {
-          "coins": 3000
+          "coins": 9000
         },
         "waves": 4,
         "enemyScale": {
@@ -71,7 +71,7 @@
         "name": "Dễ",
         "enabled": true,
         "reward": {
-          "recruitmentShards": 1
+          "recruitmentShards": 3
         },
         "waves": 1,
         "enemyScale": {
@@ -87,7 +87,7 @@
         "name": "Trung bình",
         "enabled": true,
         "reward": {
-          "recruitmentShards": 3
+          "recruitmentShards": 6
         },
         "waves": 2,
         "enemyScale": {
@@ -103,7 +103,7 @@
         "name": "Khó",
         "enabled": true,
         "reward": {
-          "recruitmentShards": 5
+          "recruitmentShards": 10
         },
         "waves": 2,
         "enemyScale": {
@@ -144,8 +144,20 @@
           "maxHp": 1
         },
         "reward": {
-          "characterXp": 360
-        }
+          "characterXp": 1200
+        },
+        "bookDrops": [
+          {
+            "itemId": "xp_book_green",
+            "min": 10,
+            "max": 12
+          },
+          {
+            "itemId": "xp_book_blue",
+            "min": 3,
+            "max": 5
+          }
+        ]
       },
       {
         "id": "medium",
@@ -157,8 +169,25 @@
           "maxHp": 1
         },
         "reward": {
-          "characterXp": 900
-        }
+          "characterXp": 4400
+        },
+        "bookDrops": [
+          {
+            "itemId": "xp_book_blue",
+            "min": 8,
+            "max": 12
+          },
+          {
+            "itemId": "xp_book_green",
+            "min": 6,
+            "max": 9
+          },
+          {
+            "itemId": "xp_book_purple",
+            "min": 1,
+            "max": 1
+          }
+        ]
       },
       {
         "id": "hard",
@@ -170,8 +199,20 @@
           "maxHp": 1
         },
         "reward": {
-          "characterXp": 1900
-        }
+          "characterXp": 8800
+        },
+        "bookDrops": [
+          {
+            "itemId": "xp_book_purple",
+            "min": 4,
+            "max": 6
+          },
+          {
+            "itemId": "xp_book_blue",
+            "min": 10,
+            "max": 12
+          }
+        ]
       }
     ]
   },
@@ -181,7 +222,7 @@
     "description": "Vượt thử thách để tìm Tinh Thạch mở giới hạn cấp độ.",
     "art": "/art/dungeon-breakthrough.svg",
     "icon": "prism",
-    "dailyLimit": 2,
+    "dailyLimit": 3,
     "encounterTier": "boss",
     "revealRooms": true,
     "stageLabel": "Phòng",

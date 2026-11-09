@@ -16,7 +16,7 @@ Phạm vi triển khai theo đặc tả ngày 29/10/2026: Thợ Rèn, phân rã,
 
 - Phân rã: t1 → 5; t2 → 15; t3_focused/t3_dual → 40 Vụn Prisma. Chỉ đồ thường chưa lắp ở bất kỳ nhân vật nào.
 - Chế tạo: 10.000 Coin + 2.400 Vụn + 3 Pure Prisma + 1 Original Prisma, một lần/mẫu/hồ sơ.
-- Tái rèn: 1 Original Prisma, tạo và lưu `pendingReforge` cùng lần trừ tiền. Chọn giữ/dùng mới là giao dịch kế tiếp, không thu lại phí.
+- Tái rèn: 10 Pure Prisma, tạo và lưu `pendingReforge` cùng lần trừ tiền. Chọn giữ/dùng mới là giao dịch kế tiếp, không thu lại phí.
 - Khoảng: HP 25–50; MP 10–20; ATK/MAG/DEF/RES/SPD 5–10. Một chỉ số/món.
 - Tất cả phép biến đổi core là hàm thuần. UI dùng `transact`, chỉ cập nhật/báo thành công sau khi file lưu được ghi.
 - Mỗi pending có id từ `blacksmithRevision` để từ chối quyết định cũ hoặc gửi lặp. B/Esc/đóng chỉ ẩn hộp thoại D, giữ pending; có liên kết khôi phục ở các trang và tự mở khi quay lại Thợ Rèn.
@@ -41,3 +41,7 @@ Các adapter được khai báo/kiểm tra trong `exclusive-hooks.js`, xử lý 
 `MerchantScene` dùng chung cho Tiệm Prisma và Thợ Rèn, SVG thuần vector `/art/blacksmith.svg`, 60/40 desktop và xếp dọc trên cửa sổ nhỏ. Có 4 tab: Phân rã / Trấn Phái / Rèn Chỉ Số / Rèn Hiệu Ứng (xem T4_FORGE.md); Túi đồ có Trang bị/Vật phẩm. LB/RB đổi tab, không đổi nền khi hộp thoại mở. Ô Trấn Phái nằm riêng trên trang chi tiết/trang bị nhân vật, không tăng số ô thường.
 
 Đã kiểm tra core: di trú, giới hạn 99, sở hữu, chi phí, RNG, 2 mẫu cùng nhân vật, % cộng một lần, snapshot trận, pending sau khởi động lại và từ chối stat/save sai. Kiểm tra giao diện thật có Phân rã/hủy/lỗi lưu/thử lại/giới hạn chọn/Vật phẩm/điện thoại/tay cầm. Luồng UI chế tạo/tái rèn với mẫu thật cần kiểm tra lại khi nội tại và mẫu được bổ sung.
+
+06/11/2026 — Tái rèn Trấn Phái tốn **10 Pure Prisma**, không còn tốn Original. Giữ kết quả pending cũ, không thu phí lại khi chọn giữ/nhận. Chế tạo Trấn Phái vẫn theo craftCost; rèn/tái rèn Gear IV dùng bảng giá riêng. Xem [SKILL_MASTERY](SKILL_MASTERY.md).
+
+Danh mục hiện tại có51 mẫu, gồm13 mẫu mới của [đợt mở rộng 06/11](EXCLUSIVE_BALANCE_2026_11_06.md). Dùng cùng quy trình Shop mở công thức10 Bản Thiết Kế rồi chế tạo; không tự trang bị.

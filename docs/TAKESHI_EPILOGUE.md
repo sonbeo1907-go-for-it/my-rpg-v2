@@ -47,7 +47,7 @@ Giữ nguyên độ yếu Phong, HP và các chỉ số, yêu cầu Takeshi tham
 
 **Tên sách:** Một hành trình kết thúc, một hành trình mới mở ra.
 
-**Chương duy nhất:** Câu chuyện đang dang dở...
+**Câu chuyện đang dang dở...** nay có ba thử thách Hắc Ảnh Arthur: Dễ Lv1, Thường Lv30, Khó Lv60. Mở tuần tự theo first-clear; giữ encounter ID cũ `epilogue_unfinished` cho mức Thường để tương thích save.
 
 Chỉ mở khi đã nhận phần thưởng cuối của cả ba truyện:
 
@@ -75,7 +75,15 @@ Không thể bỏ qua phase bằng một chiêu quá mạnh. Chuyển phase gi�
 
 ## Phần thưởng
 
-Thắng cuối trận: 1000 Coin. Lần đầu cấp nâng cấp arthur.complete_control qua cờ arthur.full_control_story_cleared, mở cả:
+Mỗi mức thắng cuối trận nhận 1000 Coin. Thưởng đặc biệt chỉ nhận một lần:
+
+| Mức | Cấp | Thưởng lần đầu |
+| --- | ---: | --- |
+| Dễ | 1 | Cờ `eastern_hunts_unlocked` cho Thảo Phạt Phương Đông (chưa có nội dung), +1 ô trang bị Arthur, dùng chung trần6 |
+| Thường | 30 | `arthur.complete_control` qua cờ `arthur.full_control_story_cleared`, mở hai chiêu dưới |
+| Khó | 60 | `arthur.hero_awakening` qua cờ `arthur.ogre_ranks_unlocked`, mở nội tại mới và quyền nâng Rank1–5 cho mọi nhánh Ogre’s Bane; không mở Thông Thạo |
+
+Mức Thường mở cả:
 
 - **Ogre’s Bane — Kiểm soát hoàn toàn:** 10 MP + 3 Cộng hưởng, 600% ATK đơn mục tiêu, bỏ Dư chấn, sau đòn tự tăng 20% ATK đến hết trận, không cộng dồn và có thể cấp lại sau dispel.
 - **Ogre’s Bane — Thiểm Quang Kiếm:** 10 MP + 3 Cộng hưởng, 280% ATK toàn địch.
@@ -89,7 +97,9 @@ Không tự mở qua migration, đăng nhập, thắng các chương trước ho
 - Boss phase resourceBurst: ID kỹ năng ưu tiên khi abilityAvailability xác nhận dùng được; vẫn tuân theo hàng telegraph, MP, tài nguyên và số hành động phase. Các boss không khai báo thuộc tính này giữ rotation cũ.
 - Ryoga dùng các đòn vật lí có thể né và debuff tự tăng sát thương nhận trước đòn mạnh; không thêm cơ chế riêng theo ID boss.
 
-## Kiểm tra cân bằng ban đầu
+## Kiểm tra cân bằng lịch sử — trước Level/Rank hiện tại
+
+Các số dưới là kết quả triển khai cũ, không đại diện cho ba mức Lv1/30/60 mới; không dùng để chứng minh độ khó hiện tại.
 
 Mô phỏng 5 seed bằng engine, chính sách đơn giản, không dùng nhân vật gacha/Trấn Phái. Takeshi đi với Fiona/Iris/Elaine; epilogue dùng Arthur/Iris/Elaine/Takeshi với nâng cấp truyện đã nhận, chưa có hai chiêu thưởng Arthur:
 

@@ -35,8 +35,8 @@ function hits(b){return b.events.filter(e=>e.type==='damage'&&e.sourceId==='moni
 test('Monica is an official Wind sorcerer with exact stats, normal recruitment and no free unlock',()=>{
  const m=content.characters.monica;assert.equal(m.roleGroup,'sorcerer');assert.equal(m.element,'wind');assert.equal(m.developerOnly,undefined);
  assert.deepEqual(m.stats,{maxHp:160,maxMp:150,attack:12,magic:34,defense:15,resistance:24,speed:24});
- const save=createGameSave(content);assert.equal(save.unlockedCharacterIds.includes('monica'),false);assert.ok(content.banners.standard.characterPool.includes('monica'));assert.equal(content.banners.standard.characterPool.includes('astoria'),false);
- save.recruitmentShards=120;const recruited=recruitCharacter(save,content,'standard','monica');assert.ok(recruited.unlockedCharacterIds.includes('monica'));assert.equal(recruited.extraGearSlots.monica??0,0);assert.deepEqual(decodeGameSave(encodeGameSave(recruited,content),content),recruited);
+ const save=createGameSave(content);assert.equal(save.unlockedCharacterIds.includes('monica'),false);assert.ok(content.banners.standard.characterPool.includes('monica'));assert.equal(content.banners.standard.characterPool.includes('astoria'),true);
+ save.recruitmentShards=120;save.recruitmentTickets=1;const recruited=recruitCharacter(save,content,'standard','monica');assert.ok(recruited.unlockedCharacterIds.includes('monica'));assert.equal(recruited.extraGearSlots.monica??0,0);assert.deepEqual(decodeGameSave(encodeGameSave(recruited,content),content),recruited);
 });
 test('basic is two real magical Wind hits and never receives the active-skill passive',()=>{
  const b=setup();ready(b);clean(b);act(b,'$attack','enemy_1');assert.deepEqual(hits(b).map(e=>[e.amount,e.element]),[[20,'wind'],[20,'wind']]);assert.equal(b.events.some(e=>e.type==='skill_base_bonus'),false);assert.equal(getActor(b,'monica').mp,150);

@@ -100,6 +100,10 @@ Bản sửa Cerise hiện đã bổ sung tick mode tại đây. Không ghi lỗi
 
 **Engine hiện chưa có một `finishTurn` chung** cho mọi nhánh. `endTurn:false` không đủ để kết luận “không có effect”, và `resolveAction` không đủ để kết luận “vừa hết một lượt”. Hook `spendModeTurn` hiện vẫn nằm trong resolveAction; nếu tái dùng mode-turn cho boss nhiều move phải kiểm chứng không tiêu mỗi move. Tài liệu này không tuyên bố trường hợp đó đã được triển khai hoặc kiểm thử.
 
+### Nội tại khi bắt đầu Vòng Phụ
+
+`finishPhase` chốt queue Extra theo quyền đã cấp và người còn sống, phát sự kiện phase rồi chạy `triggerExtraPhasePassives` trước `beginTurn` của người đầu tiên. Native `extra_phase_resource_buff` (Akane) reserve quota theo unit/vòng rồi tạo tài nguyên, cấp buff clock round đến hết vòng. Không chạy ở từng cast hay mỗi lượt Extra. Choáng không chặn; KO trước ranh giới không vào queue. Nguồn tạo từ native không kích phản ứng kỹ năng tạo trực tiếp. Snapshot đang ở Extra không chạy lại hook chỉ vì restore. Xem AKANE.md.
+
 ### Chuyển tiếp và kết thúc
 
 `advance` kiểm tra kết quả, đi qua các ô gục bằng `isAlive`, rồi gọi beginTurn hoặc finishPhase. Hết main có quyền extra thì tạo hàng extra, kể cả trường hợp quyền đã cấp nhưng người nhận đều gục; cuối vòng kết toán sau toàn bộ extra.
@@ -173,3 +177,22 @@ Những tên file này là điểm bắt đầu, không giới hạn coverage. K
 ## Sinh Mệnh Thế Chấp
 
 `life_mortgage` dùng lượng `debtHp`, không phải đồng hồ lượt hay stack. Hồi phục sau giảm hồi nhận thanh toán nợ trước khi giới hạn theo HP thiếu; chỉ phần HP thực tăng kích hook hồi HP. Choáng/Lượt Thêm không làm hết nợ. Gục hoặc kết thúc thật xóa nợ; victory tiếp wave/phòng và phase giữ nguyên. Snapshot/forecast lưu trong status instance. Xem [hợp đồng và test](LIFE_MORTGAGE.md).
+
+Ngoại lệ Verena: Thế Chấp có thể tiêu làm chi phí; chốt native bonus và lượng tiêu trước damage. Khi đang nợ, nguồn hồi ngoài không trả nợ/hồi HP; tự hồi vẫn theo pipeline. Tất toán xóa nợ rồi mới hồi theo snapshot, choáng không tự xóa nợ. Xem [VERENA](VERENA.md).
+
+Hồn Kiếm: hai limiter tự nhiên theo đội/round dùng chung pha chính/phụ; tạo sau cast thành công, không từ skip/Defend/basic/automatic. Chi phí 4 được chốt trước, tạo mới không trả chi phí cast đó. Buff native +4 ATK/tầng refresh 4 lượt chính; tiêu tài nguyên kích trước hit đầu. Xem [SWORD_SOUL](SWORD_SOUL.md).
+
+Hồn Kiếm mở rộng: Izuna reserve repeat trước Liên kích, chi phí ảo không phát resource-spent thật; Shion chỉ theo tạo trực tiếp, buff3 clock round; Amiya tạo đầu round kể cả1; Kaguya gộp blessed hits theo action context tối đa2/round, cap10 snapshot riêng đội. [Đặc tả](SWORD_SOUL_QUARTET.md).
+
+Miyuki: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md) dùng clock mode theo lượt chủ, tự vào từ biến động pool hoặc đầu lượt, không refresh mode đang hoạt động, không re-enter trong cùng callback exit. Choáng theo chỉ số đi qua pipeline applyStatus; boss miễn, ngoại lệ scripted nhện vỡ khiên được đánh dấu riêng.
+
+## Bổ sung Eri / Chiyoko — 05/11/2026
+
+Eri chốt lượng Hồn Kiếm phe mình thực tiêu ở vòng liền trước tại startRound, sau hết hạn hiệu ứng cũ và trước gear/summon/tạo tài nguyên vòng mới. Buff MAG có clock round đến hết vòng, cả Vòng Phụ; Choáng không chặn, gục không cấp. Chiyoko dùng mode permanent đến gục/kết thúc thật, không giảm vì skip/Extra/resource0; boundStatuses cấp Thăng Tiến ảo duy trì cùng mode. Bản escalation bình thường có clock main_turn; hitDamageGrowth đếm theo mục tiêu/hành động, không dùng đồng hồ lượt. Chi tiết và ma trận kiểm chứng: [ERI_CHIYOKO](ERI_CHIYOKO.md).
+
+## Arthur — 06/11/2026
+`starting_resource_skill_chance` cấp tài nguyên khởi đầu sau initializeTeamResources cho actor mới, không cấp lại options.partyActors. Sau cast abilityId tương ứng mới xét xác suất theo baseStatValue; Choáng/skip không kích, LượtThêm có cast vẫn kích. Đây không phải tick đầu/cuối vòng. Phase giữ actor không gọi lại khởi tạo. Phòng mới giữ actor và tài nguyên; trận độc lập lấy lạiinitial. `test/arthur-revision.test.js` đi qua advance/beginTurn khi Choáng, Vòng Phụ, chuyển phòng và chuyển phase thật.
+
+## Trấn Phái quan sát trạng thái và cơ hội tài nguyên — 06/11/2026
+Kreider/Elise kích sau khi buff/debuff thực sự được apply lên đối thủ; refresh cũng tính. Hộ Ấn/Phong Ấn chặn thì không phát observer. Buff nhận +25%MAG/tầng, cap2, làm mới thời hạn chung4 lượt của người mang; tính cả Lượt Thêm và lượt chính bị Choáng. Instance refresh trong lượt không bị trừ ngay theo oldStatuses. Buff phản ứng từ observer không kích observer khác để tránh đối xứng Elise tự lặp. Gục không nhận; dispel theo buff thường; phòng/wave/phase giữ theo actor carry; trận độc lập đặt lại. Forecast chỉ sửa trial.
+Judy chỉ roll bonus khi nội tại thực tăng tài nguyên và còn chỗ cho tầng phụ. Mỗi thất bại +15 điểm%, cap100%; thành công +1 thật reset50%; đầy/nguồn không hợp lệ không roll, không tăng failure. Bộ đếm nằm trên actor, giữ qua phòng/wave/phase, không ghi save chiến dịch; gục không tự reset. Bonus không tự kích lại bonus.

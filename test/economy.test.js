@@ -99,9 +99,9 @@ test('a failed reward save leaves the reward claim retryable and overflow never 
   assert.equal(full.victories, 0);
 });
 
-test('95/5 boundary and uniform character pool unlock the first and last characters; duplicates give shards', () => {
+test('98.5/1.5 boundary and uniform character pool unlock the first and last characters; duplicates give shards', () => {
   const original = funded();
-  const first = pullGacha(original, content, 'standard', 1, sequence([.95, 0]));
+  const first = pullGacha(original, content, 'standard', 1, sequence([.985, 0]));
   assert.equal(first.results[0].characterId, 'dain');
   assert.equal(first.results[0].duplicate, false);
   assert.equal(ownsCharacter(first.campaign, 'dain'), true);
@@ -120,10 +120,10 @@ test('95/5 boundary and uniform character pool unlock the first and last charact
 test('gear tier boundaries, HP/MP conversion and distinct random stats match data', () => {
   for (const [roll, typeId, stats] of [
     [0, 't1', { maxHp: 5 }],
-    [29.999 / 95, 't1', { maxHp: 5 }],
-    [30 / 95, 't2', { maxHp: 15 }],
-    [80 / 95, 't3_focused', { maxHp: 25 }],
-    [92 / 95, 't3_dual', { maxHp: 10, maxMp: 4 }]
+    [299.999 / 985, 't1', { maxHp: 5 }],
+    [300 / 985, 't2', { maxHp: 15 }],
+    [800 / 985, 't3_focused', { maxHp: 25 }],
+    [948 / 985, 't3_dual', { maxHp: 10, maxMp: 4 }]
   ]) {
     const values = typeId === 't3_dual' ? [0, roll, 0, 0] : [0, roll, 0];
     const outcome = pullGacha(funded(), content, 'standard', 1, sequence(values));
@@ -150,14 +150,15 @@ test('ten pulls are independent, can contain only gear, and allocate unique IDs 
 });
 
 test('duplicates within a ten-pull batch become shards and can redeem exactly one locked character', () => {
-  const outcome = pullGacha(funded(), content, 'standard', 10, sequence(Array.from({ length: 10 }, () => [.95, 0]).flat()));
+  const outcome = pullGacha(funded(), content, 'standard', 10, sequence(Array.from({ length: 10 }, () => [.985, 0]).flat()));
   assert.equal(outcome.results.filter(item => !item.duplicate).length, 1);
   assert.equal(outcome.campaign.recruitmentShards, 90);
   outcome.campaign.prisma = 3;
   let last = outcome.campaign;
-  for (let i = 0; i < 3; i++) last = pullGacha(last, content, 'standard', 1, sequence([.95, 0])).campaign;
+  for (let i = 0; i < 3; i++) last = pullGacha(last, content, 'standard', 1, sequence([.985, 0])).campaign;
+  last.recruitmentTickets=1;
   const redeemed = recruitCharacter(last, content, 'standard', 'lisbeth');
-  assert.equal(redeemed.recruitmentShards, 0);
+  assert.equal(redeemed.recruitmentShards, 120);
   assert.equal(ownsCharacter(redeemed, 'lisbeth'), true);
   assert.equal(last.recruitmentShards, 120);
   assert.throws(() => recruitCharacter(redeemed, content, 'standard', 'lisbeth'));

@@ -18,7 +18,7 @@ async function setup(page: Page, streak = 0, random: number[] = [0]) {
     },
     { raw: encodeGameSave(save, content), values: random },
   );
-  await page.goto("/recruitment");
+  await page.goto("/recruitment?banner=standard");
 }
 const saved = (page: Page) =>
   page.evaluate(() =>
@@ -178,7 +178,7 @@ test("reduced motion skips long animations and reveal routes tolerate a missing 
   await expect(
     page.getByRole("heading", { name: "Dấu ấn chưa xuất hiện" }),
   ).toBeVisible();
-  await page.goto("/recruitment");
+  await page.goto("/recruitment?banner=standard");
   await page.getByRole("button", { name: /Chiêu mộ 1 lần/ }).click();
   await expect(page).toHaveURL(/recruitment\/reveal/);
   await expect(page.locator(".reveal-card")).toHaveAttribute(

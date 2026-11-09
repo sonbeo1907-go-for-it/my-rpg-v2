@@ -14,7 +14,7 @@ import {validateContent} from '../src/core/content.js';
 const content=await loadContent(),epilogue='epilogue_unfinished',finals=content.encounters[epilogue].requires.firstClears;
 function save(){const c=createGameSave(content);c.party=['arthur','iris','fiona','takeshi'];c.partyPresets[0].slots=[...c.party];return c;}
 function win(c,id){let b;if(content.encounters[id].waves){const run=createStoryRun(content,c,id,()=>.99);while(!isFinalStoryWave(run)){run.battle.outcome='victory';advanceStoryWave(content,run);}b=run.battle;}else b=createBattle(content,c,id,()=>.99);b.outcome='victory';return claimBattleReward(c,b,content);}
-function allStories(){let c=save();for(const story of ['iris','fiona','takeshi'])for(const id of content.travelerStories[story].chapters)c=win(c,id);return c;}
+function allStories(){let c=save();for(const story of ['iris','fiona','takeshi'])for(const id of content.travelerStories[story].chapters)c=win(c,id);return win(c,'epilogue_shadow_easy');}
 function use(b,id,skill,target='enemy_0'){b.queue=[id,...b.actors.filter(a=>a.id!==id&&a.hp>0).map(a=>a.id)];b.cursor=0;executeAction(b,{actorId:id,abilityId:skill,targetId:target});}
 function bossTurn(b,round){b.queue=['enemy_0','arthur'];b.cursor=0;b.round=round;executeEnemyTurn(b);}
 
@@ -72,7 +72,7 @@ test('Takeshi dodge counter stays limited to once per round; Ryoga opening windo
 
 test('epilogue requires all three completed stories, cannot be opened by the old sinister flag, and requires Arthur',()=>{
  const c=save(),encounter=content.encounters[epilogue];c.storyFlags.push('illusion.sinister_unlocked');
- for(let i=0;i<3;i++){c.claimedFirstClearRewards=finals.slice(0,i);assert.equal(isQuestUnlocked(encounter,c),false);assert.throws(()=>createBattle(content,c,epilogue),/chương trước/);const b={encounterId:epilogue,outcome:'victory',actors:[{id:'arthur',team:'party'}]};assert.throws(()=>claimBattleReward(c,b,content),/câu chuyện/);assert.equal(b.rewardClaimed,undefined);}
+ for(let i=0;i<3;i++){c.claimedFirstClearRewards=finals.slice(0,i);assert.equal(isQuestUnlocked(encounter,c),false);assert.throws(()=>createBattle(content,c,epilogue),/chương trước/);const b={encounterId:epilogue,outcome:'victory',actors:[{id:'arthur',team:'party'}]};assert.throws(()=>claimBattleReward(c,b,content),/câu chuyện|Chương truyện/);assert.equal(b.rewardClaimed,undefined);}
  const earned=allStories();assert.equal(earned.storyFlags.includes('illusion.sinister_unlocked'),false);assert.equal(isQuestUnlocked(encounter,earned),true);assert.equal(storyPrerequisites(content,earned,'epilogue').filter(x=>x.completed).length,3);assert.ok(createBattle(content,earned,epilogue));
  earned.party=['iris','fiona','takeshi',null];assert.throws(()=>createBattle(content,earned,epilogue),/Arthur/);
  assert.equal(isQuestUnlocked(content.encounters.alice_superboss,earned),false);

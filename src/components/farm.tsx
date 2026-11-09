@@ -5,7 +5,7 @@ import {useGame} from '../runtime/game-context';
 import {MAX_FARM_RUNS} from '../core/farm-session.js';
 import {dungeonDailyState} from '../core/dungeon-rules.js';
 import {Modal,Icon,CurrencyAmount,fmt} from './ui';
-const currency:Record<string,any>={coins:'coin',prisma:'prisma',recruitmentShards:'pure',originalPrisma:'original',prismaFragments:'fragments',blueprints:'blueprint',limitBreakStones:'breakthrough'};
+const currency:Record<string,any>={coins:'coin',prisma:'prisma',recruitmentShards:'pure',originalPrisma:'original',prismaFragments:'fragments',blueprints:'blueprint',limitBreakStones:'breakthrough',xpBooksGreen:'xp_book_green',xpBooksBlue:'xp_book_blue',xpBooksPurple:'xp_book_purple'};
 export function FarmLaunch({target,disabled=false,label,children}:{target:any;disabled?:boolean;label:string;children?:ReactNode}){
  const {content,campaign,battle,busy,farm,startFarming}=useGame(),router=useRouter();
  const [open,setOpen]=useState(false),[count,setCount]=useState('10');const n=Number(count),valid=Number.isSafeInteger(n)&&n>=1&&n<=MAX_FARM_RUNS;

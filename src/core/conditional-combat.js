@@ -1,3 +1,5 @@
+import {selectedTeamCost} from './team-resources.js';
+import {preferredLifeDebtCost} from './life-debt.js';
 import {specialMpMultiplier} from './exclusive-specials.js';
 import {getActorSkillRank,outputMpFactor} from './skill-rules.js';
 import {activeStatuses} from './status-state.js';
@@ -7,7 +9,9 @@ export function resourceCost(skill,actor) {
   const preferred=skill.cost?.preferResource;
   return preferred && (actor?.resourceValues?.[preferred.id]??0)>=preferred.amount ? preferred : skill.cost?.resource??null;
 }
-export function mpCost(skill,actor) {
+export function mpCost(skill,actor,battle) {
+  if(battle&&skill.cost?.preferTeamResource&&selectedTeamCost(battle,actor,skill)===skill.cost.preferTeamResource)return 0;
+  if(preferredLifeDebtCost(skill,actor))return 0;
   const base=skill.cost?.preferResource && resourceCost(skill,actor)===skill.cost.preferResource ? 0 : skill.cost?.mp??0;
   if(base<=0)return base;
   const p=actor?.passive,mode=actor?.combatModes?.[actor.activeMode];

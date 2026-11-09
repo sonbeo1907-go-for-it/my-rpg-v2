@@ -24,7 +24,7 @@ Every data ability declares `skillLineId`, its primary `growthProfile`, all elig
 
 Mixed skills grow **all eligible groups** in one paid Rank, with no extra group fee. Chloe care grows healing ×1.1 and ATK/DEF percentages ×1.05 while SPD stays fixed. Sieg sanctuary grows shield output ×1.1 and DEF/RES percentages ×1.05. Gahallad mount grows its ATK percentage ×1.05; shielded-target damage amplification stays +100%, and its authored zero MP cost remains zero. Paid output-buff skills keep the original MP discount rule alongside their other growing groups. `mode_stat_buff` is an explicit adapter for Yufina's percentage mode buff: ATK grows, SPD, duration, cost reduction and exit refund do not. Manually issued mode attacks can grow direct damage; automatic companion pulses cannot.
 
-All four Ogre's Bane forms are story-fixed. Their damage, MP/resource costs and mastered +20% ATK remain authored. Fiona refraction and its story replacement share `fiona.refraction` and inherit paid ranks. Other new unlocks begin at Rank 1. Content validation rejects replacement lines that silently lose ranks, unsupported adapters and growth profiles without a legitimate benefit.
+All four Ogre's Bane forms unlock Rank1–5 only after Hard Shadow Arthur (Lv60), using rankUnlockFlag `arthur.ogre_ranks_unlocked`. They never unlock Mastery. Basic/controlled/mastered forms share `arthur.ogres_bane`; flash has its own line. Damage and eligible stat buff grow normally after unlock; MP/resource costs stay authored. Fiona refraction and its story replacement share `fiona.refraction` and inherit paid ranks. Other new unlocks begin at Rank 1. Content validation rejects replacement lines that silently lose ranks, unsupported adapters and growth profiles without a legitimate benefit.
 
 ## Runtime order and persistence
 
@@ -39,7 +39,7 @@ All four Ogre's Bane forms are story-fixed. Their damage, MP/resource costs and 
 
 ## Traveler stories
 
-Every three-chapter story uses fixed enemy levels **10 → 20 → 30**, including all waves and boss phases in that chapter. The separate one-chapter Arthur epilogue remains Lv30. Enemy stat templates and growth curves are unchanged by this update.
+Every three-chapter story uses fixed enemy levels **10 → 20 → 30**, including all waves and boss phases in that chapter. Arthur epilogue is the explicit exception: Easy/Normal/Hard use Lv1/30/60 with sequential first-clear gates. Enemy stat templates and growth curves are unchanged by this update.
 
 ## Verification and playtest limits
 
@@ -54,3 +54,6 @@ Run `node scripts/skill-rank-balance.mjs 30` to regenerate `SKILL_RANK_PLAYTEST.
 | 50/50/50/50 | 30/30 · 26.0 | 30/30 · 15.0 | 102,000 |
 
 This is a synthetic fixed-policy comparison, **not a reproduction** of the user's historical 28-round clear. A 120-round bound and successful clears do not prove that infinite sustain is impossible, nor establish endgame economic balance. No enemy/player stats or crafting prices were altered to compensate for these results. More player testing is needed for that judgment.
+
+## Thông Thạo — 06/11/2026
+Nhân vật #1–#31 được mở ba mức sau Rank 5, yêu cầu Lv50. Đây là ngoại lệ mới thay cho giới hạn tuyệt đối Rank5 trong các phần trên. Xem [SKILL_MASTERY](SKILL_MASTERY.md) cho phạm vi, chi phí, công thức và save. Các nhánh Ogre’s Bane chỉ mở Rank1–5 sau màn Khó, không mở Thông Thạo. Tám nhân vật bổ sung và phạm vi chỉ PvE xem SKILL_MASTERY.

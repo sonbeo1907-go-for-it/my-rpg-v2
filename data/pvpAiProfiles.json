@@ -1165,5 +1165,266 @@
       "brant.bulwark": 18,
       "brant.challenge": 22
     }
+  },
+  {
+    "id": "ember",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "ember.cheer"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "ember.mark": 20,
+      "ember.cheer": 24,
+      "ember.firebreak": 8
+    }
+  },
+  {
+    "id": "myonne",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "myonne.offer"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "myonne.clause": 18,
+      "myonne.offer": 24,
+      "myonne.collect": 10
+    }
+  },
+  {
+    "id": "verena",
+    "role": "physical_dps",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "verena.pledge"
+    ],
+    "burstAbilities": [
+      "verena.dawn"
+    ],
+    "skillBias": {
+      "verena.pledge": 12,
+      "verena.tomorrow": 8,
+      "verena.dawn": 0
+    }
+  },
+  {
+    "id": "tsukiha",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "tsukiha.offering"
+    ],
+    "burstAbilities": [
+      "tsukiha.burst"
+    ],
+    "skillBias": {
+      "tsukiha.offering": 12,
+      "tsukiha.ember": 6,
+      "tsukiha.burst": 10
+    }
+  },
+  {
+    "id": "izuna",
+    "role": "magical_dps",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "izuna.offering"
+    ],
+    "burstAbilities": [
+      "izuna.burst"
+    ],
+    "skillBias": {
+      "izuna.strike": 6,
+      "izuna.offering": 12,
+      "izuna.burst": 10
+    }
+  },
+  {
+    "id": "shion",
+    "role": "offensive_support",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "shion.offering"
+    ],
+    "burstAbilities": [
+      "shion.burst"
+    ],
+    "skillBias": {
+      "shion.strike": 6,
+      "shion.offering": 12,
+      "shion.burst": 10
+    }
+  },
+  {
+    "id": "amiya",
+    "role": "offensive_support",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "amiya.offering"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "amiya.strike": 6,
+      "amiya.offering": 12,
+      "amiya.burst": 10
+    }
+  },
+  {
+    "id": "kaguya",
+    "role": "tank",
+    "healBelow": 0.45,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "kaguya.burst"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "kaguya.strike": 6,
+      "kaguya.offering": 12,
+      "kaguya.burst": 10
+    }
+  },
+  {
+    "id": "miyuki",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "miyuki.offering"
+    ],
+    "burstAbilities": [
+      "miyuki.burst"
+    ],
+    "skillBias": {
+      "miyuki.strike": 5,
+      "miyuki.offering": 6,
+      "miyuki.burst": 12
+    }
+  },
+  {
+    "id": "susanoo",
+    "role": "fighter",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "susanoo.offering"
+    ],
+    "burstAbilities": [
+      "susanoo.burst"
+    ],
+    "skillBias": {
+      "susanoo.strike": 5,
+      "susanoo.offering": 8,
+      "susanoo.burst": 12
+    }
+  },
+  {
+    "id": "yukino",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "yukino.offering"
+    ],
+    "burstAbilities": [
+      "yukino.burst"
+    ],
+    "skillBias": {
+      "yukino.strike": 5,
+      "yukino.offering": 8,
+      "yukino.burst": 12
+    }
+  },
+  {
+    "id": "akane",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "akane.burst"
+    ],
+    "skillBias": {
+      "akane.strike": 5,
+      "akane.wound": 8,
+      "akane.burst": 12
+    }
+  },
+  {
+    "id": "eri",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "eri.masterpiece"
+    ],
+    "skillBias": {
+      "eri.stroke": 5,
+      "eri.duet": 8,
+      "eri.masterpiece": 12
+    }
+  },
+  {
+    "id": "chiyoko",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "chiyoko.awaken"
+    ],
+    "burstAbilities": [
+      "chiyoko.finale"
+    ],
+    "skillBias": {
+      "chiyoko.cut": 5,
+      "chiyoko.sweep": 8,
+      "chiyoko.awaken": 18,
+      "chiyoko.finale": 14
+    }
+  },
+  {
+    "id": "patricia",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "patricia.bedrock"
+    ],
+    "burstAbilities": [
+      "patricia.core"
+    ],
+    "skillBias": {
+      "patricia.bedrock": 22,
+      "patricia.survey": 16,
+      "patricia.core": 28
+    }
+  },
+  {
+    "id": "vilgard",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "vilgard.pursuit"
+    ],
+    "burstAbilities": [
+      "vilgard.reckoning"
+    ],
+    "skillBias": {
+      "vilgard.pursuit": 16,
+      "vilgard.cleave": 20,
+      "vilgard.reckoning": 30
+    }
   }
 ]

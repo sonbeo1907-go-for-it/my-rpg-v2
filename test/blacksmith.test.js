@@ -20,9 +20,9 @@ function funded(c=content){const save=createGameSave(c);Object.assign(save,{coin
 function gearSave(){const save=funded();save.gear=['t1','t2','t3_focused','t3_dual'].map((typeId,i)=>({id:`gear_${i+1}`,typeId,stats:typeId==='t3_dual'?{attack:2,magic:2}:{attack:typeId==='t1'?1:typeId==='t2'?3:5}}));save.gacha.totalPulls=4;return save;}
 function rng(...values){return()=>values.shift()??0;}
 
-test('shipping content contains 38 authored exclusive templates; removed illusion is absent',()=>{
- assert.equal(Object.keys(content.exclusiveGear).length,38);assert.equal(Object.hasOwn(content.dungeons,'illusion'),false);
- assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets','blueprints']);
+test('shipping content contains 54 authored exclusive templates; removed illusion is absent',()=>{
+ assert.equal(Object.keys(content.exclusiveGear).length,54);assert.equal(Object.hasOwn(content.dungeons,'illusion'),false);
+ assert.deepEqual(Object.values(content.items).map(x=>x.field),['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','limitBreakStones','sweepTickets','blueprints','xpBooksGreen','xpBooksBlue','xpBooksPurple','recruitmentTickets','honor']);
 });
 test('v4 migrates to the current envelope without losing presets, ordinary gear, currencies, progression or daily quota',()=>{
  let original=selectPreset(gearSave(),'party-3');original=renamePreset(original,'Đội đã lưu');original.dungeonDaily={day:'2026-10-29',clears:{gold_mine:2}};
@@ -89,7 +89,7 @@ test('a native percentage passive combines once with the equipped exclusive pass
 });
 test('reforge persists spent currency and both stats across reload; keep old and use new cost nothing further',()=>{
  const c=source();let save=craftExclusive(funded(c),c,'test-arthur',()=>0);save=equipExclusive(save,c,'arthur','test-arthur');
- const pending=beginReforge(save,c,'test-arthur',rng(2.1/7,.999));assert.equal(pending.originalPrisma,save.originalPrisma-1);assert.deepEqual(pending.exclusiveGear,save.exclusiveGear);
+ const pending=beginReforge(save,c,'test-arthur',rng(2.1/7,.999));assert.equal(pending.recruitmentShards,save.recruitmentShards-10);assert.deepEqual(pending.exclusiveGear,save.exclusiveGear);
  const loaded=decodeGameSave(encodeGameSave(pending,c),c);assert.deepEqual(loaded.pendingReforge,pending.pendingReforge);assert.throws(()=>beginReforge(loaded,c,'test-arthur'));
  const kept=finishReforge(loaded,c,loaded.pendingReforge.id,false),used=finishReforge(loaded,c,loaded.pendingReforge.id,true);
  assert.deepEqual(kept.exclusiveGear,save.exclusiveGear);assert.equal(kept.originalPrisma,pending.originalPrisma);assert.equal(kept.pendingReforge,null);
@@ -100,7 +100,7 @@ test('reforge persists spent currency and both stats across reload; keep old and
 test('identical reforge results are allowed; zero currency/unowned/invalid RNG do not spend',()=>{
  const c=source(),original=craftExclusive(funded(c),c,'test-arthur',()=>0),pending=beginReforge(original,c,'test-arthur',()=>0);
  assert.equal(pending.pendingReforge.previousStatKey,pending.pendingReforge.nextStatKey);assert.equal(pending.pendingReforge.previousStatValue,pending.pendingReforge.nextStatValue);
- for(const change of [save=>save.originalPrisma=0,save=>save.exclusiveGear=[],save=>save.pendingReforge=pending.pendingReforge]){const value=structuredClone(original);change(value);assert.throws(()=>beginReforge(value,c,'test-arthur'));}
+ for(const change of [save=>save.recruitmentShards=0,save=>save.exclusiveGear=[],save=>save.pendingReforge=pending.pendingReforge]){const value=structuredClone(original);change(value);assert.throws(()=>beginReforge(value,c,'test-arthur'));}
  const raw=JSON.stringify(original);assert.throws(()=>beginReforge(original,c,'test-arthur',()=>NaN));assert.equal(JSON.stringify(original),raw);
 });
 test('v5 validates every new field, ownership, unique templates, cross-character slots and pending old/new consistency',()=>{

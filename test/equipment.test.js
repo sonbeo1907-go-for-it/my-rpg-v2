@@ -182,7 +182,7 @@ test('three duplicates unlock slots 4/5/6, later duplicates only grant shards, a
 test('new recruits start at three slots and duplicate expansion is limited to the duplicated hero within a batch', () => {
   const campaign = setup(); campaign.coins = 1000; campaign.prisma = 10;
   let cursor = 0;
-  const outcome = pullGacha(campaign, content, 'standard', 10, () => cursor++ % 2 === 0 ? .95 : 0);
+  const outcome = pullGacha(campaign, content, 'standard', 10, () => cursor++ % 2 === 0 ? .985 : 0);
   assert.deepEqual(outcome.results.slice(0, 4).map(item => item.gearSlots), [3, 4, 5, 6]);
   assert.equal(outcome.results[0].slotUnlocked, false);
   assert.deepEqual(outcome.campaign.extraGearSlots, { dain: 3 });

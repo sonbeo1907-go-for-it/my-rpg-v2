@@ -1,5 +1,6 @@
 "use client";
 import type { ReactNode } from "react";
+import {skillRankLabel} from "../core/skill-rules.js";
 import { skillPresentation, passivePresentation } from "../ui/skill-copy.js";
 
 export function RulesDisclosure({ rules = [], children, title = "Chi tiết cơ chế" }: { rules?: string[]; children?: ReactNode; title?: string }) {
@@ -11,6 +12,7 @@ export function RulesDisclosure({ rules = [], children, title = "Chi tiết cơ 
 export function SkillBody({ skill, actor, content, choices = {}, combat = false }: { skill: any; actor: any; content: any; choices?: any; combat?: boolean }) {
   const info = skillPresentation(skill, actor, content, choices);
   return <>
+    {skill.skillRank>5&&<p className="skill-mastery-label">{skillRankLabel(skill.skillRank)}</p>}
     <p className="skill-summary">{info.summary}</p>
     <ul className="skill-facts scaling">{info.facts.map((line: string, i: number) => <li key={i}>{line}</li>)}</ul>
     {combat && info.rules.length > 0 && <ul className="skill-quick-rules">{info.rules.map((line: string, i: number) => <li key={i}>{line}</li>)}</ul>}

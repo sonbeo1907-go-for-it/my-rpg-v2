@@ -4,7 +4,7 @@
 
 - Sáu nhân vật khởi đầu giữ nguồn mở hiện tại.
 - Monica, Victorina, Sieg, Chelsea và Artesia giữ nguồn mở ở chương II Lữ Hành. Không chuyển sang Blueprint.
-- Hai mươi Trấn mới dưới đây mở bằng 10 Bản Thiết Kế dùng chung, tại tab Công thức Trấn Phái của Shop. Mở một lần, vĩnh viễn; có thể mở trước khi sở hữu nhân vật.
+- Các Trấn mới dưới đây mở bằng 10 Bản Thiết Kế dùng chung, tại tab Công thức Trấn Phái của Shop. Mở một lần, vĩnh viễn; có thể mở trước khi sở hữu nhân vật.
 - Chế tạo vẫn yêu cầu sở hữu nhân vật, nguyên liệu và chi phí Trấn Phái hiện tại. Mở công thức không tặng trang bị.
 - Save v7 cũ thiếu `blueprints` / `unlockedExclusiveRecipes` được bổ sung `0` / `[]`. Trấn đã chế tạo và trang bị giữ nguyên.
 
@@ -20,7 +20,7 @@ Chỉ áp dụng khi đánh lại Truy Nã đã nhận thưởng lần đầu, t
 
 Số Blueprint không nhân thêm hệ số thưởng tiền. Lần đầu, Lv5/Lv15 và quest ngoài Truy Nã giữ cơ chế cũ. Thưởng được chốt một lần; lỗi lưu không tiêu tiền/mất thưởng, thử lưu lại không quay thưởng lại. Mốc lần đầu dùng chung giữa các độ khó.
 
-## Hai mươi Trấn mới
+## Các Trấn mới
 
 Các hiệu ứng dưới đây chỉ hoạt động khi trang bị đúng Trấn, không thay đổi kit gốc. Ngoại trừ dòng RES của Kai được chỉ định tăng theo Rank, hiệu ứng Trấn không tự nhân hệ số cấp kỹ năng.
 
@@ -46,6 +46,9 @@ Các hiệu ứng dưới đây chỉ hoạt động khi trang bị đúng Trấ
 | Helena | Dù Đêm Đông Kiêu Hãnh | Trả đủ MP phụ trội của nội tại: +35% MAG riêng cho chiêu đó. Trả thiếu không kích hoạt. |
 | Leonardo | Thủ Kiếm Người Anh Cả | Giảm sát thương phép toàn đội theo tổng MP tối đa đã chuẩn bị; tối đa 30% tại 800 MP. Aura chốt theo đội lúc xuất phát, không phụ thuộc MP còn lại. |
 | Kyle | Hộp Đồ Chơi Nghịch Lý | Mục tiêu có 3 Trò quậy: MAG tăng cho đồng đội khác đánh phép từ 15% lên 25%. |
+| Astoria | Vương Miện Hố Đen | Khi Magnamut hiện diện: +35% MAG. Mệnh lệnh hủy diệt có cơ hội không tiêu Vết nứt = min(100%, MAG căn bản / 150), đạt 100% tại 150 MAG căn bản. |
+| Patricia | Thấu Kính Địa Tầng | Cuối vòng, hồi 2% MP tối đa cho bản thân với mỗi thành viên trong đội đang có Khiên. |
+| Vilgard | Lưỡi Kiếm Oán Hận | Sau khi hồi sinh, lập tức hồi chiêu Trả Thù Toàn Diện. |
 
 Khiên từ Trấn tuân theo quy tắc Khiên mạnh nhất, không cộng dồn. Chỉ số/phòng thủ và buff cơ bản vẫn qua engine chung. Seraphine xét thành phần đội xuất phát; thành viên bị hạ không làm thay đổi điều kiện gia tộc. Hiệu ứng giảm sát thương của Leonardo vẫn tuân trần giảm sát thương chung của engine.
 
@@ -68,3 +71,5 @@ Khiên từ Trấn tuân theo quy tắc Khiên mạnh nhất, không cộng dồ
 Core: migration và dữ liệu lỗi; mở/craft đúng nguồn; tỷ lệ và mốc thưởng; chống nhận thưởng/mua lặp; lỗi lưu và thử lại; đủ 20 hiệu ứng Trấn; điều kiện/giới hạn mỗi vòng; hệ số Rank; chuyển đổi MP; mặc định và scale Level.
 
 UI: mua/hủy/tải lại, lỗi ghi save, mobile, số dư vật phẩm, chỉ số gear, preview Fran/Kai, cấp quest/lữ khách, và nhận Blueprint sau trận Truy Nã thực tế.
+
+Đợt tiếp theo bổ sung 13 công thức cùng giá10 Bản Thiết Kế: Iwayn, Percival, Mandred, Kreider, Logia, Yufina, Elise, Yumia, Valery, Tobin, Rivia, Bennett và Judy. Xem [đặc tả và ngoại lệ mới](EXCLUSIVE_BALANCE_2026_11_06.md).

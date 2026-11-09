@@ -116,7 +116,7 @@ test('Lanceveil starts locked, is recruitable and round-trips through old saves 
   assert.equal(restored.unlockedCharacterIds.includes('lanceveil'), false);
   restored.coins = 100; restored.prisma = 10;
   const pool = content.banners.standard.characterPool;
-  const values = [.95, (pool.indexOf('lanceveil') + .5) / pool.length];
+  const values = [.985, (pool.indexOf('lanceveil') + .5) / pool.length];
   const result = pullGacha(restored, content, 'standard', 1, () => values.shift());
   assert.ok(result.campaign.unlockedCharacterIds.includes('lanceveil'));
   assert.ok(deserializeCampaign(serializeCampaign(result.campaign), content).unlockedCharacterIds.includes('lanceveil'));

@@ -1,4 +1,4 @@
-import {specialPassives} from './exclusive-specials.js';
+import {specialPassives,applyNativeExclusiveUpgrades} from './exclusive-specials.js';
 import {allocationBonuses} from './leveling.js';
 import {equippedGear} from './equipment.js';
 import {equippedExclusive} from './blacksmith-state.js';
@@ -12,6 +12,7 @@ export function preparedPartyMaxMp(content,campaign){return campaign.party.filte
  return sum+effectiveStat(actor,'maxMp');
 },0);}
 export function applySpecialLoadout(content,campaign,actor){
+ applyNativeExclusiveUpgrades(actor);
  const gearBonus={};for(const effect of actor.gearEffects??[]){const e=effect.effect;if(e.type!=='mp_stat_conversion')continue;const amount=Math.min(e.cap,Math.floor(effectiveStat(actor,'maxMp')*e.ratio));gearBonus[e.stat]=(gearBonus[e.stat]??0)+amount;}
  if(Object.keys(gearBonus).length){actor.gearEffectBonuses=gearBonus;actor.gearBonuses??={};for(const[k,n]of Object.entries(gearBonus)){actor.stats[k]+=n;actor.gearBonuses[k]=(actor.gearBonuses[k]??0)+n;}}
  if(!campaign.party.includes(actor.id))return;

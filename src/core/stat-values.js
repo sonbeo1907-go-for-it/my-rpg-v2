@@ -1,6 +1,6 @@
 import {mpConversionBonus} from './advanced-combat.js';
 import { activeStatuses } from './status-state.js';
-import { effectiveStat } from './combat-math.js';
+import { effectiveStat, defenseAverageBonus } from './combat-math.js';
 
 // Stack-scaled modifiers and mutually exclusive modifier groups are shared by UI and engine.
 export function statusModifier(content, actor, key, ignoreConsumables = false) {
@@ -19,6 +19,7 @@ export function statusModifier(content, actor, key, ignoreConsumables = false) {
   return sum + largestAmp + (actor.exclusiveFieldModifiers?.[key]??0) + [...groups.values()].reduce((a,b) => a+b,0);
 }
 export function battleStat(content, actor, key, ignoreConsumables = false, additionalModifier = 0, baseBonus = 0) {
+  if(actor.passive?.type==='defense_average_conversion'&&actor.passive.toStat===key)baseBonus+=defenseAverageBonus(actor,battleStat(content,actor,'defense'),battleStat(content,actor,'resistance'))-defenseAverageBonus(actor);
   if(actor.passive?.type==='mp_stat_conversion'&&actor.passive.toStat===key)baseBonus+=mpConversionBonus(actor,battleMaxMp(content,actor))-mpConversionBonus(actor);
   return effectiveStat(actor,key,statusModifier(content,actor,key,ignoreConsumables) + additionalModifier,baseBonus);
 }

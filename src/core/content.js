@@ -1,3 +1,5 @@
+import {validateArenaProgressionRules} from './arena-progression.js';
+import {validStatusChance} from './status-chance.js';
 import {validatePvpAi} from './arena-ai.js';
 import {validatePvpRules} from './pvp-rules.js';
 import {validatePowderContent} from './powder-combat.js';
@@ -19,8 +21,8 @@ import { validateBlacksmithContent } from './blacksmith-rules.js';
 import { validReactivePassive } from './reactive-passives.js';
 import { validateTravelerStories } from './traveler-stories.js';
 
-export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark', 'moon'];
-export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám', moon:'Nguyệt' };
+export const ELEMENTS = ['plain', 'fire', 'water', 'earth', 'wind', 'thunder', 'light', 'dark', 'moon', 'sword_soul'];
+export const ELEMENT_NAMES = { plain: 'Thường', fire: 'Hỏa', water: 'Thủy', earth: 'Thổ', wind: 'Phong', thunder: 'Lôi', light: 'Quang', dark: 'Ám', moon:'Nguyệt',sword_soul:'Hồn Kiếm' };
 export const DAMAGE_TYPE_NAMES = { physical: 'vật lí', magical: 'ma pháp' };
 export const WEAKNESS_MULTIPLIER = 1.5;
 export const ROLE_GROUPS = {
@@ -28,7 +30,10 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel', 'revive'];
+export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel', 'revive', 'reduce_cooldowns'];
+
+// Release #33 was Astoria's technical-test slot. Never assign it to another character.
+export const DEPRECATED_CHARACTER_RELEASE_IDS = Object.freeze([33]);
 
 export function indexById(items) {
   return Object.fromEntries(items.map(item => [item.id, item]));
@@ -36,7 +41,7 @@ export function indexById(items) {
 
 // Validate references before running a game, rather than failing midway through a battle.
 export function validateContent(content) {
-  const errors = [...validateStatTheft(content),...validateTeamResourceContent(content),...validatePowderContent(content),...validateTacticalPassives(content),...validateAdvancedCombat(content)];
+  const errors = [...validateArenaProgressionRules(content),...validateStatTheft(content),...validateTeamResourceContent(content),...validatePowderContent(content),...validateTacticalPassives(content),...validateAdvancedCombat(content)];
   errors.push(...validatePvpAi(content));
   if(content.pvpRules?.default)errors.push(...validatePvpRules(content.pvpRules.default,content));
   const fail = message => errors.push(message);
@@ -47,16 +52,23 @@ export function validateContent(content) {
     if (!content[key] || typeof content[key] !== 'object') fail(`Missing collection: ${key}`);
   }
   if (errors.length) return errors;
+  const releaseIds = new Set();
+  for (const actor of Object.values(content.characters)) {
+    if (!Number.isSafeInteger(actor.releaseId) || actor.releaseId < 1 || DEPRECATED_CHARACTER_RELEASE_IDS.includes(actor.releaseId) || releaseIds.has(actor.releaseId)) fail(actor.id + ': invalid or reserved character releaseId');
+    releaseIds.add(actor.releaseId);
+  }
   errors.push(...validateSkillProgression(content));
   for (const [id, actor] of Object.entries({ ...content.characters, ...content.enemies })) {
     if(content.enemies[id]===actor&&(!Number.isInteger(actor.referenceLevel)||actor.referenceLevel<1||actor.referenceLevel>99))fail(id+': invalid reference level');
     if(content.enemies[id]===actor&&actor.hpReferenceLevel!==undefined&&(!Number.isInteger(actor.hpReferenceLevel)||actor.hpReferenceLevel<1||actor.hpReferenceLevel>99))fail(id+': invalid HP reference level');
+    if(actor.basicAttack?.some(e=>e.additionalElements!==undefined&&(!Array.isArray(e.additionalElements)||e.additionalElements.length!==1||e.additionalElements.some(v=>!ELEMENTS.includes(v)||v===e.element))))fail(id+': invalid basic additional element');
     if (!ELEMENTS.includes(actor.element)) fail(`${id}: invalid element`);
     if (actor.basicAttack !== undefined && (!Array.isArray(actor.basicAttack) || !actor.basicAttack.length || actor.basicAttack.some(effect => !effect
       || effect.type !== 'damage' || !['physical', 'magical'].includes(effect.damageType) || !ELEMENTS.includes(effect.element)
       || (effect.scalingStat !== undefined && !['attack','magic','defense','resistance','maxHp'].includes(effect.scalingStat))
       || !Number.isFinite(effect.multiplier) || effect.multiplier <= 0
-      || Object.keys(effect).some(key => !['type', 'damageType', 'element', 'multiplier', 'scalingStat'].includes(key))))) fail(`${id}: invalid basic attack`);
+      || (effect.hits !== undefined && (!Number.isInteger(effect.hits) || effect.hits < 1 || effect.hits > 20))
+      || Object.keys(effect).some(key => !['type', 'damageType', 'element', 'multiplier', 'scalingStat', 'hits', 'additionalElements'].includes(key))))) fail(`${id}: invalid basic attack`);
     if (actor.roleGroup !== undefined && !Object.hasOwn(ROLE_GROUPS, actor.roleGroup)) fail(`${id}: invalid role group`);
     if (actor.tags !== undefined && (!Array.isArray(actor.tags) || new Set(actor.tags).size !== actor.tags.length || actor.tags.some(tag => typeof tag !== 'string' || !tag))) fail(`${id}: invalid tags`);
     if (actor.secondaryRoleGroups !== undefined && (!Array.isArray(actor.secondaryRoleGroups) || actor.secondaryRoleGroups.some(group => !Object.hasOwn(ROLE_GROUPS, group)))) fail(`${id}: invalid secondary role groups`);
@@ -88,8 +100,10 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'unbuffed_target_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','enemy_support_counter','enemy_shield_mode','heal_mp_regen','cover_guard'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'unbuffed_target_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','enemy_support_counter','enemy_shield_mode','heal_mp_regen','cover_guard','element_ally_followup','element_ally_weakness_mp','life_mortgage_pact','team_spend_penetration','ally_team_creation','round_team_resource','blessed_team_resource','team_resource_mode','defense_average_conversion','ally_creation_followup','extra_phase_resource_buff','previous_round_team_spend_buff','starting_resource_skill_chance','shielded_ally_magic','vengeful_revive'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if(actor.controlImmunities!==undefined&&(!Array.isArray(actor.controlImmunities)||actor.controlImmunities.length!==1||actor.controlImmunities[0]!=='stun'||content.enemies[id]!==actor))fail(id+': invalid control immunity');
     const native = actor.passive;
+    if(native?.type==='defense_average_conversion'&&(native.toStat!=='attack'||!Number.isFinite(native.ratio)||native.ratio<=0||!Number.isFinite(native.cap)||native.cap<=0))fail(id+': invalid defense average conversion');
     if(native?.type==='stat_conversion'&&native.cap!==undefined&&(!Number.isFinite(native.cap)||native.cap<=0||!Number.isFinite(native.ratio)||native.ratio<=0||native.fromStat===native.toStat))fail(id+': invalid capped stat conversion');
     if(native?.type==='unbuffed_target_damage'&&(!native.name?.trim()||!native.description?.trim()||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>2))fail(id+': invalid unbuffed damage passive');
     if(actor.initialStatuses!==undefined){
@@ -107,6 +121,7 @@ export function validateContent(content) {
       if(!native.name||!native.description||!Number.isInteger(native.perRound)||native.perRound<1||native.perRound>4||!Number.isInteger(native.modePerRound)||native.modePerRound<native.perRound||native.modePerRound>4||!actor.combatModes?.[native.modeId]||a?.activation!=='passive'||a.target!=='all_enemies'||a.cost?.mp||a.cooldown||!a.effects?.length||a.effects.some(e=>e.type!=='damage'))fail(id+': invalid support follow-up');
     }
     if(native?.evasion!==undefined&&(native.type!=="dodge_counter"||!native.counterAbility||!validEvasion(native.evasion)))fail(id+": invalid native evasion");
+    if(native?.type==='starting_resource_skill_chance'&&!validReactivePassive(native,content,actor))fail(id+': invalid starting resource passive');
     if (native?.type==='detonation_base_growth' && !validReactivePassive(native,content,actor)) fail(id+': invalid detonation growth');
     if (native?.type==='low_hp_damage' && (!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||native.ratio>1)) fail(id+': invalid low HP damage');
     if (native?.type==='target_buff_damage' && (!native.name||!native.description||!Number.isFinite(native.ratio)||native.ratio<=0||!Number.isFinite(native.cap)||native.cap<=0||native.cap>2)) fail(id+': invalid target buff damage');
@@ -233,6 +248,9 @@ export function validateContent(content) {
   }
   for (const [id, skill] of Object.entries(content.abilities)) {
     if ((skill.effects?.filter(effect=>effect.type==='formula_field').length??0)>1 || (skill.requiresFormula && skill.effects?.some(effect=>effect.type==='formula_field'))) fail(id+': invalid formula opener');
+    if(skill.requiresLifeDebt!==undefined&&typeof skill.requiresLifeDebt!=='boolean')fail(id+': invalid life debt requirement');
+    if(skill.cost?.preferLifeDebtRatio!==undefined&&(!Number.isFinite(skill.cost.preferLifeDebtRatio)||skill.cost.preferLifeDebtRatio<=0||skill.cost.preferLifeDebtRatio>.5||!(skill.cost.mp>0)||skill.cost.resource||skill.cost.preferResource||skill.cost.teamResource||skill.cost.hpMaxRatio||skill.cost.consumeAllLifeDebt))fail(id+': invalid preferred life debt cost');
+    if(skill.cost?.consumeAllLifeDebt!==undefined&&(skill.cost.consumeAllLifeDebt!==true||skill.requiresLifeDebt!==true||skill.cost.preferLifeDebtRatio!==undefined||skill.cost.resource||skill.cost.preferResource||skill.cost.teamResource||skill.cost.hpMaxRatio))fail(id+': invalid all life debt cost');
     if(skill.requiresHpBelow!==undefined&&(!Number.isFinite(skill.requiresHpBelow)||skill.requiresHpBelow<=0||skill.requiresHpBelow>1)) fail(id+': invalid HP gate');
     if (skill.requiresFormula!==undefined && typeof skill.requiresFormula!=='boolean') fail(id+': invalid formula requirement');
     if (skill.minFormulaEntries!==undefined && (skill.requiresFormula!==true || !Number.isInteger(skill.minFormulaEntries) || skill.minFormulaEntries<1 || skill.minFormulaEntries>3)) fail(id+': invalid formula minimum');
@@ -240,6 +258,9 @@ export function validateContent(content) {
     if (skill.requiresResource && (!skill.requiresResource.id || !Number.isInteger(skill.requiresResource.min) || skill.requiresResource.min < 1)) fail(id + ': invalid resource requirement');
     if (skill.requiresMode !== undefined && (typeof skill.requiresMode !== 'string' || !skill.requiresMode)) fail(id + ': invalid mode requirement');
     if (skill.activation !== undefined && !['active', 'passive'].includes(skill.activation)) fail(`${id}: invalid activation`);
+    if(skill.targetTag!==undefined&&(typeof skill.targetTag!=='string'||!['ally','all_allies'].includes(skill.target)||!/^([a-z][a-z0-9_]*)$/.test(skill.targetTag)))fail(id+': invalid ally tag filter');
+    if(skill.excludeSelf!==undefined&&(skill.excludeSelf!==true||!['ally','all_allies'].includes(skill.target)))fail(id+': invalid self exclusion');
+    if(skill.targetElement!==undefined&&(!ELEMENTS.includes(skill.targetElement)||!['ally','all_allies'].includes(skill.target)))fail(id+': invalid elemental ally filter');
     if (skill.requiresTargetStatus !== undefined) exists('statuses',skill.requiresTargetStatus,id);
     if (!['enemy', 'enemy_splash', 'all_enemies', 'random_enemies', 'adjacent_allies', 'ally', 'all_allies', 'self'].includes(skill.target)) fail(`${id}: invalid target`);
     if (!Number.isInteger(skill.cooldown ?? 0) || (skill.cooldown ?? 0) < 0) fail(`${id}: invalid cooldown`);
@@ -266,6 +287,16 @@ export function validateContent(content) {
         if ((!content.statuses[effect.status]?.persistent || effect.duration !== undefined) && (!Number.isInteger(effect.duration) || effect.duration < 1)) fail(`${id}: invalid status duration`);
         if (effect.type === 'toggle_status' && !content.statuses[effect.status]?.persistent) fail(`${id}: toggle requires persistent status`);
       }
+      if(effect.selectAlly!==undefined&&(effect.type!=='grant_extra_turn'||skill.target!=='self'||effect.to||effect.selectAlly.excludeSelf!==true||typeof effect.selectAlly.preferTag!=='string'||!/^([a-z][a-z0-9_]*)$/.test(effect.selectAlly.preferTag)))fail(id+': invalid ally priority');
+      if(effect.selectAlly?.requireTag!==undefined&&effect.selectAlly.requireTag!==true)fail(id+': invalid strict ally tag');
+      if(effect.chanceScaling!==undefined&&(effect.type!=='status'||!content.statuses[effect.status]?.skipTurn||!validStatusChance(effect.chanceScaling)))fail(id+': invalid control probability');
+      if(effect.onHitStatus?.chanceScaling!==undefined&&(!content.statuses[effect.onHitStatus.status]?.skipTurn||!validStatusChance(effect.onHitStatus.chanceScaling)))fail(id+': invalid on-hit control probability');
+      if(effect.to==='primary'&&(effect.type!=='damage'||!['all_enemies','enemy_splash'].includes(skill.target)))fail(id+': invalid primary-only damage');
+      if(effect.requiresDamageHit!==undefined&&(effect.requiresDamageHit!==true||effect.type!=='status'||!skill.effects.some(e=>e.type==='damage')))fail(id+': invalid hit condition');
+      if(effect.type==='reduce_cooldowns'&&(!Number.isInteger(effect.amount)||effect.amount<1||effect.amount>3||!['ally','all_allies'].includes(skill.target)))fail(id+': invalid cooldown reduction');
+      if(effect.onHitStatus?.primaryStacks!==undefined&&(!content.statuses[effect.onHitStatus.status]?.exposedElement||effect.primaryMultiplier===undefined||!Number.isInteger(effect.onHitStatus.primaryStacks)||effect.onHitStatus.primaryStacks<1||effect.onHitStatus.primaryStacks>3))fail(id+': invalid primary exposure stacks');
+      if(effect.additionalElements!==undefined&&(effect.type!=='damage'||!Array.isArray(effect.additionalElements)||effect.additionalElements.length!==1||effect.additionalElements.some(e=>!ELEMENTS.includes(e)||e===effect.element)))fail(id+': invalid additional damage element');
+      if(effect.spentLifeDebtRatio!==undefined&&(effect.type!=='heal'||effect.to!=='self'||skill.cost?.consumeAllLifeDebt!==true||!Number.isFinite(effect.spentLifeDebtRatio)||effect.spentLifeDebtRatio<=0||effect.spentLifeDebtRatio>2||effect.multiplier!==undefined||effect.flat!==undefined||effect.scalingStat!==undefined||effect.scalingStats!==undefined))fail(id+': invalid spent life debt heal');
       if(effect.debtMaxHpRatio!==undefined&&(effect.type!=='status'||!content.statuses[effect.status]?.healingDebt||!Number.isFinite(effect.debtMaxHpRatio)||effect.debtMaxHpRatio<=0||effect.debtMaxHpRatio>content.statuses[effect.status].healingDebt.capMaxHpRatio))fail(id+': invalid healing debt ratio');
       if(content.statuses[effect.status]?.healingDebt&&(effect.type!=='status'||effect.duration!==undefined||effect.stacks!==undefined||effect.charges!==undefined||effect.linkedStatuses))fail(id+': healing debt requires an untimed status');
       if (effect.onHitStatus&&content.statuses[effect.onHitStatus.status]?.healingDebt)fail(id+': apply healing debt with a status effect');
@@ -283,6 +314,7 @@ export function validateContent(content) {
         }
       }
       if(effect.bonusVsExposure!==undefined&&(effect.type!=='damage'||!Number.isFinite(effect.bonusVsExposure)||effect.bonusVsExposure<=0||effect.bonusVsExposure>2))fail(id+': invalid exposure damage bonus');
+      if(effect.onHitDispelCount!==undefined&&(effect.type!=='damage'||!Number.isInteger(effect.onHitDispelCount)||effect.onHitDispelCount<1||effect.onHitDispelCount>10))fail(id+': invalid on-hit dispel');
       if (effect.onHitStatus !== undefined) {
         exists('statuses',effect.onHitStatus?.status,id);
         const onHit = content.statuses[effect.onHitStatus?.status];
@@ -290,7 +322,7 @@ export function validateContent(content) {
         if (effect.onHitStatus?.stacks !== undefined && (!onHit?.exposedElement || !Number.isInteger(effect.onHitStatus?.stacks) || effect.onHitStatus?.stacks < 1 || effect.onHitStatus?.stacks > onHit.maxStacks)) fail(id + ': invalid on-hit exposure stacks');
       }
       if(effect.charges!==undefined&&(effect.type!=='status'||!(content.statuses[effect.status]?.buffRejection||content.statuses[effect.status]?.consumeOnPaidSkill)||!Number.isInteger(effect.charges)||effect.charges<1||effect.charges>99))fail(id+': invalid status charges');
-      if (effect.stacks !== undefined && (effect.type !== 'status' || !content.statuses[effect.status]?.exposedElement || !Number.isInteger(effect.stacks) || effect.stacks < 1 || effect.stacks > content.statuses[effect.status].maxStacks)) fail(id + ': invalid exposure stacks');
+      if (effect.stacks !== undefined && (effect.type !== 'status' || !content.statuses[effect.status]?.maxStacks || !Number.isInteger(effect.stacks) || effect.stacks < 1 || effect.stacks > content.statuses[effect.status].maxStacks)) fail(id + ': invalid status stacks');
       if (effect.extraStacksIfPresent !== undefined && (effect.type !== 'status' || !Number.isInteger(effect.extraStacksIfPresent) || effect.extraStacksIfPresent < 1 || !content.statuses[effect.status]?.maxStacks)) fail(`${id}: invalid conditional status stacks`);
       if (effect.type === 'formula_field' && (skill.target!=='self' || typeof effect.name!=='string' || !effect.name.trim() || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1 || !Array.isArray(effect.sequence) || effect.sequence.length!==3 || new Set(effect.sequence).size!==3 || effect.sequence.some(tag=>!['lead','break','strike'].includes(tag)) || !/^\/art\/[a-z0-9_-]+\.svg$/.test(effect.background))) fail(id+': invalid formula field');
       if (effect.type === 'edit_formula' && (skill.target!=='self' || skill.requiresFormula!==true || !skill.minFormulaEntries)) fail(id+': invalid formula edit');
@@ -300,6 +332,7 @@ export function validateContent(content) {
       if (effect.type === 'turn_order_field' && (skill.target !== 'self' || typeof effect.name !== 'string' || !effect.name || !Number.isInteger(effect.durationRounds) || effect.durationRounds < 1)) fail(id + ': invalid turn-order field');
       for(const f of [effect.type==='turn_order_field'&&effect.kind==='speed_shift'?effect:null,effect.arena].filter(Boolean))if(effect.type!=='turn_order_field'||f.kind!=='speed_shift'||!Number.isFinite(f.allySpeed)||!Number.isFinite(f.enemySpeed)||Math.abs(f.allySpeed)>1||Math.abs(f.enemySpeed)>1)fail(id+': invalid speed field');
       if (['enter_mode','prepare_mode'].includes(effect.type) && (typeof effect.mode !== 'string' || !effect.mode || skill.target !== 'self')) fail(id + ': invalid enter mode');
+      if (effect.type === 'end_mode' && (typeof effect.mode !== 'string' || !effect.mode || !Object.values(content.characters).some(character => character.combatModes?.[effect.mode]))) fail(id + ': unknown end mode');
       if(effect.type==='dispel' && (!['enemy','all_enemies','enemy_splash'].includes(skill.target)||!(effect.all===true&&effect.count===undefined||effect.all===undefined&&Number.isInteger(effect.count)&&effect.count>0))) fail(id+': invalid dispel');
       if(effect.perTargetBuff!==undefined && (effect.type!=='damage'||!Number.isFinite(effect.perTargetBuff)||effect.perTargetBuff<=0||!Number.isInteger(effect.maxTargetBuffs)||effect.maxTargetBuffs<1||effect.maxTargetBuffs>10))fail(id+': invalid target buff scaling');
       if(effect.maxTargetBuffs!==undefined&&effect.perTargetBuff===undefined)fail(id+': missing target buff scaling');
@@ -330,10 +363,11 @@ export function validateContent(content) {
       if (effect.penetration !== undefined && (!Number.isFinite(effect.penetration) || effect.penetration < 0 || effect.penetration > 1)) fail(`${id}: invalid penetration`);
       if(effect.lifeStealRatio!==undefined&&(effect.type!=='damage'||!Number.isFinite(effect.lifeStealRatio)||effect.lifeStealRatio<=0||effect.lifeStealRatio>1))fail(id+': invalid life steal');
       if (effect.hits !== undefined && (!Number.isInteger(effect.hits) || effect.hits < 1 || effect.hits > 20)) fail(`${id}: invalid hits`);
-      if (effect.to && !['self', 'targets'].includes(effect.to)) fail(`${id}: invalid effect recipient`);
+      if (effect.to && !['self', 'targets','primary'].includes(effect.to)) fail(`${id}: invalid effect recipient`);
     }
   }
   for (const [id, status] of Object.entries(content.statuses)) {
+    if(status.hitDamageGrowth!==undefined&&(status.kind!=='buff'||!Number.isFinite(status.hitDamageGrowth)||status.hitDamageGrowth<=0||status.hitDamageGrowth>0.5))fail(id+': invalid hit damage growth');
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
     if(status.bypassedByBuffedAttacker!==undefined&&(status.bypassedByBuffedAttacker!==true||status.kind!=='buff'||!Number.isInteger(status.maxStacks)||status.maxStacks<1||!Number.isFinite(status.modifiers?.damageReduction)||status.modifiers.damageReduction<=0||status.modifiers.damageReduction*status.maxStacks>.75))fail(id+': invalid skill-aware barrier');
     for(const key of ['healingReceivedReduction','shieldReceivedReduction'])if(status[key]!==undefined&&(!Number.isFinite(status[key])||status[key]<0||status[key]>1||status.kind!=='debuff'))fail(id+': invalid recipient reduction');
@@ -440,10 +474,11 @@ export function validateContent(content) {
     if (!encounter.enemies?.length) fail(`${id}: requires enemies`);
     for (const enemy of encounter.enemies ?? []) exists('enemies', enemy, id);
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);
+    if(encounter.rewardTier==='super'&&encounter.enemies?.length===1){const boss=content.enemies[encounter.enemies[0]];if(boss&&!boss.boss&&!boss.controlImmunities?.includes('stun'))fail(id+': superboss requires stun immunity');}
     exists('music', encounter.bgm ?? 'normal', id);
     if(encounter.category!==undefined&&!['bounty','chronicle'].includes(encounter.category)) fail(id+': invalid quest category');
     if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
-    if(encounter.superLevels!==undefined&&(id!=='alice_superboss'||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
+    if(encounter.superLevels!==undefined&&(!['alice_superboss','miraebolis_superboss'].includes(id)||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');
     if (encounter.firstClearRewards !== undefined) {
       if (!Array.isArray(encounter.firstClearRewards) || !encounter.firstClearRewards.length) fail(`${id}: invalid first clear rewards`);

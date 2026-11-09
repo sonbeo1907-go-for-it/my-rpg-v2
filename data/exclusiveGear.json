@@ -805,5 +805,386 @@
         "Hiệu ứng giảm sát thương là buff, có thể bị xóa hoặc bị Phong Ấn chặn."
       ]
     }
+  },
+  {
+    "id": "iwayn.signature",
+    "characterId": "iwayn",
+    "name": "Quang Thương Bất Thoái",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "skill_hp_difference_stat",
+      "stat": "attack",
+      "ratio": 1.5,
+      "cap": 0.75,
+      "description": "Kỹ năng tấn công nhận thêm 1,5% ATK với mỗi 1% chênh lệch tỷ lệ HP hiện tại giữa Iwayn và mục tiêu, tối đa 75% ATK.",
+      "name": "Quang Thương Bất Thoái",
+      "rules": []
+    }
+  },
+  {
+    "id": "percival.signature",
+    "characterId": "percival",
+    "name": "Hàn Chùy Trấn Hải",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Hàn Chùy Trấn Hải",
+      "description": "Nhất chùy trấn hải giảm 40% SPD trong 2 lượt và gây thêm 35% sát thương.",
+      "effects": [
+        {
+          "type": "skill_status_override",
+          "name": "Hàn lưu ghìm bước",
+          "description": "Nhất chùy trấn hải giảm 40% SPD.",
+          "abilityIds": [
+            "percival.sea"
+          ],
+          "statusId": "sea_slow",
+          "modifiers": {
+            "speed": -0.4
+          }
+        },
+        {
+          "type": "skill_damage",
+          "name": "Trọng chùy trấn hải",
+          "description": "Nhất chùy trấn hải gây thêm 35% sát thương.",
+          "abilityIds": [
+            "percival.sea"
+          ],
+          "ratio": 0.35
+        }
+      ],
+      "rules": []
+    }
+  },
+  {
+    "id": "mandred.signature",
+    "characterId": "mandred",
+    "name": "Chiến Phủ Huyết Sư",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "native_passive_override",
+      "passiveType": "stat_conversion",
+      "changes": {
+        "ratio": 0.15,
+        "description": "Cộng ATK căn bản bằng 15% HP tối đa, trước buff ATK%."
+      },
+      "description": "Huyết lực cuồng sư chuyển 15% HP tối đa thành ATK căn bản, thay mức 8%.",
+      "name": "Chiến Phủ Huyết Sư",
+      "rules": []
+    }
+  },
+  {
+    "id": "kreider.signature",
+    "characterId": "kreider",
+    "name": "Đũa Chỉ Huy Nghịch Âm",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "enemy_status_self_buff",
+      "statusKind": "debuff",
+      "statusId": "kreider_exclusive_magic",
+      "duration": 4,
+      "description": "Mỗi khi một địch nhận thành công hiệu ứng bất lợi: tăng 25% MAG trong 4 lượt, tối đa 2 tầng; thêm tầng làm mới thời hạn.",
+      "name": "Đũa Chỉ Huy Nghịch Âm",
+      "rules": []
+    }
+  },
+  {
+    "id": "elise.signature",
+    "characterId": "elise",
+    "name": "Thánh Điển Mikaielis",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "enemy_status_self_buff",
+      "statusKind": "buff",
+      "statusId": "elise_exclusive_magic",
+      "duration": 4,
+      "description": "Mỗi khi một địch nhận thành công buff: tăng 25% MAG trong 4 lượt, tối đa 2 tầng; thêm tầng làm mới thời hạn.",
+      "name": "Thánh Điển Mikaielis",
+      "rules": []
+    }
+  },
+  {
+    "id": "logia.signature",
+    "characterId": "logia",
+    "name": "Nanh Xà Tử Dạ",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "native_passive_override",
+      "passiveType": "dot_potency_bonus",
+      "changes": {
+        "ratio": 0.5
+      },
+      "description": "Thú vui độc địa tăng sát thương Nọc độc thêm 50%, thay mức 25%.",
+      "name": "Nanh Xà Tử Dạ",
+      "rules": []
+    }
+  },
+  {
+    "id": "yufina.signature",
+    "characterId": "yufina",
+    "name": "Găng Tay Ngày Ra Trường",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "mode_mp_discount",
+      "modeId": "radiant_fists",
+      "ratio": 0.24,
+      "modeSummary": "+35% ATK · +20% SPD · Hội Tâm · Chiêu công kích −24% MP",
+      "description": "Trong Quang quyền bừng sáng, ba chiêu công kích giảm 24% MP, thay mức 12%.",
+      "name": "Găng Tay Ngày Ra Trường",
+      "rules": []
+    }
+  },
+  {
+    "id": "yumia.signature",
+    "characterId": "yumia",
+    "name": "Lưỡi Kiếm Không Buông",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "skill_scaling_override",
+      "abilityIds": [
+        "yumia.counter"
+      ],
+      "multiplier": 5.588,
+      "description": "Phản công Ngươi vừa chạm vào ai? gây 558,8% ATK. Giữ Hội Tâm và hạn mức một lần mỗi vòng.",
+      "name": "Lưỡi Kiếm Không Buông",
+      "rules": []
+    }
+  },
+  {
+    "id": "valery.signature",
+    "characterId": "valery",
+    "name": "Hắc Phong Xuyên Vân",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "resource_skill_penetration",
+      "abilityIds": [
+        "valery.tempest"
+      ],
+      "resourceId": "wind_focus",
+      "damageType": "magical",
+      "ratio": 0.05,
+      "description": "Xuyên Vân Nhất Tiễn xuyên thêm 5% RES với mỗi Điểm Ngắm Gió thực tiêu.",
+      "name": "Hắc Phong Xuyên Vân",
+      "rules": []
+    }
+  },
+  {
+    "id": "tobin.signature",
+    "characterId": "tobin",
+    "name": "Búa Rèn Lửa Cội",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "native_passive_override",
+      "passiveType": "resource_stat_boost",
+      "changes": {
+        "ratio": 0.12
+      },
+      "description": "Mỗi Nhiệt Lò tăng 12% ATK, tối đa 36%, thay mức 8% mỗi tầng.",
+      "name": "Búa Rèn Lửa Cội",
+      "rules": []
+    }
+  },
+  {
+    "id": "rivia.signature",
+    "characterId": "rivia",
+    "name": "Song Sắc Hoàng Hôn",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "native_passive_override",
+      "passiveType": "formation_stance",
+      "changes": {
+        "odd": {
+          "name": "Hoàng Hôn Sắc Kiếm",
+          "modifiers": {
+            "attack": 0.45,
+            "speed": 0.1
+          }
+        },
+        "even": {
+          "name": "Hoàng Hôn Giữ Trận",
+          "modifiers": {
+            "attack": 0.2,
+            "defense": 0.15,
+            "resistance": 0.15
+          }
+        }
+      },
+      "description": "Ô 1/3: +45% ATK, +10% SPD. Ô 2/4: +20% ATK, +15% DEF và RES. Thay giá trị nội tại gốc.",
+      "name": "Song Sắc Hoàng Hôn",
+      "rules": []
+    }
+  },
+  {
+    "id": "bennett.signature",
+    "characterId": "bennett",
+    "name": "Lao Chớp Xuyên Giáp",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "stat_boost",
+      "modifiers": {
+        "attack": 0.25
+      },
+      "description": "Tăng 25% ATK, giữ xuyên 50% DEF của nội tại.",
+      "name": "Lao Chớp Xuyên Giáp",
+      "rules": []
+    }
+  },
+  {
+    "id": "judy.signature",
+    "characterId": "judy",
+    "name": "Lõi Tụ Điện Bất Ổn",
+    "description": "Trấn Phái riêng. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "resource_chance_bonus",
+      "resourceId": "storm_charge",
+      "chance": 0.5,
+      "failureStep": 0.15,
+      "amount": 1,
+      "description": "Khi nội tại thực tạo Điện Tích, có 50% cơ hội thêm 1. Mỗi lần thất bại tăng 15 điểm phần trăm; thành công đặt lại 50%. Không xét khi đầy Điện Tích.",
+      "name": "Lõi Tụ Điện Bất Ổn",
+      "rules": []
+    }
+  },
+  {
+    "id": "astoria.crown",
+    "characterId": "astoria",
+    "name": "Vương Miện Hố Đen",
+    "description": "Trấn Phái riêng của Astoria. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Hợp Âm Hố Đen",
+      "description": "Khi Magnamut hiện diện, MAG tăng thêm 35%. Mệnh lệnh hủy diệt có cơ hội không tiêu Vết nứt, đạt 100% tại 150 MAG căn bản.",
+      "effects": [
+        {
+          "type": "mode_stat_boost",
+          "name": "Cộng Hưởng Magnamut",
+          "description": "Khi Magnamut hiện diện, MAG của Astoria tăng thêm 35%.",
+          "modeId": "magnamut",
+          "stat": "magic",
+          "ratio": 0.35,
+          "rules": [
+            "Chỉ có hiệu lực khi Magnamut đang hiện diện; rời dạng mất ngay.",
+            "Cộng vào nhóm phần trăm MAG, không nhân với buff tạm thời."
+          ]
+        },
+        {
+          "type": "resource_keep_chance",
+          "name": "Vết Nứt Bền Bỉ",
+          "description": "Mệnh lệnh hủy diệt có cơ hội không tiêu Vết nứt: min(100%, MAG căn bản / 150).",
+          "abilityIds": [
+            "astoria.command"
+          ],
+          "resourceId": "space_rift",
+          "stat": "magic",
+          "atStat": 150,
+          "cap": 1,
+          "rules": [
+            "MAG căn bản gồm chỉ số gốc và +15 MAG của Magnamut, không gồm phần trăm buff tạm.",
+            "Mỗi lần thi triển mới tung xác suất; không tiêu Vết nứt thì không có hiệu ứng hoàn trả nào khác."
+          ]
+        }
+      ],
+      "rules": [
+        "Hiệu ứng chỉ hoạt động khi trang bị đúng Trấn và chỉ tính một lần mỗi lần thi triển."
+      ]
+    }
+  },
+  {
+    "id": "patricia.geode",
+    "characterId": "patricia",
+    "name": "Thấu Kính Địa Tầng",
+    "description": "Trấn Phái riêng của Patricia. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "end_round_shielded_mp",
+      "name": "Tinh Thể Tích Tụ",
+      "description": "Cuối vòng, hồi 2% MP tối đa cho Patricia với mỗi thành viên trong đội đang có Khiên.",
+      "ratio": 0.02,
+      "rules": [
+        "Đếm mọi Khiên còn giá trị trên người đồng đội còn sống, gồm cả Patricia.",
+        "Hồi theo MP tối đa hiện tại; không vượt trần MP."
+      ]
+    }
+  },
+  {
+    "id": "vilgard.grudge",
+    "characterId": "vilgard",
+    "name": "Lưỡi Kiếm Oán Hận",
+    "description": "Trấn Phái riêng của Vilgard. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "on_revive_reset_cooldown",
+      "name": "Trỗi Dậy Trong Căm Hờn",
+      "description": "Sau khi hồi sinh, lập tức hồi chiêu Trả Thù Toàn Diện.",
+      "abilityIds": [
+        "vilgard.reckoning"
+      ],
+      "rules": [
+        "Chỉ hồi chiêu sau lần hồi sinh của nội tại, không hồi các kỹ năng khác.",
+        "Nếu kỹ năng đang không hồi chiêu, giữ nguyên trạng thái sẵn sàng."
+      ]
+    }
   }
 ]

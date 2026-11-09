@@ -1,0 +1,48 @@
+/* Faction invitation: the art, current lineup and real odds share one source. */
+.faction-artwork{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#151c20}
+.faction-scene{width:100%;height:100%;object-fit:cover;opacity:.85}
+.faction-figures{position:absolute;inset:6% -3% 0 33%;display:flex;align-items:flex-end;justify-content:center}
+.faction-figure{height:77%;width:45%;object-fit:contain;object-position:center bottom;position:absolute;opacity:.8;filter:brightness(1.6)}
+.faction-figure.figure-1{left:0;transform:rotate(-8deg);opacity:.65}.faction-figure.figure-2{right:0;transform:rotate(8deg);opacity:.65}.faction-figure.figure-0{height:96%;width:62%;z-index:1;filter:brightness(2.1)}
+.rateup-stage{min-height:540px;background:#151c20;border-color:var(--banner-accent)}
+.rateup-stage:after{background:linear-gradient(90deg,#0c141af5 0%,#0c141ad9 31%,#0c141a38 75%),linear-gradient(0deg,#0c141afa,transparent 65%)}
+.rateup-stage .summon-stage-content{min-height:540px;padding:28px;justify-content:flex-start}
+.rateup-stage .summon-stage-content h2{font-size:clamp(1.8rem,3.2vw,3rem);line-height:1.25;max-width:12ch;margin:12px 0;color:#fff5e9;text-shadow:none}
+.rateup-stage .summon-stage-content>p{font-size:.95rem;max-width:30ch;margin:0;line-height:1.6}
+.rateup-period{font-size:.8rem;color:#f2f0e7;padding:6px 10px;background:#142028;max-width:100%}
+.rateup-featured{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;width:100%;margin:auto 0 16px;padding-top:28px}
+.rateup-featured a{display:flex;flex-direction:column;gap:5px;padding:12px;background:#10212cf0;border-top:3px solid #697a85;text-decoration:none;color:#f6f1e5;min-width:0}
+.rateup-featured a:first-child{border-color:var(--banner-accent)}
+.rateup-featured small{font-size:.72rem;color:#c6d1d7}.rateup-featured strong{font-size:.95rem;line-height:1.4;overflow-wrap:anywhere}.rateup-featured b{font-size:.83rem;color:var(--banner-accent);font-variant-numeric:tabular-nums}
+.rateup-stage .summon-actions{gap:10px}.rateup-stage .summon-actions button{min-height:72px;background:#27343e;box-shadow:none}.rateup-stage .summon-actions button.gold{background:#dec38a;color:#18212a}.rateup-stage .summon-actions button>span{font-size:1.05rem}
+.rateup-layout .banner-sidebar{background:#18242b;padding:16px;border-color:#46545e;display:flex;flex-direction:column;gap:12px;justify-content:flex-start}
+.rateup-layout .banner-sidebar>h2{font-size:1rem;margin:0 0 4px;font-family:inherit}
+.rateup-layout .banner-card{position:relative;min-height:125px;padding:18px;text-align:left;overflow:hidden;isolation:isolate;background:#15222b;border-color:#4e5b64;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:0}
+.rateup-layout .banner-card>.faction-artwork{z-index:-1;opacity:.4}.rateup-layout .banner-card .faction-figures{left:45%}.rateup-layout .banner-card.selected{border:2px solid var(--banner-accent);background:#24313b}.rateup-layout .banner-card strong{font-size:1.05rem}.rateup-layout .banner-card small{color:#e0e2e4;font-size:.78rem}.rateup-layout .banner-card:focus-visible{outline:3px solid #a9d9f0;outline-offset:3px}
+.rateup-status{margin:0 0 16px;padding:12px 16px;background:#1b2931;color:#d1dce3;font-size:.85rem;line-height:1.6}.rateup-status p{margin:0}.rateup-odds{width:100%;border-collapse:collapse;margin:12px 0;font-size:.86rem}.rateup-odds td,.rateup-odds th{text-align:left;padding:8px 10px}.rateup-odds td:last-child,.rateup-odds th:last-child{text-align:right;font-variant-numeric:tabular-nums}.rateup-odds tr:nth-child(2){color:#e9cf99}
+.home-rateup-carousel{position:absolute;bottom:28px;left:3%;width:340px;border:1px solid #b1afb9;background:#15212b;color:#fff;isolation:isolate}
+.home-rateup-window{overflow:hidden}.home-rateup-track{display:flex;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+.home-rateup-slide{flex:0 0 100%;position:relative;min-width:0;min-height:155px;text-decoration:none;overflow:hidden;color:#fff}
+.home-rateup-slide>.faction-artwork{z-index:-1}.home-rateup-slide:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0c141ade,#0c141a38);z-index:-1}
+.home-rateup-copy{display:grid;gap:7px;padding:16px;max-width:87%}.home-rateup-copy small{font-size:.72rem;color:#e3d5b9}.home-rateup-copy strong{font-family:'Noto Serif Variable',Georgia,serif;font-size:1.3rem;line-height:1.25}.home-rateup-copy>span{font-size:.74rem;line-height:1.5;color:#e5e6e9}.home-rateup-copy>b{font-size:.85rem;color:#f2d49b}
+.home-rateup-controls{display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:3px 8px;background:#0f1d25}.home-rateup-controls button{padding:5px 10px;min-height:32px;border:0;background:transparent;color:#e0e5e9}.home-rateup-controls span{font-size:.75rem}.home-rateup-controls button:last-child{font-size:.72rem}
+@media(max-width:1100px){.rateup-layout{grid-template-columns:minmax(0,1fr) 230px}.home-rateup-carousel{width:280px}.home-rateup-slide{min-height:145px}}
+@media(max-width:850px){.rateup-layout{display:flex;flex-direction:column}.rateup-layout .banner-sidebar{order:-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));padding:0;background:none;border:0}.rateup-layout .banner-sidebar>h2{grid-column:1/-1}.rateup-layout .banner-card{min-height:90px;padding:12px}.rateup-layout .banner-card strong{font-size:.9rem}}
+@media(max-width:700px){.home-screen .home-rateup-carousel{position:relative;inset:auto;grid-column:1/-1;grid-row:3;width:min(100%,340px);margin-top:4px}.rateup-stage,.rateup-stage .summon-stage-content{min-height:560px}.rateup-stage .summon-stage-content{padding:18px}.rateup-stage .faction-figures{left:12%;top:12%;bottom:30%;opacity:.6}.rateup-stage:after{background:linear-gradient(90deg,#0c141ae8,#0c141a55),linear-gradient(0deg,#0c141a,transparent 80%)}.rateup-featured{gap:5px;grid-template-columns:repeat(3,minmax(0,1fr))}.rateup-featured a{padding:10px 7px}.rateup-featured strong{font-size:.82rem}.rateup-featured small{font-size:.7rem}.rateup-featured b{font-size:.76rem}.rateup-odds{font-size:.78rem}.rateup-odds th,.rateup-odds td{padding:8px 4px}.rateup-layout .banner-card{min-height:95px}.rateup-stage .summon-actions button>span{font-size:.95rem}.rateup-period{font-size:.75rem}}
+@media(prefers-reduced-motion:reduce){.home-rateup-track{transition:none}}
+
+/* Keep all artwork below labels and controls, including positioned figure children. */
+.faction-artwork{isolation:isolate;z-index:-2}
+.rateup-layout .banner-card{width:100%;max-width:none}
+.rateup-layout .banner-sidebar{min-width:0}
+.recruitment-status .banner-pool{max-height:280px;overflow-y:auto;overscroll-behavior:contain;padding:8px 4px;scrollbar-gutter:stable}
+
+.recruitment-page .recruitment-status{background:#172a33}
+.rateup-odds td:nth-child(2),.rateup-odds th:nth-child(2){text-align:right}
+@media(max-width:850px){.rateup-layout .banner-sidebar{align-self:stretch;width:100%}.rateup-layout .banner-card:last-child:nth-of-type(3){grid-column:1/-1}}
+
+.carousel-dots{display:flex;align-items:center;gap:2px;margin-right:auto}
+.home-rateup-controls .carousel-dot{min-width:32px;min-height:32px;padding:8px;display:grid;place-items:center}
+.carousel-dot span{display:block;width:8px;height:8px;border-radius:50%;border:1px solid #bdc9ce;background:transparent}
+.carousel-dot.active span{background:#e9cf99;border-color:#e9cf99}
+.rateup-stage .summon-stage-content>.rateup-terms{font-family:inherit;max-width:none;font-size:.75rem;line-height:1.6;margin:12px 0 0;color:#d6dde3}

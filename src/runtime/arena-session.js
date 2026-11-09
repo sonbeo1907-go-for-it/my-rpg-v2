@@ -2,7 +2,7 @@
 const key=id=>'the-prisma-origin.arena-session.'+id;
 export function saveArenaSession(storage,id,battle){
  if(id===null||id===undefined||!battle?.arena||battle.arena.recovered)return;
- storage.setItem(key(id),JSON.stringify({version:1,state:battle.outcome?'finished':'active',outcome:battle.outcome,forfeited:Boolean(battle.arena.forfeited),seed:battle.arena.seed,teamId:battle.arena.teamId,playerName:battle.arena.playerName,round:battle.round,party:battle.actors.filter(a=>a.team==='party').map(a=>a.characterId)}));
+ storage.setItem(key(id),JSON.stringify({version:1,matchId:battle.arena.matchId,state:battle.outcome?'finished':'active',outcome:battle.outcome,forfeited:Boolean(battle.arena.forfeited),seed:battle.arena.seed,teamId:battle.arena.teamId,playerName:battle.arena.playerName,round:battle.round,party:battle.actors.filter(a=>a.team==='party').map(a=>a.characterId)}));
 }
 export function takeAbandonedArena(storage,id){
  try{const record=JSON.parse(storage.getItem(key(id))??'null');

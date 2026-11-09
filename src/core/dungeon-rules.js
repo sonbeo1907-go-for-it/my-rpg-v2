@@ -1,3 +1,4 @@
+import {validateBookDrops} from './progression-items.js';
 import {trainingChargeState} from './training-charges.js';
 import { enemyStatMultipliers,enemyHpFactor,enemyHpProfile } from "./enemy-scaling.js";
 export const DUNGEON_TIME_ZONE = "Asia/Ho_Chi_Minh";
@@ -63,6 +64,7 @@ export function validateDungeonContent(content) {
         for(const encounter of Object.values(content.encounters??{}).filter(e=>!e.travelerStory&&e.category!=='bounty'&&e.rewardTier===(dungeon.encounterTier??'normal')))
           enemyHpFactor(difficulty.enemyLevel,enemyHpProfile(encounter),content);
       } catch { errors.push('Unsupported dungeon HP level '+dungeon.id); }
+      errors.push(...validateBookDrops(content,difficulty,dungeon.id));
       const rewards = Object.entries(difficulty.reward ?? {});
       const expectedReward={gold_mine:'coins',dangerous:'recruitmentShards',training_grounds:'characterXp',breakthrough_trial:'limitBreakStones'}[dungeon.id];
       if(expectedReward&&!Object.hasOwn(difficulty.reward??{},expectedReward))errors.push('Invalid reward kind '+dungeon.id);

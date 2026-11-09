@@ -53,7 +53,7 @@ test('room scouting reveals every enemy and scaled stats, survives party/equipme
  await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();await expect(page.locator('.embark')).toBeFocused();await expect(rooms).toHaveCount(0);
 });
 
-for(const[level,amount]of[['easy',1],['medium',3],['hard',5]]as const){
+for(const[level,amount]of[['easy',3],['medium',6],['hard',10]]as const){
  test(level==='hard'?'dangerous hard defeat never grants rewards or consumes the daily claim':`dangerous ${level} clears the scouted rooms, carries resources and grants ${amount} Pure Prisma only once`,async({page})=>{
   test.setTimeout(120000);await seed(page,level==='hard');await page.goto(`/dungeon/dangerous?selected=${level}`);
   await page.locator('.embark').click();await expect(page.locator('.dungeon-room-card')).toHaveCount(plans[level].length);await expect(page.getByRole('dialog')).toContainText('Phòng 1');await page.getByRole('dialog').getByRole('button',{name:'Bắt đầu thám hiểm',exact:true}).click();await expect(page).toHaveURL(/battle$/);

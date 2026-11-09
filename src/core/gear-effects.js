@@ -1,4 +1,4 @@
-import {lifeDebt} from './life-debt.js';
+import {lifeDebt,externalHealingBlocked} from './life-debt.js';
 import {battleMaxMp} from './stat-values.js';
 
 import {isAlive} from "./actor-life.js";
@@ -67,7 +67,7 @@ export function gearBuffApplied(b,source,target,definition,io){
 // Choose once before the heal resolves: AoE order cannot change the lowest-HP recipient.
 export function prepareGearHealing(b,actor,targets,skill,ctx){
  if(!activeSkill(ctx)||!skill.effects.some(e=>e.type==='heal'))return;
- const candidates=targets.filter(t=>alive(t)&&t.team===actor.team).sort((a,b)=>a.hp/a.stats.maxHp-b.hp/b.stats.maxHp);
+ const candidates=targets.filter(t=>alive(t)&&t.team===actor.team&&!externalHealingBlocked(t,actor.id)).sort((a,b)=>a.hp/a.stats.maxHp-b.hp/b.stats.maxHp);
  ctx.gearHealRatios=new Map(candidates.map(t=>[t.id,t.hp/t.stats.maxHp]));
  ctx.gearHealTargets=new Map([...recipes(actor,'emergency_heal')].map(r=>[r.effectGroup,candidates.find(t=>t.hp/t.stats.maxHp<r.effect.threshold)?.id]));
 }

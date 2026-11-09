@@ -32,11 +32,11 @@ Với task liên quan thời hạn, lượt hoặc phản ứng, đọc [COMBAT_
 - Hầm Ngục Ảo Ảnh đã gỡ. Không khôi phục node/roguelike/loot/weight từ tài liệu cũ. `legacy-illusion-*`, trường illusion và flag cũ tồn tại để load save, không chứng minh chế độ còn chơi được.
 - Alice được mở qua Biên Niên Ký I; Miraebolis qua finale Quyển II. Legacy flag có thể vẫn tồn tại; tra quest-catalog.js, không tự mở khóa toàn bộ siêu trùm.
 - Mọi enemy template hiện dùng chỉ số nền Lv 1. HP curve chọn theo encounter, không theo từng enemy. Không trở lại ref 25/ref 60, không chồng hệ số dungeon cũ lên curve Level.
-- Level không tự tăng stat: điểm phân bổ và Rank là tiến trình riêng. Truyện ba chương Lv 10/20/30; epilogue Arthur Lv30. Skill Rank tăng tất cả nhóm hợp lệ; damage/heal/shield 10%, stat buff hợp lệ 5%, không tự tăng damage amp.
+- Level không tự tăng stat: điểm phân bổ và Rank là tiến trình riêng. Truyện ba chương Lv 10/20/30; epilogue Arthur Dễ/Thường/Khó Lv1/30/60. Skill Rank tăng tất cả nhóm hợp lệ; damage/heal/shield 10%, stat buff hợp lệ 5%, không tự tăng damage amp.
 - Arena là prototype AI offline. Không có banlist/app admin/update JSON bên ngoài EXE được triển khai. Monica không perma-ban trong code; dùng AI chung. PvP override là bản clone bất biến theo trận; không sửa dữ liệu PvE.
 - **Bản sắc lớp Thuật Sư:** ưu tiên VFX nhận diện riêng gắn với cơ chế đặc trưng (triệu hồi, trường thời gian, ma trận, sắc lệnh…). Trong PvE có thể có hiệu ứng trên bàn đấu hoặc scene riêng theo thiết kế; không bắt buộc đổi background cho mọi Thuật Sư. Đây là định hướng authoring, không phải renderer tự cấp hiệu ứng chỉ từ roleGroup.
 - Không phải ai có combatMode cũng được đổi nền. Yufina/Joshua/Selene dùng nhãn cục bộ; Sandra có VFX chiêu tạm thời, không có background riêng. Arena chuẩn hóa mọi mode trong card, không để đối thủ ghi đè nền/BGM.
-- Astoria là developer test, opt-in theo hồ sơ, dupe 0, không trong gacha. Magnamut ở phòng giữa dungeon không biến mất/refund; phase Miraebolis không phải mode exit.
+- Astoria là nhân vật chính thức #93, sau Chiyoko #92; #33 deprecated. Giữ stable ID `astoria` và toàn bộ sở hữu/tiến trình từ bản thử nghiệm. Có trong gacha, không còn nút bật/tắt developer. Magnamut ở phòng giữa dungeon không biến mất/refund; phase Miraebolis không phải mode exit.
 - Lore: Simon thuộc Vertosse, không mang họ Vertosse. Oán Hận là trạng thái/group, **không phải nguyên tố**. Nguyệt là nguyên tố riêng, chưa có nhân vật chính thức dùng.
 - Phe phái: `affiliation` là slug tiếng Anh, nhãn Việt trong `AFFILIATION_LABELS`; danh sách và luật ở [AFFILIATIONS](AFFILIATIONS.md). Trang `/characters` mặc định chỉ nhân vật đã sở hữu, sắp Level giảm dần.
 - Hai nhân vật mới 04/11/2026: **Amaryllis** (Rhett facility, Thổ, hồi máu + hồi sinh toàn đội, xem [AMARYLLIS](AMARYLLIS.md)) và **Brant** (Hội Thợ Săn, Thủ Hộ chắn đòn AoE/Liên kích, xem [BRANT](BRANT.md)). Effect `revive` và VFX hồi sinh dùng chung; `coverArea`/`coverReactions`/`cover_guard` mở rộng Che chắn có kiểm chứng hai kịch bản Mori+Artesia và Joshua. Cả hai đã vào pool banner `standard`; Che chắn và Khiêu Khích của Brant dùng chung clock `main_turn` nên Vòng Phụ không bào thời hạn.
@@ -82,3 +82,31 @@ Code/ID/enum/schema có thể giữ tiếng Anh để ổn định và dễ làm
 ## Harness local — cập nhật04/11/2026
 
 Đã kéo source chính thức và cài runtime riêng; launcher, đường dẫn và cách cấu hình provider ở [DEEPSEEK_HARNESS_SETUP](DEEPSEEK_HARNESS_SETUP.md). Không sửa dependency game. Phần “không cài Harness ở task tài liệu” ở trên mô tả phạm vi lần rà soát trước; yêu cầu cài đặt sau đó đã được thực hiện. Chưa cấu hình/gọi model hoặc kiểm chứng cộng tác AI thực tế.
+
+Ember/Myonne: [ELEMENT_SUPPORTS](ELEMENT_SUPPORTS.md) ghi contract hỗ trợ theo hệ, bộ lọc targetElement và hai nội tại xét kỹ năng đồng đội khác sau khi quyết toán Sơ Hở. Cả hai đã ở banner standard.
+
+- [Verena: tự Thế Chấp, trả nợ thay MP và chặn hồi từ ngoài](VERENA.md) — cập nhật 04/11/2026.
+
+- [Hồn Kiếm / Tsukiha](SWORD_SOUL.md): nguyên tố mới, đòn Hỏa + Hồn Kiếm, tài nguyên đội 0–6 với hai nhóm tăng tự nhiên mỗi vòng; `preferTeamResource` / `hitsWhenTeamSpent` / `baseStatPerStack` dùng chung. Cập nhật 05/11/2026.
+
+- [Izuna / Shion / Amiya / Kaguya](SWORD_SOUL_QUARTET.md) — Hồn Kiếm: Liên kích kết liễu có tiêu ảo, tạo trực tiếp/đầu vòng, giảm CD, ưu tiên Lượt Thêm, Chúc Phúc và trần10 theo đội (05/11/2026).
+
+- [Chiêu Mộ theo phe và balance Hồn Kiếm](RATE_UP_BANNERS.md) — lịch Việt Nam, FIFO15, rate-up, pity riêng và hết hạn, carousel Chủ Nhật; Amiya cần3 thành viên và hồi MP toàn đội; burst Tsukiha175%/hit. Cập nhật05/11/2026.
+
+- [Miyuki và Choáng theo chỉ số](MIYUKI_AND_CONTROL.md) — mode tự vào khi đủ6 Hồn Kiếm, 3 lượt chủ, tái vào nếu còn đủ; boss miễn Choáng, giữ ngoại lệ nhện vỡ khiên. Shion chỉ cấp lượt cho đồng đội Hồn Kiếm. Pity từng banner, không chuyển/hết đợt đặt lại.
+
+## Kinh tế và Thông Thạo — 06/11/2026
+#1–#31 mở Thông Thạo sau Rank5/Lv50, trừ kỹ năng fixed và mọi nhánh Ogre’s Bane. Chi phí1/2/3 Original; output Bạc/Vàng/Cầu Vồng lần lượt ×1,12/×1,12/×1,15, buff chỉ số ×1,06/×1,06/×1,075, chiêu giảmMP tiếp ×0,9 sau sànRank5. Savev7 dùng rank6–8 nội bộ. Tái rèn Trấn nay10Pure. Shop chọn nhân vật dùng1Vé; 300rate-up mới/ vé, cộng dồn mọi đợt; không hồi tố hoặc tính banner thường. Xem SKILL_MASTERY, RATE_UP_BANNERS, SCALING_REVIEW_AFTER_31. Từ #32 chỉ mở Mastery cho tám nhân vật được chỉ định ở bổ sung dưới; không tự mở hoặc buff các nhân vật khác.
+
+## Bổ sung Arthur/Thông Thạo — 06/11/2026
+Mở Mastery cho Sylva, Monica, Logia, Tywin, Tobin, Lumine, Rivia, Elise ngoài nhóm#1–31. Mastery chỉ PvE; mọi PvP kể cả mirror/practice giới hạn hiệu lực Rank5 hai bên, không sửa save. Vĩ thanh Arthur chuyển Dễ1/Thường30/Khó60; giữ IDThường cũ. Dễ cấp cờ Phương Đông+ô gear, Thường cấp hai chiêu, Khó cấp nội tại mở trận3 Cộng hưởng/KiếmQuang thêm1 xác suất ATK căn bản/150 và quyền Rank1–5 Ogre, không Mastery. Chi tiết ARTHUR_COMPLETE_CONTROL, SKILL_MASTERY. Đã áp dụng hệ số12%/6% ở Bạc/Vàng và15%/7,5% ở Cầu Vồng theo từng mức trước. Giảm MP-only vẫn10%/mức.
+
+Trấn Phái mới cho Iwayn/Percival/Mandred/Kreider/Logia/Yufina/Elise/Yumia/Valery/Tobin/Rivia/Bennett/Judy: mở công thức10 Blueprint, chỉ khi trang bị. Iwayn dùng chênh HP% tuyệt đối, +1,5% ATK/mỗi1% chênh, cap75%, không thay native damage30%. Yufina chốt tăng giảm MP trong mode từ12% lên24%, không giảmCD. Xem EXCLUSIVE_BALANCE_2026_11_06.
+
+
+## Đấu Trường: Danh Dự và Đấu Hạng (06/11/2026)
+Xem [ARENA_RANKED_HONOR](ARENA_RANKED_HONOR.md). Tìm Trận có Đấu Thường chuẩn hóa50/5 và Đấu Hạng dùng build thật, cần16 người chính thức (tính cả Astoria đã sở hữu). Chỉ hạng có chọn5/cấm1 mỗi bên, không trùng, không bước bảo vệ. Danh Dự20/5/0, trần100/ngày; mốc thắng1/3/5 thưởng1/1/2 Pure độc lập. Đổi Pure20 Danh Dự,35/tuần; Original300,1/tuần. Điểm+20/−10, mốc0/100/250/450/700. Save v7 thêm tùy chọn `honor`/`arenaProgress`; pending lưu trước, receipt một lần sau trận; pending khi khởi động lại xử thua. Không app admin/online/banlist mới. Shop bốn tab, Original cuối Đổi thông thường.
+
+
+## Cấm chung và cap PvP hai ngưỡng — 06/11/2026
+Đấu Hạng có modal cấm chung trước chọn: toàn roster chính thức, có sort/filter; Đồng/Bạc tổng2 lượt (1/bên), Vàng trở lên tổng4 (2/bên), A/B luân phiên, chặn dùng lại ở cả hai pool. Vẫn chọn5/cấm1 cuối như cũ. Hạng lấy pending.rankAtEntry, không tăng điều kiện16 người. PvP ruleset arena-0.3.0 thêm T2=2×T1, lấy tổng sau cap1 để áp cap2; 1.000 đơn →325 →231,25, floor231. AoE/random chia cả hai ngân sách; multi-hit cộng dồn một đường cong. PvE giữ nguyên. Chi tiết ARENA_RANKED_HONOR/PVP_RULES_AI, test arena-preban-caps.

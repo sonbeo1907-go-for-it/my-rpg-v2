@@ -4,20 +4,21 @@ import { useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { SummonCardFront } from "./summon-cards";
 import { useSummonBatch } from "./summon-reveal";
-import { EmptyState, PageHeader, Modal, StatGrid, RoleIcon } from "./ui";
+import { EmptyState, PageHeader, Modal, StatGrid, RoleIcon, CurrencyAmount } from "./ui";
 import { GEAR_NAMES, STAT_LABELS } from "../core/catalog.js";
 import { resolveCharacter } from "../core/progression.js";
 
 export function SummonResultsPage() {
   const batch = useSummonBatch();
+  const recruitmentHref = batch ? `/recruitment?banner=${encodeURIComponent(batch.rateUp?.id??batch.bannerId)}` : "/recruitment";
   const { content, campaign } = useGame();
   const [selected, setSelected] = useState<any>(null);
   if (!batch)
     return (
       <main className="page">
-        <PageHeader title="Kết quả Chiêu Mộ" back="/recruitment" />
+        <PageHeader title="Kết quả Chiêu Mộ" back={recruitmentHref} />
         <EmptyState>Chưa có kết quả cho lượt này.</EmptyState>
-        <Link className="button gold" href="/recruitment">
+        <Link className="button gold" href={recruitmentHref}>
           Về Chiêu Mộ
         </Link>
       </main>
@@ -35,8 +36,8 @@ export function SummonResultsPage() {
     <main className="summon-results-page">
       <PageHeader
         title="Những hồi đáp từ Prisma"
-        subtitle={`${content.banners[batch.bannerId].name} · ${batch.results.length} kết quả đã lưu`}
-        back="/recruitment"
+        subtitle={`${(batch.rateUp?content.banners.standard.rateUpRotation.groups.find((g:any)=>g.id===batch.rateUp.groupId)?.name:content.banners[batch.bannerId].name)} · ${batch.results.length} kết quả đã lưu`}
+        back={recruitmentHref}
       />
       <div className="results-intro">
         <span className="eyebrow">MỖI CUỘC GẶP ĐỀU ĐỂ LẠI MỘT DẤU ẤN</span>
@@ -69,7 +70,7 @@ export function SummonResultsPage() {
         </div>
       </div>
       <div className="summon-result-summary">
-        <span>{gearCount} trang bị</span>
+        <span>{gearCount} trang bị</span>{batch.ticketReward>0&&<CurrencyAmount kind="recruitment_ticket" amount={batch.ticketReward}/>}
         <span>
           {characters.length} nhân vật · {newCount} đồng đội mới
         </span>
@@ -86,7 +87,7 @@ export function SummonResultsPage() {
           Xem lại reveal
         </Link>
         <span>Phần thưởng đã được lưu · Xem lại không tiêu coin</span>
-        <Link className="button gold" href="/recruitment">
+        <Link className="button gold" href={recruitmentHref}>
           Về Chiêu Mộ →
         </Link>
       </footer>

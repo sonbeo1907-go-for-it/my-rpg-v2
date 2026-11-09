@@ -39,10 +39,12 @@ const keyFor = (element: HTMLElement) =>
   element.getAttribute("aria-label") ||
   `${element.tagName}:${element.className}:${element.textContent?.trim().slice(0, 90)}`;
 function initial(root: ParentNode, path: string) {
+  if(root instanceof Element&&root.matches('dialog.arena-preban-modal'))return root.querySelector<HTMLElement>('.arena-preban-grid button:not(:disabled),.filter-bar input');
   if(root instanceof Element&&root.matches('dialog'))return root.querySelector<HTMLElement>('[role=tab][aria-selected=true]')??root.querySelector<HTMLElement>('footer button:not(:disabled)')??controls(root)[0];
   if(path==='/chronicles')return root.querySelector<HTMLElement>('.chronicle-book-cover');
   if(path==='/chronicles/book2')return root.querySelector<HTMLElement>('[data-fortress-primary]:not(:disabled),.fortress-area-list .selected');
   if(path.startsWith('/chronicles/'))return root.querySelector<HTMLElement>('.chronicle-hotspot,.chronicle-scene-actions .gold,.chronicle-location-list .selected');
+  if(path==='/arena/match')return root.querySelector<HTMLElement>('.draft-grid button:not(:disabled),.draft-formation button,.arena-match-tabs .selected');
   if (path === "/stories") return root.querySelector<HTMLElement>(".story-book");
   if (path.startsWith("/stories/")) return root.querySelector<HTMLElement>(".quest-card.selected,.quest-card:not(:disabled)");
   if (path.startsWith("/dungeon/"))
@@ -104,6 +106,7 @@ function hintList(
   if(path==='/chronicles/book2'&&!root.matches('dialog'))return [['A','Chọn'],['X','Công việc'],['Y','Đội hình'],['LB / RB','Khu vực'],['LT / RT','Đổi vùng'],['B','Khu vực / Kệ sách'],['RS','Cuộn']];
   if(path.startsWith('/chronicles')&&!root.matches('dialog'))return root.querySelector('.chronicle-location-list')?[['A','Chọn'],['LB / RB','Địa điểm'],['B','Trở về'],['RS','Cuộn']]:[['A','Tương tác'],['B','Trở về'],['RS','Cuộn']];
   if (root.matches("dialog")) {
+    if(root.matches(".arena-preban-modal"))return [["A","Chọn"],["X","Xác nhận cấm"],["Y","Bộ lọc"],["B","Rời trận"],["RS","Cuộn"]];
     if (root.querySelector(".settings-tabs"))
       return [
         ["A", "Thay đổi"],
@@ -187,6 +190,7 @@ function hintList(
       ["↑ / ↓", "Di chuyển"],
       ["B", "Trở về"],
     ];
+  if(path==='/arena/match')return [['A','Chọn'],['X','Xác nhận'],['LB / RB','Chế độ'],['B','Trở về'],['RS','Cuộn']];
   if (path === "/quests")
     return [["A", "Chọn"], ["LB / RB", "Thảo Phạt / Truy Nã / Hiểm Ác"], ["LT / RT", "Độ khó"], ["Y", "Bộ lọc"], ["B", "Trở về"], ["RS", "Cuộn"]];
   if (["/characters", "/inventory"].includes(path))
@@ -306,7 +310,7 @@ export function GamepadNavigation() {
         }
         document
           .querySelector<HTMLElement>(
-            ".page-header .back-button,.home-title-link",
+            "[data-arena-leave],.page-header .back-button,.home-title-link",
           )
           ?.click();
         return;
@@ -398,6 +402,7 @@ export function GamepadNavigation() {
           );
       } else if (action === "x") {
         if (root.matches("dialog")) {
+          const prebanConfirm=root.querySelector<HTMLButtonElement>('.arena-preban-confirm:not(:disabled)');if(prebanConfirm){prebanConfirm.click();return;}
           if (root.querySelector(".modal-grid"))
             root
               .querySelector<HTMLButtonElement>(
@@ -406,6 +411,7 @@ export function GamepadNavigation() {
               ?.click();
           return;
         }
+        if(path==='/arena/match'){root.querySelector<HTMLButtonElement>('.draft-action button:not(:disabled)')?.click();return;}
         if (path === "/party")
           active
             .closest(".party-member")
@@ -431,7 +437,7 @@ export function GamepadNavigation() {
         else root.querySelector<HTMLButtonElement>('[data-gamepad-page="'+(action==='lt'?'previous':'next')+'"]:not(:disabled)')?.click();
       } else if (action === "lb" || action === "rb") {
         const tabs = root.querySelector(
-          ".fortress-area-list,.chronicle-location-list,.settings-tabs,.page-wide-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",
+          ".arena-match-tabs,.fortress-area-list,.chronicle-location-list,.settings-tabs,.page-wide-tabs,.shop-tabs,.preset-bar,.quest-category-tabs,.inventory-tabs,.blacksmith-tabs",
         );
         if (tabs) {
           const items = controls(tabs);

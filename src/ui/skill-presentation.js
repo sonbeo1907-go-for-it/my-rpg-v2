@@ -1,3 +1,9 @@
+import {statusApplicationChance} from '../core/status-chance.js';
+import {STAT_LABELS} from '../core/catalog.js';
+import {ELEMENT_NAMES} from '../core/content.js';
+import {elementLabel} from '../core/elements.js';
+import {selectedTeamCost,spentTeamHits} from '../core/team-resources.js';
+import {preferredLifeDebtCost,lifeDebt} from '../core/life-debt.js';
 import {previewPaidMp} from '../core/powder-combat.js';
 import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive-specials.js';
 import {resolveRankedAbility} from '../core/skill-resolver.js';
@@ -22,15 +28,18 @@ export function skillDescription(skill) {
     : 'Đòn cơ bản, không tốn tài nguyên.';
 }
 
-export function skillCost(skill, actor) {
+export function skillCost(skill, actor, battle) {
   const costs = [];
+  if(skill.cost?.preferLifeDebtRatio){const n=Math.ceil(actor.stats.maxHp*skill.cost.preferLifeDebtRatio);costs.push('Ưu tiên '+n+' Thế Chấp ('+Math.round(skill.cost.preferLifeDebtRatio*100)+'% HP tối đa) · Không đủ: '+mpCost({...skill,cost:{mp:skill.cost.mp}},actor)+' MP');if(actor.hp!==undefined)costs.push('Hiện tại: '+(preferredLifeDebtCost(skill,actor)?n+' Thế Chấp':mpCost(skill,actor)+' MP'));}
+  if(skill.cost?.consumeAllLifeDebt)costs.push('Toàn bộ Thế Chấp'+(actor.hp!==undefined?' ('+lifeDebt(actor)+' HP)':''));
+  if(skill.cost?.preferTeamResource){const r=skill.cost.preferTeamResource,name=actor.teamResources?.[r.id]?.name??'Hồn Kiếm';costs.push('Ưu tiên '+(r.all?'toàn bộ (ít nhất '+r.min+')':r.amount)+' '+name+' · Thiếu: '+mpCost({...skill,cost:{mp:skill.cost.mp}},actor)+' MP');if(battle)costs.push('Hiện tại: '+(selectedTeamCost(battle,actor,skill)?(r.all?battle.teamResources?.[actor.team]?.[r.id]?.value:r.amount)+' '+name:mpCost(skill,actor,battle)+' MP'));}
   const preferred=skill.cost?.preferResource;
   if (preferred) {
     const name=actor.resources[preferred.id].name;
     costs.push('Ưu tiên '+preferred.amount+' '+name+' · Thiếu tầng: '+skill.cost.mp+' MP');
     if (actor.resourceValues) costs.push('Hiện tại: '+(resourceCost(skill,actor) ? preferred.amount+' '+name : mpCost(skill,actor)+' MP'));
   }
-  if (skill.cost?.mp && !preferred) {
+  if (skill.cost?.mp && !preferred && !skill.cost?.preferLifeDebtRatio && !skill.cost?.preferTeamResource) {
     const base=mpCost(skill,actor);
     const cap=actor.passive?.type==='extra_mp_damage' && skill.effects.some(effect=>effect.type==='damage') ? Math.ceil(base*actor.passive.extraCostRatio) : 0;
     const extra=actor.mp===undefined?cap:Math.min(cap,Math.max(0,actor.mp-base));
@@ -113,6 +122,7 @@ const percent = value => `${number(value * 100)}%`;
 export function skillPreviewOptions(skill, actor, content) {
   const controls = [];
   if(actor.teamResources?.gunpowder&&previewPaidMp(skill,actor)>=5)controls.push({key:'powderSpent',label:'Thuốc Súng giả định',min:0,max:Math.min(6,Math.floor(previewPaidMp(skill,actor)/5))});
+  if(skill.cost?.preferTeamResource)controls.push({key:'teamSpent',label:'Hồn Kiếm tiêu giả định',min:0,max:skill.cost.preferTeamResource.all?10:skill.cost.preferTeamResource.amount});
   if(skill.cost?.teamResource?.all){const r=skill.cost.teamResource;controls.push({key:'teamSpent',label:(actor.teamResources?.[r.id]?.name??'Bằng Chứng')+' tiêu giả định',min:r.min,max:actor.teamResources?.[r.id]?.max??6});}
   if(skill.formationVariants)controls.push({key:'formationPosition',label:'Vị trí giả định',min:1,max:4,initial:(actor.formationSlot??0)+1});
   const shared=skill.effects.find(e=>e.teamResourceScaling)?.teamResourceScaling;if(shared)controls.push({key:'teamResourceStacks',label:(actor.teamResources?.[shared.id]?.name??'Tài nguyên đội')+' giả định',min:0,max:actor.teamResources?.[shared.id]?.max??6});
@@ -137,13 +147,13 @@ export function skillScaling(skill, actor, content, choices = {}) {
   const valueOf = key => choices.live ? battleStat(content, actor, key,false,bonuses[key]??0,choices.baseStatBonuses?.[key]??0) : effectiveStat(actor, key,bonuses[key]??0);
   const cost = resourceCost(skill,actor);
   const resourceName = cost ? actor.resources[cost.id].name : '';
-  const sharedCost=skill.cost?.teamResource,teamSpent=choices.teamSpent??(sharedCost?.all?sharedCost.min:sharedCost?.amount??0);
+  const sharedCost=(skill.cost?.teamResource??skill.cost?.preferTeamResource),teamSpent=choices.teamSpent??(sharedCost?.all?sharedCost.min:sharedCost?.amount??0);
   const spent = choices.spent ?? (cost?.all ? actor.resources[cost.id].max : cost?.amount ?? 0);
   const bonuses=specialSkillStatBonuses(actor,skill,{spentResource:cost?.id,spent,fullExtraPayment:actor.passive?.type==='extra_mp_damage'&&skill.cost?.mp>0&&skill.effects.some(e=>e.type==='damage')&&(actor.mp===undefined||actor.mp>=mpCost(skill,actor)+Math.ceil(skill.cost.mp*actor.passive.extraCostRatio))});
   for(const[k,n]of Object.entries(teamSpendStatBonuses(actor,skill,teamSpent)))bonuses[k]=(bonuses[k]??0)+n;
   const perPerson = skill.target === 'all_allies' ? '/người' : '';
   for (const authoredEffect of skill.effects) {
-    const effect=exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks??0),teamSpent),{correct:choices.formulaCorrect??0}));
+    const effect=spentTeamHits(exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks??0),teamSpent),{correct:choices.formulaCorrect??0})),teamSpent);
     if (effect.type==='formula_field') lines.push('Đại Đồ Thức: '+effect.durationRounds+' vòng · '+effect.sequence.map(tag=>FORMULA_NAMES[tag]).join(' → ')+'.');
     if (effect.type==='edit_formula') lines.push('Đổi chỗ hai dấu hoặc viết lại một dấu; viết lại mang nguồn người hiệu chỉnh.');
     if (effect.type==='end_formula') lines.push('Kết thúc Đại Đồ Thức sau khi thi triển.');
@@ -153,15 +163,17 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.type === 'damage') {
       const stat = scalingLabel(effect,{maxHp:'HP tối đa',attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'});
       let formula = effect.primaryMultiplier !== undefined ? `${percent(effect.primaryMultiplier)} ${stat} mục tiêu chính / ${percent(effect.multiplier)} ${stat} còn lại` : `${percent(effect.multiplier ?? 1)} ${stat}`;
+      if(effect.divideAmongTargets)formula+=' chia đều cho mọi địch';
       if (effect.perResource) formula += ` + ${percent(effect.perResource)} ${stat} mỗi ${resourceName} đã tiêu`;
       if (effect.perStack) formula += ` + ${percent(effect.perStack)} ${stat} mỗi ${content.statuses[effect.consumeStatus].name}`;
       if(effect.perTargetBuff)formula+=' + '+percent(effect.perTargetBuff)+' '+stat+' mỗi buff địch (tối đa '+effect.maxTargetBuffs+')';
       if (effect.lowHpBonus) formula += ` + tối đa ${percent(effect.lowHpBonus)} ${stat} theo tỷ lệ HP đã mất`;
       const speedRatio = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speedRatio > 0) formula += ` + ${percent(speedRatio)} SPD`;
+      if(effect.additionalElements)lines.push('Nguyên tố: '+elementLabel(effect,ELEMENT_NAMES)+' · điểm yếu chỉ áp dụng một lần.');
       const hitPrefix = effect.hits > 1 ? `${effect.hits} hit × (` : '';
       const hybrid = new Set(skill.effects.filter(effect => effect.type === 'damage').map(effect => effect.damageType)).size > 1;
-      lines.push(`Hệ số${hybrid ? effect.damageType === 'physical' ? ' phần vật lí (tính DEF)' : ' phần ma pháp (tính RES)' : ''}: ${hitPrefix}${formula}${hitPrefix ? ')' : ''}.`);
+      lines.push(`${effect.to==='primary'?'Mục tiêu chính · ':''}Hệ số${hybrid ? effect.damageType === 'physical' ? ' phần vật lí (tính DEF)' : ' phần ma pháp (tính RES)' : ''}: ${hitPrefix}${formula}${hitPrefix ? ')' : ''}.`);
       if (actor.passive?.type === 'field_growth' && !choices.live) {
         const passive = actor.passive;
         const growth = choices.fieldStacks ?? actor.statuses?.find(status => status.id === passive.statusId)?.growth ?? 0;
@@ -186,6 +198,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (effect.formulaScaling) { const power=formulaPower(actor,{correct:choices.formulaCorrect??0,contributors:choices.formulaContributors??0});lines.push((choices.live?'Hiện tại':'Giả định')+': '+power.correct+'/3 dấu đúng · +'+power.baseMagic+' MAG căn bản cho cả ba hit.'); }
       if (effect.unavoidable) lines.push('Hội Tâm: bỏ qua né tránh.');
     }
+    if(effect.spentLifeDebtRatio!==undefined){lines.push('Bản thân hồi '+percent(effect.spentLifeDebtRatio)+' khoản Thế Chấp vừa tiêu. Xóa nợ trước khi hồi; Vết Thương Sâu vẫn giảm hồi.');continue;}
     if (effect.type === 'heal' || effect.type === 'shield') {
       const label = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
       const value = scalingValue(effect,valueOf);
@@ -195,6 +208,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (effect.durationRounds) lines.push('Khiên tồn tại '+effect.durationRounds+' vòng, tính cả vòng thi triển; hết thời hạn không kích hoạt hiệu ứng vỡ khiên.');
       if (effect.type === 'heal' && effect.emergency) lines.push(`Khi mục tiêu còn ≤${percent(EMERGENCY_HP_THRESHOLD)} HP: lượng hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${number(supportAmount(effect, value, true))} HP${perPerson}.`);
     }
+    if(effect.onHitDispelCount)lines.push('Nếu gây sát thương HP hoặc khiên: xóa '+effect.onHitDispelCount+' buff trên mục tiêu trúng đòn.');
     if (effect.type === 'revive') {
       const hp=percent(effect.hpRatio ?? 1), mp=percent(effect.mpRatio ?? 1);
       lines.push(`Hồi sinh toàn đội: người đã gục trở lại với ${hp} HP tối đa; cả đội được hồi về ${hp} HP và ${mp} MP tối đa.`);
@@ -210,6 +224,11 @@ export function skillScaling(skill, actor, content, choices = {}) {
     }
     if(effect.lifeStealRatio)lines.push('Hút máu '+percent(effect.lifeStealRatio)+' sát thương HP thực gây ra; không tính khiên hoặc overkill.');
     if(effect.type==='shield'&&effect.primaryMultiplier!==undefined)lines.push('Mục tiêu chính: '+percent(effect.primaryMultiplier)+' '+scalingLabel(effect,{defense:'DEF',speed:'SPD'})+'; các đồng đội còn lại: '+percent(effect.multiplier)+' cùng chỉ số.');
+    if(effect.type==='reduce_cooldowns')lines.push('Giảm '+effect.amount+' vòng hồi chiêu đang có, không xuống dưới 0.');
+    if(effect.selectAlly)lines.push('Chọn đồng đội Hồn Kiếm khác còn sống ở ô nhỏ nhất; thiếu mục tiêu thì chỉ bản thân nhận lượt.');
+    if(effect.onHitStatus?.chanceScaling){const q=effect.onHitStatus.chanceScaling;lines.push('Choáng: '+Number((statusApplicationChance(content,{...actor,statuses:actor.statuses??[]},q)*100).toFixed(1))+'%, tối đa '+Number(q.cap*100)+'% tại '+q.at+' '+STAT_LABELS[q.stat]+' ('+(q.basis==='base'?'căn bản':'hiện tại')+'). Boss miễn nhiễm.');}
+    if(effect.requiresDamageHit)lines.push('Cần mục tiêu thực sự nhận sát thương HP hoặc khiên từ chiêu.');
+    if(effect.onHitStatus?.primaryStacks)lines.push('Sơ Hở: '+effect.onHitStatus.primaryStacks+' tầng ở mục tiêu chính / '+effect.onHitStatus.stacks+' ở mục tiêu còn lại.');
     if (effect.type === 'grant_extra_turn') lines.push('Cấp 1 Lượt Thêm trong Vòng Phụ hiện tại; tối đa 1/người/vòng. Không chen lượt chính. Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     if (effect.onHitStatus) {
       const mark=content.statuses[effect.onHitStatus.status];
@@ -278,6 +297,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     const spent=Math.min(cap,available);
     lines.push('Nội tại: tiêu thêm '+spent+'/'+cap+' MP một lần cho cả chiêu → sát thương ×'+number(1+actor.passive.maxDamageBonus*spent/cap)+'; không tính riêng mỗi mục tiêu/hit.');
   }
-  if(Object.keys(teamSpendStatBonuses(actor,skill,teamSpent)).length)lines.push('Nội tại: +'+percent(actor.passive.ratio)+' ATK riêng cho kỹ năng tiêu Bằng Chứng.');
+  if(actor.passive?.type==='spent_team_resource_stat'&&teamSpent>0)lines.push('Nội tại: +'+percent(actor.passive.ratio)+' ATK riêng cho kỹ năng tiêu Bằng Chứng.');
+  if(skill.spentTeamStatBonus){const r=skill.spentTeamStatBonus;lines.push('Mỗi Hồn Kiếm tiêu vượt '+r.above+': +'+percent(r.perStack)+' '+STAT_LABELS[r.stat]+' cho chiêu này.');}
   return lines;
 }

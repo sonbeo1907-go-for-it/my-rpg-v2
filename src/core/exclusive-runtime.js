@@ -24,3 +24,18 @@ export function exclusiveAfterSkill(b,a,skill,context,io){
 export function exclusiveShieldBreak(b,a,io){for(const p of specialPassives(a,'shield_break_mp'))if(alive(a)&&procAvailable(b,a,'exclusive_shield_mp')){markProc(b,a,'exclusive_shield_mp');announce(b,a,p,io);io.restore(b,a,'mp',p.amount);}}
 export function exclusiveAutomaticHit(b,a,skillId,landed,io){if(!landed||!alive(a))return;for(const p of specialPassives(a,'automatic_damage_mp'))if(p.abilityIds.includes(skillId)&&procAvailable(b,a,'exclusive_auto_mp')){markProc(b,a,'exclusive_auto_mp');announce(b,a,p,io);io.restore(b,a,'mp',p.amount);}}
 export function exclusiveWardBlocked(b,owner,target,io){if(!owner||owner.team!==target.team)return;for(const p of specialPassives(owner,'ward_shield')){announce(b,owner,p,io,target.id);io.shield(b,target,Math.round(io.stat(b,owner,p.stat)*p.ratio),owner.id);}}
+
+// Reactive stat buffs cannot recursively trigger another status-observer Trấn.
+export function exclusiveEnemyStatusApplied(b,target,definition,io){
+ for(const owner of b.actors.filter(a=>alive(a)&&a.team!==target.team))for(const p of specialPassives(owner,'enemy_status_self_buff'))if(p.statusKind===definition.kind){announce(b,owner,p,io,target.id);io.status(b,owner,p.statusId,p.duration,owner.id,{exclusiveReaction:true});}
+}
+// Called only after a native resource grant actually increased the pool.
+export function exclusiveResourceBonus(b,actor,resourceId,io){
+ for(const p of specialPassives(actor,'resource_chance_bonus').filter(p=>p.resourceId===resourceId)){
+  if(!alive(actor)||(actor.resourceValues[resourceId]??0)>=actor.resources[resourceId].max)continue;
+  const failures=actor.exclusiveResourceFailures?.[resourceId]??0,chance=Math.min(1,p.chance+failures*p.failureStep),success=b.random()<chance;
+  (actor.exclusiveResourceFailures??={})[resourceId]=success?0:failures+1;
+  io.emit(b,{type:'resource_bonus_roll',sourceId:actor.id,resource:resourceId,chance,success});
+  if(success){announce(b,actor,p,io);io.restore(b,actor,resourceId,p.amount);}
+ }
+}
