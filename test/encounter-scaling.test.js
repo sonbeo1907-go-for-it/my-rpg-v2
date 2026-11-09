@@ -112,7 +112,7 @@ test('all authored encounters and five selectable difficulties wire the same imm
   save.party=encounter.requiredPartyIds?.length?[...encounter.requiredPartyIds]:['arthur','iris','elaine','garrek'];
   const selectable=!encounter.travelerStory&&encounter.rewardTier!=='super';
   const east=['east_key','east_hunt'].includes(encounter.category);
-  for(const difficulty of selectable?(east?encounter.allowedDifficulties:Object.keys(content.progressionRules.default.questDifficulties)):['medium']){
+  for(const difficulty of selectable?(east?encounter.allowedDifficulties:Object.keys(content.progressionRules.default.questDifficulties).filter(key=>!key.startsWith('east_'))):['medium']){
    const battle=createBattle(content,save,encounter.id,()=>.99,{questDifficulty:difficulty});
    const level=selectable?content.progressionRules.default.questDifficulties[difficulty].level:encounter.enemyLevel;
    for(const actor of battle.actors.filter(a=>a.team==='enemy'))assert.deepEqual(actor.stats,levelScaledEnemyStats(content.enemies[actor.definitionId],level,content,1,encounter),encounter.id+'/'+difficulty);

@@ -12,6 +12,9 @@
 .quest-categories .quest-illustration-content { padding-top: 7rem; min-height: 650px; }
 .quest-category-extermination .quest-illustration:after { background: linear-gradient(0deg, #102c2bf7 2%, #12312ed9 21%, #19352e38 53%, #18362d00 80%); }
 .quest-category-extermination .quest-background { background-position: center 35%; }
+.quest-category-east .quest-background { background-position: center center; }
+.quest-category-east .quest-illustration { border-color: #9d7f72; }
+.quest-category-east .quest-illustration:after { background: linear-gradient(0deg,#111f24f7 2%,#182a2cd9 21%,#1b353538 53%,#18362d00 80%); }
 .quest-category-sinister .quest-illustration { border-color: #5b626c; }
 .quest-category-sinister .quest-illustration:after { background: linear-gradient(0deg, #0a1019f5, #0c14224d 65%, #0a0e1833); }
 .quest-category-sinister .quest-board { border-color: #596674; background: linear-gradient(145deg, #202733, #101924); }

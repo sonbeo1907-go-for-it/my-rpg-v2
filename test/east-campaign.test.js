@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
-import {createGameSave} from '../src/core/game-save.js';
+import {createGameSave,encodeGameSave,decodeGameSave} from '../src/core/game-save.js';
 import {createBattle,getActor,executeAction} from '../src/core/battle.js';
 import {createStoryRun,advanceStoryWave} from '../src/core/story-waves.js';
 import {questCatalog,isQuestUnlocked,encounterReturnPath} from '../src/core/quest-catalog.js';
@@ -100,6 +100,15 @@ test('every east boss has two authored mechanics, a telegraph and a valid phase 
  assert.ok(content.abilities['east.tengu_wind'].effects.some(e=>e.status==='east_illusion'&&e.to==='self'));
 });
 
+test('east difficulty is scoped away from normal quests and east first-clear saves load',()=>{
+ const normal=content.encounters.forest_patrol;
+ assert.throws(()=>questDifficulty(content,normal,'east_35'),/Độ khó Phương Đông/);
+ assert.equal(questDifficulty(content,content.encounters.east_ke_01,'east_35').level,35);
+ const s=save();s.claimedFirstClearRewards.push('east_ke_01');s.storyFlags.push('eastern_hunts_unlocked');
+ const loaded=decodeGameSave(encodeGameSave(s,content),content);
+ assert.ok(loaded.claimedFirstClearRewards.includes('east_ke_01'));
+});
+
 test('Hàn Khí stacks up to three and refreshes its duration',()=>{
  const s=save();s.claimedFirstClearRewards=Object.keys(content.encounters);s.storyFlags.push('eastern_hunts_unlocked');s.party=['arthur','iris','elaine','garrek'];
  const b=createBattle(content,s,'east_e_16',()=>.99,{questDifficulty:'east_35'});const enemy=b.actors.find(a=>a.team==='enemy'&&a.abilities?.includes('east.mech_chill'));
@@ -126,6 +135,13 @@ test('Jorōgumo summons a web anchor that can carry the tether cleanup tag',()=>
  const b=createBattle(content,s,'east_ke_04',()=>.99,{questDifficulty:'east_45',storyWaveIndex:2});const boss=b.actors.find(a=>a.team==='enemy');boss.mp=999;
  b.queue=[boss.id];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:boss.id,abilityId:'east.jorogumo_spawn',targetId:getActor(b,'arthur').id});
  assert.ok(b.actors.some(a=>a.addTag==='web_anchor'&&a.summonedBy===boss.id));
+});
+
+test('east catalog defaults to unlock order and key events carry their own marker',()=>{
+ const s=save();s.claimedFirstClearRewards=Object.keys(content.encounters);s.storyFlags.push('eastern_hunts_unlocked');
+ const ids=questCatalog(content,s,{tab:'east'}).map(e=>e.id);
+ assert.deepEqual(ids.slice(0,12),['east_ke_01','east_ke_02','east_ke_03','east_e_01','east_e_02','east_e_03','east_e_04','east_e_05','east_ke_04','east_e_06','east_e_07','east_e_08']);
+ assert.equal(content.encounters.east_ke_01.category,'east_key');assert.equal(content.encounters.east_e_01.category,'east_hunt');
 });
 
 test('east bosses use authored kits and Hồn Kiếm breaks their soul seal',()=>{

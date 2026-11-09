@@ -294,10 +294,13 @@ export function deserializeCampaign(raw, content) {
     !Array.isArray(claimed) ||
     new Set(claimed).size !== claimed.length ||
     claimed.some(
-      (id) =>
-        typeof id !== "string" ||
-        !Object.hasOwn(content.encounters, id) ||
-        (!content.encounters[id].firstClearRewards?.length&&id!=='alice_superboss'),
+      (id) => {
+        if (typeof id !== "string" || !Object.hasOwn(content.encounters, id)) return true;
+        const encounter = content.encounters[id];
+        return !encounter.firstClearRewards?.length
+          && id !== 'alice_superboss'
+          && !['east_key','east_hunt'].includes(encounter.category);
+      },
     )
   )
     throw new Error("Thưởng lần đầu trong save không hợp lệ.");

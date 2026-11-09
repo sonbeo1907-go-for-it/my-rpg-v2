@@ -118,11 +118,12 @@ export const eastMusic=[
 ].map(([id,name,track])=>({id,name,tracks:[track],loop:true}));
 
 const w=(...ids)=>ids;
+const EAST_ORDER=['east_ke_01','east_ke_02','east_ke_03','east_e_01','east_e_02','east_e_03','east_e_04','east_e_05','east_ke_04','east_e_06','east_e_07','east_e_08','east_e_09','east_e_10','east_ke_05','east_e_11','east_e_12','east_e_13','east_e_14','east_e_15','east_ke_06','east_e_16','east_e_17','east_e_18','east_e_19','east_e_20','east_ke_07','east_e_21','east_e_22','east_e_23','east_e_24','east_e_25','east_ke_08'];
 const make=(id,name,category,level,bgm,requires,waves,bossTier=false,extra={})=>{
  const first=waves?waves[0]:extra.enemies;
  const all=waves?waves.flat():extra.enemies;
  const hasBoss=waves?waves.some(w=>w.length===1&&eastEnemies.find(e=>e.id===w[0])?.eastBoss):all.length===1&&eastEnemies.find(e=>e.id===all[0])?.eastBoss;
- return {id,name,description:extra.description??'',category,eastGroup:extra.eastGroup,enemyLevel:level,referenceLevel:1,defaultDifficulty:`east_${level}`,
+ return {id,name,description:extra.description??'',category,eastGroup:extra.eastGroup,eastOrder:(EAST_ORDER.indexOf(id)+1)||999,enemyLevel:level,referenceLevel:1,defaultDifficulty:`east_${level}`,
   allowedDifficulties:extra.allowed??[`east_${level}`],...(extra.fixed?{fixedEnemyLevel:level}:{}),
   ...(waves?{enemies:first,waves}:{enemies:first}),bgm,rewardTier:hasBoss||bossTier?'boss':'normal',hpScalingProfile:hasBoss||bossTier?'boss':'normal',requires,
   ...(extra.group?{eastGroup:extra.group}:{})};
@@ -164,8 +165,7 @@ const anchorByEncounter={
 };
 for(const e of hunts){const anchor=anchorByEncounter[e.id];if(!anchor)continue;const first=e.waves?e.waves[0]:e.enemies;first[0]=anchor;}
 export const eastEncounters=[
- make('east_ke_01','Sóng Dữ Trên Hải Trình','east_key',35,'east_harbor',{storyFlag:'eastern_hunts_unlocked'},[w('east_pirate','east_pirate','east_archer'),w('east_mage','east_guard','east_guard','east_pirate'),w('east_captain')],true,{fixed:true,description:'Toán cướp tập kích giữa biển; W2 có hỏa hoạn báo trước, boss dồn hit sau khi đánh dấu. Điểm yếu: Lôi / Thủy.',allowed:['east_35']}),
- make('east_ke_02','Bến Cảng Không Chào Đón','east_key',35,'east_city',key('east_ke_01'),[w('east_anchor_youkai','east_tsukumogami','east_tsukumogami'),w('east_kappa','east_kappa','east_tanuki')],false,{fixed:true,description:'Youkai cấp yếu chặn đường. Không có boss lớn; xử lý quái hỗ trợ trước. Điểm yếu: Hỏa / Phong.',allowed:['east_35']}),
+ make('east_ke_01','Sóng Dữ Trên Hải Trình','east_key',35,'east_harbor',{storyFlag:'eastern_hunts_unlocked'},[w('east_pirate','east_pirate','east_archer'),w('east_mage','east_guard','east_guard','east_pirate'),w('east_captain')],true,{fixed:true,description:'Toán cướp tập kích giữa biển; W2 có hỏa hoạn báo trước, boss dồn hit sau khi đánh dấu. Điểm yếu: Lôi / Thủy.',allowed:['east_35']}), make('east_ke_02','Bến Cảng Không Chào Đón','east_key',35,'east_city',key('east_ke_01'),[w('east_anchor_youkai','east_tsukumogami','east_tsukumogami'),w('east_kappa','east_kappa','east_tanuki')],false,{fixed:true,description:'Youkai cấp yếu chặn đường. Không có boss lớn; xử lý quái hỗ trợ trước. Điểm yếu: Hỏa / Phong.',allowed:['east_35']}),
  make('east_ke_03','Thanh Kiếm Của Kẻ Hống Hách','east_key',35,'east_city',key('east_ke_02'),null,true,{enemies:['east_hunter'],fixed:true,description:'Hội thợ săn địa phương thử thách nhóm Arthur. Điểm yếu: Quang.',allowed:['east_35']}),
  make('east_ke_04','Lối Mòn Không Có Trên Bản Đồ','east_key',45,'east_forest_boss',group(['east_e_01','east_e_02','east_e_03','east_e_04','east_e_05']),[w('east_kamaitachi','east_spiderling','east_spiderling'),w('east_spider_guard','east_spiderling','east_kamaitachi'),w('east_jorogumo')],true,{fixed:true,description:'Gặp Shion và Akane, vượt rừng lên núi. Điểm yếu: Hỏa / Lôi / Hồn Kiếm.',allowed:['east_45']}),
  make('east_ke_05','Chuông Đền Vang Giữa Vực Sâu','east_key',45,'east_mountain_boss',group(['east_e_06','east_e_07','east_e_08','east_e_09','east_e_10']),[w('east_raven','east_raven'),w('east_tengu')],true,{fixed:true,description:'Đền Keijo và phong ấn cổ. Điểm yếu: Thổ / Ám / Hồn Kiếm.',allowed:['east_45']}),

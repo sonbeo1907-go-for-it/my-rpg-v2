@@ -52,6 +52,8 @@ export function questCatalog(content, campaign, filters = {}) {
         && (!query || encounter.name.toLocaleLowerCase('vi').includes(query))
         && (category !== 'extermination' || !['normal', 'boss'].includes(filters.type) || tier === filters.type);
     })
-    // Stable sort retains authored/story order inside a reward group.
-    .sort((a, b) => victoryCoinReward(content, a.id) - victoryCoinReward(content, b.id));
+    // East uses its unlock route as the default order; legacy tabs keep reward-group order.
+    .sort((a, b) => category === 'east'
+      ? (a.eastOrder ?? 999) - (b.eastOrder ?? 999)
+      : victoryCoinReward(content, a.id) - victoryCoinReward(content, b.id));
 }
