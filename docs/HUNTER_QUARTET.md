@@ -28,7 +28,7 @@ Chi phí giảm làm tròn lên: 4 → 4, 12 → 11, 9 → 8 MP. Không giảm c
 - **Hoành kiếm liều mạng** — 7 MP, toàn địch: 90% ATK + tối đa 80% ATK theo tỷ lệ HP đã mất.
 - **Cuồng trảm tuyệt lộ** — 14 MP, CD 2, toàn địch: 140% ATK + tối đa 140% ATK theo tỷ lệ HP đã mất.
 - **Huyết thệ cuồng đao** — 6 MP và 20% HP tối đa (làm tròn lên): +25% sát thương trong 2 lượt chính. Cần HP hiện tại lớn hơn chi phí; không thể tự hạ gục. Khiên không trả thay chi phí này.
-- **Cơn cuồng chiến** — Một lần mỗi trận, khi HP rơi xuống 0–25%, Karin nhận **Bất Tử** đến hết vòng: HP được giữ ở mức 1, không thể gục trong phần còn lại của vòng. Hết vòng hiệu lực biến mất và không kích hoạt lại trong trận đó. Ngưỡng cũng tính khi HP giảm vì chi phí HP của Huyết Thệ.
+- **Cơn cuồng chiến** — sát thương trực tiếp tăng `60% × tỷ lệ HP đã mất`, cộng với buff tăng sát thương khác. Đồng thời, một lần mỗi trận, khi HP rơi xuống 0–25%, Karin nhận **Bất Tử** đến hết vòng: HP được giữ ở mức 1, không thể gục trong phần còn lại của vòng. Hết vòng hiệu lực biến mất và không kích hoạt lại trong trận đó. Ngưỡng cũng tính khi HP giảm vì chi phí HP của Huyết Thệ.
 
 Chi phí HP không phải bị địch tấn công, không kích hoạt Yumia hoặc hiệu ứng khiên vỡ. Đây là chủ động chấp nhận rủi ro, không được làm thành sát thương tự đánh có thể gây vòng phản ứng.
 

@@ -4,6 +4,7 @@ import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
 import {createBattle,activeActor,getActor,executeAction,DEFEND} from '../src/core/battle.js';
 import {validateContent} from '../src/core/content.js';
+import {lowHpDamageBonus} from '../src/core/conditional-combat.js';
 import {passivePresentation} from '../src/ui/skill-copy.js';
 const content=await loadContent();
 function fixture(){
@@ -37,8 +38,10 @@ function nextRound(b){
 test('Karin passive is authored as a once-per-battle round immortality',()=>{
  const k=content.characters.karin;
  assert.equal(k.passive.type,'low_hp_immortality');
+ assert.equal(k.passive.ratio,0.6);
  assert.equal(k.passive.threshold,0.25);
  assert.equal(k.passive.immortalityStatus,'karin_immortal');
+ assert.equal(lowHpDamageBonus(k.passive,0.5),0.3,'nội tại sát thương cũ vẫn hoạt động');
  const status=content.statuses.karin_immortal;
  assert.equal(status.preventDeath,true);
  assert.equal(status.durationClock,'round');

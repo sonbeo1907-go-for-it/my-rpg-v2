@@ -1862,7 +1862,8 @@
     "passive": {
       "type": "low_hp_immortality",
       "name": "Cơn cuồng chiến",
-      "description": "Một lần mỗi trận, khi HP rơi xuống 0–25%, Karin nhận Bất Tử đến hết vòng.",
+      "description": "Mất càng nhiều tỷ lệ HP, sát thương trực tiếp càng tăng. Một lần mỗi trận, khi HP rơi xuống 0–25%, Karin nhận Bất Tử đến hết vòng.",
+      "ratio": 0.6,
       "threshold": 0.25,
       "immortalityStatus": "karin_immortal"
     },

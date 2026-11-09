@@ -18,7 +18,7 @@ export function validateTacticalPassives(content){
    const mode=a.combatModes?.[p.modeId],follow=content.abilities[p.followUpAbility];
    if(!p.name||!p.description||!Number.isFinite(p.threshold)||p.threshold<=0||p.threshold>=1||!mode||mode.lifetime!=='rounds'||!mode.reentryCooldownRounds||!content.statuses[p.tauntStatus]?.taunt||!content.statuses[p.immortalityStatus]?.preventDeath||follow?.activation!=='passive'||follow?.target!=='enemy_splash'||follow?.cost||follow?.cooldown||follow?.effects.some(e=>e.type!=='damage'))errors.push(a.id+': invalid vampire contingency');
   }
-  if(p?.type==='low_hp_immortality'&&(!p.name||!p.description||!Number.isFinite(p.threshold)||p.threshold<=0||p.threshold>=1||!content.statuses[p.immortalityStatus]?.preventDeath||content.statuses[p.immortalityStatus]?.durationClock!=='round'))errors.push(a.id+': invalid low HP immortality');
+  if(p?.type==='low_hp_immortality'&&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Number.isFinite(p.threshold)||p.threshold<=0||p.threshold>=1||!content.statuses[p.immortalityStatus]?.preventDeath||content.statuses[p.immortalityStatus]?.durationClock!=='round'))errors.push(a.id+': invalid low HP immortality');
  }
  return errors;
 }
