@@ -1195,6 +1195,14 @@
     "durationClock": "round"
   },
   {
+    "id": "karin_immortal",
+    "name": "Bất Tử — Cuồng Đao Tuyệt Lộ",
+    "kind": "buff",
+    "preventDeath": true,
+    "durationClock": "round",
+    "description": "Karin không thể gục đến hết vòng."
+  },
+  {
     "id": "joshua_duel",
     "name": "Nhịp Thở Bị Săn",
     "kind": "debuff",

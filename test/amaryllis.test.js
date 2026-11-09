@@ -39,21 +39,23 @@ test('Amaryllis is a Earth survival support of Rhett facility with 150 MP',()=>{
  assert.deepEqual(validateContent(base),[]);
 });
 
-test('Mend heals 180% MAG to one ally with no cooldown and refunds 10% as MP',()=>{
+test('Mend heals 180% MAG to one ally and gives that ally 10% of the authored heal as MP',()=>{
  const {battle,am,arthur}=fixture();
- arthur.hp=1;
+ arthur.hp=1;arthur.mp=0;
  const magic=battleStat(base,am,'magic'),startMp=am.mp;
  cast(battle,am.id,'amaryllis.mend',arthur.id);
  const healed=Math.round(magic*1.8);
  assert.equal(arthur.hp,1+healed);
- assert.equal(am.mp,startMp-10+Math.min(10,Math.floor(healed*0.1)));
+ assert.equal(arthur.mp,Math.min(arthur.stats.maxMp,Math.min(10,Math.floor(healed*0.1))),'MP phải về người được hồi');
+ assert.equal(am.mp,startMp-10,'Amaryllis không tự nhận MP từ Mend');
  assert.equal(am.cooldowns?.['amaryllis.mend']??0,0,'không hồi chiêu');
 });
 
-test('Blessing heals 80% MAG per ally and refunds MP per healed person, capped 10 each',()=>{
+test('Blessing heals 80% MAG per ally and gives each healed person their own MP, capped 10',()=>{
  const {battle,am,arthur,iris,takeshi}=fixture();
  am.stats.magic=200;
  arthur.hp=10;iris.hp=10;takeshi.hp=10;
+ arthur.mp=0;iris.mp=0;takeshi.mp=0;
  const magic=battleStat(base,am,'magic');
  am.mp=100;
  cast(battle,am.id,'amaryllis.blessing',am.id);
@@ -63,27 +65,30 @@ test('Blessing heals 80% MAG per ally and refunds MP per healed person, capped 1
  assert.equal(takeshi.hp,10+Math.min(each,takeshi.stats.maxHp-10));
  const perPerson=Math.min(10,Math.floor(each*0.1));
  assert.equal(perPerson,10,'mỗi người chạm trần 10 MP');
- assert.equal(am.mp,100-16+perPerson*4,'AoE tính theo đầu người: 4 người × 10 MP');
- assert.ok(am.mp>100-16+10,'không được gộp tổng lượng heal rồi mới cap 10');
+ for(const ally of [arthur,iris,takeshi])assert.equal(ally.mp,perPerson,'mỗi người được hồi nhận MP riêng');
+ assert.equal(am.mp,100-16+perPerson,'Amaryllis cũng được hồi vì là mục tiêu của Blessing');
  assert.equal(am.cooldowns?.['amaryllis.blessing']??0,0,'không hồi chiêu');
 });
 
-test('the MP refund follows Amaryllis authored heal even when the ally is already full',()=>{
+test('the MP gift follows Amaryllis authored heal even when the ally is already full HP',()=>{
  const {battle,am,arthur}=fixture();
- arthur.hp=arthur.stats.maxHp;
+ arthur.hp=arthur.stats.maxHp;arthur.mp=0;
  am.mp=am.stats.maxMp;
  const magic=battleStat(base,am,'magic'),authored=Math.round(magic*1.8);
  cast(battle,am.id,'amaryllis.mend',arthur.id);
  assert.equal(arthur.hp,arthur.stats.maxHp,'mục tiêu đầy HP không tăng thêm');
- assert.equal(am.mp,am.stats.maxMp-10+Math.min(10,Math.floor(authored*0.1)),'vẫn hồi MP theo lượng hồi do Amaryllis tạo ra');
+ assert.equal(arthur.mp,Math.min(10,Math.floor(authored*0.1)),'vẫn hồi MP cho người nhận dù HP đầy');
+ assert.equal(am.mp,am.stats.maxMp-10,'Amaryllis chỉ trả MP của chiêu');
 });
 
-test('healing at full MP still runs cleanly and never overflows capacity',()=>{
+test('healing a target at full MP never overflows capacity',()=>{
  const {battle,am,arthur}=fixture();
  am.stats.magic=200;arthur.hp=1;
+ arthur.mp=arthur.stats.maxMp;
  am.mp=am.stats.maxMp;
  cast(battle,am.id,'amaryllis.mend',arthur.id);
- assert.equal(am.mp,am.stats.maxMp,'MP đầy thì hồi thêm bị chặn ở trần');
+ assert.equal(arthur.mp,arthur.stats.maxMp,'MP người nhận đầy thì phần vượt bị chặn');
+ assert.equal(am.mp,am.stats.maxMp-10,'Amaryllis chỉ trả chi phí chiêu');
 });
 
 test('Litany revives the team full, pays the mortgage but keeps Deep Wound',()=>{

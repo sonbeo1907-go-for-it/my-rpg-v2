@@ -23,7 +23,7 @@ Nguyên tố nhân vật lần lượt Lôi/Thổ/Quang/Ám; các kỹ năng sá
 
 ### Shion — Hỗ trợ tấn công vật lí
 
-- Rạn Thế Yêu Ma: 9 MP, CD1; 120% ATK AoE Thổ/Hồn Kiếm, trúng HP/khiên giảm 15% DEF/RES 2 lượt chính.
+- Rạn Thế Yêu Ma: 9 MP, **không hồi chiêu**; 120% ATK AoE Thổ/Hồn Kiếm, trúng HP/khiên giảm 15% DEF/RES 2 lượt chính.
 - Song Kiếm Đồng Hành: 28 MP, CD2; tạo 1 Hồn Kiếm, bản thân và một đồng đội khác nhận Lượt Thêm. Ưu tiên thành viên Hồn Kiếm sống ở ô nhỏ nhất; nếu không có thì chỉ bản thân nhận Lượt Thêm; không chọn người ngoài Hồn Kiếm. Ô cố định, không nén người gục. Đã có quyền thì không đổi người để né giới hạn; pha phụ bỏ cấp quyền nhưng phần tạo/chi phí vẫn hoạt động.
 - Phục Ma Song Trảm: 20 MP hoặc ưu tiên 3 Hồn Kiếm, CD2; AoE 2 hit ×150% ATK Thổ/Hồn Kiếm; sau đòn, mỗi địch còn sống thực nhận HP/khiên nhận **một Phong Ấn**, không một mỗi hit. Né cả hai hit thì không áp.
 - Native: đồng đội khác dùng kỹ năng tạo tài nguyên **trực tiếp** → tạo thêm 1 Hồn Kiếm, +40% ATK bản thân trong **3 vòng**, tính cả vòng kích. 1 lần/vòng, reserve trước tạo; overflow vẫn tính. Không kích từ tự nhiên, đầu vòng, bản thân, nội tại/auto/reaction hoặc tăng bổ sung của chính Shion. Không phụ thuộc lượng trực tiếp tạo là 1 hay2; một cast chỉ một lần. Native không tăng theo Rank.

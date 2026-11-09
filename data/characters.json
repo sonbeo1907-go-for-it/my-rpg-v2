@@ -1840,7 +1840,7 @@
     "role": "DPS vật lí diện rộng",
     "roleGroup": "physical_dps",
     "element": "plain",
-    "description": "HP càng thấp, kiếm quét càng mạnh; có thể chủ động đổi máu lấy sức công phá.",
+    "description": "HP càng thấp, kiếm quét càng mạnh; có thể chủ động đổi máu lấy sức công phá, và một lần mỗi trận trụ lại khi cận kề cái chết.",
     "biography": "Karin lao vào những trận đánh mà người khác muốn tránh. Khi thương tích chồng chất, lưỡi đao của cô càng quyết liệt và khó ngăn cản.",
     "tags": [
       "hunter_guild"
@@ -1860,10 +1860,11 @@
       "karin.blood_oath"
     ],
     "passive": {
-      "type": "low_hp_damage",
+      "type": "low_hp_immortality",
       "name": "Cơn cuồng chiến",
-      "description": "Mất càng nhiều tỷ lệ HP, sát thương trực tiếp càng tăng.",
-      "ratio": 0.6
+      "description": "Một lần mỗi trận, khi HP rơi xuống 0–25%, Karin nhận Bất Tử đến hết vòng.",
+      "threshold": 0.25,
+      "immortalityStatus": "karin_immortal"
     },
     "releaseId": 49
   },
@@ -3179,7 +3180,7 @@
     "passive": {
       "type": "heal_mp_regen",
       "name": "Đèn Dầu Không Tắt",
-      "description": "Mỗi lần hồi máu, hồi thêm MP bằng 10% lượng hồi Amaryllis tạo ra cho từng người, tối đa 10 MP mỗi người được hồi.",
+      "description": "Khi hồi máu cho đồng đội, đồng thời hồi MP cho người được hồi bằng 10% lượng hồi Amaryllis tạo ra, tối đa 10 MP mỗi người (kể cả khi người đó đầy HP).",
       "ratio": 0.1,
       "cap": 10
     },

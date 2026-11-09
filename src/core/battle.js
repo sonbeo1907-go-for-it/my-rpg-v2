@@ -14,7 +14,7 @@ import {teamResourceState,priorityTaggedAlly,teamSpentPenetration,selectedTeamCo
 import {captureDamageBuffs,settleDamageBuffs} from './charged-buffs.js';
 import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
-import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,expireAgony} from './actor-life.js';
+import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,maybeGrantLowHpImmortality,expireAgony} from './actor-life.js';
 import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
 import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked,exclusiveEnemyStatusApplied,exclusiveResourceBonus} from './exclusive-runtime.js';
 import {specialPassives,specialSkillStatBonuses,specialHitStatBonus,specialResourcePenetration,specialResourceKeepChance} from './exclusive-specials.js';
@@ -421,14 +421,14 @@ function healHp(battle, target, requested, sourceId, label = "") {
   return amount;
 }
 
-// Healing converts into MP for the healer: ratio of the HP she authored, per healed target.
-function grantHealMp(battle, healer, healed) {
+// Healing also restores MP to the healed ally, based on the HP Amaryllis authored for that target.
+function grantHealMp(battle, healer, target, healed) {
   const passive = healer.passive;
-  if (passive?.type !== "heal_mp_regen" || !living(healer) || healed <= 0) return;
+  if (passive?.type !== "heal_mp_regen" || !living(healer) || !living(target) || target.team !== healer.team || healed <= 0) return;
   const want = Math.min(passive.cap, Math.floor(healed * passive.ratio));
   if (want <= 0) return;
-  announcePassive(battle, healer, healer.id);
-  gainResource(battle, healer, "mp", want, healer.id);
+  announcePassive(battle, healer, target.id);
+  gainResource(battle, target, "mp", want, healer.id);
 }
 
 function beginTurn(battle) {
@@ -1612,8 +1612,8 @@ function applyEffect(
       const requested=effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
       const blocked=externalHealingBlocked(target,actor.id);
       const healed=healHp(battle,target,requested,actor.id);
-      // MP refund follows the heal Amaryllis authored for this target, not what the recipient keeps.
-      if(!blocked)grantHealMp(battle, actor, requested);
+      // MP goes to the healed ally, based on the heal Amaryllis authored for that target.
+      if(!blocked)grantHealMp(battle, actor, target, requested);
       gearSkillHealed(battle,actor,target,healed,actionContext,gearIO);
     }
     if (effect.type === "shield") {
@@ -1823,7 +1823,7 @@ function resolveAction(
   const paidTeam=teamCost?teamCostAmount(teamCost,teamResourceValue(battle,actor,teamCost.id)):0;
   if(teamCost)changeTeamResource(battle,actor,teamCost.id,-paidTeam,teamIO);
   const paidHp=hpCost(skill,actor);
-  if(paidHp){actor.hp-=paidHp;emitEvent(battle,{type:"hp_spent",sourceId:actor.id,targetId:actor.id,amount:paidHp});write(battle,actor.name+" tiêu "+paidHp+" HP.");gearHpLoss(battle,actor,actor.hp,gearIO);}
+  if(paidHp){actor.hp-=paidHp;emitEvent(battle,{type:"hp_spent",sourceId:actor.id,targetId:actor.id,amount:paidHp});write(battle,actor.name+" tiêu "+paidHp+" HP.");gearHpLoss(battle,actor,actor.hp,gearIO);maybeGrantLowHpImmortality(battle,actor,actor.hp,specialIO);}
   let spent = 0;
   const selectedResource = resourceCost(skill,actor);
   const deferredResource = selectedResource?.consumeAt === "after";
