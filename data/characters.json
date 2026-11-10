@@ -4592,12 +4592,24 @@
     "gearSlotUnlocks": [
       {
         "flags": [
-          "senya.gear_slot_1",
-          "senya.gear_slot_2",
+          "senya.gear_slot_1"
+        ],
+        "slots": 1,
+        "appliedFlag": "senya.gear_slot_1_unlocked"
+      },
+      {
+        "flags": [
+          "senya.gear_slot_2"
+        ],
+        "slots": 1,
+        "appliedFlag": "senya.gear_slot_2_unlocked"
+      },
+      {
+        "flags": [
           "senya.gear_slot_3"
         ],
         "slots": 1,
-        "appliedFlag": "senya.gear_slot_unlocked"
+        "appliedFlag": "senya.gear_slot_3_unlocked"
       }
     ],
     "releaseId": 101

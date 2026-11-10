@@ -24,4 +24,4 @@
   2. Thắng `east_ke_06` với Senya trong đội.
   3. Thắng `east_ke_08` với Senya trong đội.
 
-Ba mốc được ghi bằng `partyClearFlags`; khi đủ cả ba, `gearSlotUnlocks` mở thêm 1 ô trang bị cho Senya.
+Ba mốc được ghi bằng `partyClearFlags`; mỗi mốc mở thêm 1 ô trang bị cho Senya (tổng cộng 3 ô).

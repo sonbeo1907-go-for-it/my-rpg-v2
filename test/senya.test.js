@@ -68,7 +68,7 @@ test('Senya unlock and her three gear-slot trials are recorded', () => {
   assert.ok(next.storyFlags.includes('senya.gear_slot_1'));
   assert.ok(next.storyFlags.includes('senya.gear_slot_2'));
   assert.ok(next.storyFlags.includes('senya.gear_slot_3'));
-  assert.ok(next.storyFlags.includes('senya.gear_slot_unlocked'));
-  assert.equal(next.extraGearSlots.senya, 1);
-  assert.ok(gearSlotCapacity(next, content, 'senya') > content.economy.default.baseGearSlots);
+  for (let index = 1; index <= 3; index++) assert.ok(next.storyFlags.includes(`senya.gear_slot_${index}_unlocked`));
+  assert.equal(next.extraGearSlots.senya, 3);
+  assert.equal(gearSlotCapacity(next, content, 'senya'), content.economy.default.baseGearSlots + 3);
 });
