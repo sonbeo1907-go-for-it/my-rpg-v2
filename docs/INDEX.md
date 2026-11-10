@@ -85,6 +85,7 @@
 - [Trấn hỗ trợ Amelia / Minerva / Amaryllis](SUPPORT_EXCLUSIVES_2026_11_09.md)
 - [Gear Hồn Kiếm và Trấn Amiya/Kaguya](SOUL_GEAR_EXCLUSIVES_2026_11_09.md)
 - [Thảo Phạt Phương Đông](EAST_EXTERMINATION.md)
+- [Senya — Thợ Săn Trong Làng](SENYA.md)
 - [Chelsea — Sứ giả định mệnh](CHELSEA.md)
 - [Heimdall Valmont và Finmel — cấu hình playtest](HEIMDALL_FINMEL.md)
 - [Yufina, Karin, Elise, Yumia và đổi Original Prisma](HUNTER_QUARTET.md)

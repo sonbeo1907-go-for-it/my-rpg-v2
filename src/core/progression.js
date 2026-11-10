@@ -305,6 +305,7 @@ export function deserializeCampaign(raw, content) {
   )
     throw new Error("Thưởng lần đầu trong save không hợp lệ.");
   result.claimedFirstClearRewards = [...claimed];
+  if (claimed.includes('east_ke_03') && !result.unlockedCharacterIds.includes('senya')) result.unlockedCharacterIds.push('senya');
   for (const id of Object.keys(content.characters)) {
     const saved = input.characters?.[id];
     if (!Object.hasOwn(input.characters, id)) continue; // New content characters can be added to an older save.

@@ -11788,5 +11788,93 @@
     "growthGroups": [],
     "rankable": false,
     "fixedReason": "Đòn dự phòng cố định của boss."
+  },
+  {
+    "id": "senya.slash",
+    "name": "Nhát Săn",
+    "description": "Một nhát chém nhanh mang cả hơi thở Hồn Kiếm.",
+    "target": "enemy",
+    "cost": {
+      "mp": 3
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      }
+    ],
+    "skillLineId": "senya.slash",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "senya.hunt",
+    "name": "Dấu Chân Trong Rừng",
+    "description": "Senya đánh dấu con mồi, tạo Hồn Kiếm và hồi HP theo ATK.",
+    "target": "self",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "team_resource",
+        "resource": "sword_soul",
+        "amount": 1
+      },
+      {
+        "type": "heal",
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "skillLineId": "senya.hunt",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "senya.fulfill",
+    "name": "Khép Vòng Săn",
+    "description": "Tiêu 3 Hồn Kiếm hoặc 24 MP để chém liên hoàn mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 24,
+      "preferTeamResource": {
+        "id": "sword_soul",
+        "amount": 3
+      }
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "additionalElements": [
+          "sword_soul"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1.5,
+        "hits": 3
+      }
+    ],
+    "skillLineId": "senya.fulfill",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
   }
 ]
