@@ -1672,10 +1672,11 @@
     "name": "Phong Ấn Hồn Kiếm",
     "kind": "buff",
     "persistent": true,
+    "maxStacks": 24,
     "modifiers": {
-      "damageReduction": 0.3
+      "damageReduction": 0.5
     },
-    "description": "Giảm 30% sát thương nhận. Một đòn Hồn Kiếm sẽ phá phong ấn."
+    "description": "Giảm 50% sát thương nhận. Mỗi đòn đánh bóc một số lớp Phong Ấn; đòn Hồn Kiếm bóc nhiều hơn."
   },
   {
     "id": "east_soul_exposed",
@@ -1684,9 +1685,9 @@
     "durationClock": "main_turn",
     "defaultDuration": 2,
     "modifiers": {
-      "damageTakenBonus": 0.5
+      "damageTakenBonus": 0.25
     },
-    "description": "Nhận thêm 50% sát thương trong 2 lượt chính."
+    "description": "Nhận thêm 25% sát thương trong 2 lượt chính."
   },
   {
     "id": "east_burn",

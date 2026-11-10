@@ -1398,13 +1398,22 @@ function resolveHit(
     : 0;
   const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements } =
     resolveWeakness(battle.content, attacker, target, effect, actionContext);
-  if(attacker.team!==target.team&&(target.soulBreak??target.boss?.soulBreak)&&damageElements(effect).includes('sword_soul')){
+  if(attacker.team!==target.team&&(target.soulBreak??target.boss?.soulBreak)&&!actionContext.soulSealProcessed){
     const rule=target.soulBreak??target.boss.soulBreak,guard=target.statuses.find(status=>status.id===rule.guardStatus);
     if(guard){
-      target.statuses=target.statuses.filter(status=>status!==guard);
-      applyStatus(battle,target,rule.exposedStatus,rule.duration,attacker.id);
-      emitEvent(battle,{type:'boss_soul_break',sourceId:attacker.id,targetId:target.id,statusId:rule.exposedStatus});
-      write(battle,`${target.name}: Phong Ấn Hồn Kiếm vỡ! Nhận thêm 50% sát thương trong ${rule.duration} lượt chính.`);
+      actionContext.soulSealProcessed=true;
+      const spent=actionContext.teamResourceSpent?.sword_soul??0;
+      const soulHit=damageElements(effect).includes('sword_soul');
+      const remove=spent>0?spent+2:(soulHit?2:1);
+      guard.stacks=Math.max(0,(guard.stacks??1)-remove);
+      if(guard.stacks<=0){
+        target.statuses=target.statuses.filter(status=>status!==guard);
+        applyStatus(battle,target,rule.exposedStatus,rule.duration,attacker.id);
+        emitEvent(battle,{type:'boss_soul_break',sourceId:attacker.id,targetId:target.id,statusId:rule.exposedStatus,layersRemoved:remove});
+        write(battle,`${target.name}: Phong Ấn Hồn Kiếm vỡ! Nhận thêm 25% sát thương trong ${rule.duration} lượt chính.`);
+      }else{
+        write(battle,`${target.name}: Phong Ấn Hồn Kiếm còn ${guard.stacks} lớp.`);
+      }
     }
   }
   // Element and damage type share one weakness multiplier, never additive bonuses.

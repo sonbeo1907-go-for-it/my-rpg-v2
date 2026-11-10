@@ -56,11 +56,16 @@ Ví dụ:
 
 Mọi boss Phương Đông bắt đầu với **Phong Ấn Hồn Kiếm**:
 
-- Giảm **30% sát thương nhận**.
-- Một đòn có hệ **Hồn Kiếm** phá ấn, gây hiệu ứng **Phong Ấn Vỡ**: nhận thêm **50% sát thương** trong 2 lượt chính.
+- Giảm **50% sát thương nhận** khi còn lớp.
+- Số lớp: **12–18**; Chiyoko có **24**.
+- Mỗi cast chỉ xử lý một lần, kể cả đòn nhiều hit:
+  - Đòn không hệ Hồn Kiếm: −1 lớp.
+  - Đòn hệ Hồn Kiếm: −2 lớp.
+  - Đòn tiêu Hồn Kiếm: −(số Hồn Kiếm đã tiêu + 2).
+- Khi hết lớp: áp **Phong Ấn Vỡ**, nhận thêm **25% sát thương** trong 2 lượt chính.
 - Boss vẫn yếu Hồn Kiếm hệ số ×1,5.
 
-Với đòn Hồn Kiếm, sau nhịp phá ấn, sát thương hiệu dụng tăng từ ×0,7 (còn ấn) lên ×1,5 (weakness) ×1,5 (Phong Ấn Vỡ) = **×2,25**. Trong 3 nhịp liên tiếp, tổng khoảng `0,7 + 2,25 + 2,25 = 5,2` so với `0,7 × 3 = 2,1` của đội không Hồn Kiếm — tương đương **nhanh hơn khoảng 55–60%**. Đây là lý do các boss Phương Đông có thể bị giải nhanh hơn đáng kể bằng đội Hồn Kiếm, nhưng không bị khóa cứng nếu không có hệ này.
+Đội Hồn Kiếm bóc ấn nhanh hơn nhờ đòn Hồn Kiếm và chi phí Hồn Kiếm, nhưng không còn cơ chế “một đòn phá ấn” như trước. Vì vậy ưu thế 55–60% cũ không còn được bảo đảm; cần benchmark lại.
 
 ## Cơ chế đặc thù đã triển khai
 

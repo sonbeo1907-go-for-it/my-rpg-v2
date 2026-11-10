@@ -144,6 +144,19 @@ test('east catalog defaults to unlock order and key events carry their own marke
  assert.equal(content.encounters.east_ke_01.category,'east_key');assert.equal(content.encounters.east_e_01.category,'east_hunt');
 });
 
+test('soul seal layers: basic -1, soul -2 and Chiyoko has 24',()=>{
+ assert.equal(content.statuses.east_soul_guard.modifiers.damageReduction,.5);
+ assert.equal(content.statuses.east_soul_exposed.modifiers.damageTakenBonus,.25);
+ assert.equal(content.enemies.east_chiyoko.soulBreak.layers,24);
+ assert.ok(content.enemies.east_orochi.soulBreak.layers>=12&&content.enemies.east_orochi.soulBreak.layers<=18);
+ const s=save();s.claimedFirstClearRewards=Object.keys(content.encounters);s.storyFlags.push('eastern_hunts_unlocked');s.party=['tsukiha','arthur','iris','elaine'];
+ const b=createBattle(content,s,'east_ke_03',()=>.99,{questDifficulty:'east_35'});const boss=b.actors.find(a=>a.team==='enemy');
+ const guard=()=>boss.statuses.find(st=>st.id==='east_soul_guard');
+ guard().stacks=10;b.queue=[getActor(b,'arthur').id];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:'arthur',abilityId:'$attack',targetId:boss.id});assert.equal(guard().stacks,9);
+ guard().stacks=10;b.queue=[getActor(b,'tsukiha').id];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:'tsukiha',abilityId:'tsukiha.ember',targetId:boss.id});assert.equal(guard().stacks,8);
+ guard().stacks=10;b.teamResources.party.sword_soul.value=4;b.queue=[getActor(b,'tsukiha').id];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:'tsukiha',abilityId:'tsukiha.burst',targetId:boss.id});assert.equal(guard().stacks,4,'4 Hồn Kiếm + 2, chỉ một lần cho cả cast nhiều hit');
+});
+
 test('east bosses use authored kits and Hồn Kiếm breaks their soul seal',()=>{
  const s=save();s.claimedFirstClearRewards=Object.keys(content.encounters);s.storyFlags.push('eastern_hunts_unlocked');s.party=['tsukiha','arthur','iris','elaine'];
  const b=createBattle(content,s,'east_ke_03',()=>.99,{questDifficulty:'east_35'});
@@ -151,6 +164,7 @@ test('east bosses use authored kits and Hồn Kiếm breaks their soul seal',()=
  assert.ok(content.abilities['east.hunter_flash'].windup);
  assert.ok(content.enemies.east_hunter.boss.phases[0].rotation.flat().includes('east.hunter_flash'));
  assert.ok(boss.statuses.some(st=>st.id==='east_soul_guard'));
+ boss.statuses.find(st=>st.id==='east_soul_guard').stacks=2;
  b.queue=[...b.queue];b.cursor=b.queue.indexOf('tsukiha');b.phase='main';b.outcome=null;
  executeAction(b,{actorId:'tsukiha',abilityId:'tsukiha.ember',targetId:boss.id});
  assert.ok(!boss.statuses.some(st=>st.id==='east_soul_guard'));

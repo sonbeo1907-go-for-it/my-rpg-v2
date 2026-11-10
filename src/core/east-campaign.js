@@ -19,6 +19,10 @@ const mechanicsByBoss={
  east_nue:['east.nue_shift','east.nue_roar'],
  east_snake_shade:['east.snake_fang','east.snake_seal'],
 };
+const sealLayersByBoss={
+ east_captain:12,east_hunter:13,east_jorogumo:14,east_tengu:15,east_chiyoko:24,east_yuki_onna:16,east_orochi:18,
+ east_tree:12,east_karasu:13,east_onyudo:15,east_oni_commander:16,east_yamauba:15,east_white_oni:17,east_nue:17,east_snake_shade:18,
+};
 const E=(id,name,element,hp,weaknesses,abilities=['enemy.slash'],extra={})=>({
  id,name,role:extra.role??'Quái Phương Đông',element,
  stats:{maxHp:hp,maxMp:extra.maxMp??80,attack:extra.attack??24,magic:extra.magic??16,defense:extra.defense??14,resistance:extra.resistance??14,speed:extra.speed??14},
@@ -30,7 +34,8 @@ const boss=(id,name,element,hp,weaknesses,abilities,extra={})=>{
  const mechanics=extra.mechanics??mechanicsByBoss[id]??[];
  const kit=[...new Set([...abilities,...mechanics,'enemy.east_basic'])];
  const phases=extra.phases??[{name:'Giao chiến',atHpRatio:1,actionsPerTurn:1,rotation:[['enemy.east_basic'],...mechanics.map(id=>[id])]},{name:'Cuồng nộ',atHpRatio:.5,actionsPerTurn:1,damageMultiplier:1.25,rotation:mechanics.map(id=>[id])}];
- return E(id,name,element,hp,weak,kit,{...extra,eastBoss:true,role:'Thủ lĩnh Phương Đông',attack:extra.attack??48,magic:extra.magic??30,defense:extra.defense??30,resistance:extra.resistance??30,speed:extra.speed??17,soulBreak:{guardStatus:'east_soul_guard',exposedStatus:'east_soul_exposed',duration:2},initialStatuses:[{status:'east_soul_guard'}],boss:{type:'phased',restorePartyMpOnTransition:false,phases}});
+ const layers=extra.soulLayers??sealLayersByBoss[id]??15;
+ return E(id,name,element,hp,weak,kit,{...extra,eastBoss:true,role:'Thủ lĩnh Phương Đông',attack:extra.attack??48,magic:extra.magic??30,defense:extra.defense??30,resistance:extra.resistance??30,speed:extra.speed??17,soulBreak:{guardStatus:'east_soul_guard',exposedStatus:'east_soul_exposed',duration:2,layers},initialStatuses:[{status:'east_soul_guard',stacks:layers}],boss:{type:'phased',restorePartyMpOnTransition:false,phases}});
 };
 
 export const eastEnemies=[
