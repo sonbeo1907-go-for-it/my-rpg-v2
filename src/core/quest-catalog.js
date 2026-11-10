@@ -30,9 +30,11 @@ export function encounterReturnPath(content, id,difficultyId,enemyLevel) {
   if(content.encounters[id]?.category==='chronicle'){const e=content.chronicleEvents[content.encounters[id].chronicleEventId];return e.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+e.locationId+'&scene=1';}
   if(content.encounters[id]?.superLevels)return '/quests?tab=sinister&selected='+id+'&superLevel='+(content.encounters[id].superLevels.includes(enemyLevel)?enemyLevel:60);
   const story = content.encounters[id]?.travelerStory;
-  return story ? `/stories/${story}?selected=${id}` : content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
+  const east = ['east_key','east_hunt'].includes(content.encounters[id]?.category);
+  return story ? `/stories/${story}?selected=${id}` : east?`/quests?tab=east&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
 }
 export function questCategory(filters = {}) {
+  if(filters.tab==='east')return 'east';
   if(filters.tab==='bounty')return 'bounty';
   if (filters.tab === 'extermination') return 'extermination';
   return filters.tab === 'sinister' || filters.type === 'super' ? 'sinister' : 'extermination';
@@ -43,12 +45,15 @@ export function questCatalog(content, campaign, filters = {}) {
   return Object.values(content.encounters)
     .filter(encounter => {
       const tier = encounterTier(encounter);
+      const east = ['east_key','east_hunt'].includes(encounter.category);
       return isQuestUnlocked(encounter, campaign)
         && !encounter.travelerStory
-        && (category === 'bounty' ? encounter.category==='bounty' : encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super'))
+        && (category==='east'?east:category === 'bounty' ? encounter.category==='bounty' : !east && encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super'))
         && (!query || encounter.name.toLocaleLowerCase('vi').includes(query))
         && (category !== 'extermination' || !['normal', 'boss'].includes(filters.type) || tier === filters.type);
     })
-    // Stable sort retains authored/story order inside a reward group.
-    .sort((a, b) => victoryCoinReward(content, a.id) - victoryCoinReward(content, b.id));
+    // East uses its unlock route as the default order; legacy tabs keep reward-group order.
+    .sort((a, b) => category === 'east'
+      ? (a.eastOrder ?? 999) - (b.eastOrder ?? 999)
+      : victoryCoinReward(content, a.id) - victoryCoinReward(content, b.id));
 }

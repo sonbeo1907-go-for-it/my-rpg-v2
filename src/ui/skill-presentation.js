@@ -9,7 +9,8 @@ import {SPECIAL_EXCLUSIVE_TYPES,specialSkillStatBonuses} from '../core/exclusive
 import {resolveRankedAbility} from '../core/skill-resolver.js';
 import {extendedFieldDuration} from '../core/exclusive-field.js';
 import {nativeEvasion,evasionBaseSpeed} from '../core/evasion.js';
-import {exclusiveDamageEffect,exclusivePassive} from '../core/exclusive-hooks.js';
+import {exclusiveDamageEffect,exclusivePassive,exclusivePassives} from '../core/exclusive-hooks.js';
+import {exclusiveShieldAmount,previewExclusiveStat} from '../core/exclusive-shield.js';
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
@@ -56,7 +57,8 @@ export function skillCost(skill, actor, battle) {
   if (skill.requiresResource) costs.push('Cần '+skill.requiresResource.min+' '+actor.resources[skill.requiresResource.id].name);
   const exitCooldown=actor.combatModes?.[skill.effects?.find(e=>e.type==='enter_mode')?.mode]?.exitCooldown;
   if(exitCooldown?.abilityId===skill.id)costs.push('Hồi chiêu sau khi rời dạng: '+exitCooldown.rounds+' vòng');
-  if(skill.initialCooldown)costs.push('Khởi đầu: '+skill.initialCooldown+' vòng');
+  const initialCooldownZero=exclusivePassives(actor).some(p=>p.type==='initial_cooldown_zero'&&p.abilityIds?.includes(skill.id));
+  if(skill.initialCooldown)costs.push(initialCooldownZero?'Khởi đầu: sẵn sàng nhờ Trấn Phái':'Khởi đầu: '+skill.initialCooldown+' vòng');
   if (skill.cooldown) costs.push(`Hồi chiêu: ${skill.cooldown} vòng`);
   return costs.join(' · ') || 'Không tốn MP';
 }
@@ -253,7 +255,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if(status.shieldReceivedReduction)lines.push(`Giảm ${percent(status.shieldReceivedReduction)} khiên mới nhận; giữ khiên đang có · ${duration}.`);
       if (status.effectImmunity) lines.push(`${status.name}: chặn ${status.effectImmunity.charges} hiệu ứng bất lợi mới${status.effectImmunity.hostileOnly ? ' từ kẻ địch (không chặn hình phạt tự gây)' : ''}, rồi tiêu hiệu ứng khi hết số lần. Không giải hiệu ứng đã có; mỗi debuff tiêu một lần, không chặn cả chiêu nhiều debuff. Dùng lại làm mới, không cộng dồn · ${duration}.`);
       if (effect.type === 'toggle_status') lines.push(`Bật/tắt ${status.name}; dùng lại để xuống ngựa, không cộng dồn.`);
-      const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', evasion: 'khả năng né đòn vật lí' };
+      const labels = { attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES (kháng phép)', speed: 'SPD', damageBonus: 'sát thương gây ra', damageBonusPhysical: 'sát thương vật lí', damageBonusMagical: 'sát thương ma pháp', evasion: 'khả năng né đòn vật lí' };
       for (const [key, value] of Object.entries(effect.appliedModifiers ?? status.modifiers ?? {})) {
         if (key === 'damageVsShielded') lines.push(`Gây thêm ${percent(value)} sát thương nếu mục tiêu có khiên lúc từng hit bắt đầu; so mức lớn nhất với buff khuếch đại khác, áp dụng cả khiên và sát thương tràn vào HP · ${duration}.`);
         else if (key === 'attackMultiplier') lines.push(`Đòn tấn công kế tiếp gây ${percent(value)} sát thương, chỉ lấy mức lớn nhất với buff khuếch đại khác · ${duration}.`);
@@ -289,8 +291,18 @@ export function skillScaling(skill, actor, content, choices = {}) {
       }
     }
   }
-  const exclusive=actor.exclusiveGear?.template?.passive;
-  if (exclusive && (!exclusive.abilityIds || exclusive.abilityIds.includes(skill.id))) lines.push('Trấn Phái · ' + exclusive.name + ': ' + exclusive.description);
+  const exclusives=exclusivePassives(actor);
+  for(const p of exclusives){
+    if(p.abilityIds&&!p.abilityIds.includes(skill.id))continue;
+    if(p.type==='after_skill_shield'){
+      const stats={attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'};
+      const amount=exclusiveShieldAmount(content,p,skill,key=>previewExclusiveStat(content,actor,key));
+      const where=p.target==='all_allies'?'toàn đội':p.target==='self'?'bản thân':'đồng đội HP thấp nhất';
+      lines.push(`Trấn Phái · ${p.name}: Khiên ${where} ${number(amount)} (${percent(p.ratio)} ${stats[p.stat]??p.stat} · Rank ${skill.skillRank??1}).`);
+    } else {
+      lines.push('Trấn Phái · ' + p.name + ': ' + p.description);
+    }
+  }
   if (actor.passive?.type==='extra_mp_damage' && skill.cost?.mp > 0 && skill.effects.some(effect=>effect.type==='damage')) {
     const cap=Math.ceil(skill.cost.mp*actor.passive.extraCostRatio);
     const available=choices.live ? Math.max(0,actor.mp-skill.cost.mp) : cap;

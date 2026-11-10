@@ -12,6 +12,7 @@ const EXPECTED={
  magic_academy:['artesia','auguste','aurora','drake','eri','finmel','fran','kreider','lumine','monica'],
  house_ranoc:['helena','kyle','leonardo','lisbeth'],
  rhett_research_facility:['amaryllis','arden','rhett'],
+ expedition_corps:['patricia','vilgard','ardelia','belochkin','chen','angelica','melpiphia'],
 };
 const members=faction=>Object.values(content.characters).filter(c=>c.affiliation===faction).map(c=>c.id).sort();
 

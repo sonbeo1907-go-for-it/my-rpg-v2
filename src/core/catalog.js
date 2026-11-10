@@ -25,6 +25,7 @@ export const AFFILIATION_LABELS = {
   destiny_heralds: 'Sứ giả Định Mệnh',
   wanderer: 'Lãng khách',
   northern_forest: 'Khu rừng phương Bắc',
+  expedition_corps: 'Kị sĩ Sư đoàn Viễn Chinh',
   rhett_research_facility: 'Viện Nghiên Cứu Tự Xưng của Rhett',
 };
 export const affiliationLabel = value => (value ? (AFFILIATION_LABELS[value] ?? value) : '');

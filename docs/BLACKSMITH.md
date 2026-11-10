@@ -44,4 +44,4 @@ Các adapter được khai báo/kiểm tra trong `exclusive-hooks.js`, xử lý 
 
 06/11/2026 — Tái rèn Trấn Phái tốn **10 Pure Prisma**, không còn tốn Original. Giữ kết quả pending cũ, không thu phí lại khi chọn giữ/nhận. Chế tạo Trấn Phái vẫn theo craftCost; rèn/tái rèn Gear IV dùng bảng giá riêng. Xem [SKILL_MASTERY](SKILL_MASTERY.md).
 
-Danh mục hiện tại có51 mẫu, gồm13 mẫu mới của [đợt mở rộng 06/11](EXCLUSIVE_BALANCE_2026_11_06.md). Dùng cùng quy trình Shop mở công thức10 Bản Thiết Kế rồi chế tạo; không tự trang bị.
+Danh mục hiện tại có60 mẫu, gồm13 mẫu mới của [đợt mở rộng 06/11](EXCLUSIVE_BALANCE_2026_11_06.md) và hai mẫu Hồn Kiếm mới. Dùng cùng quy trình Shop mở công thức10 Bản Thiết Kế rồi chế tạo; không tự trang bị.

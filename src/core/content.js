@@ -30,7 +30,7 @@ export const ROLE_GROUPS = {
   offensive_support: 'Hỗ trợ tấn công', defensive_support: 'Hỗ trợ phòng thủ',
   tank: 'Thủ Hộ', fighter: 'Đấu sĩ', sorcerer: 'Thuật Sư'
 };
-export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'dispel', 'revive', 'reduce_cooldowns'];
+export const EFFECT_TYPES = ['steal_base_stat','end_mode','team_resource','damage', 'heal', 'shield', 'status', 'toggle_status', 'resource', 'cleanse', 'grant_extra_turn', 'enter_mode', 'turn_order_field', 'formula_field', 'edit_formula', 'end_formula', 'prepare_mode', 'summon_companion', 'summon_enemy', 'dispel', 'revive', 'reduce_cooldowns', 'increase_cooldowns'];
 
 // Release #33 was Astoria's technical-test slot. Never assign it to another character.
 export const DEPRECATED_CHARACTER_RELEASE_IDS = Object.freeze([33]);
@@ -100,7 +100,7 @@ export function validateContent(content) {
         if (new Set(actor.damageTypeWeaknesses).size !== actor.damageTypeWeaknesses.length) fail(`${id}: duplicate damage type weakness`);
       }
     }
-    if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'unbuffed_target_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','enemy_support_counter','enemy_shield_mode','heal_mp_regen','cover_guard','element_ally_followup','element_ally_weakness_mp','life_mortgage_pact','team_spend_penetration','ally_team_creation','round_team_resource','blessed_team_resource','team_resource_mode','defense_average_conversion','ally_creation_followup','extra_phase_resource_buff','previous_round_team_spend_buff','starting_resource_skill_chance','low_hp_immortality'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
+    if (actor.passive?.type && !['true_strike', 'damage_reduction', 'shield_break_heal', 'dodge_counter', 'magic_followup_mp', 'stat_boost', 'speed_damage', 'resource_stat_boost', 'shield_break_status', 'shield_break_attack_buff', 'field_growth', 'team_flat_self', 'team_flat_aura', 'end_turn_mp_regen', 'extra_mp_damage', 'marked_ally_magic', 'hp_difference_damage', 'ally_heal_mp', 'stat_conversion', 'end_round_lowest_mp', 'buffed_ally_mp', 'combat_mode', 'later_target_base_stat', 'kill_mp_discount', 'target_debuff_damage', 'end_round_team_mp', 'shield_break_mp', 'shielded_damage_bonus', 'debuff_received_heal', 'formula_scholar', 'dot_potency_bonus', 'attack_status', 'shield_survival_followup', 'low_hp_damage', 'target_buff_damage', 'unbuffed_target_damage', 'ally_skill_counter', 'detonation_base_growth','ally_support_followup','agony_revenant','defend_adjacent_mp','mp_stat_conversion','formation_stance','mode_support_charge','team_resource_growth','spent_resource_followup','spent_resource_team_mp','spent_team_resource_stat','received_damage_counter','element_ally_charge','base_speed_physical_guard','altered_defense_damage','vampire_contingency','damage_penetration','element_received_charge','powder_ally_followup','spent_shared_damage','enemy_support_counter','enemy_shield_mode','heal_mp_regen','cover_guard','element_ally_followup','element_ally_weakness_mp','life_mortgage_pact','team_spend_penetration','ally_team_creation','round_team_resource','blessed_team_resource','team_resource_mode','defense_average_conversion','ally_creation_followup','extra_phase_resource_buff','previous_round_team_spend_buff','starting_resource_skill_chance','low_hp_immortality','shielded_ally_magic','vengeful_revive','living_team_flat_guard','boss_hunter_mode','round_category_mp','speed_lock_ally','water_ally_mp'].includes(actor.passive.type)) fail(`${id}: invalid passive`);
     if(actor.controlImmunities!==undefined&&(!Array.isArray(actor.controlImmunities)||actor.controlImmunities.length!==1||actor.controlImmunities[0]!=='stun'||content.enemies[id]!==actor))fail(id+': invalid control immunity');
     const native = actor.passive;
     if(native?.type==='defense_average_conversion'&&(native.toStat!=='attack'||!Number.isFinite(native.ratio)||native.ratio<=0||!Number.isFinite(native.cap)||native.cap<=0))fail(id+': invalid defense average conversion');
@@ -287,13 +287,14 @@ export function validateContent(content) {
         if ((!content.statuses[effect.status]?.persistent || effect.duration !== undefined) && (!Number.isInteger(effect.duration) || effect.duration < 1)) fail(`${id}: invalid status duration`);
         if (effect.type === 'toggle_status' && !content.statuses[effect.status]?.persistent) fail(`${id}: toggle requires persistent status`);
       }
-      if(effect.selectAlly!==undefined&&(effect.type!=='grant_extra_turn'||skill.target!=='self'||effect.to||effect.selectAlly.excludeSelf!==true||typeof effect.selectAlly.preferTag!=='string'||!/^([a-z][a-z0-9_]*)$/.test(effect.selectAlly.preferTag)))fail(id+': invalid ally priority');
+      if(effect.selectAlly!==undefined&&(!['grant_extra_turn','status'].includes(effect.type)||skill.target!=='self'||effect.to||effect.selectAlly.excludeSelf!==true||typeof effect.selectAlly.preferTag!=='string'||!/^([a-z][a-z0-9_]*)$/.test(effect.selectAlly.preferTag)))fail(id+': invalid ally priority');
       if(effect.selectAlly?.requireTag!==undefined&&effect.selectAlly.requireTag!==true)fail(id+': invalid strict ally tag');
       if(effect.chanceScaling!==undefined&&(effect.type!=='status'||!content.statuses[effect.status]?.skipTurn||!validStatusChance(effect.chanceScaling)))fail(id+': invalid control probability');
       if(effect.onHitStatus?.chanceScaling!==undefined&&(!content.statuses[effect.onHitStatus.status]?.skipTurn||!validStatusChance(effect.onHitStatus.chanceScaling)))fail(id+': invalid on-hit control probability');
       if(effect.to==='primary'&&(effect.type!=='damage'||!['all_enemies','enemy_splash'].includes(skill.target)))fail(id+': invalid primary-only damage');
       if(effect.requiresDamageHit!==undefined&&(effect.requiresDamageHit!==true||effect.type!=='status'||!skill.effects.some(e=>e.type==='damage')))fail(id+': invalid hit condition');
       if(effect.type==='reduce_cooldowns'&&(!Number.isInteger(effect.amount)||effect.amount<1||effect.amount>3||!['ally','all_allies'].includes(skill.target)))fail(id+': invalid cooldown reduction');
+    if(effect.type==='increase_cooldowns'&&(!Number.isInteger(effect.amount)||effect.amount<1||effect.amount>3||!Number.isInteger(effect.minCooldown??1)||(effect.minCooldown??1)<1||!['enemy','enemy_splash','all_enemies','random_enemies'].includes(skill.target)))fail(id+': invalid cooldown increase');
       if(effect.onHitStatus?.primaryStacks!==undefined&&(!content.statuses[effect.onHitStatus.status]?.exposedElement||effect.primaryMultiplier===undefined||!Number.isInteger(effect.onHitStatus.primaryStacks)||effect.onHitStatus.primaryStacks<1||effect.onHitStatus.primaryStacks>3))fail(id+': invalid primary exposure stacks');
       if(effect.additionalElements!==undefined&&(effect.type!=='damage'||!Array.isArray(effect.additionalElements)||effect.additionalElements.length!==1||effect.additionalElements.some(e=>!ELEMENTS.includes(e)||e===effect.element)))fail(id+': invalid additional damage element');
       if(effect.spentLifeDebtRatio!==undefined&&(effect.type!=='heal'||effect.to!=='self'||skill.cost?.consumeAllLifeDebt!==true||!Number.isFinite(effect.spentLifeDebtRatio)||effect.spentLifeDebtRatio<=0||effect.spentLifeDebtRatio>2||effect.multiplier!==undefined||effect.flat!==undefined||effect.scalingStat!==undefined||effect.scalingStats!==undefined))fail(id+': invalid spent life debt heal');
@@ -322,7 +323,7 @@ export function validateContent(content) {
         if (effect.onHitStatus?.stacks !== undefined && (!onHit?.exposedElement || !Number.isInteger(effect.onHitStatus?.stacks) || effect.onHitStatus?.stacks < 1 || effect.onHitStatus?.stacks > onHit.maxStacks)) fail(id + ': invalid on-hit exposure stacks');
       }
       if(effect.charges!==undefined&&(effect.type!=='status'||!(content.statuses[effect.status]?.buffRejection||content.statuses[effect.status]?.consumeOnPaidSkill)||!Number.isInteger(effect.charges)||effect.charges<1||effect.charges>99))fail(id+': invalid status charges');
-      if (effect.stacks !== undefined && (effect.type !== 'status' || !content.statuses[effect.status]?.exposedElement || !Number.isInteger(effect.stacks) || effect.stacks < 1 || effect.stacks > content.statuses[effect.status].maxStacks)) fail(id + ': invalid exposure stacks');
+      if (effect.stacks !== undefined && (effect.type !== 'status' || !content.statuses[effect.status]?.maxStacks || !Number.isInteger(effect.stacks) || effect.stacks < 1 || effect.stacks > content.statuses[effect.status].maxStacks)) fail(id + ': invalid status stacks');
       if (effect.extraStacksIfPresent !== undefined && (effect.type !== 'status' || !Number.isInteger(effect.extraStacksIfPresent) || effect.extraStacksIfPresent < 1 || !content.statuses[effect.status]?.maxStacks)) fail(`${id}: invalid conditional status stacks`);
       if (effect.type === 'formula_field' && (skill.target!=='self' || typeof effect.name!=='string' || !effect.name.trim() || !Number.isInteger(effect.durationRounds) || effect.durationRounds<1 || !Array.isArray(effect.sequence) || effect.sequence.length!==3 || new Set(effect.sequence).size!==3 || effect.sequence.some(tag=>!['lead','break','strike'].includes(tag)) || !/^\/art\/[a-z0-9_-]+\.svg$/.test(effect.background))) fail(id+': invalid formula field');
       if (effect.type === 'edit_formula' && (skill.target!=='self' || skill.requiresFormula!==true || !skill.minFormulaEntries)) fail(id+': invalid formula edit');
@@ -337,6 +338,7 @@ export function validateContent(content) {
       if(effect.perTargetBuff!==undefined && (effect.type!=='damage'||!Number.isFinite(effect.perTargetBuff)||effect.perTargetBuff<=0||!Number.isInteger(effect.maxTargetBuffs)||effect.maxTargetBuffs<1||effect.maxTargetBuffs>10))fail(id+': invalid target buff scaling');
       if(effect.maxTargetBuffs!==undefined&&effect.perTargetBuff===undefined)fail(id+': missing target buff scaling');
       if (effect.type==='summon_companion' && (typeof effect.companion!=='string' || !effect.companion || skill.target!=='self')) fail(id+': invalid companion summon');
+      if (effect.type==='summon_enemy' && (typeof effect.enemyId!=='string' || !content.enemies[effect.enemyId] || !Number.isInteger(effect.count) || effect.count<1 || effect.count>4 || !Number.isInteger(effect.maxAdds) || effect.maxAdds<1 || effect.maxAdds>8 || effect.to!=='self' || (effect.addTag!==undefined&&(typeof effect.addTag!=='string'||!effect.addTag.trim())))) fail(id+': invalid enemy summon');
       if (effect.primaryMultiplier !== undefined && (!(effect.type==='damage'&&['all_enemies','enemy_splash'].includes(skill.target)||effect.type==='shield'&&skill.target==='all_allies') || !Number.isFinite(effect.primaryMultiplier) || effect.primaryMultiplier < 0)) fail(id + ': invalid primary damage');
       if(effect.type==='revive' && (skill.target!=='all_allies'
         || (effect.hpRatio!==undefined&&(!Number.isFinite(effect.hpRatio)||effect.hpRatio<=0||effect.hpRatio>1))
@@ -363,7 +365,7 @@ export function validateContent(content) {
       if (effect.penetration !== undefined && (!Number.isFinite(effect.penetration) || effect.penetration < 0 || effect.penetration > 1)) fail(`${id}: invalid penetration`);
       if(effect.lifeStealRatio!==undefined&&(effect.type!=='damage'||!Number.isFinite(effect.lifeStealRatio)||effect.lifeStealRatio<=0||effect.lifeStealRatio>1))fail(id+': invalid life steal');
       if (effect.hits !== undefined && (!Number.isInteger(effect.hits) || effect.hits < 1 || effect.hits > 20)) fail(`${id}: invalid hits`);
-      if (effect.to && !['self', 'targets','primary'].includes(effect.to)) fail(`${id}: invalid effect recipient`);
+      if (effect.to && !['self', 'targets','primary','all_allies'].includes(effect.to)) fail(`${id}: invalid effect recipient`);
     }
   }
   for (const [id, status] of Object.entries(content.statuses)) {
@@ -377,6 +379,7 @@ export function validateContent(content) {
     }
     if(status.defaultDuration!==undefined&&(!Number.isInteger(status.defaultDuration)||status.defaultDuration<1))fail(id+': invalid default duration');
     if(status.buffRejection!==undefined&&(status.kind!=='debuff'||!Number.isInteger(status.buffRejection?.charges)||status.buffRejection.charges<1||!status.persistent))fail(id+': invalid buff rejection');
+    if(status.dispelImmune!==undefined&&status.dispelImmune!==true)fail(id+': invalid dispel immunity');
     if(status.consumeOnPaidSkill!==undefined&&(status.consumeOnPaidSkill!==true||status.kind!=='debuff'||!status.persistent||!Number.isInteger(status.charges)||status.charges<1||!Number.isFinite(status.mpCostIncrease)||status.mpCostIncrease<=0))fail(id+': invalid paid skill interference');
     if(status.bypassEvasion!==undefined&&(status.bypassEvasion!==true||status.kind!=='buff'))fail(id+': invalid evasion bypass');
     if(status.preventDeath!==undefined&&(status.preventDeath!==true||status.kind!=='buff'||status.durationClock!=='round'||status.persistent))fail(id+': invalid prevent death');
@@ -387,7 +390,7 @@ export function validateContent(content) {
     if (status.durationClock !== undefined && !['main_turn','round'].includes(status.durationClock)) fail(id + ': invalid duration clock');
     if (status.durationClock==='round' && (status.kind!=='buff' || status.persistent || status.damageOverTime || status.turnStartAbility || status.consumeOnAttack)) fail(id+': round clock requires a timed support buff');
     if (status.magicRefresh !== undefined && (!Number.isInteger(status.magicRefresh?.duration) || status.magicRefresh.duration < 1 || status.magicRefresh.oncePerRound !== true || status.kind !== 'debuff')) fail(id + ': invalid magic refresh');
-    if(status.damageUses!==undefined&&(!Number.isInteger(status.damageUses)||status.damageUses<1||status.damageUses>99||status.kind!=='buff'||status.persistent!==true||status.consumeOnAttack||status.effectImmunity||status.maxStacks||status.damageOverTime||status.durationClock||!(status.modifiers?.damageBonus>0)))fail(id+': invalid damage-use buff');
+    if(status.damageUses!==undefined&&(!Number.isInteger(status.damageUses)||status.damageUses<1||status.damageUses>99||status.kind!=='buff'||status.persistent!==true||status.consumeOnAttack||status.effectImmunity||status.maxStacks||status.damageOverTime||status.durationClock||!((status.modifiers?.damageBonus??0)>0||(status.modifiers?.damageBonusPhysical??0)>0||(status.modifiers?.damageBonusMagical??0)>0)))fail(id+': invalid damage-use buff');
     if(status.modifiers?.maxHp!==undefined&&(!Number.isFinite(status.modifiers.maxHp)||status.modifiers.maxHp<=0||status.modifiers.maxHp>2||status.kind!=='buff'||status.consumeOnAttack||status.modifiersPerStack))fail(id+': invalid HP capacity buff');
     if(status.modifiers?.maxMp!==undefined&&(!Number.isFinite(status.modifiers.maxMp)||status.modifiers.maxMp<=0||status.modifiers.maxMp>2||status.kind!=='buff'||status.consumeOnAttack))fail(id+': invalid MP capacity buff');
     if (status.effectImmunity !== undefined) {
@@ -447,6 +450,9 @@ export function validateContent(content) {
   }
   for (const [id, encounter] of Object.entries(content.encounters)) {
     if(!Number.isInteger(encounter.enemyLevel)||encounter.enemyLevel<1||encounter.enemyLevel>99)fail(id+": invalid encounter level");
+    if(encounter.enemyLevel>50&&!['east_key','east_hunt'].includes(encounter.category)&&!encounter.superLevels&&encounter.rewardTier!=='super'&&!encounter.travelerStory)fail(id+': invalid encounter level');
+    if(encounter.fixedEnemyLevel!==undefined&&(!Number.isInteger(encounter.fixedEnemyLevel)||encounter.fixedEnemyLevel!==encounter.enemyLevel))fail(id+': invalid fixed enemy level');
+    if(encounter.allowedDifficulties!==undefined&&(!Array.isArray(encounter.allowedDifficulties)||!encounter.allowedDifficulties.length||new Set(encounter.allowedDifficulties).size!==encounter.allowedDifficulties.length||encounter.allowedDifficulties.some(key=>!content.progressionRules?.default?.questDifficulties[key])))fail(id+': invalid allowed difficulties');
     if(encounter.referenceLevel!==undefined&&(!Number.isInteger(encounter.referenceLevel)||encounter.referenceLevel<1||encounter.referenceLevel>99))fail(id+': invalid encounter reference level');
     if(encounter.hpReferenceLevel!==undefined&&(!Number.isInteger(encounter.hpReferenceLevel)||encounter.hpReferenceLevel<1||encounter.hpReferenceLevel>99))fail(id+': invalid HP reference level');
     try {
@@ -466,7 +472,7 @@ export function validateContent(content) {
     if (encounter.requires?.firstClears!==undefined && (!Array.isArray(encounter.requires.firstClears)||!encounter.requires.firstClears.length||new Set(encounter.requires.firstClears).size!==encounter.requires.firstClears.length||encounter.requires.firstClears.some(key=>key===id||!content.encounters[key]))) fail(id+': invalid prerequisite chapters');
     if (encounter.requiredPartyIds !== undefined && (!Array.isArray(encounter.requiredPartyIds) || !encounter.requiredPartyIds.length || new Set(encounter.requiredPartyIds).size !== encounter.requiredPartyIds.length || encounter.requiredPartyIds.some(characterId=>!content.characters[characterId]))) fail(`${id}: invalid required party`);
     if (encounter.waves !== undefined) {
-      if ((!encounter.travelerStory && encounter.category!=='chronicle') || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
+      if ((!encounter.travelerStory && !['chronicle','east_key','east_hunt'].includes(encounter.category)) || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
       else for(const wave of encounter.waves) {
         if (!Array.isArray(wave) || !wave.length || wave.length>4 || wave.some(enemy=>!content.enemies[enemy]) || (wave.length!==1 && wave.some(enemy=>content.enemies[enemy]?.boss))) fail(id+': invalid story wave enemies');
       }
@@ -476,7 +482,7 @@ export function validateContent(content) {
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);
     if(encounter.rewardTier==='super'&&encounter.enemies?.length===1){const boss=content.enemies[encounter.enemies[0]];if(boss&&!boss.boss&&!boss.controlImmunities?.includes('stun'))fail(id+': superboss requires stun immunity');}
     exists('music', encounter.bgm ?? 'normal', id);
-    if(encounter.category!==undefined&&!['bounty','chronicle'].includes(encounter.category)) fail(id+': invalid quest category');
+    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt'].includes(encounter.category)) fail(id+': invalid quest category');
     if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
     if(encounter.superLevels!==undefined&&(!['alice_superboss','miraebolis_superboss'].includes(id)||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');

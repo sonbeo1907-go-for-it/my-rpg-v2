@@ -1392,5 +1392,122 @@
       "chiyoko.awaken": 18,
       "chiyoko.finale": 14
     }
+  },
+  {
+    "id": "patricia",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "patricia.bedrock"
+    ],
+    "burstAbilities": [
+      "patricia.core"
+    ],
+    "skillBias": {
+      "patricia.bedrock": 22,
+      "patricia.survey": 16,
+      "patricia.core": 28
+    }
+  },
+  {
+    "id": "vilgard",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "vilgard.pursuit"
+    ],
+    "burstAbilities": [
+      "vilgard.reckoning"
+    ],
+    "skillBias": {
+      "vilgard.pursuit": 16,
+      "vilgard.cleave": 20,
+      "vilgard.reckoning": 30
+    }
+  },
+  {
+    "id": "ardelia",
+    "role": "defensive_support",
+    "healBelow": 0.55,
+    "reserveMpRatio": 0.2,
+    "setupAbilities": [
+      "ardelia.triage"
+    ],
+    "burstAbilities": [
+      "ardelia.aegis"
+    ],
+    "skillBias": {
+      "ardelia.triage": 30,
+      "ardelia.aegis": 26,
+      "ardelia.purge": 18
+    }
+  },
+  {
+    "id": "belochkin",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "belochkin.command"
+    ],
+    "burstAbilities": [
+      "belochkin.storm"
+    ],
+    "skillBias": {
+      "belochkin.gale": 20,
+      "belochkin.command": 28,
+      "belochkin.storm": 24
+    }
+  },
+  {
+    "id": "chen",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "chen.fulfill"
+    ],
+    "skillBias": {
+      "chen.slash": 18,
+      "chen.double": 20,
+      "chen.fulfill": 28
+    }
+  },
+  {
+    "id": "angelica",
+    "role": "sorcerer",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "angelica.curse"
+    ],
+    "burstAbilities": [
+      "angelica.iconic"
+    ],
+    "skillBias": {
+      "angelica.seal": 20,
+      "angelica.curse": 24,
+      "angelica.iconic": 30
+    }
+  },
+  {
+    "id": "melpiphia",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "melpiphia.bless"
+    ],
+    "burstAbilities": [
+      "melpiphia.undertow"
+    ],
+    "skillBias": {
+      "melpiphia.strike": 18,
+      "melpiphia.bless": 22,
+      "melpiphia.undertow": 24
+    }
   }
 ]

@@ -2591,7 +2591,7 @@
   },
   {
     "id": "albeldo",
-    "name": "Albeldo Dragun",
+    "name": "Albedo Dragun",
     "title": "Kị Sĩ Lá Chắn Gió",
     "affiliation": "capital_knights",
     "tags": [
@@ -2612,7 +2612,7 @@
       "speed": 24
     },
     "description": "Tăng nhịp độ toàn đội và dựng Phong Bích; SPD căn bản giảm sát thương vật lí cho đồng minh.",
-    "biography": "Albeldo đem kỷ luật của gia tộc Dragun vào hàng ngũ kị sĩ thủ đô. Anh dùng những bước chân nhanh để khép kín mọi khoảng hở trong hàng phòng thủ.",
+    "biography": "Albedo đem kỷ luật của gia tộc Dragun vào hàng ngũ kị sĩ thủ đô. Anh dùng những bước chân nhanh để khép kín mọi khoảng hở trong hàng phòng thủ.",
     "abilities": [
       "albeldo.march",
       "albeldo.aegis",
@@ -2621,7 +2621,7 @@
     "passive": {
       "type": "base_speed_physical_guard",
       "name": "Gió Lặng Sau Hàng Khiên",
-      "description": "Giảm sát thương vật lí cho toàn đội theo SPD căn bản của Albeldo, tối đa 30% tại 90 SPD căn bản. Buff SPD trong trận không tăng hiệu quả.",
+      "description": "Giảm sát thương vật lí cho toàn đội theo SPD căn bản của Albedo, tối đa 30% tại 90 SPD căn bản. Buff SPD trong trận không tăng hiệu quả.",
       "cap": 0.3,
       "atSpeed": 90
     },
@@ -4170,5 +4170,365 @@
       "time_traveler"
     ],
     "releaseId": 93
+  },
+  {
+    "id": "patricia",
+    "name": "Patricia",
+    "title": "Nhà Nghiên Cứu Địa Tầng",
+    "affiliation": "expedition_corps",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "earth",
+    "description": "Nghiên cứu địa chất ngoài chiến trường: biến Khiên của đồng đội thành cộng hưởng MAG, rồi khoan thẳng vào lõi địch.",
+    "biography": "Patricia tin rằng mọi lớp đất đá đều ghi lại một câu chuyện. Cô mang theo la bàn địa tầng và những mẫu khoáng vật, dùng chính lớp khiên bảo vệ của đội làm thấu kính hội tụ phép thuật.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights"
+    ],
+    "stats": {
+      "maxHp": 140,
+      "maxMp": 100,
+      "attack": 9,
+      "magic": 36,
+      "defense": 16,
+      "resistance": 22,
+      "speed": 16
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "patricia.bedrock",
+      "patricia.survey",
+      "patricia.core"
+    ],
+    "passive": {
+      "type": "shielded_ally_magic",
+      "name": "Cộng Hưởng Khiên Đá",
+      "description": "Mỗi thành viên trong đội đang có Khiên (từ bất kỳ nguồn nào) tăng thêm 15% MAG cho Patricia; luôn hoạt động, tính cả bản thân nếu đang có Khiên.",
+      "ratio": 0.15
+    },
+    "releaseId": 94
+  },
+  {
+    "id": "vilgard",
+    "name": "Vilgard",
+    "title": "Kẻ Mang Mối Thù Không Tàn",
+    "affiliation": "expedition_corps",
+    "role": "DPS vật lý",
+    "roleGroup": "physical_dps",
+    "element": "dark",
+    "description": "Kẻ mang mối thù không tàn: chết đi để trỗi dậy mạnh hơn, dồn Ám Ảnh vào một nhát trả thù xuyên giáp.",
+    "biography": "Vilgard không quên. Mỗi vết thương, mỗi cái chết đều được khắc vào lưỡi kiếm đen; hắn quay lại từ cõi chết với nhiều mối thù hơn, miễn là kẻ thù còn đứng trước mặt.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights"
+    ],
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 90,
+      "attack": 40,
+      "magic": 8,
+      "defense": 18,
+      "resistance": 18,
+      "speed": 18
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "vilgard.pursuit",
+      "vilgard.cleave",
+      "vilgard.reckoning"
+    ],
+    "passive": {
+      "type": "vengeful_revive",
+      "name": "Mối Thù Chưa Trả",
+      "description": "Mỗi 5 vòng một lần, khi Vilgard chết, hồi sinh ngay lập tức, nhận Lượt Thêm và 5 tầng Ám Ảnh.",
+      "cooldownRounds": 5,
+      "hpRatio": 1,
+      "statusId": "obsession",
+      "stacks": 5
+    },
+    "releaseId": 95
+  },
+  {
+    "id": "ardelia",
+    "name": "Ardelia",
+    "title": "Quân Y Tiền Tuyến",
+    "affiliation": "expedition_corps",
+    "role": "Hỗ trợ phòng thủ",
+    "roleGroup": "defensive_support",
+    "element": "water",
+    "description": "Bác sĩ quân y của Sư đoàn Viễn Chinh: giữ tuyến bằng DEF/RES, hồi máu, giải độc và dựng khiên từ chính sức chịu đựng của đội.",
+    "biography": "Ardelia không chỉ mổ xẻ vết thương mà còn mổ xẻ cả chiến thuật. Cô tin một đội sống sót là một đội còn chiến đấu, nên luôn đứng giữa làn đạn với hộp dụng cụ và lá chắn nước.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "medic"
+    ],
+    "stats": {
+      "maxHp": 240,
+      "maxMp": 125,
+      "attack": 10,
+      "magic": 14,
+      "defense": 24,
+      "resistance": 32,
+      "speed": 15
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "ardelia.triage",
+      "ardelia.aegis",
+      "ardelia.purge"
+    ],
+    "passive": {
+      "type": "living_team_flat_guard",
+      "name": "Tuyến Phòng Thủ Quân Y",
+      "description": "Khi Ardelia còn sống, toàn đội tăng 10 DEF và 10 RES căn bản.",
+      "modifiers": {
+        "defense": 10,
+        "resistance": 10
+      }
+    },
+    "releaseId": 96
+  },
+  {
+    "id": "belochkin",
+    "name": "Belochkin",
+    "title": "Đại Tướng Viễn Chinh",
+    "affiliation": "expedition_corps",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "wind",
+    "description": "Đại tướng của Sư đoàn Viễn Chinh: chỉ huy đội hình bằng gió, mở nhịp tiến công và khuếch đại sức mạnh vật lý của toàn quân.",
+    "biography": "Belochkin học cách chỉ huy từ Charlemagnes, nhưng tin rằng một đạo quân chỉ mạnh khi mọi nhịp đánh được kết nối. Ông dùng gió để giữ đội hình, ra lệnh tiến công và biến từng đợt phối hợp thành bão gươm.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "commander"
+    ],
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 90,
+      "attack": 32,
+      "magic": 10,
+      "defense": 18,
+      "resistance": 20,
+      "speed": 24
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "belochkin.gale",
+      "belochkin.command",
+      "belochkin.storm"
+    ],
+    "passive": {
+      "type": "round_category_mp",
+      "name": "Nhịp Tiến Công",
+      "description": "Cuối vòng, nếu đội đã dùng ít nhất 2 trong 3 nhóm kỹ năng (Khiên/Hồi phục, đơn mục tiêu, đa mục tiêu), hồi 8% MP tối đa cho toàn đội.",
+      "ratio": 0.08,
+      "requiredCategories": 2
+    },
+    "releaseId": 97
+  },
+  {
+    "id": "chen",
+    "name": "Chen",
+    "title": "Kiếm Sĩ Lao Vào Trận",
+    "affiliation": "expedition_corps",
+    "role": "DPS vật lý",
+    "roleGroup": "physical_dps",
+    "element": "plain",
+    "description": "Kiếm sĩ điêu luyện của Sư đoàn Viễn Chinh, lao thẳng vào kẻ địch lớn và giữ nhịp chém cho đến khi mọi trùm gục xuống.",
+    "biography": "Chen không chờ đối thủ yếu đi. Hắn tìm kẻ mạnh nhất, bước vào tầm kiếm và biến mỗi nhịp thở thành một nhát chém. Càng đối mặt với trùm, lưỡi kiếm của hắn càng trở nên sắc bén.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "swordsman"
+    ],
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 90,
+      "attack": 38,
+      "magic": 8,
+      "defense": 22,
+      "resistance": 16,
+      "speed": 16
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "chen.slash",
+      "chen.double",
+      "chen.fulfill"
+    ],
+    "passive": {
+      "type": "boss_hunter_mode",
+      "name": "Lưỡi Kiếm Quyết Đấu",
+      "description": "Khi có trùm hoặc siêu trùm còn sống, Chen vào dạng Quyết Đấu đến khi mọi trùm hoặc siêu trùm gục.",
+      "modeId": "duelist_edge"
+    },
+    "combatModes": {
+      "duelist_edge": {
+        "name": "Quyết Đấu",
+        "lifetime": "permanent",
+        "exitCondition": "no_boss",
+        "baseStatBonuses": {
+          "attack": 10
+        },
+        "statModifiers": {
+          "attack": 0.35
+        },
+        "boundStatuses": [
+          "escalation"
+        ],
+        "allowedAbilities": [
+          "$attack",
+          "chen.slash",
+          "chen.double",
+          "chen.fulfill",
+          "$defend"
+        ],
+        "commandAbilities": [
+          "$attack",
+          "chen.slash",
+          "chen.double",
+          "chen.fulfill",
+          "$defend"
+        ],
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "summary": "+10 ATK căn bản · +35% ATK · Thăng Tiến",
+        "description": "Chỉ kích hoạt khi có trùm hoặc siêu trùm; giữ đến khi toàn bộ trùm gục. Không thể bị dispel."
+      }
+    },
+    "releaseId": 98
+  },
+  {
+    "id": "angelica",
+    "name": "Angelica",
+    "title": "Thuật Sư Hậu Cần",
+    "affiliation": "expedition_corps",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "element": "light",
+    "description": "Cô gái trẻ vừa tốt nghiệp Học viện Ma pháp, gia nhập hội hậu cần của Sư đoàn Viễn Chinh với những vòng ấn trói buộc chiến trường.",
+    "biography": "Angelica mang theo sổ tay chú thuật và một la bàn ánh sáng. Cô không nhanh chân, nhưng luôn tìm được người dẫn đường nhanh nhất trong đội để bám theo và biến nhịp hành quân của họ thành nhịp thi triển của mình.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "quartermaster"
+    ],
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 130,
+      "attack": 8,
+      "magic": 24,
+      "defense": 14,
+      "resistance": 24,
+      "speed": 1
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "angelica.seal",
+      "angelica.curse",
+      "angelica.iconic"
+    ],
+    "passive": {
+      "type": "speed_lock_ally",
+      "name": "Bám Nhịp Hậu Cần",
+      "description": "Một lần ở đầu trận, khóa đồng đội có SPD cao nhất còn sống. Khi người đó còn sống, SPD của Angelica luôn bằng SPD của người đó trừ 1; nếu người đó gục, SPD của Angelica trở về 1."
+    },
+    "releaseId": 99
+  },
+  {
+    "id": "melpiphia",
+    "name": "Melpiphia",
+    "title": "Hỗ Trợ Tấn Công",
+    "affiliation": "expedition_corps",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "water",
+    "description": "Nghiêm túc khi đánh đấm, tưng tửng ngoài giờ làm việc; Melpiphia dẫn dòng nước qua chiến trường và tiếp sức cho những đồng đội cùng hệ Thủy.",
+    "biography": "Melpiphia luôn có một câu đùa cho mọi cuộc họp hậu cần, nhưng khi tiếng còi trận vang lên thì nụ cười biến mất. Cô dùng các xoáy nước để bào mòn phòng thủ địch và kéo đồng đội hệ Thủy tiến lên.",
+    "tags": [
+      "expedition_corps",
+      "capital_knights",
+      "water_support"
+    ],
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 100,
+      "attack": 10,
+      "magic": 30,
+      "defense": 18,
+      "resistance": 22,
+      "speed": 20
+    },
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "melpiphia.strike",
+      "melpiphia.bless",
+      "melpiphia.undertow"
+    ],
+    "passive": {
+      "type": "water_ally_mp",
+      "name": "Tiếp Nước",
+      "description": "Cuối vòng, hồi 2,5% MP tối đa cho toàn đội với mỗi nhân vật hệ Thủy còn sống trong đội, trừ Melpiphia.",
+      "ratio": 0.025
+    },
+    "releaseId": 100
   }
 ]

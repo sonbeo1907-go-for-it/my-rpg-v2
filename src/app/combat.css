@@ -451,6 +451,18 @@
 @keyframes edict-stamp{0%{opacity:0;transform:translateY(-24px) scale(1.35)}35%{opacity:1;transform:translateY(0) scale(1)}75%{opacity:.85}100%{opacity:0;transform:scale(1.08)}}
 @keyframes edict-release{0%,20%{opacity:0;transform:scale(.8)}45%{opacity:.9}100%{opacity:0;transform:scale(1.3)}}
 
+/* Angelica's iconic seal: a rotating light circle and stamped runes, distinct from Sandra's decree. */
+.angelica-glyph{overflow:visible}
+.angelica-orbit{transform-box:fill-box;transform-origin:center;animation:angelica-orbit var(--vfx-duration) ease-out both}
+.angelica-runes{transform-box:fill-box;transform-origin:center;animation:angelica-runes var(--vfx-duration) cubic-bezier(.2,.8,.2,1) both}
+.angelica-seals{transform-box:fill-box;transform-origin:center;animation:angelica-seals var(--vfx-duration) ease-out both}
+.angelica-core{transform-box:fill-box;transform-origin:center;animation:angelica-core var(--vfx-duration) ease-out both}
+@keyframes angelica-orbit{0%{opacity:0;transform:rotate(-35deg) scale(.55)}25%{opacity:.9;transform:rotate(0) scale(1)}75%{opacity:.75}100%{opacity:0;transform:rotate(24deg) scale(1.08)}}
+@keyframes angelica-runes{0%{opacity:0;transform:scale(.7)}30%{opacity:1;transform:scale(1)}65%{opacity:.9}100%{opacity:0;transform:scale(1.15)}}
+@keyframes angelica-seals{0%,25%{opacity:0;transform:scale(.4)}45%{opacity:.95}80%{opacity:.7}100%{opacity:0;transform:scale(1.12)}}
+@keyframes angelica-core{0%{opacity:0;transform:scale(.2)}30%{opacity:1;transform:scale(1)}70%{opacity:.8}100%{opacity:0;transform:scale(1.4)}}
+@media(prefers-reduced-motion:reduce){.angelica-glyph *{animation:none!important}}
+
 /* Healing debt is distinct from HP and shields; text remains readable without colour. */
 .life-debt-meter { color: #edacd1; }
 .life-debt-meter progress { accent-color: #b64883; height: 6px; }

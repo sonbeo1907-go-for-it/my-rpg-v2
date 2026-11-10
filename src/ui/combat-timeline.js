@@ -1,6 +1,6 @@
 // Pure presentation plan. Reads resolved outcomes; never rolls RNG or changes combat.
 export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed',moon:'#d5edff',sword_soul:'#83caff'};
-const custom=skill=>/^(cosmic|academic|hero|nature|edict|iaido)_/.test(skill?.presentation??'');
+const custom=skill=>/^(cosmic|academic|hero|nature|edict|iaido|angelica)_/.test(skill?.presentation??'');
 // Presentation clocks only: hit feedback and its cut share exactly one timestamp.
 export function iaidoHitDelay(presentation,index,speed='normal',reduced=false){
  if(reduced)return 0;

@@ -99,6 +99,12 @@ const paths: Record<string, ReactNode> = {
       <path d="M3 22V11a9 9 0 0 1 18 0v11M7 22V11a5 5 0 0 1 10 0v11M7 22h10m-4-6h1" />
     </>
   ),
+  key: (
+    <>
+      <circle cx="8" cy="15" r="4" />
+      <path d="m11 12 9-9m-3 3 3 3m-6 0 3 3" />
+    </>
+  ),
   save: (
     <>
       <path d="M12 2v13m-5-5 5 5 5-5M4 16v6h16v-6" />

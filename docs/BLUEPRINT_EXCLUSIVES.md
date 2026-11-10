@@ -47,6 +47,12 @@ Các hiệu ứng dưới đây chỉ hoạt động khi trang bị đúng Trấ
 | Leonardo | Thủ Kiếm Người Anh Cả | Giảm sát thương phép toàn đội theo tổng MP tối đa đã chuẩn bị; tối đa 30% tại 800 MP. Aura chốt theo đội lúc xuất phát, không phụ thuộc MP còn lại. |
 | Kyle | Hộp Đồ Chơi Nghịch Lý | Mục tiêu có 3 Trò quậy: MAG tăng cho đồng đội khác đánh phép từ 15% lên 25%. |
 | Astoria | Vương Miện Hố Đen | Khi Magnamut hiện diện: +35% MAG. Mệnh lệnh hủy diệt có cơ hội không tiêu Vết nứt = min(100%, MAG căn bản / 150), đạt 100% tại 150 MAG căn bản. |
+| Patricia | Thấu Kính Địa Tầng | Cuối vòng, hồi 2% MP tối đa cho bản thân với mỗi thành viên trong đội đang có Khiên. |
+| Vilgard | Lưỡi Kiếm Oán Hận | Sau khi hồi sinh, lập tức hồi chiêu Trả Thù Toàn Diện. |
+| Amelia | Gương Băng Hộ Giá | Đội có Khiên: giảm 20% sát thương nhận; liên kích 140% MAG; mỗi mục tiêu trúng liên kích bị xóa 1 buff. |
+| Minerva | Rừng Lặng Bảo Hộ | Sau Hộ Ấn Rừng Lặng: Khiên toàn đội 120% MAG, tăng theo Rank của kỹ năng. |
+| Amaryllis | Đèn Dầu Phục Sinh | Kinh Cầu sẵn sàng từ đầu trận; sau khi dùng tạo Khiên toàn đội 350% MAG, tăng theo Rank. |
+| Ardelia | Huy Hiệu Quân Y | Lá Chắn Quân Y tạo Khiên 120% RES, tăng theo Rank và cấp Hộ Ấn toàn đội. |
 
 Khiên từ Trấn tuân theo quy tắc Khiên mạnh nhất, không cộng dồn. Chỉ số/phòng thủ và buff cơ bản vẫn qua engine chung. Seraphine xét thành phần đội xuất phát; thành viên bị hạ không làm thay đổi điều kiện gia tộc. Hiệu ứng giảm sát thương của Leonardo vẫn tuân trần giảm sát thương chung của engine.
 

@@ -4528,10 +4528,12 @@
       }
     ],
     "skillLineId": "minerva.ward",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Kỹ năng tiện ích cố định; không có cấp nâng.",
-    "growthGroups": []
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankOnly": true
   },
   {
     "id": "minerva.cleanse",
@@ -9743,9 +9745,13 @@
     ],
     "description": "Hồi sinh và phục hồi đầy HP, MP cho toàn đội.",
     "skillLineId": "amaryllis.litany",
-    "growthProfile": "fixed",
-    "rankable": false,
-    "fixedReason": "Kỹ năng hồi sinh cố định; hồi chiêu 10 vòng và không có cấp nâng."
+    "growthProfile": "output_buff_mp",
+    "growthGroups": [
+      "output_buff_mp"
+    ],
+    "mpOnlyGrowth": true,
+    "rankable": true,
+    "masteryEligible": false
   },
   {
     "id": "brant.bulwark",
@@ -11143,5 +11149,644 @@
     "presentation": "iaido_eclipse",
     "requiresMode": "ancestral_edge",
     "cooldown": 3
+  },
+  {
+    "id": "patricia.bedrock",
+    "name": "Lớp Chắn Địa Tầng",
+    "description": "Dựng một lớp khiên đá cho toàn đội, hội tụ từ nền địa tầng dưới chân.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "magic",
+        "multiplier": 0.65
+      }
+    ],
+    "skillLineId": "patricia.bedrock",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "patricia.survey",
+    "name": "Quét Sóng Địa Chấn",
+    "description": "Gửi một đợt sóng địa chấn quét qua toàn bộ chiến trường.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 1.8
+      }
+    ],
+    "skillLineId": "patricia.survey",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "patricia.core",
+    "name": "Khoan Phá Lõi Đá",
+    "description": "Dồn toàn bộ cộng hưởng địa chất vào một điểm, có cơ hội làm Choáng mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "multiplier": 4.8,
+        "onHitStatus": {
+          "status": "stunned",
+          "duration": 1,
+          "chanceScaling": {
+            "stat": "magic",
+            "basis": "dynamic",
+            "at": 160,
+            "cap": 0.8
+          }
+        }
+      }
+    ],
+    "skillLineId": "patricia.core",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.pursuit",
+    "name": "Truy Sát Không Rời",
+    "description": "Chém kẻ địch chỉ định; nếu còn kẻ khác, lưỡi kiếm thù hận tự tìm thêm một mục tiêu ngẫu nhiên.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.8,
+        "randomSecondaryMultiplier": 1.8
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "obsession",
+        "stacks": 1
+      }
+    ],
+    "skillLineId": "vilgard.pursuit",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.cleave",
+    "name": "Nhát Chém Oán Hận",
+    "description": "Chém mục tiêu chính và kẻ kề bên, để lại Rạn Khiên; mối thù chồng thêm hai tầng.",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 1.5,
+        "primaryMultiplier": 2.2,
+        "onHitStatus": {
+          "status": "shield_fracture",
+          "duration": 2
+        }
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "obsession",
+        "stacks": 2
+      }
+    ],
+    "skillLineId": "vilgard.cleave",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "vilgard.reckoning",
+    "name": "Trả Thù Toàn Diện",
+    "description": "Trút toàn bộ Ám Ảnh vào một nhát chém diện rộng; mỗi tầng xuyên thêm 20% DEF, sau đó mối thù tan biến.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "multiplier": 3.8,
+        "consumeSelfStatus": "obsession",
+        "penetrationPerSelfStack": 0.2
+      }
+    ],
+    "skillLineId": "vilgard.reckoning",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ardelia.triage",
+    "name": "Ca Mổ Tiền Tuyến",
+    "description": "Hồi HP toàn đội theo RES và củng cố DEF/RES của mọi đồng đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "resistance",
+        "multiplier": 0.5
+      },
+      {
+        "type": "status",
+        "status": "ardelia_guard",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "ardelia.triage",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ardelia.aegis",
+    "name": "Lá Chắn Quân Y",
+    "description": "Giải mọi debuff trên đồng đội và dựng khiên nước theo RES.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "cleanse"
+      },
+      {
+        "type": "shield",
+        "scalingStat": "resistance",
+        "multiplier": 0.8
+      }
+    ],
+    "skillLineId": "ardelia.aegis",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ardelia.purge",
+    "name": "Sóng Xung Kích",
+    "description": "Quét toàn địch bằng xung lực nước, làm suy yếu ATK và MAG của chúng.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "scalingStat": "resistance",
+        "multiplier": 2.4,
+        "onHitStatus": {
+          "status": "ardelia_weaken",
+          "duration": 3
+        }
+      }
+    ],
+    "skillLineId": "ardelia.purge",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "belochkin.gale",
+    "name": "Gió Xé Tuyến",
+    "description": "Quét gió sắc qua toàn địch, bào mòn giáp của những kẻ trúng đòn.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "onHitStatus": {
+          "status": "belochkin_sunder",
+          "duration": 2
+        }
+      }
+    ],
+    "skillLineId": "belochkin.gale",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "belochkin.command",
+    "name": "Lệnh Tiến Công",
+    "description": "Ban lệnh tiến công cho bản thân và đồng đội được chọn, tăng mạnh ATK và cho cả hai thêm lượt.",
+    "target": "ally",
+    "cost": {
+      "mp": 25
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "belochkin_command",
+        "duration": 3,
+        "to": "self"
+      },
+      {
+        "type": "status",
+        "status": "belochkin_command",
+        "duration": 3
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "skillLineId": "belochkin.command",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "excludeSelf": true
+  },
+  {
+    "id": "belochkin.storm",
+    "name": "Bão Gươm Viễn Chinh",
+    "description": "Gọi một cơn bão gươm lên toàn địch, đồng thời khuếch đại sát thương vật lý của cả đội.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 2.8
+      },
+      {
+        "type": "status",
+        "to": "all_allies",
+        "status": "belochkin_offensive"
+      }
+    ],
+    "skillLineId": "belochkin.storm",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "chen.slash",
+    "name": "Nhất Trảm",
+    "description": "Một nhát chém dứt khoát vào mục tiêu, phá giáp của kẻ địch.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 2,
+        "onHitStatus": {
+          "status": "chen_sunder",
+          "duration": 2
+        }
+      }
+    ],
+    "skillLineId": "chen.slash",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "chen.double",
+    "name": "Song Trảm",
+    "description": "Hai nhát chém liên tiếp, mở ra Sơ hở Thường trên mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 1.2,
+        "hits": 2
+      },
+      {
+        "type": "status",
+        "status": "exposure_plain",
+        "stacks": 1
+      }
+    ],
+    "skillLineId": "chen.double",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "chen.fulfill",
+    "name": "Lục Kiếm Quyết",
+    "description": "Sáu nhát chém: năm nhát dồn lực, kết thúc bằng một nhát chém nặng hơn.",
+    "target": "enemy",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 1.6,
+        "hits": 5
+      },
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 2.4
+      }
+    ],
+    "skillLineId": "chen.fulfill",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "angelica.seal",
+    "name": "Ấn Phong Hậu Cần",
+    "description": "Phủ một vòng ấn lên toàn địch, chặn hiệu ứng có lợi kế tiếp của chúng.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 15
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "scalingStat": "magic",
+        "multiplier": 1,
+        "onHitStatus": {
+          "status": "buff_seal"
+        }
+      }
+    ],
+    "skillLineId": "angelica.seal",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "angelica.curse",
+    "name": "Nghi Thức Hỗn Loạn",
+    "description": "Một nghi thức hậu cần rối ren: gây Nhiễu Ma Lực, Vết Thương Sâu và bào mòn DEF/RES toàn địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "mana_disruption"
+      },
+      {
+        "type": "status",
+        "status": "deep_wound",
+        "duration": 2
+      },
+      {
+        "type": "status",
+        "status": "angelica_curse",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "angelica.curse",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Nghi thức gây debuff cố định; không tăng theo Rank."
+  },
+  {
+    "id": "angelica.iconic",
+    "name": "Dấu Ấn Ngưng Đọng",
+    "description": "Đóng dấu thuật thức lên toàn địch, làm mọi kỹ năng có hồi chiêu bị kéo dài thêm 1 vòng.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 30
+    },
+    "cooldown": 6,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "scalingStat": "magic",
+        "multiplier": 1.8
+      },
+      {
+        "type": "increase_cooldowns",
+        "amount": 1,
+        "minCooldown": 1
+      }
+    ],
+    "presentation": "angelica_iconic",
+    "skillLineId": "angelica.iconic",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "melpiphia.strike",
+    "name": "Mũi Nước Dò Đường",
+    "description": "Một tia nước xoáy đánh thẳng vào mục tiêu, mở ra ba tầng Sơ hở Thủy.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "scalingStat": "magic",
+        "multiplier": 1.6,
+        "onHitStatus": {
+          "status": "exposure_water",
+          "stacks": 3
+        }
+      }
+    ],
+    "skillLineId": "melpiphia.strike",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "melpiphia.bless",
+    "name": "Dòng Nước Dẫn Lối",
+    "description": "Tiếp một dòng nước cho đồng đội hệ Thủy, tăng MAG và trao thêm một lượt.",
+    "target": "ally",
+    "targetElement": "water",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "melpiphia_bless",
+        "duration": 3
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "skillLineId": "melpiphia.bless",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "melpiphia.undertow",
+    "name": "Xoáy Nước Nặng",
+    "description": "Kéo một xoáy nước lớn vào mục tiêu, bào mòn RES/SPD và cho bản thân thêm lượt.",
+    "target": "enemy",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "scalingStat": "magic",
+        "multiplier": 3.5,
+        "onHitStatus": {
+          "status": "melpiphia_curse",
+          "duration": 3
+        }
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "melpiphia.undertow",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "enemy.east_basic",
+    "name": "Đòn thử",
+    "description": "Đòn đánh cơ bản miễn phí của thủ lĩnh Phương Đông.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "skillLineId": "enemy.east_basic",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Đòn dự phòng cố định của boss."
   }
 ]

@@ -4,6 +4,7 @@ import { loadContent } from '../scripts/load-content.mjs';
 import { createGameSave, encodeGameSave, decodeGameSave } from '../src/core/game-save.js';
 import { claimBattleReward, victoryCoinReward, convertCoinsToPrisma, prismaConversionCost, pullGacha, recruitCharacter } from '../src/core/economy.js';
 import { validateContent } from '../src/core/content.js';
+import { questRewardMultiplier } from '../src/core/quest-difficulty.js';
 const content = await loadContent();
 const restore = save => decodeGameSave(encodeGameSave(save, content), content);
 
@@ -46,15 +47,17 @@ test('Recruitment ticket selects one locked hero, leaves other currencies and pi
 test('every encounter pays its data-driven tier once, independent of BGM and first-clear rewards', () => {
   const withoutMusic = structuredClone(content);
   for (const encounter of Object.values(withoutMusic.encounters)) {
-    const expected = encounter.rewardPolicy==='none'?0:{ normal: 50, boss: 150, super: 1000 }[encounter.rewardTier];
+    const base = encounter.rewardPolicy==='none'?0:{ normal: 50, boss: 150, super: 1000 }[encounter.rewardTier];
+    const expected = base;
     assert.equal(victoryCoinReward(content, encounter.id), expected);
     encounter.bgm = 'normal';
-    const battle = { questDifficulty:'very_easy', rewardRandom:()=>0, encounterId: encounter.id, ...(encounter.waves?{storyWave:{waveIndex:encounter.waves.length-1,totalWaves:encounter.waves.length}}:{}), outcome: 'victory', actors:(encounter.requiredPartyIds??[]).map(id=>({id,team:'party'})) };
+    const battle = { questDifficulty:encounter.defaultDifficulty??'very_easy', rewardRandom:()=>0, encounterId: encounter.id, ...(encounter.waves?{storyWave:{waveIndex:encounter.waves.length-1,totalWaves:encounter.waves.length}}:{}), outcome: 'victory', actors:(encounter.requiredPartyIds??[]).map(id=>({id,team:'party'})) };
     const campaign=createGameSave(content);
     if(encounter.travelerStory)campaign.claimedFirstClearRewards=withoutMusic.travelerStories[encounter.travelerStory].chapters.slice(0,withoutMusic.travelerStories[encounter.travelerStory].chapters.indexOf(encounter.id));
     campaign.claimedFirstClearRewards.push(...(encounter.requires?.firstClears??[]));
+    if(['east_key','east_hunt'].includes(encounter.category))campaign.claimedFirstClearRewards.push(...Object.keys(withoutMusic.encounters));
     const next = claimBattleReward(campaign, battle, withoutMusic);
-    assert.equal(next.coins, expected+(encounter.firstClearRewards??[]).filter(r=>r.type==='currency'&&r.currency==='coins').reduce((n,r)=>n+r.amount,0), encounter.id);
+    assert.equal(next.coins, Math.round(base*questRewardMultiplier(content,encounter,encounter.defaultDifficulty))+(encounter.firstClearRewards??[]).filter(r=>r.type==='currency'&&r.currency==='coins').reduce((n,r)=>n+r.amount,0), encounter.id);
     assert.equal(claimBattleReward(next, battle, withoutMusic), next);
   }
   for (const tier of ['superboss', null, -1]) {

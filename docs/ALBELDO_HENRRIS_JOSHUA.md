@@ -1,4 +1,4 @@
-# Finmel, Albeldo, Henrris và Joshua — cấu hình playtest
+# Finmel, Albedo, Henrris và Joshua — cấu hình playtest
 
 > **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
 
@@ -12,13 +12,13 @@ Ba nhân vật vào Chiêu Mộ thường; không tự cấp miễn phí. Dùng 
 
 | Nhân vật | Hệ / vai trò | HP | MP | ATK | MAG | DEF | RES | SPD |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Albeldo Dragun | Phong / Thủ Hộ | 270 | 85 | 17 | 10 | 27 | 22 | 24 |
+| Albedo Dragun | Phong / Thủ Hộ | 270 | 85 | 17 | 10 | 27 | 22 | 24 |
 | Henrris | Phong / DPS vật lí | 155 | 85 | 30 | 10 | 16 | 18 | 24 |
 | Joshua | Hỏa / DPS vật lí | 195 | 80 | 32 | 10 | 18 | 18 | 17 |
 
-### Albeldo — kị sĩ thủ đô
+### Albedo — kị sĩ thủ đô
 
-- **Gió Lặng Sau Hàng Khiên**: toàn đội, kể cả bản thân, giảm sát thương vật lí theo `min(30%, SPD căn bản / 90 × 30%)`. Albeldo phải còn sống. Tính chỉ số phẳng từ phân bổ/trang bị và cộng căn bản, không tính buff/debuff SPD %. Nhiều nguồn cùng loại lấy mức lớn nhất. Áp dụng theo từng hit, trong lớp giảm sát thương hiện có, với trần tổng 75%. Không giảm phép hoặc Độc.
+- **Gió Lặng Sau Hàng Khiên**: toàn đội, kể cả bản thân, giảm sát thương vật lí theo `min(30%, SPD căn bản / 90 × 30%)`. Albedo phải còn sống. Tính chỉ số phẳng từ phân bổ/trang bị và cộng căn bản, không tính buff/debuff SPD %. Nhiều nguồn cùng loại lấy mức lớn nhất. Áp dụng theo từng hit, trong lớp giảm sát thương hiện có, với trần tổng 75%. Không giảm phép hoặc Độc.
 - **Nhịp Gió Tiền Quân**: 10 MP, CD 2; toàn đội +30% SPD và +15% DEF trong 3 lượt chính của người nhận.
 - **Phong Bích Hộ Trận**: 12 MP, CD 2; chọn một đồng đội làm chính, tạo khiên toàn đội. Chỉ số scale = `(DEF + SPD)/2`. Mục tiêu chính nhận 200%, các thành viên còn lại nhận 120%. Khiên không cộng dồn; chỉ thay khi khiên mới mạnh hơn.
 - **Giữ Vững Lối Gió**: 6 MP, CD 2; bản thân Khiêu Khích và +20% RES trong 2 lượt chính.

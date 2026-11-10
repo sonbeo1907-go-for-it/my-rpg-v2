@@ -13,7 +13,13 @@ export function preparedPartyMaxMp(content,campaign){return campaign.party.filte
 },0);}
 export function applySpecialLoadout(content,campaign,actor){
  applyNativeExclusiveUpgrades(actor);
- const gearBonus={};for(const effect of actor.gearEffects??[]){const e=effect.effect;if(e.type!=='mp_stat_conversion')continue;const amount=Math.min(e.cap,Math.floor(effectiveStat(actor,'maxMp')*e.ratio));gearBonus[e.stat]=(gearBonus[e.stat]??0)+amount;}
+ const gearBonus={},groups=new Set();
+ for(const effect of actor.gearEffects??[]){
+  if(groups.has(effect.effectGroup))continue;groups.add(effect.effectGroup);
+  const e=effect.effect;
+  if(e.type==='mp_stat_conversion'){const amount=Math.min(e.cap,Math.floor(effectiveStat(actor,'maxMp')*e.ratio));gearBonus[e.stat]=(gearBonus[e.stat]??0)+amount;continue;}
+  if(['soul_creation_mp','soul_spend_damage'].includes(e.type))for(const[key,n]of Object.entries(e.modifiers??{})){const amount=actor.stats[key]*n;gearBonus[key]=(gearBonus[key]??0)+amount;}
+ }
  if(Object.keys(gearBonus).length){actor.gearEffectBonuses=gearBonus;actor.gearBonuses??={};for(const[k,n]of Object.entries(gearBonus)){actor.stats[k]+=n;actor.gearBonuses[k]=(actor.gearBonuses[k]??0)+n;}}
  if(!campaign.party.includes(actor.id))return;
  const ids=campaign.party.filter(Boolean),others=ids.filter(id=>id!==actor.id);

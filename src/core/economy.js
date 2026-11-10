@@ -137,6 +137,8 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     next.claimedFirstClearRewards.push(battle.encounterId);
   }
   if(encounter?.category==='bounty'&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
+  if(['east_key','east_hunt'].includes(encounter?.category)&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
+  if(encounter?.id==='east_ke_08'){next.storyFlags??=[];if(!next.storyFlags.includes('east_campaign_completed'))next.storyFlags.push('east_campaign_completed');}
   const amount=questExperience(content,encounter,battle.questDifficulty);
   const recipients=battle.actors?.filter(a=>a.team==="party").map(a=>a.definitionId??a.id)??campaign.party.filter(Boolean);
   const xpAwards=amount?grantPartyXp(next,content,recipients,amount):[];

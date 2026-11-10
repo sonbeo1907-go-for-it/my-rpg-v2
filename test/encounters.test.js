@@ -17,8 +17,9 @@ function setup(encounter, party = ['arthur'], random = () => .99) {
     campaign.claimedFirstClearRewards.push(...(content.encounters[encounter].requires?.firstClears??[]));
   }
   if(content.encounters[encounter].category==='bounty')campaign.claimedFirstClearRewards.push(...content.encounters[encounter].requires.firstClears);
+  const east=['east_key','east_hunt'].includes(content.encounters[encounter].category);if(east){campaign.claimedFirstClearRewards=[...Object.keys(content.encounters)];campaign.storyFlags.push('eastern_hunts_unlocked');}
   campaign.unlockedCharacterIds = Object.keys(content.characters);
-  return createBattle(content, campaign, encounter, random,{enemyLevel:content.encounters[encounter].superLevels?.[0]??content.encounters[encounter].referenceLevel??content.encounters[encounter].enemyLevel});
+  return createBattle(content, campaign, encounter, random,east?{}:{enemyLevel:content.encounters[encounter].superLevels?.[0]??content.encounters[encounter].referenceLevel??content.encounters[encounter].enemyLevel});
 }
 function strike(encounter, element, damageType, shield = 0, source = content) {
   const campaign = createCampaign(source); campaign.party = ['arthur'];

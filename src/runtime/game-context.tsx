@@ -727,7 +727,7 @@ export function GameProvider({
       return false;
     }
     try {
-      const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(farmSeed??20261027)) : null;
+      const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(farmSeed??20261027),{questDifficulty:difficultyId}) : null;
       runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(farmSeed??20261027),{questDifficulty:difficultyId,...(content.encounters[id].superLevels&&superLevel!==undefined?{enemyLevel:superLevel}:{})});
       dungeonRun.current = storyRun;
       battleSerial.current += 1;

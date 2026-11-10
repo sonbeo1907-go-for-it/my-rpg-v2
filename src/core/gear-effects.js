@@ -40,9 +40,11 @@ export function gearGuardReduction(a){return activeStatuses(a).some(s=>s.id==='g
 export function gearIncomingMultiplier(b,target,effect,io){let ratio=1;for(const r of recipes(target,'direct_reduction'))if(r.effect.damageType===effect.damageType&&ready(b,target,r)){ratio*=1-r.effect.ratio;activated(b,target,r,io);}return ratio;}
 
 export function gearOutgoingMultiplier(b,a,target,ctx){
- if(!singleSkill(ctx))return 1;
- const hp=ctx.gearTargetHpRatios?.get(target.id)??target.hp/target.stats.maxHp;
  let result=1;
+ const spent=ctx.teamResourceSpent?.sword_soul??0;
+ if(spent>0)for(const r of recipes(a,'soul_spend_damage'))result*=1+r.effect.perSpent*spent;
+ if(!singleSkill(ctx))return result;
+ const hp=ctx.gearTargetHpRatios?.get(target.id)??target.hp/target.stats.maxHp;
  for(const r of recipes(a,'healthy_target_bonus'))if(hp>=r.effect.threshold)result*=1+r.effect.ratio;
  for(const r of recipes(a,'execute_bonus'))if(hp<r.effect.threshold)result*=1+r.effect.ratio;
  return result;
@@ -78,6 +80,16 @@ export function gearSkillHealed(b,source,target,amount,ctx,io){
  for(const r of recipes(target,'healed_mp'))if(ready(b,target,r)&&target.mp<battleMaxMp(b.content,target)){activated(b,target,r,io);regain(b,target,r.effect.amount,io);}
 }
 export function gearAfterAction(b,actor,skill,io){if(skill.id!=='$defend')return;for(const r of recipes(actor,'defend_mp'))if(ready(b,actor,r)&&actor.mp<battleMaxMp(b.content,actor)){activated(b,actor,r,io);regain(b,actor,r.effect.amount,io);}}
+
+export function gearSwordSoulCreated(b,actor,amount,io){
+ if(!alive(actor)||amount<=0)return;
+ for(const r of recipes(actor,'soul_creation_mp'))if(ready(b,actor,r)){
+  activated(b,actor,r,io);
+  const ratio=r.effect.ratio;
+  for(const ally of b.actors.filter(a=>a.team===actor.team&&alive(a)))io.restore(b,ally,'mp',Math.ceil(battleMaxMp(b.content,ally)*ratio),actor.id);
+  io.write(b,actor.name+' kích hoạt '+r.name+': hồi '+Math.round(ratio*100)+'% MP cho cả đội.');
+ }
+}
 
 export function gearAfterAttack(b,actor,ctx,io){
  if(!activeSkill(ctx)||!alive(actor))return;

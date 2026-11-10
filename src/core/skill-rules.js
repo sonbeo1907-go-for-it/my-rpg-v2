@@ -15,6 +15,8 @@ export function skillGrowthGroups(content,skill){
    if(GROWING_STATS.some(key=>(status.modifiers?.[key]??0)>0))groups.add('stat_buff');
    if(OUTPUT_BUFF_STATS.some(key=>(status.modifiers?.[key]??0)>0)&&skill.cost?.mp>0&&Math.ceil(skill.cost.mp*outputMpFactor(5))<skill.cost.mp)groups.add('output_buff_mp');
   }
+  if(skill.mpOnlyGrowth===true&&skill.cost?.mp>0&&Math.ceil(skill.cost.mp*outputMpFactor(5))<skill.cost.mp)groups.add('output_buff_mp');
+  if(skill.rankOnly===true)groups.add('stat_buff');
   if(effect.type==='enter_mode'&&skill.growthAdapter==='mode_stat_buff')groups.add('stat_buff');
   if(effect.type==='enter_mode'&&effect.followUpBonus>0)groups.add('damage');
  }
@@ -72,8 +74,8 @@ export function validateSkillProgression(content){
   const statBuff=referenced.some(status=>status?.kind==='buff'&&GROWING_STATS.some(key=>(status.modifiers?.[key]??0)>0));
   const outputBuff=referenced.some(status=>status?.kind==='buff'&&OUTPUT_BUFF_STATS.some(key=>(status.modifiers?.[key]??0)>0));
   if(['damage','heal','shield'].includes(skill.growthProfile)&&!skill.effects.some(effect=>effect.type===skill.growthProfile))errors.push(skill.id+': profile has no growing effect');
-  if(skill.growthProfile==='stat_buff'&&!statBuff&&skill.growthAdapter!=='mode_stat_buff')errors.push(skill.id+': no eligible positive stat buff');
-  if(skill.growthProfile==='output_buff_mp'&&(!(skill.cost?.mp>0)||!outputBuff||Math.ceil(skill.cost.mp*outputMpFactor(5))>=skill.cost.mp))errors.push(skill.id+': no MP growth');
+  if(skill.growthProfile==='stat_buff'&&!statBuff&&skill.growthAdapter!=='mode_stat_buff'&&skill.rankOnly!==true)errors.push(skill.id+': no eligible positive stat buff');
+  if(skill.growthProfile==='output_buff_mp'&&(!(skill.cost?.mp>0)||(!outputBuff&&skill.mpOnlyGrowth!==true)||Math.ceil(skill.cost.mp*outputMpFactor(5))>=skill.cost.mp))errors.push(skill.id+': no MP growth');
   if(skill.growthAdapter!==undefined&&!['mode_stat_buff','mode_command'].includes(skill.growthAdapter))errors.push(skill.id+': unknown growth adapter');
   if(skill.growthAdapter==='mode_stat_buff'&&(skill.growthProfile!=='stat_buff'||!skill.effects.some(e=>e.type==='enter_mode')))errors.push(skill.id+': invalid mode stat adapter');
   if(skill.rankUnlockFlag!==undefined&&(typeof skill.rankUnlockFlag!=='string'||!Object.values(content.upgrades??{}).some(u=>u.requires?.storyFlag===skill.rankUnlockFlag)))errors.push(skill.id+': invalid rank unlock flag');

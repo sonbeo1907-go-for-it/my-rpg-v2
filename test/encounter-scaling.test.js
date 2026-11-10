@@ -20,9 +20,9 @@ test('HP profile is selected by encounter, including Bounty and explicit overrid
 
 test('HP boundaries use one multiplicative step at 30/31, 50/51 and 80/81; unsupported levels reject',()=>{
  for(const [p,first,last]of [['normal',.018,.025],['boss',.03,.04]]){
-  for(const l of [1,5,25,30,31,45,50])assert.ok(Math.abs(hp(l,p)-(1+first)**(Math.min(l,30)-1)*(1+last)**Math.max(0,l-30))<1e-10);
+  for(const l of [1,5,25,30,31,45,50,51,55])assert.ok(Math.abs(hp(l,p)-(1+first)**(Math.min(l,30)-1)*(1+last)**Math.max(0,Math.min(l,50)-30)*(1+.025)**Math.max(0,l-50))<1e-10);
   assert.ok(Math.abs(hp(30,p)/hp(29,p)-(1+first))<1e-12);assert.ok(Math.abs(hp(31,p)/hp(30,p)-(1+last))<1e-12);
-  assert.throws(()=>hp(51,p));assert.throws(()=>hp(60,p));
+  assert.throws(()=>hp(56,p));assert.throws(()=>hp(60,p));
  }
  for(const l of [1,5,25,30,31,45,50,51,60,80,81,90])assert.ok(Math.abs(hp(l,'superboss')-1.015**(Math.min(l,50)-1)*1.025**Math.max(0,Math.min(l,80)-50)*1.03**Math.max(0,l-80))<1e-10);
  for(const [l,g]of [[50,1.015],[51,1.025],[80,1.025],[81,1.03],[90,1.03]])assert.ok(Math.abs(hp(l,'superboss')/hp(l-1,'superboss')-g)<1e-12);
@@ -39,8 +39,8 @@ test('offense and defense hit exact endpoints, ignore legacy milestones and free
  for(const l of [1,25,50,60])for(const k of ['maxMp','speed'])assert.equal(enemyStatFactor(k,l,content),1+content.progressionRules.default.enemyGrowth[k]*(l-1));
 });
 
-test('all 70 template references are identities without HP overrides; no template mutation or rounding drift',()=>{
- assert.equal(Object.keys(content.enemies).length,70);const before=JSON.stringify(content.enemies);
+test('all 121 template references are identities without HP overrides; no template mutation or rounding drift',()=>{
+ assert.equal(Object.keys(content.enemies).length,121);const before=JSON.stringify(content.enemies);
  for(const e of Object.values(content.enemies)){
   const context={hpScalingProfile:e.referenceLevel>50?'superboss':'normal'};
   assert.deepEqual(levelScaledEnemyStats(e,e.referenceLevel,content,1,context),e.stats,e.id);
@@ -107,11 +107,12 @@ test('all authored encounters and five selectable difficulties wire the same imm
  const save=createGameSave(content);save.unlockedCharacterIds=Object.keys(content.characters);
  save.claimedFirstClearRewards=Object.keys(content.encounters);
  save.chronicles.aliceFirstEncounterCleared=true;save.chronicles.eventClearIds.push('book1.j04');
- save.storyFlags.push('illusion.sinister_unlocked',...Object.values(content.encounters).map(e=>e.requires?.storyFlag).filter(Boolean));
+ save.storyFlags.push('illusion.sinister_unlocked','eastern_hunts_unlocked',...Object.values(content.encounters).map(e=>e.requires?.storyFlag).filter(Boolean));
  for(const encounter of Object.values(content.encounters).filter(e=>e.category!=='chronicle')){
   save.party=encounter.requiredPartyIds?.length?[...encounter.requiredPartyIds]:['arthur','iris','elaine','garrek'];
   const selectable=!encounter.travelerStory&&encounter.rewardTier!=='super';
-  for(const difficulty of selectable?Object.keys(content.progressionRules.default.questDifficulties):['medium']){
+  const east=['east_key','east_hunt'].includes(encounter.category);
+  for(const difficulty of selectable?(east?encounter.allowedDifficulties:Object.keys(content.progressionRules.default.questDifficulties).filter(key=>!key.startsWith('east_'))):['medium']){
    const battle=createBattle(content,save,encounter.id,()=>.99,{questDifficulty:difficulty});
    const level=selectable?content.progressionRules.default.questDifficulties[difficulty].level:encounter.enemyLevel;
    for(const actor of battle.actors.filter(a=>a.team==='enemy'))assert.deepEqual(actor.stats,levelScaledEnemyStats(content.enemies[actor.definitionId],level,content,1,encounter),encounter.id+'/'+difficulty);
@@ -130,7 +131,7 @@ test('Superboss HP extension is available to 90 without opening content or extra
 test('every non-story Boss and Bounty uses encounter reference 1 for all seven stats without affecting shared normal/story enemies',()=>{
  const save=createGameSave(content);save.claimedFirstClearRewards=Object.keys(content.encounters);
  const before=JSON.stringify(content.enemies);
- for(const e of Object.values(content.encounters).filter(e=>e.rewardTier==='boss'&&!e.travelerStory&&e.category!=='chronicle')){
+ for(const e of Object.values(content.encounters).filter(e=>e.rewardTier==='boss'&&!e.travelerStory&&e.category!=='chronicle'&&!['east_key','east_hunt'].includes(e.category))){
   assert.equal(e.referenceLevel,1,e.id);
   const raw=createBattle(content,save,e.id,()=>.99,{enemyLevel:1});
   for(const actor of raw.actors.filter(a=>a.team==='enemy')){assert.equal(actor.referenceLevel,1);assert.deepEqual(actor.stats,content.enemies[actor.definitionId].stats);}

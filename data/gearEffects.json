@@ -429,5 +429,38 @@
       "status": "true_strike_round",
       "duration": 1
     }
+  },
+  {
+    "id": "soul_wellspring",
+    "name": "Giếng Hồn Kiếm",
+    "description": "MP của người trang bị tăng 20%. Khi người trang bị trực tiếp tạo Hồn Kiếm bằng hiệu ứng kỹ năng, hồi 3% MP tối đa cho cả đội. Không cộng dồn với trang bị cùng tên trên người trang bị.",
+    "costClass": "common",
+    "effectGroup": "gear_soul_wellspring",
+    "cooldownRounds": 0,
+    "dismantleYield": 420,
+    "effect": {
+      "type": "soul_creation_mp",
+      "modifiers": {
+        "maxMp": 0.2
+      },
+      "ratio": 0.03
+    }
+  },
+  {
+    "id": "soul_forge_sigil",
+    "name": "Ấn Lò Hồn Kiếm",
+    "description": "ATK và MAG của người trang bị tăng 15%. Khi người trang bị tiêu thụ Hồn Kiếm bằng kỹ năng, khuếch đại sát thương thêm 8% cho mỗi Hồn Kiếm đã tiêu. Không cộng dồn với trang bị cùng tên trên người trang bị.",
+    "costClass": "common",
+    "effectGroup": "gear_soul_forge",
+    "cooldownRounds": 0,
+    "dismantleYield": 420,
+    "effect": {
+      "type": "soul_spend_damage",
+      "modifiers": {
+        "attack": 0.15,
+        "magic": 0.15
+      },
+      "perSpent": 0.08
+    }
   }
 ]
