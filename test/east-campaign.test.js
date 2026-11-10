@@ -157,6 +157,14 @@ test('soul seal layers: basic -1, soul -2 and Chiyoko has 24',()=>{
  guard().stacks=10;b.teamResources.party.sword_soul.value=4;b.queue=[getActor(b,'tsukiha').id];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:'tsukiha',abilityId:'tsukiha.burst',targetId:boss.id});assert.equal(guard().stacks,4,'4 Hồn Kiếm + 2, chỉ một lần cho cả cast nhiều hit');
 });
 
+test('dispel cannot strip Phong Ấn Hồn Kiếm',()=>{
+ const s=save();s.claimedFirstClearRewards=Object.keys(content.encounters);s.storyFlags.push('eastern_hunts_unlocked');s.party=['arthur','iris','elaine','garrek'];
+ const b=createBattle(content,s,'east_ke_03',()=>.99,{questDifficulty:'east_35'});const boss=b.actors.find(a=>a.team==='enemy');const guard=()=>boss.statuses.find(st=>st.id==='east_soul_guard');
+ guard().stacks=5;b.content.abilities['test.dispel']={id:'test.dispel',name:'Xóa buff thử',target:'enemy',effects:[{type:'dispel',all:true}]};getActor(b,'arthur').abilities.push('test.dispel');
+ b.queue=[getActor(b,'arthur').id];b.cursor=0;b.phase='main';b.outcome=null;executeAction(b,{actorId:'arthur',abilityId:'test.dispel',targetId:boss.id});
+ assert.equal(guard().stacks,5);
+});
+
 test('east bosses use authored kits and Hồn Kiếm breaks their soul seal',()=>{
  const s=save();s.claimedFirstClearRewards=Object.keys(content.encounters);s.storyFlags.push('eastern_hunts_unlocked');s.party=['tsukiha','arthur','iris','elaine'];
  const b=createBattle(content,s,'east_ke_03',()=>.99,{questDifficulty:'east_35'});

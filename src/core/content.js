@@ -379,6 +379,7 @@ export function validateContent(content) {
     }
     if(status.defaultDuration!==undefined&&(!Number.isInteger(status.defaultDuration)||status.defaultDuration<1))fail(id+': invalid default duration');
     if(status.buffRejection!==undefined&&(status.kind!=='debuff'||!Number.isInteger(status.buffRejection?.charges)||status.buffRejection.charges<1||!status.persistent))fail(id+': invalid buff rejection');
+    if(status.dispelImmune!==undefined&&status.dispelImmune!==true)fail(id+': invalid dispel immunity');
     if(status.consumeOnPaidSkill!==undefined&&(status.consumeOnPaidSkill!==true||status.kind!=='debuff'||!status.persistent||!Number.isInteger(status.charges)||status.charges<1||!Number.isFinite(status.mpCostIncrease)||status.mpCostIncrease<=0))fail(id+': invalid paid skill interference');
     if(status.bypassEvasion!==undefined&&(status.bypassEvasion!==true||status.kind!=='buff'))fail(id+': invalid evasion bypass');
     if(status.preventDeath!==undefined&&(status.preventDeath!==true||status.kind!=='buff'||status.durationClock!=='round'||status.persistent))fail(id+': invalid prevent death');

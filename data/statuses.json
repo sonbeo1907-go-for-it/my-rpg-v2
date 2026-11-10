@@ -1673,10 +1673,11 @@
     "kind": "buff",
     "persistent": true,
     "maxStacks": 24,
+    "dispelImmune": true,
     "modifiers": {
       "damageReduction": 0.5
     },
-    "description": "Giảm 50% sát thương nhận. Mỗi đòn đánh bóc một số lớp Phong Ấn; đòn Hồn Kiếm bóc nhiều hơn."
+    "description": "Giảm 50% sát thương nhận. Mỗi đòn đánh bóc một số lớp Phong Ấn; đòn Hồn Kiếm bóc nhiều hơn. Không thể bị xóa bởi hiệu ứng xóa buff."
   },
   {
     "id": "east_soul_exposed",

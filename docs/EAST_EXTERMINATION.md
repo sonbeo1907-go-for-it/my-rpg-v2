@@ -58,6 +58,7 @@ Mọi boss Phương Đông bắt đầu với **Phong Ấn Hồn Kiếm**:
 
 - Giảm **50% sát thương nhận** khi còn lớp.
 - Số lớp: **12–18**; Chiyoko có **24**.
+- **Không thể bị xóa bởi hiệu ứng xóa buff**; chỉ bị bóc lớp bởi đòn đánh.
 - Mỗi cast chỉ xử lý một lần, kể cả đòn nhiều hit:
   - Đòn không hệ Hồn Kiếm: −1 lớp.
   - Đòn hệ Hồn Kiếm: −2 lớp.

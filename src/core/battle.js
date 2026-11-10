@@ -989,7 +989,7 @@ function coverTarget(battle, target, area = false, reaction = false) {
 
 // Element specialists react once after a complete active cast, after its exposure is settled.
 function dispelBuffs(battle,actor,target,count,all=false){
- const buffs=target.statuses.filter(status=>battle.content.statuses[status.id].kind==='buff');
+ const buffs=target.statuses.filter(status=>battle.content.statuses[status.id].kind==='buff'&&!battle.content.statuses[status.id].dispelImmune);
  const removed=all?buffs:buffs.slice(0,count);
  if(removed.length){target.statuses=target.statuses.filter(status=>!removed.includes(status));clampBattleMp(battle.content,target);emitEvent(battle,{type:'dispel',sourceId:actor.id,targetId:target.id,amount:removed.length});}
  write(battle,target.name+': bị xóa '+removed.length+' hiệu ứng có lợi.');
