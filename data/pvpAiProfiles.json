@@ -1509,5 +1509,35 @@
       "melpiphia.bless": 22,
       "melpiphia.undertow": 24
     }
+  },
+  {
+    "id": "kanade",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "kanade.bloom"
+    ],
+    "burstAbilities": [
+      "kanade.garden"
+    ],
+    "skillBias": {
+      "kanade.bloom": 22,
+      "kanade.fault": 10,
+      "kanade.garden": 18
+    }
+  },
+  {
+    "id": "wilson",
+    "role": "offensive_support",
+    "healBelow": 0.5,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [],
+    "burstAbilities": [],
+    "skillBias": {
+      "wilson.petals": 14,
+      "wilson.fissure": 10,
+      "wilson.shelter": 8
+    }
   }
 ]

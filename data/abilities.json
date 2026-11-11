@@ -11876,5 +11876,170 @@
       "damage"
     ],
     "rankable": true
+  },
+  {
+    "id": "kanade.bloom",
+    "name": "Hoa Nở Nơi Đất Khách",
+    "description": "Tăng MAG cho bản thân và nhận Lượt Thêm.",
+    "target": "self",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "kanade_bloom",
+        "duration": 4
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "skillLineId": "kanade.bloom",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "kanade.fault",
+    "name": "Địa Mạch — Hoa Chạm Đá",
+    "description": "Tấn công một địch và giảm RES.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "scalingStat": "magic",
+        "multiplier": 2
+      },
+      {
+        "type": "status",
+        "status": "marquis_res_break",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "kanade.fault",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "kanade.garden",
+    "name": "Hanasato — Vườn Hoa Khép Lối",
+    "description": "Tấn công toàn địch và áp một lần Phong Ấn.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 22
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "scalingStat": "magic",
+        "multiplier": 3.2
+      },
+      {
+        "type": "status",
+        "status": "buff_seal",
+        "charges": 1
+      }
+    ],
+    "skillLineId": "kanade.garden",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "wilson.petals",
+    "name": "Hoa Đất Mở Đường",
+    "description": "Tấn công toàn địch và mở Sơ Hở Thổ.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "scalingStat": "magic",
+        "multiplier": 1.2,
+        "onHitStatus": {
+          "status": "exposure_earth",
+          "stacks": 2
+        }
+      }
+    ],
+    "skillLineId": "wilson.petals",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "wilson.fissure",
+    "name": "Lời Hẹn Trên Địa Mạch",
+    "description": "Tấn công toàn địch và giảm RES.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "scalingStat": "magic",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "status": "marquis_res_break",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "wilson.fissure",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "wilson.shelter",
+    "name": "Mùa Hoa Chưa Hẹn",
+    "description": "Hồi HP cho toàn đội.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "magic",
+        "multiplier": 0.75
+      }
+    ],
+    "skillLineId": "wilson.shelter",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal"
+    ],
+    "rankable": true
   }
 ]

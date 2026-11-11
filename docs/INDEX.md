@@ -157,3 +157,7 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 
 - [Đợt Trấn Phái mở rộng và hệ số Thông Thạo theo mức](EXCLUSIVE_BALANCE_2026_11_06.md).
 - [Danh Dự, Đấu Hạng và chọn/cấm](ARENA_RANKED_HONOR.md) — 16 nhân vật, AI build theo hạng, shop và transaction kết quả.
+
+- [Bộ seed F2P Senya · Thảo Phạt Phương Đông](EAST_SENYA_PLAYTEST.md) — 30 seed, fixture theo tiến trình, kết quả policy cố định và AI auto-farm.
+
+- [Kanade Hanasato và Wilson Marquis](MARQUIS_DUO.md) — phối hợp Thổ, Khai Phá Điểm Yếu theo mục tiêu và Liên kích kỹ năng theo Rank.

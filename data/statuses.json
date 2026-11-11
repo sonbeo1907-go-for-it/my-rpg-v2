@@ -1803,5 +1803,23 @@
       "attack": 0.3
     },
     "description": "Tăng 30% ATK trong 3 lượt chính sau khi Senya tiêu Hồn Kiếm."
+  },
+  {
+    "id": "kanade_bloom",
+    "name": "Hoa Nở Nơi Đất Khách",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": 0.35
+    }
+  },
+  {
+    "id": "marquis_res_break",
+    "name": "Địa Mạch Rạn Vỡ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": -0.2
+    }
   }
 ]

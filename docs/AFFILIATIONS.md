@@ -54,3 +54,5 @@ Bổ sung: `keijo_mountains` — Núi Keijo (Izuna); `youkai_hunters` — Hội 
 Bổ sung05/11: Eri thuộc `magic_academy` (Học viện Ma pháp); Chiyoko thuộc `youkai_hunters_guntai` (Hội Thợ Săn Yêu Quái / Quân đội Keijo), tags `youkai_hunters` và `guntai`. Đây là nhãn kép, không đổi phe của thành viên đã có.
 
 Bộ lọc nguyên tố Hồn Kiếm trong characterCatalog nhận diện tag `sword_soul`, nên giữ được hệ chính của nhân vật (ví dụ Tsukiha vẫn thuộc Hỏa). Cùng hàm dùng cho danh sách và modal chọn đội; vẫn kết hợp sở hữu, vai trò và thứ tự.
+
+Bổ sung 11/11/2026: house_marquis — Gia tộc Marquis, gồm Kanade Hanasato (#102, xuất thân Hanasato) và Wilson Marquis (#103). Cùng pool rate-up quý tộc từ 12/11/2026; không tạo phe Hanasato riêng cho chỉ một nhân vật.

@@ -23,6 +23,11 @@ export function validateAdvancedCombat(content){
     if(!skill||skill.activation!=='passive'||skill.target!=='enemy'||skill.cost||skill.cooldown||skill.effects.some(e=>e.type!=='damage'||e.element!==p.element)||a.abilities?.includes(p.followUpAbility))fail(a.id+': invalid elemental follow-up');
    }else if(!Number.isInteger(p.amount)||p.amount<1||p.amount>20)fail(a.id+': invalid elemental refund');
   }
+  if(p?.type==='element_weakness_skill'&&(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||p.weaknessMultiplier!==2||!Number.isFinite(p.damageBonus)||p.damageBonus<=0||p.damageBonus>2))fail(a.id+': invalid elemental weakness skill');
+  if(p?.type==='element_skill_echo'){
+   const skill=content.abilities[p.followUpAbility];
+   if(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||!['physical','magical'].includes(p.damageType)||!Number.isInteger(p.perRound)||p.perRound<1||p.perRound>4||!skill||!a.abilities?.includes(skill.id)||skill.activation==='passive'||skill.target!=='all_enemies'||!skill.effects.some(e=>e.type==='damage')||skill.effects.some(e=>e.type!=='damage'||e.damageType!==p.damageType||e.element!==p.element||e.consumeStatus||e.formulaScaling))fail(a.id+': invalid elemental skill echo');
+  }
   if(p?.type==='cover_guard' &&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>0.5))fail(a.id+': invalid cover guard');
  }
  for(const s of Object.values(content.abilities)){

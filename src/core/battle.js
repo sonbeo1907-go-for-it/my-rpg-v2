@@ -1019,6 +1019,29 @@ function triggerElementSupports(battle,source,skill,context){
  }
 }
 
+// Echo a ranked active skill without paying its MP/CD; never execute another active cast.
+function triggerElementSkillEchoes(battle,source,skill,context){
+ if(context.reaction||context.automatic||skill.activation==='passive'||skill.id.startsWith('$'))return;
+ const damaging=skill.effects.some(effect=>effect.type==='damage');
+ for(const owner of battle.actors){
+  const p=owner.passive;
+  if(p?.type!=='element_skill_echo'||owner.team!==source.team||owner.id===source.id||!living(owner)||source.element!==p.element)continue;
+  if(damaging&&!context.gearImpacts.some(hit=>hit.damageType===p.damageType&&(hit.elements??[hit.element]).includes(p.element)))continue;
+  const state=owner.elementSkillEchoState;
+  if(state?.round===battle.round&&state.count>=p.perRound)continue;
+  const echo=resolveRankedAbility(battle.content,owner,p.followUpAbility);
+  const targets=targetsFor(battle,owner,echo).filter(target=>canTriggerFollowUp(owner,source,target));
+  if(!targets.length||!reservePvpAutomatic(battle,owner,modeIO))continue;
+  owner.elementSkillEchoState={round:battle.round,count:(state?.round===battle.round?state.count:0)+1};
+  announcePassive(battle,owner,source.id);
+  const reaction={...attackContext(battle,owner),pvpRegistered:true,skill:echo,skillId:echo.id,reaction:true,reactionKind:'follow_up',primaryTargetId:targets[0].id};
+  write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+echo.name+'.');
+  emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(t=>t.id),abilityId:echo.id,area:true});
+  for(const effect of echo.effects)applyEffect(battle,owner,targets,effect,0,true,reaction);
+  finishAttackContext(battle,owner,reaction);
+ }
+}
+
 function triggerMagicFollowups(battle, attacker, target) {
   for (const ally of battle.actors) {
     const passive = ally.passive;
@@ -1396,7 +1419,7 @@ function resolveHit(
   const coverGuard = target.id !== originalTarget.id
     ? Math.min(0.7, (exclusivePassive(target, "cover_damage_reduction")?.ratio ?? 0) + (target.passive?.type === "cover_guard" ? target.passive.ratio : 0))
     : 0;
-  const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements } =
+  const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements, skillWeaknessDamageBonus } =
     resolveWeakness(battle.content, attacker, target, effect, actionContext);
   if(attacker.team!==target.team&&(target.soulBreak??target.boss?.soulBreak)&&!actionContext.soulSealProcessed){
     const rule=target.soulBreak??target.boss.soulBreak,guard=target.statuses.find(status=>status.id===rule.guardStatus);
@@ -1429,7 +1452,7 @@ function resolveHit(
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRaw=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
   let amount = Math.max(
     1,
     Math.floor(
@@ -1450,7 +1473,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0),
+            skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + skillWeaknessDamageBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -2194,6 +2217,7 @@ function resolveAction(
   growTeamResources(battle,actor,skill,teamIO);
   triggerCreationSupport(battle,actor,skill,actionContext);
   triggerElementSupports(battle,actor,skill,actionContext);
+  triggerElementSkillEchoes(battle,actor,skill,actionContext);
   triggerOwnModeFollowup(battle,actor,skill,actionContext);
   triggerPowderFollowups(battle,actor,skill,actionContext);
   battle.actionCount += 1;

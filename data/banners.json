@@ -99,7 +99,9 @@
       "belochkin",
       "chen",
       "angelica",
-      "melpiphia"
+      "melpiphia",
+      "kanade",
+      "wilson"
     ],
     "gearRates": [
       {
@@ -248,7 +250,8 @@
             "house_valmont",
             "vertosse_clan",
             "house_ranoc",
-            "black_rose_mafia"
+            "black_rose_mafia",
+            "house_marquis"
           ],
           "art": "/art/rateup-nobles.svg",
           "accent": "#d6a3af"
@@ -291,6 +294,14 @@
         {
           "id": "astoria",
           "from": "2026-11-09"
+        },
+        {
+          "id": "kanade",
+          "from": "2026-11-12"
+        },
+        {
+          "id": "wilson",
+          "from": "2026-11-12"
         }
       ]
     }

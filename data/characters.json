@@ -4613,5 +4613,83 @@
       }
     ],
     "releaseId": 101
+  },
+  {
+    "id": "kanade",
+    "name": "Kanade Hanasato",
+    "title": "Đóa Hoa Nơi Đất Khách",
+    "affiliation": "house_marquis",
+    "tags": [
+      "house_marquis",
+      "hanasato"
+    ],
+    "element": "earth",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "releaseId": 102,
+    "description": "Khai thác điểm yếu Thổ, bẻ gãy kháng phép và khóa sức mạnh đối phương.",
+    "biography": "Kanade xuất thân từ gia tộc Hanasato, được gả sang nhà Marquis để củng cố quan hệ Đông–Tây. Giữa những lời hứa chính trị, cô tìm một nơi để tự mình nở hoa.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 110,
+      "attack": 10,
+      "magic": 40,
+      "defense": 14,
+      "resistance": 24,
+      "speed": 17
+    },
+    "basicDamageType": "magical",
+    "abilities": [
+      "kanade.bloom",
+      "kanade.fault",
+      "kanade.garden"
+    ],
+    "passive": {
+      "type": "element_weakness_skill",
+      "name": "Hoa Nở Trên Kẽ Đá",
+      "description": "Kỹ năng đánh trúng điểm yếu Thổ nhận Khai Phá Điểm Yếu và thêm 50% sát thương trên mục tiêu đó.",
+      "element": "earth",
+      "weaknessMultiplier": 2,
+      "damageBonus": 0.5
+    }
+  },
+  {
+    "id": "wilson",
+    "name": "Wilson Marquis",
+    "title": "Người Hẹn Mùa Hoa",
+    "affiliation": "house_marquis",
+    "tags": [
+      "house_marquis"
+    ],
+    "element": "earth",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "releaseId": 103,
+    "description": "Mở Sơ Hở Thổ, giảm RES và tiếp sức bằng những Liên kích diện rộng.",
+    "biography": "Con trai út nhà Marquis vẫn mải theo đuổi nhiệt huyết tuổi trẻ, chưa hay mình đã được đính hôn với Kanade Hanasato trong một giao ước chính trị Đông–Tây.",
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 115,
+      "attack": 14,
+      "magic": 32,
+      "defense": 18,
+      "resistance": 23,
+      "speed": 21
+    },
+    "basicDamageType": "magical",
+    "abilities": [
+      "wilson.petals",
+      "wilson.fissure",
+      "wilson.shelter"
+    ],
+    "passive": {
+      "type": "element_skill_echo",
+      "name": "Hoa Nối Nhịp Đồng Hành",
+      "description": "Đồng đội Thổ khác dùng kỹ năng hỗ trợ hoặc gây sát thương phép Thổ: Liên kích bằng Hoa Đất Mở Đường, tối đa 2 lần mỗi vòng.",
+      "element": "earth",
+      "damageType": "magical",
+      "perRound": 2,
+      "followUpAbility": "wilson.petals"
+    }
   }
 ]

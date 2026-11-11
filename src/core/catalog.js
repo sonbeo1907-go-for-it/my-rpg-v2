@@ -15,6 +15,7 @@ export const AFFILIATION_LABELS = {
   hunters_guild_magic_academy: 'Hội Thợ Săn / Học viện Ma pháp',
   magic_academy: 'Học viện Ma pháp',
   house_valmont: 'Gia tộc Valmont',
+  house_marquis: 'Gia tộc Marquis',
   house_ranoc: 'Gia tộc Ranoc',
   vertosse_clan: 'Gia tộc Vertosse',
   northern_village: 'Làng Phía Bắc',
