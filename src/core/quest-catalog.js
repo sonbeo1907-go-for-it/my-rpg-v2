@@ -5,6 +5,7 @@ export const BOUNTY_PREREQUISITES=['iris_story_revenge','takeshi_story_horizon',
 export const bountyUnlocked=campaign=>BOUNTY_PREREQUISITES.every(id=>campaign.claimedFirstClearRewards?.includes(id));
 export const SINISTER_UNLOCK_FLAG = 'illusion.sinister_unlocked';
 export function questUnlockFlag(encounter) {
+  if(encounter?.trialId)return null;
   return encounter?.requires?.storyFlag ?? (encounterTier(encounter) === 'super' && encounter.category!=='chronicle'
         && !encounter.travelerStory && encounter.category!=='chronicle' ? SINISTER_UNLOCK_FLAG : null);
 }
@@ -26,7 +27,8 @@ export function assertEncounterParty(encounter, campaign, content) {
   if (encounter.requiredPartyIds?.some(id => !campaign.party.includes(id)))
     throw new Error(`Trận này bắt buộc có ${encounter.requiredPartyIds.map(id => content.characters[id].name).join(', ')} trong đội hình.`);
 }
-export function encounterReturnPath(content, id,difficultyId,enemyLevel) {
+export function encounterReturnPath(content, id,difficultyId,enemyLevel,selection) {
+  if(content.encounters[id]?.trialId){const query=new URLSearchParams();if(selection){query.set('level',String(selection.level));for(const[k,n]of Object.entries(selection.conditions))query.set(k,String(n));}return '/chronicles/unrecorded/'+content.encounters[id].trialId+(query.size?'?'+query:'');}
   if(content.encounters[id]?.category==='chronicle'){const e=content.chronicleEvents[content.encounters[id].chronicleEventId];return e.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+e.locationId+'&scene=1';}
   if(content.encounters[id]?.superLevels)return '/quests?tab=sinister&selected='+id+'&superLevel='+(content.encounters[id].superLevels.includes(enemyLevel)?enemyLevel:60);
   const story = content.encounters[id]?.travelerStory;
@@ -34,6 +36,7 @@ export function encounterReturnPath(content, id,difficultyId,enemyLevel) {
   return story ? `/stories/${story}?selected=${id}` : east?`/quests?tab=east&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
 }
 export function questCategory(filters = {}) {
+  if(filters.tab==='trial')return 'trial';
   if(filters.tab==='east')return 'east';
   if(filters.tab==='bounty')return 'bounty';
   if (filters.tab === 'extermination') return 'extermination';
@@ -48,7 +51,7 @@ export function questCatalog(content, campaign, filters = {}) {
       const east = ['east_key','east_hunt'].includes(encounter.category);
       return isQuestUnlocked(encounter, campaign)
         && !encounter.travelerStory
-        && (category==='east'?east:category === 'bounty' ? encounter.category==='bounty' : !east && encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super'))
+        && (category==='trial'?Boolean(encounter.trialId):!encounter.trialId&&(category==='east'?east:category === 'bounty' ? encounter.category==='bounty' : !east && encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super')))
         && (!query || encounter.name.toLocaleLowerCase('vi').includes(query))
         && (category !== 'extermination' || !['normal', 'boss'].includes(filters.type) || tier === filters.type);
     })

@@ -4691,5 +4691,46 @@
       "perRound": 2,
       "followUpAbility": "wilson.petals"
     }
+  },
+  {
+    "id": "remulia",
+    "name": "Remulia",
+    "title": "Thiếu Nữ Của Khúc Ca",
+    "affiliation": "northern_village",
+    "element": "plain",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "releaseId": 104,
+    "recruitmentOnly": true,
+    "description": "Nương theo Sơ Hở của từng địch, tích Khúc Ca để hồi phục cả đội.",
+    "biography": "Một thiếu nữ được tìm thấy trong ống nghiệm dưới tầng hầm của khu rừng cạnh làng Arthur. Những khúc ca cô mang theo chưa từng xuất hiện trong sử sách.",
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 120,
+      "attack": 9,
+      "magic": 39,
+      "defense": 14,
+      "resistance": 24,
+      "speed": 18
+    },
+    "basicDamageType": "magical",
+    "abilities": [
+      "remulia.prelude",
+      "remulia.echo",
+      "remulia.coda"
+    ],
+    "resources": {
+      "unrecorded_song": {
+        "name": "Khúc Ca Ngoài Sử Sách",
+        "max": 10
+      }
+    },
+    "passive": {
+      "type": "exposure_attunement",
+      "name": "Khúc Ca Chưa Được Gọi Tên",
+      "description": "Kỹ năng tấn công đổi hệ riêng theo Sơ Hở của từng địch. Khi có ít nhất một mục tiêu mang Sơ Hở, nhận 2 Khúc Ca sau chiêu; tối đa 10 tầng.",
+      "resource": "unrecorded_song",
+      "amount": 2
+    }
   }
 ]

@@ -12041,5 +12041,347 @@
       "heal"
     ],
     "rankable": true
+  },
+  {
+    "id": "song.lion_claw",
+    "name": "Vồ Xé Sinh Mệnh",
+    "description": "Gây 125% ATK sát thương vật lí Thổ lên một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "earth",
+        "damageType": "physical",
+        "multiplier": 1.25
+      }
+    ],
+    "growthProfile": "fixed",
+    "skillLineId": "song.lion_claw",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.lion_roar",
+    "name": "Tiếng Gầm Xé Núi",
+    "description": "Gây 85% ATK sát thương vật lí Thổ lên toàn đội đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "earth",
+        "damageType": "physical",
+        "multiplier": 0.85
+      }
+    ],
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "growthProfile": "fixed",
+    "skillLineId": "song.lion_roar",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.dragon_breath",
+    "name": "Hơi Thở Dị Hỏa",
+    "description": "Gây 85% MAG sát thương phép Hỏa lên toàn đội đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "fire",
+        "damageType": "magical",
+        "multiplier": 0.85
+      }
+    ],
+    "growthProfile": "fixed",
+    "skillLineId": "song.dragon_breath",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.dragon_fang",
+    "name": "Răng Nanh Biến Dị",
+    "description": "Gây 155% ATK sát thương vật lí Hỏa lên một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "fire",
+        "damageType": "physical",
+        "multiplier": 1.55
+      }
+    ],
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 1,
+    "growthProfile": "fixed",
+    "skillLineId": "song.dragon_fang",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.snake_bite",
+    "name": "Nanh Độc Lặng Câm",
+    "description": "Gây 110% ATK sát thương vật lí Ám lên một mục tiêu. Gắn Nhiễm Độc trong 2 lượt.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "dark",
+        "damageType": "physical",
+        "multiplier": 1.1
+      },
+      {
+        "type": "status",
+        "status": "kai_poison",
+        "duration": 2
+      }
+    ],
+    "growthProfile": "fixed",
+    "skillLineId": "song.snake_bite",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.snake_mist",
+    "name": "Sương Độc Lan Tràn",
+    "description": "Gây 60% MAG sát thương phép Ám lên toàn đội đối phương. Gắn Vết Thương Sâu trong 2 lượt.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "dark",
+        "damageType": "magical",
+        "multiplier": 0.6
+      },
+      {
+        "type": "status",
+        "status": "deep_wound",
+        "duration": 2
+      }
+    ],
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "growthProfile": "fixed",
+    "skillLineId": "song.snake_mist",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.ego_claw",
+    "name": "Cắt Bỏ Khiếm Khuyết",
+    "description": "Gây 145% ATK sát thương vật lí Thường lên một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "plain",
+        "damageType": "physical",
+        "multiplier": 1.45
+      }
+    ],
+    "growthProfile": "fixed",
+    "skillLineId": "song.ego_claw",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.ego_wave",
+    "name": "Phôi Thai Hoàn Hảo",
+    "description": "Gây 100% MAG sát thương phép Thường lên toàn đội đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "plain",
+        "damageType": "magical",
+        "multiplier": 1.0
+      }
+    ],
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "growthProfile": "fixed",
+    "skillLineId": "song.ego_wave",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.ego_burst",
+    "name": "Tuyên Ngôn Của Bản Ngã",
+    "description": "Gây 220% MAG sát thương phép Thường lên một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "plain",
+        "damageType": "magical",
+        "multiplier": 2.2
+      }
+    ],
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 3,
+    "growthProfile": "fixed",
+    "skillLineId": "song.ego_burst",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.time_cut",
+    "name": "Một Giây Bị Đánh Cắp",
+    "description": "Gây 140% MAG sát thương phép Ám lên một mục tiêu.",
+    "target": "enemy",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "dark",
+        "damageType": "magical",
+        "multiplier": 1.4
+      }
+    ],
+    "growthProfile": "fixed",
+    "skillLineId": "song.time_cut",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.time_wave",
+    "name": "Ngày Mai Không Đến",
+    "description": "Gây 100% MAG sát thương phép Ám lên toàn đội đối phương.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "dark",
+        "damageType": "magical",
+        "multiplier": 1.0
+      }
+    ],
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "growthProfile": "fixed",
+    "skillLineId": "song.time_wave",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "song.time_end",
+    "name": "Lời Giải Của Tai Ương",
+    "description": "Gây 160% MAG sát thương phép Ám lên toàn đội đối phương. Báo trước một vòng.",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "element": "dark",
+        "damageType": "magical",
+        "multiplier": 1.6
+      }
+    ],
+    "windup": {
+      "rounds": 1,
+      "message": "Tai Ương mở một khe thời gian. Đòn diện rộng mạnh sẽ tới ở lượt tiếp theo."
+    },
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "growthProfile": "fixed",
+    "skillLineId": "song.time_end",
+    "rankable": false,
+    "fixedReason": "Kỹ năng siêu trùm theo điều kiện thử thách."
+  },
+  {
+    "id": "remulia.prelude",
+    "name": "Dạo Khúc — Tiếng Gọi Đầu Tiên",
+    "description": "Tăng MAG và nhận Khai Phá Điểm Yếu.",
+    "target": "self",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "remulia_prelude",
+        "duration": 4
+      }
+    ],
+    "skillLineId": "remulia.prelude",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "remulia.echo",
+    "name": "Điệp Khúc — Ký Ức Không Tên",
+    "description": "Tấn công toàn địch và nhận 1 Khúc Ca.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "scalingStat": "magic",
+        "multiplier": 1.8
+      },
+      {
+        "type": "resource",
+        "resource": "unrecorded_song",
+        "amount": 1,
+        "to": "self"
+      }
+    ],
+    "skillLineId": "remulia.echo",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "remulia.coda",
+    "name": "Chung Khúc — Ngoài Trang Sử",
+    "description": "D?n kh?c ca th?nh ??t c?ng k?ch, ti?p s?c cho c? ??i.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "scalingStat": "magic",
+        "multiplier": 3.2
+      },
+      {
+        "type": "restore_team",
+        "resource": "unrecorded_song",
+        "minimum": 10
+      }
+    ],
+    "skillLineId": "remulia.coda",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
   }
 ]

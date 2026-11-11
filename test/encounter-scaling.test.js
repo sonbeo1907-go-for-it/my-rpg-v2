@@ -39,8 +39,8 @@ test('offense and defense hit exact endpoints, ignore legacy milestones and free
  for(const l of [1,25,50,60])for(const k of ['maxMp','speed'])assert.equal(enemyStatFactor(k,l,content),1+content.progressionRules.default.enemyGrowth[k]*(l-1));
 });
 
-test('all 121 template references are identities without HP overrides; no template mutation or rounding drift',()=>{
- assert.equal(Object.keys(content.enemies).length,121);const before=JSON.stringify(content.enemies);
+test('all authored template references are identities without HP overrides; no template mutation or rounding drift',()=>{
+ assert.ok(Object.keys(content.enemies).length>=121);const before=JSON.stringify(content.enemies);
  for(const e of Object.values(content.enemies)){
   const context={hpScalingProfile:e.referenceLevel>50?'superboss':'normal'};
   assert.deepEqual(levelScaledEnemyStats(e,e.referenceLevel,content,1,context),e.stats,e.id);

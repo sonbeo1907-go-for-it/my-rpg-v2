@@ -37,6 +37,7 @@ export function validateBlacksmithContent(content) {
     // New combat passive types must get an explicit, tested adapter before being enabled.
     if(!validateExclusivePassive(template.passive,content)) errors.push('exclusiveGear: unsupported passive '+template.id);
     if(template.initialStat&&!validExclusiveStat(content,template.initialStat.statKey,template.initialStat.statValue))errors.push('exclusiveGear: invalid initial stat '+template.id);
+    if(template.requires?.trialScore!==undefined&&template.requires.trialScore!==22)errors.push('exclusiveGear: invalid trial score gate '+template.id);
     if(template.requires?.firstClear&&!content.encounters[template.requires.firstClear]?.firstClearRewards?.some(r=>r.type==='exclusive_recipe'&&r.templateId===template.id))errors.push('exclusiveGear: invalid recipe gate '+template.id);
     if(template.source && (template.source.type!=='quest' || !content.encounters[template.source.encounterId] || !validExclusiveStat(content,template.source.statKey,template.source.statValue))) errors.push('exclusiveGear: invalid quest source '+template.id);
   }
@@ -45,4 +46,4 @@ export function validateBlacksmithContent(content) {
   return [...errors,...validateT4Content(content)];
 }
 
-export const exclusiveCraftUnlocked=(campaign,template)=>(!template.requires?.firstClear||campaign.claimedFirstClearRewards.includes(template.requires.firstClear))&&blueprintRecipeUnlocked(campaign,template);
+export const exclusiveCraftUnlocked=(campaign,template)=>(!template.requires?.trialScore||Object.values(campaign.unrecordedLedger?.best??{}).some(score=>score>=template.requires.trialScore))&&(!template.requires?.firstClear||campaign.claimedFirstClearRewards.includes(template.requires.firstClear))&&blueprintRecipeUnlocked(campaign,template);

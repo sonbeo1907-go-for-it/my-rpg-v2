@@ -22,10 +22,10 @@ test('default board contains normal then boss quests, stable within reward group
   assert.equal(questCatalog(content,save,{q:'LỢN RỪNG'})[0].id,'boar_field');
   assert.ok(questCatalog(content,save,{tab:'extermination',selected:'alice_superboss'}).every(e=>encounterTier(e)!=='super'));
 });
-test('new and old saves cannot see/start super quests, including legacy filters and future supers without explicit requirements', () => {
+test('new and old saves cannot see/start legacy super quests, including legacy filters and future supers without explicit requirements', () => {
   const save=createGameSave(content);
   for(const filter of [{tab:'sinister'},{type:'super'},{tab:'sinister',q:'Alice',selected:'alice_superboss'}]) assert.deepEqual(questCatalog(content,save,filter),[]);
-  for(const encounter of Object.values(content.encounters).filter(e=>!e.travelerStory&&encounterTier(e)==='super')) {
+  for(const encounter of Object.values(content.encounters).filter(e=>!e.travelerStory&&!e.trialId&&encounterTier(e)==='super')) {
     assert.equal(isQuestUnlocked(encounter,save),false);
     assert.throws(()=>createBattle(content,save,encounter.id),/chưa mở khóa/);
     const source=structuredClone(content);delete source.encounters[encounter.id].requires;

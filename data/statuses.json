@@ -1821,5 +1821,30 @@
     "modifiers": {
       "resistance": -0.2
     }
+  },
+  {
+    "id": "remulia_prelude",
+    "name": "Tiếng Gọi Đầu Tiên",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": 0.3
+    },
+    "linkedStatuses": [
+      "weakness_exploitation"
+    ],
+    "description": "Tăng MAG và nhận Khai Phá Điểm Yếu."
+  },
+  {
+    "id": "remulia_resonance",
+    "name": "Ngân Vang Ký Ức",
+    "kind": "buff",
+    "persistent": true,
+    "maxStacks": 3,
+    "modifiersPerStack": true,
+    "modifiers": {
+      "magic": 0.1
+    },
+    "description": "Mỗi tầng tăng 10% MAG; tối đa 3 tầng, đến hết trận."
   }
 ]

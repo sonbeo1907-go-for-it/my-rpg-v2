@@ -82,11 +82,11 @@ export function QuestPage() {
           →
         </Link>
       )}
-      <WideTabs className="quest-category-tabs" label="Danh mục nhiệm vụ" active={tab} tabs={[{id:'extermination',label:'Thảo Phạt'},{id:'bounty',label:'Truy Nã'},{id:'east',label:'Thảo Phạt Phương Đông'},{id:'sinister',label:'Hiểm Ác'}]} onChange={changeTab}/>
+      <WideTabs className="quest-category-tabs" label="Danh mục nhiệm vụ" active={tab} tabs={[{id:'extermination',label:'Thảo Phạt'},{id:'bounty',label:'Truy Nã'},{id:'east',label:'Thảo Phạt Phương Đông'},{id:'sinister',label:'Hiểm Ác'},{id:'trial',label:'Khúc Ca Ngoài Sử Sách'}]} onChange={changeTab}/>
       <QuestLayout>
         <QuestIllustration
-          art={tab === "east" ? "/art/quest-east.svg" : tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
-          header={selected?.superLevels?<section className="quest-difficulty-selector" aria-label="Cấp thử thách"><strong>Cấp thử thách</strong><div className="quest-difficulty-buttons">{selected.superLevels.map((level:number)=><button key={level} aria-pressed={selectedLevel===level} className={selectedLevel===level?'active':''} onClick={()=>setFilters({...filters,superLevel:String(level)})}>Level {level}</button>)}</div><p>{selected.rewardPolicy==='none'?'Thử thách tùy chọn · Không cấp tiền tệ hoặc EXP.':'Các cấp thử thách dùng chung phần thưởng.'}</p></section>:fixedDifficulty?<section className="quest-difficulty-selector" aria-label="Cấp cố định"><strong>Cấp cố định · Level {selectedLevel}</strong><p>Key Event Phương Đông không cho chọn độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty?.id)}/></section>:difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{difficultyOptions.map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
+          art={tab === "trial" ? (selected ? "/art/song-"+selected.trialId+".svg" : "/art/song-chimera.svg") : tab === "east" ? "/art/quest-east.svg" : tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
+          header={selected?.trialId?<span className="quest-fixed-difficulty">Biên Niên Ký · Ba siêu trùm · Điều kiện tùy chọn</span>:selected?.superLevels?<section className="quest-difficulty-selector" aria-label="Cấp thử thách"><strong>Cấp thử thách</strong><div className="quest-difficulty-buttons">{selected.superLevels.map((level:number)=><button key={level} aria-pressed={selectedLevel===level} className={selectedLevel===level?'active':''} onClick={()=>setFilters({...filters,superLevel:String(level)})}>Level {level}</button>)}</div><p>{selected.rewardPolicy==='none'?'Thử thách tùy chọn · Không cấp tiền tệ hoặc EXP.':'Các cấp thử thách dùng chung phần thưởng.'}</p></section>:fixedDifficulty?<section className="quest-difficulty-selector" aria-label="Cấp cố định"><strong>Cấp cố định · Level {selectedLevel}</strong><p>Key Event Phương Đông không cho chọn độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty?.id)}/></section>:difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{difficultyOptions.map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
         >
           <span className="eyebrow">{tab === "bounty" ? "NHỮNG KHẾ ƯỚC TRÊN BẢNG TRUY NÃ" : tab === "sinister" ? "SAU CÁNH CỬA KHÔNG ÁNH SÁNG" : tab === "east" ? "NHỮNG BẾN BỜ PHƯƠNG ĐÔNG" : "NHỮNG NẺO ĐƯỜNG PHƯƠNG BẮC"}</span>
           <h2>{selected?.name ?? (bountyLocked ? "Lời mời của Hội Thợ Săn" : sinisterLocked ? "Cánh cửa chưa thức giấc" : "Những miền đất chưa biết")}</h2>
@@ -216,7 +216,7 @@ export function QuestPage() {
                   );
                 })}
               </div>
-              <div className="deployment-actions"><button
+              <div className="deployment-actions">{selected.trialId?<Link className="button gold embark" href={"/chronicles/unrecorded/"+selected.trialId}><Icon name="book"/>Đi vào<span>→</span></Link>:<><button
                 className="gold embark"
                 disabled={busy}
                 onClick={() => {
@@ -227,7 +227,7 @@ export function QuestPage() {
               >
                 <Icon name="sword" />
                 Xuất chiến<span>→</span>
-              </button><FarmLaunch disabled={busy} target={{kind:'quest',id:selected.id,difficultyId:difficulty?.id,superLevel:selected?.superLevels?selectedLevel:undefined}} label={selected.name+' · '+(difficulty?.name??'Cấp cố định')+' · Level '+selectedLevel}/></div>
+              </button><FarmLaunch disabled={busy} target={{kind:'quest',id:selected.id,difficultyId:difficulty?.id,superLevel:selected?.superLevels?selectedLevel:undefined}} label={selected.name+' · '+(difficulty?.name??'Cấp cố định')+' · Level '+selectedLevel}/></>}</div>
             </div>
           )}
           </>}

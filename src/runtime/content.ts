@@ -1,3 +1,4 @@
+import trials from '../../data/trials.json';
 import pvpRules from '../../data/pvpRules.json';
 import pvpAiProfiles from '../../data/pvpAiProfiles.json';
 import chronicles from '../../data/chronicles.json';
@@ -23,7 +24,7 @@ import travelerStories from "../../data/travelerStories.json";
 import { eastEnemies, eastEncounters, eastMusic, eastBossAbilities } from "../core/east-campaign.js";
 export function getContent(): any {
   return assembleContent({
-    chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
+    trials,chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
     progressionRules,
     characters,
     abilities:[...abilities,...eastBossAbilities],

@@ -41,6 +41,7 @@
 - [Bảng nhiệm vụ](QUESTS.md)
 - [Khám phá hầm ngục](DUNGEONS.md)
 - [Câu chuyện Lữ Hành](TRAVELER_STORIES.md)
+- [Khúc Ca Ngoài Sử Sách — siêu trùm và điều kiện thử thách](UNRECORDED_PAST.md)
 - [Biên Niên Ký — Quyển I](CHRONICLES.md)
 - [Quyển II — Những Phiên Gác Không Yên](FORTRESS_SESSION.md)
 - [Ủy Thác Hằng Ngày](DAILY_COMMISSIONS.md)
@@ -161,3 +162,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Bộ seed F2P Senya · Thảo Phạt Phương Đông](EAST_SENYA_PLAYTEST.md) — 30 seed, fixture theo tiến trình, kết quả policy cố định và AI auto-farm.
 
 - [Kanade Hanasato và Wilson Marquis](MARQUIS_DUO.md) — phối hợp Thổ, Khai Phá Điểm Yếu theo mục tiêu và Liên kích kỹ năng theo Rank.
+
+- [REMULIA.md](REMULIA.md): ??i h? t?ng m?c ti?u, h?i ph?c c? ?i?u ki?n, Tr?n v? m?c th??ng Kh?c Ca; c?nh b?o/BGM.

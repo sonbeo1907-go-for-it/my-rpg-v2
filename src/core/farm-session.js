@@ -2,8 +2,9 @@ export const MAX_FARM_RUNS=999;
 export const FARM_CURRENCIES=['coins','prisma','recruitmentShards','originalPrisma','prismaFragments','blueprints','limitBreakStones','xpBooksGreen','xpBooksBlue','xpBooksPurple'];
 export function farmLimit(value){if(!Number.isSafeInteger(value)||value<1||value>MAX_FARM_RUNS)throw Error('Số lượt farm phải là số nguyên từ 1 đến 999.');return value;}
 export function validateFarmTarget(content,target){
- if(target?.kind==='quest'){const e=content.encounters[target.id];if(!e||e.travelerStory||e.category==='chronicle')throw Error('Nội dung này không hỗ trợ farm lặp lại.');}
+ if(target?.kind==='quest'){const e=content.encounters[target.id];if(!e||e.travelerStory||e.trialId||e.category==='chronicle')throw Error('Nội dung này không hỗ trợ farm lặp lại.');}
  else if(target?.kind==='dungeon'){if(!content.dungeons[target.id]||content.dungeons[target.id].closed)throw Error('Hầm ngục chưa mở.');}
+ else if(target?.kind==='battle'&&content.encounters[target.id]?.trialId)throw Error('Biên niên ký này không hỗ trợ farm lặp lại.');
  else if(target?.kind!=='battle')throw Error('Mục tiêu farm không hợp lệ.');
 }
 export function createFarmSession(target,limit,sessionId){return {target:structuredClone(target),limit:farmLimit(limit),sessionId,settled:[],enabled:true,enteredBattle:false,completed:0,wins:0,losses:0,draws:0,totals:{},xp:{},reason:'Đang chiến đấu'};}

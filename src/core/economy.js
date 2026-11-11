@@ -1,3 +1,5 @@
+import {grantTrialMilestones} from './unrecorded-rewards.js';
+import {settleTrialReward} from './unrecorded-trials.js';
 import {pruneRateUpPity,resolveRecruitmentBanner,rateUpPityKey,drawBannerCharacter,rateUpSnapshot,validateRateUpContent} from './rate-up.js';
 import {grantPartyXp} from './leveling.js';
 import {questExperience} from './quest-difficulty.js';
@@ -111,10 +113,13 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     if (encounter.requires?.firstClears?.some(id=>!campaign.claimedFirstClearRewards?.includes(id))) throw new Error('Hãy hoàn thành đủ các câu chuyện bắt buộc trước khi nhận thưởng chương truyện.');
     if (encounter.requiredPartyIds?.some(id => !battle.actors?.some(actor => actor.team === 'party' && (actor.definitionId ?? actor.id) === id))) throw new Error('Đội tham chiến thiếu nhân vật bắt buộc.');
   }
-  const next = structuredClone(campaign);
-  for(const[field,n]of Object.entries(prepareVictoryReward(battle,content,battle.rewardRandom??Math.random,campaign))) next[field]=checkedAdd(next[field]??0,n);
+  const settlement=battle.trial?settleTrialReward(campaign,battle,now):null;
+  if(settlement?.duplicate){battle.rewardClaimed=true;battle.victoryReward=Object.freeze({});return campaign;}
+  const next=structuredClone(settlement?.campaign??campaign);
+  const reward=settlement?.reward??prepareVictoryReward(battle,content,battle.rewardRandom??Math.random,campaign);
+  for(const[field,n]of Object.entries(reward)) next[field]=checkedAdd(next[field]??0,n);
   next.victories = checkedAdd(next.victories, 1);
-  if(encounter?.superLevels&&next.chronicles?.aliceFirstEncounterCleared&&!next.chronicles.aliceDifficultyClears.includes(battle.enemyLevel))next.chronicles.aliceDifficultyClears.push(battle.enemyLevel);
+  if(encounter?.id==='alice_superboss'&&encounter.superLevels&&next.chronicles?.aliceFirstEncounterCleared&&!next.chronicles.aliceDifficultyClears.includes(battle.enemyLevel))next.chronicles.aliceDifficultyClears.push(battle.enemyLevel);
   if (encounter && !encounter.travelerStory && ["normal","boss"].includes(encounterTier(encounter))) recordDailyClear(next,"quest",now);
   next.claimedFirstClearRewards ??= [];
   const rewards = content.encounters[battle.encounterId]?.firstClearRewards;
@@ -152,10 +157,12 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     }
   }
   if(encounter?.id==='east_ke_08'){next.storyFlags??=[];if(!next.storyFlags.includes('east_campaign_completed'))next.storyFlags.push('east_campaign_completed');}
+  granted.push(...grantTrialMilestones(next,content));
   const amount=questExperience(content,encounter,battle.questDifficulty);
   const recipients=battle.actors?.filter(a=>a.team==="party").map(a=>a.definitionId??a.id)??campaign.party.filter(Boolean);
   const xpAwards=amount?grantPartyXp(next,content,recipients,amount):[];
   persist(next);
+  if(settlement)battle.victoryReward=Object.freeze(reward);
   battle.xpAwards=xpAwards;
   battle.rewardClaimed = true;
   battle.firstClearRewards = granted;

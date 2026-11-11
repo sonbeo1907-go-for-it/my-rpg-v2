@@ -106,7 +106,7 @@ type GameContextValue = {
     operation: (current: any) => any,
     message?: string,
   ) => Promise<boolean>;
-  startBattle: (id: string,difficultyId?:string,superLevel?:number) => boolean;
+  startBattle: (id: string,difficultyId?:string,superLevel?:number,trial?:any) => boolean;
   progressionLocked:boolean;
   upgradeCharacterSkill:(id:string,line:string,expectedRank:number)=>Promise<boolean>;
   updateAllocations:(id:string,allocations:Record<string,number>)=>Promise<boolean>;
@@ -237,6 +237,7 @@ export function GameProvider({
             encounterId: current.encounterId,
             arena:structuredClone(current.arena??null),
             chronicle:structuredClone(current.chronicle??null),
+            trial:structuredClone(current.trial??null),
             questDifficulty:current.questDifficulty,enemyLevel:current.enemyLevel,xpAwards:structuredClone(current.xpAwards??[]),
             sessionId: battleSerial.current,
             actors: structuredClone(current.actors),
@@ -564,6 +565,7 @@ export function GameProvider({
         ? claimDungeonReward(campaignRef.current, claimRun, content)
         : claimBattleReward(campaignRef.current, claimBattle, content);
       await persist(next);
+      currentBattle.victoryReward=claimBattle.victoryReward;
       currentBattle.rewardClaimed = claimBattle.rewardClaimed;
       currentBattle.firstClearRewards = claimBattle.firstClearRewards;
       currentBattle.xpAwards=claimBattle.xpAwards;
@@ -694,7 +696,8 @@ export function GameProvider({
       battleSerial.current++;setBattleUI({allyId:'',enemyId:'',skillId:'$attack'});publish();notify('');return true;
     }catch(error){notify((error as Error).message);return false;}
   }
-  function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number,farmSeed?:number) {
+  const pendingTrial=useRef<any>(undefined);
+  function startBattle(id: string, confirmed = false,difficultyId?:string,superLevel?:number,farmSeed?:number,trial?:any) {
     if(campaignRef.current?.arenaProgress?.pending){notify('Hãy hoàn tất trận Đấu Trường trước.');return false;}
     if(campaignRef.current?.chronicles?.activeSession){notify('Hãy rời phiên pháo đài qua cổng trước khi bắt đầu nội dung khác.');return false;}
     if(content.encounters[id]?.category==='chronicle'){notify('Hãy bắt đầu từ địa điểm trong Biên Niên Ký.');return false;}
@@ -722,13 +725,15 @@ export function GameProvider({
       !confirmed
     ) {
       setPendingDungeon(null);
+      pendingTrial.current=trial;
       pendingQuestDifficulty.current=difficultyId;pendingSuperLevel.current=superLevel;
       setPendingBattleId(id);
       return false;
     }
     try {
       const storyRun=content.encounters[id].waves ? createStoryRun(content,campaignRef.current,id,seededRandom(farmSeed??20261027),{questDifficulty:difficultyId}) : null;
-      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(farmSeed??20261027),{questDifficulty:difficultyId,...(content.encounters[id].superLevels&&superLevel!==undefined?{enemyLevel:superLevel}:{})});
+      runtime.current = storyRun?.battle ?? createBattle(content,campaignRef.current,id,seededRandom(farmSeed??20261027),{questDifficulty:difficultyId,trial,...(content.encounters[id].superLevels&&superLevel!==undefined?{enemyLevel:superLevel}:{})});
+      if(runtime.current.trial)stopFarming("Biên Niên Ký không dùng farm lặp lại.");
       dungeonRun.current = storyRun;
       battleSerial.current += 1;
       setBattleUI({ allyId: "", enemyId: "", skillId: "$attack" });
@@ -964,7 +969,7 @@ export function GameProvider({
       if (!pendingBattleId && !pendingDungeon) return false;
       const ok = pendingDungeon
         ? startDungeon(pendingDungeon.typeId, pendingDungeon.difficultyId, true)
-        : startBattle(pendingBattleId!, true,pendingQuestDifficulty.current,pendingSuperLevel.current);
+        : startBattle(pendingBattleId!, true,pendingQuestDifficulty.current,pendingSuperLevel.current,undefined,pendingTrial.current);
       if (ok) {
         setPendingBattleId(null);
         setPendingDungeon(null);
@@ -985,7 +990,7 @@ export function GameProvider({
       } catch {}
     },
     transact,
-    startBattle:(id,difficultyId,superLevel)=>startBattle(id,false,difficultyId,superLevel),
+    startBattle:(id,difficultyId,superLevel,trial)=>startBattle(id,false,difficultyId,superLevel,undefined,trial),
     startDungeon,
     prepareDungeonPreview: (id, difficultyId, now = new Date()) =>
       scoutingCache().prepare(activeProfileId.current, id, difficultyId, now),

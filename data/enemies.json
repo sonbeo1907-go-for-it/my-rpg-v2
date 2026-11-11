@@ -2380,5 +2380,194 @@
     "controlImmunities": [
       "stun"
     ]
+  },
+  {
+    "id": "song_dragon",
+    "name": "Đầu Rồng Biến Dị",
+    "element": "fire",
+    "referenceLevel": 1,
+    "stats": {
+      "maxHp": 1100,
+      "maxMp": 500,
+      "attack": 34,
+      "magic": 39,
+      "defense": 24,
+      "resistance": 29,
+      "speed": 19
+    },
+    "weaknesses": [
+      "water",
+      "thunder"
+    ],
+    "controlImmunities": [
+      "stun"
+    ],
+    "abilities": [
+      "song.dragon_breath",
+      "song.dragon_fang",
+      "song.dragon_breath"
+    ],
+    "ai": {
+      "rotation": [
+        "song.dragon_breath",
+        "song.dragon_fang",
+        "song.dragon_breath"
+      ],
+      "priorities": []
+    },
+    "role": "Siêu trùm",
+    "bossClass": "super"
+  },
+  {
+    "id": "song_lion",
+    "name": "Đầu Sư Tử Biến Dị",
+    "element": "earth",
+    "referenceLevel": 1,
+    "stats": {
+      "maxHp": 1350,
+      "maxMp": 500,
+      "attack": 42,
+      "magic": 20,
+      "defense": 33,
+      "resistance": 21,
+      "speed": 17
+    },
+    "weaknesses": [
+      "wind",
+      "light"
+    ],
+    "controlImmunities": [
+      "stun"
+    ],
+    "abilities": [
+      "song.lion_claw",
+      "song.lion_roar",
+      "song.lion_claw"
+    ],
+    "ai": {
+      "rotation": [
+        "song.lion_claw",
+        "song.lion_roar",
+        "song.lion_claw"
+      ],
+      "priorities": []
+    },
+    "role": "Siêu trùm",
+    "bossClass": "super"
+  },
+  {
+    "id": "song_snake",
+    "name": "Đầu Rắn Biến Dị",
+    "element": "dark",
+    "referenceLevel": 1,
+    "stats": {
+      "maxHp": 950,
+      "maxMp": 500,
+      "attack": 32,
+      "magic": 35,
+      "defense": 21,
+      "resistance": 25,
+      "speed": 25
+    },
+    "weaknesses": [
+      "fire",
+      "earth"
+    ],
+    "controlImmunities": [
+      "stun"
+    ],
+    "abilities": [
+      "song.snake_bite",
+      "song.snake_mist",
+      "song.snake_bite"
+    ],
+    "ai": {
+      "rotation": [
+        "song.snake_bite",
+        "song.snake_mist",
+        "song.snake_bite"
+      ],
+      "priorities": []
+    },
+    "role": "Siêu trùm",
+    "bossClass": "super"
+  },
+  {
+    "id": "song_ego",
+    "name": "Bản Ngã Tiến Hóa",
+    "element": "plain",
+    "referenceLevel": 1,
+    "stats": {
+      "maxHp": 3300,
+      "maxMp": 500,
+      "attack": 38,
+      "magic": 40,
+      "defense": 29,
+      "resistance": 30,
+      "speed": 23
+    },
+    "weaknesses": [
+      "fire",
+      "dark"
+    ],
+    "controlImmunities": [
+      "stun"
+    ],
+    "abilities": [
+      "song.ego_claw",
+      "song.ego_wave",
+      "song.ego_burst",
+      "song.ego_claw"
+    ],
+    "ai": {
+      "rotation": [
+        "song.ego_claw",
+        "song.ego_wave",
+        "song.ego_burst",
+        "song.ego_claw"
+      ],
+      "priorities": []
+    },
+    "role": "Siêu trùm",
+    "bossClass": "super"
+  },
+  {
+    "id": "song_calamity",
+    "name": "Tai Ương Thông Tuệ",
+    "element": "dark",
+    "referenceLevel": 1,
+    "stats": {
+      "maxHp": 3500,
+      "maxMp": 500,
+      "attack": 25,
+      "magic": 43,
+      "defense": 26,
+      "resistance": 34,
+      "speed": 26
+    },
+    "weaknesses": [
+      "light",
+      "sword_soul"
+    ],
+    "controlImmunities": [
+      "stun"
+    ],
+    "abilities": [
+      "song.time_cut",
+      "song.time_wave",
+      "song.time_cut",
+      "song.time_end"
+    ],
+    "ai": {
+      "rotation": [
+        "song.time_cut",
+        "song.time_wave",
+        "song.time_cut",
+        "song.time_end"
+      ],
+      "priorities": []
+    },
+    "role": "Siêu trùm",
+    "bossClass": "super"
   }
 ]

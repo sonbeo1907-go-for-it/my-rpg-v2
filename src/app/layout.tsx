@@ -15,6 +15,7 @@ import "./shop.css";
 import "./controls.css";
 import "./dungeon.css";
 import "./quests.css";
+import "./unrecorded.css";
 import "./stories.css";
 import "./chronicles.css";
 import "./fortress.css";

@@ -28,6 +28,7 @@ export function validateAdvancedCombat(content){
    const skill=content.abilities[p.followUpAbility];
    if(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||!['physical','magical'].includes(p.damageType)||!Number.isInteger(p.perRound)||p.perRound<1||p.perRound>4||!skill||!a.abilities?.includes(skill.id)||skill.activation==='passive'||skill.target!=='all_enemies'||!skill.effects.some(e=>e.type==='damage')||skill.effects.some(e=>e.type!=='damage'||e.damageType!==p.damageType||e.element!==p.element||e.consumeStatus||e.formulaScaling))fail(a.id+': invalid elemental skill echo');
   }
+  if(p?.type==='exposure_attunement'&&(!p.name||!p.description||!a.resources?.[p.resource]||a.resources[p.resource].max!==10||p.amount!==2))fail(a.id+': invalid exposure attunement');
   if(p?.type==='cover_guard' &&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>0.5))fail(a.id+': invalid cover guard');
  }
  for(const s of Object.values(content.abilities)){

@@ -43,6 +43,7 @@ function initial(root: ParentNode, path: string) {
   if(root instanceof Element&&root.matches('dialog'))return root.querySelector<HTMLElement>('[role=tab][aria-selected=true]')??root.querySelector<HTMLElement>('footer button:not(:disabled)')??controls(root)[0];
   if(path==='/chronicles')return root.querySelector<HTMLElement>('.chronicle-book-cover');
   if(path==='/chronicles/book2')return root.querySelector<HTMLElement>('[data-fortress-primary]:not(:disabled),.fortress-area-list .selected');
+  if(path.startsWith('/chronicles/unrecorded/'))return root.querySelector<HTMLElement>('.quest-difficulty-buttons button[aria-pressed=true]');
   if(path.startsWith('/chronicles/'))return root.querySelector<HTMLElement>('.chronicle-hotspot,.chronicle-scene-actions .gold,.chronicle-location-list .selected');
   if(path==='/arena/match')return root.querySelector<HTMLElement>('.draft-grid button:not(:disabled),.draft-formation button,.arena-match-tabs .selected');
   if (path === "/stories") return root.querySelector<HTMLElement>(".story-book");
@@ -191,8 +192,9 @@ function hintList(
       ["B", "Trở về"],
     ];
   if(path==='/arena/match')return [['A','Chọn'],['X','Xác nhận'],['LB / RB','Chế độ'],['B','Trở về'],['RS','Cuộn']];
+  if(path.startsWith("/chronicles/unrecorded/"))return [["A","Chọn mức"],["LT / RT","Cấp đối thủ"],["B","Trở về"],["RS","Cuộn"]];
   if (path === "/quests")
-    return [["A", "Chọn"], ["LB / RB", "Thảo Phạt / Truy Nã / Hiểm Ác"], ["LT / RT", "Độ khó"], ["Y", "Bộ lọc"], ["B", "Trở về"], ["RS", "Cuộn"]];
+    return [["A", "Chọn"], ["LB / RB", "Danh mục nhiệm vụ"], ["LT / RT", "Độ khó"], ["Y", "Bộ lọc"], ["B", "Trở về"], ["RS", "Cuộn"]];
   if (["/characters", "/inventory"].includes(path))
     return [
       ["A", "Chọn"],
@@ -433,7 +435,7 @@ export function GamepadNavigation() {
           document.querySelector<HTMLElement>(".character-tabs [data-tab-id=equipment],.header-actions a")?.click();
       } else if(action==='lt'||action==='rt'){
         const difficulties=root.querySelector('.quest-difficulty-buttons');
-        if(path==='/quests'&&difficulties){const items=controls(difficulties);cycle(items,action==='lt'?-1:1,items.find(i=>i.matches('[aria-pressed=true]'))??active,true);}
+        if((path==='/quests'||path.startsWith('/chronicles/unrecorded/'))&&difficulties){const items=controls(difficulties);cycle(items,action==='lt'?-1:1,items.find(i=>i.matches('[aria-pressed=true]'))??active,true);}
         else root.querySelector<HTMLButtonElement>('[data-gamepad-page="'+(action==='lt'?'previous':'next')+'"]:not(:disabled)')?.click();
       } else if (action === "lb" || action === "rb") {
         const tabs = root.querySelector(

@@ -1,0 +1,707 @@
+[
+  {
+    "id": "chimera",
+    "encounterId": "song_chimera",
+    "name": "Dị Thú Tam Đầu",
+    "description": "Ba tiếng gầm từ cùng một sinh mệnh. Hạ đầu Rồng, Sư Tử và Rắn trong 3 vòng kể từ vòng đầu tiên có một đầu gục; quá hạn, những đầu đã gục hồi sinh với 50% HP.",
+    "mechanic": "linked_heads",
+    "art": "/art/song-chimera.svg",
+    "conditions": [
+      {
+        "id": "vital",
+        "name": "Sinh lực dị thường",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch HP tối đa +15%.",
+            "stats": {
+              "maxHp": 1.15
+            }
+          },
+          {
+            "text": "Địch HP tối đa +30%.",
+            "stats": {
+              "maxHp": 1.3
+            }
+          },
+          {
+            "text": "Địch HP tối đa +50%.",
+            "stats": {
+              "maxHp": 1.5
+            }
+          }
+        ]
+      },
+      {
+        "id": "fury",
+        "name": "Sức mạnh trỗi dậy",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch ATK / MAG +10%.",
+            "stats": {
+              "attack": 1.1,
+              "magic": 1.1
+            }
+          },
+          {
+            "text": "Địch ATK / MAG +20%.",
+            "stats": {
+              "attack": 1.2,
+              "magic": 1.2
+            }
+          },
+          {
+            "text": "Địch ATK / MAG +30%.",
+            "stats": {
+              "attack": 1.3,
+              "magic": 1.3
+            }
+          }
+        ]
+      },
+      {
+        "id": "armor",
+        "name": "Thân thể kiên cố",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch DEF / RES +15%.",
+            "stats": {
+              "defense": 1.15,
+              "resistance": 1.15
+            }
+          },
+          {
+            "text": "Địch DEF / RES +30%.",
+            "stats": {
+              "defense": 1.3,
+              "resistance": 1.3
+            }
+          },
+          {
+            "text": "Địch DEF / RES +50%.",
+            "stats": {
+              "defense": 1.5,
+              "resistance": 1.5
+            }
+          }
+        ]
+      },
+      {
+        "id": "frail",
+        "name": "Hành trang hao hụt",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −10%.",
+            "stats": {
+              "maxHp": 0.9,
+              "maxMp": 0.9
+            }
+          },
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −20%.",
+            "stats": {
+              "maxHp": 0.8,
+              "maxMp": 0.8
+            }
+          },
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −30%.",
+            "stats": {
+              "maxHp": 0.7,
+              "maxMp": 0.7
+            }
+          }
+        ]
+      },
+      {
+        "id": "weary",
+        "name": "Sức lực suy tàn",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình ATK / MAG −10%.",
+            "stats": {
+              "attack": 0.9,
+              "magic": 0.9
+            }
+          },
+          {
+            "text": "Đội mình ATK / MAG −20%.",
+            "stats": {
+              "attack": 0.8,
+              "magic": 0.8
+            }
+          },
+          {
+            "text": "Đội mình ATK / MAG −30%.",
+            "stats": {
+              "attack": 0.7,
+              "magic": 0.7
+            }
+          }
+        ]
+      },
+      {
+        "id": "wound",
+        "name": "Vết thương từ quá khứ",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 2 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 2
+          },
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 4 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 4
+          },
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 6 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 6
+          }
+        ]
+      },
+      {
+        "id": "revive",
+        "name": "Huyết mạch tái sinh",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "reviveRatio": 0.65,
+            "text": "Đầu hồi sinh trở lại với 65% HP tối đa."
+          },
+          {
+            "reviveRatio": 0.8,
+            "text": "Đầu hồi sinh trở lại với 80% HP tối đa."
+          },
+          {
+            "reviveRatio": 1,
+            "text": "Đầu hồi sinh trở lại với 100% HP tối đa."
+          }
+        ]
+      },
+      {
+        "id": "rage",
+        "name": "Tiếng gầm sót lại",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "fallenOffense": 0.15,
+            "text": "Đầu còn sống gây thêm 15% sát thương với mỗi đầu đang gục."
+          },
+          {
+            "fallenOffense": 0.3,
+            "text": "Đầu còn sống gây thêm 30% sát thương với mỗi đầu đang gục."
+          },
+          {
+            "fallenOffense": 0.45,
+            "text": "Đầu còn sống gây thêm 45% sát thương với mỗi đầu đang gục."
+          }
+        ]
+      },
+      {
+        "id": "regen",
+        "name": "Máu thịt liền nhau",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "headRegen": 0.03,
+            "text": "Cuối vòng, mỗi đầu còn sống hồi 3% HP tối đa."
+          },
+          {
+            "headRegen": 0.06,
+            "text": "Cuối vòng, mỗi đầu còn sống hồi 6% HP tối đa."
+          },
+          {
+            "headRegen": 0.09,
+            "text": "Cuối vòng, mỗi đầu còn sống hồi 9% HP tối đa."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ego",
+    "encounterId": "song_ego",
+    "name": "Bản Ngã Tiến Hóa",
+    "description": "Ma vật thoát khỏi phòng thí nghiệm, học từ chính những đòn bạn tung ra. Cuối mỗi 5 vòng, nó kháng các hệ gây nhiều sát thương nhất và để lộ một điểm yếu khác.",
+    "mechanic": "adaptive_ego",
+    "art": "/art/song-ego.svg",
+    "conditions": [
+      {
+        "id": "vital",
+        "name": "Sinh lực dị thường",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch HP tối đa +15%.",
+            "stats": {
+              "maxHp": 1.15
+            }
+          },
+          {
+            "text": "Địch HP tối đa +30%.",
+            "stats": {
+              "maxHp": 1.3
+            }
+          },
+          {
+            "text": "Địch HP tối đa +50%.",
+            "stats": {
+              "maxHp": 1.5
+            }
+          }
+        ]
+      },
+      {
+        "id": "fury",
+        "name": "Sức mạnh trỗi dậy",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch ATK / MAG +10%.",
+            "stats": {
+              "attack": 1.1,
+              "magic": 1.1
+            }
+          },
+          {
+            "text": "Địch ATK / MAG +20%.",
+            "stats": {
+              "attack": 1.2,
+              "magic": 1.2
+            }
+          },
+          {
+            "text": "Địch ATK / MAG +30%.",
+            "stats": {
+              "attack": 1.3,
+              "magic": 1.3
+            }
+          }
+        ]
+      },
+      {
+        "id": "armor",
+        "name": "Thân thể kiên cố",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch DEF / RES +15%.",
+            "stats": {
+              "defense": 1.15,
+              "resistance": 1.15
+            }
+          },
+          {
+            "text": "Địch DEF / RES +30%.",
+            "stats": {
+              "defense": 1.3,
+              "resistance": 1.3
+            }
+          },
+          {
+            "text": "Địch DEF / RES +50%.",
+            "stats": {
+              "defense": 1.5,
+              "resistance": 1.5
+            }
+          }
+        ]
+      },
+      {
+        "id": "frail",
+        "name": "Hành trang hao hụt",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −10%.",
+            "stats": {
+              "maxHp": 0.9,
+              "maxMp": 0.9
+            }
+          },
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −20%.",
+            "stats": {
+              "maxHp": 0.8,
+              "maxMp": 0.8
+            }
+          },
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −30%.",
+            "stats": {
+              "maxHp": 0.7,
+              "maxMp": 0.7
+            }
+          }
+        ]
+      },
+      {
+        "id": "weary",
+        "name": "Sức lực suy tàn",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình ATK / MAG −10%.",
+            "stats": {
+              "attack": 0.9,
+              "magic": 0.9
+            }
+          },
+          {
+            "text": "Đội mình ATK / MAG −20%.",
+            "stats": {
+              "attack": 0.8,
+              "magic": 0.8
+            }
+          },
+          {
+            "text": "Đội mình ATK / MAG −30%.",
+            "stats": {
+              "attack": 0.7,
+              "magic": 0.7
+            }
+          }
+        ]
+      },
+      {
+        "id": "wound",
+        "name": "Vết thương từ quá khứ",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 2 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 2
+          },
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 4 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 4
+          },
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 6 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 6
+          }
+        ]
+      },
+      {
+        "id": "adapt",
+        "name": "Tiến hóa cấp tốc",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "adaptCooldown": 4,
+            "text": "Thay đổi điểm yếu và kháng sau mỗi 4 vòng, thay cho 5 vòng."
+          },
+          {
+            "adaptCooldown": 3,
+            "text": "Thay đổi điểm yếu và kháng sau mỗi 3 vòng, thay cho 5 vòng."
+          },
+          {
+            "adaptCooldown": 2,
+            "text": "Thay đổi điểm yếu và kháng sau mỗi 2 vòng, thay cho 5 vòng."
+          }
+        ]
+      },
+      {
+        "id": "resist",
+        "name": "Cấu trúc đối kháng",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "adaptResistance": 0.6,
+            "text": "Sau thích nghi, các hệ bị kháng chỉ gây 60% sát thương (mặc định 70%)."
+          },
+          {
+            "adaptResistance": 0.45,
+            "text": "Sau thích nghi, các hệ bị kháng chỉ gây 45% sát thương (mặc định 70%)."
+          },
+          {
+            "adaptResistance": 0.3,
+            "text": "Sau thích nghi, các hệ bị kháng chỉ gây 30% sát thương (mặc định 70%)."
+          }
+        ]
+      },
+      {
+        "id": "carapace",
+        "name": "Vỏ bọc mới",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "adaptShield": 0.05,
+            "text": "Mỗi lần thích nghi, nhận khiên bằng 5% HP tối đa."
+          },
+          {
+            "adaptShield": 0.1,
+            "text": "Mỗi lần thích nghi, nhận khiên bằng 10% HP tối đa."
+          },
+          {
+            "adaptShield": 0.15,
+            "text": "Mỗi lần thích nghi, nhận khiên bằng 15% HP tối đa."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "calamity",
+    "encounterId": "song_calamity",
+    "name": "Tai Ương Thông Tuệ",
+    "description": "Một trí tuệ ngoài cõi thế. Sau lượt của nó, các lượt chưa hành động bị đảo ngược. Cứ 4 vòng, vòng kế tiếp xếp SPD thấp đi trước; người đã hành động không được đi lại.",
+    "mechanic": "time_calamity",
+    "art": "/art/song-calamity.svg",
+    "conditions": [
+      {
+        "id": "vital",
+        "name": "Sinh lực dị thường",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch HP tối đa +15%.",
+            "stats": {
+              "maxHp": 1.15
+            }
+          },
+          {
+            "text": "Địch HP tối đa +30%.",
+            "stats": {
+              "maxHp": 1.3
+            }
+          },
+          {
+            "text": "Địch HP tối đa +50%.",
+            "stats": {
+              "maxHp": 1.5
+            }
+          }
+        ]
+      },
+      {
+        "id": "fury",
+        "name": "Sức mạnh trỗi dậy",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch ATK / MAG +10%.",
+            "stats": {
+              "attack": 1.1,
+              "magic": 1.1
+            }
+          },
+          {
+            "text": "Địch ATK / MAG +20%.",
+            "stats": {
+              "attack": 1.2,
+              "magic": 1.2
+            }
+          },
+          {
+            "text": "Địch ATK / MAG +30%.",
+            "stats": {
+              "attack": 1.3,
+              "magic": 1.3
+            }
+          }
+        ]
+      },
+      {
+        "id": "armor",
+        "name": "Thân thể kiên cố",
+        "team": "enemy",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Địch DEF / RES +15%.",
+            "stats": {
+              "defense": 1.15,
+              "resistance": 1.15
+            }
+          },
+          {
+            "text": "Địch DEF / RES +30%.",
+            "stats": {
+              "defense": 1.3,
+              "resistance": 1.3
+            }
+          },
+          {
+            "text": "Địch DEF / RES +50%.",
+            "stats": {
+              "defense": 1.5,
+              "resistance": 1.5
+            }
+          }
+        ]
+      },
+      {
+        "id": "frail",
+        "name": "Hành trang hao hụt",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −10%.",
+            "stats": {
+              "maxHp": 0.9,
+              "maxMp": 0.9
+            }
+          },
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −20%.",
+            "stats": {
+              "maxHp": 0.8,
+              "maxMp": 0.8
+            }
+          },
+          {
+            "text": "Đội mình HP tối đa / MP tối đa −30%.",
+            "stats": {
+              "maxHp": 0.7,
+              "maxMp": 0.7
+            }
+          }
+        ]
+      },
+      {
+        "id": "weary",
+        "name": "Sức lực suy tàn",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình ATK / MAG −10%.",
+            "stats": {
+              "attack": 0.9,
+              "magic": 0.9
+            }
+          },
+          {
+            "text": "Đội mình ATK / MAG −20%.",
+            "stats": {
+              "attack": 0.8,
+              "magic": 0.8
+            }
+          },
+          {
+            "text": "Đội mình ATK / MAG −30%.",
+            "stats": {
+              "attack": 0.7,
+              "magic": 0.7
+            }
+          }
+        ]
+      },
+      {
+        "id": "wound",
+        "name": "Vết thương từ quá khứ",
+        "team": "party",
+        "group": "common",
+        "tiers": [
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 2 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 2
+          },
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 4 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 4
+          },
+          {
+            "text": "Đội mình bắt đầu với Vết Thương Sâu trong 6 lượt chính: giảm 40% hồi HP nhận vào.",
+            "status": "deep_wound",
+            "duration": 6
+          }
+        ]
+      },
+      {
+        "id": "clock",
+        "name": "Kim đồng hồ gãy",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "timeInterval": 3,
+            "text": "Nghịch Thời xảy ra mỗi 3 vòng thay cho 4 vòng."
+          },
+          {
+            "timeInterval": 2,
+            "text": "Nghịch Thời xảy ra mỗi 2 vòng thay cho 4 vòng."
+          },
+          {
+            "timeInterval": 1,
+            "text": "Nghịch Thời xảy ra mỗi 1 vòng thay cho 4 vòng."
+          }
+        ]
+      },
+      {
+        "id": "echo",
+        "name": "Dư âm tai ương",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "timeEcho": 0.3,
+            "text": "Cuối vòng, gây thêm 30% MAG sát thương phép Ám lên toàn đội."
+          },
+          {
+            "timeEcho": 0.5,
+            "text": "Cuối vòng, gây thêm 50% MAG sát thương phép Ám lên toàn đội."
+          },
+          {
+            "timeEcho": 0.7,
+            "text": "Cuối vòng, gây thêm 70% MAG sát thương phép Ám lên toàn đội."
+          }
+        ]
+      },
+      {
+        "id": "drain",
+        "name": "Nợ thời gian",
+        "team": "enemy",
+        "group": "specific",
+        "tiers": [
+          {
+            "timeDrain": 0.02,
+            "text": "Cuối vòng, mỗi đồng đội mất 2% MP tối đa."
+          },
+          {
+            "timeDrain": 0.04,
+            "text": "Cuối vòng, mỗi đồng đội mất 4% MP tối đa."
+          },
+          {
+            "timeDrain": 0.06,
+            "text": "Cuối vòng, mỗi đồng đội mất 6% MP tối đa."
+          }
+        ]
+      }
+    ]
+  }
+]

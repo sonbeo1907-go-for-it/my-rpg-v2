@@ -1,3 +1,5 @@
+import {grantTrialMilestones} from './unrecorded-rewards.js';
+import {normalizeTrialLedger} from './unrecorded-trials.js';
 import {emptyArenaProgress,normalizeArenaProgress} from './arena-progression.js';
 import {emptyChronicleState,normalizeChronicleState} from './chronicle-state.js';
 import {applySpecialLoadout} from './exclusive-loadout.js';
@@ -25,6 +27,7 @@ export const SAVE_VERSION = 3;
 export function createCampaign(content) {
   return {
     version: SAVE_VERSION,
+    unrecordedLedger:normalizeTrialLedger(),
     honor:0,arenaProgress:emptyArenaProgress(),
     recruitmentTickets:0,xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
     party: ["arthur", "iris", "elaine", "garrek"],
@@ -142,6 +145,7 @@ export function serializeCampaign(campaign) {
   } = campaign;
   return JSON.stringify({
     recruitmentTickets:campaign.recruitmentTickets??0,xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
+    unrecordedLedger:normalizeTrialLedger(campaign.unrecordedLedger),
     honor:campaign.honor??0,arenaProgress:campaign.arenaProgress??emptyArenaProgress(),
     version,
     party,
@@ -196,6 +200,7 @@ export function deserializeCampaign(raw, content) {
   )
     throw new Error("Tiến trình nhân vật trong save không hợp lệ.");
   const result = createCampaign(content);
+  result.unrecordedLedger=normalizeTrialLedger(input.unrecordedLedger);
   const honor=input.honor??0;if(!Number.isSafeInteger(honor)||honor<0)throw Error('Danh Dự không hợp lệ.');result.honor=honor;result.arenaProgress=normalizeArenaProgress(input.arenaProgress,content);
   if(input.levelProgressionVersion!==undefined&&input.levelProgressionVersion!==1)throw Error("Phiên bản tiến trình không hợp lệ.");
   for(const key of ["recruitmentTickets","limitBreakStones","sweepTickets","xpBooksGreen","xpBooksBlue","xpBooksPurple"]){const value=input[key]===undefined?0:input[key];if(!Number.isSafeInteger(value)||value<0)throw Error("Vật phẩm tiến trình không hợp lệ.");result[key]=value;}
@@ -354,5 +359,6 @@ export function deserializeCampaign(raw, content) {
   Object.assign(result, normalizeBlacksmithState(input, content, result));
   result.chronicles=normalizeChronicleState(input.chronicles,content,result);
   for(const id of Object.keys(result.characters)) result.characters[id].skillRanks=validateCharacterSkillRanks(content,result,id);
+  grantTrialMilestones(result,content);
   return result;
 }

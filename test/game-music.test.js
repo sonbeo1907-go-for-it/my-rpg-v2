@@ -63,3 +63,10 @@ test('shop loops independently, resumes across tabs/visits and shares visibility
   music.setRoute('/shop'); await flush(); music.stop();
   for (const audio of [shop, tavern, battle]) { assert.equal(audio.playing, false); assert.equal(audio.currentTime, 0); }
 });
+
+test('unrecorded chronicle menu pauses in battle, resumes across stages and never overlaps boss music',async()=>{
+ const audios=[],music=createGameMusic({content,audioFactory:()=>{const a={currentTime:0,playing:false,addEventListener(){},pause(){this.playing=false;},play(){this.playing=true;return Promise.resolve();}};audios.push(a);return a;}});
+ music.setRoute('/chronicles/unrecorded/chimera');await flush();const menu=audios.find(a=>a.src==='/bgm/bgn_song_menu.mp3');assert.ok(menu);assert.equal(menu.playing,true);menu.currentTime=15;
+ music.setRoute('/chronicles/unrecorded/ego');await flush();assert.equal(menu.currentTime,15);music.start('song_ego');music.setRoute('/battle');await flush();assert.equal(menu.playing,false);assert.equal(audios[0].src,'/bgm/bgm_sp_song_ego.mp3');assert.equal(audios[0].playing,true);
+ music.setRoute('/chronicles/unrecorded/ego');await flush();assert.equal(menu.currentTime,15);assert.equal(menu.playing,true);assert.equal(audios[0].playing,false);music.setVisible(false);assert.equal(menu.playing,false);music.stop();
+});

@@ -41,6 +41,10 @@ Với task liên quan thời hạn, lượt hoặc phản ứng, đọc [COMBAT_
 - Phe phái: `affiliation` là slug tiếng Anh, nhãn Việt trong `AFFILIATION_LABELS`; danh sách và luật ở [AFFILIATIONS](AFFILIATIONS.md). Trang `/characters` mặc định chỉ nhân vật đã sở hữu, sắp Level giảm dần.
 - Hai nhân vật mới 04/11/2026: **Amaryllis** (Rhett facility, Thổ, hồi máu + hồi sinh toàn đội, xem [AMARYLLIS](AMARYLLIS.md)) và **Brant** (Hội Thợ Săn, Thủ Hộ chắn đòn AoE/Liên kích, xem [BRANT](BRANT.md)). Effect `revive` và VFX hồi sinh dùng chung; `coverArea`/`coverReactions`/`cover_guard` mở rộng Che chắn có kiểm chứng hai kịch bản Mori+Artesia và Joshua. Cả hai đã vào pool banner `standard`; Che chắn và Khiêu Khích của Brant dùng chung clock `main_turn` nên Vòng Phụ không bào thời hạn.
 
+## Nội dung mới 11/11/2026
+
+- [Khúc Ca Ngoài Sử Sách](UNRECORDED_PAST.md):3 siêu trùm riêng, Lv60/70/80/90 +9 điều kiện theo mức/màn, tối đa33 điểm. Thắng22+ điểm nhận30 Pure nếu còn đủ trần chung30/ngày, reset00:00 VN. Entry Quest Đi vào → trang chọn điều kiện; không farm lặp. Không áp gate Hiểm Ác cũ. Ledger tùy chọn tương thích savev7. Xem contract thời gian, queue và claim ở doc chuyên đề.
+
 ## Balance mới nhất cần nhớ
 
 Mori: ATK thô 30, AoE 280%. Sandra: Thuật Sư/MAG 34; Sắc Lệnh 24 MP/CD 6; Phán Quyết 22 MP/CD 2/280%MAG. Tywin: Thủy Nguyệt 16 MP/CD 2/350%ATK/Hội Tâm.
@@ -110,3 +114,6 @@ Xem [ARENA_RANKED_HONOR](ARENA_RANKED_HONOR.md). Tìm Trận có Đấu Thườn
 
 ## Cấm chung và cap PvP hai ngưỡng — 06/11/2026
 Đấu Hạng có modal cấm chung trước chọn: toàn roster chính thức, có sort/filter; Đồng/Bạc tổng2 lượt (1/bên), Vàng trở lên tổng4 (2/bên), A/B luân phiên, chặn dùng lại ở cả hai pool. Vẫn chọn5/cấm1 cuối như cũ. Hạng lấy pending.rankAtEntry, không tăng điều kiện16 người. PvP ruleset arena-0.3.0 thêm T2=2×T1, lấy tổng sau cap1 để áp cap2; 1.000 đơn →325 →231,25, floor231. AoE/random chia cả hai ngân sách; multi-hit cộng dồn một đường cong. PvE giữ nguyên. Chi tiết ARENA_RANKED_HONOR/PVP_RULES_AI, test arena-preban-caps.
+
+## 11/11/2026 ? Remulia v? c?nh b?o Kh?c Ca
+?? th?m Remulia mi?n ph? (releaseId 104), ??i h? ri?ng t?ng ??ch theo S? H?, t?i ?a 10 Kh?c Ca; h?i ph?c ??i khi Chung Kh?c b?t ??u v?i ?? 10 t?ng. Ba m?c th??ng v? c?ng th?c Tr?n ???c x?t t? k? l?c c?, idempotent khi load. B?ng c?nh b?o boss ho?t ??ng ??c l?p Battle Logs. Xem [REMULIA.md](REMULIA.md).

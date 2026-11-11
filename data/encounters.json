@@ -2160,5 +2160,67 @@
     ],
     "enemyLevel": 30,
     "referenceLevel": 1
+  },
+  {
+    "id": "song_chimera",
+    "name": "Dị Thú Tam Đầu",
+    "description": "Ba tiếng gầm từ cùng một sinh mệnh. Hạ đầu Rồng, Sư Tử và Rắn trong 3 vòng kể từ vòng đầu tiên có một đầu gục; quá hạn, những đầu đã gục hồi sinh với 50% HP.",
+    "category": "trial",
+    "trialId": "chimera",
+    "rewardTier": "super",
+    "enemyLevel": 60,
+    "referenceLevel": 1,
+    "superLevels": [
+      60,
+      70,
+      80,
+      90
+    ],
+    "bgm": "song_chimera",
+    "enemies": [
+      "song_dragon",
+      "song_lion",
+      "song_snake"
+    ]
+  },
+  {
+    "id": "song_ego",
+    "name": "Bản Ngã Tiến Hóa",
+    "description": "Ma vật thoát khỏi phòng thí nghiệm, học từ chính những đòn bạn tung ra. Cuối mỗi 5 vòng, nó kháng các hệ gây nhiều sát thương nhất và để lộ một điểm yếu khác.",
+    "category": "trial",
+    "trialId": "ego",
+    "rewardTier": "super",
+    "enemyLevel": 60,
+    "referenceLevel": 1,
+    "superLevels": [
+      60,
+      70,
+      80,
+      90
+    ],
+    "bgm": "song_ego",
+    "enemies": [
+      "song_ego"
+    ]
+  },
+  {
+    "id": "song_calamity",
+    "name": "Tai Ương Thông Tuệ",
+    "description": "Một trí tuệ ngoài cõi thế. Sau lượt của nó, các lượt chưa hành động bị đảo ngược. Cứ 4 vòng, vòng kế tiếp xếp SPD thấp đi trước; người đã hành động không được đi lại.",
+    "category": "trial",
+    "trialId": "calamity",
+    "rewardTier": "super",
+    "enemyLevel": 60,
+    "referenceLevel": 1,
+    "superLevels": [
+      60,
+      70,
+      80,
+      90
+    ],
+    "bgm": "song_calamity",
+    "enemies": [
+      "song_calamity"
+    ]
   }
 ]

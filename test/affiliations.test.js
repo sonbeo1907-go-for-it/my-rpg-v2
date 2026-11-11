@@ -7,7 +7,7 @@ const content=await loadContent();
 
 // Quyết định 04/11/2026: chuẩn hóa phe phái về slug ổn định và bổ sung thành viên.
 const EXPECTED={
- northern_village:['armie','arthur','astraea','elaine','fiona','garrek','kai','tobin'],
+ northern_village:['armie','arthur','astraea','elaine','fiona','garrek','kai','remulia','tobin'],
  hunters_guild:['bennett','brant','chloe','dain','ember','flammelapis','freya','galliard','henrris','iris','joshua','judy','karin','logia','rowan','senya','sylva','takeshi','tywin','yumia'],
  magic_academy:['artesia','auguste','aurora','drake','eri','finmel','fran','kreider','lumine','monica'],
  house_ranoc:['helena','kyle','leonardo','lisbeth'],

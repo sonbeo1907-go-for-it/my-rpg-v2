@@ -21,7 +21,7 @@ export function orderActorIds(battle,ids) {
   return [...ids].sort((left,right)=>{
     const a=actors.get(left),b=actors.get(right);
     const priority=field?.kind==='team_priority' ? Number(b.team===field.priorityTeam)-Number(a.team===field.priorityTeam) : 0;
-    return priority || battleStat(battle.content,b,'speed')-battleStat(battle.content,a,'speed');
+    return priority || (battle.trial?.reverseRound===battle.round?-1:1)*(battleStat(battle.content,b,'speed')-battleStat(battle.content,a,'speed'));
   });
 }
 export function syncTurnFieldModifiers(battle){

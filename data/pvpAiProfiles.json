@@ -1539,5 +1539,22 @@
       "wilson.fissure": 10,
       "wilson.shelter": 8
     }
+  },
+  {
+    "id": "remulia",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "remulia.prelude"
+    ],
+    "burstAbilities": [
+      "remulia.coda"
+    ],
+    "skillBias": {
+      "remulia.prelude": 18,
+      "remulia.echo": 12,
+      "remulia.coda": 16
+    }
   }
 ]

@@ -171,5 +171,37 @@
       "/bgm/arena_finale_2.mp3"
     ],
     "loop": true
+  },
+  {
+    "id": "song_chimera",
+    "name": "Khúc Ca Ngoài Sử Sách · Dị Thú Tam Đầu",
+    "tracks": [
+      "/bgm/bgm_sp_song_chimera.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "song_ego",
+    "name": "Khúc Ca Ngoài Sử Sách · Bản Ngã Tiến Hóa",
+    "tracks": [
+      "/bgm/bgm_sp_song_ego.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "song_calamity",
+    "name": "Khúc Ca Ngoài Sử Sách · Tai Ương Thông Tuệ",
+    "tracks": [
+      "/bgm/bgm_sp_song_calamity.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "song_menu",
+    "name": "Khúc Ca Ngoài Sử Sách · Trang sử bỏ quên",
+    "tracks": [
+      "/bgm/bgn_song_menu.mp3"
+    ],
+    "loop": true
   }
 ]

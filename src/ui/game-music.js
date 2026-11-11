@@ -9,7 +9,7 @@ export function createGameMusic({ content, audioFactory = () => document.createE
   const state = () => selected() ? players[selected()].state() : { enabled, volume, track: null, group: null, finished: false, active: false, visible: false, playing: false, blocked: false, error: false };
   const report = () => onChange(state());
   const create = () => createBattleMusic({ content, audio: audioFactory(), enabled, volume, random, onChange: () => { if (players) report(); } });
-  players = { battle: create(), tavern: create(), shop: create(), override: create(), arena_menu: create() };
+  players = { battle: create(), tavern: create(), shop: create(), override: create(), arena_menu: create(), song_menu: create() };
   function sync() {
     // Pause the outgoing scene before allowing the incoming scene to play.
     for (const [id, player] of Object.entries(players)) if (id !== selected()) player.setVisible(false);
@@ -47,8 +47,8 @@ export function createGameMusic({ content, audioFactory = () => document.createE
     },
     stop() { arenaScore = null; arenaSession = null; override = null; for (const player of Object.values(players)) player.stop(); },
     setRoute(path) {
-      scene = path === '/home' ? 'tavern' : path === '/shop' ? 'shop' : path === '/battle' ? 'battle' : (path === '/arena' || path.startsWith('/arena/')) && content.music.arena_menu ? 'arena_menu' : null;
-      if ((scene === 'tavern' || scene === 'shop' || scene === 'arena_menu') && !players[scene].state().active) players[scene].start(scene);
+      scene = path.startsWith('/chronicles/unrecorded/')&&content.music.song_menu?'song_menu':path === '/home' ? 'tavern' : path === '/shop' ? 'shop' : path === '/battle' ? 'battle' : (path === '/arena' || path.startsWith('/arena/')) && content.music.arena_menu ? 'arena_menu' : null;
+      if ((scene === 'tavern' || scene === 'shop' || scene === 'arena_menu' || scene === 'song_menu') && !players[scene].state().active) players[scene].start(scene);
       sync();
     },
     setVisible(value) { visible = Boolean(value); sync(); },
