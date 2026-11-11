@@ -34,6 +34,7 @@ export function validateAdvancedCombat(content){
   if(p?.type==='cover_guard' &&(!p.name||!p.description||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>0.5))fail(a.id+': invalid cover guard');
  }
  for(const s of Object.values(content.abilities)){
+  if(s.presentationFollowUpDelayMs!==undefined&&(!s.survivingTargetRepeat||!Number.isInteger(s.presentationFollowUpDelayMs)||s.presentationFollowUpDelayMs<0||s.presentationFollowUpDelayMs>2000))fail(s.id+': invalid presentation reaction delay');
   if(s.survivingTargetRepeat&&(!s.survivingTargetRepeat||s.survivingTargetRepeat.perRound!==1||Object.keys(s.survivingTargetRepeat).length!==1||s.target!=='enemy'||s.activation==='passive'||!s.effects?.length||s.effects.some(e=>e.type!=='damage')))fail(s.id+': invalid surviving-target repeat');
   if(s.initialCooldown!==undefined&&(!Number.isInteger(s.initialCooldown)||s.initialCooldown<1||s.initialCooldown>10))fail(s.id+': invalid initial cooldown');
   if(s.maxSelfStatus&&(!content.statuses[s.maxSelfStatus]?.maxStacks||s.target!=='self'||!s.effects.some(e=>e.status===s.maxSelfStatus)))fail(s.id+': invalid status ceiling');

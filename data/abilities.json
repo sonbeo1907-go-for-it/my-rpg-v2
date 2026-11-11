@@ -12497,7 +12497,8 @@
     "growthGroups": [
       "stat_buff"
     ],
-    "rankable": true
+    "rankable": true,
+    "presentation": "anabel_command"
   },
   {
     "id": "anabel.advance",
@@ -12525,7 +12526,8 @@
     "rankable": true,
     "survivingTargetRepeat": {
       "perRound": 1
-    }
+    },
+    "presentation": "anabel_cleave"
   },
   {
     "id": "anabel.judgment",
@@ -12553,6 +12555,8 @@
     "rankable": true,
     "survivingTargetRepeat": {
       "perRound": 1
-    }
+    },
+    "presentation": "anabel_dawn",
+    "presentationFollowUpDelayMs": 250
   }
 ]

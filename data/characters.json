@@ -4812,6 +4812,7 @@
       "damagePerBuff": 0.1,
       "penetrationPerBuff": 0.1,
       "cap": 0.3
-    }
+    },
+    "basicPresentation": "anabel_slash"
   }
 ]

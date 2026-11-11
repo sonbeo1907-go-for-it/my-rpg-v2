@@ -59,3 +59,13 @@ Mốc Khúc Ca mới: thắng đủ3 màn nhận Remulia; từng màn8+ điểm 
 ## Nghiệm thu
 
 `test/geoffrey-anabel.test.js`: dữ liệu, base+15 không cộng hai lần, aura/KO/PvP, shield/Che chắn, damage/penetration thực, hai quota riêng, MP/CD, targetKO, forecast và buff cuối lượt. `test/remulia-regression.test.js`: các clock thật và mốc7/8/15/16/22. `e2e/knights-remulia.spec.ts`: card/tooltip responsive và mốc thưởng mới. Không sửa dữ liệu AppData thật.
+
+## VFX Anabel — cập nhật 11/11/2026
+
+Đánh thường dùng anabel_slash: vệt chém ánh vàng mảnh. Trảm Quang dùng anabel_cleave: nét dày và phạm vi lớn hơn. Quân Lệnh dùng anabel_command: hào quang/cương huy vàng ở chính ô Anabel, không ghi đè nền.
+
+Bình Minh Viễn Chinh dùng anabel_dawn: kiếm nghi lễ vàng dựng bằng SVG riêng (lưỡi dài, họa tiết khắc, chuôi và chắn tay uốn), lao từ trên xuống mục tiêu thật nhận đòn. Hào quang và vòng chạm vàng được dọn cùng timeline. Nếu bị Che Chắn, VFX theo người chắn, không ghim vào người được chọn ban đầu. Đòn né vẫn có nhịp kiếm và hiện Né; không dựng số damage giả.
+
+presentationFollowUpDelayMs=250 chỉ điều khiển trình bày: cue Liên kích bắt đầu cách impact trước đó 250ms, giữ cả tốc độ nhanh. Không thêm sleep hoặc thao tác gameplay vào core. Sword signature bắt đầu trước impact; anabelHitDelay là thời gian rơi đến chạm (220ms thường,100ms nhanh), được dùng chung với CSS và số damage. Reduced motion bỏ thời gian chờ/chuyển động, giữ phản hồi tĩnh. Không đổi MP, CD, quota hoặc thứ tự lượt.
+
+Kiểm thử: test/anabel-vfx.test.js khóa timing chính xác, đồng bộ chạm/damage, target sau Che Chắn, reduced motion và pure presentation. e2e/anabel-vfx.spec.ts kiểm tra renderer/cleanup và ảnh thực trong trận; e2e/eri-chiyoko.spec.ts kiểm tra các VFX iaido đang có không bị ảnh hưởng.
