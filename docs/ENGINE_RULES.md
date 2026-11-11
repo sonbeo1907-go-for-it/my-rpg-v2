@@ -40,7 +40,7 @@ Sơ hở tài nguyên riêng của Takeshi và Sơ Hở nguyên tố là hai cơ
 
 ## Phản ứng và phạm vi
 
-- Handler Liên kích **từ hành động đồng đội** dùng canTriggerFollowUp: nguồn khác chủ, cùng phe, chủ/mục tiêu hợp lệ; không tự kích. Không để phản ứng đệ quy. Phản công khi bị địch đánh/né và truy kích riêng từ chính skill (ví dụ Joshua) là hook khác, không xóa chúng bằng cách áp luật Aurora máy móc.
+- Handler Liên kích **từ hành động đồng đội** dùng canTriggerFollowUp: nguồn khác chủ, cùng phe, chủ/mục tiêu hợp lệ; không tự kích. Không để phản ứng đệ quy. Phản công khi bị địch đánh/né và truy kích riêng từ chính skill (ví dụ Joshua hoặc Anabel với survivingTargetRepeat) là hook khác, không xóa chúng bằng cách áp luật Aurora máy móc.
 - Hạn mức theo round dùng chung cả pha chính/phụ, không reset khi đổi phase boss. Cần reserve trước khi tạo tài nguyên để tránh vòng lặp; Arena còn loopGuards riêng.
 - Nội tại `enemy_support_counter` (Cerise): địch dùng kỹ năng chủ động **không có hiệu ứng sát thương** (bỏ qua Phòng thủ và kỹ năng tự động) thì chủ nội tại giải toàn bộ debuff của bản thân rồi phản đòn. Hạn mức tính theo vòng qua `cooldownRounds`, dùng chung Vòng Chính/Phụ, và không đệ quy từ phản ứng.
 - Đội hình bốn vị trí cố định, không nén ô trống/người gục. Kề đồng đội nối 1↔4 khi skill khai báo; lan địch không nối vòng. Tag/phe quyết định gia tộc, không suy từ tên.

@@ -6,7 +6,7 @@ import {useGame} from '../runtime/game-context';
 import {useRouteFilters} from './characters';
 import {PageHeader,Icon,Modal,CurrencyAmount,ElementBadge,fmt} from './ui';
 import {PartyLink} from './party-link';
-import {trialMilestoneProgress} from '../core/unrecorded-rewards.js';
+import {trialMilestoneProgress,REMULIA_SLOT_SCORE,REMULIA_RECIPE_SCORE} from '../core/unrecorded-rewards.js';
 import {trialUpcomingWarning} from '../core/trial-warnings.js';
 import {TRIAL_BOOK_NAME,TRIAL_LEVELS,trialSelection,trialDailyState,trialRewardPreview,trialMechanicText} from '../core/unrecorded-trials.js';
 import {levelScaledEnemyStats} from '../core/enemy-scaling.js';
@@ -47,7 +47,7 @@ export function UnrecordedTrialPage({id}:{id:string}){
    <aside className="trial-summary" aria-label="Tổng kết thử thách"><span className="trial-label">Điều kiện đã chọn</span><div className="trial-score" aria-live="polite"><strong>{selection.score}</strong><span>/ {selection.maxScore} điểm</span></div><div className="trial-score-track" role="progressbar" aria-label="Tổng điểm thử thách" aria-valuenow={selection.score} aria-valuemin={0} aria-valuemax={selection.maxScore}><span style={{width:selection.score/selection.maxScore*100+'%'}}/></div><p className="trial-best">Kỷ lục: {campaign.unrecordedLedger?.best?.[d.encounterId]??0} điểm</p>
     <ul className="trial-selected"><li><span>Cấp {level}</span><strong>+{TRIAL_LEVELS.indexOf(level)*2}</strong></li>{selected.map((c:any)=><li key={c.id}><span>{c.name} · {['','I','II','III'][conditions[c.id]]}</span><strong>+{conditions[c.id]}</strong></li>)}</ul>
     <section className="trial-reward"><h3>Thưởng chiến thắng</h3><CurrencyAmount kind="coin" amount={reward.coins}/><CurrencyAmount kind="pure" amount={reward.recruitmentShards}/><p>{daily.remaining===0?'Đã nhận đủ Pure Prisma hôm nay. Vẫn nhận Coin khi thắng.':`Còn ${daily.remaining}/30 Pure Prisma hôm nay, dùng chung ba màn.`}</p><small>Làm mới lúc 00:00 giờ Việt Nam. Thua hoặc hòa không nhận thưởng. Không cấp EXP.</small></section>
-    <section className="trial-milestones" aria-label="Phần thưởng Remulia"><h3>Thiếu nữ của khúc ca</h3><ul><li>Hoàn thành cả ba màn: Remulia · {milestones.wins}/3</li><li>Mỗi màn từ 12 điểm: thêm một ô trang bị Remulia · {milestones.slots}/3</li><li>Một màn từ 22 điểm: công thức Âm Thoa Thất Truyền · {milestones.recipe?'Đã mở':'Chưa đạt'}</li></ul></section>
+    <section className="trial-milestones" aria-label="Phần thưởng Remulia"><h3>Thiếu nữ của khúc ca</h3><ul><li>Hoàn thành cả ba màn: Remulia · {milestones.wins}/3</li><li>Mỗi màn từ {REMULIA_SLOT_SCORE} điểm: thêm một ô trang bị Remulia · {milestones.slots}/3</li><li>Một màn từ {REMULIA_RECIPE_SCORE} điểm: công thức Âm Thoa Thất Truyền · {milestones.recipe?'Đã mở':'Chưa đạt'}</li></ul></section>
     <details><summary>Mốc Pure Prisma</summary><dl className="trial-reward-tiers">{[[8,6],[12,12],[16,20],[19,25],[22,30]].map(([points,n])=><div key={points}><dt>Từ {points} điểm</dt><dd>{n} Pure Prisma</dd></div>)}</dl><p>Thưởng mỗi lần thắng, giới hạn tổng 30/ngày.</p></details>
     <button className="gold trial-enter" disabled={busy||Boolean(waiting)} onClick={()=>setConfirm(true)}><Icon name="sword"/>Bắt đầu thử thách</button><button className="trial-reset" onClick={()=>setFilters({level:'60',group})}>Bỏ các điều kiện</button>
    </aside>

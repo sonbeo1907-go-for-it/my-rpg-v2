@@ -1409,10 +1409,10 @@
     "id": "remulia.lost_tuning_fork",
     "characterId": "remulia",
     "name": "Âm Thoa Thất Truyền",
-    "description": "Trấn Phái của Remulia. Hoàn thành một thử thách Khúc Ca Ngoài Sử Sách từ 22 điểm để mở công thức.",
+    "description": "Trấn Phái của Remulia. Hoàn thành một thử thách Khúc Ca Ngoài Sử Sách từ 16 điểm để mở công thức.",
     "enabled": true,
     "requires": {
-      "trialScore": 22
+      "trialScore": 16
     },
     "passive": {
       "type": "ally_exposure_self_buff",

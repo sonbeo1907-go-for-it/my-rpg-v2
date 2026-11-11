@@ -1556,5 +1556,37 @@
       "remulia.echo": 12,
       "remulia.coda": 16
     }
+  },
+  {
+    "id": "geoffrey",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "geoffrey.rampart"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "geoffrey.rampart": 15,
+      "geoffrey.disarm": 12,
+      "geoffrey.bastion": 10
+    }
+  },
+  {
+    "id": "anabel",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "anabel.command"
+    ],
+    "burstAbilities": [
+      "anabel.judgment"
+    ],
+    "skillBias": {
+      "anabel.command": 18,
+      "anabel.advance": 12,
+      "anabel.judgment": 22
+    }
   }
 ]

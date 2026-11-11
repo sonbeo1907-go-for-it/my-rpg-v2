@@ -115,5 +115,8 @@ Xem [ARENA_RANKED_HONOR](ARENA_RANKED_HONOR.md). Tìm Trận có Đấu Thườn
 ## Cấm chung và cap PvP hai ngưỡng — 06/11/2026
 Đấu Hạng có modal cấm chung trước chọn: toàn roster chính thức, có sort/filter; Đồng/Bạc tổng2 lượt (1/bên), Vàng trở lên tổng4 (2/bên), A/B luân phiên, chặn dùng lại ở cả hai pool. Vẫn chọn5/cấm1 cuối như cũ. Hạng lấy pending.rankAtEntry, không tăng điều kiện16 người. PvP ruleset arena-0.3.0 thêm T2=2×T1, lấy tổng sau cap1 để áp cap2; 1.000 đơn →325 →231,25, floor231. AoE/random chia cả hai ngân sách; multi-hit cộng dồn một đường cong. PvE giữ nguyên. Chi tiết ARENA_RANKED_HONOR/PVP_RULES_AI, test arena-preban-caps.
 
-## 11/11/2026 ? Remulia v? c?nh b?o Kh?c Ca
-?? th?m Remulia mi?n ph? (releaseId 104), ??i h? ri?ng t?ng ??ch theo S? H?, t?i ?a 10 Kh?c Ca; h?i ph?c ??i khi Chung Kh?c b?t ??u v?i ?? 10 t?ng. Ba m?c th??ng v? c?ng th?c Tr?n ???c x?t t? k? l?c c?, idempotent khi load. B?ng c?nh b?o boss ho?t ??ng ??c l?p Battle Logs. Xem [REMULIA.md](REMULIA.md).
+## 11/11/2026 — Remulia và cảnh báo Khúc Ca
+Remulia miễn phí (releaseId104), đổi hệ riêng từng địch theo Sơ Hở, tối đa10 Khúc Ca; hồi phục đội khi Chung Khúc bắt đầu với đủ10 tầng. Ba mốc thưởng và công thức Trấn xét cả kỷ lục cũ, idempotent khi load. Cảnh báo boss hoạt động độc lập Battle Logs. Xem [REMULIA.md](REMULIA.md).
+
+## 11/11 — Geoffrey, Anabel và bản sửa Remulia
+Geoffrey105 có hào quang35% DEF/RES khi còn sống; Anabel106 có15 ATK nền và khuếch đại/xuyên theo buff, tái kích riêng từng chiêu1 lần/vòng. Xem [GEOFFREY_ANABEL.md](GEOFFREY_ANABEL.md). Dạo Khúc đã cấp trực tiếp Khai Phá4 lượt chính. Mốc ô gear8/công thức16;22 vẫn30 Pure/ngày.

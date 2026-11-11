@@ -1830,9 +1830,6 @@
     "modifiers": {
       "magic": 0.3
     },
-    "linkedStatuses": [
-      "weakness_exploitation"
-    ],
     "description": "Tăng MAG và nhận Khai Phá Điểm Yếu."
   },
   {
@@ -1846,5 +1843,48 @@
       "magic": 0.1
     },
     "description": "Mỗi tầng tăng 10% MAG; tối đa 3 tầng, đến hết trận."
+  },
+  {
+    "id": "geoffrey_taunt",
+    "name": "Khiêu Khích",
+    "kind": "buff",
+    "taunt": true,
+    "durationClock": "main_turn",
+    "description": "Đòn đơn mục tiêu của địch ưu tiên Geoffrey."
+  },
+  {
+    "id": "geoffrey_disarm",
+    "name": "Hạ Vũ Khí",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": -0.25,
+      "magic": -0.25
+    },
+    "description": "Giảm ATK và MAG."
+  },
+  {
+    "id": "geoffrey_guard",
+    "name": "Vương Thuẫn Che Chắn",
+    "kind": "buff",
+    "cover": true,
+    "coverArea": true,
+    "coverReactions": true,
+    "coverTeam": true,
+    "durationClock": "main_turn",
+    "modifiers": {
+      "damageReduction": 0.15
+    },
+    "description": "Nhận đòn thay toàn đội, kể cả diện rộng và Liên kích; giảm 15% sát thương nhận vào."
+  },
+  {
+    "id": "anabel_command",
+    "name": "Ánh Dương Dẫn Lối",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.5
+    },
+    "description": "Tăng ATK."
   }
 ]

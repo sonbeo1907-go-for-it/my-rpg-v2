@@ -13,10 +13,10 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 
 | Slug | Nhãn | Số | Thành viên |
 | --- | --- | --- | --- |
-| `capital_knights` | Kị sĩ đoàn Thủ đô | 17 | Albedo, Benard, Cerise, Charlemagnes, Gahallad, Gawain, Iwayn, Lanceveil, Lionel, Mandred, Percival, Rivia, Roland, Sandra, Sieg, Valery, Victorina |
+| `capital_knights` | Kị sĩ đoàn Thủ đô | 18 | Albedo, Benard, Cerise, Charlemagnes, Gahallad, Gawain, Geoffrey, Iwayn, Lanceveil, Lionel, Mandred, Percival, Rivia, Roland, Sandra, Sieg, Valery, Victorina |
 | `hunters_guild` | Hội Thợ Săn | 20 | Bennett, Brant, Chloe, Dain, Ember, Flammelapis, Freya, Galliard, Henrris, Iris, Joshua, Judy, Karin, Logia, Rowan, Senya, Sylva, Takeshi, Tywin, Yumia |
-| `northern_village` | Làng Phía Bắc | 8 | Armie, Arthur, Astraea, Elaine, Fiona, Garrek, Kai, Tobin |
-| `magic_academy` | Học viện Ma pháp | 9 | Artesia, Auguste, Aurora, Drake, Finmel, Fran, Kreider, Lumine, Monica |
+| `northern_village` | Làng Phía Bắc | 9 | Armie, Arthur, Astraea, Elaine, Fiona, Garrek, Kai, Remulia, Tobin |
+| `magic_academy` | Học viện Ma pháp | 10 | Artesia, Auguste, Aurora, Drake, Eri, Finmel, Fran, Kreider, Lumine, Monica |
 | `house_valmont` | Gia tộc Valmont | 5 | Cedric, Heimdall, Lucien, Lyon, Seraphine |
 | `house_ranoc` | Gia tộc Ranoc | 4 | Helena, Kyle, Leonardo, Lisbeth |
 | `vertosse_clan` | Gia tộc Vertosse | 4 | Genevieve, Noctis, Selene, Simon |
@@ -26,7 +26,7 @@ Chuẩn hóa 04/11/2026. `affiliation` trong `data/characters.json` là **slug �
 | `mikaielis_order` | Giáo đoàn Mikaielis | 1 | Elise |
 | `mage_circle` | Giới pháp sư | 1 | Aldric |
 | `time_travelers` | Lữ khách thời không | 1 | Astoria |
-| `expedition_corps` | Kị sĩ Sư đoàn Viễn Chinh | 7 | Patricia, Vilgard, Ardelia, Belochkin, Chen, Angelica, Melpiphia |
+| `expedition_corps` | Kị sĩ Sư đoàn Viễn Chinh | 8 | Anabel, Patricia, Vilgard, Ardelia, Belochkin, Chen, Angelica, Melpiphia |
 | `destiny_heralds` | Sứ giả Định Mệnh | 1 | Chelsea |
 | `wanderer` | Lãng khách | 1 | Mori |
 | `drageshelmfjall_merchants` | Hội Thương Nhân Drageshelmfjall | 1 | Myonne |
@@ -56,3 +56,5 @@ Bổ sung05/11: Eri thuộc `magic_academy` (Học viện Ma pháp); Chiyoko thu
 Bộ lọc nguyên tố Hồn Kiếm trong characterCatalog nhận diện tag `sword_soul`, nên giữ được hệ chính của nhân vật (ví dụ Tsukiha vẫn thuộc Hỏa). Cùng hàm dùng cho danh sách và modal chọn đội; vẫn kết hợp sở hữu, vai trò và thứ tự.
 
 Bổ sung 11/11/2026: house_marquis — Gia tộc Marquis, gồm Kanade Hanasato (#102, xuất thân Hanasato) và Wilson Marquis (#103). Cùng pool rate-up quý tộc từ 12/11/2026; không tạo phe Hanasato riêng cho chỉ một nhân vật.
+
+Bổ sung11/11: Geoffrey (#105) thuộc capital_knights, tag danh xưng royal_knight. Anabel (#106) thuộc expedition_corps, tag expedition_commander, ngang cấp Roland nhưng không tái dùng danh xưng riêng order_captain. Remulia (#104) thuộc northern_village.

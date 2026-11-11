@@ -101,7 +101,9 @@
       "angelica",
       "melpiphia",
       "kanade",
-      "wilson"
+      "wilson",
+      "geoffrey",
+      "anabel"
     ],
     "gearRates": [
       {
@@ -301,6 +303,14 @@
         },
         {
           "id": "wilson",
+          "from": "2026-11-12"
+        },
+        {
+          "id": "geoffrey",
+          "from": "2026-11-12"
+        },
+        {
+          "id": "anabel",
           "from": "2026-11-12"
         }
       ]

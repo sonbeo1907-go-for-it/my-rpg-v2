@@ -9,7 +9,7 @@ export function mpRestoreAmount(effect, maxMp) {
 }
 
 export function baseStatValue(actor,key){
-  return (actor.baseStats?.[key]??actor.stats[key])+(actor.combatModes?.[actor.activeMode]?.baseStatBonuses?.[key]??0)+activeStatuses({...actor,statuses:actor.statuses??[]}).reduce((sum,s)=>sum+(s.baseStatModifiers?.[key]??0),0);
+  return (actor.baseStats?.[key]??actor.stats[key])+(actor.passive?.type==='self_buff_offense'?(actor.passive.baseStatBonuses?.[key]??0):0)+(actor.combatModes?.[actor.activeMode]?.baseStatBonuses?.[key]??0)+activeStatuses({...actor,statuses:actor.statuses??[]}).reduce((sum,s)=>sum+(s.baseStatModifiers?.[key]??0),0);
 }
 export function defenseAverageBonus(actor, defense=effectiveStat(actor,'defense'), resistance=effectiveStat(actor,'resistance')) {const p=actor.passive;return p?.type==='defense_average_conversion'?Math.min(p.cap,Math.max(0,(defense+resistance)/2)*p.ratio):0;}
 export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) {
@@ -26,7 +26,7 @@ export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) 
     ? actor.statuses?.find(status => status.id === actor.passive.statusId) : null;
   const fieldBonus = field ? Math.min(actor.passive.maxStacks, field.growth ?? 0) * actor.passive.ratio : 0;
   const exclusiveModeBonus = specialPassives(actor,'mode_stat_boost').reduce((sum,p)=>sum+(p.stat===key&&p.modeId===actor.activeMode?p.ratio:0),0);
-  return base * Math.max(0.1, 1 + (actor.encounterModifiers?.[key]??0) + (actor.turnFieldModifiers?.[key]??0) + permanent + stance + (actor.exclusiveModifiers?.[key] ?? 0) + (actor.exclusiveTeamModifiers?.[key]??0) + resourceBonus + fieldBonus + exclusiveModeBonus + (actor.modeAppliedModifiers?.[key]??actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0) + temporaryModifier);
+  return base * Math.max(0.1, 1 + (actor.teamAuraModifiers?.[key]??0) + (actor.encounterModifiers?.[key]??0) + (actor.turnFieldModifiers?.[key]??0) + permanent + stance + (actor.exclusiveModifiers?.[key] ?? 0) + (actor.exclusiveTeamModifiers?.[key]??0) + resourceBonus + fieldBonus + exclusiveModeBonus + (actor.modeAppliedModifiers?.[key]??actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0) + temporaryModifier);
 }
 
 export function damageMultiplier(effect, { spent = 0, stacks = 0, hpRatio = 1, buffs = 0 } = {}) {

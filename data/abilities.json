@@ -12314,6 +12314,11 @@
         "type": "status",
         "status": "remulia_prelude",
         "duration": 4
+      },
+      {
+        "type": "status",
+        "status": "weakness_exploitation",
+        "duration": 4
       }
     ],
     "skillLineId": "remulia.prelude",
@@ -12357,7 +12362,7 @@
   {
     "id": "remulia.coda",
     "name": "Chung Khúc — Ngoài Trang Sử",
-    "description": "D?n kh?c ca th?nh ??t c?ng k?ch, ti?p s?c cho c? ??i.",
+    "description": "Dồn khúc ca thành đợt công kích, tiếp sức cho cả đội.",
     "target": "all_enemies",
     "cost": {
       "mp": 24
@@ -12383,5 +12388,171 @@
       "damage"
     ],
     "rankable": true
+  },
+  {
+    "id": "geoffrey.rampart",
+    "name": "Vương Thuẫn — Giữ Vững Hàng Quân",
+    "description": "Tạo khiên toàn đội và Khiêu Khích bản thân.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "defense",
+        "multiplier": 1.5
+      },
+      {
+        "type": "status",
+        "status": "geoffrey_taunt",
+        "duration": 3,
+        "to": "self"
+      }
+    ],
+    "skillLineId": "geoffrey.rampart",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "geoffrey.disarm",
+    "name": "Quân Lệnh — Hạ Vũ Khí",
+    "description": "Tấn công toàn địch, giảm ATK và MAG.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "earth",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "status": "geoffrey_disarm",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "geoffrey.disarm",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "geoffrey.bastion",
+    "name": "Thành Trì Trước Ngai Vàng",
+    "description": "Dựng khiên bản thân, nhận đòn thay cả đội.",
+    "target": "self",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "defense",
+        "multiplier": 3.5
+      },
+      {
+        "type": "status",
+        "status": "geoffrey_guard",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "geoffrey.bastion",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "anabel.command",
+    "name": "Quân Lệnh — Ánh Dương Dẫn Lối",
+    "description": "Tăng ATK cho bản thân.",
+    "target": "self",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "anabel_command",
+        "duration": 5
+      }
+    ],
+    "skillLineId": "anabel.command",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "anabel.advance",
+    "name": "Tiên Phong — Trảm Quang",
+    "description": "Chém một địch; mục tiêu còn sống sẽ chịu thêm một lần tái kích.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "scalingStat": "attack",
+        "multiplier": 1.8
+      }
+    ],
+    "skillLineId": "anabel.advance",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "survivingTargetRepeat": {
+      "perRound": 1
+    }
+  },
+  {
+    "id": "anabel.judgment",
+    "name": "Phán Quyết — Bình Minh Viễn Chinh",
+    "description": "Dồn sức trảm một địch; mục tiêu còn sống sẽ chịu thêm một lần tái kích.",
+    "target": "enemy",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "scalingStat": "attack",
+        "multiplier": 6
+      }
+    ],
+    "skillLineId": "anabel.judgment",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "survivingTargetRepeat": {
+      "perRound": 1
+    }
   }
 ]

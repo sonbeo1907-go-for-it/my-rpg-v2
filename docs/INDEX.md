@@ -163,4 +163,6 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 
 - [Kanade Hanasato và Wilson Marquis](MARQUIS_DUO.md) — phối hợp Thổ, Khai Phá Điểm Yếu theo mục tiêu và Liên kích kỹ năng theo Rank.
 
-- [REMULIA.md](REMULIA.md): ??i h? t?ng m?c ti?u, h?i ph?c c? ?i?u ki?n, Tr?n v? m?c th??ng Kh?c Ca; c?nh b?o/BGM.
+- [REMULIA.md](REMULIA.md): đổi hệ từng mục tiêu, hồi phục có điều kiện, Trấn và mốc thưởng Khúc Ca; cảnh báo/BGM.
+
+- [GEOFFREY_ANABEL.md](GEOFFREY_ANABEL.md): hào quang theo nguồn sống, tăng sát thương theo buff, tái kích theo kỹ năng, bản sửa Khai Phá và mốc8/16.

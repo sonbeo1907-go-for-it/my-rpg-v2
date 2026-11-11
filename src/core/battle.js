@@ -1,3 +1,4 @@
+import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
 import {trialRoundStart,announceTrialMechanic} from './trial-warnings.js';
 import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,finishExposureSkill,restoreTeamAtResource} from './remulia-combat.js';
 import {initializeTrial,observeTrialDefeat,observeTrialHit,trialRoundEnd,trialOffenseBonus,trialAfterAction} from './unrecorded-trials.js';
@@ -329,6 +330,7 @@ function shieldedTeamGuard(battle,team){
  return ratio;
 }
 function stat(battle, actor, key, ignoreConsumables = false) {
+  syncTeamStatAuras(battle);
   const aura=key==='magic'?shieldAuraBonus(battle,actor):0;
   return battleStat(battle.content, actor, key, ignoreConsumables, aura, livingTeamFlatGuard(battle,actor,key));
 }
@@ -438,6 +440,17 @@ function triggerKillRepeat(battle,owner,context){
  write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+skill.name+' · tính là dùng Hồn Kiếm, không trả chi phí.');
  emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(t=>t.id),area:true,abilityId:skill.id});
  for(const effect of skill.effects)applyEffect(battle,owner,targets,effect,0,true,reaction);
+ finishAttackContext(battle,owner,reaction);
+}
+function triggerSurvivingTargetRepeat(battle,owner,skill,context){
+ if(!skill.survivingTargetRepeat||context.reaction||context.automatic||!living(owner)||battle.outcome)return;
+ const target=getActor(battle,context.primaryTargetId),key='surviving_repeat:'+skill.id;
+ if(!target||target.team===owner.team||!living(target)||!procAvailable(battle,owner,key)||!reservePvpAutomatic(battle,owner,modeIO))return;
+ markProc(battle,owner,key);
+ const repeat=resolveRankedAbility(battle.content,owner,skill.id),reaction={...attackContext(battle,owner),pvpRegistered:true,skill:repeat,skillId:repeat.id,reaction:true,reactionKind:'follow_up',primaryTargetId:target.id};
+ write(battle,owner.name+' tái kích bằng '+repeat.name+'.');
+ emitEvent(battle,{type:'reaction',kind:'follow_up',label:'Tái kích',sourceId:owner.id,targetId:target.id,targetIds:[target.id],area:false,abilityId:repeat.id});
+ for(const effect of repeat.effects)applyEffect(battle,owner,[target],effect,0,false,reaction);
  finishAttackContext(battle,owner,reaction);
 }
 function startRound(battle) {
@@ -762,6 +775,7 @@ function reviveTeam(battle, actor, effect, actionContext) {
 }
 
 function checkOutcome(battle) {
+  syncTeamStatAuras(battle);
   observeTrialDefeat(battle,{write,emit:emitEvent});
   if (!battle.actors.some((actor) => actor.team === "enemy" && living(actor)))
     battle.outcome = "victory";
@@ -1389,10 +1403,12 @@ function resolveHit(
       if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += specialPassives(ally,'marked_ally_ratio').find(p=>p.statusId===passive.statusId&&(target.statuses.find(s=>s.id===p.statusId)?.stacks??0)>=p.stacks)?.ratio??passive.ratio;
     }
   }
+  syncTeamStatAuras(battle);
+  const intrinsic=selfBuffOffense(battle.content,attacker);
   const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus+shieldAuraBonus(battle,attacker):0)+(actionContext.statRatioBonuses?.[key]??0)+specialHitStatBonus(attacker,target,actionContext,key),actionContext.baseStatBonuses?.[key]??0));
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
   const selfStacks=effect.consumeSelfStatus?(attacker.statuses.find(status=>status.id===effect.consumeSelfStatus)?.stacks??0):0;
-  const extraPenetration = modePenetration(attacker,effect.damageType)+specialResourcePenetration(attacker,actionContext.skillId,effect,spent)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0)+selfStacks*(effect.penetrationPerSelfStack??0);
+  const extraPenetration = (effect.damageType==='physical'?intrinsic.penetration:0)+modePenetration(attacker,effect.damageType)+specialResourcePenetration(attacker,actionContext.skillId,effect,spent)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0)+selfStacks*(effect.penetrationPerSelfStack??0);
   const defense =
     stat(
       battle,
@@ -1461,7 +1477,7 @@ function resolveHit(
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRaw=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
   let amount = Math.max(
     1,
     Math.floor(
@@ -1482,7 +1498,7 @@ function resolveHit(
         Math.max(
           0.1,
           1 +
-            skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + skillWeaknessDamageBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0),
+            skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType) + alteredDefenseBonus(battle.content,attacker,target) + (actionContext.sharedDamageBonus??0) + (effect.spentResourceDamageBonus??0) + exposureBonus + skillWeaknessDamageBonus + shieldedDamageBonus(battle,attacker) + debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target)) + buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target)) + intrinsic.damage + lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0),
         ) *
         (actionContext.multiplier ?? 1) *
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
@@ -2226,8 +2242,12 @@ function resolveAction(
   }
   if(skill.id==='$defend')chargeSupportModes(battle,actor,actionContext);
   gearAfterAction(battle,actor,skill,gearIO);
+  if(offensive&&skill.survivingTargetRepeat){
+    finishAttackContext(battle,actor,actionContext);
+    triggerSurvivingTargetRepeat(battle,actor,skill,actionContext);
+  }
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
-  if (offensive) finishAttackContext(battle, actor, actionContext);
+  if (offensive&&!skill.survivingTargetRepeat) finishAttackContext(battle, actor, actionContext);
   const soulsCreated=createdSwordSoulsThisAction(battle,actor,actionEventStart);
   if(soulsCreated>0)triggerSoulCreation(battle,actor,soulsCreated,teamIO);
   growTeamResources(battle,actor,skill,teamIO);

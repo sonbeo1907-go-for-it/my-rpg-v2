@@ -39,8 +39,8 @@ Adapter `ally_exposure_self_buff` dùng status có persistent/maxStacks; không 
 ## Mốc thưởng, save và giao dịch
 
 - Thắng đủ cả ba màn, kể cả 0 điểm: mở Remulia.
-- Mỗi màn có kỷ lục từ 12: mở thêm một ô gear Remulia, tối đa ba ô. Mốc đạt trước khi nhận nhân vật được giữ và cấp khi nhận cô.
-- Một màn có kỷ lục từ 22: mở công thức Âm Thoa Thất Truyền; chế tạo vẫn yêu cầu sở hữu nhân vật và nguyên liệu.
+- Mỗi màn có kỷ lục từ 8: mở thêm một ô gear Remulia, tối đa ba ô. Mốc đạt trước khi nhận nhân vật được giữ và cấp khi nhận cô.
+- Một màn có kỷ lục từ 16: mở công thức Âm Thoa Thất Truyền; chế tạo vẫn yêu cầu sở hữu nhân vật và nguyên liệu.
 
 Nguồn chân lý là `unrecordedLedger.best`; kiểm tra tồn tại key để nhận biết chiến thắng 0 điểm. `grantTrialMilestones` chạy trong claim transaction và sau deserialize để xét cả chiến tích trước cập nhật. Receipt từng ô trong storyFlags ngăn phát lại khi load; recipe gate cũng được engine kiểm tra từ kỷ lục. Không thay namespace AppData, ID cũ hay version envelope v7. Không chỉnh file save thật của người chơi.
 
@@ -53,3 +53,7 @@ Cảnh báo có state và xuất hiện ở bảng cơ chế ngay cả khi Battl
 ## Kiểm thử
 
 `test/remulia.test.js`, `test/trial-warnings.test.js`, `test/unrecorded-trials.test.js`, `test/game-music.test.js`; UI `e2e/unrecorded-trials.spec.ts`. Bao gồm mixed-element AoE, trần tài nguyên, threshold trước chiêu, hồi phục/cleanse/CD, không hồi sinh, mirror PvP, forecast không sửa live, lượt bị Choáng, Vòng Phụ, claim lỗi ổ đĩa và migration không cấp trùng.
+
+## Bản sửa Dạo Khúc 11/11
+
+Khai Phá được cấp trực tiếp bằng status weakness_exploitation, thời hạn 4 lượt chính như buff MAG. Đã bỏ link trên definition vì engine không đọc trường ấy. Kiểm thử thật: nhân điểm yếu ×2 khi còn buff, về ×1,5 sau bốn lượt chính tiếp theo; Extra không trừ, main bị Choáng vẫn trừ, refresh không cộng dồn. Hai buff là hai hiệu ứng có thể bị xóa/chặn độc lập. Mốc 22 điểm vẫn nhận 30 Pure, không thay đổi. Xem GEOFFREY_ANABEL.md.

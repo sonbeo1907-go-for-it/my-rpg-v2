@@ -1,7 +1,7 @@
 
 import {isAlive} from "./actor-life.js";
-// Global follow-up rule: an allied action must come from another ally; never self-trigger.
-// Keep this rule in the engine, never as a character-data toggle.
+// Ally-triggered follow-ups require another ally; this predicate never allows self-trigger.
+// Explicit authored survivingTargetRepeat is a separate self-repeat mechanic (Anabel), with its own limiter.
 export const FOLLOW_UP_LABEL = 'Liên kích (FuA)';
 export const REACTION_LABELS = { follow_up: FOLLOW_UP_LABEL, counter: 'Phản công' };
 export function canTriggerFollowUp(owner, source, target) {

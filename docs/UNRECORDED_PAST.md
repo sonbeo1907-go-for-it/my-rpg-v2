@@ -1,4 +1,4 @@
-# Biên Niên Ký: Khúc Ca Ngoài Sử Sách
+﻿# Biên Niên Ký: Khúc Ca Ngoài Sử Sách
 
 Triển khai 11/11/2026. Tên gốc: Song of the Unrecorded Past. Đây là nội dung thử thách độc lập; không thay thế hai quyển kể chuyện, không khôi phục Hầm Ngục Ảo Ảnh.
 
@@ -67,5 +67,6 @@ Cứ cuối4 vòng, đánh dấu vòng kế Nghịch Thời: sort SPD thấp đi
 
 Nghiệm thu 11/11/2026: validate/typecheck, 1.512 test engine, 3 E2E, 3 test native save qua; static export và EXE/NSIS thành công. EXE ở src-tauri/target/release/northern-prisma.exe. Manifest hash/timestamp local ở test-results/song-verification.json. Không chạy phiên chơi bằng save AppData thật, không commit/push.
 
-## C?p nh?t Remulia v? c?nh b?o
-Xem [REMULIA.md](REMULIA.md) cho ba m?c nh?n nh?n v?t/? trang b?/c?ng th?c, migration chi?n t?ch c? v? c?nh b?o c? ch? ngay tr?n b?n ??u. Menu v? ba boss d?ng b?n nh?m BGM ri?ng.
+
+## Cập nhật Remulia và cảnh báo
+Xem [REMULIA.md](REMULIA.md) cho ba mốc nhận nhân vật/ô trang bị/công thức, xét chiến tích cũ và cảnh báo cơ chế trên bàn đấu. Menu và ba boss dùng bốn nhóm BGM riêng. Mốc ô gear 8, công thức 16, thưởng trọn 30 Pure từ 22 điểm.

@@ -4732,5 +4732,86 @@
       "resource": "unrecorded_song",
       "amount": 2
     }
+  },
+  {
+    "id": "geoffrey",
+    "name": "Geoffrey",
+    "title": "Vương Thuẫn Hoàng Gia",
+    "affiliation": "capital_knights",
+    "tags": [
+      "capital_knights",
+      "royal_knight"
+    ],
+    "element": "earth",
+    "role": "Thủ Hộ",
+    "roleGroup": "tank",
+    "releaseId": 105,
+    "description": "Giữ vững phòng tuyến bằng hào quang phòng thủ và che chắn toàn đội.",
+    "stats": {
+      "maxHp": 280,
+      "maxMp": 90,
+      "attack": 20,
+      "magic": 8,
+      "defense": 30,
+      "resistance": 30,
+      "speed": 15
+    },
+    "basicDamageType": "physical",
+    "abilities": [
+      "geoffrey.rampart",
+      "geoffrey.disarm",
+      "geoffrey.bastion"
+    ],
+    "passive": {
+      "type": "team_stat_aura",
+      "name": "Vương Thành Bất Động",
+      "description": "Khi Geoffrey còn sống, toàn đội tăng 35% DEF và RES.",
+      "modifiers": {
+        "defense": 0.35,
+        "resistance": 0.35
+      }
+    }
+  },
+  {
+    "id": "anabel",
+    "name": "Anabel",
+    "title": "Trưởng Đoàn Viễn Chinh",
+    "affiliation": "expedition_corps",
+    "tags": [
+      "expedition_corps",
+      "expedition_commander"
+    ],
+    "element": "light",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "releaseId": 106,
+    "description": "Tích sức mạnh từ buff, tung những đòn trảm quang nối tiếp lên mục tiêu còn trụ vững.",
+    "biography": "Trưởng đoàn kị sĩ viễn chinh, ngang cấp Roland và chỉ dưới quyền Belochkin. Các đội trưởng kị sĩ đặt niềm tin nơi quân lệnh của cô.",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 95,
+      "attack": 35,
+      "magic": 8,
+      "defense": 22,
+      "resistance": 18,
+      "speed": 18
+    },
+    "basicDamageType": "physical",
+    "abilities": [
+      "anabel.command",
+      "anabel.advance",
+      "anabel.judgment"
+    ],
+    "passive": {
+      "type": "self_buff_offense",
+      "name": "Uy Danh Tổng Chỉ Huy",
+      "description": "Tăng 15 ATK căn bản. Mỗi loại buff đang có tăng 10% sát thương và xuyên 10% DEF; tối đa 30% mỗi hiệu ứng.",
+      "baseStatBonuses": {
+        "attack": 15
+      },
+      "damagePerBuff": 0.1,
+      "penetrationPerBuff": 0.1,
+      "cap": 0.3
+    }
   }
 ]

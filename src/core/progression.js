@@ -1,3 +1,4 @@
+import {preparedTeamAuras} from './knight-passives.js';
 import {grantTrialMilestones} from './unrecorded-rewards.js';
 import {normalizeTrialLedger} from './unrecorded-trials.js';
 import {emptyArenaProgress,normalizeArenaProgress} from './arena-progression.js';
@@ -116,10 +117,11 @@ export function resolveCharacter(content, campaign, characterId) {
   for (const [key, amount] of Object.entries(team.bonuses))
     character.stats[key] += amount;
   applySpecialLoadout(content,campaign,character);
+  if(campaign.party.includes(characterId))character.teamAuraModifiers=preparedTeamAuras(content,campaign);
   const nativeStats=['mp_stat_conversion','defense_average_conversion'].includes(character.passive?.type)?[character.passive.toStat]:character.passive?.type==='formation_stance'?Object.keys(character.passive[(character.formationSlot%2===0?'odd':'even')].modifiers):[];
-  if (nativeStats.length || ["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers || character.exclusiveTeamModifiers) {
+  if (nativeStats.length || ["stat_boost","stat_conversion"].includes(character.passive?.type) || character.exclusiveModifiers || character.exclusiveTeamModifiers || Object.keys(character.teamAuraModifiers??{}).length || character.passive?.baseStatBonuses) {
     character.baseStats = structuredClone(character.stats);
-    for (const key of new Set([...nativeStats,...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...Object.keys(character.exclusiveTeamModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
+    for (const key of new Set([...nativeStats,...Object.keys(character.teamAuraModifiers??{}),...Object.keys(character.passive?.baseStatBonuses??{}),...Object.keys(character.passive?.type === "stat_boost" ? character.passive.modifiers : {}), ...Object.keys(character.exclusiveModifiers ?? {}), ...Object.keys(character.exclusiveTeamModifiers ?? {}), ...(character.passive?.type === "stat_conversion" ? [character.passive.toStat] : [])]))
       character.stats[key] = effectiveStat(character, key);
   }
   return character;
