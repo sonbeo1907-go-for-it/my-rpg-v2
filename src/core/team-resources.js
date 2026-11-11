@@ -98,6 +98,7 @@ export function validateTeamResourceContent(content){
    const a=content.abilities[p.followUpAbility];if(!definitions.has(p.resource)||!p.name||!p.description||a?.activation!=='passive'||a.target!=='enemy'||a.cost||a.cooldown||a.effects.some(e=>e.type!=='damage'))fail(actor.id+': invalid spent-resource follow-up');
   }
   if(p?.type==='spent_team_resource_stat'&&(!definitions.has(p.resource)||!p.name||!p.description||!['attack','magic','defense','resistance','speed'].includes(p.stat)||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1))fail(actor.id+': invalid spent-team-resource stat bonus');
+  if(p?.type==='spent_team_resource_buff'&&(!definitions.has(p.resource)||!p.name||!p.description||!content.statuses[p.statusId]?.modifiers||!Number.isInteger(p.duration)||p.duration<1))fail(actor.id+': invalid spent-team-resource buff');
   if(p?.type==='spent_resource_team_mp'&&(!definitions.has(p.resource)||!p.name||!p.description||!Number.isFinite(p.perStack)||p.perStack<=0||!Number.isFinite(p.cap)||p.cap<p.perStack||p.cap>1))fail(actor.id+': invalid spent-resource MP');
   for(const mode of Object.values(actor.combatModes??{}))if(mode.lifetime==='team_resource'&&(!definitions.has(mode.resource)||mode.presentationScope!=='actor'||mode.background||mode.music||!mode.commandAbilities?.length))fail(actor.id+': invalid shared-resource mode');
  }

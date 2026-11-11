@@ -145,7 +145,7 @@ test('east catalog defaults to unlock order and key events carry their own marke
 });
 
 test('soul seal layers: basic -1, soul -2 and Chiyoko has 24',()=>{
- assert.equal(content.statuses.east_soul_guard.modifiers.damageReduction,.5);
+ assert.equal(content.statuses.east_soul_guard.modifiers.damageReduction,.3);
  assert.equal(content.statuses.east_soul_exposed.modifiers.damageTakenBonus,.25);
  assert.equal(content.enemies.east_chiyoko.soulBreak.layers,24);
  assert.ok(content.enemies.east_orochi.soulBreak.layers>=12&&content.enemies.east_orochi.soulBreak.layers<=18);

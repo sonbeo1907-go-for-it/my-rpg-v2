@@ -138,6 +138,19 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
   }
   if(encounter?.category==='bounty'&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
   if(['east_key','east_hunt'].includes(encounter?.category)&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
+  next.storyFlags??=[];
+  const partyIds=new Set((battle.actors??[]).filter(a=>a.team==='party').map(a=>a.definitionId??a.id));
+  for(const rule of encounter?.partyClearFlags??[]){
+    if(partyIds.has(rule.characterId)&&!next.storyFlags.includes(rule.flag))next.storyFlags.push(rule.flag);
+  }
+  for(const [characterId,character] of Object.entries(content.characters)){
+    for(const rule of character.gearSlotUnlocks??[]){
+      if(!rule.flags?.every(flag=>next.storyFlags.includes(flag)))continue;
+      if(next.storyFlags.includes(rule.appliedFlag)||!ownsCharacter(next,characterId))continue;
+      for(let index=0;index<(rule.slots??1);index++)unlockDuplicateSlot(next,content,characterId);
+      next.storyFlags.push(rule.appliedFlag);
+    }
+  }
   if(encounter?.id==='east_ke_08'){next.storyFlags??=[];if(!next.storyFlags.includes('east_campaign_completed'))next.storyFlags.push('east_campaign_completed');}
   const amount=questExperience(content,encounter,battle.questDifficulty);
   const recipients=battle.actors?.filter(a=>a.team==="party").map(a=>a.definitionId??a.id)??campaign.party.filter(Boolean);

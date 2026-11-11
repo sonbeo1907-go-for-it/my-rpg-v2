@@ -2080,6 +2080,10 @@ function resolveAction(
   actionContext.statRatioBonuses=specialSkillStatBonuses(actor,skill,{spentResource:selectedResource?.id,spent});
   for(const[key,n]of Object.entries(teamSpendStatBonuses(actor,skill,paidTeam)))actionContext.statRatioBonuses[key]=(actionContext.statRatioBonuses[key]??0)+n;
   if(actor.passive?.type==='spent_team_resource_stat'&&paidTeam){announcePassive(battle,actor);write(battle,actor.name+': '+actor.passive.name+' +'+Math.round(actor.passive.ratio*100)+'% ATK cho chiêu này.');}
+  if(actor.passive?.type==='spent_team_resource_buff'&&paidTeam&&actor.passive.resource===teamCost?.id){
+    announcePassive(battle,actor);applyStatus(battle,actor,actor.passive.statusId,actor.passive.duration,actor.id);
+    write(battle,actor.name+': '+actor.passive.name+' kích hoạt sau khi tiêu Hồn Kiếm.');
+  }
   actionContext.preMarkedTargets = new Set(battle.actors.flatMap(target => target.statuses.map(mark => target.id + ":" + mark.id)));
   const damageBonus = exclusivePassive(actor,"skill_damage",skill.id);
   if (damageBonus) actionContext.multiplier *= 1 + damageBonus.ratio;

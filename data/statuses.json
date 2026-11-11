@@ -1675,9 +1675,9 @@
     "maxStacks": 24,
     "dispelImmune": true,
     "modifiers": {
-      "damageReduction": 0.5
+      "damageReduction": 0.3
     },
-    "description": "Giảm 50% sát thương nhận. Mỗi đòn đánh bóc một số lớp Phong Ấn; đòn Hồn Kiếm bóc nhiều hơn. Không thể bị xóa bởi hiệu ứng xóa buff."
+    "description": "Giảm 30% sát thương nhận. Mỗi đòn đánh bóc một số lớp Phong Ấn; đòn Hồn Kiếm bóc nhiều hơn. Không thể bị xóa bởi hiệu ứng xóa buff."
   },
   {
     "id": "east_soul_exposed",
@@ -1792,5 +1792,16 @@
       "attack": -0.1
     },
     "description": "Mỗi đầu xà bị chém làm boss yếu đi trong 3 lượt chính."
+  },
+  {
+    "id": "senya_blood_hunt",
+    "name": "Săn Đuổi",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 3,
+    "modifiers": {
+      "attack": 0.3
+    },
+    "description": "Tăng 30% ATK trong 3 lượt chính sau khi Senya tiêu Hồn Kiếm."
   }
 ]

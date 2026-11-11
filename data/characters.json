@@ -4530,5 +4530,88 @@
       "ratio": 0.025
     },
     "releaseId": 100
+  },
+  {
+    "id": "senya",
+    "name": "Senya",
+    "title": "Thợ Săn Trong Làng",
+    "affiliation": "hunters_guild",
+    "role": "DPS vật lý",
+    "roleGroup": "physical_dps",
+    "element": "plain",
+    "description": "Một thợ săn trẻ sống trong làng, dùng Hồn Kiếm như một nghi lễ săn đuổi. Càng tiêu Hồn Kiếm, nhịp chém của cậu càng dữ dội.",
+    "biography": "Senya lớn lên giữa rừng và làng, học cách đọc dấu chân thú trước khi học cầm kiếm. Với cậu, mỗi Hồn Kiếm không phải của cải để giữ mà là một mũi tên đã rời dây: phải tiêu đi để đổi lấy nhịp săn.",
+    "tags": [
+      "hunters_guild",
+      "sword_soul",
+      "village_hunter"
+    ],
+    "stats": {
+      "maxHp": 185,
+      "maxMp": 90,
+      "attack": 33,
+      "magic": 8,
+      "defense": 20,
+      "resistance": 18,
+      "speed": 18
+    },
+    "teamResources": {
+      "sword_soul": {
+        "name": "Hồn Kiếm",
+        "max": 6,
+        "icon": "soul_flame",
+        "description": "Tài nguyên chung của các kiếm hồn Keijo. Mỗi vòng, kỹ năng đầu tiên từ thành viên Hồn Kiếm và từ người khác tạo riêng 1 Hồn Kiếm.",
+        "naturalGrowth": {
+          "memberTag": "sword_soul",
+          "amount": 1
+        }
+      }
+    },
+    "basicDamageType": "physical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "plain",
+        "multiplier": 1
+      }
+    ],
+    "abilities": [
+      "senya.slash",
+      "senya.hunt",
+      "senya.fulfill"
+    ],
+    "passive": {
+      "type": "spent_team_resource_buff",
+      "name": "Nhịp Săn",
+      "description": "Sau khi bản thân tiêu Hồn Kiếm, Senya nhận +30% ATK trong 3 lượt chính.",
+      "resource": "sword_soul",
+      "statusId": "senya_blood_hunt",
+      "duration": 3
+    },
+    "gearSlotUnlocks": [
+      {
+        "flags": [
+          "senya.gear_slot_1"
+        ],
+        "slots": 1,
+        "appliedFlag": "senya.gear_slot_1_unlocked"
+      },
+      {
+        "flags": [
+          "senya.gear_slot_2"
+        ],
+        "slots": 1,
+        "appliedFlag": "senya.gear_slot_2_unlocked"
+      },
+      {
+        "flags": [
+          "senya.gear_slot_3"
+        ],
+        "slots": 1,
+        "appliedFlag": "senya.gear_slot_3_unlocked"
+      }
+    ],
+    "releaseId": 101
   }
 ]
