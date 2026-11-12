@@ -166,3 +166,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [REMULIA.md](REMULIA.md): đổi hệ từng mục tiêu, hồi phục có điều kiện, Trấn và mốc thưởng Khúc Ca; cảnh báo/BGM.
 
 - [GEOFFREY_ANABEL.md](GEOFFREY_ANABEL.md): hào quang theo nguồn sống, tăng sát thương theo buff, tái kích theo kỹ năng, bản sửa Khai Phá và mốc8/16.
+
+- [Nikita — cận vệ hoàng gia, dao phép Phong](NIKITA.md).

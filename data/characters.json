@@ -4814,5 +4814,52 @@
       "cap": 0.3
     },
     "basicPresentation": "anabel_slash"
+  },
+  {
+    "id": "nikita",
+    "name": "Nikita",
+    "title": "Lưỡi Dao Sau Vương Miện",
+    "affiliation": "capital_knights",
+    "tags": [
+      "capital_knights",
+      "royal_shadow"
+    ],
+    "element": "wind",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "releaseId": 107,
+    "description": "Tích Ám Phong, khai thác điểm yếu Phong rồi kết liễu bằng dao gió.",
+    "biography": "Cận vệ hoàng gia bảo vệ công chúa Mirabelle giữa ánh sáng triều đình, đồng thời là sát thủ âm thầm dọn sạch hiểm họa trong bóng tối.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 100,
+      "attack": 10,
+      "magic": 35,
+      "defense": 15,
+      "resistance": 22,
+      "speed": 20
+    },
+    "basicDamageType": "magical",
+    "resources": {
+      "shadow_wind": {
+        "name": "Ám Phong",
+        "max": 4
+      }
+    },
+    "abilities": [
+      "nikita.veil",
+      "nikita.dagger",
+      "nikita.execution"
+    ],
+    "passive": {
+      "type": "element_weakness_skill",
+      "name": "Lưỡi Dao Trong Gió",
+      "description": "Kỹ năng đánh trúng điểm yếu Phong gây thêm 60% sát thương và xuyên 50% RES.",
+      "element": "wind",
+      "weaknessMultiplier": 1.5,
+      "damageBonus": 0.6,
+      "penetration": 0.5,
+      "penetrationDamageType": "magical"
+    }
   }
 ]

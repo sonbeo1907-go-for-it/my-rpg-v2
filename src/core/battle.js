@@ -1406,9 +1406,11 @@ function resolveHit(
   syncTeamStatAuras(battle);
   const intrinsic=selfBuffOffense(battle.content,attacker);
   const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus+shieldAuraBonus(battle,attacker):0)+(actionContext.statRatioBonuses?.[key]??0)+specialHitStatBonus(attacker,target,actionContext,key),actionContext.baseStatBonuses?.[key]??0));
+  const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements, skillWeaknessDamageBonus, skillWeaknessPenetration } =
+    resolveWeakness(battle.content, attacker, target, effect, actionContext);
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
   const selfStacks=effect.consumeSelfStatus?(attacker.statuses.find(status=>status.id===effect.consumeSelfStatus)?.stacks??0):0;
-  const extraPenetration = (effect.damageType==='physical'?intrinsic.penetration:0)+modePenetration(attacker,effect.damageType)+specialResourcePenetration(attacker,actionContext.skillId,effect,spent)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0)+selfStacks*(effect.penetrationPerSelfStack??0);
+  const extraPenetration = skillWeaknessPenetration+(effect.damageType==='physical'?intrinsic.penetration:0)+modePenetration(attacker,effect.damageType)+specialResourcePenetration(attacker,actionContext.skillId,effect,spent)+(penetration && spent >= (penetration.minSpent ?? 0) ? penetration.ratio : 0)+(attacker.exclusiveTeamPenetration??0)+nativePenetration(attacker,effect.damageType)+teamSpentPenetration(attacker,actionContext,effect)+(actionContext.sharedPenetration??0)+(target.id===actionContext.primaryTargetId?(actionContext.extraPrimaryPenetration??0):0)+selfStacks*(effect.penetrationPerSelfStack??0);
   const defense =
     stat(
       battle,
@@ -1444,8 +1446,6 @@ function resolveHit(
   const coverGuard = target.id !== originalTarget.id
     ? Math.min(0.7, (exclusivePassive(target, "cover_damage_reduction")?.ratio ?? 0) + (target.passive?.type === "cover_guard" ? target.passive.ratio : 0))
     : 0;
-  const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements, skillWeaknessDamageBonus } =
-    resolveWeakness(battle.content, attacker, target, effect, actionContext);
   if(attacker.team!==target.team&&(target.soulBreak??target.boss?.soulBreak)&&!actionContext.soulSealProcessed){
     const rule=target.soulBreak??target.boss.soulBreak,guard=target.statuses.find(status=>status.id===rule.guardStatus);
     if(guard){
@@ -2168,7 +2168,7 @@ function resolveAction(
   for(const exclusive of exclusivePassives(actor).filter(p=>(!p.abilityIds||p.abilityIds.includes(skill.id))&&living(actor))) {
     if (exclusive.type === "after_skill_status") {
       const duration=battle.content.statuses[exclusive.statusId]?.persistent?undefined:exclusive.duration;
-      for (const target of exclusive.to === "targets" ? targets.filter(living) : [actor]) applyStatus(battle,target,exclusive.statusId,duration,actor.id);
+      for (const target of exclusive.to === "targets" ? targets.filter(living) : [actor]) applyStatus(battle,target,exclusive.statusId,duration,actor.id,{baseStatModifiers:exclusive.baseStatModifiers});
     }
     if (exclusive.type === "skill_resource_bonus" && (!exclusive.oncePerRound || procAvailable(battle,actor,"exclusive_resource"))) {
       const before = actor.resourceValues[exclusive.resource] ?? 0;

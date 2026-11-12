@@ -42,9 +42,10 @@ export function resolveWeakness(content, attacker, target, effect, context) {
   const passive=attacker.passive;
   const intrinsic=passive?.type==='element_weakness_skill'&&matchedElements.includes(passive.element)&&context.skillId&&!context.skillId.startsWith('$')&&!context.reaction&&!context.automatic;
   const skillWeaknessDamageBonus=intrinsic?passive.damageBonus:0;
+  const skillWeaknessPenetration=intrinsic&&effect.damageType===passive.penetrationDamageType?(passive.penetration??0):0;
   const multiplier = weakness ? Math.max(WEAKNESS_MULTIPLIER,intrinsic?passive.weaknessMultiplier:WEAKNESS_MULTIPLIER,attacker.combatModes?.[attacker.activeMode]?.weaknessMultiplier??WEAKNESS_MULTIPLIER, ...activeStatuses(attacker)
     .filter(active).map(status => content.statuses[status.id]?.weaknessMultiplier ?? WEAKNESS_MULTIPLIER)) : 1;
-  return { elementWeakness, typeWeakness, weakness, multiplier, matchedElements, skillWeaknessDamageBonus };
+  return { elementWeakness, typeWeakness, weakness, multiplier, matchedElements, skillWeaknessDamageBonus, skillWeaknessPenetration };
 }
 
 export function reserveExposure(target, element, context) {

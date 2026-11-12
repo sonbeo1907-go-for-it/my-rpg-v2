@@ -1588,5 +1588,22 @@
       "anabel.advance": 12,
       "anabel.judgment": 22
     }
+  },
+  {
+    "id": "nikita",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "nikita.veil"
+    ],
+    "burstAbilities": [
+      "nikita.execution"
+    ],
+    "skillBias": {
+      "nikita.veil": 18,
+      "nikita.dagger": 12,
+      "nikita.execution": 24
+    }
   }
 ]

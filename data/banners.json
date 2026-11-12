@@ -103,7 +103,8 @@
       "kanade",
       "wilson",
       "geoffrey",
-      "anabel"
+      "anabel",
+      "nikita"
     ],
     "gearRates": [
       {
@@ -311,6 +312,10 @@
         },
         {
           "id": "anabel",
+          "from": "2026-11-12"
+        },
+        {
+          "id": "nikita",
           "from": "2026-11-12"
         }
       ]

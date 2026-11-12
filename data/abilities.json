@@ -12558,5 +12558,104 @@
     },
     "presentation": "anabel_dawn",
     "presentationFollowUpDelayMs": 250
+  },
+  {
+    "id": "nikita.veil",
+    "name": "Màn Gió — Hộ Giá",
+    "description": "Đâm một địch, tăng MAG bản thân và tạo 1 Ám Phong.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "scalingStat": "magic",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "nikita_veil",
+        "duration": 3
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "shadow_wind",
+        "amount": 1
+      }
+    ],
+    "skillLineId": "nikita.veil",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "nikita.dagger",
+    "name": "Phong Nhận — Vô Thanh",
+    "description": "Đâm một địch và tạo 1 Ám Phong.",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "scalingStat": "magic",
+        "multiplier": 2
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "shadow_wind",
+        "amount": 1
+      }
+    ],
+    "skillLineId": "nikita.dagger",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "nikita.execution",
+    "name": "Mật Lệnh — Xóa Dấu",
+    "description": "Tiêu 4 Ám Phong để tung nhát dao kết liễu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 0,
+      "resource": {
+        "id": "shadow_wind",
+        "all": true,
+        "min": 4
+      }
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "scalingStat": "magic",
+        "multiplier": 8.5
+      }
+    ],
+    "skillLineId": "nikita.execution",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
   }
 ]

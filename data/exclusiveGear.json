@@ -1420,5 +1420,70 @@
       "description": "Khi đồng đội khác dùng kỹ năng gắn Sơ Hở thành công, tăng 10% MAG đến hết trận; tối đa 3 tầng.",
       "statusId": "remulia_resonance"
     }
+  },
+  {
+    "id": "geoffrey.royal_bulwark",
+    "characterId": "geoffrey",
+    "name": "Vương Thuẫn Hộ Quốc",
+    "description": "Trấn Phái của Geoffrey. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "after_skill_status",
+      "name": "Nền Móng Vương Thành",
+      "description": "Sau Vương Thuẫn — Giữ Vững Hàng Quân, toàn đội tăng 6 DEF và RES căn bản trong 3 lượt chính.",
+      "abilityIds": [
+        "geoffrey.rampart"
+      ],
+      "statusId": "geoffrey_royal_foundation",
+      "to": "targets",
+      "duration": 3,
+      "baseStatModifiers": {
+        "defense": 6,
+        "resistance": 6
+      },
+      "rules": [
+        "Tăng chỉ số căn bản trước các buff phần trăm; không tăng theo Rank.",
+        "Dùng lại làm mới thời hạn, không cộng dồn. Mỗi người tính theo lượt chính của mình."
+      ]
+    }
+  },
+  {
+    "id": "nikita.silent_oath",
+    "characterId": "nikita",
+    "name": "Dao Thề Dưới Vương Miện",
+    "description": "Trấn Phái của Nikita. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Mật Ước Hộ Giá",
+      "description": "Phong Nhận — Vô Thanh tạo 2 Ám Phong và xóa 1 buff trên địch khi gây sát thương.",
+      "effects": [
+        {
+          "type": "skill_resource_bonus",
+          "name": "Lưỡi Dao Tích Phong",
+          "description": "Phong Nhận — Vô Thanh tạo thêm 1 Ám Phong, tổng cộng 2; tối đa 4 tầng.",
+          "abilityIds": [
+            "nikita.dagger"
+          ],
+          "resource": "shadow_wind",
+          "amount": 1
+        },
+        {
+          "type": "skill_on_hit_dispel",
+          "name": "Cắt Đứt Hộ Thuật",
+          "description": "Phong Nhận — Vô Thanh xóa 1 buff trên mục tiêu sau khi gây sát thương HP hoặc khiên.",
+          "abilityIds": [
+            "nikita.dagger"
+          ],
+          "count": 1
+        }
+      ]
+    }
   }
 ]

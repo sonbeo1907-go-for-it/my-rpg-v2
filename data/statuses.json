@@ -1886,5 +1886,22 @@
       "attack": 0.5
     },
     "description": "Tăng ATK."
+  },
+  {
+    "id": "nikita_veil",
+    "name": "Màn Gió Hộ Giá",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": 0.35
+    },
+    "description": "Tăng MAG."
+  },
+  {
+    "id": "geoffrey_royal_foundation",
+    "name": "Nền Móng Vương Thành",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "description": "Tăng 6 DEF và RES căn bản."
   }
 ]

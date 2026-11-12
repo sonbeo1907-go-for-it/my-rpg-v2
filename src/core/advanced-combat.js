@@ -23,7 +23,8 @@ export function validateAdvancedCombat(content){
     if(!skill||skill.activation!=='passive'||skill.target!=='enemy'||skill.cost||skill.cooldown||skill.effects.some(e=>e.type!=='damage'||e.element!==p.element)||a.abilities?.includes(p.followUpAbility))fail(a.id+': invalid elemental follow-up');
    }else if(!Number.isInteger(p.amount)||p.amount<1||p.amount>20)fail(a.id+': invalid elemental refund');
   }
-  if(p?.type==='element_weakness_skill'&&(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||p.weaknessMultiplier!==2||!Number.isFinite(p.damageBonus)||p.damageBonus<=0||p.damageBonus>2))fail(a.id+': invalid elemental weakness skill');
+  if(p?.type==='element_weakness_skill'&&(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||![1.5,2].includes(p.weaknessMultiplier)||!Number.isFinite(p.damageBonus)||p.damageBonus<=0||p.damageBonus>2))fail(a.id+': invalid elemental weakness skill');
+  if(p?.type==='element_weakness_skill'&&p.penetration!==undefined&&(!Number.isFinite(p.penetration)||p.penetration<0||p.penetration>1||!['physical','magical'].includes(p.penetrationDamageType)))fail(a.id+': invalid elemental weakness penetration');
   if(p?.type==='element_skill_echo'){
    const skill=content.abilities[p.followUpAbility];
    if(!p.name||!p.description||!['plain','fire','water','earth','wind','thunder','light','dark','moon','sword_soul'].includes(p.element)||!['physical','magical'].includes(p.damageType)||!Number.isInteger(p.perRound)||p.perRound<1||p.perRound>4||!skill||!a.abilities?.includes(skill.id)||skill.activation==='passive'||skill.target!=='all_enemies'||!skill.effects.some(e=>e.type==='damage')||skill.effects.some(e=>e.type!=='damage'||e.damageType!==p.damageType||e.element!==p.element||e.consumeStatus||e.formulaScaling))fail(a.id+': invalid elemental skill echo');
