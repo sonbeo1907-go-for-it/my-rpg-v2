@@ -14,6 +14,7 @@ import {exclusiveShieldAmount,previewExclusiveStat} from '../core/exclusive-shie
 import {periodicPotency} from '../core/periodic-damage.js';
 import { formulaDamage, formulaPower, FORMULA_NAMES } from '../core/formula-field.js';
 import { scalingValue, scalingLabel } from '../core/scaling.js';
+import {gearSupportMultiplier} from '../core/gear-effects.js';
 import { damageMultiplier, supportAmount, effectiveStat, speedDamageBonus, speedDamageRatio, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
 import { mpCost, hpCost, resourceCost } from '../core/conditional-combat.js';
 import {scaledTeamEffect,teamResourceDefinition,scaledSpentTeamEffect,teamSpendStatBonuses} from '../core/team-resources.js';
@@ -205,10 +206,10 @@ export function skillScaling(skill, actor, content, choices = {}) {
       const label = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
       const value = scalingValue(effect,valueOf);
       const formula = [effect.multiplier ? `${percent(effect.multiplier)} ${label}` : '', effect.flat ? number(effect.flat) : ''].filter(Boolean).join(' + ') || '0';
-      const amount = supportAmount(effect, value);
+      const amount = Math.round(supportAmount(effect, value)*gearSupportMultiplier(actor,effect.type,skill));
       lines.push(`${effect.type === 'shield' ? 'Khiên' : 'Hồi phục'}: ${formula} → ${number(amount)} ${effect.type === 'shield' ? 'khiên' : 'HP'}${perPerson}.`);
       if (effect.durationRounds) lines.push('Khiên tồn tại '+effect.durationRounds+' vòng, tính cả vòng thi triển; hết thời hạn không kích hoạt hiệu ứng vỡ khiên.');
-      if (effect.type === 'heal' && effect.emergency) lines.push(`Khi mục tiêu còn ≤${percent(EMERGENCY_HP_THRESHOLD)} HP: lượng hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${number(supportAmount(effect, value, true))} HP${perPerson}.`);
+      if (effect.type === 'heal' && effect.emergency) lines.push(`Khi mục tiêu còn ≤${percent(EMERGENCY_HP_THRESHOLD)} HP: lượng hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${number(Math.round(supportAmount(effect, value, true)*gearSupportMultiplier(actor,effect.type,skill)))} HP${perPerson}.`);
     }
     if(effect.onHitDispelCount)lines.push('Nếu gây sát thương HP hoặc khiên: xóa '+effect.onHitDispelCount+' buff trên mục tiêu trúng đòn.');
     if (effect.type === 'revive') {

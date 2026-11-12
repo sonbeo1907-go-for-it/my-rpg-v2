@@ -375,6 +375,7 @@ export function validateContent(content) {
   for (const [id, status] of Object.entries(content.statuses)) {
     if(status.hitDamageGrowth!==undefined&&(status.kind!=='buff'||!Number.isFinite(status.hitDamageGrowth)||status.hitDamageGrowth<=0||status.hitDamageGrowth>0.5))fail(id+': invalid hit damage growth');
     if (!['buff', 'debuff'].includes(status.kind)) fail(`${id}: invalid status kind`);
+    if(status.modifiers?.directDamageReduction!==undefined&&(status.kind!=='buff'||!Number.isFinite(status.modifiers.directDamageReduction)||status.modifiers.directDamageReduction<=0||status.modifiers.directDamageReduction>.75))fail(id+': invalid direct damage guard');
     if(status.bypassedByBuffedAttacker!==undefined&&(status.bypassedByBuffedAttacker!==true||status.kind!=='buff'||!Number.isInteger(status.maxStacks)||status.maxStacks<1||!Number.isFinite(status.modifiers?.damageReduction)||status.modifiers.damageReduction<=0||status.modifiers.damageReduction*status.maxStacks>.75))fail(id+': invalid skill-aware barrier');
     for(const key of ['healingReceivedReduction','shieldReceivedReduction'])if(status[key]!==undefined&&(!Number.isFinite(status[key])||status[key]<0||status[key]>1||status.kind!=='debuff'))fail(id+': invalid recipient reduction');
     if(status.healingDebt!==undefined){

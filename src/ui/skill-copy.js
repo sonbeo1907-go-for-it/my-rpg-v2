@@ -18,6 +18,7 @@ import { scalingValue, scalingLabel } from '../core/scaling.js';
 import { debuffDamageBonus, buffDamageBonus, lowHpDamageBonus, hpCost, resourceCost,mpCost } from '../core/conditional-combat.js';
 import { ELEMENT_NAMES, DAMAGE_TYPE_NAMES } from '../core/content.js';
 import { STAT_LABELS } from '../core/catalog.js';
+import {gearSupportMultiplier} from '../core/gear-effects.js';
 import { effectiveStat, damageMultiplier, speedDamageRatio, supportAmount, mpRestoreAmount, EMERGENCY_HEAL_MULTIPLIER, EMERGENCY_HP_THRESHOLD } from '../core/combat-math.js';
 import {teamPhysicalGuard,alteredDefenseBonus} from '../core/tactical-passives.js';
 import {baseStatValue} from '../core/combat-math.js';
@@ -98,6 +99,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(status.onAttackResource)facts.push(`Sau tấn công: ${pct(status.onAttackResource.chance)} nhận +${status.onAttackResource.amount??1} ${resourceName(actor,status.onAttackResource.resource)}`);
     if(status.blockResourceGain)facts.push(prefix+'Không tích tài nguyên'+turns);
     if(status.skipTurn)facts.push('Choáng'+turns);
+    if(status.modifiers?.directDamageReduction)facts.push(prefix+'Giảm '+pct(status.modifiers.directDamageReduction)+' sát thương trực tiếp'+turns);
     if(status.weaknessMultiplier){facts.push(prefix+`Đánh trúng điểm yếu: +${pct(status.weaknessMultiplier-1)} sát thương`+turns);rules.push('Thay mức +50% mặc định; nhiều nguồn lấy mức mạnh nhất, không cộng dồn.','Liên kích và phản công xét buff của người gây sát thương.');}
     if(status.exposedElement){facts.push(prefix+`Yếu ${ELEMENT_NAMES[status.exposedElement]} · +${effect.stacks??1} tầng · tối đa 3`+turns);rules.push('Cùng hệ cộng tầng; khác hệ thay Sơ hở cũ. Giữ nguyên điểm yếu tự nhiên.','Mỗi chiêu trúng đúng hệ tiêu 1 tầng/mục tiêu, dù nhiều hit. Liên kích và phản công tính riêng.','Né không tiêu tầng; đánh trúng khiên vẫn tiêu. Không tính Độc hoặc mất HP do chi phí.','Sơ hở mới tạo trong chiêu chỉ dùng từ chiêu kế tiếp; có thể bị giải hoặc Hộ ấn chặn.');}
     if(status.maxStacks&&!status.exposedElement)facts.push(`+${effect.stacks??1} ${status.name} · tối đa ${status.maxStacks} tầng`+turns);
@@ -169,10 +171,11 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(effect.type==='heal'||effect.type==='shield'){
       const label=scalingLabel(effect,STAT_LABELS);
       const formula=effect.primaryMultiplier!==undefined?pct(effect.primaryMultiplier)+' '+label+' chính / '+pct(effect.multiplier)+' '+label+' còn lại':[effect.multiplier?`${pct(effect.multiplier)} ${label}`:'',effect.flat?number(effect.flat):''].filter(Boolean).join(' + ')||'0';
-      const amount=supportAmount(effect,scalingValue(effect,value));
-      const mainAmount=effect.primaryMultiplier!==undefined?supportAmount({...effect,multiplier:effect.primaryMultiplier},scalingValue(effect,value)):null;
+      const boost=gearSupportMultiplier(actor,effect.type,skill);
+      const amount=Math.round(supportAmount(effect,scalingValue(effect,value))*boost);
+      const mainAmount=effect.primaryMultiplier!==undefined?Math.round(supportAmount({...effect,multiplier:effect.primaryMultiplier},scalingValue(effect,value))*boost):null;
       facts.push(`${prefix}${effect.type==='heal'?'Hồi HP':'Khiên'}: ${formula} → ${mainAmount!==null?number(mainAmount)+' chính / '+number(amount)+' còn lại':number(amount)+(skill.target==='all_allies'?'/người':'')}`);
-      if(effect.emergency)facts.push(`Mục tiêu ≤${pct(EMERGENCY_HP_THRESHOLD)} HP: hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${supportAmount(effect,scalingValue(effect,value),true)} HP`);
+      if(effect.emergency)facts.push(`Mục tiêu ≤${pct(EMERGENCY_HP_THRESHOLD)} HP: hồi ×${number(EMERGENCY_HEAL_MULTIPLIER)} → ${Math.round(supportAmount(effect,scalingValue(effect,value),true)*boost)} HP`);
       if(effect.durationRounds){facts.push('Khiên: '+effect.durationRounds+' vòng');rules.push('Hết thời hạn không kích hoạt hiệu ứng vỡ khiên.');}
       if(effect.type==='shield')rules.push('Khiên không cộng dồn; chỉ thay khi khiên mới mạnh hơn.');
     }
@@ -257,6 +260,10 @@ export function skillPresentation(skill,actor,content,choices={}) {
   if(skill.requiresTargetStatus)rules.push(`Cần mục tiêu có ${content.statuses[skill.requiresTargetStatus].name}.`);
   if(skill.requiresResource)facts.push('Cần '+skill.requiresResource.min+' '+resourceName(actor,skill.requiresResource.id)+' · không tiêu tầng');
   if(skill.requiresMode)rules.push('Chỉ dùng khi '+actor.combatModes[skill.requiresMode].name+' hiện diện.');
+  for(const gear of actor.gearEffects??[]){const t=gear.effect.type;
+    if(t==='paid_mp_damage'&&!skill.id.startsWith('$')&&skill.effects.some(e=>e.type==='damage'))facts.push(gear.name+': +'+pct(gear.effect.ratio)+' sát thương mỗi '+gear.effect.perMp+' MP thực tiêu · tối đa '+pct(gear.effect.cap)+'/chiêu');
+    if(t==='defend_mp_share'&&skill.id==='$defend')facts.push(gear.name+': chia lượng MP thực hồi cho đồng đội khác · 1 lần/vòng/đội');
+  }
   const orderPassive=actor.passive;
   if (orderPassive?.type==='detonation_base_growth' && skill.effects.some(effect=>effect.type==='damage'&&effect.consumeStatus===orderPassive.statusId)) {
     facts.push('Tia sáng: +'+orderPassive.increment+' MAG căn bản khi kích nổ · tối đa +'+orderPassive.cap);

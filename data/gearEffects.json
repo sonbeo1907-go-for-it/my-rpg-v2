@@ -462,5 +462,210 @@
       },
       "perSpent": 0.08
     }
+  },
+  {
+    "id": "mana_overdrive",
+    "name": "Lăng Kính Dồn Ma Lực",
+    "description": "MP tối đa +10%. Kỹ năng tấn công gây thêm 6% sát thương với mỗi 5 MP thực tiêu, tối đa 30% mỗi chiêu. Không cộng dồn với gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_mana_overdrive",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "paid_mp_damage",
+      "modifiers": {
+        "maxMp": 0.1
+      },
+      "perMp": 5,
+      "ratio": 0.06,
+      "cap": 0.3
+    }
+  },
+  {
+    "id": "aegis_weave",
+    "name": "Dải Lụa Dệt Khiên",
+    "description": "SPD +15%. Kỹ năng tạo Khiên tăng 30% lượng Khiên tạo ra; không cộng dồn cùng tên.",
+    "costClass": "common",
+    "effectGroup": "gear_aegis_weave",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "skill_shield_boost",
+      "modifiers": {
+        "speed": 0.15
+      },
+      "ratio": 0.3
+    }
+  },
+  {
+    "id": "vitality_chalice",
+    "name": "Chén Sinh Khí",
+    "description": "HP tối đa +15%. Kỹ năng hồi HP tăng 18% lượng hồi; không cộng dồn cùng tên.",
+    "costClass": "common",
+    "effectGroup": "gear_vitality_chalice",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "skill_heal_boost",
+      "modifiers": {
+        "maxHp": 0.15
+      },
+      "ratio": 0.18
+    }
+  },
+  {
+    "id": "shared_respite",
+    "name": "Chuông Đồng Tâm",
+    "description": "MP tối đa +10%. Sau Phòng thủ, các đồng đội khác còn sống hồi MP bằng lượng bản thân thực nhận từ hành động đó. Cả đội chỉ kích hoạt một lần mỗi vòng; không cộng dồn cùng tên.",
+    "costClass": "common",
+    "effectGroup": "gear_shared_respite",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "defend_mp_share",
+      "modifiers": {
+        "maxMp": 0.1
+      }
+    },
+    "oncePerTeamRound": true
+  },
+  {
+    "id": "aegis_covenant",
+    "name": "Ấn Ước Thành Lũy",
+    "description": "DEF/RES +15%. Sau kỹ năng tạo Khiên, toàn đội giảm 15% sát thương trực tiếp đến hết vòng sau. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_aegis_covenant",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "shield_team_guard",
+      "modifiers": {
+        "defense": 0.15,
+        "resistance": 0.15
+      },
+      "status": "gear_direct_guard"
+    }
+  },
+  {
+    "id": "shelter_relay",
+    "name": "Di Vật Tiếp Khiên",
+    "description": "HP +15%. Khi Khiên của đồng đội bị địch phá, cấp Khiên bằng 35% HP tối đa của người mặc; 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_shelter_relay",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "ally_shield_relay",
+      "modifiers": {
+        "maxHp": 0.15
+      },
+      "ratio": 0.35
+    },
+    "oncePerRound": true
+  },
+  {
+    "id": "restoration_clock",
+    "name": "Đồng Hồ Tái Thiết",
+    "description": "HP +15%. Đầu lượt chính, giảm 1 vòng hồi chiêu của kỹ năng hồi HP hoặc tạo Khiên có hồi chiêu còn lại dài nhất. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_restoration_clock",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "support_cooldown",
+      "modifiers": {
+        "maxHp": 0.15
+      },
+      "amount": 1
+    }
+  },
+  {
+    "id": "unbroken_crest",
+    "name": "Huy Hiệu Toàn Vẹn",
+    "description": "ATK/MAG +15%; khi đầy HP tăng thành +30%. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_unbroken_crest",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "full_hp_offense",
+      "modifiers": {
+        "attack": 0.15,
+        "magic": 0.15
+      }
+    }
+  },
+  {
+    "id": "desperate_crest",
+    "name": "Huy Hiệu Quyết Tử",
+    "description": "ATK/MAG +20%; khi dưới 70% HP tăng thành +40%. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_desperate_crest",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "low_hp_offense",
+      "modifiers": {
+        "attack": 0.2,
+        "magic": 0.2
+      },
+      "threshold": 0.7
+    }
+  },
+  {
+    "id": "echoing_edge",
+    "name": "Lưỡi Cắt Dư Âm",
+    "description": "ATK/MAG +12%. Kỹ năng tấn công đơn mục tiêu gây Liên kích lên tối đa 2 địch khác bằng 85% sức mạnh chiêu, cùng loại sát thương và hệ; 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_echoing_edge",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "single_skill_echo",
+      "modifiers": {
+        "attack": 0.12,
+        "magic": 0.12
+      },
+      "ratio": 0.85,
+      "maxTargets": 2
+    },
+    "oncePerRound": true
+  },
+  {
+    "id": "affliction_prism",
+    "name": "Lăng Kính Ách Nạn",
+    "description": "MAG +15%. Sau kỹ năng gây sát thương, Liên kích lên địch có ít nhất 2 loại debuff bằng 90% MAG; từ 4 loại là 180% MAG, cùng loại sát thương và hệ. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_affliction_prism",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "debuff_skill_echo",
+      "modifiers": {
+        "magic": 0.15
+      },
+      "threshold": 2,
+      "highThreshold": 4,
+      "ratio": 0.9,
+      "highRatio": 1.8
+    }
+  },
+  {
+    "id": "healers_chorus",
+    "name": "Khúc Hòa Ca Hồi Sinh",
+    "description": "MAG +15%. Kỹ năng hoặc nội tại thực hồi HP: hồi 6 MP toàn đội; người được hồi HP giảm 10% sát thương đến hết vòng. Cả phe 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
+    "costClass": "common",
+    "effectGroup": "gear_healers_chorus",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "healing_team_resonance",
+      "modifiers": {
+        "magic": 0.15
+      },
+      "amount": 6,
+      "status": "gear_healing_guard"
+    },
+    "oncePerTeamRound": true
   }
 ]

@@ -1,7 +1,15 @@
+import {validGuardianRecipe} from './guardian-gear.js';
 const HOOKS={direct_reduction:'before_direct_hit',impact_shield:'after_direct_hit',critical_heal:'hp_loss',defend_mp:'after_action',low_mp:'main_turn_start',ally_buff_mp:'buff_applied',guard_reduction:'damage_reduction',emergency_heal:'skill_heal',healed_mp:'skill_healed',healthy_target_bonus:'skill_damage',shield_only_bonus:'shield_damage',execute_bonus:'skill_damage',damage_status:'after_skill_attack',weakness_mp:'after_skill_attack',exposure_on_hit:'after_skill_attack',ally_weakness_shield:'ally_weakness_hit'};
 export function validGearEffect(recipe,content){
  const e=recipe.effect,ratio=n=>Number.isFinite(n)&&n>0&&n<=1,whole=n=>Number.isSafeInteger(n)&&n>0;
  if(!e)return false;
+ const guardian=validGuardianRecipe(recipe,content);if(guardian!==null)return guardian;
+ if(['paid_mp_damage','skill_shield_boost','skill_heal_boost','defend_mp_share'].includes(e.type)){
+  const expected={paid_mp_damage:['maxMp',.1],skill_shield_boost:['speed',.15],skill_heal_boost:['maxHp',.15],defend_mp_share:['maxMp',.1]}[e.type];
+  if(recipe.hook!==undefined||recipe.condition!==undefined||recipe.cooldownRounds!==0||recipe.oncePerRound!==undefined||recipe.oncePerEncounter!==undefined||!e.modifiers||Object.keys(e.modifiers).length!==1||e.modifiers[expected[0]]!==expected[1])return false;
+  if(e.type==='defend_mp_share')return recipe.oncePerTeamRound===true;
+  return recipe.oncePerTeamRound===undefined&&ratio(e.ratio)&&(e.type!=='paid_mp_damage'||e.perMp===5&&ratio(e.cap));
+ }
  if(e.type==='mp_stat_conversion')return recipe.hook==='base_stats'&&recipe.cooldownRounds===0&&recipe.oncePerRound===undefined&&recipe.oncePerEncounter===undefined&&recipe.condition===undefined&&['attack','magic'].includes(e.stat)&&e.ratio===.05&&e.cap===25;
  if(e.type==='soul_creation_mp'){
   return recipe.cooldownRounds===0&&recipe.condition===undefined&&recipe.oncePerRound===undefined&&recipe.oncePerEncounter===undefined
@@ -30,6 +38,6 @@ export function validGearEffect(recipe,content){
  if(['ally_buff_mp','emergency_heal','healed_mp','ally_weakness_shield'].includes(e.type)&&recipe.oncePerRound!==true)return false;
  return true;
 }
-export function gearEffectTiming(recipe){return ['soul_creation_mp','soul_spend_damage'].includes(recipe.effect?.type)||recipe.hook==='base_stats'?'Luôn hoạt động':recipe.oncePerEncounter?'1 lần / trận':recipe.oncePerRound?'1 lần / vòng':recipe.cooldownRounds?`${recipe.cooldownRounds} vòng`:'Không hồi chiêu';}
+export function gearEffectTiming(recipe){if(recipe.oncePerTeamRound)return '1 lần / vòng / đội';if(['paid_mp_damage','skill_shield_boost','skill_heal_boost','full_hp_offense','low_hp_offense'].includes(recipe.effect?.type))return 'Luôn hoạt động';return ['soul_creation_mp','soul_spend_damage'].includes(recipe.effect?.type)||recipe.hook==='base_stats'?'Luôn hoạt động':recipe.oncePerEncounter?'1 lần / trận':recipe.oncePerRound?'1 lần / vòng':recipe.cooldownRounds?`${recipe.cooldownRounds} vòng`:'Không hồi chiêu';}
 export function gearRecipeRequirement(content,recipe){return recipe.requires?.firstClear?`Thắng ${content.encounters[recipe.requires.firstClear]?.name??'Truy Nã'} lần đầu để mở.`:recipe.requires?.storyFlag?'Hoàn thành vĩ thanh Arthur để mở công thức.':'Công thức đã sẵn sàng.';}
 export function gearRecipeSource(recipe){return recipe.requires?.firstClear?`/quests?tab=bounty&selected=${recipe.requires.firstClear}`:'/stories/epilogue';}

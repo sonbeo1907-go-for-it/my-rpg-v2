@@ -27,8 +27,9 @@ import {resolveRankedAbility} from './skill-resolver.js';
 import {questDifficulty} from './quest-difficulty.js';
 import {shieldedDamageBonus} from './exclusive-field.js';
 import {evasionChance,hasTrueStrike} from './evasion.js';
+import {guardianRecipes,gearGuardAfterShield,gearShieldBroken,gearHealingOccurred} from './guardian-gear.js';
 import {exposureStatus} from './weakness.js';
-import {initializeGearEncounter,activateRoundGear,gearMainTurn,gearGuardReduction,gearIncomingMultiplier,gearOutgoingMultiplier,gearShieldExtra,gearHpLoss,gearAfterDirectHit,gearObserveWeakness,gearBuffApplied,prepareGearHealing,gearSkillHealed,gearAfterAction,gearAfterAttack,gearSwordSoulCreated} from './gear-effects.js';
+import {initializeGearEncounter,activateRoundGear,gearMainTurn,gearGuardReduction,gearIncomingMultiplier,gearOutgoingMultiplier,gearShieldExtra,gearHpLoss,gearAfterDirectHit,gearObserveWeakness,gearBuffApplied,prepareGearHealing,gearSkillHealed,gearAfterAction,gearAfterAttack,gearSwordSoulCreated,gearSupportMultiplier} from './gear-effects.js';
 import { captureExposures, availableExposureStacks, resolveWeakness, reserveExposure, finishExposures } from './weakness.js';
 import {prepareCombatMode,prepareCompanion,roundSummons,expireRoundSummons} from './combat-summons.js';
 import {periodicPotency} from './periodic-damage.js';
@@ -386,8 +387,38 @@ function finishAttackContext(battle, actor, context) {
   triggerShieldSurvivalFollowups(battle,actor,context);
   triggerAllySkillCounters(battle,actor,context);
   triggerReceivedDamageCounters(battle,actor,context);
+  triggerGearEchoes(battle,actor,context);
   triggerBlessedResource(battle,context);
   triggerKillRepeat(battle,actor,context);
+}
+
+function triggerGearEchoes(battle,actor,context){
+ if(!living(actor)||context.reaction||context.automatic||!context.skillId||context.skillId.startsWith('$')||context.skill?.activation==='passive')return;
+ const send=(recipe,targets,packets)=>{
+  if(!targets.length||!packets.length||!reservePvpAutomatic(battle,actor,modeIO))return false;
+  const skill={id:'$gear.'+recipe.id,name:recipe.name,target:targets.length>1?'all_enemies':'enemy',activation:'passive',effects:packets};
+  const next={...attackContext(battle,actor),pvpRegistered:true,skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',primaryTargetId:targets[0].id};
+  emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:actor.id,targetId:targets[0].id,targetIds:targets.map(t=>t.id),abilityId:skill.id,gearEffectId:recipe.id,area:targets.length>1});
+  write(battle,actor.name+' '+FOLLOW_UP_LABEL+' bằng '+recipe.name+'.');
+  for(const target of targets)for(const packet of packets){if(!living(target)||!living(actor))break;hit(battle,actor,target,packet,0,{area:targets.length>1,reaction:true,actionContext:next});}
+  finishAttackContext(battle,actor,next);return true;
+ };
+ if(context.skill.target==='enemy')for(const r of guardianRecipes(actor,'single_skill_echo')){
+  if(actor.gearEffectProcRounds?.[r.effectGroup]===battle.round)continue;
+  const primary=getActor(battle,context.primaryTargetId),slot=primary?.formationSlot??0;
+  const targets=battle.actors.filter(t=>living(t)&&t.team!==actor.team&&t.id!==context.primaryTargetId).sort((a,b)=>Math.abs((a.formationSlot??0)-slot)-Math.abs((b.formationSlot??0)-slot)||(a.formationSlot??0)-(b.formationSlot??0)).slice(0,r.effect.maxTargets);
+  const packets=(context.gearEchoPackets??[]).map(e=>({...e,multiplier:e.multiplier*r.effect.ratio}));
+  if(!targets.length||!packets.length)continue;
+  (actor.gearEffectProcRounds??={})[r.effectGroup]=battle.round;
+  if(!send(r,targets,packets))delete actor.gearEffectProcRounds[r.effectGroup];
+ }
+ for(const r of guardianRecipes(actor,'debuff_skill_echo')){
+  const seen=new Set();for(const h of context.gearImpacts??[]){const target=h.target;if(seen.has(target.id)||!living(target))continue;seen.add(target.id);
+   const count=debuffTypeCount(battle.content,target);if(count<r.effect.threshold)continue;
+   const packet={type:'damage',scalingStat:'magic',damageType:h.damageType,element:h.element,...(h.elements?.length>1?{additionalElements:h.elements.filter(e=>e!==h.element)}:{}),multiplier:count>=r.effect.highThreshold?r.effect.highRatio:r.effect.ratio};
+   send(r,[target],[packet]);
+  }
+ }
 }
 
 // Reaction limits are reserved before creating resources or resolving repeated damage.
@@ -501,7 +532,7 @@ function announcePassive(battle,source,targetId,label=source?.passive?.name) {
   if (source?.passive && label) emitEvent(battle,{type:"passive",sourceId:source.id,targetId,label});
 }
 
-function healHp(battle, target, requested, sourceId, label = "") {
+function healHp(battle, target, requested, sourceId, label = "", gearOrigin=null) {
   if (!living(target)||isInAgony(target)) return 0;
   if(externalHealingBlocked(target,sourceId)){
     emitEvent(battle,{type:'healing_blocked',sourceId,targetId:target.id});
@@ -526,6 +557,7 @@ function healHp(battle, target, requested, sourceId, label = "") {
       gainResource(battle,target,"mp",Math.ceil(battleMaxMp(battle.content,target) * passive.ratio),target.id);
     }
   }
+  if(amount>0&&gearOrigin)gearHealingOccurred(battle,getActor(battle,sourceId),target,amount,gearOrigin,gearIO);
   write(battle, `${target.name} hồi ${amount} HP${label ? " từ " + label : ""}.`);
   return amount;
 }
@@ -1315,6 +1347,18 @@ function hit(
   }
 }
 
+function resolvedHitPower(battle,attacker,target,effect,actionContext){
+  let hitMagicBonus = 0;
+  if (effect.damageType === "magical") {
+    for (const ally of battle.actors.filter(candidate => living(candidate) && candidate.team === attacker.team && candidate.id !== attacker.id)) {
+      const passive = ally.passive;
+      if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += specialPassives(ally,'marked_ally_ratio').find(p=>p.statusId===passive.statusId&&(target.statuses.find(s=>s.id===p.statusId)?.stacks??0)>=p.stacks)?.ratio??passive.ratio;
+    }
+  }
+  syncTeamStatAuras(battle);
+  return  effect.gearPower??scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus+shieldAuraBonus(battle,attacker):0)+(actionContext.statRatioBonuses?.[key]??0)+specialHitStatBonus(attacker,target,actionContext,key),actionContext.baseStatBonuses?.[key]??0));
+}
+
 function resolveHit(
   battle,
   attacker,
@@ -1331,6 +1375,10 @@ function resolveHit(
     write(battle, `${target.name} chắn đòn cho ${originalTarget.name}.`);
   effect=exclusiveDamageEffect(attacker,actionContext.skillId,effect);
   effect=attunedDamageEffect(target,effect,actionContext);
+  if(!actionContext.reaction&&!actionContext.automatic&&actionContext.skillId&&!actionContext.skillId.startsWith('$')&&originalTarget.id===actionContext.primaryTargetId&&[...guardianRecipes(attacker,'single_skill_echo')].length){
+    const multiplier=damageMultiplier(effect,{spent,stacks:effect.consumeStatus?(target.statuses.find(s=>s.id===effect.consumeStatus)?.stacks??0):0,hpRatio:attacker.hp/attacker.stats.maxHp,buffs:buffTypeCount(battle.content,target)});
+    (actionContext.gearEchoPackets??=[]).push({type:'damage',damageType:effect.damageType,element:effect.element,...(effect.additionalElements?{additionalElements:[...effect.additionalElements]}:{}),gearPower:resolvedHitPower(battle,attacker,target,effect,actionContext),multiplier,penetration:effect.penetration??0});
+  }
   const evasion=hasTrueStrike(battle.content,attacker)?0:evasionChance(target,effect,modifier(battle,target,"evasion"));
   if (evasion > 0 && battle.random() < evasion) {
     emitEvent(battle, {
@@ -1396,16 +1444,9 @@ function resolveHit(
   }
   const exposed=exposureStatus(battle.content,target),entry=actionContext.exposures?.get(target.id);
   const exposureBonus=effect.bonusVsExposure&&entry&&(entry.reserved||(exposed===entry.status&&availableExposureStacks(exposed)>0))?effect.bonusVsExposure:0;
-  let hitMagicBonus = 0;
-  if (effect.damageType === "magical") {
-    for (const ally of battle.actors.filter(candidate => living(candidate) && candidate.team === attacker.team && candidate.id !== attacker.id)) {
-      const passive = ally.passive;
-      if (passive?.type === "marked_ally_magic" && target.statuses.some(status => status.id === passive.statusId)) hitMagicBonus += specialPassives(ally,'marked_ally_ratio').find(p=>p.statusId===passive.statusId&&(target.statuses.find(s=>s.id===p.statusId)?.stacks??0)>=p.stacks)?.ratio??passive.ratio;
-    }
-  }
   syncTeamStatAuras(battle);
   const intrinsic=selfBuffOffense(battle.content,attacker);
-  const power = scalingValue(effect,key=>battleStat(battle.content,attacker,key,actionContext.automatic,(key==="magic"?hitMagicBonus+shieldAuraBonus(battle,attacker):0)+(actionContext.statRatioBonuses?.[key]??0)+specialHitStatBonus(attacker,target,actionContext,key),actionContext.baseStatBonuses?.[key]??0));
+  const power=resolvedHitPower(battle,attacker,target,effect,actionContext);
   const { elementWeakness, typeWeakness, multiplier: weaknessMultiplier, matchedElements, skillWeaknessDamageBonus, skillWeaknessPenetration } =
     resolveWeakness(battle.content, attacker, target, effect, actionContext);
   const penetration = exclusivePassive(attacker,"skill_penetration",actionContext.skillId);
@@ -1438,7 +1479,7 @@ function resolveHit(
     hpRatio: attacker.hp / attacker.stats.maxHp,
     buffs: buffTypeCount(battle.content,target),
   });
-  let reduction = agonyReduction(target)+modifier(battle, target, "damageReduction")-bypassedBarrierReduction(battle.content,target,attacker)+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0)+shieldedTeamGuard(battle,target.team);
+  let reduction = modifier(battle,target,"directDamageReduction")+agonyReduction(target)+modifier(battle, target, "damageReduction")-bypassedBarrierReduction(battle.content,target,attacker)+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0)+shieldedTeamGuard(battle,target.team);
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
@@ -1600,7 +1641,7 @@ function resolveHit(
     const healer = getActor(battle, target.shieldSourceId);
     if (healer?.passive?.type === "shield_break_heal" && living(healer)) {
       const bonus = exclusivePassive(healer,"shield_break_heal_bonus");
-      healHp(battle,target,stat(battle,healer,"magic") * healer.passive.multiplier * (1 + (bonus?.ratio ?? 0)),healer.id,"Dư âm thủy hộ");
+      healHp(battle,target,stat(battle,healer,"magic") * healer.passive.multiplier * (1 + (bonus?.ratio ?? 0)),healer.id,"Dư âm thủy hộ",actionContext);
     }
     const refill=healer?.passive,rose=healer&&exclusivePassive(healer,'shield_break_restore_hp');
     if(refill?.type==='shield_break_mp'&&living(healer)&&procAvailable(battle,target,'shield_mp:'+healer.id)&&(target.mp<battleMaxMp(battle.content,target)||rose&&(target.hp<target.stats.maxHp||lifeDebt(target)>0))){
@@ -1615,6 +1656,7 @@ function resolveHit(
         applyStatus(battle, target, status.id, status.duration, attacker.id,{bypassControlImmunity:true});
     }
   }
+  if(absorbed&&target.shield===0&&attacker.team!==target.team)gearShieldBroken(battle,target,attacker,{...gearIO,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId),[t],{type:'shield',flat},0,false)});
   if(vitalityDamage+absorbed>0) { gearAfterDirectHit(battle,target,{lostHp,absorbed,hpAfter},gearIO); if(weakness) gearObserveWeakness(battle,attacker,gearIO); }
   if (living(target) && (vitalityDamage || absorbed)) {
     for (const status of statusDefinitions(battle, target)) {
@@ -1765,7 +1807,7 @@ function applyStatus(
       markProc(battle,target,'debuff_heal:'+healer.id);
       announcePassive(battle,healer,target.id);
       write(battle,healer.name+' kích hoạt '+healer.passive.name+' cho '+target.name+'.');
-      healHp(battle,target,amount,healer.id,healer.passive.name);
+      healHp(battle,target,amount,healer.id,healer.passive.name,{});
     }
   }
   return applied;
@@ -1880,19 +1922,20 @@ function applyEffect(
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if(effect.type==='steal_base_stat')stealBaseStat(battle,actor,target,effect,{status:applyStatus,emit:emitEvent,write});
     if (effect.type === "heal") {
-      const requested=effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
+      const rawRequested=effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
+      const requested=Math.round(rawRequested*(actionContext.reaction||actionContext.automatic?1:gearSupportMultiplier(actor,'heal',actionContext.skill)));
       const blocked=externalHealingBlocked(target,actor.id);
-      const healed=healHp(battle,target,requested,actor.id);
+      const healed=healHp(battle,target,requested,actor.id,"",actionContext);
       // MP goes to the healed ally, based on the heal Amaryllis authored for that target.
       if(!blocked)grantHealMp(battle, actor, target, requested);
       gearSkillHealed(battle,actor,target,healed,actionContext,gearIO);
     }
     if (effect.type === "shield") {
       if(isInAgony(target)){write(battle,target.name+': Oán Hận chặn nhận khiên.');continue;}
-      const amount = receivedSupport(battle.content,target,supportAmount(
+      const amount = receivedSupport(battle.content,target,Math.round((actionContext.reaction||actionContext.automatic?1:gearSupportMultiplier(actor,'shield',actionContext.skill))*supportAmount(
         effect.primaryMultiplier!==undefined?{...effect,multiplier:target.id===actionContext.primaryTargetId?effect.primaryMultiplier:effect.multiplier}:effect,
         scalingValue(effect,key=>stat(battle,actor,key)),
-      ),"shieldReceivedReduction");
+      )),"shieldReceivedReduction");
       // Shields do not stack; a weaker shield cannot overwrite a stronger one.
       if (amount > target.shield) {
         target.shield = amount;
@@ -2080,6 +2123,7 @@ function resolveAction(
   const actionEventStart=battle.events.length;
   const supportScopeBefore=battle.supportChargeScope;battle.supportChargeScope={supportCharged:new Set()};
   const oldStatuses = [...actor.statuses];
+  const mpBeforeAction=actor.mp;
   const initialResources={...actor.resourceValues};
   emitEvent(battle,{type:"ability_cast",sourceId:actor.id,abilityId:skill.id,label:skill.name,attack:skill.effects.some(effect=>effect.type==="damage"),presentation:skill.presentation,visualId:`cast-${battle.actionCount}-${actor.id}-${skill.id}`,perfect:theorem?.perfect??false,targetId,area,targetIds:targets.map(target=>target.id)});
   const mortgageBonusBeforeCost=mortgageDamageBonus(actor);
@@ -2150,6 +2194,7 @@ function resolveAction(
     actionContext.multiplier *= 1 + (cap ? actor.passive.maxDamageBonus * extra / cap : 0);
     write(battle, `${actor.name}: ${actor.passive.name}, tiêu thêm ${extra}/${cap} MP.`);
   }
+  actionContext.paidMp=totalPaidMp;
   const automaticSpent=payMpTeamResources(battle,actor,totalPaidMp,teamIO);
   for(const[id,n]of Object.entries(automaticSpent))actionContext.teamResourceSpent[id]=(actionContext.teamResourceSpent[id]??0)+n;
   actionContext.sharedPenetration=sharedPenetration(battle.content,automaticSpent);
@@ -2162,6 +2207,7 @@ function resolveAction(
     ).size > 1;
   for (const effect of skill.effects)
     applyEffect(battle, actor, targets, effect, spent, area, actionContext);
+  gearGuardAfterShield(battle,actor,skill,actionContext,gearIO);
   recordRoundCategory(battle,actor,skill);
   for(const effect of skill.effects)if(effect.consumeSelfStatus)actor.statuses=actor.statuses.filter(status=>status.id!==effect.consumeSelfStatus);
   const resourcePassive=actor.passive;if(living(actor)&&resourcePassive?.type==='starting_resource_skill_chance'&&skill.id===resourcePassive.abilityId&&(actor.resourceValues[resourcePassive.resource]??0)<actor.resources[resourcePassive.resource].max){const chance=Math.min(resourcePassive.cap,Math.max(0,baseStatValue(actor,resourcePassive.stat))/resourcePassive.atStat*resourcePassive.cap);if(battle.random()<chance){announcePassive(battle,actor,actor.id);gainResource(battle,actor,resourcePassive.resource,resourcePassive.amount);}}
@@ -2241,7 +2287,7 @@ function resolveAction(
     }
   }
   if(skill.id==='$defend')chargeSupportModes(battle,actor,actionContext);
-  gearAfterAction(battle,actor,skill,gearIO);
+  gearAfterAction(battle,actor,skill,gearIO,mpBeforeAction);
   if(offensive&&skill.survivingTargetRepeat){
     finishAttackContext(battle,actor,actionContext);
     triggerSurvivingTargetRepeat(battle,actor,skill,actionContext);

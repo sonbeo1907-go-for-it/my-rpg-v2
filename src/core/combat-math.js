@@ -1,3 +1,4 @@
+import {conditionalGearBaseBonus} from './guardian-gear.js';
 import {activeStatuses} from './status-state.js';
 import {mpConversionBonus,formationStance} from './advanced-combat.js';
 import {specialPassives} from './exclusive-specials.js';
@@ -14,7 +15,7 @@ export function baseStatValue(actor,key){
 export function defenseAverageBonus(actor, defense=effectiveStat(actor,'defense'), resistance=effectiveStat(actor,'resistance')) {const p=actor.passive;return p?.type==='defense_average_conversion'?Math.min(p.cap,Math.max(0,(defense+resistance)/2)*p.ratio):0;}
 export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) {
   if(key==='maxHp')return actor.stats.maxHp;
-  let base = Math.max(0,baseStatValue(actor,key)) + baseBonus;
+  let base = Math.max(0,baseStatValue(actor,key)) + baseBonus + conditionalGearBaseBonus(actor,key);
   if (actor.passive?.type === 'stat_conversion' && actor.passive.toStat === key) base += actor.passive.cap===undefined ? (actor.baseStats?.[actor.passive.fromStat] ?? actor.stats[actor.passive.fromStat]) * actor.passive.ratio : Math.min(actor.passive.cap,Math.max(0,baseStatValue(actor,actor.passive.fromStat))*actor.passive.ratio);
   if(actor.passive?.type==='defense_average_conversion'&&actor.passive.toStat===key)base+=defenseAverageBonus(actor);
   if(actor.passive?.type==='mp_stat_conversion'&&actor.passive.toStat===key)base+=mpConversionBonus(actor);

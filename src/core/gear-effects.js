@@ -1,3 +1,4 @@
+import {gearSupportCooldown} from './guardian-gear.js';
 import {lifeDebt,externalHealingBlocked} from './life-debt.js';
 import {battleMaxMp} from './stat-values.js';
 
@@ -35,12 +36,13 @@ export function activateRoundGear(b,io){
  }}
 }
 
-export function gearMainTurn(b,a,io){if(b.phase!=='main')return;for(const r of recipes(a,'low_mp'))if(ready(b,a,r)&&a.mp/battleMaxMp(b.content,a)<=r.effect.threshold){if(regain(b,a,Math.max(r.effect.minimum,Math.ceil(battleMaxMp(b.content,a)*r.effect.ratio)),io))activated(b,a,r,io);}}
+export function gearMainTurn(b,a,io){if(b.phase!=='main')return;gearSupportCooldown(b,a,io);for(const r of recipes(a,'low_mp'))if(ready(b,a,r)&&a.mp/battleMaxMp(b.content,a)<=r.effect.threshold){if(regain(b,a,Math.max(r.effect.minimum,Math.ceil(battleMaxMp(b.content,a)*r.effect.ratio)),io))activated(b,a,r,io);}}
 export function gearGuardReduction(a){return activeStatuses(a).some(s=>s.id==='guard'&&(s.remaining==null||s.remaining>0))?[...recipes(a,'guard_reduction')].reduce((n,r)=>n+r.effect.ratio,0):0;}
 export function gearIncomingMultiplier(b,target,effect,io){let ratio=1;for(const r of recipes(target,'direct_reduction'))if(r.effect.damageType===effect.damageType&&ready(b,target,r)){ratio*=1-r.effect.ratio;activated(b,target,r,io);}return ratio;}
 
 export function gearOutgoingMultiplier(b,a,target,ctx){
  let result=1;
+ if(activeSkill(ctx)&&ctx.paidMp>0)for(const r of recipes(a,'paid_mp_damage'))result*=1+Math.min(r.effect.cap,Math.floor(ctx.paidMp/r.effect.perMp)*r.effect.ratio);
  const spent=ctx.teamResourceSpent?.sword_soul??0;
  if(spent>0)for(const r of recipes(a,'soul_spend_damage'))result*=1+r.effect.perSpent*spent;
  if(!singleSkill(ctx))return result;
@@ -79,7 +81,22 @@ export function gearSkillHealed(b,source,target,amount,ctx,io){
  if(source.id===target.id||source.team!==target.team)return;
  for(const r of recipes(target,'healed_mp'))if(ready(b,target,r)&&target.mp<battleMaxMp(b.content,target)){activated(b,target,r,io);regain(b,target,r.effect.amount,io);}
 }
-export function gearAfterAction(b,actor,skill,io){if(skill.id!=='$defend')return;for(const r of recipes(actor,'defend_mp'))if(ready(b,actor,r)&&actor.mp<battleMaxMp(b.content,actor)){activated(b,actor,r,io);regain(b,actor,r.effect.amount,io);}}
+export function gearSupportMultiplier(actor,type,skill){
+ if(!skill?.id||skill.id.startsWith('$')||skill.activation==='passive')return 1;
+ return 1+Math.max(0,...[...recipes(actor,type==='shield'?'skill_shield_boost':'skill_heal_boost')].map(r=>r.effect.ratio));
+}
+export function gearAfterAction(b,actor,skill,io,mpBefore=actor.mp){
+ if(skill.id!=='$defend')return;
+ for(const r of recipes(actor,'defend_mp'))if(ready(b,actor,r)&&actor.mp<battleMaxMp(b.content,actor)){activated(b,actor,r,io);regain(b,actor,r.effect.amount,io);}
+ const amount=Math.max(0,actor.mp-mpBefore);
+ if(!alive(actor)||!amount)return;
+ for(const r of recipes(actor,'defend_mp_share')){
+  const team=b.gearTeamProcRounds?.[actor.team];if(team?.[r.effectGroup]===b.round)continue;
+  const allies=b.actors.filter(a=>alive(a)&&a.team===actor.team&&a.id!==actor.id&&a.mp<battleMaxMp(b.content,a));if(!allies.length)continue;
+  ((b.gearTeamProcRounds??={})[actor.team]??={})[r.effectGroup]=b.round;
+  activated(b,actor,r,io);for(const ally of allies)io.restore(b,ally,'mp',amount,actor.id);
+ }
+}
 
 export function gearSwordSoulCreated(b,actor,amount,io){
  if(!alive(actor)||amount<=0)return;

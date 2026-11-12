@@ -1903,5 +1903,27 @@
     "kind": "buff",
     "durationClock": "main_turn",
     "description": "Tăng 6 DEF và RES căn bản."
+  },
+  {
+    "id": "gear_direct_guard",
+    "name": "Thành Lũy Đồng Tâm",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifierGroup": "gear_direct_guard",
+    "modifiers": {
+      "directDamageReduction": 0.15
+    },
+    "description": "Giảm 15% sát thương trực tiếp."
+  },
+  {
+    "id": "gear_healing_guard",
+    "name": "Dư Âm Hồi Sinh",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifierGroup": "gear_healing_guard",
+    "modifiers": {
+      "damageReduction": 0.1
+    },
+    "description": "Giảm 10% sát thương nhận vào đến hết vòng."
   }
 ]

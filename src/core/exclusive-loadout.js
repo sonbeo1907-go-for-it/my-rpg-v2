@@ -17,8 +17,9 @@ export function applySpecialLoadout(content,campaign,actor){
  for(const effect of actor.gearEffects??[]){
   if(groups.has(effect.effectGroup))continue;groups.add(effect.effectGroup);
   const e=effect.effect;
+  if(['full_hp_offense','low_hp_offense'].includes(e.type)){actor.gearConditionalBonuses??={};actor.gearConditionalBonuses[effect.effectGroup]=Object.fromEntries(Object.entries(e.modifiers).map(([k,n])=>[k,actor.stats[k]*n]));}
   if(e.type==='mp_stat_conversion'){const amount=Math.min(e.cap,Math.floor(effectiveStat(actor,'maxMp')*e.ratio));gearBonus[e.stat]=(gearBonus[e.stat]??0)+amount;continue;}
-  if(['soul_creation_mp','soul_spend_damage'].includes(e.type))for(const[key,n]of Object.entries(e.modifiers??{})){const amount=actor.stats[key]*n;gearBonus[key]=(gearBonus[key]??0)+amount;}
+  if(['soul_creation_mp','soul_spend_damage','paid_mp_damage','skill_shield_boost','skill_heal_boost','defend_mp_share','shield_team_guard','ally_shield_relay','support_cooldown','full_hp_offense','low_hp_offense','single_skill_echo','debuff_skill_echo','healing_team_resonance'].includes(e.type))for(const[key,n]of Object.entries(e.modifiers??{})){const amount=actor.stats[key]*n;gearBonus[key]=(gearBonus[key]??0)+amount;}
  }
  if(Object.keys(gearBonus).length){actor.gearEffectBonuses=gearBonus;actor.gearBonuses??={};for(const[k,n]of Object.entries(gearBonus)){actor.stats[k]+=n;actor.gearBonuses[k]=(actor.gearBonuses[k]??0)+n;}}
  if(!campaign.party.includes(actor.id))return;

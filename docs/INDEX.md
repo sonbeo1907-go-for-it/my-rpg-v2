@@ -168,3 +168,7 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [GEOFFREY_ANABEL.md](GEOFFREY_ANABEL.md): hào quang theo nguồn sống, tăng sát thương theo buff, tái kích theo kỹ năng, bản sửa Khai Phá và mốc8/16.
 
 - [Nikita — cận vệ hoàng gia, dao phép Phong](NIKITA.md).
+
+- [Gear IV đa dụng: MP, Khiên, hồi HP và Phòng thủ](T4_UTILITY_GEAR.md).
+
+- [Gear IV bảo hộ, điều kiện HP và Liên kích](GUARDIAN_GEAR.md).
