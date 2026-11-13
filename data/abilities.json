@@ -12657,5 +12657,199 @@
       "damage"
     ],
     "rankable": true
+  },
+  {
+    "id": "cyrus.codex",
+    "name": "Phong Điển — Trang Sách Đồng Hành",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "cyrus_codex",
+        "duration": 4
+      }
+    ],
+    "description": "Tăng ATK và MAG cho đồng đội hệ Phong.",
+    "skillLineId": "cyrus.codex",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "targetElement": "wind"
+  },
+  {
+    "id": "cyrus.gale",
+    "name": "Lật Trang — Gió Xé Kết Giới",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "scalingStat": "magic",
+        "multiplier": 0.5,
+        "onHitStatus": {
+          "status": "exposure_wind",
+          "stacks": 2
+        }
+      },
+      {
+        "type": "status",
+        "status": "cyrus_fracture",
+        "duration": 3,
+        "requiresDamageHit": true
+      }
+    ],
+    "description": "Gây sát thương Phong, gắn Sơ Hở Phong và giảm phòng thủ toàn địch.",
+    "skillLineId": "cyrus.gale",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "cyrus.guidance",
+    "name": "Dấu Sách — Lối Gió Trở Về",
+    "target": "all_allies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "weakness_exploitation",
+        "duration": 3
+      },
+      {
+        "type": "heal",
+        "scalingStat": "magic",
+        "multiplier": 0.6
+      }
+    ],
+    "description": "Hồi HP và cấp Khai Phá Điểm Yếu cho đồng đội hệ Phong.",
+    "skillLineId": "cyrus.guidance",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal"
+    ],
+    "rankable": true,
+    "targetElement": "wind"
+  },
+  {
+    "id": "siesta.rend",
+    "name": "Nanh Rìu — Xé Vòng Vây",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 1.8,
+        "primaryMultiplier": 2.4,
+        "onHitStatus": {
+          "status": "exposure_wind",
+          "stacks": 2
+        }
+      }
+    ],
+    "description": "Chém mục tiêu chính và hai ô kề, gắn Sơ Hở Phong.",
+    "skillLineId": "siesta.rend",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "resourceFollowUp": {
+      "resource": "ferocity",
+      "amount": 1,
+      "abilityId": "siesta.howl",
+      "perRound": 1,
+      "chain": true
+    }
+  },
+  {
+    "id": "siesta.howl",
+    "name": "Tiếng Tru — Đánh Thức Dã Tính",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "siesta_howl",
+        "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "weakness_exploitation",
+        "duration": 3
+      }
+    ],
+    "description": "Tăng ATK bản thân và nhận Khai Phá Điểm Yếu.",
+    "skillLineId": "siesta.howl",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true,
+    "resourceFollowUp": {
+      "resource": "ferocity",
+      "amount": 1,
+      "abilityId": "siesta.ravage",
+      "perRound": 1,
+      "chain": true
+    }
+  },
+  {
+    "id": "siesta.ravage",
+    "name": "Bầy Sói — Rìu Cuồng Phong",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 24
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 2.6,
+        "primaryMultiplier": 3.2,
+        "hits": 2
+      }
+    ],
+    "description": "Giáng hai nhát rìu lên mục tiêu chính và hai ô kề.",
+    "skillLineId": "siesta.ravage",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "resourceFollowUp": {
+      "resource": "ferocity",
+      "amount": 1,
+      "abilityId": "siesta.ravage",
+      "perRound": 1,
+      "chain": true
+    }
   }
 ]

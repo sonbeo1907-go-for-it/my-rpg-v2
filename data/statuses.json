@@ -1925,5 +1925,37 @@
       "damageReduction": 0.1
     },
     "description": "Giảm 10% sát thương nhận vào đến hết vòng."
+  },
+  {
+    "id": "cyrus_codex",
+    "name": "Phong Điển Đồng Hành",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.3,
+      "magic": 0.3
+    },
+    "description": "Tăng ATK và MAG."
+  },
+  {
+    "id": "cyrus_fracture",
+    "name": "Gió Xé Kết Giới",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.2,
+      "resistance": -0.2
+    },
+    "description": "Giảm DEF và RES."
+  },
+  {
+    "id": "siesta_howl",
+    "name": "Tiếng Tru Dã Tính",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.5
+    },
+    "description": "Tăng ATK."
   }
 ]

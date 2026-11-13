@@ -104,7 +104,9 @@
       "wilson",
       "geoffrey",
       "anabel",
-      "nikita"
+      "nikita",
+      "cyrus",
+      "siesta"
     ],
     "gearRates": [
       {
@@ -317,6 +319,14 @@
         {
           "id": "nikita",
           "from": "2026-11-12"
+        },
+        {
+          "id": "cyrus",
+          "from": "2026-11-13"
+        },
+        {
+          "id": "siesta",
+          "from": "2026-11-13"
         }
       ]
     }

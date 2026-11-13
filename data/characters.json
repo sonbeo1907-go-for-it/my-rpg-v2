@@ -4861,5 +4861,86 @@
       "penetration": 0.5,
       "penetrationDamageType": "magical"
     }
+  },
+  {
+    "id": "cyrus",
+    "releaseId": 108,
+    "name": "Cyrus",
+    "title": "Người Giữ Thư Khố Gió",
+    "affiliation": "capital_knights",
+    "tags": [
+      "capital_knights",
+      "archive_librarian"
+    ],
+    "element": "wind",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "basicDamageType": "magical",
+    "description": "Tiếp ma lực bằng Phòng thủ, dẫn đồng đội Phong khai thác điểm yếu.",
+    "biography": "Thủ thư của Kị sĩ đoàn Thủ đô. Giữa những kệ sách quân sử, Cyrus lưu giữ thuật thức dẫn gió và những bài học bảo vệ đồng đội.",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 125,
+      "attack": 10,
+      "magic": 32,
+      "defense": 17,
+      "resistance": 25,
+      "speed": 21
+    },
+    "passive": {
+      "type": "defend_element_mp",
+      "name": "Hơi Thở Giữa Trang Sách",
+      "description": "Dùng Phòng thủ: các thành viên hệ Phong còn sống hồi 5% MP tối đa, kể cả Cyrus.",
+      "element": "wind",
+      "ratio": 0.05
+    },
+    "abilities": [
+      "cyrus.codex",
+      "cyrus.gale",
+      "cyrus.guidance"
+    ]
+  },
+  {
+    "id": "siesta",
+    "releaseId": 109,
+    "name": "Siesta",
+    "title": "Nanh Sói Dưới Quân Kỳ",
+    "affiliation": "capital_knights",
+    "tags": [
+      "capital_knights",
+      "wolf_knight"
+    ],
+    "element": "wind",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "description": "Đánh thường tích Dã Tính, rồi nối rìu bằng những đợt Liên kích dữ dội.",
+    "biography": "Được sói nuôi từ nhỏ, Siesta được Charlemagnes tìm thấy và dạy dỗ. Nay là kị sĩ dưới trướng Percival, cô vẫn giữ nhịp săn hoang dã trong từng nhát rìu.",
+    "stats": {
+      "maxHp": 195,
+      "maxMp": 85,
+      "attack": 36,
+      "magic": 8,
+      "defense": 20,
+      "resistance": 16,
+      "speed": 18
+    },
+    "resources": {
+      "ferocity": {
+        "name": "Dã Tính",
+        "max": 3
+      }
+    },
+    "passive": {
+      "type": "basic_resource",
+      "name": "Bản Năng Bầy Sói",
+      "description": "Sau Đánh thường, nhận 1 Dã Tính; tối đa 3 tầng.",
+      "resource": "ferocity",
+      "amount": 1
+    },
+    "abilities": [
+      "siesta.rend",
+      "siesta.howl",
+      "siesta.ravage"
+    ]
   }
 ]

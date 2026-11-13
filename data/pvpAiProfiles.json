@@ -1605,5 +1605,38 @@
       "nikita.dagger": 12,
       "nikita.execution": 24
     }
+  },
+  {
+    "id": "cyrus",
+    "role": "offensive_support",
+    "healBelow": 0.5,
+    "reserveMpRatio": 0.2,
+    "setupAbilities": [
+      "cyrus.codex",
+      "cyrus.guidance"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "cyrus.codex": 18,
+      "cyrus.gale": 12,
+      "cyrus.guidance": 14
+    }
+  },
+  {
+    "id": "siesta",
+    "role": "physical_dps",
+    "healBelow": 0.35,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "siesta.howl"
+    ],
+    "burstAbilities": [
+      "siesta.ravage"
+    ],
+    "skillBias": {
+      "siesta.howl": 18,
+      "siesta.rend": 12,
+      "siesta.ravage": 20
+    }
   }
 ]

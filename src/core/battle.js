@@ -473,6 +473,26 @@ function triggerKillRepeat(battle,owner,context){
  for(const effect of skill.effects)applyEffect(battle,owner,targets,effect,0,true,reaction);
  finishAttackContext(battle,owner,reaction);
 }
+function triggerResourceFollowUp(battle,owner,skill,context){
+ const rule=skill.resourceFollowUp;
+ // Only this explicitly authored own-skill chain may continue from a reaction.
+ if(!rule||context.reaction&&!(context.resourceChain&&rule.chain)||context.automatic||!living(owner)||battle.outcome||!battle.actors.some(t=>t.team!==owner.team&&living(t)))return;
+ const key='resource_followup:'+skill.id;
+ if(!procAvailable(battle,owner,key)||(owner.resourceValues[rule.resource]??0)<rule.amount)return;
+ const repeat=resolveRankedAbility(battle.content,owner,rule.abilityId),self=repeat.target==='self',legal=targetsFor(battle,owner,repeat);
+ const anchor=self?owner:legal.find(t=>t.id===context.primaryTargetId&&living(t))??legal.find(living);if(!anchor)return;
+ const targets=self?[owner]:splashEnemies(battle,owner,anchor.id);if(!targets.length||!reservePvpAutomatic(battle,owner,modeIO))return;
+ markProc(battle,owner,key);owner.resourceValues[rule.resource]-=rule.amount;exclusiveResourceChanged(battle,owner,rule.resource,-rule.amount,specialIO);
+ emitEvent(battle,{type:'resource',sourceId:owner.id,targetId:owner.id,resource:rule.resource,amount:-rule.amount,value:owner.resourceValues[rule.resource]});
+ write(battle,owner.name+': tiêu '+rule.amount+' '+owner.resources[rule.resource].name+' để nối tiếp '+repeat.name+'.');
+ const reaction={...attackContext(battle,owner),pvpRegistered:true,skill:repeat,skillId:repeat.id,reaction:true,reactionKind:'follow_up',resourceChain:rule.chain===true,primaryTargetId:self?context.primaryTargetId:anchor.id};
+ const offensive=repeat.effects.some(e=>e.type==='damage');
+ emitEvent(battle,{type:'reaction',kind:'follow_up',label:offensive?FOLLOW_UP_LABEL:'Nối tiếp',sourceId:owner.id,targetId:anchor.id,targetIds:targets.map(t=>t.id),area:!self,attack:offensive,abilityId:repeat.id});
+ for(const effect of repeat.effects)applyEffect(battle,owner,targets,effect,0,!self,reaction);
+ if(offensive)finishAttackContext(battle,owner,reaction);
+ if(rule.chain)triggerResourceFollowUp(battle,owner,repeat,reaction);
+}
+
 function triggerSurvivingTargetRepeat(battle,owner,skill,context){
  if(!skill.survivingTargetRepeat||context.reaction||context.automatic||!living(owner)||battle.outcome)return;
  const target=getActor(battle,context.primaryTargetId),key='surviving_repeat:'+skill.id;
@@ -2286,14 +2306,17 @@ function resolveAction(
       if(upgrade)applyStatus(battle,ally,upgrade.statusId,upgrade.duration,actor.id);
     }
   }
+  if(skill.id==='$defend'&&actor.passive?.type==='defend_element_mp'&&living(actor)){announcePassive(battle,actor);for(const ally of battle.actors.filter(a=>a.team===actor.team&&living(a)&&a.element===actor.passive.element))gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*actor.passive.ratio),actor.id);}
+  if(skill.id==='$attack'&&actor.passive?.type==='basic_resource'&&living(actor))gainResource(battle,actor,actor.passive.resource,actor.passive.amount,actor.id);
   if(skill.id==='$defend')chargeSupportModes(battle,actor,actionContext);
   gearAfterAction(battle,actor,skill,gearIO,mpBeforeAction);
-  if(offensive&&skill.survivingTargetRepeat){
-    finishAttackContext(battle,actor,actionContext);
+  if((offensive&&skill.survivingTargetRepeat)||skill.resourceFollowUp){
+    if(offensive)finishAttackContext(battle,actor,actionContext);
+    triggerResourceFollowUp(battle,actor,skill,actionContext);
     triggerSurvivingTargetRepeat(battle,actor,skill,actionContext);
   }
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
-  if (offensive&&!skill.survivingTargetRepeat) finishAttackContext(battle, actor, actionContext);
+  if (offensive&&!skill.survivingTargetRepeat&&!skill.resourceFollowUp) finishAttackContext(battle, actor, actionContext);
   const soulsCreated=createdSwordSoulsThisAction(battle,actor,actionEventStart);
   if(soulsCreated>0)triggerSoulCreation(battle,actor,soulsCreated,teamIO);
   growTeamResources(battle,actor,skill,teamIO);

@@ -10,7 +10,7 @@ const KNIGHTS={
  iwayn:'young_knight',percival:'tide_knight',mandred:'lion_knight',lionel:'guide_knight',
  charlemagnes:'grand_general',roland:'order_captain',victorina:'rose_knight',sieg:'silver_tide_knight',
  rivia:'dusk_knight',valery:'blackwind_archer',albeldo:'windshield_knight',sandra:'order_librarian',
- cerise:'recon_knight',geoffrey:'royal_knight',nikita:'royal_shadow'
+ cerise:'recon_knight',geoffrey:'royal_knight',nikita:'royal_shadow',cyrus:'archive_librarian',siesta:'wolf_knight'
 };
 
 test('Capital Knight roster carries one affiliation and one designation tag',()=>{

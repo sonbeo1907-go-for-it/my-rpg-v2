@@ -1,4 +1,4 @@
-import test from 'node:test';
+﻿import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {ELEMENTS, validateContent} from '../src/core/content.js';
@@ -39,7 +39,7 @@ function buff(b,id='arthur'){grant(b,id,'weakness_exploitation',1,3);}
 test('all elemental exposures exist and specialist skills explicitly grant exposure or exploitation',()=>{
   assert.equal(content.statuses.weakness_exploitation.weaknessMultiplier,2);
   for(const element of ELEMENTS){const s=content.statuses['exposure_'+element];assert.equal(s.exposedElement,element);assert.equal(s.maxStacks,3);assert.equal(s.kind,'debuff');}
-  assert.deepEqual(Object.values(content.characters).flatMap(c=>c.abilities.map(id=>content.abilities[id])).filter(s=>s.effects.some(e=>content.statuses[e.status]?.exposedElement||e.status==='weakness_exploitation')).map(s=>s.id),['simon.cross_examine','ember.mark','myonne.clause','izuna.offering','chen.double','remulia.prelude']);
+  assert.deepEqual(Object.values(content.characters).flatMap(c=>c.abilities.map(id=>content.abilities[id])).filter(s=>s.effects.some(e=>content.statuses[e.status]?.exposedElement||e.status==='weakness_exploitation')).map(s=>s.id),['simon.cross_examine','ember.mark','myonne.clause','izuna.offering','chen.double','remulia.prelude','cyrus.guidance','siesta.howl']);
 });
 
 test('exploitation replaces 150% with 200%, applies to innate/type weaknesses and never creates weakness itself',()=>{
