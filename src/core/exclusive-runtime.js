@@ -47,3 +47,17 @@ export function exclusiveResourceBonus(b,actor,resourceId,io){
   if(success){announce(b,actor,p,io);io.restore(b,actor,resourceId,p.amount);}
  }
 }
+
+// Called at fresh actor creation only; carried actors already own their pool.
+export function initializeExclusiveResources(b,actor,io){
+ for(const p of specialPassives(actor,'starting_basic_resource_chance'))if(alive(actor))io.restore(b,actor,p.resourceId,p.initial);
+}
+// Called once after an actual basic cast, after its native resource grant.
+export function exclusiveBasicResourceChance(b,actor,readBase,io){
+ for(const p of specialPassives(actor,'starting_basic_resource_chance')){
+  if(!alive(actor)||(actor.resourceValues[p.resourceId]??0)>=actor.resources[p.resourceId].max)continue;
+  const chance=Math.min(p.cap,Math.max(0,readBase(p.stat))/p.atStat*p.cap),success=b.random()<chance;
+  io.emit(b,{type:'resource_bonus_roll',sourceId:actor.id,resource:p.resourceId,chance,success});
+  if(success){announce(b,actor,p,io);io.restore(b,actor,p.resourceId,p.amount);}
+ }
+}

@@ -1,4 +1,4 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {loadContent} from '../scripts/load-content.mjs';
+﻿import test from 'node:test';import assert from 'node:assert/strict';import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave,encodeGameSave,decodeGameSave} from '../src/core/game-save.js';import {createBattle,getActor,executeAction,executeEnemyTurn} from '../src/core/battle.js';
 import {battleStat} from '../src/core/stat-values.js';import {copyTurnOrderField,expireTurnOrderField} from '../src/core/turn-order.js';import {exclusivePassive,validateExclusivePassive} from '../src/core/exclusive-hooks.js';
 import {resolveCharacter,completeStoryEvent} from '../src/core/progression.js';import {claimBattleReward} from '../src/core/economy.js';import {craftExclusive} from '../src/core/blacksmith.js';
@@ -16,7 +16,7 @@ function intro(){let c=createGameSave(content);for(const owner of ['iris','fiona
 const damage=b=>b.events.filter(e=>e.type==='damage'&&!e.periodic);
 
 test('three new companion stories, seven enemies and updated exclusive templates validate',()=>{
- assert.deepEqual(validateContent(content),[]);assert.equal(Object.keys(content.exclusiveGear).length,63);for(const owner of owners){const s=content.travelerStories[owner];assert.equal(s.chapters.length,3);assert.ok(s.order>3);for(const id of s.chapters)assert.equal(content.encounters[id].requiredPartyIds,undefined);}
+ assert.deepEqual(validateContent(content),[]);assert.equal(Object.keys(content.exclusiveGear).length,64);for(const owner of owners){const s=content.travelerStories[owner];assert.equal(s.chapters.length,3);assert.ok(s.order>3);for(const id of s.chapters)assert.equal(content.encounters[id].requiredPartyIds,undefined);}
  assert.equal(content.enemies.time_quill.stats.maxHp,80);assert.ok(content.enemies.time_quill.stats.speed>34);assert.equal(content.enemies.unstable_hourglass.stats.maxHp,130);assert.ok(content.enemies.prototype07.stats.speed>content.characters.monica.stats.speed);
 });
 test('compound Chelsea exclusive retains 85% counter and extends only urgent to three main turns',()=>{

@@ -21,7 +21,7 @@ import {restoreFortressVitals} from './fortress-session.js';
 import {fortressSupport} from './fortress-rules.js';
 import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,maybeGrantLowHpImmortality,expireAgony} from './actor-life.js';
 import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
-import {exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked,exclusiveEnemyStatusApplied,exclusiveResourceBonus} from './exclusive-runtime.js';
+import {initializeExclusiveResources,exclusiveBasicResourceChance,exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked,exclusiveEnemyStatusApplied,exclusiveResourceBonus} from './exclusive-runtime.js';
 import {specialPassives,specialSkillStatBonuses,specialHitStatBonus,specialResourcePenetration,specialResourceKeepChance} from './exclusive-specials.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 import {questDifficulty} from './quest-difficulty.js';
@@ -231,7 +231,7 @@ export function createBattle(
   for(const actor of actors)for(const initial of actor.initialStatuses??[])applyStatus(battle,actor,initial.status,initial.duration,actor.id,{stacks:initial.stacks??1,silent:true});
   initializeTrial(battle,campaign,options.trial,{status:applyStatus,write});
   initializeTeamResources(battle,options.teamResources);
-  for(const actor of actors){const p=actor.passive;if(p?.type==='starting_resource_skill_chance'&&!(options.partyActors??[]).some(a=>a.id===actor.id))gainResource(battle,actor,p.resource,p.initial);}
+  for(const actor of actors){if((options.partyActors??[]).some(a=>a.id===actor.id))continue;const p=actor.passive;if(p?.type==='starting_resource_skill_chance')gainResource(battle,actor,p.resource,p.initial);initializeExclusiveResources(battle,actor,specialIO);}
   if (!actors.some((actor) => actor.team === "party" && living(actor))) {
     battle.outcome = "defeat";
     write(battle, "Không còn đồng đội đứng vững để tiếp tục đợt mới.");
@@ -2307,7 +2307,7 @@ function resolveAction(
     }
   }
   if(skill.id==='$defend'&&actor.passive?.type==='defend_element_mp'&&living(actor)){announcePassive(battle,actor);for(const ally of battle.actors.filter(a=>a.team===actor.team&&living(a)&&a.element===actor.passive.element))gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*actor.passive.ratio),actor.id);}
-  if(skill.id==='$attack'&&actor.passive?.type==='basic_resource'&&living(actor))gainResource(battle,actor,actor.passive.resource,actor.passive.amount,actor.id);
+  if(skill.id==='$attack'&&actor.passive?.type==='basic_resource'&&living(actor)){gainResource(battle,actor,actor.passive.resource,actor.passive.amount,actor.id);exclusiveBasicResourceChance(battle,actor,key=>baseStatValue(actor,key),specialIO);}
   if(skill.id==='$defend')chargeSupportModes(battle,actor,actionContext);
   gearAfterAction(battle,actor,skill,gearIO,mpBeforeAction);
   if((offensive&&skill.survivingTargetRepeat)||skill.resourceFollowUp){

@@ -1485,5 +1485,31 @@
         }
       ]
     }
+  },
+  {
+    "id": "siesta.signature",
+    "characterId": "siesta",
+    "name": "Nanh Rìu Bầy Sói",
+    "description": "Trấn Phái của Siesta. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "starting_basic_resource_chance",
+      "name": "Dã Tính Thức Giấc",
+      "description": "Bắt đầu trận với 3 Dã Tính. Đánh thường có cơ hội tạo thêm 1 tầng, đạt 100% tại 150 ATK căn bản.",
+      "resourceId": "ferocity",
+      "initial": 3,
+      "amount": 1,
+      "stat": "attack",
+      "atStat": 150,
+      "cap": 1,
+      "rules": [
+        "Tỉ lệ tạo thêm = ATK căn bản / 150, tối đa 100%.",
+        "Tầng thêm độc lập với 1 tầng vốn có của Đánh thường; tối đa 3 Dã Tính.",
+        "Không tính buff ATK theo phần trăm. Chuyển wave hoặc phòng giữ tài nguyên hiện có."
+      ]
+    }
   }
 ]

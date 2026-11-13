@@ -1,6 +1,6 @@
 ﻿# Cyrus và Siesta — cấu hình playtest 13/11/2026
 
-Nhân vật chính thức #108/#109, `capital_knights`. Cyrus mang tag `archive_librarian`, Siesta `wolf_knight`; không dùng chung tag danh xưng độc nhất của Sandra. Có trong banner thường, lịch phe nhận rosterAdditions từ13/11/2026; không tự mở miễn phí, không thêm Trấn hay Thông Thạo. UI dùng card/icon vai trò và VFX hệ Phong có sẵn.
+Nhân vật chính thức #108/#109, `capital_knights`. Cyrus mang tag `archive_librarian`, Siesta `wolf_knight`; không dùng chung tag danh xưng độc nhất của Sandra. Có trong banner thường, lịch phe nhận rosterAdditions từ13/11/2026; không tự mở miễn phí, không thêm Thông Thạo. Siesta có Trấn Phái bổ sung ở mục cuối tài liệu. UI dùng card/icon vai trò và VFX hệ Phong có sẵn.
 
 ## Cyrus — Người Giữ Thư Khố Gió
 
@@ -47,3 +47,9 @@ Bước tự buff nhắm vào Siesta và giữ lại mục tiêu địch ban đ�
 Tài nguyên/buff/CD dùng carry có sẵn qua wave/phòng/phase, không tự reset do metadata mới. Trận độc lập0 Dã Tính, limiter mới; forecast clone không tiêu tài nguyên/proc thật. Savecũ thêm nhân vật khóa và tiến trình mặc định, giữ ID release cũ. Phân biệt chỉ số/MP/CD playtest với những hệ số người dùng đã chốt; các giá trị chưa chỉ định đã dùng phán đoán triển khai, không coi là số cân bằng cuối.
 
 `test/cyrus-siesta.test.js`: save/pool/AI, lọc Phong, hồiMP, main/extra/Choáng/CD4lượt, resource/cap, từngquota, không vònglặp, splash không nối vòng, forecast/lệnhlỗi, Rank và Arena đối xứng. Kiểm tra toàn engine, validate/typecheck, previewbrowserdesktop/mobile. Không sửa save thật.
+
+## Trấn Phái Siesta — Nanh Rìu Bầy Sói
+
+Mở công thức bằng 10 Bản Thiết Kế theo shop hiện hành, chế tạo và trang bị theo luật Trấn chung. Chỉ khi mang Trấn: bắt đầu trận độc lập với 3 Dã Tính; không nạp lại khi carry actor qua wave/phòng. Hai phe Arena áp dụng riêng theo người mang.
+
+Sau một Đánh thường hợp lệ (kể cả bị né), nhận 1 tầng vốn có rồi thử nhận thêm 1 tầng với xác suất `min(1, max(0, ATK căn bản) / 150)`. Tính phân bổ, trang bị và phần cộng căn bản; không dùng buff ATK phần trăm. Trần vẫn 3; đã đầy sau tầng thường thì không quay RNG. Không kích từ kỹ năng/Phòng thủ/phản ứng/lượt bị choáng hoặc lệnh lỗi. Lượt Thêm có thể kích như Đánh thường thường; không có hạn mức theo vòng. Forecast không thay RNG hay tài nguyên trận thật; reload snapshot không khởi tạo lại tài nguyên.
