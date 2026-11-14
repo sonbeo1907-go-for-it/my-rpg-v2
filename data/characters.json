@@ -4942,5 +4942,43 @@
       "siesta.howl",
       "siesta.ravage"
     ]
+  },
+  {
+    "id": "rotary",
+    "releaseId": 110,
+    "name": "Rotary",
+    "title": "Sợi Chỉ Của Hội Thần Bí",
+    "affiliation": "magic_academy",
+    "tags": [
+      "magic_academy",
+      "occult_club",
+      "biology_student"
+    ],
+    "element": "dark",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "basicDamageType": "magical",
+    "description": "Dùng Voodoo chuyển lượt chính cho đồng đội và bảo vệ người được liên kết.",
+    "biography": "Nữ sinh khoa Sinh học của Học viện Ma pháp, thành viên Câu lạc bộ Thần Bí Học. Rotary tìm kiếm mối liên hệ giữa sự sống, những con búp bê và các sợi chỉ vô hình.",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 135,
+      "attack": 10,
+      "magic": 33,
+      "defense": 16,
+      "resistance": 25,
+      "speed": 19
+    },
+    "passive": {
+      "type": "turn_delegate",
+      "name": "Mối Liên Kết Thần Bí",
+      "description": "Đồng đội mang Voodoo nhận 25% ATK và MAG. Đầu vòng, khi Voodoo còn hiệu lực, Rotary nhận một Lượt Thêm.",
+      "statusId": "rotary_voodoo"
+    },
+    "abilities": [
+      "rotary.voodoo",
+      "rotary.shelter",
+      "rotary.needle"
+    ]
   }
 ]

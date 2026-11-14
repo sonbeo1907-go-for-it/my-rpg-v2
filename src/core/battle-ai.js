@@ -1,3 +1,4 @@
+import {boundAlly} from './turn-delegation.js';
 import {lifeDebt} from './life-debt.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 import {activeStatuses} from './status-state.js';
@@ -35,6 +36,7 @@ function cheapScore(b,a,skill,t,p){
   if(e.type==='damage')n+=20+(e.multiplier??1)*5+(1-t.hp/t.stats.maxHp)*20;
   if(e.type==='heal')n+=((1-t.hp/t.stats.maxHp)+lifeDebt(t)/t.stats.maxHp)*150;
   if(e.type==='shield')n+=t.shield===0?32:0;
+  if(e.type==='bind_turns')n+=activeStatuses(t).some(s=>s.id===e.bindingId)?-50:55+Math.max(t.stats.attack,t.stats.magic)*.4;
   if(e.type==='status')n+=activeStatuses(t).some(s=>s.id===e.status)?-10:24;
   if(['enter_mode','prepare_mode','formula_field','summon_companion'].includes(e.type))n+=45;
   if(e.type==='grant_extra_turn')n+=25;
@@ -63,6 +65,7 @@ function evaluate(b,trial,a,skill,p,threats){
  const spentResource=Object.entries(a.resourceValues??{}).some(([id,n])=>n>=(a.resources?.[id]?.max??99)*.67&&(after.resourceValues?.[id]??0)<n);
  const mpGain=Math.max(0,after.mp-a.mp),lowMp=a.mp/battleMaxMp(b.content,a)<p.reserveMpRatio;
  let score=rescues*1000+kills*600+damage+protection+buffs+debuffs+cleanses*18-loss+(newMode||newCompanion?70:0)+(setup?120:0)+resourceGain+(spentResource&&p.burstAbilities.includes(skill.id)?40:0)+mpGain*(lowMp?7:1)+(p.skillBias[skill.id]??0);
+ const bound=boundAlly(trial,after);if(skill.effects.some(e=>e.type==='bind_turns')&&bound){const old=boundAlly(b,a),fresh=old?.id!==bound.id;if(fresh)score+=Math.max(bound.stats.attack,bound.stats.magic)*(['physical_dps','magical_dps','fighter','sorcerer'].includes(bound.roleGroup)?1.5:.3);else score-=160;}
  if(skill.id==='$defend'&&!lowMp&&!rescues)score-=18;
  if(skill.id!=='$defend'&&after.mp/battleMaxMp(b.content,after)<p.reserveMpRatio&&!kills)score-=15;
  if(trial.extraTurnGrants.size>b.extraTurnGrants.size)score+=45*(trial.extraTurnGrants.size-b.extraTurnGrants.size);

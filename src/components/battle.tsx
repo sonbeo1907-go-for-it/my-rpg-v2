@@ -1,4 +1,5 @@
 "use client";
+import {VoodooMark} from './voodoo-mark';
 import {skillMasteryClass} from "../core/skill-rules.js";
 import {lifeDebt} from '../core/life-debt.js';
 import {TrialCombatNotice} from "./unrecorded-trials";
@@ -121,6 +122,7 @@ export function CombatantCard({
 }) {
   const { battle, content } = useGame();
   const acting = battle.activeId === actor.id && !battle.outcome;
+  const voodoo=actor.statuses?.find((s:any)=>content.statuses[s.id]?.turnDelegation&&(s.remaining==null||s.remaining>0));
   return (
     <article
       className={`combatant ${!isAlive(actor) ? "fallen" : ""} ${acting ? "current-turn" : ""} ${actor.shield > 0 ? "has-shield" : ""} ${selected ? "is-target" : ""} ${affected ? "is-affected" : ""} ${hovered ? "turn-hovered" : ""}`}
@@ -138,6 +140,7 @@ export function CombatantCard({
         disabled={!selectable || !isAlive(actor)}
         onClick={onSelect}
       />
+      {voodoo&&isAlive(actor)&&<VoodooMark turns={voodoo.remaining}/>}
       {selected && (
         <span className="target-corners" aria-hidden="true">
           <i />

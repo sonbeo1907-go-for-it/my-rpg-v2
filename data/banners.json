@@ -106,7 +106,8 @@
       "anabel",
       "nikita",
       "cyrus",
-      "siesta"
+      "siesta",
+      "rotary"
     ],
     "gearRates": [
       {
@@ -326,6 +327,10 @@
         },
         {
           "id": "siesta",
+          "from": "2026-11-13"
+        },
+        {
+          "id": "rotary",
           "from": "2026-11-13"
         }
       ]

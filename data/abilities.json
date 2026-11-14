@@ -12851,5 +12851,93 @@
       "perRound": 1,
       "chain": true
     }
+  },
+  {
+    "id": "rotary.voodoo",
+    "name": "Voodoo — Sợi Chỉ Đồng Mệnh",
+    "target": "ally",
+    "excludeSelf": true,
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "bind_turns",
+        "bindingId": "rotary_voodoo",
+        "duration": 5
+      }
+    ],
+    "description": "Liên kết với một đồng đội khác để chuyển lượt chính cho họ.",
+    "growthProfile": "output_buff_mp",
+    "growthGroups": [
+      "output_buff_mp"
+    ],
+    "mpOnlyGrowth": true,
+    "rules": [
+      "Chỉ một đồng đội được liên kết. Đổi người sẽ kết thúc liên kết cũ.",
+      "Đầu vòng sau, nếu liên kết còn hiệu lực, Rotary nhận Lượt Thêm."
+    ],
+    "skillLineId": "rotary.voodoo",
+    "rankable": true
+  },
+  {
+    "id": "rotary.shelter",
+    "name": "Búp Bê Hộ Mệnh",
+    "target": "ally",
+    "excludeSelf": true,
+    "requiresTargetStatus": "rotary_voodoo",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "magic",
+        "multiplier": 1.8
+      },
+      {
+        "type": "status",
+        "status": "effect_ward"
+      }
+    ],
+    "description": "Tạo khiên và cấp một Hộ Ấn cho đồng đội đang mang Voodoo.",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "skillLineId": "rotary.shelter",
+    "rankable": true
+  },
+  {
+    "id": "rotary.needle",
+    "name": "Kim Châm — Dấu Ấn Giao Cảm",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "dark",
+        "multiplier": 2.2
+      },
+      {
+        "type": "bound_exposure",
+        "bindingId": "rotary_voodoo",
+        "stacks": 1,
+        "requiresDamageHit": true
+      }
+    ],
+    "description": "Gây sát thương Ám và tạo Sơ Hở theo hệ của đồng đội mang Voodoo.",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "skillLineId": "rotary.needle",
+    "rankable": true
   }
 ]

@@ -247,6 +247,7 @@ export function GameProvider({
             turnOrderField: structuredClone(current.turnOrderField),
             mainTurnOrder: [...current.mainTurnOrder],
             queue: [...current.queue],
+            delegatedTurn: structuredClone(current.delegatedTurn??null),
             cursor: current.cursor,
             round: current.round,
             phase: current.phase,

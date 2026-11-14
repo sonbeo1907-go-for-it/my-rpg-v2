@@ -1638,5 +1638,20 @@
       "siesta.rend": 12,
       "siesta.ravage": 20
     }
+  },
+  {
+    "id": "rotary",
+    "role": "sorcerer",
+    "healBelow": 0.5,
+    "reserveMpRatio": 0.2,
+    "setupAbilities": [
+      "rotary.voodoo"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "rotary.voodoo": 25,
+      "rotary.shelter": 12,
+      "rotary.needle": 10
+    }
   }
 ]

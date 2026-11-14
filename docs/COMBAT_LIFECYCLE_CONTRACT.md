@@ -1,4 +1,4 @@
-# Hợp đồng vòng đời chiến đấu
+﻿# Hợp đồng vòng đời chiến đấu
 
 Đối chiếu engine ngày **04/11/2026**, gồm bản sửa Cerise mất lượt vì choáng đang có trong working tree. Đây là contract cho thiết kế, triển khai và review; không phải yêu cầu refactor engine hoặc tự sửa cân bằng. Nếu code và quyết định đã duyệt khác nhau, ghi sai lệch và bổ sung kiểm chứng; không đổi mô tả để hợp thức hóa bug.
 
@@ -74,6 +74,8 @@ Tăng round, vào main, khởi tạo quyền extra của vòng; kiểm tra giớ
 Không reset các limiter/resource tùy tiện khi vào extra hoặc đổi phase boss. Hạn mức mỗi vòng phải cùng nhìn một `battle.round`.
 
 ### Đầu lượt: `beginTurn`
+
+Voodoo của Rotary tách chủ ô trong queue với người thực hiện lượt. Wrapper beginTurn xử lý DoT/thời hạn của nguồn rồi chốt delegatedTurn và gọi beginActorTurn cho người nhận; activeActor có thể khác queue[cursor]. Lượt chính được chuyển vẫn tick thời hạn người nhận, kể cả Choáng; lượt phụ không chuyển. Không thay queue bằng ID người nhận hoặc khôi phục lại người thực hiện khi status hết ở cuối hành động. Xem [ROTARY](ROTARY.md) và test/rotary.test.js.
 
 Kiểm tra mode đầu lượt; đánh dấu extra đã dùng nếu có. DoT chạy trước regen/hồi phục và trước kiểm tra choáng. Nếu DoT làm chủ gục, xử lý trạng thái sống/chết và chuyển tiếp; không hồi sinh bằng regen phía sau. Gear/nội tại/regen và đòn tự động đầu lượt có điều kiện riêng, có thể vẫn chạy trước khi lượt chủ động bị choáng.
 

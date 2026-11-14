@@ -120,3 +120,5 @@ Remulia miễn phí (releaseId104), đổi hệ riêng từng địch theo Sơ H
 
 ## 11/11 — Geoffrey, Anabel và bản sửa Remulia
 Geoffrey105 có hào quang35% DEF/RES khi còn sống; Anabel106 có15 ATK nền và khuếch đại/xuyên theo buff, tái kích riêng từng chiêu1 lần/vòng. Xem [GEOFFREY_ANABEL.md](GEOFFREY_ANABEL.md). Dạo Khúc đã cấp trực tiếp Khai Phá4 lượt chính. Mốc ô gear8/công thức16;22 vẫn30 Pure/ngày.
+
+Rotary (#110): xem [ROTARY](ROTARY.md). Voodoo chuyển ô lượt chính sang một đồng đội, giữ quyền lượt tự nhiên; 5 lượt chính người nhận gồm lượt chuyển. Đầu vòng cấp một Lượt Thêm cho Rotary. Nguồn bị Choáng vẫn chuyển nhưng DoT/thời hạn nguồn vẫn chạy; nguồn gục thì liên kết mất. Không đổi queue owner hoặc nền/BGM; activeActor có thể khác chủ ô.

@@ -1,6 +1,7 @@
 import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
 import {trialRoundStart,announceTrialMechanic} from './trial-warnings.js';
 import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,finishExposureSkill,restoreTeamAtResource} from './remulia-combat.js';
+import {boundAlly,cleanupTurnDelegations,delegatedTurnActor,turnOrderEntries,bindTurns,applyBoundExposure,grantDelegationExtraTurns} from './turn-delegation.js';
 import {initializeTrial,observeTrialDefeat,observeTrialHit,trialRoundEnd,trialOffenseBonus,trialAfterAction} from './unrecorded-trials.js';
 import {baseStatValue} from './combat-math.js';
 import {statusApplicationChance,stunImmune} from './status-chance.js';
@@ -249,8 +250,9 @@ export function getActor(battle, id) {
     battle.sourceActors?.find((actor) => actor.id === id)
   );
 }
+export {turnOrderEntries};
 export function activeActor(battle) {
-  return battle.outcome ? null : getActor(battle, battle.queue[battle.cursor]);
+  return battle.outcome ? null : delegatedTurnActor(battle);
 }
 
 function write(battle, message) {
@@ -537,6 +539,7 @@ function startRound(battle) {
   }
   for(const owner of battle.actors)checkCombatMode(battle,owner,'team_resource_changed',modeIO);
   if (checkOutcome(battle)) return;
+  cleanupTurnDelegations(battle);grantDelegationExtraTurns(battle,{write,emit:emitEvent});
   battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
   battle.mainTurnOrder = [...battle.queue];
   battle.cursor = 0;
@@ -593,8 +596,38 @@ function grantHealMp(battle, healer, target, healed) {
 }
 
 function beginTurn(battle) {
-  const actor = activeActor(battle);
-  if (!actor) return;
+  delete battle.delegatedTurn;
+  cleanupTurnDelegations(battle);
+  const owner=getActor(battle,battle.queue[battle.cursor]);
+  if(!owner)return;
+  if(battle.phase==='main'&&boundAlly(battle,owner)){
+    // The original slot still owns Rotary's DoT, durations and mode clock.
+    if(!beginActorTurn(battle,owner,true))return;
+    cleanupTurnDelegations(battle);
+    const target=boundAlly(battle,owner);
+    if(target){
+      finishStatuses(battle,owner,[...owner.statuses],false);spendModeTurn(owner);
+      for(const a of battle.actors)checkCombatMode(battle,a,'action_end',modeIO);
+      endTurnPassive(battle,owner);
+      battle.delegatedTurn={ownerId:owner.id,actorId:target.id,round:battle.round,phase:battle.phase,cursor:battle.cursor};
+      write(battle,target.name+' nhận lượt chính từ '+owner.name+' qua Voodoo.');
+      emitEvent(battle,{type:'turn_delegated',sourceId:owner.id,targetId:target.id,label:'Voodoo'});
+      beginActorTurn(battle,target);return;
+    }
+    // A link can end during turn-start reactions; Rotary keeps the prepared slot.
+    skipStunnedTurn(battle,owner);return;
+  }
+  beginActorTurn(battle,owner);
+}
+function skipStunnedTurn(battle,actor){
+  if(!flag(battle,actor,'skipTurn'))return false;
+  write(battle, `${actor.name} bị choáng, mất lượt hành động.`);
+  finishStatuses(battle,actor,[...actor.statuses],false);battle.actionCount++;
+  spendModeTurn(actor);for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);
+  endTurnPassive(battle,actor);advance(battle);return true;
+}
+function beginActorTurn(battle,actor,delegating=false) {
+  if (!actor) return false;
   checkCombatMode(battle,actor,"turn_start",modeIO);
   if (battle.phase === "extra") battle.extraTurnUsed.add(actor.id);
   // Poison resolves before any regeneration or turn-start passive, even after its source falls.
@@ -631,7 +664,7 @@ function beginTurn(battle) {
       onActorDefeated(battle,getActor(battle,status.sourceId),actor);
       write(battle, `${actor.name} gục xuống vì ${definition.name}.`);
       advance(battle); // Skip the defeated actor, including a last-enemy victory.
-      return;
+      return false;
     }
   }
   gearMainTurn(battle,actor,gearIO);
@@ -714,18 +747,10 @@ function beginTurn(battle) {
     exclusiveAutomaticHit(battle,actor,skill.id,context.gearImpacts?.some(h=>h.lostHp+h.absorbed>0),specialIO);
     finishAttackContext(battle, actor, context);
     transitionBossPhases(battle, { write, restoreMp: gainResource });
-    if (checkOutcome(battle)) return;
+    if (checkOutcome(battle)) return false;
   }
-  if (flag(battle, actor, "skipTurn")) {
-    write(battle, `${actor.name} bị choáng, mất lượt hành động.`);
-    finishStatuses(battle, actor, [...actor.statuses], false);
-    battle.actionCount++;
-    // A skipped turn is still the owner's turn: turn-counted modes must tick here too.
-    spendModeTurn(actor);
-    for (const member of battle.actors) checkCombatMode(battle, member, "action_end", modeIO);
-    endTurnPassive(battle, actor);
-    advance(battle);
-  }
+  if(!delegating&&skipStunnedTurn(battle,actor))return false;
+  return true;
 }
 
 function endTurnPassive(battle, actor) {
@@ -775,6 +800,7 @@ function tryVengefulRevive(battle,target){
  return true;
 }
 function onActorDefeated(battle,killer,target) {
+  cleanupTurnDelegations(battle);
   clearLifeDebt(target);
   syncSpeedLocks(battle);
   if(target.addTag==='web_anchor'&&!battle.actors.some(actor=>actor.addTag==='web_anchor'&&living(actor))){
@@ -827,6 +853,7 @@ function reviveTeam(battle, actor, effect, actionContext) {
 }
 
 function checkOutcome(battle) {
+  cleanupTurnDelegations(battle);
   syncTeamStatAuras(battle);
   observeTrialDefeat(battle,{write,emit:emitEvent});
   if (!battle.actors.some((actor) => actor.team === "enemy" && living(actor)))
@@ -844,6 +871,7 @@ function checkOutcome(battle) {
 }
 
 function advance(battle) {
+  delete battle.delegatedTurn;
   if (checkOutcome(battle)) return;
   battle.cursor += 1;
   while (
@@ -960,7 +988,7 @@ export function targetsFor(battle, actor, skill) {
   if(skill.targetElement)targets=targets.filter(target=>target.element===skill.targetElement);
   if(skill.targetTag)targets=targets.filter(target=>target.tags?.includes(skill.targetTag));
   if(skill.excludeSelf)targets=targets.filter(target=>target.id!==actor.id);
-  if (skill.requiresTargetStatus) targets = targets.filter(target => target.statuses.some(status => status.id === skill.requiresTargetStatus && status.stacks > 0));
+  if (skill.requiresTargetStatus) targets = targets.filter(target => target.statuses.some(status => status.id === skill.requiresTargetStatus && status.stacks > 0 && (status.remaining==null||status.remaining>0) && (!battle.content.statuses[status.id]?.turnDelegation||status.sourceId===actor.id)));
   if (skill.target === "enemy") {
     const taunting = targets.filter((target) => flag(battle, target, "taunt"));
     if (taunting.length) targets = taunting;
@@ -1861,6 +1889,8 @@ function applyEffect(
   area,
   actionContext = attackContext(battle, actor),
 ) {
+  if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
+  if(effect.type==='bound_exposure'){applyBoundExposure(battle,actor,targets,effect,actionContext,{status:applyStatus});return;}
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
   if(effect.divideAmongTargets)effect={...effect,multiplier:effect.multiplier/Math.max(1,targets.filter(t=>living(t)).length)};
   if(effect.type==='team_resource'){const amount=effect.amount*(effect.perHitTarget?Math.min(effect.maxTargets,new Set(actionContext.gearImpacts.map(h=>h.target.id)).size):1);if(living(actor)&&amount>0){changeTeamResource(battle,actor,effect.resource,amount,teamIO);actionContext.explicitTeamCreated??=new Set();actionContext.explicitTeamCreated.add(effect.resource);}return;}

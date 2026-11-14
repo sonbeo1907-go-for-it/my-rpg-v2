@@ -1957,5 +1957,22 @@
       "attack": 0.5
     },
     "description": "Tăng ATK."
+  },
+  {
+    "id": "rotary_voodoo",
+    "name": "Voodoo",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "defaultDuration": 5,
+    "modifiers": {
+      "attack": 0.25,
+      "magic": 0.25
+    },
+    "turnDelegation": true,
+    "description": "Nhận lượt chính của Rotary. Tăng 25% ATK và MAG.",
+    "rules": [
+      "Còn 5 lượt chính của người nhận khi mới liên kết, tính cả lượt được chuyển.",
+      "Rotary hoặc người nhận gục: liên kết kết thúc."
+    ]
   }
 ]

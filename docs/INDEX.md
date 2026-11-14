@@ -174,3 +174,4 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Gear IV bảo hộ, điều kiện HP và Liên kích](GUARDIAN_GEAR.md).
 
 - [Cyrus và Siesta — đội Phong, Dã Tính và Liên kích theo chiêu](CYRUS_SIESTA.md).
+- [Rotary — Voodoo, chuyển lượt chính và VFX cục bộ](ROTARY.md).

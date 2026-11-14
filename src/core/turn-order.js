@@ -1,3 +1,4 @@
+import {boundAlly} from './turn-delegation.js';
 
 import {isAlive} from "./actor-life.js";
 import {extendedFieldDuration,syncExclusiveFieldModifiers} from './exclusive-field.js';
@@ -59,7 +60,7 @@ export function skillBaseStatBonuses(battle,actor,skill,targets) {
     return {[passive.stat]:Math.min(passive.cap,(actor.detonationBonus??0)+passive.increment)};
   }
   if (passive?.type!=='later_target_base_stat' || skill.id?.startsWith('$') || skill.activation==='passive' || !skill.effects.some(effect=>effect.type==='damage')) return {};
-  const order=battle.mainTurnOrder??[],rank=order.indexOf(actor.id);
-  if (rank<0 || !targets.some(target=>isAlive(target) && target.team!==actor.team && order.indexOf(target.id)>rank)) return {};
+  const order=battle.mainTurnOrder??[],delegated=battle.delegatedTurn,rank=battle.phase==='main'&&delegated?.actorId===actor.id&&delegated.round===battle.round&&delegated.cursor===battle.cursor?battle.cursor:order.indexOf(actor.id);
+  if (rank<0 || !targets.some(target=>isAlive(target) && target.team!==actor.team && order.some((ownerId,index)=>{if(index<=rank)return false;const owner=battle.actors.find(a=>a.id===ownerId);return (boundAlly(battle,owner)??owner)?.id===target.id;}))) return {};
   return {[passive.stat]:passive.amount};
 }

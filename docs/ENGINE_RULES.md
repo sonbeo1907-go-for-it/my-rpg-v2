@@ -75,3 +75,5 @@ Hồn Kiếm: hai hạn mức tăng tự nhiên theo đội/vòng, dùng chung m
 Mastery là tiến trình PvE: mọi trận có opponentCampaign/PvP rules clamp actor skillRanks và resolver tối đa5 cả hai phe; cache/override không được vượt. Ogre có masteryEligible:false, gateRank sau HardArthur, tối đa5 kể cả previewoverride. PassiveArthur mới cấp3 tài nguyên ở trận độc lập, không ở carry/phase; sauKiếmQuang dùng baseATK/150 cho +1, không từ skip. Xem ARTHUR_COMPLETE_CONTROL/SKILL_MASTERY.
 
 Mastery hiện dùng bảng theo mức: output1,12/1,12/1,15; stat buff1,06/1,06/1,075. Trấn native_passive_override thay tham số trên clone loadout, không mutate data hoặc cộng lại nội tại. Quan sát trạng thái chỉ từ apply thành công, không từ bị chặn, và có guard phản ứng. Xem EXCLUSIVE_BALANCE_2026_11_06.
+
+Voodoo/Rotary: queue giữ chủ ô gốc, activeActor là người thực hiện được chốt trong delegatedTurn. Mỗi lượt chính người nhận (tự nhiên hoặc chuyển) trừ một thời hạn Voodoo; lượt phụ không trừ. Nguồn bị Choáng vẫn chuyển lượt, nguồn gục xóa liên kết. Đầu vòng cấp một Lượt Thêm cho nguồn nếu liên kết còn hiệu lực. Xem ROTARY.md; không tự suy người đang hành động từ queue[cursor].
