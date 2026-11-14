@@ -1974,5 +1974,16 @@
       "Còn 5 lượt chính của người nhận khi mới liên kết, tính cả lượt được chuyển.",
       "Rotary hoặc người nhận gục: liên kết kết thúc."
     ]
+  },
+  {
+    "id": "charlemagnes_marshal",
+    "name": "Quân Uy Đại Tướng",
+    "kind": "buff",
+    "modifiers": {
+      "attack": 0.3
+    },
+    "description": "Tăng 30% ATK trong 3 lượt chính.",
+    "durationClock": "main_turn",
+    "defaultDuration": 3
   }
 ]

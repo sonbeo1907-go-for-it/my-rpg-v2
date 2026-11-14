@@ -1511,5 +1511,31 @@
         "Không tính buff ATK theo phần trăm. Chuyển wave hoặc phòng giữ tài nguyên hiện có."
       ]
     }
+  },
+  {
+    "id": "charlemagnes.signature",
+    "characterId": "charlemagnes",
+    "name": "Ấn Soái Lệnh",
+    "description": "Trấn Phái của Charlemagnes. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "after_skill_status",
+      "name": "Đại Tướng Ra Quân",
+      "description": "Dùng Quân lệnh: Phá giáp đồng thời tăng 30% ATK cho bản thân trong 3 lượt chính.",
+      "abilityIds": [
+        "charlemagnes.breach"
+      ],
+      "statusId": "charlemagnes_marshal",
+      "to": "self",
+      "rules": [
+        "Dùng lại làm mới hiệu lực, không cộng dồn.",
+        "Kích khi kỹ năng được thi triển; không yêu cầu giảm DEF thành công.",
+        "Chỉ có hiệu lực khi trang bị Trấn Phái."
+      ],
+      "duration": 3
+    }
   }
 ]

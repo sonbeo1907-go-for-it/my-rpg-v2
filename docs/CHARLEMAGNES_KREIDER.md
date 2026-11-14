@@ -31,3 +31,11 @@ Dark / magical DPS; HP125 MP110 ATK8 MAG41 DEF14 RES25 SPD18.
 **Cộng hưởng nghịch âm:** +30% direct damage per distinct active debuff ID on the actual victim, capped at +90%. Three layers of one effect count once. An effect reducing multiple stats counts once. Buffs, expired effects and zero-layer effects do not count. Source does not matter. Re-evaluate per hit. Applies to basic/direct attacks, not periodic poison. Add to existing outgoing damage bonuses; do not multiply again. The native cap does not cap unrelated buffs. Follow-up casters use their own passives.
 
 Shared helpers supply costs and target debuff counts to combat, AI affordability and skill previews. Live hover uses the real selected target; out-of-combat previews start at zero debuffs and offer a 0–3 assumption slider.
+
+## Trấn Phái Charlemagnes — Ấn Soái Lệnh (14/11/2026)
+
+Mở công thức bằng 10 Bản Thiết Kế tại Shop, chế tạo/trang bị theo luật Trấn hiện hành; không tự tặng vào save cũ. Khi mang Trấn, sau khi thi triển **Quân lệnh: Phá giáp**, bản thân nhận **+30% ATK**, giữ **3 lượt chính**. Dùng lại làm mới, không cộng dồn. Trấn không đổi MP/CD hay hiệu quả giảm DEF của chiêu, không làm chiêu tiện ích này có Rank.
+
+Dùng adapter `after_skill_status` và status `charlemagnes_marshal`, không thêm nhánh riêng vào engine. Buff cố định 30%, không tăng theo Rank/Thông Thạo. Kích theo lần thi triển hợp lệ, kể cả địch có Hộ Ấn chặn giảm DEF; lệnh sai, thiếu MP/CD hoặc Choáng bỏ lượt không kích. Phong Ấn trên người mang có thể chặn buff, xóa buff theo luật chung. Hai phe Arena xét nguồn/đích riêng.
+
+Thời hạn đếm ở cuối lượt chính của Charlemagnes, gồm lượt chính bị Choáng; Lượt Thêm không trừ. Lượt mới cấp hoặc làm mới không trừ ngay. Qua wave/phòng dùng adapter carry hiện hành, phase cùng trận không tự làm mới; trận độc lập bắt đầu không có buff. Forecast không đổi trạng thái thật; snapshot giữ thời hạn theo luật chung.
