@@ -2988,3 +2988,12 @@ h1[tabindex='-1']:focus { outline: none; }
 @keyframes voodoo-thread-breath{0%,100%{opacity:.45}50%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.voodoo-doll,.voodoo-threads{animation:none}}
 @media(max-width:640px){.voodoo-mark{width:43px;right:7px;top:7px}.voodoo-mark svg{width:43px;height:62px}}
+
+/* Catalogue-only: four aligned fields per row; other filter bars are unchanged. */
+.filter-bar.character-catalog-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.character-catalog-filters>label{min-width:0}
+.catalog-release-note{grid-column:1/-1;margin:0;color:var(--muted);font-size:.78rem;line-height:1.5}
+@media(max-width:640px){
+ .filter-bar.character-catalog-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .character-catalog-filters>label:first-child,.character-catalog-filters>label:nth-child(4){grid-column:1/-1}
+}

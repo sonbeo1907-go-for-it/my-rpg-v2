@@ -506,15 +506,17 @@ export function CharacterFilters({
   filters,
   onChange,
   ownedOnly = false,
+  showReleaseFilters = false,
 }: {
   filters: any;
   onChange: (values: any) => void;
   ownedOnly?: boolean;
+  showReleaseFilters?: boolean;
 }) {
   const set = (key: string, value: string) =>
     onChange({ ...filters, [key]: value });
   return (
-    <div className="filter-bar">
+    <div className={"filter-bar"+(showReleaseFilters?" character-catalog-filters":"")}>
       <label>
         Tìm đồng đội
         <input
@@ -568,13 +570,26 @@ export function CharacterFilters({
           </select>
         </label>
       )}
+      {showReleaseFilters && <>
+        <label>Trấn Phái
+          <select value={filters.exclusive??""} onChange={e=>set("exclusive",e.target.value)}>
+            <option value="">Tất cả</option><option value="released">Đã ra mắt</option><option value="unreleased">Chưa ra mắt</option>
+          </select>
+        </label>
+        <label>Thông Thạo
+          <select value={filters.mastery??""} onChange={e=>set("mastery",e.target.value)}>
+            <option value="">Tất cả</option><option value="released">Đã ra mắt</option><option value="unreleased">Chưa ra mắt</option>
+          </select>
+        </label>
+      </>}
       <SortControl
         value={filters.sort ?? "name"}
         direction={filters.direction ?? "asc"}
         onSort={(v) => set("sort", v)}
         onDirection={(v) => set("direction", v)}
-        options={[["name", "Tên"], ["level", "Cấp độ"], ...Object.entries(STAT_LABELS)]}
+        options={[["name", "Tên"], ["level", "Cấp độ"], ...(showReleaseFilters?[["releaseId","Thứ tự ra mắt"]]:[]), ...Object.entries(STAT_LABELS)]}
       />
+      {showReleaseFilters&&<p className="catalog-release-note">Trấn Phái và Thông Thạo được lọc theo nội dung đã ra mắt, không phụ thuộc tiến trình nâng cấp.</p>}
     </div>
   );
 }

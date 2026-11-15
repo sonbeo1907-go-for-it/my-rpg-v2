@@ -1,3 +1,4 @@
+import {masteryEnabled} from './skill-rules.js';
 import { resolveCharacter } from './progression.js';
 import { gearOwner } from './equipment.js';
 export const STAT_LABELS = { maxHp: 'HP', maxMp: 'MP', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD' };
@@ -33,17 +34,22 @@ export const affiliationLabel = value => (value ? (AFFILIATION_LABELS[value] ?? 
 const text = value => String(value).toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/đ/g, 'd');
 const compare = (a, b) => typeof a === 'string' ? a.localeCompare(b, 'vi', { numeric: true }) : a - b;
 export function characterCatalog(content, campaign, filters = {}, ownedOnly = false) {
-  const { q = '', element = '', role = '', ownership = '', sort = 'name', direction = 'asc' } = filters;
+  const { q = '', element = '', role = '', ownership = '', sort = 'name', direction = 'asc', exclusive = '', mastery = '' } = filters;
   // "all" giữ được trong URL khi người chơi chủ động bỏ lọc mặc định "đã sở hữu".
   const ownershipFilter = ownership === 'all' ? '' : ownership;
+  const releasedExclusives=new Set(Object.values(content.exclusiveGear??{}).filter(template=>template.enabled===true).map(template=>template.characterId));
+  const availabilityMatches=(filter,released)=>filter==='released'?released:filter==='unreleased'?!released:true;
   return Object.values(content.characters).filter(actor => {
     if (actor.developerOnly && !campaign.storyFlags.includes('developer.'+actor.id)) return false;
     const owned = campaign.unlockedCharacterIds.includes(actor.id);
     return (!ownedOnly || owned) && (!ownershipFilter || owned === (ownershipFilter === 'owned')) && (!element || element==='agony' || actor.element === element || element==='sword_soul' && actor.tags?.includes('sword_soul'))
+      && availabilityMatches(exclusive,releasedExclusives.has(actor.id))
+      && availabilityMatches(mastery,masteryEnabled(content,actor.id))
       && (!role || actor.roleGroup === role || actor.secondaryRoleGroups?.includes(role))
       && text(`${actor.name} ${actor.title} ${actor.role} ${actor.affiliation ?? ''} ${affiliationLabel(actor.affiliation)}`).includes(text(q));
   }).map(actor => resolveCharacter(content, campaign, actor.id)).sort((a, b) => {
-    const result = compare(sort === 'name' ? a.name : sort === 'level' ? a.level : a.stats[sort] ?? 0, sort === 'name' ? b.name : sort === 'level' ? b.level : b.stats[sort] ?? 0);
+    const value=actor=>sort==='name'?actor.name:sort==='level'?actor.level:sort==='releaseId'?actor.releaseId:actor.stats[sort]??0;
+    const result = compare(value(a),value(b));
     return result * (direction === 'desc' ? -1 : 1) || a.id.localeCompare(b.id);
   });
 }

@@ -97,7 +97,7 @@ export function CharactersPage() {
         title="Những người đồng hành"
         subtitle={`${characterCatalog(content,campaign,{},true).length} đã sở hữu · ${characterCatalog(content,campaign).length} nhân vật`}
       />
-      <CharacterFilters filters={filters} onChange={setFilters} />
+      <CharacterFilters filters={filters} onChange={setFilters} showReleaseFilters />
       <div className="catalog-heading">
         <span>{roster.length} nhân vật</span>
         <p>Chọn một đồng đội để xem câu chuyện và kỹ năng.</p>
