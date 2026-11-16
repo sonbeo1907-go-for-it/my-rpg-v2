@@ -1,3 +1,4 @@
+import {cancelBossRituals,bossActionCount,validateBossRitual} from './encounter-rituals.js';
 import {damageElements} from './elements.js';
 import {battleMaxMp} from './stat-values.js';
 
@@ -36,6 +37,7 @@ export function transitionBossPhases(battle, { write, restoreMp }) {
     if (!actor.boss || !isAlive(actor)) continue;
     const state = actor.bossState, next = actor.boss.phases[state.phase];
     if (!next || actor.hp > Math.ceil(actor.stats.maxHp * next.atHpRatio)) continue;
+    cancelBossRituals(battle,actor,{write});
     state.phase++;
     state.rotationStep = 0; state.pendingMoves = [];
     const phase = bossPhase(actor);
@@ -52,20 +54,30 @@ export function transitionBossPhases(battle, { write, restoreMp }) {
 // Due telegraphs take a slot in the next turn, never add a third move.
 export function bossTurnJobs(battle, actor, available = () => false) {
   const state = actor.bossState, phase = bossPhase(actor);
-  const due = state.pendingMoves.filter(move => move.readyRound <= battle.round);
-  state.pendingMoves = state.pendingMoves.filter(move => move.readyRound > battle.round);
-  const rotation = phase.rotation[state.rotationStep++ % phase.rotation.length];
+  const count=bossActionCount(battle,actor,phase.actionsPerTurn);
+  const due=[];let heavyReserved=false;
+  for(const move of state.pendingMoves){
+    const heavy=!move.ritual?.cancelled&&battle.content.abilities[move.abilityId]?.bossHeavy;
+    if(move.readyRound>battle.round||due.length>=count||(heavy&&heavyReserved))continue;
+    due.push(move);heavyReserved ||= heavy;
+  }
+  state.pendingMoves=state.pendingMoves.filter(move=>!due.includes(move));
+  // Authored ritual releases do not consume the next rotation step or combine two pressure skills.
+  const rotation = due.length&&actor.boss.pendingFiller?[actor.boss.pendingFiller]:phase.rotation[state.rotationStep++ % phase.rotation.length];
+  const expanded=Array.from({length:count},(_,i)=>rotation[i%rotation.length]);
   const burst=phase.resourceBurst;
-  if (!due.length && burst && available(burst)) return [{abilityId:burst},...rotation.map(abilityId=>({abilityId}))].slice(0,phase.actionsPerTurn);
-  return [...due, ...rotation.map(abilityId => ({ abilityId }))].slice(0, phase.actionsPerTurn);
+  if (!due.length && burst && available(burst)) return [{abilityId:burst},...expanded.map(abilityId=>({abilityId}))].slice(0,count);
+  return [...due, ...expanded.map(abilityId => ({ abilityId }))].slice(0, count);
 }
 
 export function validateBossDefinition(actor, content, fail) {
   if (!actor.boss) return;
   const boss = actor.boss, id = actor.id;
   const abilityExists = skill => typeof skill === 'string' && Object.hasOwn(content.abilities, skill);
-  const generic=boss.type==='phased';
-  if ((!generic && boss.type!=='three_phase_dragon') || !Array.isArray(boss.phases) || (generic ? boss.phases.length<2 || boss.phases.length>5 : boss.phases.length!==3)) {
+  validateBossRitual(actor,content,fail);
+  const scripted=boss.type==='scripted';
+  const generic=boss.type==='phased'||scripted;
+  if ((!generic && boss.type!=='three_phase_dragon') || !Array.isArray(boss.phases) || (generic ? boss.phases.length<(scripted?1:2) || boss.phases.length>5 : boss.phases.length!==3)) {
     fail(`${id}: invalid boss phases`); return;
   }
   boss.phases.forEach((phase, index) => {
@@ -82,8 +94,8 @@ export function validateBossDefinition(actor, content, fail) {
     for (const moves of phase.rotation) {
       if (!Array.isArray(moves) || moves.length !== phase.actionsPerTurn
         || moves.some(skill => !abilityExists(skill) || !actor.abilities?.includes(skill)
-          || !['enemy', 'all_enemies'].includes(content.abilities[skill].target)
-          || !content.abilities[skill].effects?.some(effect => effect.type === 'damage'))) fail(`${id}: invalid boss rotation`);
+          || !['enemy', 'all_enemies', 'self', 'ally', 'all_allies'].includes(content.abilities[skill].target)
+          || !content.abilities[skill].effects?.some(effect => ['damage','status','shield'].includes(effect.type)))) fail(`${id}: invalid boss rotation`);
     }
   });
   const rule = boss.suppression;
@@ -93,6 +105,7 @@ export function validateBossDefinition(actor, content, fail) {
     || !Array.isArray(rule.fireMultipliers) || rule.fireMultipliers.length !== rule.maxStacks + 1
     || rule.fireMultipliers.some((value, index) => !Number.isFinite(value) || value < 1 || (index > 0 && value > rule.fireMultipliers[index - 1])))) fail(`${id}: invalid boss suppression`);
   if (boss.restorePartyMpOnTransition!==undefined && typeof boss.restorePartyMpOnTransition!=='boolean') fail(id+': invalid phase MP rule');
+  if(boss.pendingFiller!==undefined){const s=content.abilities[boss.pendingFiller];if(!actor.abilities?.includes(boss.pendingFiller)||!s||s.cost?.mp||s.cooldown||s.windup||s.target!=='enemy'||!s.effects?.some(e=>e.type==='damage'))fail(id+': invalid pending move filler');}
   const fallback = content.abilities[boss.phases[0]?.rotation?.[0]?.[0]];
   if (!fallback || fallback.cost?.mp || fallback.cost?.resource || fallback.cooldown || fallback.windup) fail(`${id}: boss requires a free fallback attack`);
 }

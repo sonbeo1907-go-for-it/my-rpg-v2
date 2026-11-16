@@ -234,6 +234,7 @@ export function GameProvider({
         ? {
             presentation: current.arena?null:battlePresentation(current.actors),
             teamResources:structuredClone(current.teamResources??{}),
+            linkedBossState:structuredClone(current.linkedBossState??null),
             encounterId: current.encounterId,
             arena:structuredClone(current.arena??null),
             chronicle:structuredClone(current.chronicle??null),

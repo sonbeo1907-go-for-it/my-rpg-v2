@@ -2,6 +2,8 @@
 
 ## Phạm vi đã triển khai
 
+Phần tuyến chính bên dưới có 33 encounter. Hậu kỳ đã thêm **ba Đại Yêu Ma Lv60/70/80/90**, mở sau Orochi; xem [triển khai Đại Yêu Ma](EAST_GREAT_YOKAI.md).
+
 - **8 Key Event** và **25 Thảo Phạt** = **33 encounter**.
 - 5 nhóm Thảo Phạt, mỗi nhóm 5 màn.
 - Category riêng: `east_key` và `east_hunt`; không trộn với Thảo Phạt/Truy Nã cũ.
@@ -11,7 +13,7 @@
   - Thảo Phạt chỉ nhận `east_35`, `east_45`, `east_55`.
   - `createBattle()` từ chối độ khó/cấp không khớp.
 - Mọi encounter Phương Đông dùng BGM ID chứa `east`; track dùng các file `/bgm/*_east.mp3` hiện có.
-- Boss có HP nền Lv1 trong dải 1.400–2.200; boss dùng phase 2 giai đoạn, có đòn dự phòng miễn phí.
+- Boss của 33 màn tuyến chính có HP nền Lv1 trong dải 1.400–2.200; boss dùng phase 2 giai đoạn, có đòn dự phòng miễn phí.
 - Weakness Hồn Kiếm cho toàn bộ boss Phương Đông trừ Chiyoko.
 - First-clear Phương Đông được ghi nhận kể cả encounter không có `firstClearRewards`.
 - KE8 thắng và nhận thưởng ghi flag `east_campaign_completed`.
@@ -54,7 +56,7 @@ Ví dụ:
 
 ### Phong Ấn Hồn Kiếm
 
-Mọi boss Phương Đông bắt đầu với **Phong Ấn Hồn Kiếm**:
+Mọi boss trong 33 màn tuyến chính bắt đầu với **Phong Ấn Hồn Kiếm**:
 
 - Giảm **30% sát thương nhận** khi còn lớp.
 - Số lớp: **12–18**; Chiyoko có **24**.
@@ -122,3 +124,8 @@ Mỗi hunt có một **anchor enemy** mang mechanic riêng; anchor nằm trong w
 - unlock chain;
 - first-clear không cần reward;
 - wave kế tiếp giữ difficulty.
+
+
+## Kế hoạch mở rộng: Đại Yêu Ma
+
+Xem [kế hoạch ba siêu trùm sau Yamata no Orochi](EAST_GREAT_YOKAI_SUPERBOSSES_PLAN.md) (15/11/2026): quái khổng lồ chiếm ba ô, boss chuyên hiệu ứng bất lợi và trận song trùm; Lv60/70/80/90, mục tiêu khó hơn Miraebolis cùng cấp. Đã triển khai thành nhóm hậu kỳ riêng; xem [trạng thái hiện hành và các số đã tune](EAST_GREAT_YOKAI.md). Không thay đổi 33 encounter tuyến chính.

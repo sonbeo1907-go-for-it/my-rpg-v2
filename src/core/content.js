@@ -1,3 +1,4 @@
+import {validateEncounterBosses} from './encounter-rituals.js';
 import {validateTurnDelegation} from './turn-delegation.js';
 import {validateTrialContent} from './unrecorded-trials.js';
 import {validateArenaProgressionRules} from './arena-progression.js';
@@ -282,7 +283,7 @@ export function validateContent(content) {
     if (skill.target==='random_enemies' && (!skill.effects?.some(effect=>effect.type==='damage') || skill.effects.some(effect=>effect.type!=='damage' && effect.to!=='self'))) fail(id+': random targeting requires damage or self effects');
     if (!skill.effects?.length) fail(`${id}: requires effects`);
     if (skill.bossHeavy !== undefined && typeof skill.bossHeavy !== 'boolean') fail(`${id}: invalid bossHeavy`);
-    if (skill.windup !== undefined && (!skill.windup || skill.windup.rounds !== 1 || typeof skill.windup.message !== 'string' || !skill.windup.message)) fail(`${id}: invalid windup`);
+    if (skill.windup !== undefined && (!skill.windup || ![1,2].includes(skill.windup.rounds) || typeof skill.windup.message !== 'string' || !skill.windup.message)) fail(`${id}: invalid windup`);
     for (const effect of skill.effects ?? []) {
       if(effect.followUpBonus!==undefined&&(effect.type!=='enter_mode'||!Number.isFinite(effect.followUpBonus)||effect.followUpBonus<=0||effect.followUpBonus>2))fail(id+': invalid mode follow-up coefficient');
       if (!EFFECT_TYPES.includes(effect.type)) fail(`${id}: invalid effect ${effect.type}`);
@@ -485,12 +486,13 @@ export function validateContent(content) {
     }
     if (!encounter.enemies?.length) fail(`${id}: requires enemies`);
     for (const enemy of encounter.enemies ?? []) exists('enemies', enemy, id);
-    if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1) fail(`${id}: scripted boss requires a solo encounter`);
+    validateEncounterBosses(encounter,content,fail);
+    if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1 && encounter.bossEncounter?.type!=='linked_bosses') fail(`${id}: scripted boss requires a solo encounter`);
     if(encounter.rewardTier==='super'&&encounter.enemies?.length===1){const boss=content.enemies[encounter.enemies[0]];if(boss&&!boss.boss&&!boss.controlImmunities?.includes('stun'))fail(id+': superboss requires stun immunity');}
     exists('music', encounter.bgm ?? 'normal', id);
-    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt','trial'].includes(encounter.category)) fail(id+': invalid quest category');
+    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt','east_super','trial'].includes(encounter.category)) fail(id+': invalid quest category');
     if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
-    if(encounter.superLevels!==undefined&&(!['alice_superboss','miraebolis_superboss'].includes(id)&&!encounter.trialId||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
+    if(encounter.superLevels!==undefined&&(encounter.rewardTier!=='super'||!encounter.enemies?.every(key=>content.enemies[key]?.boss||content.enemies[key]?.controlImmunities?.includes('stun'))||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');
     if (encounter.firstClearRewards !== undefined) {
       if (!Array.isArray(encounter.firstClearRewards) || !encounter.firstClearRewards.length) fail(`${id}: invalid first clear rewards`);

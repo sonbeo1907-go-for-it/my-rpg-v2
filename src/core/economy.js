@@ -142,7 +142,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     next.claimedFirstClearRewards.push(battle.encounterId);
   }
   if(encounter?.category==='bounty'&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
-  if(['east_key','east_hunt'].includes(encounter?.category)&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
+  if(['east_key','east_hunt','east_super'].includes(encounter?.category)&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
   next.storyFlags??=[];
   const partyIds=new Set((battle.actors??[]).filter(a=>a.team==='party').map(a=>a.definitionId??a.id));
   for(const rule of encounter?.partyClearFlags??[]){

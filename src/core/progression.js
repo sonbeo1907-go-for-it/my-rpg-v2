@@ -307,12 +307,13 @@ export function deserializeCampaign(raw, content) {
         const encounter = content.encounters[id];
         return !encounter.firstClearRewards?.length
           && id !== 'alice_superboss'
-          && !['east_key','east_hunt'].includes(encounter.category);
+          && !['east_key','east_hunt','east_super'].includes(encounter.category);
       },
     )
   )
     throw new Error("Thưởng lần đầu trong save không hợp lệ.");
   result.claimedFirstClearRewards = [...claimed];
+  if(claimed.includes('east_ke_08')&&!result.storyFlags.includes('east_campaign_completed'))result.storyFlags.push('east_campaign_completed');
   if (claimed.includes('east_ke_03') && !result.unlockedCharacterIds.includes('senya')) result.unlockedCharacterIds.push('senya');
   for (const id of Object.keys(content.characters)) {
     const saved = input.characters?.[id];

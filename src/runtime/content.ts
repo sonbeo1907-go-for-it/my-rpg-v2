@@ -1,3 +1,4 @@
+import {eastSuperAbilities,eastSuperEnemies,eastSuperEncounters,eastSuperStatuses,eastSuperMusic} from '../core/east-superbosses.js';
 import trials from '../../data/trials.json';
 import pvpRules from '../../data/pvpRules.json';
 import pvpAiProfiles from '../../data/pvpAiProfiles.json';
@@ -27,15 +28,15 @@ export function getContent(): any {
     trials,chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
     progressionRules,
     characters,
-    abilities:[...abilities,...eastBossAbilities],
-    statuses,
+    abilities:[...abilities,...eastBossAbilities,...eastSuperAbilities],
+    statuses:[...statuses,...eastSuperStatuses],
     upgrades,
-    enemies:[...enemies,...eastEnemies],
-    encounters:[...encounters,...eastEncounters],
+    enemies:[...enemies,...eastEnemies,...eastSuperEnemies],
+    encounters:[...encounters,...eastEncounters,...eastSuperEncounters],
     economy,
     gearTypes,
     banners,
-    music:[...music,...eastMusic],
+    music:[...music,...eastMusic,...eastSuperMusic],
     dungeons,
     blacksmith,
     exclusiveGear,

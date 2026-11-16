@@ -122,3 +122,8 @@ Remulia miễn phí (releaseId104), đổi hệ riêng từng địch theo Sơ H
 Geoffrey105 có hào quang35% DEF/RES khi còn sống; Anabel106 có15 ATK nền và khuếch đại/xuyên theo buff, tái kích riêng từng chiêu1 lần/vòng. Xem [GEOFFREY_ANABEL.md](GEOFFREY_ANABEL.md). Dạo Khúc đã cấp trực tiếp Khai Phá4 lượt chính. Mốc ô gear8/công thức16;22 vẫn30 Pure/ngày.
 
 Rotary (#110): xem [ROTARY](ROTARY.md). Voodoo chuyển ô lượt chính sang một đồng đội, giữ quyền lượt tự nhiên; 5 lượt chính người nhận gồm lượt chuyển. Đầu vòng cấp một Lượt Thêm cho Rotary. Nguồn bị Choáng vẫn chuyển nhưng DoT/thời hạn nguồn vẫn chạy; nguồn gục thì liên kết mất. Không đổi queue owner hoặc nền/BGM; activeActor có thể khác chủ ô.
+
+
+## Đại Yêu Ma hậu Orochi — 15/11/2026
+
+Ba encounter category `east_super` ở Phương Đông, mở bởi `east_campaign_completed`/receipt `east_ke_08`, bốn cấp 60/70/80/90; không dùng gate Hiểm Ác cũ. Chỉ số nền Lv1, curve superboss theo encounter. `formationSpan:3` là một actor/HP/lượt, không nhân AoE theo ô. Multi-scripted-boss cần `bossEncounter:linked_bosses`; không bỏ validator solo chung. Nghi thức dùng `pendingMoves` có warningRound/readyRound; `pendingFiller` dành ô còn lại cho đòn nhẹ và không tiêu bước rotation khi giải phóng. Last-stand của song trùm có hiệu lực từ đầu vòng kế, không cộng lượt hồi tố. Controller `linkedBossState` phải giữ trong clone và publish UI; chuyển phase không reset mode, tài nguyên, quota hoặc hoàn MP. Xem [EAST_GREAT_YOKAI](EAST_GREAT_YOKAI.md) và test/east-superbosses.test.js.

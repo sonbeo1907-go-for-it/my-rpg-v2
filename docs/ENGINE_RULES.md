@@ -77,3 +77,11 @@ Mastery là tiến trình PvE: mọi trận có opponentCampaign/PvP rules clamp
 Mastery hiện dùng bảng theo mức: output1,12/1,12/1,15; stat buff1,06/1,06/1,075. Trấn native_passive_override thay tham số trên clone loadout, không mutate data hoặc cộng lại nội tại. Quan sát trạng thái chỉ từ apply thành công, không từ bị chặn, và có guard phản ứng. Xem EXCLUSIVE_BALANCE_2026_11_06.
 
 Voodoo/Rotary: queue giữ chủ ô gốc, activeActor là người thực hiện được chốt trong delegatedTurn. Mỗi lượt chính người nhận (tự nhiên hoặc chuyển) trừ một thời hạn Voodoo; lượt phụ không trừ. Nguồn bị Choáng vẫn chuyển lượt, nguồn gục xóa liên kết. Đầu vòng cấp một Lượt Thêm cho nguồn nếu liên kết còn hiệu lực. Xem ROTARY.md; không tự suy người đang hành động từ queue[cursor].
+
+
+## Footprint và nghi thức nhiều boss — 15/11/2026
+
+- Footprint chiếm nhiều ô chỉ thay vùng trình bày; mục tiêu, AoE, đòn lan/random, hit và trigger vẫn tính theo actor duy nhất. Không tạo thêm actor thân giả.
+- Trận nhiều boss có kịch bản phải khai controller/capability hợp lệ, giữ clock/CD/status từng actor và chỉ thắng khi hết địch sống. Song trùm Đại Yêu Ma giữ tổng hai hành động/vòng: mỗi người một, hoặc survivor hai từ đầu vòng sau.
+- Nghi thức báo ở đầu R không giải phóng trước lượt boss R+1; chuẩn bị giữa vòng R thì cảnh báo đầu R+1 và giải phóng từ R+2. Due move chiếm ô hành động, không thêm ô. Chiêu lớn cùng đến hạn phải giữ phần bị hoãn, không bỏ mất. Capability `pendingFiller` đóng băng rotation khi giải phóng và dùng đòn nhẹ cho ô còn lại.
+- Vỡ Thế của Cự Quỷ đếm lượt chính boss, không đếm move; gây trong chính lượt boss không hết ngay. Phản ứng là cast riêng khi phá dấu, DoT không tạo dấu. Chi tiết/source-of-truth: [Đại Yêu Ma](EAST_GREAT_YOKAI.md).

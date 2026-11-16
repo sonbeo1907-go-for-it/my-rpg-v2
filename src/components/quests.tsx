@@ -17,7 +17,7 @@ import { STAT_LABELS } from "../core/catalog.js";
 import {victoryRewardPreview} from '../core/quest-rewards.js';
 import { encounterTier, victoryCoinReward } from "../core/economy.js";
 import { QuestLayout, QuestIllustration } from "./quest-layout";
-import { questCatalog, questCategory, SINISTER_UNLOCK_FLAG, bountyUnlocked } from "../core/quest-catalog.js";
+import { questCatalog, questCategory, SINISTER_UNLOCK_FLAG, bountyUnlocked, eastSuperUnlocked } from "../core/quest-catalog.js";
 export function rewardNames(content: any, encounter: any) {
   return (encounter.firstClearRewards ?? [])
     .map((reward: any) =>
@@ -38,6 +38,7 @@ export function QuestPage() {
   const sinisterLocked = tab === "sinister" && !campaign.storyFlags.includes(SINISTER_UNLOCK_FLAG)&&!campaign.chronicles?.aliceFirstEncounterCleared&&!campaign.chronicles?.books?.book2?.finaleCleared;
   const bountyLocked=tab==="bounty"&&!bountyUnlocked(campaign);
   const encounters: any[] = questCatalog(content, campaign, filters);
+  const hasGreatYokai=tab==='east'&&eastSuperUnlocked(campaign);
   const selected =
     encounters.find((encounter) => encounter.id === filters.selected) ??
     encounters[0];
@@ -85,7 +86,7 @@ export function QuestPage() {
       <WideTabs className="quest-category-tabs" label="Danh mục nhiệm vụ" active={tab} tabs={[{id:'extermination',label:'Thảo Phạt'},{id:'bounty',label:'Truy Nã'},{id:'east',label:'Thảo Phạt Phương Đông'},{id:'sinister',label:'Hiểm Ác'},{id:'trial',label:'Khúc Ca Ngoài Sử Sách'}]} onChange={changeTab}/>
       <QuestLayout>
         <QuestIllustration
-          art={tab === "trial" ? (selected ? "/art/song-"+selected.trialId+".svg" : "/art/song-chimera.svg") : tab === "east" ? "/art/quest-east.svg" : tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
+          art={selected?.category==='east_super'?`/art/yokai-${content.enemies[selected.enemies[0]].bossArt==='thunder'?'twins':content.enemies[selected.enemies[0]].bossArt}.svg`:tab === "trial" ? (selected ? "/art/song-"+selected.trialId+".svg" : "/art/song-chimera.svg") : tab === "east" ? "/art/quest-east.svg" : tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
           header={selected?.trialId?<span className="quest-fixed-difficulty">Biên Niên Ký · Ba siêu trùm · Điều kiện tùy chọn</span>:selected?.superLevels?<section className="quest-difficulty-selector" aria-label="Cấp thử thách"><strong>Cấp thử thách</strong><div className="quest-difficulty-buttons">{selected.superLevels.map((level:number)=><button key={level} aria-pressed={selectedLevel===level} className={selectedLevel===level?'active':''} onClick={()=>setFilters({...filters,superLevel:String(level)})}>Level {level}</button>)}</div><p>{selected.rewardPolicy==='none'?'Thử thách tùy chọn · Không cấp tiền tệ hoặc EXP.':'Các cấp thử thách dùng chung phần thưởng.'}</p></section>:fixedDifficulty?<section className="quest-difficulty-selector" aria-label="Cấp cố định"><strong>Cấp cố định · Level {selectedLevel}</strong><p>Key Event Phương Đông không cho chọn độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty?.id)}/></section>:difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{difficultyOptions.map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
         >
           <span className="eyebrow">{tab === "bounty" ? "NHỮNG KHẾ ƯỚC TRÊN BẢNG TRUY NÃ" : tab === "sinister" ? "SAU CÁNH CỬA KHÔNG ÁNH SÁNG" : tab === "east" ? "NHỮNG BẾN BỜ PHƯƠNG ĐÔNG" : "NHỮNG NẺO ĐƯỜNG PHƯƠNG BẮC"}</span>
@@ -150,12 +151,14 @@ export function QuestPage() {
                 );
             }}
           >
-            {encounters.map((encounter) => {
+            {encounters.map((encounter,index) => {
               const cardDifficulty = encounter.allowedDifficulties &&
                 !encounter.allowedDifficulties.includes(difficultyId)
                 ? encounter.defaultDifficulty
                 : difficultyId;
               return (
+              <div key={encounter.id} className="quest-list-entry">
+              {encounter.category==='east_super'&&encounters[index-1]?.category!=='east_super'&&<h3 className="east-super-heading"><Icon name="skull"/>Đại Yêu Ma<small>Hậu Bát Kỳ Xà · Lv60–90</small></h3>}
               <button
                 className={`quest-card ${selected?.id === encounter.id ? "selected" : ""}`}
                 data-encounter-id={encounter.id}
@@ -191,8 +194,10 @@ export function QuestPage() {
                 </span>
                 <span aria-hidden="true">›</span>
               </button>
+              </div>
               );
             })}
+            {tab==='east'&&!hasGreatYokai&&!filters.q&&<div className="east-super-lock"><Icon name="door"/><div><strong>Đại Yêu Ma chưa mở khóa</strong><p>Đánh bại Yamata no Orochi để mở ba thử thách Lv60/70/80/90.</p></div></div>}
             {!encounters.length && (
               <EmptyState>Không tìm thấy nhiệm vụ phù hợp.</EmptyState>
             )}

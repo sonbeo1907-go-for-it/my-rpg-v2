@@ -3,6 +3,8 @@ import { encounterTier, victoryCoinReward } from './economy.js';
 
 export const BOUNTY_PREREQUISITES=['iris_story_revenge','takeshi_story_horizon','fiona_story_drei'];
 export const bountyUnlocked=campaign=>BOUNTY_PREREQUISITES.every(id=>campaign.claimedFirstClearRewards?.includes(id));
+export const EAST_SUPER_UNLOCK_FLAG='east_campaign_completed';
+export const eastSuperUnlocked=campaign=>Boolean(campaign?.storyFlags?.includes(EAST_SUPER_UNLOCK_FLAG)||campaign?.claimedFirstClearRewards?.includes('east_ke_08'));
 export const SINISTER_UNLOCK_FLAG = 'illusion.sinister_unlocked';
 export function questUnlockFlag(encounter) {
   if(encounter?.trialId)return null;
@@ -11,6 +13,7 @@ export function questUnlockFlag(encounter) {
 }
 export function isQuestUnlocked(encounter, campaign) {
   if (!encounter) return false;
+  if(encounter.category==='east_super')return eastSuperUnlocked(campaign);
   if(encounter.id==='miraebolis_superboss'&&campaign?.chronicles?.books?.book2?.finaleCleared)return true;
   if(encounter.id==='alice_superboss')return campaign?.chronicles?.aliceFirstEncounterCleared===true;
   if(encounter.category==='chronicle')return chronicleEncounterAllowed(encounter,campaign);
@@ -21,7 +24,7 @@ export function isQuestUnlocked(encounter, campaign) {
 }
 export function assertQuestUnlocked(encounter, campaign) {
   if (!isQuestUnlocked(encounter, campaign))
-    throw new Error(encounter?.travelerStory ? 'Hãy hoàn thành chương trước để mở khóa chương này.' : 'Nhiệm vụ chưa mở khóa. Điều kiện mở khóa sẽ được bổ sung sau.');
+    throw new Error(encounter?.category==='east_super' ? 'Đại Yêu Ma chưa mở khóa. Hãy đánh bại Yamata no Orochi.' : encounter?.travelerStory ? 'Hãy hoàn thành chương trước để mở khóa chương này.' : 'Nhiệm vụ chưa mở khóa. Điều kiện mở khóa sẽ được bổ sung sau.');
 }
 export function assertEncounterParty(encounter, campaign, content) {
   if (encounter.requiredPartyIds?.some(id => !campaign.party.includes(id)))
@@ -30,9 +33,9 @@ export function assertEncounterParty(encounter, campaign, content) {
 export function encounterReturnPath(content, id,difficultyId,enemyLevel,selection) {
   if(content.encounters[id]?.trialId){const query=new URLSearchParams();if(selection){query.set('level',String(selection.level));for(const[k,n]of Object.entries(selection.conditions))query.set(k,String(n));}return '/chronicles/unrecorded/'+content.encounters[id].trialId+(query.size?'?'+query:'');}
   if(content.encounters[id]?.category==='chronicle'){const e=content.chronicleEvents[content.encounters[id].chronicleEventId];return e.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+e.locationId+'&scene=1';}
-  if(content.encounters[id]?.superLevels)return '/quests?tab=sinister&selected='+id+'&superLevel='+(content.encounters[id].superLevels.includes(enemyLevel)?enemyLevel:60);
+  if(content.encounters[id]?.superLevels)return '/quests?tab='+(content.encounters[id].category==='east_super'?'east':'sinister')+'&selected='+id+'&superLevel='+(content.encounters[id].superLevels.includes(enemyLevel)?enemyLevel:60);
   const story = content.encounters[id]?.travelerStory;
-  const east = ['east_key','east_hunt'].includes(content.encounters[id]?.category);
+  const east = ['east_key','east_hunt','east_super'].includes(content.encounters[id]?.category);
   return story ? `/stories/${story}?selected=${id}` : east?`/quests?tab=east&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
 }
 export function questCategory(filters = {}) {
@@ -48,7 +51,7 @@ export function questCatalog(content, campaign, filters = {}) {
   return Object.values(content.encounters)
     .filter(encounter => {
       const tier = encounterTier(encounter);
-      const east = ['east_key','east_hunt'].includes(encounter.category);
+      const east = ['east_key','east_hunt','east_super'].includes(encounter.category);
       return isQuestUnlocked(encounter, campaign)
         && !encounter.travelerStory
         && (category==='trial'?Boolean(encounter.trialId):!encounter.trialId&&(category==='east'?east:category === 'bounty' ? encounter.category==='bounty' : !east && encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super')))

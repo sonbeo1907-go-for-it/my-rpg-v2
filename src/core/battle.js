@@ -1,3 +1,4 @@
+import {initializeEncounterBosses,observeEncounterBosses,encounterBossRoundStart,prepareBossRitual,observeBossWeakness,encounterHitMultiplier,encounterOffenseMultiplier,beginBossRitualTurn,finishBossRitualTurn,bossIncomingMultiplier,ritualJobAbility,beginRitualAction,finishEncounterBosses} from './encounter-rituals.js';
 import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
 import {trialRoundStart,announceTrialMechanic} from './trial-warnings.js';
 import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,finishExposureSkill,restoreTeamAtResource} from './remulia-combat.js';
@@ -230,6 +231,7 @@ export function createBattle(
     actionCount: 0,
   };
   for(const actor of actors)for(const initial of actor.initialStatuses??[])applyStatus(battle,actor,initial.status,initial.duration,actor.id,{stacks:initial.stacks??1,silent:true});
+  initializeEncounterBosses(battle);
   initializeTrial(battle,campaign,options.trial,{status:applyStatus,write});
   initializeTeamResources(battle,options.teamResources);
   for(const actor of actors){if((options.partyActors??[]).some(a=>a.id===actor.id))continue;const p=actor.passive;if(p?.type==='starting_resource_skill_chance')gainResource(battle,actor,p.resource,p.initial);initializeExclusiveResources(battle,actor,specialIO);}
@@ -519,6 +521,7 @@ function startRound(battle) {
   battle.extraPhaseRequired = false;
   if (battle.round - (battle.roundOffset ?? 0) > 60) {
     battle.outcome = "draw";
+    finishEncounterBosses(battle);
     for (const actor of battle.actors) { checkCombatMode(battle,actor,"battle_end",modeIO); closeFormula(battle,actor,modeIO,"battle_end"); }
     write(battle, "Trận đấu dừng sau 60 vòng.");
     return;
@@ -541,6 +544,7 @@ function startRound(battle) {
   if (checkOutcome(battle)) return;
   cleanupTurnDelegations(battle);grantDelegationExtraTurns(battle,{write,emit:emitEvent});
   battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
+  encounterBossRoundStart(battle,{write,emit:emitEvent});
   battle.mainTurnOrder = [...battle.queue];
   battle.cursor = 0;
   for (const actor of battle.actors) {
@@ -624,6 +628,7 @@ function skipStunnedTurn(battle,actor){
   write(battle, `${actor.name} bị choáng, mất lượt hành động.`);
   finishStatuses(battle,actor,[...actor.statuses],false);battle.actionCount++;
   spendModeTurn(actor);for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);
+  finishBossRitualTurn(battle,actor);
   endTurnPassive(battle,actor);advance(battle);return true;
 }
 function beginActorTurn(battle,actor,delegating=false) {
@@ -634,7 +639,7 @@ function beginActorTurn(battle,actor,delegating=false) {
   for (const status of [...actor.statuses]) {
     const definition = battle.content.statuses[status.id];
     if (!definition.damageOverTime) continue;
-    const requested=Math.floor(status.potency*(status.stacks??1)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
+    const requested=Math.floor(status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
     const periodicCap=applyPvpDamageCap(battle,getActor(battle,status.sourceId),actor,requested,battle.pvpRules?pvpPeriodicContext(battle,getActor(battle,status.sourceId),actor):{},false,modeIO);
     const life=applyLifeDamage(battle,actor,periodicCap.amount>0?periodicCap.amount:status.potency>0&&isInAgony(actor)?1:0,{element:definition.damageOverTime.element,healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
     const amount=life.hpLost+life.maxHpLost;
@@ -856,6 +861,7 @@ function checkOutcome(battle) {
   cleanupTurnDelegations(battle);
   syncTeamStatAuras(battle);
   observeTrialDefeat(battle,{write,emit:emitEvent});
+  observeEncounterBosses(battle,{write,emit:emitEvent});
   if (!battle.actors.some((actor) => actor.team === "enemy" && living(actor)))
     battle.outcome = "victory";
   else if (
@@ -867,6 +873,7 @@ function checkOutcome(battle) {
     checkCombatMode(battle,actor,battle.outcome ? "battle_end" : "owner_state",modeIO);
     if (!living(actor) || (battle.outcome && !(battle.outcome==='victory' && battle.continuesOnVictory))) closeFormula(battle,actor,modeIO,!living(actor)?'owner_ko':'battle_end');
   }
+  if(battle.outcome)finishEncounterBosses(battle);
   return battle.outcome;
 }
 
@@ -1565,8 +1572,9 @@ function resolveHit(
   const hitGrowthMultiplier = actionContext.hitGrowthMultiplier ?? 1;
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
-  const counterRaw=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
+  const counterRawBase=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
     Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+  const counterRaw=counterRawBase*encounterOffenseMultiplier(battle,attacker,target,actionContext);
   let amount = Math.max(
     1,
     Math.floor(
@@ -1597,6 +1605,7 @@ function resolveHit(
         (1 - clamp(reduction, 0, 0.75)),
     ),
   );
+  amount=Math.max(1,Math.floor(amount*encounterHitMultiplier(battle,attacker,target,actionContext)));
   const cappedHit=applyPvpDamageCap(battle,attacker,target,amount,actionContext,area,modeIO);amount=cappedHit.amount;
   if (!reaction && attacker.team!==target.team && target.shield>0) actionContext.shieldedAllyHits.add(target.id);
   const maxHpRoute=routesToMaxHp(target,effect.element);
@@ -1665,6 +1674,7 @@ function resolveHit(
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeElementAllies(battle,attacker,actionContext,damageElements(effect));
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeReceivedElement(battle,attacker,target,effect,actionContext);
   maybeEnterContingency(battle,target,lostHp);
+  if(living(target)&&weakness&&vitalityDamage+absorbed>0)observeBossWeakness(battle,attacker,target,actionContext,{write,emit:emitEvent});
   if (living(target) && weakness && vitalityDamage + absorbed > 0)
     suppressOnWeakness(
       battle,
@@ -2376,14 +2386,16 @@ function resolveAction(
 function executeBossTurn(battle, actor) {
   battle.events = [];
   const oldStatuses = [...actor.statuses];
+  beginBossRitualTurn(actor);
   const jobs = bossTurnJobs(battle, actor, id=>abilityAvailability(battle,actor,battle.content.abilities[id]).ok);
   let heavyUsed = false;
   for (const [index, job] of jobs.entries()) {
     if (battle.outcome || !living(actor)) break;
-    let skill = battle.content.abilities[job.abilityId];
+    let skill = battle.content.abilities[ritualJobAbility(actor,job)];
     if (
       !abilityAvailability(battle, actor, skill).ok ||
-      (heavyUsed && skill.bossHeavy)
+      (heavyUsed && skill.bossHeavy) ||
+      (!job.readyRound && actor.bossState.pendingMoves.some(move=>move.abilityId===skill.id))
     )
       skill = battle.content.abilities[actor.boss.phases[0].rotation[0][0]];
     if (skill.bossHeavy) heavyUsed = true;
@@ -2397,17 +2409,20 @@ function executeBossTurn(battle, actor) {
       `${actor.name} — Giai đoạn ${actor.bossState.phase}, hành động ${index + 1} / ${jobs.length}.`,
     );
     if (skill.windup && !job.readyRound) {
-      actor.bossState.pendingMoves.push({
+      const pending = {
         abilityId: skill.id,
         readyRound: battle.round + skill.windup.rounds,
         targetId: skill.target === "enemy" ? target.id : undefined,
-      });
+      };
+      prepareBossRitual(battle,actor,pending);
+      actor.bossState.pendingMoves.push(pending);
       write(
         battle,
         `${actor.name} vận sức: ${skill.name}${skill.target === "enemy" ? ` nhắm ${target.name}` : ""}. ${skill.windup.message} Thi triển từ lượt boss ở vòng ${battle.round + skill.windup.rounds}.`,
       );
       battle.actionCount++;
     } else {
+      beginRitualAction(actor,job,skill.id);
       resolveAction(
         battle,
         { actorId: actor.id, abilityId: skill.id, targetId: target.id },
@@ -2416,6 +2431,7 @@ function executeBossTurn(battle, actor) {
     }
   }
   finishStatuses(battle, actor, oldStatuses, false);
+  finishBossRitualTurn(battle,actor);
   endTurnPassive(battle, actor);
   if (!battle.outcome) advance(battle);
 }

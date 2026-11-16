@@ -2997,3 +2997,25 @@ h1[tabindex='-1']:focus { outline: none; }
  .filter-bar.character-catalog-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
  .character-catalog-filters>label:first-child,.character-catalog-filters>label:nth-child(4){grid-column:1/-1}
 }
+
+/* Great Yokai: layout follows actor identity; footprint never creates extra targets. */
+.quest-list-entry{min-width:0}.quest-list-entry>.quest-card{width:100%}
+.east-super-heading{display:flex;align-items:center;gap:.6rem;margin:1.2rem .3rem .7rem;color:var(--gold)}
+.east-super-heading>svg{width:22px;height:22px;flex:none}.east-super-heading small{margin-left:auto;font:400 .7rem var(--font-body);color:var(--muted)}
+.east-super-lock{display:flex;gap:.8rem;padding:1rem;margin-top:1rem;border:1px dashed #6b6350;color:#c3c3b4}.east-super-lock>svg{width:24px;flex:none}.east-super-lock p{font-size:.8rem;margin:.35rem 0 0}
+.yokai-notices{display:grid;gap:.65rem;margin:1rem 0}.yokai-notice{display:flex;align-items:flex-start;gap:.8rem;background:#19272b;border:1px solid #a88959;border-left:3px solid #d4ad67;padding:.9rem 1rem;border-radius:4px}
+.yokai-notice>svg{flex:none;width:22px;height:22px;color:#e0bb79;margin-top:.15rem}.yokai-notice-body{min-width:0;flex:1}.yokai-notice small{display:block;color:#a8b8bd;font-size:.75rem;margin-bottom:.25rem}.yokai-notice strong{display:block;color:#f3dda9;font-size:1rem}.yokai-notice p{font-size:.82rem;line-height:1.65;margin:.35rem 0 0;color:#ccd3cf}.yokai-notice.interrupted{border-color:#5c9684}.yokai-notice.interrupted strong{color:#afd5c1}
+.yokai-ritual-marks{display:flex;gap:.4rem;align-items:center;margin-top:.65rem;font-size:.75rem;color:#c9bb9e}.yokai-ritual-marks>span:not(:last-child){display:grid;place-items:center;width:27px;height:27px;border:1px solid #a88d60;color:#e4c27b}.yokai-ritual-marks .broken{color:#a8cec3!important;border-color:#52766b!important}.yokai-ritual-marks>span:last-child{margin-left:.3rem}
+.yokai-curse-targets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem;padding:0;margin:.6rem 0 0;list-style:none}.yokai-curse-targets li{display:flex;gap:.4rem;justify-content:space-between;background:#10212a;padding:.4rem .55rem;font-size:.75rem}.yokai-curse-targets b{color:#edc585;font-variant-numeric:tabular-nums}
+.enemy-grid.has-colossus{grid-template-columns:repeat(3,minmax(0,1fr))}.combatant.yokai-colossus{grid-column:1/span 3;min-height:275px;padding-right:48%}.yokai-colossus-art{position:absolute;inset:0 0 0 35%;background:url('/art/yokai-mountain.svg') center 38%/cover no-repeat;opacity:.65;pointer-events:none;z-index:0}.yokai-colossus>:not(.yokai-colossus-art){position:relative;z-index:1}.yokai-colossus>.target-hitbox{position:absolute;z-index:2}.yokai-colossus>.target-corners{position:absolute;z-index:3}
+@media(max-width:650px){.east-super-heading{flex-wrap:wrap}.east-super-heading small{width:100%;margin-left:1.9rem}.yokai-curse-targets{grid-template-columns:repeat(2,minmax(0,1fr))}.yokai-notice{padding:.75rem;gap:.5rem}.combatant.yokai-colossus{padding-right:30%;min-height:260px}.yokai-colossus-art{inset:0 0 0 25%;opacity:.35}.yokai-notice strong{font-size:.9rem}}
+
+.boss-phase-list,.yokai-notices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:.7rem}.boss-phase-list:empty{display:none}.boss-phase-list .boss-phase-panel{margin:0;min-width:0}
+
+/* Three ordinary actor columns, centered in the four-slot battlefield. */
+.enemy-grid.has-colossus{width:calc(75% - .2rem);margin-inline:auto}
+@media(max-width:650px){.enemy-grid.has-colossus{width:100%}}
+
+.combatant[data-boss-art]>small,.combatant[data-boss-art] .weakness,.combatant[data-boss-art] .combat-bars label{font-size:.75rem}
+
+.yokai-colossus>:not(.target-hitbox):not(.status-list){pointer-events:none}.battle-page .yokai-colossus .status-list{z-index:3;pointer-events:auto}.combatant[data-boss-art] .status-badge{font-size:.75rem}

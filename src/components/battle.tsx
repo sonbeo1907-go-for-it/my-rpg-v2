@@ -1,4 +1,6 @@
 "use client";
+import {GreatYokaiNotices} from './great-yokai';
+import {bossActionCount} from '../core/encounter-rituals.js';
 import {VoodooMark} from './voodoo-mark';
 import {skillMasteryClass} from "../core/skill-rules.js";
 import {lifeDebt} from '../core/life-debt.js';
@@ -125,11 +127,13 @@ export function CombatantCard({
   const voodoo=actor.statuses?.find((s:any)=>content.statuses[s.id]?.turnDelegation&&(s.remaining==null||s.remaining>0));
   return (
     <article
-      className={`combatant ${!isAlive(actor) ? "fallen" : ""} ${acting ? "current-turn" : ""} ${actor.shield > 0 ? "has-shield" : ""} ${selected ? "is-target" : ""} ${affected ? "is-affected" : ""} ${hovered ? "turn-hovered" : ""}`}
+      className={`combatant ${actor.formationSpan===3?"yokai-colossus":""} ${!isAlive(actor) ? "fallen" : ""} ${acting ? "current-turn" : ""} ${actor.shield > 0 ? "has-shield" : ""} ${selected ? "is-target" : ""} ${affected ? "is-affected" : ""} ${hovered ? "turn-hovered" : ""}`}
       data-actor-id={actor.id}
       data-team={actor.team}
       data-element={actor.element}
       data-agony={isInAgony(actor)}
+      data-formation-span={actor.formationSpan??1}
+      data-boss-art={actor.bossArt}
     >
       <button
         className="target-hitbox"
@@ -140,6 +144,7 @@ export function CombatantCard({
         disabled={!selectable || !isAlive(actor)}
         onClick={onSelect}
       />
+      {actor.formationSpan===3&&<div className="yokai-colossus-art" aria-hidden="true"/>}
       {voodoo&&isAlive(actor)&&<VoodooMark turns={voodoo.remaining}/>}
       {selected && (
         <span className="target-corners" aria-hidden="true">
@@ -328,7 +333,7 @@ function SkillCommand({
   );
 }
 function BossPhasePanel({ boss }: { boss: any }) {
-  const { content } = useGame();
+  const { content, battle } = useGame();
   const phase = bossPhase(boss);
   if (!phase) return null;
   const suppression = boss.statuses.find(
@@ -340,7 +345,7 @@ function BossPhasePanel({ boss }: { boss: any }) {
         <span className="eyebrow">
           GIAI ĐOẠN {boss.bossState.phase} / {boss.boss.phases.length}
         </span>
-        <h3>{phase.name}</h3>
+        <h3>{boss.name} · {phase.name}</h3>
       </div>
       {boss.boss.suppression && <span>
         Kìm hãm {suppression?.stacks ?? 0}/{boss.boss.suppression.maxStacks}
@@ -348,11 +353,11 @@ function BossPhasePanel({ boss }: { boss: any }) {
       </span>}
       <span>
         {boss.boss.suppression ? `Sát thương Hỏa ×${bossFireMultiplier(boss, {element:'fire'})}` : `Sát thương ×${phase.damageMultiplier??1}`} ·{" "}
-        {phase.actionsPerTurn} hành động/lượt
+        {bossActionCount({...battle,content},boss,phase.actionsPerTurn)} hành động/lượt
       </span>
       {boss.bossState.pendingMoves?.map((move: any, index: number) => (
         <strong className="telegraph" key={index}>
-          Đang chuẩn bị: {content.abilities[move.abilityId].name}
+          Đang chuẩn bị: {content.abilities[move.abilityId].name} · Từ vòng {move.readyRound}{move.ritual?.cancelled?" · Đã ngắt":""}
         </strong>
       ))}
     </section>
@@ -821,11 +826,12 @@ export function BattlePage() {
           </ol>
         </section>
       )}
-      {battle.actors
-        .filter((item: any) => item.boss)
+      <div className="boss-phase-list">{battle.actors
+        .filter((item: any) => item.boss && isAlive(item))
         .map((boss: any) => (
           <BossPhasePanel key={boss.id} boss={boss} />
-        ))}
+        ))}</div>
+      <GreatYokaiNotices battle={{...battle,content}}/>
       <SummonScenes presentation={battle.presentation} actors={battle.actors} round={battle.round}/>
       <CombatEffects events={events} content={content} sessionId={battle.sessionId} speed={animationSpeed} onCue={setVisualAction}/>
       <AcademicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
@@ -861,7 +867,7 @@ export function BattlePage() {
           </div>
           {battle.actors.some((a:any)=>a.team==='enemy'&&isAlive(a)&&a.preparedMove)&&<section className="enemy-telegraphs" aria-live="polite">{battle.actors.filter((a:any)=>a.team==='enemy'&&isAlive(a)&&a.preparedMove).map((a:any)=><div key={a.id} data-enemy-telegraph={a.id}><Icon name="hourglass"/><div><strong>{a.name} đang chuẩn bị: {content.abilities[a.preparedMove.abilityId].name}</strong><p>{content.abilities[a.preparedMove.abilityId].windup.message} Thi triển từ lượt chính ở vòng {a.preparedMove.readyRound}.</p></div></div>)}</section>}
           {battle.arena&&<ArenaPlayerBar team="enemy"/>}
-          <div className="enemy-grid">
+          <div className={`enemy-grid ${battle.actors.some((a:any)=>a.team==='enemy'&&a.formationSpan===3)?'has-colossus':''}`}>
             {battle.actors
               .filter((item: any) => item.team === "enemy")
               .map(renderActor)}

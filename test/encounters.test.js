@@ -9,7 +9,7 @@ import { seededRandom } from '../src/core/random.js';
 const content = await loadContent();
 function setup(encounter, party = ['arthur'], random = () => .99) {
   const campaign = createCampaign(content);
-  campaign.storyFlags.push('illusion.sinister_unlocked');campaign.chronicles.aliceFirstEncounterCleared=true;campaign.chronicles.eventClearIds.push('book1.j04');
+  campaign.storyFlags.push('illusion.sinister_unlocked','east_campaign_completed');campaign.chronicles.aliceFirstEncounterCleared=true;campaign.chronicles.eventClearIds.push('book1.j04');
   campaign.party = party;
   if (content.encounters[encounter].travelerStory) {
     campaign.claimedFirstClearRewards = content.travelerStories[content.encounters[encounter].travelerStory].chapters.slice(0,-1);
