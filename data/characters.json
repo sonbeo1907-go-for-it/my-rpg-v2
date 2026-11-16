@@ -4980,5 +4980,104 @@
       "rotary.shelter",
       "rotary.needle"
     ]
+  },
+  {
+    "id": "luka",
+    "releaseId": 111,
+    "name": "Luka",
+    "title": "Nhịp gió tuổi trẻ",
+    "affiliation": "magic_academy",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "wind",
+    "basicDamageType": "magical",
+    "basicAttack": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "description": "Dùng ATK gây sát thương phép, tích Nhịp Điệu rồi dồn sức vào đòn lan.",
+    "biography": "Thành viên lớp 7A Học Viện Ma Pháp, Luka mang tinh thần rock-and-roll cùng nhiệt huyết tuổi trẻ vào từng nhịp phép.",
+    "tags": [
+      "magic_academy",
+      "class_7a",
+      "free_character"
+    ],
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 100,
+      "attack": 34,
+      "magic": 12,
+      "defense": 16,
+      "resistance": 21,
+      "speed": 22
+    },
+    "resources": {
+      "rhythm": {
+        "name": "Nhịp Điệu",
+        "max": 5
+      }
+    },
+    "passive": {
+      "type": "skill_magic_charge",
+      "name": "Bắt Nhịp Cùng Nhau",
+      "description": "Dùng kỹ năng nhận 1 Nhịp Điệu. Đồng đội khác gây sát thương phép ngoài Quang và Ám cũng tạo 1 tầng mỗi hành động; tối đa 5.",
+      "resource": "rhythm",
+      "amount": 1,
+      "skillAmount": 1,
+      "excludedElements": [
+        "light",
+        "dark"
+      ]
+    },
+    "abilities": [
+      "luka.tempo",
+      "luka.riff",
+      "luka.encore"
+    ]
+  },
+  {
+    "id": "gairyu",
+    "releaseId": 112,
+    "name": "Gairyu",
+    "title": "Ngọn lửa ngang tàng",
+    "affiliation": "magic_academy",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "element": "fire",
+    "description": "Dồn lửa diện rộng, nối chiêu bằng Liên kích có cơ hội được bảo đảm.",
+    "biography": "Cùng lớp 7A với Luka, Gairyu dễ nổi nóng và thường lấy sức mạnh áp đảo người khác. Càng bị cản trở, cậu càng muốn thiêu rụi mọi thứ trước mắt.",
+    "tags": [
+      "magic_academy",
+      "class_7a"
+    ],
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 110,
+      "attack": 10,
+      "magic": 35,
+      "defense": 14,
+      "resistance": 20,
+      "speed": 18
+    },
+    "passive": {
+      "type": "stat_boost",
+      "name": "Đừng Hòng Cản Ta!",
+      "description": "Tăng 30% MAG. Một lần thử Liên kích thất bại sẽ bảo đảm lần thử tiếp theo thành công.",
+      "modifiers": {
+        "magic": 0.3
+      },
+      "followUpGuarantee": true
+    },
+    "abilities": [
+      "gairyu.flare",
+      "gairyu.rampage",
+      "gairyu.inferno"
+    ],
+    "basicDamageType": "magical"
   }
 ]

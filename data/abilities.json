@@ -12939,5 +12939,181 @@
     ],
     "skillLineId": "rotary.needle",
     "rankable": true
+  },
+  {
+    "id": "luka.tempo",
+    "name": "Nhịp Nổi Loạn",
+    "target": "self",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "luka_tempo",
+        "duration": 3
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "rhythm",
+        "amount": 2
+      }
+    ],
+    "description": "Tăng ATK bản thân trong 3 lượt chính và tạo 2 Nhịp Điệu.",
+    "skillLineId": "luka.tempo",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "luka.riff",
+    "name": "Hợp Âm Xé Gió",
+    "target": "enemy",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 1.8
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "rhythm",
+        "amount": 1
+      }
+    ],
+    "description": "Gây sát thương phép Phong cho một địch và tạo 1 Nhịp Điệu.",
+    "skillLineId": "luka.riff",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "luka.encore",
+    "name": "Khúc Cao Trào",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 16,
+      "resource": {
+        "id": "rhythm",
+        "all": true,
+        "min": 0
+      }
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "wind",
+        "scalingStat": "attack",
+        "multiplier": 2,
+        "primaryMultiplier": 3.2,
+        "perResource": 0.12,
+        "primaryPerResource": 0.2
+      }
+    ],
+    "description": "Dồn toàn bộ Nhịp Điệu thành đòn phép Phong vào một địch và hai ô kề. Mỗi tầng tăng hệ số chính/kề thêm 20%/12% ATK.",
+    "skillLineId": "luka.encore",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "gairyu.flare",
+    "name": "Hỏa Khí Bốc Đồng",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 6
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 1.5
+      }
+    ],
+    "description": "Thiêu đốt toàn bộ kẻ địch.",
+    "skillLineId": "gairyu.flare",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "gairyu.rampage",
+    "name": "Đừng Chọc Giận Ta!",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 2.5
+      }
+    ],
+    "description": "Công kích toàn bộ địch; có 50% cơ hội Liên kích bằng Hỏa Khí Bốc Đồng.",
+    "skillLineId": "gairyu.rampage",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "chanceFollowUp": {
+      "abilityId": "gairyu.flare",
+      "chance": 0.5
+    }
+  },
+  {
+    "id": "gairyu.inferno",
+    "name": "Thiêu Rụi Tất Cả!",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 24
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 4.2
+      }
+    ],
+    "description": "Dốc lửa lên toàn bộ địch; có 50% cơ hội Liên kích bằng Đừng Chọc Giận Ta!, có thể nối tiếp Hỏa Khí Bốc Đồng.",
+    "skillLineId": "gairyu.inferno",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "chanceFollowUp": {
+      "abilityId": "gairyu.rampage",
+      "chance": 0.5
+    }
   }
 ]

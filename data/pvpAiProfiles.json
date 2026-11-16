@@ -1653,5 +1653,37 @@
       "rotary.shelter": 12,
       "rotary.needle": 10
     }
+  },
+  {
+    "id": "luka",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "luka.tempo"
+    ],
+    "burstAbilities": [
+      "luka.encore"
+    ],
+    "skillBias": {
+      "luka.tempo": 18,
+      "luka.riff": 12,
+      "luka.encore": 25
+    }
+  },
+  {
+    "id": "gairyu",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [],
+    "burstAbilities": [
+      "gairyu.inferno"
+    ],
+    "skillBias": {
+      "gairyu.flare": 8,
+      "gairyu.rampage": 18,
+      "gairyu.inferno": 25
+    }
   }
 ]

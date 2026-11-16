@@ -178,3 +178,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Cyrus và Siesta — đội Phong, Dã Tính và Liên kích theo chiêu](CYRUS_SIESTA.md).
 - [Rotary — Voodoo, chuyển lượt chính và VFX cục bộ](ROTARY.md).
 - [Bộ lọc Trấn Phái/Thông Thạo đã ra mắt và thứ tự phát hành](CHARACTER_CATALOG_FILTERS.md).
+
+- [Lớp 7A: Luka và Gairyu](ACADEMY_SEVEN.md) — 16/11/2026: dữ liệu chưa mở nguồn nhận; Nhịp Điệu và Liên kích xác suất có bảo đảm dùng chung.

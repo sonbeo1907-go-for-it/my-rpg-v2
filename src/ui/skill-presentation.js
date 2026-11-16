@@ -1,3 +1,4 @@
+import {primaryDamageEffect} from '../core/combat-math.js';
 import {statusApplicationChance} from '../core/status-chance.js';
 import {STAT_LABELS} from '../core/catalog.js';
 import {ELEMENT_NAMES} from '../core/content.js';
@@ -50,7 +51,7 @@ export function skillCost(skill, actor, battle) {
   if (skill.cost?.resource) {
     const cost = skill.cost.resource;
     const name = actor.resources[cost.id].name;
-    costs.push(`${cost.all ? `Toàn bộ ${name} (ít nhất ${cost.min})` : `${cost.amount} ${name}`}${cost.consumeAt === 'after' ? ' · Tiêu sau khi thi triển' : ''}`);
+    costs.push(`${cost.all ? `Toàn bộ ${name}${cost.min?' (ít nhất '+cost.min+')':' đang có'}` : `${cost.amount} ${name}`}${cost.consumeAt === 'after' ? ' · Tiêu sau khi thi triển' : ''}`);
   }
   if(skill.cost?.teamResource){const r=skill.cost.teamResource,name=actor.teamResources?.[r.id]?.name??'Bằng Chứng Đanh Thép';costs.push(r.all?'Toàn bộ '+name+' (ít nhất '+r.min+')':r.amount+' '+name);}
   if(skill.cost?.hpMaxRatio)costs.push(hpCost(skill,actor)+' HP ('+Math.round(skill.cost.hpMaxRatio*100)+'% HP tối đa)');
@@ -167,7 +168,8 @@ export function skillScaling(skill, actor, content, choices = {}) {
       const stat = scalingLabel(effect,{maxHp:'HP tối đa',attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'});
       let formula = effect.primaryMultiplier !== undefined ? `${percent(effect.primaryMultiplier)} ${stat} mục tiêu chính / ${percent(effect.multiplier)} ${stat} còn lại` : `${percent(effect.multiplier ?? 1)} ${stat}`;
       if(effect.divideAmongTargets)formula+=' chia đều cho mọi địch';
-      if (effect.perResource) formula += ` + ${percent(effect.perResource)} ${stat} mỗi ${resourceName} đã tiêu`;
+      if(effect.primaryPerResource!==undefined)formula+=' + '+percent(effect.primaryPerResource)+'/'+percent(effect.perResource)+' '+stat+' chính/kề mỗi '+resourceName+' đã tiêu';
+      else if (effect.perResource) formula += ` + ${percent(effect.perResource)} ${stat} mỗi ${resourceName} đã tiêu`;
       if (effect.perStack) formula += ` + ${percent(effect.perStack)} ${stat} mỗi ${content.statuses[effect.consumeStatus].name}`;
       if(effect.perTargetBuff)formula+=' + '+percent(effect.perTargetBuff)+' '+stat+' mỗi buff địch (tối đa '+effect.maxTargetBuffs+')';
       if (effect.lowHpBonus) formula += ` + tối đa ${percent(effect.lowHpBonus)} ${stat} theo tỷ lệ HP đã mất`;
@@ -188,7 +190,8 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (effect.perResource || effect.perStack || effect.lowHpBonus || effect.perTargetBuff) {
         const stacks = choices.stacks ?? (content.statuses[effect.consumeStatus]?.maxStacks ?? 0);
         const multiplier = damageMultiplier(effect, { spent, stacks, hpRatio: (choices.hpPercent ?? 100) / 100,buffs:choices.buffCount??0 });
-        lines.push(`Hệ số ${choices.live ? 'với trạng thái hiện tại' : 'theo giả định'}: ${effect.hits > 1 ? `${effect.hits} hit × ` : ''}${percent(multiplier)} ${stat}.`);
+        const primary=effect.primaryPerResource===undefined?'':percent(damageMultiplier(primaryDamageEffect(effect,true),{spent}))+' '+stat+' chính / ';
+        lines.push(`Hệ số ${choices.live ? 'với trạng thái hiện tại' : 'theo giả định'}: ${primary}${effect.hits > 1 ? `${effect.hits} hit × ` : ''}${percent(multiplier)} ${stat}${primary?' ô kề':''}.`);
         if (actor.passive?.type === 'resource_stat_boost' && actor.passive.resource === cost?.id && !choices.live) {
           const passive = actor.passive;
           const assumed = { ...actor, resourceValues: { ...actor.resourceValues, [cost.id]: spent } };

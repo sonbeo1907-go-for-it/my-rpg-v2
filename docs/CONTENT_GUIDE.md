@@ -74,3 +74,5 @@ Chữ người chơi nhìn thấy ưu tiên thuần Việt, độc lập ngôn n
 - [Izuna / Shion / Amiya / Kaguya](SWORD_SOUL_QUARTET.md) — Hồn Kiếm: Liên kích kết liễu có tiêu ảo, tạo trực tiếp/đầu vòng, giảm CD, ưu tiên Lượt Thêm, Chúc Phúc và trần10 theo đội (05/11/2026).
 
 Choáng theo chỉ số: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md). Boss mới cần khai `controlImmunities:["stun"]` trên template (không gắn cho mọi minion trong encounter). Đường áp kiểm cả metadata snapshot và definition hiện tại. `chanceScaling` khai stat/basis/at/cap; Rank không tự tăng xác suất. Ngoại lệ tự Choáng nhện vỡ khiên là hook riêng, không mở bypass cho skill JSON.
+
+- Kỹ năng Liên kích theo xác suất: `chanceFollowUp` dùng đồ thị hữu hạn, validator chống chu trình; `stat_boost.followUpGuarantee` bật trạng thái bảo đảm sau lần thử thất bại. `skill_magic_charge` và `primaryPerResource` có hợp đồng/preview/test trong [ACADEMY_SEVEN](ACADEMY_SEVEN.md). Không áp quy tắc tự nối này lên Liên kích từ đồng đội.

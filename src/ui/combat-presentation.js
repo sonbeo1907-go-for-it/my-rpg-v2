@@ -1,3 +1,4 @@
+import {primaryDamageEffect} from '../core/combat-math.js';
 import {elementLabel} from '../core/elements.js';
 import {selectedTeamCost,spentTeamHits} from '../core/team-resources.js';
 import {lifeDebt} from '../core/life-debt.js';
@@ -62,7 +63,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       let line = `${effect.hits > 1 ? `${effect.hits} × ` : ''}${percent(multiplier)} ${label}`;
       if(effect.to==='primary')line='Chính: '+line;
       if(effect.divideAmongTargets)line+=' chia đều';
-      if (effect.primaryMultiplier!==undefined) line=`${percent(effect.primaryMultiplier)} ${label} chính / ${percent(effect.multiplier)} ${label} ${skill.target==='enemy_splash'?'ô kề':'còn lại'}`;
+      if (effect.primaryMultiplier!==undefined) line=`${percent(damageMultiplier(primaryDamageEffect(effect,true),{spent:choices.spent}))} ${label} chính / ${percent(multiplier)} ${label} ${skill.target==='enemy_splash'?'ô kề':'còn lại'}`;
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;
       parts.push(line);

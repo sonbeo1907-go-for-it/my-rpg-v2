@@ -5,6 +5,8 @@ import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,fini
 import {boundAlly,cleanupTurnDelegations,delegatedTurnActor,turnOrderEntries,bindTurns,applyBoundExposure,grantDelegationExtraTurns} from './turn-delegation.js';
 import {initializeTrial,observeTrialDefeat,observeTrialHit,trialRoundEnd,trialOffenseBonus,trialAfterAction} from './unrecorded-trials.js';
 import {baseStatValue} from './combat-math.js';
+import {canGainMagicSkillCharge} from './skill-procs.js';
+import {primaryDamageEffect} from './combat-math.js';
 import {statusApplicationChance,stunImmune} from './status-chance.js';
 import {shieldAuraBonus,captureShieldAuras} from './shield-aura.js';
 import {applyPvpDamageCap,allowPvpHit,pvpPeriodicContext,reservePvpAutomatic} from './pvp-damage.js';
@@ -495,6 +497,30 @@ function triggerResourceFollowUp(battle,owner,skill,context){
  for(const effect of repeat.effects)applyEffect(battle,owner,targets,effect,0,!self,reaction);
  if(offensive)finishAttackContext(battle,owner,reaction);
  if(rule.chain)triggerResourceFollowUp(battle,owner,repeat,reaction);
+}
+
+function triggerChanceSkillFollowUp(battle,owner,skill,context,seen=new Set()){
+ const rule=skill.chanceFollowUp;
+ if(!rule||!living(owner)||battle.outcome||seen.has(skill.id)||seen.size>=8)return;
+ const repeat=resolveRankedAbility(battle.content,owner,rule.abilityId),legal=targetsFor(battle,owner,repeat);
+ const anchor=legal.find(t=>t.id===context.primaryTargetId&&living(t))??legal.find(living);
+ if(!anchor)return;
+ const targets=selectedTargets(battle,owner,repeat,anchor.id);
+ if(!targets.length)return;
+ if(battle.pvpRules&&(battle.pvpTriggers?.round===battle.round?(battle.pvpTriggers.counts[owner.id]??0):0)>=battle.pvpRules.loopGuards.maxAutomaticActionsPerUnitPerRound){reservePvpAutomatic(battle,owner,modeIO);return;}
+ seen.add(skill.id);
+ const guaranteed=owner.passive?.followUpGuarantee===true&&owner.skillFollowUpState?.guaranteed===true;
+ const success=guaranteed||battle.random()<rule.chance;
+ if(success&&!reservePvpAutomatic(battle,owner,modeIO))return;
+ if(owner.passive?.followUpGuarantee===true)owner.skillFollowUpState={guaranteed:!success};
+ emitEvent(battle,{type:'follow_up_roll',sourceId:owner.id,abilityId:skill.id,followUpAbilityId:repeat.id,success,guaranteed});
+ if(!success){write(battle,owner.name+': Liên kích chưa thành công'+(owner.passive?.followUpGuarantee?' · lần thử kế tiếp được bảo đảm.':'.'));return;}
+ const reaction={...attackContext(battle,owner),pvpRegistered:true,skill:repeat,skillId:repeat.id,reaction:true,reactionKind:'follow_up',primaryTargetId:anchor.id};
+ write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+repeat.name+'.');
+ emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:anchor.id,targetIds:targets.map(t=>t.id),area:targetsAsGroup(repeat),abilityId:repeat.id});
+ for(const effect of repeat.effects)applyEffect(battle,owner,targets,effect,0,targetsAsGroup(repeat),reaction);
+ finishAttackContext(battle,owner,reaction);
+ triggerChanceSkillFollowUp(battle,owner,repeat,reaction,seen);
 }
 
 function triggerSurvivingTargetRepeat(battle,owner,skill,context){
@@ -1269,6 +1295,14 @@ function triggerPowderFollowups(battle,source,skill,parent){
  }
 }
 
+function chargeMagicSkillAllies(battle,source,effect,context){
+ context.magicSkillCharged??=new Set();
+ for(const owner of battle.actors){
+  if(!canGainMagicSkillCharge(owner,source,effect,context)||context.magicSkillCharged.has(owner.id))continue;
+  context.magicSkillCharged.add(owner.id);gainResource(battle,owner,owner.passive.resource,owner.passive.amount,source.id);
+ }
+}
+
 function chargeElementAllies(battle,source,context,damageElement){
  context.elementCharged??=new Set();
  for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='element_ally_charge'||!living(owner)||owner.id===source.id||owner.team!==source.team||((p.elementMatch==='different')?!(p.elementSource==='damage'?damageElement:[source.element]).some(e=>e!==p.element):!(p.elementSource==='damage'?damageElement:[source.element]).includes(p.element))||context.elementCharged.has(owner.id))continue;
@@ -1672,6 +1706,7 @@ function resolveHit(
     `${attacker.name} → ${target.name}: ${vitalityDamage} sát thương${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
   );
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeElementAllies(battle,attacker,actionContext,damageElements(effect));
+  if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeMagicSkillAllies(battle,attacker,effect,actionContext);
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeReceivedElement(battle,attacker,target,effect,actionContext);
   maybeEnterContingency(battle,target,lostHp);
   if(living(target)&&weakness&&vitalityDamage+absorbed>0)observeBossWeakness(battle,attacker,target,actionContext,{write,emit:emitEvent});
@@ -1953,7 +1988,7 @@ function applyEffect(
         i += 1
       ) {
         actionContext.hitIndex=i;
-        hit(battle, actor, target, effect.primaryMultiplier !== undefined ? {...effect,multiplier:target.id===actionContext.primaryTargetId ? effect.primaryMultiplier : effect.multiplier} : effect, spent, { area, reaction:actionContext.reaction===true, actionContext });
+        hit(battle, actor, target, primaryDamageEffect(effect,target.id===actionContext.primaryTargetId), spent, { area, reaction:actionContext.reaction===true, actionContext });
       }
     }
     if (effect.type === "damage" && effect.randomSecondaryMultiplier && !actionContext.randomSecondaryDone && living(actor)) {
@@ -2348,15 +2383,17 @@ function resolveAction(
   }
   if(skill.id==='$defend'&&actor.passive?.type==='defend_element_mp'&&living(actor)){announcePassive(battle,actor);for(const ally of battle.actors.filter(a=>a.team===actor.team&&living(a)&&a.element===actor.passive.element))gainResource(battle,ally,'mp',Math.ceil(battleMaxMp(battle.content,ally)*actor.passive.ratio),actor.id);}
   if(skill.id==='$attack'&&actor.passive?.type==='basic_resource'&&living(actor)){gainResource(battle,actor,actor.passive.resource,actor.passive.amount,actor.id);exclusiveBasicResourceChance(battle,actor,key=>baseStatValue(actor,key),specialIO);}
+  if(living(actor)&&actor.passive?.type==='skill_magic_charge'&&!skill.id.startsWith('$')&&skill.activation!=='passive')gainResource(battle,actor,actor.passive.resource,actor.passive.skillAmount,actor.id);
   if(skill.id==='$defend')chargeSupportModes(battle,actor,actionContext);
   gearAfterAction(battle,actor,skill,gearIO,mpBeforeAction);
-  if((offensive&&skill.survivingTargetRepeat)||skill.resourceFollowUp){
+  if((offensive&&skill.survivingTargetRepeat)||skill.resourceFollowUp||skill.chanceFollowUp){
     if(offensive)finishAttackContext(battle,actor,actionContext);
     triggerResourceFollowUp(battle,actor,skill,actionContext);
     triggerSurvivingTargetRepeat(battle,actor,skill,actionContext);
+    triggerChanceSkillFollowUp(battle,actor,skill,actionContext);
   }
   finishStatuses(battle, actor, oldStatuses, offensive, endTurn);
-  if (offensive&&!skill.survivingTargetRepeat&&!skill.resourceFollowUp) finishAttackContext(battle, actor, actionContext);
+  if (offensive&&!skill.survivingTargetRepeat&&!skill.resourceFollowUp&&!skill.chanceFollowUp) finishAttackContext(battle, actor, actionContext);
   const soulsCreated=createdSwordSoulsThisAction(battle,actor,actionEventStart);
   if(soulsCreated>0)triggerSoulCreation(battle,actor,soulsCreated,teamIO);
   growTeamResources(battle,actor,skill,teamIO);

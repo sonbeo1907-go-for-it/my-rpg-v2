@@ -127,3 +127,5 @@ Rotary (#110): xem [ROTARY](ROTARY.md). Voodoo chuyển ô lượt chính sang m
 ## Đại Yêu Ma hậu Orochi — 15/11/2026
 
 Ba encounter category `east_super` ở Phương Đông, mở bởi `east_campaign_completed`/receipt `east_ke_08`, bốn cấp 60/70/80/90; không dùng gate Hiểm Ác cũ. Chỉ số nền Lv1, curve superboss theo encounter. `formationSpan:3` là một actor/HP/lượt, không nhân AoE theo ô. Multi-scripted-boss cần `bossEncounter:linked_bosses`; không bỏ validator solo chung. Nghi thức dùng `pendingMoves` có warningRound/readyRound; `pendingFiller` dành ô còn lại cho đòn nhẹ và không tiêu bước rotation khi giải phóng. Last-stand của song trùm có hiệu lực từ đầu vòng kế, không cộng lượt hồi tố. Controller `linkedBossState` phải giữ trong clone và publish UI; chuyển phase không reset mode, tài nguyên, quota hoặc hoàn MP. Xem [EAST_GREAT_YOKAI](EAST_GREAT_YOKAI.md) và test/east-superbosses.test.js.
+
+- [Lớp 7A: Luka và Gairyu](ACADEMY_SEVEN.md) — 16/11/2026: dữ liệu chưa mở nguồn nhận; Nhịp Điệu và Liên kích xác suất có bảo đảm dùng chung.

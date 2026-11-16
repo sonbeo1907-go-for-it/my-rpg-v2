@@ -30,6 +30,10 @@ export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) 
   return base * Math.max(0.1, 1 + (actor.teamAuraModifiers?.[key]??0) + (actor.encounterModifiers?.[key]??0) + (actor.turnFieldModifiers?.[key]??0) + permanent + stance + (actor.exclusiveModifiers?.[key] ?? 0) + (actor.exclusiveTeamModifiers?.[key]??0) + resourceBonus + fieldBonus + exclusiveModeBonus + (actor.modeAppliedModifiers?.[key]??actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0) + temporaryModifier);
 }
 
+export function primaryDamageEffect(effect, primary) {
+  return effect.primaryMultiplier===undefined?effect:{...effect,multiplier:primary?effect.primaryMultiplier:effect.multiplier,perResource:primary?(effect.primaryPerResource??effect.perResource):effect.perResource};
+}
+
 export function damageMultiplier(effect, { spent = 0, stacks = 0, hpRatio = 1, buffs = 0 } = {}) {
   return (effect.multiplier ?? 1)
     + spent * (effect.perResource ?? 0)

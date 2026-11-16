@@ -1985,5 +1985,15 @@
     "description": "Tăng 30% ATK trong 3 lượt chính.",
     "durationClock": "main_turn",
     "defaultDuration": 3
+  },
+  {
+    "id": "luka_tempo",
+    "name": "Nhịp Nổi Loạn",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.25
+    },
+    "description": "Tăng 25% ATK."
   }
 ]
