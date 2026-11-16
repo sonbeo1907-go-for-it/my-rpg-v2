@@ -1995,5 +1995,23 @@
       "attack": 0.25
     },
     "description": "Tăng 25% ATK."
+  },
+  {
+    "id": "ariel_anthem",
+    "name": "Khúc Ca Thanh Xuân",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.2,
+      "magic": 0.2
+    }
+  },
+  {
+    "id": "ariel_spotlight",
+    "name": "Tâm Điểm Ánh Đèn",
+    "kind": "buff",
+    "persistent": true,
+    "damageUses": 1,
+    "flatMagicSkill": true
   }
 ]

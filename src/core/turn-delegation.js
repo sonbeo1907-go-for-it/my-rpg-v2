@@ -43,7 +43,7 @@ export function grantDelegationExtraTurns(battle,io){
 }
 export function applyBoundExposure(battle,source,targets,effect,context,io){
  const ally=boundAlly(battle,source,effect.bindingId),id=ally&&'exposure_'+ally.element;
- if(!id||!battle.content.statuses[id])return;
+ if(!id||effect.excludedElements?.includes(ally.element)||!battle.content.statuses[id])return;
  const hits=new Set((context.gearImpacts??[]).filter(h=>h.lostHp+h.absorbed>0).map(h=>h.target.id));
  for(const target of targets)if(isAlive(target)&&hits.has(target.id))io.status(battle,target,id,undefined,source.id,{stacks:effect.stacks});
 }
@@ -59,6 +59,7 @@ export function validateTurnDelegation(content){
  for(const skill of skills)for(const effect of skill.effects??[])if(['bind_turns','bound_exposure'].includes(effect.type)){
   if(!statuses[effect.bindingId]?.turnDelegation)errors.push('unknown turn binding '+skill.id);
   if(effect.type==='bind_turns'&&(skill.target!=='ally'||skill.excludeSelf!==true||!Number.isSafeInteger(effect.duration)||effect.duration<1||effect.duration>10||skill.activation==='passive'))errors.push('invalid turn binding skill '+skill.id);
+  if(effect.excludedElements!==undefined&&(effect.type!=='bound_exposure'||!Array.isArray(effect.excludedElements)||new Set(effect.excludedElements).size!==effect.excludedElements.length||effect.excludedElements.some(element=>!statuses['exposure_'+element])))errors.push('invalid bound exposure exclusions '+skill.id);
   if(effect.type==='bound_exposure'&&(!['enemy','all_enemies','enemy_splash'].includes(skill.target)||effect.requiresDamageHit!==true||!Number.isInteger(effect.stacks)||effect.stacks<1||effect.stacks>3||!skill.effects.some(e=>e.type==='damage')))errors.push('invalid bound exposure '+skill.id);
   for(const a of Object.values(content.characters??{}).filter(a=>a.abilities?.includes(skill.id)))if(a.passive?.type!=='turn_delegate'||a.passive.statusId!==effect.bindingId)errors.push('incompatible turn binding owner '+skill.id);
  }

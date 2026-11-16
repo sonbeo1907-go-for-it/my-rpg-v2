@@ -1,4 +1,4 @@
-﻿# Hợp đồng vòng đời chiến đấu
+# Hợp đồng vòng đời chiến đấu
 
 Đối chiếu engine ngày **04/11/2026**, gồm bản sửa Cerise mất lượt vì choáng đang có trong working tree. Đây là contract cho thiết kế, triển khai và review; không phải yêu cầu refactor engine hoặc tự sửa cân bằng. Nếu code và quyết định đã duyệt khác nhau, ghi sai lệch và bổ sung kiểm chứng; không đổi mô tả để hợp thức hóa bug.
 
@@ -198,3 +198,7 @@ Eri chốt lượng Hồn Kiếm phe mình thực tiêu ở vòng liền trướ
 ## Trấn Phái quan sát trạng thái và cơ hội tài nguyên — 06/11/2026
 Kreider/Elise kích sau khi buff/debuff thực sự được apply lên đối thủ; refresh cũng tính. Hộ Ấn/Phong Ấn chặn thì không phát observer. Buff nhận +25%MAG/tầng, cap2, làm mới thời hạn chung4 lượt của người mang; tính cả Lượt Thêm và lượt chính bị Choáng. Instance refresh trong lượt không bị trừ ngay theo oldStatuses. Buff phản ứng từ observer không kích observer khác để tránh đối xứng Elise tự lặp. Gục không nhận; dispel theo buff thường; phòng/wave/phase giữ theo actor carry; trận độc lập đặt lại. Forecast chỉ sửa trial.
 Judy chỉ roll bonus khi nội tại thực tăng tài nguyên và còn chỗ cho tầng phụ. Mỗi thất bại +15 điểm%, cap100%; thành công +1 thật reset50%; đầy/nguồn không hợp lệ không roll, không tăng failure. Bộ đếm nằm trên actor, giữ qua phòng/wave/phase, không ghi save chiến dịch; gục không tự reset. Bonus không tự kích lại bonus.
+
+## Sân Khấu và sát thương phép phẳng — 16/11/2026
+
+Sân Khấu dùng deadline vòng độc lập theo phe; hết sau Vòng Phụ của vòng cuối, giữ deadline qua wave. Nguồn gục tắt nội tại khuếch đại nhưng không hủy SPD đã cấp. Buff sát thương phép phẳng chốt MAG nguồn lúc cấp; chỉ tiêu charge khi có hit phép của kỹ năng/Liên kích hợp lệ gây damage, không theo hit/target. Xem [ARIEL](ARIEL.md) và test/ariel.test.js để phân biệt clock vòng, snapshot và charges.

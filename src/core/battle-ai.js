@@ -1,3 +1,4 @@
+import {livePerformanceStage} from './performance-stage.js';
 import {boundAlly} from './turn-delegation.js';
 import {lifeDebt} from './life-debt.js';
 import {resolveRankedAbility} from './skill-resolver.js';
@@ -41,6 +42,7 @@ function cheapScore(b,a,skill,t,p){
   if(['enter_mode','prepare_mode','formula_field','summon_companion'].includes(e.type))n+=45;
   if(e.type==='grant_extra_turn')n+=25;
   if(e.type==='turn_order_field')n+=b.turnOrderField?.priorityTeam===a.team?0:60;
+  if(e.type==='performance_stage')n+=livePerformanceStage(b,a)?-40:60;
  }
  return n+(p.skillBias[skill.id]??0)-(skill.cost?.mp??0)*.1;
 }
@@ -56,16 +58,18 @@ function evaluate(b,trial,a,skill,p,threats){
   protection+=healing*.8+Math.max(0,lifeDebt(x)-lifeDebt(y))+shield*.28+ward+reduction;
   const removed=activeStatuses(x).filter(s=>b.content.statuses[s.id]?.kind==='debuff'&&!activeStatuses(y).some(v=>v.id===s.id));cleanses+=removed.length;
   if(isAlive(x)&&(x.hp/x.stats.maxHp<p.healBelow||x.hp+x.shield<(threats[x.id]??0)*.8)&&(healing+shield+ward+reduction>0||removed.length))rescues+=1;
-  for(const status of fresh.filter(s=>b.content.statuses[s.id]?.kind==='buff')){const def=b.content.statuses[status.id],mods=status.appliedModifiers??def.modifiers??{};const focus=skill.target==='ally'&&skill.targetElement&&['physical_dps','magical_dps','fighter','sorcerer'].includes(x.roleGroup)?1.4:1;buffs+=focus*(12+Object.entries(mods).reduce((n,[key,v])=>n+Math.max(0,key==='attackMultiplier'?v-1:v)*(['damageBonus','attackMultiplier'].includes(key)?100*(status.charges??def.damageUses??1):key==='maxMp'?40:90),0));}
+  for(const status of fresh.filter(s=>b.content.statuses[s.id]?.kind==='buff')){const def=b.content.statuses[status.id],mods=status.appliedModifiers??def.modifiers??{};if(def.flatMagicSkill){const eligible=x.abilities.some(id=>b.content.abilities[id]?.activation!=='passive'&&b.content.abilities[id]?.effects.some(e=>e.type==='damage'&&e.damageType==='magical'));buffs+=eligible?(status.flatSkillBonus??0)*2:-40;continue;}const focus=skill.target==='ally'&&skill.targetElement&&['physical_dps','magical_dps','fighter','sorcerer'].includes(x.roleGroup)?1.4:1;buffs+=focus*(12+Object.entries(mods).reduce((n,[key,v])=>n+Math.max(0,key==='attackMultiplier'?v-1:v)*(['damageBonus','attackMultiplier'].includes(key)?100*(status.charges??def.damageUses??1):key==='maxMp'?40:90),0));}
  }
  const newMode=after.activeMode!==a.activeMode&&after.activeMode||after.pendingMode&&!a.pendingMode||after.formulaField&&!a.formulaField;
  const newCompanion=Object.keys(after.companionStates??{}).length>Object.keys(a.companionStates??{}).length;
- const setup=p.setupAbilities.includes(skill.id)&&(newMode||newCompanion||buffs>0);
+ const newStage=!livePerformanceStage(b,a)&&livePerformanceStage(trial,after);
+ const setup=p.setupAbilities.includes(skill.id)&&(newMode||newCompanion||newStage||buffs>0);
  const resourceGain=Object.entries(after.resourceValues??{}).reduce((n,[id,v])=>n+Math.max(0,v-(a.resourceValues?.[id]??0))*12,0);
  const spentResource=Object.entries(a.resourceValues??{}).some(([id,n])=>n>=(a.resources?.[id]?.max??99)*.67&&(after.resourceValues?.[id]??0)<n);
  const mpGain=Math.max(0,after.mp-a.mp),lowMp=a.mp/battleMaxMp(b.content,a)<p.reserveMpRatio;
- let score=rescues*1000+kills*600+damage+protection+buffs+debuffs+cleanses*18-loss+(newMode||newCompanion?70:0)+(setup?120:0)+resourceGain+(spentResource&&p.burstAbilities.includes(skill.id)?40:0)+mpGain*(lowMp?7:1)+(p.skillBias[skill.id]??0);
+ let score=rescues*1000+kills*600+damage+protection+buffs+debuffs+cleanses*18-loss+(newMode||newCompanion||newStage?70:0)+(setup?120:0)+resourceGain+(spentResource&&p.burstAbilities.includes(skill.id)?40:0)+mpGain*(lowMp?7:1)+(p.skillBias[skill.id]??0);
  const bound=boundAlly(trial,after);if(skill.effects.some(e=>e.type==='bind_turns')&&bound){const old=boundAlly(b,a),fresh=old?.id!==bound.id;if(fresh)score+=Math.max(bound.stats.attack,bound.stats.magic)*(['physical_dps','magical_dps','fighter','sorcerer'].includes(bound.roleGroup)?1.5:.3);else score-=160;}
+ if(skill.effects.some(e=>e.type==='performance_stage')&&livePerformanceStage(b,a)&&livePerformanceStage(b,a).expiresAfterRound-b.round>=1)score-=120;
  if(skill.id==='$defend'&&!lowMp&&!rescues)score-=18;
  if(skill.id!=='$defend'&&after.mp/battleMaxMp(b.content,after)<p.reserveMpRatio&&!kills)score-=15;
  if(trial.extraTurnGrants.size>b.extraTurnGrants.size)score+=45*(trial.extraTurnGrants.size-b.extraTurnGrants.size);

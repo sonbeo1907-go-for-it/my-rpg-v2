@@ -12929,10 +12929,13 @@
         "type": "bound_exposure",
         "bindingId": "rotary_voodoo",
         "stacks": 1,
-        "requiresDamageHit": true
+        "requiresDamageHit": true,
+        "excludedElements": [
+          "sword_soul"
+        ]
       }
     ],
-    "description": "Gây sát thương Ám và tạo Sơ Hở theo hệ của đồng đội mang Voodoo.",
+    "description": "Gây sát thương Ám và tạo Sơ Hở theo hệ chính của đồng đội mang Voodoo, trừ Hồn Kiếm.",
     "growthProfile": "damage",
     "growthGroups": [
       "damage"
@@ -13115,5 +13118,77 @@
       "abilityId": "gairyu.rampage",
       "chance": 0.5
     }
+  },
+  {
+    "id": "ariel.anthem",
+    "name": "Khúc Ca Thanh Xuân",
+    "target": "all_allies",
+    "cost": {
+      "mp": 16
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "ariel_anthem",
+        "duration": 6
+      }
+    ],
+    "description": "Tăng ATK và MAG toàn đội trong 6 lượt chính của người nhận.",
+    "skillLineId": "ariel.anthem",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ariel.spotlight",
+    "name": "Tâm Điểm Ánh Đèn",
+    "target": "ally",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "status",
+        "status": "ariel_spotlight",
+        "flatSkillScaling": {
+          "stat": "magic",
+          "multiplier": 1.2
+        }
+      }
+    ],
+    "description": "Kỹ năng phép kế tiếp của người nhận được cộng sát thương theo MAG của Ariel; chia đều cho các hit phép, trước khuếch đại.",
+    "skillLineId": "ariel.spotlight",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "ariel.stage",
+    "name": "Sân Khấu — Thanh Xuân Rực Rỡ",
+    "target": "self",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "performance_stage",
+        "name": "Sân Khấu Ariel",
+        "durationRounds": 4,
+        "speed": 0.2
+      }
+    ],
+    "description": "Dựng Sân Khấu trong 4 vòng, tăng 20% SPD toàn đội.",
+    "skillLineId": "ariel.stage",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Thời hạn và tốc độ Sân Khấu cố định."
   }
 ]

@@ -85,3 +85,5 @@ Voodoo/Rotary: queue giữ chủ ô gốc, activeActor là người thực hiệ
 - Trận nhiều boss có kịch bản phải khai controller/capability hợp lệ, giữ clock/CD/status từng actor và chỉ thắng khi hết địch sống. Song trùm Đại Yêu Ma giữ tổng hai hành động/vòng: mỗi người một, hoặc survivor hai từ đầu vòng sau.
 - Nghi thức báo ở đầu R không giải phóng trước lượt boss R+1; chuẩn bị giữa vòng R thì cảnh báo đầu R+1 và giải phóng từ R+2. Due move chiếm ô hành động, không thêm ô. Chiêu lớn cùng đến hạn phải giữ phần bị hoãn, không bỏ mất. Capability `pendingFiller` đóng băng rotation khi giải phóng và dùng đòn nhẹ cho ô còn lại.
 - Vỡ Thế của Cự Quỷ đếm lượt chính boss, không đếm move; gây trong chính lượt boss không hết ngay. Phản ứng là cast riêng khi phá dấu, DoT không tạo dấu. Chi tiết/source-of-truth: [Đại Yêu Ma](EAST_GREAT_YOKAI.md).
+
+- [Ariel / Sân Khấu](ARIEL.md): hiệu ứng riêng theo phe không ghi đè Monica/Auguste. Sát thương phép phẳng cộng trước RES/khuếch đại, chốt MAG người cấp, chia số hit phép và tiêu một lần/chiêu hợp lệ. Rotary chủ động loại Hồn Kiếm khỏi Sơ Hở sao chép theo hệ chính.

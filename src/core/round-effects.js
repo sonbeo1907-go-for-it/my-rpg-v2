@@ -1,7 +1,9 @@
+import {syncPerformanceStages} from './performance-stage.js';
 import {clampBattleMp} from './stat-values.js';
 // Global-round effects use absolute deadlines, including the casting round.
 // Recompute on entry as well as round end so a victory/room transition cannot extend them.
 export function expireRoundEffects(battle,io,atEnd=false) {
+  syncPerformanceStages(battle,io,atEnd);
   for (const actor of battle.actors) {
     actor.statuses=actor.statuses.filter(status=>{
       if (battle.content.statuses[status.id].durationClock!=='round') return true;

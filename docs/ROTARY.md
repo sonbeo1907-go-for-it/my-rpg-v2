@@ -8,7 +8,7 @@ Nhân vật chính thức #110, `magic_academy`, khoa Sinh học, Câu lạc b�
 | --- | --- | --- |
 | Voodoo — Sợi Chỉ Đồng Mệnh | Chọn một đồng đội khác, liên kết Voodoo trong 5 lượt chính của người nhận | 18 MP, không CD |
 | Búp Bê Hộ Mệnh | Khiên 180% MAG và 1 Hộ Ấn cho đồng đội mang Voodoo của mình | 10 MP, không CD |
-| Kim Châm — Dấu Ấn Giao Cảm | 220% MAG phép Ám một địch; nếu gây sát thương HP/khiên, tạo 1 Sơ Hở theo nguyên tố của đồng đội Voodoo | 8 MP, không CD |
+| Kim Châm — Dấu Ấn Giao Cảm | 220% MAG phép Ám một địch; nếu gây sát thương HP/khiên, tạo 1 Sơ Hở theo hệ chính của đồng đội Voodoo, trừ Hồn Kiếm | 8 MP, không CD |
 
 Nội tại: người mang Voodoo +25% ATK/MAG. Đầu vòng có liên kết còn hiệu lực, Rotary nhận 1 Lượt Thêm theo giới hạn chung một lượt/người/vòng.
 
@@ -38,3 +38,5 @@ Mirror Arena dùng actor ID riêng, phe tương đối với nguồn; buff/tài 
 Qua wave/phòng dùng actor carry hiện hành: giữ status và thời hạn còn lại; ranh giới vòng mới xét quyền phụ một lần. Phase boss trong cùng battle không tự cấp lượt hay reset liên kết. Snapshot Chronicle lưu cả `delegatedTurn` và quyền phụ; restore không gọi lại đầu lượt/đầu vòng. Encounter mới trong phiên pháo đài chỉ giữ HP/MP theo adapter chung, không mang Voodoo sang.
 
 Kiểm chứng: `test/rotary.test.js` chạy luồng engine thật cho chuyển lượt, 5 lượt chính, quyền phụ, Choáng hai phía, Độc giết nguồn, người nhận gục, đổi/chặn liên kết, Ward/Sơ Hở, save/forecast/snapshot và hai phe. Bổ sung kiểm tra giao diện cho ô lượt trùng người nhận, VFX cục bộ, thao tác lượt chuyển và các kích thước màn hình.
+
+Bổ sung16/11: Kim Châm có `excludedElements:["sword_soul"]`. Roster Hỏa/Hồn Kiếm chỉ trả hệ chính Hỏa; nếu nguồn là hệ chính Hồn Kiếm thì bỏ qua phần tạo Sơ Hở, không chặn damage và không xóa Sơ Hở cũ. Xem [ARIEL](ARIEL.md) và regression tương ứng.

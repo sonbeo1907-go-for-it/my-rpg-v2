@@ -5079,5 +5079,46 @@
       "gairyu.inferno"
     ],
     "basicDamageType": "magical"
+  },
+  {
+    "id": "ariel",
+    "releaseId": 113,
+    "name": "Ariel",
+    "title": "Ánh sao lớp 7A",
+    "affiliation": "magic_academy",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "water",
+    "basicDamageType": "magical",
+    "description": "Dựng Sân Khấu tiếp sức đồng đội, dùng MAG hỗ trợ sát thương phép.",
+    "biography": "Thần tượng của lớp 7A Học Viện Ma Pháp, Ariel luôn tin sân khấu rực rỡ nhất là nơi mọi người cùng tỏa sáng.",
+    "tags": [
+      "magic_academy",
+      "class_7a"
+    ],
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 125,
+      "attack": 10,
+      "magic": 34,
+      "defense": 15,
+      "resistance": 23,
+      "speed": 23
+    },
+    "passive": {
+      "type": "performance_stage_amp",
+      "name": "Cùng Nhau Tỏa Sáng",
+      "description": "Khi Ariel còn đứng vững và Sân Khấu tồn tại, kỹ năng phép ngoài Quang và Ám của phe mình được khuếch đại 20%.",
+      "ratio": 0.2,
+      "excludedElements": [
+        "light",
+        "dark"
+      ]
+    },
+    "abilities": [
+      "ariel.anthem",
+      "ariel.spotlight",
+      "ariel.stage"
+    ]
   }
 ]

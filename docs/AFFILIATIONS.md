@@ -60,3 +60,5 @@ Bổ sung 11/11/2026: house_marquis — Gia tộc Marquis, gồm Kanade Hanasato
 Bổ sung11/11: Geoffrey (#105) thuộc capital_knights, tag danh xưng royal_knight. Anabel (#106) thuộc expedition_corps, tag expedition_commander, ngang cấp Roland nhưng không tái dùng danh xưng riêng order_captain. Remulia (#104) thuộc northern_village.
 
 Bổ sung 16/11/2026: Luka và Gairyu thuộc `magic_academy`, tag `class_7a`. Đây là dữ liệu chưa có nguồn nhận, không đưa vào banner/rate-up. Bảng đếm bên trên là ảnh chụp lịch sử, không phải tổng roster hiện hành.
+
+Bổ sung16/11: Ariel thuộc `magic_academy`, tag `class_7a`, dữ liệu chưa mở nguồn nhận; không vào banner/rate-up.

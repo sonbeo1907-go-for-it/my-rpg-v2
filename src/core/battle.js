@@ -5,6 +5,7 @@ import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,fini
 import {boundAlly,cleanupTurnDelegations,delegatedTurnActor,turnOrderEntries,bindTurns,applyBoundExposure,grantDelegationExtraTurns} from './turn-delegation.js';
 import {initializeTrial,observeTrialDefeat,observeTrialHit,trialRoundEnd,trialOffenseBonus,trialAfterAction} from './unrecorded-trials.js';
 import {baseStatValue} from './combat-math.js';
+import {applyPerformanceStage,flatMagicSkillHitBonus,performanceDamageMultiplier} from './performance-stage.js';
 import {canGainMagicSkillCharge} from './skill-procs.js';
 import {primaryDamageEffect} from './combat-math.js';
 import {statusApplicationChance,stunImmune} from './status-chance.js';
@@ -1604,17 +1605,19 @@ function resolveHit(
     .join(" / ");
   // Hit growth is a base-damage stage, separate from strongest-only skill amplification.
   const hitGrowthMultiplier = actionContext.hitGrowthMultiplier ?? 1;
+  const flatSkillBonus=flatMagicSkillHitBonus(battle,attacker,effect,actionContext);
+  const stageMultiplier=performanceDamageMultiplier(battle,attacker,effect,actionContext);
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRawBase=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
-  const counterRaw=counterRawBase*encounterOffenseMultiplier(battle,attacker,target,actionContext);
+    Math.max(0,power*multiplier+flatSkillBonus+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+  const counterRaw=counterRawBase*stageMultiplier*encounterOffenseMultiplier(battle,attacker,target,actionContext);
   let amount = Math.max(
     1,
     Math.floor(
       Math.max(
         1,
-        power * multiplier +
+        power * multiplier + flatSkillBonus +
           speedDamageBonus(
             attacker,
             effect.damageType,
@@ -1622,7 +1625,7 @@ function resolveHit(
             effect.speedMultiplier ?? 0,
           ) -
           defense * 0.55,
-      ) * hitGrowthMultiplier *
+      ) * hitGrowthMultiplier * stageMultiplier *
         elementalResistance(target,effect) *
         weaknessMultiplier * gearOutgoingMultiplier(battle,attacker,target,actionContext) * gearIncomingMultiplier(battle,target,effect,gearIO) *
         (1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker, effect) * (attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier ?? 1) *
@@ -1806,7 +1809,7 @@ function applyStatus(
   statusId,
   duration,
   sourceId,
-  { silent = false, stacks = 1, charges, appliedModifiers, linkedAppliedModifiers, baseStatModifiers, debtMaxHpRatio, chanceScaling, bypassControlImmunity=false, exclusiveReaction=false } = {},
+  { silent = false, stacks = 1, charges, flatSkillBonus, appliedModifiers, linkedAppliedModifiers, baseStatModifiers, debtMaxHpRatio, chanceScaling, bypassControlImmunity=false, exclusiveReaction=false } = {},
 ) {
   const definition = battle.content.statuses[statusId];
   const source = getActor(battle, sourceId);
@@ -1866,6 +1869,7 @@ function applyStatus(
     ...(bypassControlImmunity?{bypassControlImmunity:true}:{}),
     ...(definition.healingDebt?{debtHp:(previous?.debtHp??0)+debtAdded}:{}),
     ...(baseStatModifiers?{baseStatModifiers:{...baseStatModifiers}}:{}),
+    ...(flatSkillBonus!==undefined?{flatSkillBonus}:{}),
     ...(appliedModifiers?{appliedModifiers:{...appliedModifiers}}:{}),
     ...(linkedAppliedModifiers?{linkedAppliedModifiers:structuredClone(linkedAppliedModifiers)}:{}),
     remaining: duration ?? (definition.persistent ? null : duration),
@@ -1934,6 +1938,7 @@ function applyEffect(
   area,
   actionContext = attackContext(battle, actor),
 ) {
+  if(effect.type==='performance_stage'){applyPerformanceStage(battle,actor,effect,{order:orderActorIds,write,emit:emitEvent});return;}
   if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
   if(effect.type==='bound_exposure'){applyBoundExposure(battle,actor,targets,effect,actionContext,{status:applyStatus});return;}
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
@@ -2066,7 +2071,7 @@ function applyEffect(
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
       if (battle.content.statuses[effect.status].exposedElement) recordCreatedExposure(battle.content,actionContext,applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count}));
       else for (let i = 0; i < count; i++) {
-        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio,chanceScaling:effect.chanceScaling});
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,...(effect.flatSkillScaling?{flatSkillBonus:stat(battle,actor,effect.flatSkillScaling.stat)*effect.flatSkillScaling.multiplier}:{}),appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio,chanceScaling:effect.chanceScaling});
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }
     }

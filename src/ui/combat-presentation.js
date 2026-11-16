@@ -1,3 +1,4 @@
+import {flatMagicSkillTotal,magicalSkillHitCount} from '../core/performance-stage.js';
 import {primaryDamageEffect} from '../core/combat-math.js';
 import {elementLabel} from '../core/elements.js';
 import {selectedTeamCost,spentTeamHits} from '../core/team-resources.js';
@@ -54,6 +55,8 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
   const parts = [];
   for (const authoredEffect of skill.effects) {
     const effect=spentTeamHits(exclusiveDamageEffect(actor,skill.id,formulaDamage(scaledSpentTeamEffect(scaledTeamEffect(content,authoredEffect,choices.teamResourceStacks),choices.teamSpent),{correct:choices.formulaCorrect})),choices.teamSpent);
+    if(effect.type==='performance_stage')parts.push('Toàn đội +'+percent(effect.speed)+' SPD · '+effect.durationRounds+' vòng');
+    if(effect.flatSkillScaling)parts.push('Cộng '+percent(effect.flatSkillScaling.multiplier)+' MAG của người cấp cho kỹ năng phép kế tiếp');
     if(effect.type==='steal_base_stat')parts.push('Cướp '+percent(effect.ratio)+' ATK căn bản · tối đa +'+effect.cap);
     if(effect.type==='reduce_cooldowns')parts.push('Giảm '+effect.amount+' vòng hồi chiêu');
     if(effect.type==='team_resource')parts.push('+'+effect.amount+' '+teamResourceDefinition(content,effect.resource).name);
@@ -67,6 +70,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const speed = speedDamageRatio(actor, effect.damageType, effect.speedMultiplier ?? 0);
       if (speed) line += ` + ${percent(speed)} SPD`;
       parts.push(line);
+      if(effect.damageType==='magical'){const bonus=flatMagicSkillTotal(content,actor,skill);if(bonus)parts.push('+'+compactNumber(bonus/magicalSkillHitCount(skill))+' sát thương/hit phép');}
       if(nativePenetration(actor,effect.damageType))parts.push('Nội tại: xuyên '+percent(nativePenetration(actor,effect.damageType))+' '+(effect.damageType==='physical'?'DEF':'RES'));
       if(effect.penetration)parts.push('Xuyên '+percent(effect.penetration)+' '+(effect.damageType==='physical'?'DEF':'RES'));
       if(effect.spentResourceDamageBonus)parts.push('+'+percent(effect.spentResourceDamageBonus)+' sát thương');
@@ -129,6 +133,7 @@ export function statusDetails(status, actor, battle, content) {
     if (index >= 0) lines[index] = `Độc đã ghi nhận: ${status.potency * (status.stacks ?? 1)} HP mỗi đầu lượt · còn ${status.remaining} lần.`;
   }
   if (status.growth !== undefined) lines.push(`Đã tích ${status.growth} tầng nội tại đám mây.`);
+  if(definition.flatMagicSkill)lines.push('Kỹ năng phép kế tiếp: +'+compactNumber(status.flatSkillBonus??0)+' sát thương/mục tiêu, chia đều cho số hit phép, trước khuếch đại.');
   if (definition.exposedElement) lines.push(`Còn ${status.stacks} tầng Sơ hở.`);
   return { source: source.name, duration: definition.healingDebt ? 'Đến khi thanh toán hết hoặc bị giải' : definition.buffRejection||definition.consumeOnPaidSkill ? `${status.charges} lần còn lại` : definition.damageUses ? status.charges+' lần gây sát thương còn lại' : definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.exposedElement ? 'Đến khi hết tầng hoặc bị giải' : definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
 }

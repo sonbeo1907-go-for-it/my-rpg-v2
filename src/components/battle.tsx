@@ -157,6 +157,7 @@ export function CombatantCard({
       {acting && <span className="acting-label">◆ Đang hành động</span>}
       {battle.arena&&<span className={`arena-side-label ${actor.team}`}>{actor.team==='party'?'Đội của bạn':'Đội đối thủ'} · Ô {(actor.formationSlot??0)+1}</span>}
       <LocalCombatMode actor={actor}/>
+      {actor.performanceStage&&battle.round<=actor.performanceStage.expiresAfterRound&&<p className="status-badge buff" aria-label="Sân Khấu đang hiệu lực">{actor.performanceStage.name} · Còn {actor.performanceStage.expiresAfterRound-battle.round+1} vòng</p>}
       <ElementBadge element={actor.element} />
       <h3>{actor.combatModes?.[actor.activeMode]?.displayName??actor.characterName??actor.name}</h3><small className="combat-level">Level {actor.level??1}</small>
       <small>{actor.role ?? (actor.boss ? "Siêu trùm" : "Đối thủ")}</small>

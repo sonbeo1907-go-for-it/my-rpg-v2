@@ -76,3 +76,5 @@ Chữ người chơi nhìn thấy ưu tiên thuần Việt, độc lập ngôn n
 Choáng theo chỉ số: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md). Boss mới cần khai `controlImmunities:["stun"]` trên template (không gắn cho mọi minion trong encounter). Đường áp kiểm cả metadata snapshot và definition hiện tại. `chanceScaling` khai stat/basis/at/cap; Rank không tự tăng xác suất. Ngoại lệ tự Choáng nhện vỡ khiên là hook riêng, không mở bypass cho skill JSON.
 
 - Kỹ năng Liên kích theo xác suất: `chanceFollowUp` dùng đồ thị hữu hạn, validator chống chu trình; `stat_boost.followUpGuarantee` bật trạng thái bảo đảm sau lần thử thất bại. `skill_magic_charge` và `primaryPerResource` có hợp đồng/preview/test trong [ACADEMY_SEVEN](ACADEMY_SEVEN.md). Không áp quy tắc tự nối này lên Liên kích từ đồng đội.
+
+- Sân Khấu riêng theo phe và buff sát thương phép phẳng: `performance_stage`, `flatMagicSkill`, `flatSkillScaling`; dùng clock vòng tuyệt đối, snapshot MAG người cấp và chuẩn hóa theo số hit phép. Xem [ARIEL](ARIEL.md), không biến thành buff khuếch đại thông thường hoặc trường Monica.

@@ -9,6 +9,7 @@ export function skillGrowthGroups(content,skill){
  const groups=new Set();
  for(const effect of skill.effects??[]){
   if(effect.type==='damage')groups.add(skill.id==='$attack'?'basic':'damage');
+  if(effect.flatSkillScaling)groups.add('damage');
   if(['heal','shield'].includes(effect.type))groups.add(effect.type);
   for(const id of [effect.status,...effect.linkedStatuses??[]].filter(Boolean)){
    const status=content?.statuses?.[id];if(status?.kind!=='buff')continue;
@@ -73,7 +74,7 @@ export function validateSkillProgression(content){
   const referenced=skill.effects.flatMap(effect=>[effect.status,...effect.linkedStatuses??[]]).filter(Boolean).map(id=>content.statuses?.[id]);
   const statBuff=referenced.some(status=>status?.kind==='buff'&&GROWING_STATS.some(key=>(status.modifiers?.[key]??0)>0));
   const outputBuff=referenced.some(status=>status?.kind==='buff'&&OUTPUT_BUFF_STATS.some(key=>(status.modifiers?.[key]??0)>0));
-  if(['damage','heal','shield'].includes(skill.growthProfile)&&!skill.effects.some(effect=>effect.type===skill.growthProfile))errors.push(skill.id+': profile has no growing effect');
+  if(['damage','heal','shield'].includes(skill.growthProfile)&&!skill.effects.some(effect=>effect.type===skill.growthProfile||skill.growthProfile==='damage'&&effect.flatSkillScaling))errors.push(skill.id+': profile has no growing effect');
   if(skill.growthProfile==='stat_buff'&&!statBuff&&skill.growthAdapter!=='mode_stat_buff'&&skill.rankOnly!==true)errors.push(skill.id+': no eligible positive stat buff');
   if(skill.growthProfile==='output_buff_mp'&&(!(skill.cost?.mp>0)||(!outputBuff&&skill.mpOnlyGrowth!==true)||Math.ceil(skill.cost.mp*outputMpFactor(5))>=skill.cost.mp))errors.push(skill.id+': no MP growth');
   if(skill.growthAdapter!==undefined&&!['mode_stat_buff','mode_command'].includes(skill.growthAdapter))errors.push(skill.id+': unknown growth adapter');
