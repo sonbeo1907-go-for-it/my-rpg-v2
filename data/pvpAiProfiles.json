@@ -1717,5 +1717,20 @@
       "charlotte.rivalry": 20,
       "charlotte.spotlight": 24
     }
+  },
+  {
+    "id": "clark",
+    "role": "defensive_support",
+    "healBelow": 0.7,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "clark.sanctuary"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "clark.first_aid": 8,
+      "clark.reprimand": 16,
+      "clark.sanctuary": 20
+    }
   }
 ]

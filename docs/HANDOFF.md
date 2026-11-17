@@ -135,3 +135,6 @@ Ba encounter category `east_super` ở Phương Đông, mở bởi `east_campaig
 - [Lớp 7A: Luka và Gairyu](ACADEMY_SEVEN.md) — 16/11/2026: dữ liệu chưa mở nguồn nhận; Nhịp Điệu và Liên kích xác suất có bảo đảm dùng chung.
 
 - [Ariel và giới hạn Sơ Hở của Rotary](ARIEL.md) — 16/11/2026: lớp7A chưa mở nguồn nhận; Sân Khấu riêng theo phe4 vòng, buff cộng sát thương phép một kỹ năng chốt MAG người cấp, Rotary không tạo Sơ Hở Hồn Kiếm.
+
+## Clark — 17/11/2026
+[CLARK.md](CLARK.md): release115, hệ Thổ, hỗ trợ phòng thủ lớp7A, dữ liệu khóa. Native hồi trực tiếp đạt/đã đầy HP giải1 debuff, loại Regen bằng cờ periodic chứ không bằng tên. Chiêu Regen25% + giảm đòn15% dùng clock round3/CD3: trống1 vòng. Chiêu debuff20%ATK/MAG dùng3 main_turn người nhận.

@@ -13327,5 +13327,76 @@
     "rankable": false,
     "activation": "passive",
     "fixedReason": "Tăng theo Rank kỹ năng Tài Năng Không Thể Lu Mờ."
+  },
+  {
+    "id": "clark.first_aid",
+    "name": "Sơ Cứu Chuẩn Mực",
+    "target": "ally",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "magic",
+        "multiplier": 1.8
+      },
+      {
+        "type": "status",
+        "status": "effect_ward"
+      }
+    ],
+    "description": "Hồi HP cho một đồng đội và cấp 1 Hộ Ấn.",
+    "skillLineId": "clark.first_aid",
+    "growthProfile": "heal",
+    "growthGroups": [
+      "heal"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "clark.reprimand",
+    "name": "Chấn Chỉnh Thuật Thức",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "status",
+        "status": "clark_reprimand",
+        "duration": 3
+      }
+    ],
+    "description": "Giảm 20% ATK và MAG toàn bộ địch trong 3 lượt chính.",
+    "skillLineId": "clark.reprimand",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tiện ích cố định; không có cấp nâng."
+  },
+  {
+    "id": "clark.sanctuary",
+    "name": "Giờ Nghỉ An Toàn",
+    "target": "all_allies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "clark_sanctuary",
+        "duration": 3
+      }
+    ],
+    "description": "Trong 3 vòng, toàn đội hồi 25% HP tối đa mỗi đầu lượt và giảm 15% sát thương nhận vào.",
+    "skillLineId": "clark.sanctuary",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tiện ích cố định; không có cấp nâng."
   }
 ]

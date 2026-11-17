@@ -64,3 +64,5 @@ Bổ sung 16/11/2026: Luka và Gairyu thuộc `magic_academy`, tag `class_7a`. �
 Bổ sung16/11: Ariel thuộc `magic_academy`, tag `class_7a`, dữ liệu chưa mở nguồn nhận; không vào banner/rate-up.
 
 Bổ sung17/11: Charlotte #114 thuộc `magic_academy`, tag `class_7a`, chỉ dữ liệu, chưa có nguồn nhận và không vào gacha/rate-up.
+
+Bổ sung17/11: Clark #115 thuộc `magic_academy`, tag `class_7a`, chưa mở nguồn nhận.

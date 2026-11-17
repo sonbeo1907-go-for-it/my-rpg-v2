@@ -588,7 +588,7 @@ function announcePassive(battle,source,targetId,label=source?.passive?.name) {
   if (source?.passive && label) emitEvent(battle,{type:"passive",sourceId:source.id,targetId,label});
 }
 
-function healHp(battle, target, requested, sourceId, label = "", gearOrigin=null) {
+function healHp(battle, target, requested, sourceId, label = "", gearOrigin=null, periodic=false) {
   if (!living(target)||isInAgony(target)) return 0;
   if(externalHealingBlocked(target,sourceId)){
     emitEvent(battle,{type:'healing_blocked',sourceId,targetId:target.id});
@@ -611,6 +611,16 @@ function healHp(battle, target, requested, sourceId, label = "", gearOrigin=null
       markProc(battle,target,"ally_heal_mp");
       announcePassive(battle,target,target.id);
       gainResource(battle,target,"mp",Math.ceil(battleMaxMp(battle.content,target) * passive.ratio),target.id);
+    }
+  }
+  const healer=getActor(battle,sourceId),passive=healer?.passive;
+  if(!periodic&&requested>0&&passive?.type==='full_hp_heal_cleanse'&&living(healer)&&healer.team===target.team&&target.hp>=target.stats.maxHp){
+    const removed=target.statuses.filter(s=>s.remaining!==0&&battle.content.statuses[s.id].kind==='debuff').slice(0,passive.count);
+    if(removed.length){
+      target.statuses=target.statuses.filter(s=>!removed.includes(s));clampBattleMp(battle.content,target);
+      announcePassive(battle,healer,target.id);
+      emitEvent(battle,{type:'cleanse',sourceId:healer.id,targetId:target.id,statusIds:removed.map(s=>s.id),amount:removed.length});
+      write(battle,target.name+': '+passive.name+' giải '+removed.map(s=>battle.content.statuses[s.id].name).join(', ')+'.');
     }
   }
   if(amount>0&&gearOrigin)gearHealingOccurred(battle,getActor(battle,sourceId),target,amount,gearOrigin,gearIO);
@@ -729,13 +739,13 @@ function beginActorTurn(battle,actor,delegating=false) {
   for (const status of [...actor.statuses]) {
     const definition = battle.content.statuses[status.id];
     if (definition.regen) {
-      healHp(battle, actor, actor.stats.maxHp * definition.regen, status.sourceId, definition.name);
+      healHp(battle, actor, actor.stats.maxHp * definition.regen, status.sourceId, definition.name, null, true);
     }
   }
   if (actor.pendingExclusiveHeal) {
     const pending = actor.pendingExclusiveHeal;
     delete actor.pendingExclusiveHeal;
-    healHp(battle, actor, actor.stats.maxHp * pending.ratio, pending.sourceId, pending.name);
+    healHp(battle, actor, actor.stats.maxHp * pending.ratio, pending.sourceId, pending.name, null, true);
   }
   for (const status of [...actor.statuses]) {
     const abilityId = battle.content.statuses[status.id].turnStartAbility;

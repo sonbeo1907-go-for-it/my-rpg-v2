@@ -2039,5 +2039,25 @@
     "modifiers": {
       "damageBonusMagical": 0.35
     }
+  },
+  {
+    "id": "clark_reprimand",
+    "name": "Chấn Chỉnh Thuật Thức",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": -0.2,
+      "magic": -0.2
+    }
+  },
+  {
+    "id": "clark_sanctuary",
+    "name": "Giờ Nghỉ An Toàn",
+    "kind": "buff",
+    "durationClock": "round",
+    "regen": 0.25,
+    "modifiers": {
+      "damageReduction": 0.15
+    }
   }
 ]

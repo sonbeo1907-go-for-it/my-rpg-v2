@@ -206,3 +206,6 @@ Sân Khấu dùng deadline vòng độc lập theo phe; hết sau Vòng Phụ c�
 ## Charlotte (17/11/2026)
 
 `support_charge_followup` gộp một cast sau toàn hit, tối đa3/vòng theo state chủ nhân, Vòng Phụ dùng chung; cấm self/reaction/automatic. Đặt quota trước resource/effects, thiếu địch hoặc PvP guard từ chối không tiêu. Buff căn bản4 main_turn đếm recipient, Extra không trừ, Choáng vẫn trừ. Buff amp phép2 charge chỉ tiêu sau một cast có hit phép trực tiếp; physical giữ nguyên. Wave/phase giữ state, independent encounter reset. Chi tiết và regression trong [CHARLOTTE.md](CHARLOTTE.md).
+
+## Clark — 17/11/2026
+Regen25%/giảm đòn15% dùng3 vòng tuyệt đối, castR hếtR+2 sau Extra, CD3 sẵn sàngR+4, trốngR+3. Regen đầu lượt theo nhịp hiện hữu cả main/extra/Choáng, không kích native cleanse. Native chỉ hồi trực tiếp, xét sau giảm hồi/nợ và HP, kể cả đầy sẵn. Wave/phase giữ deadline; fresh encounter reset. Regression tiến triển thật kiểm tra Choáng và vòng4 trống/vòng5 CD xong; xem [CLARK.md](CLARK.md).

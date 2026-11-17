@@ -89,3 +89,5 @@ Voodoo/Rotary: queue giữ chủ ô gốc, activeActor là người thực hiệ
 - [Ariel / Sân Khấu](ARIEL.md): hiệu ứng riêng theo phe không ghi đè Monica/Auguste. Sát thương phép phẳng cộng trước RES/khuếch đại, chốt MAG người cấp, chia số hit phép và tiêu một lần/chiêu hợp lệ. Rotary chủ động loại Hồn Kiếm khỏi Sơ Hở sao chép theo hệ chính.
 
 - [Charlotte](CHARLOTTE.md): status effect `baseStatModifiers` cộng căn bản trước buff%; Rank tăng5%/rank. `linkedPassiveGrowth` tăng damage của nội tại từ Rank chiêu được chỉ định (10%/rank). `consumeDamageType` giới hạn loại sát thương trực tiếp tiêu charge; không thay quy tắc amp lớn nhất.
+
+- [Clark](CLARK.md): `full_hp_heal_cleanse` xét HP sau hồi trực tiếp, kể cả actual heal0 khi đã đầy. Regen đánh dấu periodic và không kích. Không biến mọi hồi0 thành native trigger: yêu cầu hồi dương, nguồn/cùng phe còn sống, không bị chặn.

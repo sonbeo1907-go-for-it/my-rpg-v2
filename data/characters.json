@@ -5170,5 +5170,42 @@
       "followUpAbility": "charlotte.follow_up",
       "rankAbilityId": "charlotte.rivalry"
     }
+  },
+  {
+    "id": "clark",
+    "releaseId": 115,
+    "name": "Clark",
+    "title": "Điểm tựa lớp 7A",
+    "affiliation": "magic_academy",
+    "role": "Hỗ trợ phòng thủ",
+    "roleGroup": "defensive_support",
+    "element": "earth",
+    "basicDamageType": "magical",
+    "description": "Hồi phục, giải hiệu ứng bất lợi khi đầy HP và giữ cả đội vững vàng.",
+    "biography": "Học sinh gương mẫu của lớp 7A Học Viện Ma Pháp. Giữa những buổi học ồn ào, Clark luôn là người chuẩn bị chu đáo và chăm sóc các bạn đến nơi đến chốn.",
+    "tags": [
+      "magic_academy",
+      "class_7a"
+    ],
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 120,
+      "attack": 10,
+      "magic": 32,
+      "defense": 22,
+      "resistance": 24,
+      "speed": 18
+    },
+    "abilities": [
+      "clark.first_aid",
+      "clark.reprimand",
+      "clark.sanctuary"
+    ],
+    "passive": {
+      "type": "full_hp_heal_cleanse",
+      "name": "Chu Toàn Đến Cùng",
+      "description": "Hồi trực tiếp cho đồng đội đạt đầy HP hoặc đã đầy HP: giải 1 hiệu ứng bất lợi. Không tính hồi HP theo thời gian.",
+      "count": 1
+    }
   }
 ]
