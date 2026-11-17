@@ -2013,5 +2013,31 @@
     "persistent": true,
     "damageUses": 1,
     "flatMagicSkill": true
+  },
+  {
+    "id": "charlotte_fracture",
+    "name": "Dư Âm Sấm Vỡ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": -0.25
+    }
+  },
+  {
+    "id": "charlotte_rivalry",
+    "name": "Tài Năng Không Thể Lu Mờ",
+    "kind": "buff",
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "charlotte_spotlight",
+    "name": "Hào Quang Chung",
+    "kind": "buff",
+    "persistent": true,
+    "damageUses": 2,
+    "consumeDamageType": "magical",
+    "modifiers": {
+      "damageBonusMagical": 0.35
+    }
   }
 ]

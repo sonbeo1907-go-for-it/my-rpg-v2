@@ -13190,5 +13190,142 @@
     "growthGroups": [],
     "rankable": false,
     "fixedReason": "Thời hạn và tốc độ Sân Khấu cố định."
+  },
+  {
+    "id": "charlotte.entrance",
+    "name": "Màn Chào Sấm Sét",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "scalingStat": "magic",
+        "multiplier": 1.2,
+        "onHitStatus": {
+          "status": "charlotte_fracture",
+          "duration": 3
+        }
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "ambition",
+        "amount": 2
+      }
+    ],
+    "description": "Công kích toàn bộ địch, giảm RES trong 3 lượt chính nếu trúng và tạo 2 Tham Vọng.",
+    "skillLineId": "charlotte.entrance",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "charlotte.rivalry",
+    "name": "Tài Năng Không Thể Lu Mờ",
+    "target": "all_allies",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "charlotte_rivalry",
+        "duration": 4,
+        "baseStatModifiers": {
+          "attack": 8,
+          "magic": 8
+        }
+      },
+      {
+        "type": "resource",
+        "to": "self",
+        "resource": "ambition",
+        "amount": 3
+      }
+    ],
+    "description": "Tăng ATK và MAG căn bản cho đồng đội ngoài Quang/Ám trong 4 lượt chính, tạo 3 Tham Vọng. Rank kỹ năng cũng tăng sát thương Liên kích nội tại.",
+    "skillLineId": "charlotte.rivalry",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true,
+    "excludedTargetElements": [
+      "light",
+      "dark"
+    ],
+    "linkedPassiveGrowth": {
+      "abilityId": "charlotte.follow_up"
+    }
+  },
+  {
+    "id": "charlotte.spotlight",
+    "name": "Hào Quang Thuộc Về Chúng Ta!",
+    "target": "ally",
+    "cost": {
+      "mp": 28
+    },
+    "cooldown": 4,
+    "effects": [
+      {
+        "type": "status",
+        "to": "self",
+        "status": "charlotte_spotlight"
+      },
+      {
+        "type": "status",
+        "status": "charlotte_spotlight"
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "description": "Bản thân và một đồng đội khác ngoài Quang/Ám nhận khuếch đại sát thương phép cho 2 lần gây sát thương phép, đồng thời nhận Lượt Thêm.",
+    "skillLineId": "charlotte.spotlight",
+    "growthProfile": "output_buff_mp",
+    "growthGroups": [
+      "output_buff_mp"
+    ],
+    "rankable": true,
+    "excludeSelf": true,
+    "excludedTargetElements": [
+      "light",
+      "dark"
+    ],
+    "mpOnlyGrowth": true
+  },
+  {
+    "id": "charlotte.follow_up",
+    "name": "Ánh Chớp Giành Sân",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "thunder",
+        "scalingStat": "magic",
+        "multiplier": 1.2
+      }
+    ],
+    "description": "Liên kích phép Lôi lên mọi địch; sức mạnh tăng theo Rank Tài Năng Không Thể Lu Mờ.",
+    "skillLineId": "charlotte.follow_up",
+    "growthProfile": "fixed",
+    "growthGroups": [],
+    "rankable": false,
+    "activation": "passive",
+    "fixedReason": "Tăng theo Rank kỹ năng Tài Năng Không Thể Lu Mờ."
   }
 ]

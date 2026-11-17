@@ -11,6 +11,10 @@ Rà soát ngày **03/11/2026**, múi giờ Việt Nam. Đây là context dự á
 5. [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) và [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md): triển khai, kiểm chứng, đóng gói và rollback.
 6. [INDEX.md](INDEX.md): chỉ mở chuyên đề liên quan. Không cần nạp toàn bộ tài liệu/graph vào context.
 
+## Cập nhật 17/11/2026 — Charlotte
+
+[CHARLOTTE.md](CHARLOTTE.md): lớp7A, release114, dữ liệu khóa chưa có nguồn nhận. Liên kích120% MAG Lôi AoE, tiêu1 Tham Vọng, tối đa3/vòng; không tự kích hoặc kích từ phản ứng. Chiêu2 tăng buff căn bản5%/rank và hệ số Liên kích10%/rank; không thay thành buff phần trăm. Loại Quang/Ám theo cả hệ người đánh và hit.
+
 ## Repo và môi trường
 
 - Repo ứng dụng thật: `E:\MyRPGv2`. `E:\MyRPG` là dự án cũ/workspace của một số phiên agent, không phải nơi build game hiện tại. Luôn kiểm tra cwd, git root và quyền ghi của harness mới; không mặc định có quyền từ phiên trước.

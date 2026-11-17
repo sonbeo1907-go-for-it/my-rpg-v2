@@ -1,3 +1,4 @@
+import {rankedSupportFollowup} from '../core/support-charge.js';
 import {flatMagicSkillTotal,magicalSkillHitCount} from '../core/performance-stage.js';
 import {primaryDamageEffect} from '../core/combat-math.js';
 import {elementLabel} from '../core/elements.js';
@@ -51,6 +52,7 @@ export function liveSkillChoices(skill, actor, target, battle) {
 }
 export function compactSkillScaling(skill, actor, target, content, battle) {
   skill=resolveRankedAbility(content,actor,skill);
+  if(actor.passive?.type==='support_charge_followup'&&actor.passive.followUpAbility===skill.id)skill=rankedSupportFollowup(content,actor);
   const choices = liveSkillChoices(skill, actor, target, battle ? {...battle,content} : undefined);
   const parts = [];
   for (const authoredEffect of skill.effects) {
@@ -86,10 +88,11 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       const status = content.statuses[effect.status];
       const modifiers = Object.entries(effect.appliedModifiers ?? status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `Địch có khiên: ST ×${compactNumber(1+Number(value))}` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? key}`);
       parts.push(...modifiers);
+      if(effect.baseStatModifiers)parts.push(...Object.entries(effect.baseStatModifiers).map(([k,n])=>'+'+compactNumber(n)+' '+statNames[k]+' căn bản'));
       for (const id of effect.linkedStatuses??[]) parts.push(content.statuses[id].name);
       if (status.taunt) parts.push('Khiêu khích');
       if (status.cover) parts.push('Đỡ đòn thay');
-      if(status.damageUses)parts.push(status.damageUses+' lần gây sát thương/người');
+      if(status.damageUses)parts.push(status.damageUses+' lần gây sát thương'+(status.consumeDamageType==='magical'?' phép':'')+'/người');
       if (status.effectImmunity) parts.push(`Chặn ${status.effectImmunity.charges} hiệu ứng`);
       if (status.regen) parts.push(`Hồi ${percent(status.regen)} HP/lượt`);
       if (status.turnStartAbility) parts.push(`Tạo ${status.name}`);
@@ -106,6 +109,8 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
     else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
   }
   for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');
+  if(skill.linkedPassiveGrowth){const linked=rankedSupportFollowup(content,actor,skill.skillRank);parts.push('Liên kích '+percent(damageMultiplier(exclusiveDamageEffect(actor,linked.id,linked.effects[0])))+' MAG diện rộng');}
+  if(skill.excludedTargetElements)parts.push('Trừ Quang/Ám');
   if(skill.target==='random_enemies')parts.push('mục tiêu ngẫu nhiên');
   if(actor.passive?.type==='altered_defense_damage'&&target&&alteredDefenseBonus(content,actor,target)>0&&skill.effects.some(e=>e.type==='damage'))parts.push('+'+percent(actor.passive.ratio)+' ST từ DEF thay đổi');
   if(actor.passive?.type==='shielded_damage_bonus' && actor.shield>0 && skill.effects.some(effect=>effect.type==='damage'))parts.push('+'+percent(actor.passive.ratio)+' ST từ khiên');

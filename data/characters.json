@@ -5120,5 +5120,55 @@
       "ariel.spotlight",
       "ariel.stage"
     ]
+  },
+  {
+    "id": "charlotte",
+    "releaseId": 114,
+    "name": "Charlotte",
+    "title": "Ánh chớp tranh ngôi",
+    "affiliation": "magic_academy",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "thunder",
+    "basicDamageType": "magical",
+    "description": "Tích Tham Vọng từ kỹ năng hỗ trợ của đồng đội, rồi Liên kích phép Lôi diện rộng.",
+    "biography": "Thành viên lớp 7A Học Viện Ma Pháp, Charlotte luôn ganh đua với Luka để giành ánh đèn sân khấu. Cô không định để vai chính của tuổi trẻ chỉ thuộc về một người.",
+    "tags": [
+      "magic_academy",
+      "class_7a"
+    ],
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 120,
+      "attack": 10,
+      "magic": 32,
+      "defense": 15,
+      "resistance": 23,
+      "speed": 24
+    },
+    "resources": {
+      "ambition": {
+        "name": "Tham Vọng",
+        "max": 5
+      }
+    },
+    "abilities": [
+      "charlotte.entrance",
+      "charlotte.rivalry",
+      "charlotte.spotlight"
+    ],
+    "passive": {
+      "type": "support_charge_followup",
+      "name": "Đến Lượt Tôi Tỏa Sáng!",
+      "description": "Đồng đội khác ngoài Quang/Ám dùng kỹ năng không gây sát thương tạo 1 Tham Vọng. Tiêu 1 tầng để Liên kích phép Lôi diện rộng khi đồng đội gây sát thương phép hợp lệ; tối đa 3 lần/vòng.",
+      "resource": "ambition",
+      "perRound": 3,
+      "excludedElements": [
+        "light",
+        "dark"
+      ],
+      "followUpAbility": "charlotte.follow_up",
+      "rankAbilityId": "charlotte.rivalry"
+    }
   }
 ]

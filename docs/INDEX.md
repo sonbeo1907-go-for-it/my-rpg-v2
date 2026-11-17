@@ -182,3 +182,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Lớp 7A: Luka và Gairyu](ACADEMY_SEVEN.md) — 16/11/2026: dữ liệu chưa mở nguồn nhận; Nhịp Điệu và Liên kích xác suất có bảo đảm dùng chung.
 
 - [Ariel và giới hạn Sơ Hở của Rotary](ARIEL.md) — 16/11/2026: lớp7A chưa mở nguồn nhận; Sân Khấu riêng theo phe4 vòng, buff cộng sát thương phép một kỹ năng chốt MAG người cấp, Rotary không tạo Sơ Hở Hồn Kiếm.
+
+- [Charlotte — Tham Vọng và Liên kích lớp 7A](CHARLOTTE.md)

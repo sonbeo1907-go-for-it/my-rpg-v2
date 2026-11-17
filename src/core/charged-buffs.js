@@ -6,6 +6,8 @@ export function settleDamageBuffs(battle,actor,context,io){
  if(!context.dealtDirectDamage)return;
  for(const status of context.damageUseBuffs??[]){
   if(!actor.statuses.includes(status))continue;
+  const damageType=battle.content.statuses[status.id].consumeDamageType;
+  if(damageType&&!context.gearImpacts?.some(hit=>hit.damageType===damageType))continue;
   if(battle.content.statuses[status.id].flatMagicSkill&&!context.flatMagicBuffsUsed?.has(status))continue;
   status.charges=Math.max(0,status.charges-1);
   io.emit(battle,{type:'status_consumed',sourceId:actor.id,targetId:actor.id,statusId:status.id,amount:1,remaining:status.charges});

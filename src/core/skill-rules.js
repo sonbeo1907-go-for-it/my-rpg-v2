@@ -7,9 +7,11 @@ export const OUTPUT_BUFF_STATS=['damageBonus','attackMultiplier','damageVsShield
 export function skillGrowthGroups(content,skill){
  if(skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive')return [];
  const groups=new Set();
+ if(skill.linkedPassiveGrowth)groups.add('damage');
  for(const effect of skill.effects??[]){
   if(effect.type==='damage')groups.add(skill.id==='$attack'?'basic':'damage');
   if(effect.flatSkillScaling)groups.add('damage');
+  if(effect.baseStatModifiers)groups.add('stat_buff');
   if(['heal','shield'].includes(effect.type))groups.add(effect.type);
   for(const id of [effect.status,...effect.linkedStatuses??[]].filter(Boolean)){
    const status=content?.statuses?.[id];if(status?.kind!=='buff')continue;
@@ -72,7 +74,7 @@ export function validateSkillProgression(content){
   if(skill.activation==='passive'&&skill.growthProfile!=='fixed')errors.push(skill.id+': automatic skill must remain fixed');
   if(skill.effects.some(e=>['enter_mode','prepare_mode','formula_field','edit_formula','end_formula'].includes(e.type)||e.formulaScaling)&&skill.growthProfile!=='fixed'&&!skill.growthAdapter)errors.push(skill.id+': missing explicit growth adapter');
   const referenced=skill.effects.flatMap(effect=>[effect.status,...effect.linkedStatuses??[]]).filter(Boolean).map(id=>content.statuses?.[id]);
-  const statBuff=referenced.some(status=>status?.kind==='buff'&&GROWING_STATS.some(key=>(status.modifiers?.[key]??0)>0));
+  const statBuff=skill.effects.some(e=>e.baseStatModifiers&&Object.values(e.baseStatModifiers).some(n=>n>0))||referenced.some(status=>status?.kind==='buff'&&GROWING_STATS.some(key=>(status.modifiers?.[key]??0)>0));
   const outputBuff=referenced.some(status=>status?.kind==='buff'&&OUTPUT_BUFF_STATS.some(key=>(status.modifiers?.[key]??0)>0));
   if(['damage','heal','shield'].includes(skill.growthProfile)&&!skill.effects.some(effect=>effect.type===skill.growthProfile||skill.growthProfile==='damage'&&effect.flatSkillScaling))errors.push(skill.id+': profile has no growing effect');
   if(skill.growthProfile==='stat_buff'&&!statBuff&&skill.growthAdapter!=='mode_stat_buff'&&skill.rankOnly!==true)errors.push(skill.id+': no eligible positive stat buff');

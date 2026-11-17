@@ -87,3 +87,5 @@ Voodoo/Rotary: queue giữ chủ ô gốc, activeActor là người thực hiệ
 - Vỡ Thế của Cự Quỷ đếm lượt chính boss, không đếm move; gây trong chính lượt boss không hết ngay. Phản ứng là cast riêng khi phá dấu, DoT không tạo dấu. Chi tiết/source-of-truth: [Đại Yêu Ma](EAST_GREAT_YOKAI.md).
 
 - [Ariel / Sân Khấu](ARIEL.md): hiệu ứng riêng theo phe không ghi đè Monica/Auguste. Sát thương phép phẳng cộng trước RES/khuếch đại, chốt MAG người cấp, chia số hit phép và tiêu một lần/chiêu hợp lệ. Rotary chủ động loại Hồn Kiếm khỏi Sơ Hở sao chép theo hệ chính.
+
+- [Charlotte](CHARLOTTE.md): status effect `baseStatModifiers` cộng căn bản trước buff%; Rank tăng5%/rank. `linkedPassiveGrowth` tăng damage của nội tại từ Rank chiêu được chỉ định (10%/rank). `consumeDamageType` giới hạn loại sát thương trực tiếp tiêu charge; không thay quy tắc amp lớn nhất.

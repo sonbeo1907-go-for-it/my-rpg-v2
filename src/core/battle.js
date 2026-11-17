@@ -5,6 +5,7 @@ import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,fini
 import {boundAlly,cleanupTurnDelegations,delegatedTurnActor,turnOrderEntries,bindTurns,applyBoundExposure,grantDelegationExtraTurns} from './turn-delegation.js';
 import {initializeTrial,observeTrialDefeat,observeTrialHit,trialRoundEnd,trialOffenseBonus,trialAfterAction} from './unrecorded-trials.js';
 import {baseStatValue} from './combat-math.js';
+import {supportChargeEligible,supportChargeFollowupEligible,rankedSupportFollowup} from './support-charge.js';
 import {applyPerformanceStage,flatMagicSkillHitBonus,performanceDamageMultiplier} from './performance-stage.js';
 import {canGainMagicSkillCharge} from './skill-procs.js';
 import {primaryDamageEffect} from './combat-math.js';
@@ -397,6 +398,7 @@ function finishAttackContext(battle, actor, context) {
   triggerGearEchoes(battle,actor,context);
   triggerBlessedResource(battle,context);
   triggerKillRepeat(battle,actor,context);
+  triggerSupportChargeFollowups(battle,actor,context);
 }
 
 function triggerGearEchoes(battle,actor,context){
@@ -1020,6 +1022,7 @@ export function targetsFor(battle, actor, skill) {
       (allies ? target.team === actor.team : target.team !== actor.team),
   );
   if(skill.targetElement)targets=targets.filter(target=>target.element===skill.targetElement);
+  if(skill.excludedTargetElements)targets=targets.filter(target=>!skill.excludedTargetElements.includes(target.element));
   if(skill.targetTag)targets=targets.filter(target=>target.tags?.includes(skill.targetTag));
   if(skill.excludeSelf)targets=targets.filter(target=>target.id!==actor.id);
   if (skill.requiresTargetStatus) targets = targets.filter(target => target.statuses.some(status => status.id === skill.requiresTargetStatus && status.stacks > 0 && (status.remaining==null||status.remaining>0) && (!battle.content.statuses[status.id]?.turnDelegation||status.sourceId===actor.id)));
@@ -1321,6 +1324,24 @@ function triggerReceivedDamageCounters(battle,attacker,context){
   emitEvent(battle,{type:'reaction',kind:'counter',label:REACTION_LABELS.counter,sourceId:owner.id,targetId:attacker.id,abilityId:skill.id,rawDamage:raw,multiplier});
   for(const e of skill.effects)applyEffect(battle,owner,[attacker],{...e,multiplier},0,false,counter);
   finishAttackContext(battle,owner,counter);transitionBossPhases(battle,{write,restoreMp:gainResource});
+ }
+}
+
+function triggerSupportChargeFollowups(battle,source,context){
+ for(const owner of battle.actors){
+  if(!supportChargeFollowupEligible(owner,source,context))continue;
+  const p=owner.passive,state=owner.supportChargeFollowupState;
+  if(state?.round===battle.round&&state.count>=p.perRound)continue;
+  const targets=battle.actors.filter(t=>canTriggerFollowUp(owner,source,t));
+  if(!targets.length||!reservePvpAutomatic(battle,owner,modeIO))continue;
+  owner.supportChargeFollowupState={round:battle.round,count:(state?.round===battle.round?state.count:0)+1};
+  gainResource(battle,owner,p.resource,-1,owner.id);
+  const ability=rankedSupportFollowup(battle.content,owner),anchor=targets.find(t=>t.id===context.primaryTargetId)??targets[0];
+  const reaction={...attackContext(battle,owner),pvpRegistered:true,skill:ability,skillId:ability.id,reaction:true,reactionKind:'follow_up',primaryTargetId:anchor.id};
+  announcePassive(battle,owner,source.id);write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+ability.name+'.');
+  emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:anchor.id,targetIds:targets.map(t=>t.id),abilityId:ability.id,area:true});
+  for(const effect of ability.effects)applyEffect(battle,owner,targets,effect,0,true,reaction);
+  finishAttackContext(battle,owner,reaction);
  }
 }
 
@@ -2071,7 +2092,7 @@ function applyEffect(
       const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
       if (battle.content.statuses[effect.status].exposedElement) recordCreatedExposure(battle.content,actionContext,applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count}));
       else for (let i = 0; i < count; i++) {
-        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,...(effect.flatSkillScaling?{flatSkillBonus:stat(battle,actor,effect.flatSkillScaling.stat)*effect.flatSkillScaling.multiplier}:{}),appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio,chanceScaling:effect.chanceScaling});
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,...(effect.baseStatModifiers?{baseStatModifiers:effect.baseStatModifiers}:{}),...(effect.flatSkillScaling?{flatSkillBonus:stat(battle,actor,effect.flatSkillScaling.stat)*effect.flatSkillScaling.multiplier}:{}),appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio,chanceScaling:effect.chanceScaling});
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }
     }
@@ -2410,6 +2431,7 @@ function resolveAction(
   battle.actionCount += 1;
   transitionBossPhases(battle, { write, restoreMp: gainResource });
   recordFormulaAction(battle,actor,skill,modeIO);
+  for(const owner of battle.actors)if(supportChargeEligible(owner,actor,skill))gainResource(battle,owner,owner.passive.resource,1,actor.id);
   triggerSupportFollowups(battle,actor,skill);
   triggerSupportSkillCounters(battle,actor,skill,actionContext);
   triggerShieldModeRouse(battle,actor,skill,actionContext);

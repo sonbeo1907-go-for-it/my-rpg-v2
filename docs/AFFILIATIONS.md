@@ -62,3 +62,5 @@ Bổ sung11/11: Geoffrey (#105) thuộc capital_knights, tag danh xưng royal_kn
 Bổ sung 16/11/2026: Luka và Gairyu thuộc `magic_academy`, tag `class_7a`. Đây là dữ liệu chưa có nguồn nhận, không đưa vào banner/rate-up. Bảng đếm bên trên là ảnh chụp lịch sử, không phải tổng roster hiện hành.
 
 Bổ sung16/11: Ariel thuộc `magic_academy`, tag `class_7a`, dữ liệu chưa mở nguồn nhận; không vào banner/rate-up.
+
+Bổ sung17/11: Charlotte #114 thuộc `magic_academy`, tag `class_7a`, chỉ dữ liệu, chưa có nguồn nhận và không vào gacha/rate-up.

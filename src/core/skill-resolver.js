@@ -17,6 +17,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
  const resolved={...source,rankSource,rankFormationSlot:(actor?.formationSlot??0)%2,rankOwnerId:actor?.id,rankTeam:actor?.team,skillRank:rank,skillLineId:skillLineId(source),growthProfile:profile,growthGroups:groups,rankResolved:true,rankMpMultiplier:groups.includes('output_buff_mp')?outputMpFactor(rank,rules):1};
  resolved.effects=source.effects.map(effect=>{
   let next={...effect};
+  if(groups.includes('stat_buff')&&effect.baseStatModifiers)next.baseStatModifiers=rankedModifiers(effect.baseStatModifiers,f05);
   if(groups.includes('damage')&&effect.flatSkillScaling)next.flatSkillScaling={...effect.flatSkillScaling,multiplier:effect.flatSkillScaling.multiplier*f10};
   if((groups.includes('basic')||groups.includes('damage'))&&effect.type==='damage')next.rankDamageFactor=f10;
   if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat','spentLifeDebtRatio'])if(next[key]!==undefined)next[key]*=f10;

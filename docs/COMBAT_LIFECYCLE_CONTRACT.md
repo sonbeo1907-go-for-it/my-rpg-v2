@@ -202,3 +202,7 @@ Judy chỉ roll bonus khi nội tại thực tăng tài nguyên và còn chỗ c
 ## Sân Khấu và sát thương phép phẳng — 16/11/2026
 
 Sân Khấu dùng deadline vòng độc lập theo phe; hết sau Vòng Phụ của vòng cuối, giữ deadline qua wave. Nguồn gục tắt nội tại khuếch đại nhưng không hủy SPD đã cấp. Buff sát thương phép phẳng chốt MAG nguồn lúc cấp; chỉ tiêu charge khi có hit phép của kỹ năng/Liên kích hợp lệ gây damage, không theo hit/target. Xem [ARIEL](ARIEL.md) và test/ariel.test.js để phân biệt clock vòng, snapshot và charges.
+
+## Charlotte (17/11/2026)
+
+`support_charge_followup` gộp một cast sau toàn hit, tối đa3/vòng theo state chủ nhân, Vòng Phụ dùng chung; cấm self/reaction/automatic. Đặt quota trước resource/effects, thiếu địch hoặc PvP guard từ chối không tiêu. Buff căn bản4 main_turn đếm recipient, Extra không trừ, Choáng vẫn trừ. Buff amp phép2 charge chỉ tiêu sau một cast có hit phép trực tiếp; physical giữ nguyên. Wave/phase giữ state, independent encounter reset. Chi tiết và regression trong [CHARLOTTE.md](CHARLOTTE.md).

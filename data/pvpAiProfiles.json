@@ -1701,5 +1701,21 @@
       "ariel.spotlight": 15,
       "ariel.stage": 25
     }
+  },
+  {
+    "id": "charlotte",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "charlotte.rivalry",
+      "charlotte.spotlight"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "charlotte.entrance": 12,
+      "charlotte.rivalry": 20,
+      "charlotte.spotlight": 24
+    }
   }
 ]

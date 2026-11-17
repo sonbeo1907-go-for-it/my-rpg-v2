@@ -78,3 +78,7 @@ Choáng theo chỉ số: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md). Boss mới
 - Kỹ năng Liên kích theo xác suất: `chanceFollowUp` dùng đồ thị hữu hạn, validator chống chu trình; `stat_boost.followUpGuarantee` bật trạng thái bảo đảm sau lần thử thất bại. `skill_magic_charge` và `primaryPerResource` có hợp đồng/preview/test trong [ACADEMY_SEVEN](ACADEMY_SEVEN.md). Không áp quy tắc tự nối này lên Liên kích từ đồng đội.
 
 - Sân Khấu riêng theo phe và buff sát thương phép phẳng: `performance_stage`, `flatMagicSkill`, `flatSkillScaling`; dùng clock vòng tuyệt đối, snapshot MAG người cấp và chuẩn hóa theo số hit phép. Xem [ARIEL](ARIEL.md), không biến thành buff khuếch đại thông thường hoặc trường Monica.
+
+## Hỗ trợ theo tầng và buff căn bản
+
+Xem [Charlotte](CHARLOTTE.md). `excludedTargetElements` chỉ dùng với ally/all_allies. Status effect `baseStatModifiers` khai số dương ATK/MAG/DEF/RES/SPD, snapshot vào buff thay vì sửa stats gốc; những chỉ số nằm trong nhóm tăng trưởng hợp lệ mới được Rank tăng. `linkedPassiveGrowth:{abilityId}` cần khớp passive/rankAbilityId và khai đủ growthGroups. Child tự động vẫn fixed, đọc Rank từ parent. Status `consumeDamageType` cần buff có damageUses; charge chỉ mất khi context có hit trực tiếp đúng loại. Không tạo vòng lặp Liên kích.
