@@ -1,3 +1,4 @@
+import {syncShieldGuardAuras} from './shield-guard.js';
 import {isAlive} from './actor-life.js';
 import {buffTypeCount} from './conditional-combat.js';
 
@@ -16,6 +17,7 @@ export function syncTeamStatAuras(battle){
   const modifiers=teams[source.team]??={};for(const [key,ratio]of Object.entries(p.modifiers))modifiers[key]=Math.max(modifiers[key]??0,ratio);
  }
  for(const actor of battle.actors)actor.teamAuraModifiers={...(teams[actor.team]??{})};
+ syncShieldGuardAuras(battle);
 }
 export function selfBuffOffense(content,actor){
  const p=actor.passive;if(p?.type!=='self_buff_offense')return {damage:0,penetration:0};

@@ -5,6 +5,7 @@ import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,fini
 import {boundAlly,cleanupTurnDelegations,delegatedTurnActor,turnOrderEntries,bindTurns,applyBoundExposure,grantDelegationExtraTurns} from './turn-delegation.js';
 import {initializeTrial,observeTrialDefeat,observeTrialHit,trialRoundEnd,trialOffenseBonus,trialAfterAction} from './unrecorded-trials.js';
 import {baseStatValue} from './combat-math.js';
+import {takeDebuffs} from './shield-guard.js';
 import {supportChargeEligible,supportChargeFollowupEligible,rankedSupportFollowup} from './support-charge.js';
 import {applyPerformanceStage,flatMagicSkillHitBonus,performanceDamageMultiplier} from './performance-stage.js';
 import {canGainMagicSkillCharge} from './skill-procs.js';
@@ -615,9 +616,9 @@ function healHp(battle, target, requested, sourceId, label = "", gearOrigin=null
   }
   const healer=getActor(battle,sourceId),passive=healer?.passive;
   if(!periodic&&requested>0&&passive?.type==='full_hp_heal_cleanse'&&living(healer)&&healer.team===target.team&&target.hp>=target.stats.maxHp){
-    const removed=target.statuses.filter(s=>s.remaining!==0&&battle.content.statuses[s.id].kind==='debuff').slice(0,passive.count);
+    const removed=takeDebuffs(battle.content,target,passive.count);
     if(removed.length){
-      target.statuses=target.statuses.filter(s=>!removed.includes(s));clampBattleMp(battle.content,target);
+      clampBattleMp(battle.content,target);
       announcePassive(battle,healer,target.id);
       emitEvent(battle,{type:'cleanse',sourceId:healer.id,targetId:target.id,statusIds:removed.map(s=>s.id),amount:removed.length});
       write(battle,target.name+': '+passive.name+' giải '+removed.map(s=>battle.content.statuses[s.id].name).join(', ')+'.');
@@ -1600,7 +1601,7 @@ function resolveHit(
     hpRatio: attacker.hp / attacker.stats.maxHp,
     buffs: buffTypeCount(battle.content,target),
   });
-  let reduction = modifier(battle,target,"directDamageReduction")+agonyReduction(target)+modifier(battle, target, "damageReduction")-bypassedBarrierReduction(battle.content,target,attacker)+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0):0)+shieldedTeamGuard(battle,target.team);
+  let reduction = modifier(battle,target,"directDamageReduction")+agonyReduction(target)+modifier(battle, target, "damageReduction")-bypassedBarrierReduction(battle.content,target,attacker)+gearGuardReduction(target)+(effect.damageType==='physical'?teamPhysicalGuard(battle,target.team):0)+(effect.damageType==="magical"?(target.teamMagicDamageReduction??0)+(target.shieldGuardMagicReduction??0):0)+shieldedTeamGuard(battle,target.team);
   if (target.passive?.type === "damage_reduction" &&
     (!target.passive.requiresStatus || activeStatuses(target).some(status => status.id === target.passive.requiresStatus)))
     reduction += target.passive.amount;
@@ -1997,6 +1998,7 @@ function applyEffect(
   if(battle.pvpRules&&effect.type==='damage'&&!actionContext.pvpDamage)actionContext.pvpTargetSnapshot=targets.filter(t=>t.team!==actor.team).map(t=>t.id);
   const selectedAlly=effect.selectAlly?priorityTaggedAlly(battle,actor,effect.selectAlly):null;
   const recipients = effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : effect.to==='primary'?targets.filter(t=>t.id===actionContext.primaryTargetId):effect.to==='all_allies'?battle.actors.filter(t=>t.team===actor.team&&living(t)):targets;
+  const supportSnapshot=effect.snapshotScaling?scalingValue(effect,key=>stat(battle,actor,key)):undefined;
   for (const target of recipients) {
     if (!living(target)) continue;
     if(effect.requiresDamageHit&&!actionContext.gearImpacts.some(hit=>hit.target.id===target.id))continue;
@@ -2053,7 +2055,7 @@ function applyEffect(
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if(effect.type==='steal_base_stat')stealBaseStat(battle,actor,target,effect,{status:applyStatus,emit:emitEvent,write});
     if (effect.type === "heal") {
-      const rawRequested=effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
+      const rawRequested=effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,supportSnapshot??scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
       const requested=Math.round(rawRequested*(actionContext.reaction||actionContext.automatic?1:gearSupportMultiplier(actor,'heal',actionContext.skill)));
       const blocked=externalHealingBlocked(target,actor.id);
       const healed=healHp(battle,target,requested,actor.id,"",actionContext);
@@ -2065,7 +2067,7 @@ function applyEffect(
       if(isInAgony(target)){write(battle,target.name+': Oán Hận chặn nhận khiên.');continue;}
       const amount = receivedSupport(battle.content,target,Math.round((actionContext.reaction||actionContext.automatic?1:gearSupportMultiplier(actor,'shield',actionContext.skill))*supportAmount(
         effect.primaryMultiplier!==undefined?{...effect,multiplier:target.id===actionContext.primaryTargetId?effect.primaryMultiplier:effect.multiplier}:effect,
-        scalingValue(effect,key=>stat(battle,actor,key)),
+        supportSnapshot??scalingValue(effect,key=>stat(battle,actor,key)),
       )),"shieldReceivedReduction");
       // Shields do not stack; a weaker shield cannot overwrite a stronger one.
       if (amount > target.shield) {
@@ -2142,11 +2144,9 @@ function applyEffect(
       dispelBuffs(battle,actor,target,effect.count,effect.all);
     }
     if (effect.type === "cleanse") {
-      if (target.statuses.some(status=>battle.content.statuses[status.id].kind==="debuff")) emitEvent(battle,{type:"cleanse",sourceId:actor.id,targetId:target.id});
-      target.statuses = target.statuses.filter(
-        (status) => battle.content.statuses[status.id].kind !== "debuff",
-      );
-      write(battle, `${target.name} được giải hiệu ứng bất lợi.`);
+      const removed=takeDebuffs(battle.content,target,effect.count);
+      if(removed.length)emitEvent(battle,{type:'cleanse',sourceId:actor.id,targetId:target.id,...(effect.count!==undefined?{amount:removed.length,statusIds:removed.map(s=>s.id)}:{})});
+      write(battle,effect.count!==undefined?target.name+': giải '+removed.length+' hiệu ứng bất lợi.':`${target.name} được giải hiệu ứng bất lợi.`);
     }
     clampBattleMp(battle.content,target);
   }

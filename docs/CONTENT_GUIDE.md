@@ -82,3 +82,6 @@ Choáng theo chỉ số: [MIYUKI_AND_CONTROL](MIYUKI_AND_CONTROL.md). Boss mới
 ## Hỗ trợ theo tầng và buff căn bản
 
 Xem [Charlotte](CHARLOTTE.md). `excludedTargetElements` chỉ dùng với ally/all_allies. Status effect `baseStatModifiers` khai số dương ATK/MAG/DEF/RES/SPD, snapshot vào buff thay vì sửa stats gốc; những chỉ số nằm trong nhóm tăng trưởng hợp lệ mới được Rank tăng. `linkedPassiveGrowth:{abilityId}` cần khớp passive/rankAbilityId và khai đủ growthGroups. Child tự động vẫn fixed, đọc Rank từ parent. Status `consumeDamageType` cần buff có damageUses; charge chỉ mất khi context có hit trực tiếp đúng loại. Không tạo vòng lặp Liên kích.
+
+## Khiên và hỗ trợ có điều kiện
+[Mariel](MARIEL.md): dùng native shielded_ally_guard để cấp flat RES và giảm phép cho người có khiên. Không bake bonus vào prepared stats. Effect heal/shield có thể opt-in snapshotScaling:true để chốt nguồn trước vòng lặp mục tiêu; vẫn xử lý giảm hồi/khiên từng mục tiêu. cleanse.count khai số nguyên1..20, vắng field giữ giải toàn bộ; dùng chung takeDebuffs để không bỏ nhầm toàn bộ debuff.

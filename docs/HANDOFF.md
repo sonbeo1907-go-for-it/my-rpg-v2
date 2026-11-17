@@ -138,3 +138,6 @@ Ba encounter category `east_super` ở Phương Đông, mở bởi `east_campaig
 
 ## Clark — 17/11/2026
 [CLARK.md](CLARK.md): release115, hệ Thổ, hỗ trợ phòng thủ lớp7A, dữ liệu khóa. Native hồi trực tiếp đạt/đã đầy HP giải1 debuff, loại Regen bằng cờ periodic chứ không bằng tên. Chiêu Regen25% + giảm đòn15% dùng clock round3/CD3: trống1 vòng. Chiêu debuff20%ATK/MAG dùng3 main_turn người nhận.
+
+## Mariel — 17/11/2026
+[MARIEL.md](MARIEL.md): #116 Thủ Hộ Thường lớp7A, chưa có nguồn nhận/gacha. Chốt chỉ người có khiên nhận+9 RES căn bản/giảm15% phép, Mariel còn sống; không cộng theo số đồng đội. Khiên AoE chốt RES trước effect bằng snapshotScaling, tránh tự nâng giữa danh sách mục tiêu. cleanse.count=1 mỗi người, không khai count vẫn giải toàn bộ.

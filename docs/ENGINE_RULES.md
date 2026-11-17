@@ -91,3 +91,5 @@ Voodoo/Rotary: queue giữ chủ ô gốc, activeActor là người thực hiệ
 - [Charlotte](CHARLOTTE.md): status effect `baseStatModifiers` cộng căn bản trước buff%; Rank tăng5%/rank. `linkedPassiveGrowth` tăng damage của nội tại từ Rank chiêu được chỉ định (10%/rank). `consumeDamageType` giới hạn loại sát thương trực tiếp tiêu charge; không thay quy tắc amp lớn nhất.
 
 - [Clark](CLARK.md): `full_hp_heal_cleanse` xét HP sau hồi trực tiếp, kể cả actual heal0 khi đã đầy. Regen đánh dấu periodic và không kích. Không biến mọi hồi0 thành native trigger: yêu cầu hồi dương, nguồn/cùng phe còn sống, không bị chặn.
+
+- [Mariel](MARIEL.md): hào quang chỉ cho người có khiên, +RES căn bản trước %, tắt khi hết khiên/nguồn gục. Hit phá khiên còn hưởng; hit kế tiếp xét lại. `snapshotScaling:true` chỉ chốt scaling cho effect heal/shield khai opt-in; `cleanse.count` giới hạn số debuff mỗi người, không khai giữ giải toàn bộ.

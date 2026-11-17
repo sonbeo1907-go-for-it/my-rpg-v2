@@ -106,7 +106,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
     else if (effect.type === 'formula_field') parts.push('Đại Đồ Thức · '+effect.durationRounds+' vòng');
     else if (effect.type === 'edit_formula') parts.push('Đổi chỗ / viết lại dấu');
     else if(effect.type==='dispel')parts.push('Xóa '+(effect.all?'toàn bộ':effect.count)+' buff địch');
-    else if (effect.type === 'cleanse') parts.push('Giải hiệu ứng bất lợi');
+    else if (effect.type === 'cleanse') parts.push(effect.count!==undefined?'Giải '+effect.count+' hiệu ứng bất lợi/người':'Giải hiệu ứng bất lợi');
   }
   for (const [key,amount] of Object.entries(choices.baseStatBonuses)) parts.push('+'+amount+' '+statNames[key]+' căn bản');
   if(skill.linkedPassiveGrowth){const linked=rankedSupportFollowup(content,actor,skill.skillRank);parts.push('Liên kích '+percent(damageMultiplier(exclusiveDamageEffect(actor,linked.id,linked.effects[0])))+' MAG diện rộng');}

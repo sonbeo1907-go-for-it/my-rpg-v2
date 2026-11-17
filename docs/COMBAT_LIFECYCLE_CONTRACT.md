@@ -209,3 +209,6 @@ Sân Khấu dùng deadline vòng độc lập theo phe; hết sau Vòng Phụ c�
 
 ## Clark — 17/11/2026
 Regen25%/giảm đòn15% dùng3 vòng tuyệt đối, castR hếtR+2 sau Extra, CD3 sẵn sàngR+4, trốngR+3. Regen đầu lượt theo nhịp hiện hữu cả main/extra/Choáng, không kích native cleanse. Native chỉ hồi trực tiếp, xét sau giảm hồi/nợ và HP, kể cả đầy sẵn. Wave/phase giữ deadline; fresh encounter reset. Regression tiến triển thật kiểm tra Choáng và vòng4 trống/vòng5 CD xong; xem [CLARK.md](CLARK.md).
+
+## Mariel — 17/11/2026
+Hào quang được đồng bộ theo khiên/nguồn sống trước tính chỉ số và từng hit, không có clock; hit phá khiên hưởng, hit sau không. Che Chắn3 main_turn nguồn, buffRES4 main_turn người nhận, Choáng tính/Extra không tính. Khiên chốt scaling trước effect opt-in, không tự khuếch đại trong cùng cast. Wave/phase giữ state, fresh reset, forecast không sửa live. Xem [MARIEL.md](MARIEL.md).

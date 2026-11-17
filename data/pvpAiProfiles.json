@@ -1732,5 +1732,22 @@
       "clark.reprimand": 16,
       "clark.sanctuary": 20
     }
+  },
+  {
+    "id": "mariel",
+    "role": "tank",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "mariel.lesson",
+      "mariel.interpose",
+      "mariel.shelter"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "mariel.shelter": 18,
+      "mariel.lesson": 16,
+      "mariel.interpose": 14
+    }
   }
 ]

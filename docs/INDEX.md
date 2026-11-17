@@ -186,3 +186,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Charlotte — Tham Vọng và Liên kích lớp 7A](CHARLOTTE.md)
 
 - [Clark — hồi đầy HP giải debuff; lớp7A](CLARK.md)
+
+- [Mariel — khiên, RES căn bản và cleanse có số lượng](MARIEL.md)

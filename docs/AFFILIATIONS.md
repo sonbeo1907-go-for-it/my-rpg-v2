@@ -66,3 +66,5 @@ Bổ sung16/11: Ariel thuộc `magic_academy`, tag `class_7a`, dữ liệu chưa
 Bổ sung17/11: Charlotte #114 thuộc `magic_academy`, tag `class_7a`, chỉ dữ liệu, chưa có nguồn nhận và không vào gacha/rate-up.
 
 Bổ sung17/11: Clark #115 thuộc `magic_academy`, tag `class_7a`, chưa mở nguồn nhận.
+
+Bổ sung17/11: Mariel #116 thuộc `magic_academy`, tag `class_7a`, dữ liệu khóa chưa có nguồn nhận/gacha.

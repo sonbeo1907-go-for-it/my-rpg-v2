@@ -13398,5 +13398,79 @@
     "growthGroups": [],
     "rankable": false,
     "fixedReason": "Hiệu ứng tiện ích cố định; không có cấp nâng."
+  },
+  {
+    "id": "mariel.shelter",
+    "name": "Kết Giới Không Bỏ Ai",
+    "target": "all_allies",
+    "cost": {
+      "mp": 14
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "resistance",
+        "multiplier": 1.5,
+        "snapshotScaling": true
+      },
+      {
+        "type": "cleanse",
+        "count": 1
+      }
+    ],
+    "description": "Tạo khiên cho toàn đội và giải 1 hiệu ứng bất lợi trên mỗi người.",
+    "skillLineId": "mariel.shelter",
+    "growthProfile": "shield",
+    "growthGroups": [
+      "shield"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "mariel.lesson",
+    "name": "Ôn Tập Kết Giới",
+    "target": "all_allies",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "mariel_lesson",
+        "duration": 4
+      }
+    ],
+    "description": "Tăng RES toàn đội trong 4 lượt chính.",
+    "skillLineId": "mariel.lesson",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "mariel.interpose",
+    "name": "Cứ Để Tôi Đứng Trước",
+    "target": "self",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "status",
+        "status": "mariel_cover",
+        "duration": 3
+      }
+    ],
+    "description": "Khiêu Khích, Che Chắn toàn đội và tăng RES bản thân trong 3 lượt chính.",
+    "skillLineId": "mariel.interpose",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
   }
 ]

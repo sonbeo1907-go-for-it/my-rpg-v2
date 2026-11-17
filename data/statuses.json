@@ -2059,5 +2059,29 @@
     "modifiers": {
       "damageReduction": 0.15
     }
+  },
+  {
+    "id": "mariel_lesson",
+    "name": "Ôn Tập Kết Giới",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": 0.35
+    }
+  },
+  {
+    "id": "mariel_cover",
+    "name": "Cứ Để Tôi Đứng Trước",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "cover": true,
+    "coverTeam": true,
+    "coverArea": true,
+    "coverReactions": true,
+    "taunt": true,
+    "modifiers": {
+      "resistance": 0.75
+    },
+    "description": "Khiêu Khích và nhận đòn thay đồng đội, kể cả diện rộng và Liên kích; tăng RES bản thân."
   }
 ]

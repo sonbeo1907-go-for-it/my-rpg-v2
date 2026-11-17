@@ -5207,5 +5207,45 @@
       "description": "Hồi trực tiếp cho đồng đội đạt đầy HP hoặc đã đầy HP: giải 1 hiệu ứng bất lợi. Không tính hồi HP theo thời gian.",
       "count": 1
     }
+  },
+  {
+    "id": "mariel",
+    "releaseId": 116,
+    "name": "Mariel",
+    "title": "Tấm khiên lớp 7A",
+    "affiliation": "magic_academy",
+    "role": "Thủ Hộ",
+    "roleGroup": "tank",
+    "element": "plain",
+    "basicDamageType": "magical",
+    "description": "Chắn đòn cho đồng đội và củng cố hàng khiên trước sát thương phép.",
+    "biography": "Thành viên lớp 7A Học Viện Ma Pháp. Mariel thường xung phong đứng đầu hàng trong những buổi luyện tập và đặc biệt coi trọng lời động viên từ Ariel.",
+    "tags": [
+      "magic_academy",
+      "class_7a"
+    ],
+    "stats": {
+      "maxHp": 270,
+      "maxMp": 110,
+      "attack": 12,
+      "magic": 15,
+      "defense": 22,
+      "resistance": 34,
+      "speed": 14
+    },
+    "abilities": [
+      "mariel.shelter",
+      "mariel.lesson",
+      "mariel.interpose"
+    ],
+    "passive": {
+      "type": "shielded_ally_guard",
+      "name": "Có Tôi Ở Đây",
+      "description": "Đồng đội đang có khiên nhận 9 RES căn bản và giảm 15% sát thương phép, gồm cả bản thân.",
+      "baseStatBonuses": {
+        "resistance": 9
+      },
+      "magicReduction": 0.15
+    }
   }
 ]
