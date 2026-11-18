@@ -1,5 +1,7 @@
 # Giải đấu học viện — đặc tả triển khai v1
 
+> Cập nhật thiết kế 18/11/2026: phân loại NPC, seed giới thiệu, First Clear và pool sau First Clear ở mục 13. Đây là giải truyện với NPC trong trường, không phải Arena. Dữ liệu bước 2 vẫn là bản nền 16 đội cũ; các quyết định mới chưa được triển khai vào JSON/validator/runtime.
+
 Ngày18/11/2026, múi giờ Việt Nam. Tên làm việc: **Mùa Thi Đấu, Những Vì Sao Chưa Sáng**. ID nội dung và bộ luật `academy_tournament`; không tự chiếm số Quyển III của mạch truyện chính.
 
 ## 1. Phạm vi và nguồn quyết định
@@ -24,7 +26,7 @@ Những con số chưa được người dùng chỉ định — cấu hình mư
 | Người chơi vào chung kết |Đánh6 trận chính; trận phụ có thể tăng số này |
 | Tranh hạng ba |Không có ởv1 |
 
-Bốc thăm từ4 nhóm hạt giống, mỗi nhóm4 đội; mỗi bảng nhận1 đội từ mỗi nhóm. Dùng seed của lượt chơi. Nhóm của người chơi được **đổi nhãn thành A sau bốc thăm**, không ép sẵn ba đối thủ. Chơi lại dùng seed mới nhưng kết quả bốc thăm vẫn có thể vô tình trùng.
+Bốc thăm từ4 nhóm hạt giống, mỗi nhóm4 đội; mỗi bảng nhận1 đội từ mỗi nhóm. Dùng seed của lượt chơi. Nhóm của người chơi được **đổi nhãn thành A sau bốc thăm**. Cấu hình giới thiệu dùng seed cố định và bố trí cuộc gặp bạn cũ Luka theo mục 13; không áp câu “mọi lượt đều bốc thăm tự do” cho lượt đầu. Lượt ngẫu nhiên sau First Clear dùng seed mới, kết quả vẫn có thể vô tình trùng.
 
 Phân hạng bằng điểm: đối đầu trực tiếp trong nhóm đội bằng điểm → hiệu số số người còn trụ sân → trận phụ. Khi có3 đội vẫn bằng nhau, tổ chức nhánh phụ loại trực tiếp có bốc thăm suất miễn lượt; đủ trận để phân định các vị trí liên quan đi tiếp. Không lặp vòng tròn phụ vô hạn. Trận phụ không cộng lại điểm/hiệu số vòng bảng và không có thưởng riêng.
 
@@ -58,7 +60,7 @@ Nền playtest cho cả hai phe:
 - Không dùng dược liệu/thực phẩm/vật phẩm tài khoản trong giải v1.
 - Các build khác nhau theo vai trò, cùng ngân sách cấp/điểm/gear. Cần playtest thực tế trước khi phát hành, đặc biệt các chuỗi sát thương Gairyu và điều khiển lượt Monica/Rotary.
 
-Build NPC là **mẫu kit**, không phải nhân vật gốc cũng đăng ký ở đội khác. Mỗi học viên NPC có ID/tên riêng; tái dùng kit không đưa60 người mới vào roster/gacha. Runtime phải chuẩn bị họ bằng đường build nhân vật (điểm/Rank/gear), không áp enemy-level curve lên chỉ số nguồn. Chỉ số nền nguồn vẫn ởLv1.
+Trong dữ liệu bước 2 hiện tại, build NPC là **mẫu kit**, không phải nhân vật gốc cũng đăng ký ở đội khác. Thiết kế mới cho phép Rotary, Monica, Lumine và Eri đích thân tham gia đội thi (mục 13); phải phân biệt NPC tái dùng kit với nhân vật thật, không đổi tên một NPC filler rồi coi đó là nhân vật chính thức. Mỗi học viên NPC có ID/tên riêng; tái dùng kit không đưa60 người mới vào roster/gacha. Runtime phải chuẩn bị họ bằng đường build nhân vật (điểm/Rank/gear), không áp enemy-level curve lên chỉ số nguồn. Chỉ số nền nguồn vẫn ởLv1.
 
 ## 4. Luật một trận và ranh giới
 
@@ -98,8 +100,8 @@ Chơi lại không giới hạn số lần/ngày/tuần, cho cả vô địch l�
 
 | Mở lượt chơi mới | Phải giữ |
 | --- | --- |
-| ID lượt và seed mới |Lịch sử, tổng thành tích, thứ hạng tốt nhất |
-| Bốc thăm/lịch/bảng/nhánh mới |Cờ truyện vĩnh viễn đã đạt |
+| ID lượt mới; seed theo chính sách giới thiệu/ngẫu nhiên ở mục 13 |Lịch sử, tổng thành tích, thứ hạng tốt nhất |
+| Bảng/lịch/nhánh khởi tạo lại theo cấu hình của lượt |Cờ truyện vĩnh viễn đã đạt |
 | Đội hình xuất chiến mặc định từ roster mượn |Sổ thưởng lần đầu và quyền nhận còn chờ |
 | Trận và bộ RNG mới |Nhân vật, trang bị, tiền tệ tài khoản |
 
@@ -121,7 +123,9 @@ Nhận đủ ba mốc lần đầu:3.000 Coin,20 Vụn,2 Pure,1 Original. Không
 
 Ledger nhận thưởng theo hồ sơ + ID giải + ID mốc, không theo seed/runID. Không tự reset ledger khi chơi lại, qua00:00, sang tuần hoặc đổi rulesetVersion. Mốc đạt nhưng chưa nhận vẫn phải nhận được sau khi kết thúc/mở lượt khác; transaction thưởng và đánh dấu đã nhận phải nguyên tử. Không tiêu quota28/tuần của Quyển I/II.
 
-## 9. Đội tham gia và định hướng
+## 9. Đội tham gia và định hướng — dữ liệu nền bước 2
+
+Bảng dưới là snapshot dữ liệu đang có, **không phải pool cuối cùng theo thiết kế mới**. Không tự gán các đội này vào 18 filler/4 đội quan hệ khi chưa viết và duyệt hồ sơ.
 
 | Nhóm hạt giống | Các đội |
 | --- | --- |
@@ -170,3 +174,73 @@ Validator kiểm tra số đội/nhóm/roster, memberID độc lập, kit nguồ
 Cấu hình chuẩn hóa chung nằm ở `trialRules`; thay mức playtest phải đổi policy và mọi build liên quan cùng lúc. Validator kiểm tính hợp lệ theo level/Rank/gear engine và đối chiếu với policy, không hardcode mức30/3/T2 trong từng build.
 
 Nghiệm thu bước1–2 ngày18/11: validate qua đủ5 collection;1.773/1.773 kiểm thử engine qua, gồm24 ca dữ liệu giải; TypeScript và build web qua. Đã kiểm nguồn loader runtime/CLI đồng nhất và không mở quyển/quest/nhân vật sở hữu mới. Graph code cập nhật cục bộ. Không build EXE hoặc tuyên bố giải đã chơi được trong đợt nền dữ liệu này.
+
+
+## 13. Thiết kế cập nhật: NPC và lượt giới thiệu
+
+### 13.1. Bản chất sự kiện
+
+Đây là câu chuyện về lớp 7A tham gia giải đấu học viện với các đội NPC có danh tính. AI và chuẩn bị nhân vật có thể tái dùng cơ sở kỹ thuật đối xứng, nhưng không kéo theo luật, giao diện tìm trận, ban/pick hoặc nhịp trải nghiệm Arena. Đối thủ cần hiện diện trong đời sống học viện; trận đấu là một phần của quan hệ truyện.
+
+### 13.2. Những yêu cầu đã được người dùng chốt
+
+- Có First Clear Flag vĩnh viễn theo hồ sơ; lượt đầu dùng **seed cố định**. Không ép kết quả chiến đấu theo seed truyện.
+- Có **18 đội NPC phụ (filler)** để làm đầy giải và tạo đa dạng đội hình.
+- Có **4 đội NPC chủ chốt có quan hệ với lớp 7A**. Trong đó một đội có bạn cũ cùng quê Luka, gắn với cấu hình giới thiệu cố định. Ba đội còn lại phải có quan hệ với thành viên 7A; chưa chốt tên, tiểu sử hay quan hệ cụ thể.
+- Sau First Clear, mỗi giải có **1–2 đội chủ chốt**, phần còn lại là filler; vẫn có lớp 7A.
+- Đội chủ chốt thường có xác suất thắng cao hơn khi mô phỏng các trận NPC.
+- Rotary, Monica, Lumine và Eri có thể xuất hiện trong giải. Ngoài ra có bốn cuộc chạm trán siêu trùm hiếm sau lượt đầu, tương ứng bốn người này; bản siêu trùm không bắt buộc giống bộ kỹ năng playable.
+
+### 13.3. Số đội và pool
+
+Giữ giải 16 đội, nên có 15 suất NPC bên cạnh 7A. Cách quy đổi yêu cầu “14 hoặc 15 filler, 1–2 chủ chốt” để không vượt số đội:
+
+| Cấu hình sau First Clear | Filler | Chủ chốt | 7A | Tổng |
+| --- | --- | --- | --- | --- |
+| Một đội chủ chốt | 14 | 1 | 1 | 16 |
+| Hai đội chủ chốt | 13 | 2 | 1 | 16 |
+
+Đây là điều chỉnh số học theo thể thức đang giữ, không phải tăng giải lên 17–18 đội. Tỷ lệ chọn hai cấu hình **chưa được người dùng chốt**; 50/50 là đề xuất playtest, không phải luật đã duyệt.
+
+Pool authoring gồm 18 đội filler và 4 đội quan hệ. Đề xuất bổ sung 4 đội do Rotary/Monica/Lumine/Eri đại diện vào pool chủ chốt: khi triển khai phải chốt họ là bốn đội riêng hay thuộc các đội quan hệ, không âm thầm coi tổng pool 26 đã được duyệt. Trong một giải, các đội đặc biệt này chiếm suất chủ chốt, không xuất hiện thêm ngoài 15 suất NPC. Một nhân vật thật không đăng ký ở hai đội cùng giải.
+
+### 13.4. First Run, First Clear và chơi lại
+
+Phải tách: (a) lượt đầu đã kết thúc, (b) đã vô địch lần đầu — ý nghĩa đề xuất của First Clear, (c) đã nhận từng mốc thưởng. Không dùng ledger thưởng làm cờ kết thúc lượt đầu. Chơi lại không xóa bất kỳ trạng thái vĩnh viễn nào này.
+
+**Đề xuất cấu hình giới thiệu, chưa triển khai:** 7A + 4 đội quan hệ + 11 filler chọn sẵn; bạn cũ Luka cùng bảng để chắc chắn có trận trực tiếp. Seed cố định chốt chọn đội/bốc thăm/lịch và RNG liên quan; không chốt thắng thua của người chơi. ID lượt chơi vẫn phải mới khi chơi lại dù dùng lại seed giới thiệu.
+
+**Điểm cần chốt trước runtime:** nếu kết thúc lượt đầu nhưng chưa vô địch, thử lại tiếp tục seed giới thiệu hay chuyển sang seed mới? Phương án đề xuất là giữ cấu hình giới thiệu đến First Clear. Đây không phải quyết định đã được người dùng xác nhận.
+
+Ngưỡng mở siêu trùm cần phân biệt: yêu cầu ban đầu là “sau first run”; phương án kế hoạch trước đề xuất “sau First Clear”. Chưa được phép đồng nhất hai mốc này trong code. Khi chốt phải chỉ rõ xử lý thua/rút lui ở lượt đầu.
+
+### 13.5. NPC phụ và chủ chốt
+
+NPC phụ cần tên, khoa/lớp, một nét nhận diện, build và chủ đề đội; không cần tuyến truyện dài. Đội chủ chốt cần 1–2 gương mặt được viết sâu: động cơ, quan hệ, giọng thoại, cảnh trước/sau trận và phản ứng thắng/thua.
+
+Các hướng quan hệ với Charlotte, Gairyu và Ariel trong kế hoạch trước chỉ là đề xuất, chưa phải canon. Clark và Mariel phải có vai trò xuyên tuyến, không chỉ phụ họa. Theo [hướng dẫn viết cảnh](STORY_SCENE_WRITING_GUIDE.md), không suy tính cách từ kit hoặc tự ghi tiểu sử mới vào nhân vật.
+
+Main NPC được bảo đảm có tương tác phù hợp khi xuất hiện, **không được bảo đảm đi tiếp**. Cảnh ngoài sân không cần chờ đối đầu trực tiếp; hậu trận chỉ chạy khi thực sự có trận. Không viết sẵn họ ở chung kết nếu đã bị loại.
+
+### 13.6. Lợi thế mô phỏng
+
+Áp lợi thế vào rating/độ phối hợp khai báo của đội chủ chốt trong mô phỏng NPC–NPC. Mức lợi thế chưa có con số được duyệt; cần cấu hình, thử nhiều seed và ghi tỷ lệ đi tiếp trước phát hành. Filler vẫn có thể thắng, hai đội chủ chốt gặp nhau vẫn xét tương quan bình thường; không sửa kết quả đã chốt hoặc cứu đội bị loại.
+
+Khi đấu trực tiếp với người chơi, không có xác suất thắng ngầm. Sức mạnh phải đến từ build, kit, đội hình và AI hợp lệ, có thể trinh sát; giữ ngân sách chuẩn hóa hoặc công khai ngoại lệ được duyệt. Nhãn chủ chốt không tự cấp buff chiến đấu.
+
+### 13.7. Nhân vật thật trong giải và siêu trùm
+
+Rotary/Monica/Lumine/Eri trong giải dùng cấu hình tỷ thí học viện, chiếm suất đội bình thường, có thể bị loại. Bản siêu trùm dùng enemy/encounter và luật riêng; không sửa playable hoặc áp chỉ số siêu trùm lên đội thi. Chưa có level, kit, phần thưởng hay tần suất siêu trùm được chốt.
+
+Phương án đề xuất: cuộc chạm trán tùy chọn ở khoảng nghỉ, tối đa một lần mỗi lượt giải; tung và lưu kết quả khi tạo lượt để chống reload đổi kết quả. Con số 15% từng được đề xuất **chưa được duyệt**. Không bắt buộc đánh để tiếp tục giải, không tính kết quả vào bảng đấu. Cách hồi phục, thưởng và hạn chế lặp nhân vật cũng cần chốt trước triển khai.
+
+### 13.8. Các bước cập nhật tiếp theo và nghiệm thu
+
+1. Chốt các điểm mở về seed khi chưa clear, ngưỡng mở siêu trùm và ánh xạ bốn nhân vật thật vào đội.
+2. Viết/duyệt hồ sơ 18 filler và 4 đội quan hệ; thêm đội đặc biệt theo quyết định ở bước 1.
+3. Mở rộng schema/validator: pool khác danh sách tham dự; phân loại đội; giới hạn số đội; cấu hình giới thiệu và trạng thái hồ sơ. Không chỉ thêm đội vào teamIds hiện tại vì validator cũ đang yêu cầu đúng 16.
+4. Triển khai chọn 15 NPC, chia hạt giống, bốc thăm/lịch và mô phỏng có lưu seed. Sau đó tích hợp phiên/save/First Clear/replay.
+5. Viết cảnh theo đối thủ và kết quả; triển khai combat tỷ thí rồi mới thêm các siêu trùm hiếm.
+6. Kiểm tra đủ 16 đội mỗi lượt, đúng quota chủ chốt, không trùng người thật, reload không reroll; thua/rút lui/chơi lại không mất cờ hoặc nhân đôi thưởng; ưu thế NPC không thành buff bí mật khi đấu người chơi.
+
+**Trạng thái cập nhật này: chỉ tài liệu.** JSON, validator, test và runtime vẫn ở nền bước 2 nêu tại mục 11; chưa có pool 18 filler, 4 đội quan hệ, First Clear hay encounter hiếm chạy trong game.

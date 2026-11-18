@@ -40,3 +40,10 @@ Cấu hình chuẩn hóa chung nằm ở `trialRules`; thay mức playtest phả
 ## Viết cảnh truyện
 
 Đọc [Hướng dẫn viết cảnh theo tính cách nhân vật](STORY_SCENE_WRITING_GUIDE.md) trước khi bổ sung lời kể hoặc thoại. Cảnh giải học viện đã có bản nháp mở rộng cho sáu thành viên; giữ draft/data_only và hook hiện có. Cảnh dùng chung không giả định kết quả trận trước hay đội hình ra sân.
+
+
+## Thiết kế mới chưa chuyển thành schema — 18/11/2026
+
+Mục 13 của [đặc tả](ACADEMY_TOURNAMENT.md) là hướng cập nhật NPC/seed/First Clear. JSON hiện tại chỉ có 16 đội nền, không phải pool mới. Khi triển khai phải tách pool ứng viên với 16 đội tham dự; giữ 15 suất NPC: 14 filler + 1 chủ chốt hoặc 13 filler + 2 chủ chốt sau First Clear.
+
+Phân biệt NPC có tên riêng tái dùng kit với chính Rotary/Monica/Lumine/Eri đăng ký dự thi; encounter siêu trùm của họ là dữ liệu riêng. Không dùng nhãn chủ chốt để thêm buff ngầm trong combat. Chưa chốt schema mới, không tự thêm các trường mà validator/loader chưa hiểu; chưa thay luật RNG/replay hoặc mở publication chỉ từ cập nhật tài liệu.
