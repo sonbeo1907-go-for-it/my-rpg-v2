@@ -4,6 +4,8 @@
 
 ## Bắt đầu / bảo toàn contract
 
+- [Hướng dẫn viết cảnh theo tính cách nhân vật](STORY_SCENE_WRITING_GUIDE.md)
+
 - [Bàn giao cho DeepSeek Harness / cộng tác viên](HANDOFF.md)
 - [Quy tắc engine cần bảo toàn](ENGINE_RULES.md)
 - [Thuật ngữ, bối cảnh và quy ước](GLOSSARY.md)
@@ -188,3 +190,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Clark — hồi đầy HP giải debuff; lớp7A](CLARK.md)
 
 - [Mariel — khiên, RES căn bản và cleanse có số lượng](MARIEL.md)
+
+- [Giải học viện — đặc tả bước1 và dữ liệu bước2](ACADEMY_TOURNAMENT.md) · [Hướng dẫn authoring](ACADEMY_TOURNAMENT_DATA.md) —18/11/2026, data_only, chưa mở chơi.

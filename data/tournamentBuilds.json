@@ -1,0 +1,657 @@
+[
+  {
+    "id": "academy.luka",
+    "name": "Cấu hình tập đấu · Luka",
+    "templateCharacterId": "luka",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "attack": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "attack": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "attack": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "luka",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.gairyu",
+    "name": "Cấu hình tập đấu · Gairyu",
+    "templateCharacterId": "gairyu",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "gairyu",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.ariel",
+    "name": "Cấu hình tập đấu · Ariel",
+    "templateCharacterId": "ariel",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "ariel",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.charlotte",
+    "name": "Cấu hình tập đấu · Charlotte",
+    "templateCharacterId": "charlotte",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "charlotte",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.clark",
+    "name": "Cấu hình tập đấu · Clark",
+    "templateCharacterId": "clark",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "clark",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.mariel",
+    "name": "Cấu hình tập đấu · Mariel",
+    "templateCharacterId": "mariel",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 10,
+      "resistance": 10,
+      "defense": 9
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "defense": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "mariel",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.lumine",
+    "name": "Cấu hình tập đấu · Lumine",
+    "templateCharacterId": "lumine",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "lumine",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.monica",
+    "name": "Cấu hình tập đấu · Monica",
+    "templateCharacterId": "monica",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "generic",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.kreider",
+    "name": "Cấu hình tập đấu · Kreider",
+    "templateCharacterId": "kreider",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "kreider",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.drake",
+    "name": "Cấu hình tập đấu · Drake",
+    "templateCharacterId": "drake",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "drake",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.artesia",
+    "name": "Cấu hình tập đấu · Artesia",
+    "templateCharacterId": "artesia",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "artesia",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.aurora",
+    "name": "Cấu hình tập đấu · Aurora",
+    "templateCharacterId": "aurora",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "aurora",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.finmel",
+    "name": "Cấu hình tập đấu · Finmel",
+    "templateCharacterId": "finmel",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "finmel",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.eri",
+    "name": "Cấu hình tập đấu · Shimoe Eri",
+    "templateCharacterId": "eri",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "eri",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.rotary",
+    "name": "Cấu hình tập đấu · Rotary",
+    "templateCharacterId": "rotary",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "rotary",
+    "tuningStatus": "playtest"
+  },
+  {
+    "id": "academy.fran",
+    "name": "Cấu hình tập đấu · Fran",
+    "templateCharacterId": "fran",
+    "level": 30,
+    "limitBreakRank": 1,
+    "skillRank": 3,
+    "basicRank": 3,
+    "mastery": 0,
+    "duplicateCount": 0,
+    "upgradeIds": [],
+    "allocations": {
+      "maxHp": 9,
+      "magic": 10,
+      "defense": 5,
+      "resistance": 5
+    },
+    "equipment": [
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      {
+        "typeId": "t2",
+        "bonuses": {
+          "resistance": 3
+        }
+      }
+    ],
+    "exclusiveGear": null,
+    "aiProfileId": "fran",
+    "tuningStatus": "playtest"
+  }
+]

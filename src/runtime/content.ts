@@ -1,5 +1,10 @@
 import {eastSuperAbilities,eastSuperEnemies,eastSuperEncounters,eastSuperStatuses,eastSuperMusic} from '../core/east-superbosses.js';
 import trials from '../../data/trials.json';
+import tournaments from '../../data/tournaments.json';
+import tournamentTeams from '../../data/tournamentTeams.json';
+import tournamentBuilds from '../../data/tournamentBuilds.json';
+import tournamentScenes from '../../data/tournamentScenes.json';
+import tournamentRewards from '../../data/tournamentRewards.json';
 import pvpRules from '../../data/pvpRules.json';
 import pvpAiProfiles from '../../data/pvpAiProfiles.json';
 import chronicles from '../../data/chronicles.json';
@@ -26,6 +31,7 @@ import { eastEnemies, eastEncounters, eastMusic, eastBossAbilities } from "../co
 export function getContent(): any {
   return assembleContent({
     trials,chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
+    tournaments,tournamentTeams,tournamentBuilds,tournamentScenes,tournamentRewards,
     progressionRules,
     characters,
     abilities:[...abilities,...eastBossAbilities,...eastSuperAbilities],

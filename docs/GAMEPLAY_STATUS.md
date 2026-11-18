@@ -23,3 +23,6 @@ Rà soát 03/11/2026. Trang này thay bảng roster nguyên mẫu; thông số �
 **Chưa triển khai:** online PvP, app admin/banlist ngoài EXE, update service/cloud save; chưa có nhân vật Nguyệt chính thức. Không suy ra thời hạn ra mắt từ tên prototype.
 
 [ENGINE_RULES](ENGINE_RULES.md) ghi luật chung; [INDEX](INDEX.md) dẫn ngoại lệ. Test tự động không chứng nhận roster cân bằng hoàn toàn hoặc tương thích mọi tay cầm thật.
+
+## 18/11/2026 — Giải học viện: nền dữ liệu, chưa mở chơi
+Hoàn thành đặc tả bước1 và5 collection/validator bước2,16 đội/16 build/11 cảnh nháp/3 mốc first-ever. Luật chốt bắt buộc chơi lại sau kết thúc; runtime phiên/nút replay thực tế thuộc bước4 trở đi, chưa triển khai. Không đổi hai quyển hiện hành, save, gacha hoặc phát thưởng. Xem [ACADEMY_TOURNAMENT](ACADEMY_TOURNAMENT.md).

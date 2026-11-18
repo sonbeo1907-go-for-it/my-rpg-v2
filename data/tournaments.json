@@ -1,0 +1,300 @@
+[
+  {
+    "id": "academy_tournament",
+    "schemaVersion": 1,
+    "rulesetVersion": "academy-1.0.0",
+    "name": "Mùa Thi Đấu, Những Vì Sao Chưa Sáng",
+    "bookId": "academy_tournament",
+    "publication": "data_only",
+    "enabled": false,
+    "description": "Lớp 7A tham dự giải đấu liên khoa của Học Viện Ma Pháp.",
+    "playerTeamId": "academy.class_7a",
+    "teamIds": [
+      "academy.student_council",
+      "academy.nocturne",
+      "academy.hourglass",
+      "academy.aegis",
+      "academy.storm",
+      "academy.stargazers",
+      "academy.elements",
+      "academy.runes",
+      "academy.frost",
+      "academy.bedrock",
+      "academy.alchemy",
+      "academy.water",
+      "academy.wind",
+      "academy.flame",
+      "academy.dusk",
+      "academy.class_7a"
+    ],
+    "entry": {
+      "requiresOwnership": false,
+      "fee": 0,
+      "requires": []
+    },
+    "registration": {
+      "activeSize": 4,
+      "playerRosterSize": 6,
+      "opponentRosterSize": 4,
+      "allowSubstitutionBetweenMatches": true,
+      "allowEquipmentEditing": false,
+      "banPick": false
+    },
+    "groupStage": {
+      "labels": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "size": 4,
+      "qualifiersPerGroup": 2,
+      "format": "single_round_robin",
+      "rounds": 3,
+      "points": {
+        "win": 3,
+        "loss": 0
+      },
+      "draw": {
+        "method": "seeded_pots",
+        "pots": 4,
+        "teamsPerPot": 4,
+        "labelPlayerGroupA": true
+      },
+      "tiebreakers": [
+        "head_to_head",
+        "survivor_difference",
+        "playoff"
+      ],
+      "aiResultsReveal": "after_player_result_committed",
+      "regularMatchCount": 24
+    },
+    "knockout": {
+      "matchFormat": "single_game",
+      "bracket": [
+        {
+          "id": "quarter_1",
+          "round": "quarterfinal",
+          "slots": [
+            {
+              "group": "A",
+              "position": 1
+            },
+            {
+              "group": "B",
+              "position": 2
+            }
+          ]
+        },
+        {
+          "id": "quarter_2",
+          "round": "quarterfinal",
+          "slots": [
+            {
+              "group": "C",
+              "position": 1
+            },
+            {
+              "group": "D",
+              "position": 2
+            }
+          ]
+        },
+        {
+          "id": "quarter_3",
+          "round": "quarterfinal",
+          "slots": [
+            {
+              "group": "B",
+              "position": 1
+            },
+            {
+              "group": "A",
+              "position": 2
+            }
+          ]
+        },
+        {
+          "id": "quarter_4",
+          "round": "quarterfinal",
+          "slots": [
+            {
+              "group": "D",
+              "position": 1
+            },
+            {
+              "group": "C",
+              "position": 2
+            }
+          ]
+        },
+        {
+          "id": "semi_1",
+          "round": "semifinal",
+          "slots": [
+            {
+              "winnerOf": "quarter_1"
+            },
+            {
+              "winnerOf": "quarter_2"
+            }
+          ]
+        },
+        {
+          "id": "semi_2",
+          "round": "semifinal",
+          "slots": [
+            {
+              "winnerOf": "quarter_3"
+            },
+            {
+              "winnerOf": "quarter_4"
+            }
+          ]
+        },
+        {
+          "id": "final",
+          "round": "final",
+          "slots": [
+            {
+              "winnerOf": "semi_1"
+            },
+            {
+              "winnerOf": "semi_2"
+            }
+          ]
+        }
+      ],
+      "regularMatchCount": 7
+    },
+    "simulation": {
+      "method": "rating_and_composition",
+      "maxUpsetInfluence": 0.15,
+      "rngStreams": [
+        "draw",
+        "simulation",
+        "combat"
+      ],
+      "commitOnce": true
+    },
+    "combat": {
+      "rulesScope": "academy_tournament",
+      "normalization": "trial_builds",
+      "mastery": false,
+      "arenaRules": false,
+      "maxMainRounds": 40,
+      "timeLimitJudging": [
+        "living_count",
+        "hp_ratio_sum",
+        "direct_hp_damage",
+        "seeded_lot"
+      ],
+      "resetBeforeMatch": [
+        "hp",
+        "mp",
+        "statuses",
+        "shield",
+        "cooldowns",
+        "resources",
+        "modes",
+        "round_counters"
+      ],
+      "perMatchRewards": false,
+      "grantsXp": false,
+      "countsDailyQuest": false,
+      "countsArena": false
+    },
+    "retry": {
+      "onDefeat": [
+        "retry_same_match",
+        "accept_defeat"
+      ],
+      "retryKeepsSeed": true,
+      "commitResultOnce": true,
+      "withdrawDuringBattle": "defeat_pending_confirmation"
+    },
+    "replay": {
+      "enabled": true,
+      "unlimited": true,
+      "after": [
+        "champion",
+        "eliminated"
+      ],
+      "label": "Chơi lại giải đấu",
+      "newSeed": true,
+      "reset": [
+        "run",
+        "groups",
+        "fixtures",
+        "lineups",
+        "battleSnapshots",
+        "rngState"
+      ],
+      "preserve": [
+        "firstRewardClaims",
+        "storyFlags",
+        "history",
+        "bestPlacement",
+        "ownership",
+        "inventory"
+      ],
+      "repeatRewards": [],
+      "historyLimit": 20
+    },
+    "sceneIds": [
+      "academy.registration",
+      "academy.opening",
+      "academy.group_1",
+      "academy.group_2",
+      "academy.group_3",
+      "academy.interval",
+      "academy.quarterfinal",
+      "academy.semifinal",
+      "academy.final",
+      "academy.champion",
+      "academy.eliminated"
+    ],
+    "rewardIds": [
+      "academy.qualified",
+      "academy.finalist",
+      "academy.champion"
+    ],
+    "endings": {
+      "champion": "academy.champion",
+      "eliminated": "academy.eliminated"
+    },
+    "sceneHooks": {
+      "registration": "academy.registration",
+      "opening": "academy.opening",
+      "groupBefore": {
+        "1": "academy.group_1",
+        "2": "academy.group_2",
+        "3": "academy.group_3"
+      },
+      "interval": "academy.interval",
+      "knockoutBefore": {
+        "quarterfinal": "academy.quarterfinal",
+        "semifinal": "academy.semifinal",
+        "final": "academy.final"
+      },
+      "endings": {
+        "champion": "academy.champion",
+        "eliminated": "academy.eliminated"
+      }
+    },
+    "trialRules": {
+      "level": 30,
+      "skillRank": 3,
+      "basicRank": 3,
+      "duplicateCount": 0,
+      "gearSlots": 3,
+      "allowedGearTypes": [
+        "t2"
+      ],
+      "mastery": false,
+      "exclusiveGear": false,
+      "storyUpgrades": false,
+      "requireFullAllocation": true
+    }
+  }
+]

@@ -11,6 +11,9 @@ Rà soát ngày **03/11/2026**, múi giờ Việt Nam. Đây là context dự á
 5. [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) và [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md): triển khai, kiểm chứng, đóng gói và rollback.
 6. [INDEX.md](INDEX.md): chỉ mở chuyên đề liên quan. Không cần nạp toàn bộ tài liệu/graph vào context.
 
+## Giải học viện — 18/11/2026, chỉ bước1–2
+[ACADEMY_TOURNAMENT.md](ACADEMY_TOURNAMENT.md) là đặc tả luật; [ACADEMY_TOURNAMENT_DATA.md](ACADEMY_TOURNAMENT_DATA.md) mô tả5 collection/validator.16 đội,4 bảng,8 suất knockout; lớp7A mượn6 chọn4. **Kết thúc vô địch hoặc bị loại phải chơi lại được**, seed/run mới, không reset ledger/cờ/tài khoản. enabled=false, data_only, không thêm vào hai quyển đang chơi được. Chưa có schedule engine, run save, adapter combat, UI hoặc payout. Đừng báo rằng replay đã hoạt động chỉ vì data/test invariant qua.
+
 ## Cập nhật 17/11/2026 — Charlotte
 
 [CHARLOTTE.md](CHARLOTTE.md): lớp7A, release114, dữ liệu khóa chưa có nguồn nhận. Liên kích120% MAG Lôi AoE, tiêu1 Tham Vọng, tối đa3/vòng; không tự kích hoặc kích từ phản ứng. Chiêu2 tăng buff căn bản5%/rank và hệ số Liên kích10%/rank; không thay thành buff phần trăm. Loại Quang/Ám theo cả hệ người đánh và hit.

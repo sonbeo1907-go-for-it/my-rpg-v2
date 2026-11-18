@@ -1,0 +1,702 @@
+[
+  {
+    "id": "academy.student_council",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Hội Đồng Học Sinh",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 136,
+    "description": "Phối hợp võ trang và hỗ trợ, giữ đội hình trước khi dồn sát thương.",
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "student_council.1",
+        "name": "Seren",
+        "kind": "npc",
+        "buildId": "academy.lumine"
+      },
+      {
+        "id": "student_council.2",
+        "name": "Elian",
+        "kind": "npc",
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "student_council.3",
+        "name": "Mira",
+        "kind": "npc",
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "student_council.4",
+        "name": "Nolan",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.nocturne",
+    "tournamentId": "academy_tournament",
+    "name": "Dàn Nhạc Đêm",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 136,
+    "description": "Làm yếu phòng thủ rồi tăng áp lực phép Ám.",
+    "visual": {
+      "motif": "music",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "nocturne.1",
+        "name": "Viole",
+        "kind": "npc",
+        "buildId": "academy.kreider"
+      },
+      {
+        "id": "nocturne.2",
+        "name": "Celia",
+        "kind": "npc",
+        "buildId": "academy.fran"
+      },
+      {
+        "id": "nocturne.3",
+        "name": "Noel",
+        "kind": "npc",
+        "buildId": "academy.rotary"
+      },
+      {
+        "id": "nocturne.4",
+        "name": "Edwin",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.hourglass",
+    "tournamentId": "academy_tournament",
+    "name": "Những Người Giữ Nhịp",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 136,
+    "description": "Kiểm soát thứ tự lượt và che chở người gây sát thương.",
+    "visual": {
+      "motif": "hourglass",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "hourglass.1",
+        "name": "Sylvie",
+        "kind": "npc",
+        "buildId": "academy.monica"
+      },
+      {
+        "id": "hourglass.2",
+        "name": "Leon",
+        "kind": "npc",
+        "buildId": "academy.lumine"
+      },
+      {
+        "id": "hourglass.3",
+        "name": "Aster",
+        "kind": "npc",
+        "buildId": "academy.aurora"
+      },
+      {
+        "id": "hourglass.4",
+        "name": "Rolan",
+        "kind": "npc",
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.aegis",
+    "tournamentId": "academy_tournament",
+    "name": "Thành Lũy Thuật Thức",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 136,
+    "description": "Dựng phòng tuyến trước phép thuật rồi phản kích.",
+    "visual": {
+      "motif": "shield",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "aegis.1",
+        "name": "Orin",
+        "kind": "npc",
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "aegis.2",
+        "name": "Faye",
+        "kind": "npc",
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "aegis.3",
+        "name": "Lilia",
+        "kind": "npc",
+        "buildId": "academy.ariel"
+      },
+      {
+        "id": "aegis.4",
+        "name": "Gideon",
+        "kind": "npc",
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.storm",
+    "tournamentId": "academy_tournament",
+    "name": "Tiếng Sấm Đầu Mùa",
+    "controller": "ai",
+    "seedPot": 2,
+    "simulationRating": 124,
+    "description": "Chuẩn bị hỗ trợ để tạo chuỗi công kích liên tiếp.",
+    "visual": {
+      "motif": "thunder",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "storm.1",
+        "name": "Tessa",
+        "kind": "npc",
+        "buildId": "academy.aurora"
+      },
+      {
+        "id": "storm.2",
+        "name": "Ivo",
+        "kind": "npc",
+        "buildId": "academy.charlotte"
+      },
+      {
+        "id": "storm.3",
+        "name": "Alina",
+        "kind": "npc",
+        "buildId": "academy.lumine"
+      },
+      {
+        "id": "storm.4",
+        "name": "Oscar",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.stargazers",
+    "tournamentId": "academy_tournament",
+    "name": "Những Người Đọc Sao",
+    "controller": "ai",
+    "seedPot": 2,
+    "simulationRating": 124,
+    "description": "Dùng hỗ trợ và thay đổi nhịp tấn công để tạo cửa sổ bùng nổ.",
+    "visual": {
+      "motif": "star",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "stargazers.1",
+        "name": "Lyra",
+        "kind": "npc",
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "stargazers.2",
+        "name": "Reno",
+        "kind": "npc",
+        "buildId": "academy.eri"
+      },
+      {
+        "id": "stargazers.3",
+        "name": "Selia",
+        "kind": "npc",
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "stargazers.4",
+        "name": "Bastian",
+        "kind": "npc",
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.elements",
+    "tournamentId": "academy_tournament",
+    "name": "Bốn Mùa Ma Pháp",
+    "controller": "ai",
+    "seedPot": 2,
+    "simulationRating": 124,
+    "description": "Phối hợp nhiều hệ nguyên tố và duy trì hồi phục.",
+    "visual": {
+      "motif": "prisma",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "elements.1",
+        "name": "Felix",
+        "kind": "npc",
+        "buildId": "academy.gairyu"
+      },
+      {
+        "id": "elements.2",
+        "name": "Wren",
+        "kind": "npc",
+        "buildId": "academy.luka"
+      },
+      {
+        "id": "elements.3",
+        "name": "Isla",
+        "kind": "npc",
+        "buildId": "academy.ariel"
+      },
+      {
+        "id": "elements.4",
+        "name": "Hugo",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.runes",
+    "tournamentId": "academy_tournament",
+    "name": "Nét Mực Và Phù Văn",
+    "controller": "ai",
+    "seedPot": 2,
+    "simulationRating": 124,
+    "description": "Tạo lợi thế lượt và giảm phòng thủ đối phương.",
+    "visual": {
+      "motif": "scroll",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "runes.1",
+        "name": "Cora",
+        "kind": "npc",
+        "buildId": "academy.rotary"
+      },
+      {
+        "id": "runes.2",
+        "name": "Dorian",
+        "kind": "npc",
+        "buildId": "academy.fran"
+      },
+      {
+        "id": "runes.3",
+        "name": "Nina",
+        "kind": "npc",
+        "buildId": "academy.lumine"
+      },
+      {
+        "id": "runes.4",
+        "name": "Theo",
+        "kind": "npc",
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.frost",
+    "tournamentId": "academy_tournament",
+    "name": "Băng Kết Ban Mai",
+    "controller": "ai",
+    "seedPot": 3,
+    "simulationRating": 112,
+    "description": "Bảo vệ người tấn công chủ lực và kiểm soát nhịp chiến đấu.",
+    "visual": {
+      "motif": "snow",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "frost.1",
+        "name": "Yvette",
+        "kind": "npc",
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "frost.2",
+        "name": "Milo",
+        "kind": "npc",
+        "buildId": "academy.monica"
+      },
+      {
+        "id": "frost.3",
+        "name": "Rosie",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      },
+      {
+        "id": "frost.4",
+        "name": "Ulric",
+        "kind": "npc",
+        "buildId": "academy.drake"
+      }
+    ]
+  },
+  {
+    "id": "academy.bedrock",
+    "tournamentId": "academy_tournament",
+    "name": "Dưới Lòng Địa Mạch",
+    "controller": "ai",
+    "seedPot": 3,
+    "simulationRating": 112,
+    "description": "Phòng thủ bền bỉ, chuẩn bị cho những đòn phép mạnh.",
+    "visual": {
+      "motif": "mountain",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "bedrock.1",
+        "name": "Terra",
+        "kind": "npc",
+        "buildId": "academy.eri"
+      },
+      {
+        "id": "bedrock.2",
+        "name": "Alden",
+        "kind": "npc",
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "bedrock.3",
+        "name": "Meryl",
+        "kind": "npc",
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "bedrock.4",
+        "name": "Cedra",
+        "kind": "npc",
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.alchemy",
+    "tournamentId": "academy_tournament",
+    "name": "Chiếc Bình Sủi Bọt",
+    "controller": "ai",
+    "seedPot": 3,
+    "simulationRating": 112,
+    "description": "Kết hợp hồi phục, tiếp năng lượng và công kích diện rộng.",
+    "visual": {
+      "motif": "flask",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "alchemy.1",
+        "name": "Flora",
+        "kind": "npc",
+        "buildId": "academy.gairyu"
+      },
+      {
+        "id": "alchemy.2",
+        "name": "Kian",
+        "kind": "npc",
+        "buildId": "academy.aurora"
+      },
+      {
+        "id": "alchemy.3",
+        "name": "Remy",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      },
+      {
+        "id": "alchemy.4",
+        "name": "Lotte",
+        "kind": "npc",
+        "buildId": "academy.rotary"
+      }
+    ]
+  },
+  {
+    "id": "academy.water",
+    "tournamentId": "academy_tournament",
+    "name": "Dòng Nước Trong Sân",
+    "controller": "ai",
+    "seedPot": 3,
+    "simulationRating": 112,
+    "description": "Hỗ trợ theo nhịp, kết hợp sát thương vật lí và phép.",
+    "visual": {
+      "motif": "wave",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "water.1",
+        "name": "Marin",
+        "kind": "npc",
+        "buildId": "academy.ariel"
+      },
+      {
+        "id": "water.2",
+        "name": "Ezra",
+        "kind": "npc",
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "water.3",
+        "name": "Odile",
+        "kind": "npc",
+        "buildId": "academy.lumine"
+      },
+      {
+        "id": "water.4",
+        "name": "Tobin Vale",
+        "kind": "npc",
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.wind",
+    "tournamentId": "academy_tournament",
+    "name": "Gió Qua Giảng Đường",
+    "controller": "ai",
+    "seedPot": 4,
+    "simulationRating": 100,
+    "description": "Giữ thế trận đơn giản: chuẩn bị, tấn công và hồi phục.",
+    "visual": {
+      "motif": "wind",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "wind.1",
+        "name": "Aven",
+        "kind": "npc",
+        "buildId": "academy.luka"
+      },
+      {
+        "id": "wind.2",
+        "name": "Giselle",
+        "kind": "npc",
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "wind.3",
+        "name": "Perrin",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      },
+      {
+        "id": "wind.4",
+        "name": "Soren",
+        "kind": "npc",
+        "buildId": "academy.drake"
+      }
+    ]
+  },
+  {
+    "id": "academy.flame",
+    "tournamentId": "academy_tournament",
+    "name": "Đốm Lửa Chưa Tàn",
+    "controller": "ai",
+    "seedPot": 4,
+    "simulationRating": 100,
+    "description": "Công kích diện rộng dưới sự hỗ trợ của đồng đội.",
+    "visual": {
+      "motif": "flame",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "flame.1",
+        "name": "Ignis",
+        "kind": "npc",
+        "buildId": "academy.gairyu"
+      },
+      {
+        "id": "flame.2",
+        "name": "Mina",
+        "kind": "npc",
+        "buildId": "academy.ariel"
+      },
+      {
+        "id": "flame.3",
+        "name": "Luca Vale",
+        "kind": "npc",
+        "buildId": "academy.charlotte"
+      },
+      {
+        "id": "flame.4",
+        "name": "Ansel",
+        "kind": "npc",
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.dusk",
+    "tournamentId": "academy_tournament",
+    "name": "Mực Tím Cuối Ngày",
+    "controller": "ai",
+    "seedPot": 4,
+    "simulationRating": 100,
+    "description": "Giảm phòng thủ, giữ tài nguyên để tấn công trở lại.",
+    "visual": {
+      "motif": "moon",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "dusk.1",
+        "name": "Vera",
+        "kind": "npc",
+        "buildId": "academy.kreider"
+      },
+      {
+        "id": "dusk.2",
+        "name": "Lucan",
+        "kind": "npc",
+        "buildId": "academy.fran"
+      },
+      {
+        "id": "dusk.3",
+        "name": "Petra",
+        "kind": "npc",
+        "buildId": "academy.clark"
+      },
+      {
+        "id": "dusk.4",
+        "name": "Finn",
+        "kind": "npc",
+        "buildId": "academy.drake"
+      }
+    ]
+  },
+  {
+    "id": "academy.class_7a",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Lớp 7A",
+    "controller": "player",
+    "seedPot": 4,
+    "simulationRating": 100,
+    "description": "Sáu người cùng lớp, chọn bốn người để tìm cách phối hợp của riêng mình.",
+    "visual": {
+      "motif": "spellbook",
+      "palette": [
+        "#16323A",
+        "#DBBF78",
+        "#87C2BF"
+      ]
+    },
+    "members": [
+      {
+        "id": "class_7a.luka",
+        "name": "Luka",
+        "kind": "loan",
+        "buildId": "academy.luka"
+      },
+      {
+        "id": "class_7a.gairyu",
+        "name": "Gairyu",
+        "kind": "loan",
+        "buildId": "academy.gairyu"
+      },
+      {
+        "id": "class_7a.ariel",
+        "name": "Ariel",
+        "kind": "loan",
+        "buildId": "academy.ariel"
+      },
+      {
+        "id": "class_7a.charlotte",
+        "name": "Charlotte",
+        "kind": "loan",
+        "buildId": "academy.charlotte"
+      },
+      {
+        "id": "class_7a.clark",
+        "name": "Clark",
+        "kind": "loan",
+        "buildId": "academy.clark"
+      },
+      {
+        "id": "class_7a.mariel",
+        "name": "Mariel",
+        "kind": "loan",
+        "buildId": "academy.mariel"
+      }
+    ]
+  }
+]

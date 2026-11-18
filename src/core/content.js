@@ -1,3 +1,4 @@
+import {validateTournamentContent,TOURNAMENT_COLLECTIONS} from './tournament-content.js';
 import {validateShieldGuards} from './shield-guard.js';
 import {validateSupportCharges} from './support-charge.js';
 import {validatePerformanceContent} from './performance-stage.js';
@@ -530,6 +531,7 @@ export function validateContent(content) {
   errors.push(...validateBlacksmithContent(content));
   errors.push(...validateTravelerStories(content));
   errors.push(...validateChronicleContent(content));
+  errors.push(...validateTournamentContent(content));
   errors.push(...validateTrialContent(content));
   validateSkillProcs(content,fail,ELEMENTS);
   validatePerformanceContent(content,fail,ELEMENTS);
@@ -553,4 +555,4 @@ export function assembleContent(collections) {
   return content;
 }
 
-export const COLLECTIONS = ['trials', 'characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects', 'progressionRules', 'chronicles', 'chronicleEvents', 'pvpRules', 'pvpAiProfiles'];
+export const COLLECTIONS = ['trials', 'characters', 'abilities', 'statuses', 'upgrades', 'enemies', 'encounters', 'economy', 'gearTypes', 'banners', 'music', 'dungeons', 'blacksmith', 'exclusiveGear', 'items', 'travelerStories', 'gearEffects', 'progressionRules', 'chronicles', 'chronicleEvents', 'pvpRules', 'pvpAiProfiles', ...TOURNAMENT_COLLECTIONS];

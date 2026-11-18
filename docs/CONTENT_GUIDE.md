@@ -85,3 +85,11 @@ Xem [Charlotte](CHARLOTTE.md). `excludedTargetElements` chỉ dùng với ally/a
 
 ## Khiên và hỗ trợ có điều kiện
 [Mariel](MARIEL.md): dùng native shielded_ally_guard để cấp flat RES và giảm phép cho người có khiên. Không bake bonus vào prepared stats. Effect heal/shield có thể opt-in snapshotScaling:true để chốt nguồn trước vòng lặp mục tiêu; vẫn xử lý giảm hồi/khiên từng mục tiêu. cleanse.count khai số nguyên1..20, vắng field giữ giải toàn bộ; dùng chung takeDebuffs để không bỏ nhầm toàn bộ debuff.
+
+## Dữ liệu giải đấu Biên Niên Ký
+Tournaments/tournamentTeams/tournamentBuilds/tournamentScenes/tournamentRewards được nạp và validate chung CLI/runtime; xem [ACADEMY_TOURNAMENT_DATA](ACADEMY_TOURNAMENT_DATA.md). Bước2 chưa xuất bản; không tự bật thẻ hoặc thêm save state. Replay mới reset run, không reset firstRewardClaims/ownership/inventory/storyFlags. Kit NPC là bản mượn định danh riêng, không thêm60 nhân vật vào gacha.
+
+
+## Viết cảnh truyện
+
+Đọc [Hướng dẫn viết cảnh theo tính cách nhân vật](STORY_SCENE_WRITING_GUIDE.md) trước khi bổ sung lời kể hoặc thoại. Cảnh giải học viện đã có bản nháp mở rộng cho sáu thành viên; giữ draft/data_only và hook hiện có. Cảnh dùng chung không giả định kết quả trận trước hay đội hình ra sân.

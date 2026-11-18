@@ -1,0 +1,59 @@
+[
+  {
+    "id": "academy.qualified",
+    "tournamentId": "academy_tournament",
+    "name": "Vượt qua vòng bảng",
+    "trigger": "qualified",
+    "scope": "first_ever",
+    "rewards": [
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 500
+      },
+      {
+        "type": "currency",
+        "currency": "prismaFragments",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "academy.finalist",
+    "tournamentId": "academy_tournament",
+    "name": "Tiến vào chung kết",
+    "trigger": "finalist",
+    "scope": "first_ever",
+    "rewards": [
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 1000
+      },
+      {
+        "type": "currency",
+        "currency": "recruitmentShards",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "academy.champion",
+    "tournamentId": "academy_tournament",
+    "name": "Vô địch giải học viện",
+    "trigger": "champion",
+    "scope": "first_ever",
+    "rewards": [
+      {
+        "type": "currency",
+        "currency": "coins",
+        "amount": 1500
+      },
+      {
+        "type": "currency",
+        "currency": "originalPrisma",
+        "amount": 1
+      }
+    ]
+  }
+]

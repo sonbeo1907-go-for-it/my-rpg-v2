@@ -1,0 +1,135 @@
+[
+  {
+    "id": "academy.registration",
+    "tournamentId": "academy_tournament",
+    "phase": "registration",
+    "name": "Một Lá Đơn, Sáu Chữ Ký",
+    "paragraphs": [
+      "Luka đặt tờ đăng ký xuống bàn, gõ hai nhịp lên mép gỗ. “Sáu người, một đội. Lần này cho cả học viện nghe tiếng lớp mình nhé!”",
+      "“Nghe tiếng cậu thì ngày nào họ chẳng nghe.” Charlotte kéo tờ đơn về phía mình. “Tên đội để trống. Đừng có tự viết tên cậu vào đấy.”",
+      "Gairyu giật lấy bút. “Viết gì cũng được. Miễn đừng bắt tôi đứng nhìn người khác đánh.” Clark chặn tay cậu trước khi mực dây lên danh sách: “Đọc điều lệ trước. Rồi ký.”",
+      "Ariel xoay tờ đơn cho mọi người cùng nhìn. “Đội lớp 7A. Ngắn thôi, người trên khán đài dễ gọi.” Mariel ký ngay sau cô. Luka nhún vai, rồi ký vào chỗ còn lại."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.opening",
+    "tournamentId": "academy_tournament",
+    "phase": "opening",
+    "name": "Những Vì Sao Chưa Sáng",
+    "paragraphs": [
+      "Mười sáu lá cờ dựng quanh sân. Luka đang thử một nhịp chân theo tiếng trống khai mạc thì Charlotte kéo cậu về đúng hàng. “Cậu ra sớm một bước nữa là thành tiết mục mở màn đấy.”",
+      "Ariel vẫy đáp những tiếng gọi từ khán đài. Mariel đứng thẳng hơn khi cô quay lại. Bên cạnh, Gairyu nhìn đội đối diện: “Họ cười cái gì?”",
+      "“Chưa ai đánh mà cậu đã muốn gây chuyện rồi.” Clark đưa cho cậu bảng lịch. Gairyu liếc qua, gấp lại bỏ túi. Lần này ít nhất cậu cũng giữ nó."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.group_1",
+    "tournamentId": "academy_tournament",
+    "phase": "group_before",
+    "name": "Trận Đầu Tiên",
+    "paragraphs": [
+      "Clark đặt sáu phần hành trang lên ghế. “Bốn người ra sân. Hai người còn lại quan sát. Đừng để tôi phải đi tìm ai lúc gọi tên.”",
+      "“Cứ gọi tôi là được.” Gairyu khoanh tay. Charlotte đáp ngay: “Đội hình do cả đội chọn, không phải ai nói to hơn thì được vào.”",
+      "Luka định chen vào, nhưng Ariel đã chìa tay ra giữa bàn: “Tranh tiếp sau trận. Bây giờ ai nghe thấy tín hiệu rút thì phải rút.” Mariel đặt tay lên trước. “Tớ nghe được.” Những bàn tay còn lại lần lượt nhập vào, tay Gairyu đến cuối."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.group_2",
+    "tournamentId": "academy_tournament",
+    "phase": "group_before",
+    "name": "Không Chỉ Có Một Vai Chính",
+    "paragraphs": [
+      "Charlotte đặt cuốn ghi chép mở trước mặt Luka. “Khi cậu gọi cả đội tiến lên, cậu có nhìn xem người phía sau đã sẵn sàng chưa?”",
+      "“Có chứ.” Luka ngừng gõ tay khi cô chỉ vào mấy nét vẽ chồng nhau. “...Có lúc tớ nhìn hơi muộn.”",
+      "Gairyu đẩy ghế tới: “Muốn tôi dừng thì nói trước. Đừng đợi tôi lao rồi mới gọi.” Clark khoanh một dấu trên sơ đồ: “Vậy chốt tín hiệu ở đây.” Charlotte giữ cây bút thêm một nhịp rồi đưa sang. “Lần này nghe hết đã, vai chính.”"
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.group_3",
+    "tournamentId": "academy_tournament",
+    "phase": "group_before",
+    "name": "Trước Khi Chuông Điểm",
+    "paragraphs": [
+      "Trước lượt cuối vòng bảng, Clark đọc lại lịch và bảng điểm. Luka ghé nhìn, nhưng Charlotte che phần tính nhẩm của mình: “Đọc tên đối thủ đi. Phần này để tôi.”",
+      "Gairyu bẻ các khớp tay. “Tính xong thì gọi. Tôi không định nhẹ tay.” Ariel nghiêng đầu: “Chỉ cần nhớ tín hiệu đã thống nhất.” Cậu hừ một tiếng, nhưng nhắc lại đúng tín hiệu.",
+      "Luka bật cười rồi dừng khi Charlotte ngẩng lên. “Biết rồi. Nghe hết trước khi lao.”"
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.interval",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Khoảng Sân, Sáu Câu Chuyện",
+    "paragraphs": [
+      "Ở khoảng sân nghỉ, Ariel tập lại lời chào khán giả. Mariel xung phong làm người đứng đối diện; tới lượt đáp lời thì quên mất câu đã chuẩn bị. Ariel phải nhắc cô từ đầu.",
+      "Luka gõ nhịp lên hộp đồ. “Nếu ghép tín hiệu vào nhịp này—” Charlotte chặn nắp hộp: “Đừng biến mọi thứ thành buổi diễn của cậu.” Cô vẫn thử gõ lại nhịp vừa nghe bằng đầu bút.",
+      "Gairyu kéo ghế cách bàn một đoạn. Clark đưa bình nước tới, không hỏi chuyện. Một lúc sau, từ phía chiếc ghế vọng lại: “Nhịp cuối nhanh quá. Tôi không kịp đổi hướng.” Luka thử lại, chậm hơn."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.quarterfinal",
+    "tournamentId": "academy_tournament",
+    "phase": "knockout_before",
+    "name": "Tám Đội Còn Lại",
+    "paragraphs": [
+      "Tên lớp 7A đã nằm trên nhánh tứ kết. Luka huých nhẹ vai Charlotte: “Cậu có ghi tới đây trong sổ không?” Cô lật sang một trang mới. “Tôi còn chừa chỗ. Cậu lo phần mình đi.”",
+      "Gairyu đứng dậy ngay khi nghe gọi đội. Clark chặn lối, chỉ xuống chiếc găng còn bỏ trên bàn. Cậu quay lại lấy, bực bội nhét vào tay rồi mới đi tiếp.",
+      "Ariel nhìn cả sáu người trước cửa ra sân. “Ai ở ngoài cũng nhìn giúp. Có gì gọi ngay.” Mariel gật đầu, lần này nhắc lại cả tín hiệu."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.semifinal",
+    "tournamentId": "academy_tournament",
+    "phase": "knockout_before",
+    "name": "Đi Xa Hơn Một Người",
+    "paragraphs": [
+      "Clark vừa trải sơ đồ thì Gairyu đặt ngón tay vào một khoảng trống. “Nếu họ ép chỗ này, tôi đổi hướng. Đừng gọi tôi quay lại giữa chừng.” Charlotte kéo sơ đồ về gần, sửa đường cô đã vẽ.",
+      "Luka chờ cây bút dừng mới lên tiếng. “Vậy tín hiệu của tớ theo sau cậu. Có đủ khoảng thì cả đội mới tiến.” Gairyu liếc cậu: “Đừng chậm quá.”",
+      "“Đừng nhanh quá.” Charlotte đáp thay. Ariel bật cười; Clark ghi tín hiệu mới vào lề. Cuộc bàn bạc tiếp tục, lần này không ai phải giành lại tờ giấy."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.final",
+    "tournamentId": "academy_tournament",
+    "phase": "knockout_before",
+    "name": "Dưới Cùng Một Bầu Trời",
+    "paragraphs": [
+      "Sân đấu chỉ còn hai lá cờ. Mariel bước tới cửa rồi dừng, quay sang Ariel. “Lời chào hôm nãy... tớ nói được rồi.” Cô nói thử một lần, nhỏ nhưng trọn câu.",
+      "Luka giơ tay định hô, Charlotte đã nâng một ngón tay. Cậu đợi Clark kiểm tra xong hành trang, đợi Gairyu kéo chặt găng. “Giờ được chưa?”",
+      "“Được rồi.” Charlotte đóng sổ. Gairyu bước tới cạnh cửa: “Ra thôi. Để họ chờ đủ rồi.” Tiếng gọi tên đội vọng vào, át mất nhịp chân Luka vừa bắt đầu."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.champion",
+    "tournamentId": "academy_tournament",
+    "phase": "ending",
+    "name": "Tên Lớp Trên Chiếc Cúp",
+    "paragraphs": [
+      "Luka chạm tay vào quai cúp rồi xoay mặt khắc tên đội về phía khán đài. “Nhìn rõ chưa? Lớp 7A đấy!” Charlotte giữ quai bên kia: “Cậu nghiêng nữa là đổ vào người tôi.”",
+      "Gairyu nhìn chiếc cúp, khóe miệng nhếch lên. “Lần tới khỏi mất công hỏi tôi có tham gia không.” Clark đang đếm hành trang chợt ngừng: “Vẫn phải ký đơn.”",
+      "Ariel gọi Mariel vào khung hình. Mariel vội bước tới, suýt vấp chân ghế; sáu người dồn lại giữ chiếc cúp cho thẳng. Tấm ảnh chụp đúng lúc Luka bật cười, còn Charlotte vẫn chưa chịu buông quai."
+    ],
+    "draft": true
+  },
+  {
+    "id": "academy.eliminated",
+    "tournamentId": "academy_tournament",
+    "phase": "ending",
+    "name": "Ngày Mai Vẫn Có Tiết Học",
+    "paragraphs": [
+      "Cả nhóm ngồi lại sau khi kết quả cuối cùng được công bố. Luka lăn cây bút giữa hai tay, mãi mới nói: “Tớ vẫn muốn đánh tiếp.”",
+      "“Ai chẳng muốn.” Gairyu đáp, giọng gắt hơn cần thiết. Charlotte mở sổ nhưng chưa viết. Clark đặt hành trang đã thu đủ xuống cạnh ghế, để khoảng im lặng kéo dài thêm một lúc.",
+      "Ariel lấy tờ lịch đã gấp ra khỏi túi. “Vậy giữ cái này nhé?” Mariel vuốt phẳng một góc giấy. Charlotte viết ngày thi đấu lên trang mới. Luka thôi xoay bút, cúi xuống nhìn cùng cô."
+    ],
+    "draft": true
+  }
+]
