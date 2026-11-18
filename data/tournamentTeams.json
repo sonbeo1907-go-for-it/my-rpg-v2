@@ -19,28 +19,41 @@
       {
         "id": "student_council.1",
         "name": "Seren",
-        "kind": "npc",
-        "buildId": "academy.lumine"
+        "buildId": "academy.lumine",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "student_council.1"
+        }
       },
       {
         "id": "student_council.2",
         "name": "Elian",
-        "kind": "npc",
-        "buildId": "academy.artesia"
+        "buildId": "academy.artesia",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "student_council.2"
+        }
       },
       {
         "id": "student_council.3",
         "name": "Mira",
-        "kind": "npc",
-        "buildId": "academy.drake"
+        "buildId": "academy.drake",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "student_council.3"
+        }
       },
       {
         "id": "student_council.4",
         "name": "Nolan",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "student_council.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.nocturne",
@@ -62,28 +75,41 @@
       {
         "id": "nocturne.1",
         "name": "Viole",
-        "kind": "npc",
-        "buildId": "academy.kreider"
+        "buildId": "academy.kreider",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "nocturne.1"
+        }
       },
       {
         "id": "nocturne.2",
         "name": "Celia",
-        "kind": "npc",
-        "buildId": "academy.fran"
+        "buildId": "academy.fran",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "nocturne.2"
+        }
       },
       {
         "id": "nocturne.3",
         "name": "Noel",
-        "kind": "npc",
-        "buildId": "academy.rotary"
+        "buildId": "academy.rotary",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "nocturne.3"
+        }
       },
       {
         "id": "nocturne.4",
         "name": "Edwin",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "nocturne.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.hourglass",
@@ -105,28 +131,41 @@
       {
         "id": "hourglass.1",
         "name": "Sylvie",
-        "kind": "npc",
-        "buildId": "academy.monica"
+        "buildId": "academy.monica",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "hourglass.1"
+        }
       },
       {
         "id": "hourglass.2",
         "name": "Leon",
-        "kind": "npc",
-        "buildId": "academy.lumine"
+        "buildId": "academy.lumine",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "hourglass.2"
+        }
       },
       {
         "id": "hourglass.3",
         "name": "Aster",
-        "kind": "npc",
-        "buildId": "academy.aurora"
+        "buildId": "academy.aurora",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "hourglass.3"
+        }
       },
       {
         "id": "hourglass.4",
         "name": "Rolan",
-        "kind": "npc",
-        "buildId": "academy.mariel"
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "hourglass.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.aegis",
@@ -148,28 +187,41 @@
       {
         "id": "aegis.1",
         "name": "Orin",
-        "kind": "npc",
-        "buildId": "academy.drake"
+        "buildId": "academy.drake",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "aegis.1"
+        }
       },
       {
         "id": "aegis.2",
         "name": "Faye",
-        "kind": "npc",
-        "buildId": "academy.finmel"
+        "buildId": "academy.finmel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "aegis.2"
+        }
       },
       {
         "id": "aegis.3",
         "name": "Lilia",
-        "kind": "npc",
-        "buildId": "academy.ariel"
+        "buildId": "academy.ariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "aegis.3"
+        }
       },
       {
         "id": "aegis.4",
         "name": "Gideon",
-        "kind": "npc",
-        "buildId": "academy.mariel"
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "aegis.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.storm",
@@ -191,28 +243,41 @@
       {
         "id": "storm.1",
         "name": "Tessa",
-        "kind": "npc",
-        "buildId": "academy.aurora"
+        "buildId": "academy.aurora",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "storm.1"
+        }
       },
       {
         "id": "storm.2",
         "name": "Ivo",
-        "kind": "npc",
-        "buildId": "academy.charlotte"
+        "buildId": "academy.charlotte",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "storm.2"
+        }
       },
       {
         "id": "storm.3",
         "name": "Alina",
-        "kind": "npc",
-        "buildId": "academy.lumine"
+        "buildId": "academy.lumine",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "storm.3"
+        }
       },
       {
         "id": "storm.4",
         "name": "Oscar",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "storm.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.stargazers",
@@ -234,28 +299,41 @@
       {
         "id": "stargazers.1",
         "name": "Lyra",
-        "kind": "npc",
-        "buildId": "academy.artesia"
+        "buildId": "academy.artesia",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "stargazers.1"
+        }
       },
       {
         "id": "stargazers.2",
         "name": "Reno",
-        "kind": "npc",
-        "buildId": "academy.eri"
+        "buildId": "academy.eri",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "stargazers.2"
+        }
       },
       {
         "id": "stargazers.3",
         "name": "Selia",
-        "kind": "npc",
-        "buildId": "academy.finmel"
+        "buildId": "academy.finmel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "stargazers.3"
+        }
       },
       {
         "id": "stargazers.4",
         "name": "Bastian",
-        "kind": "npc",
-        "buildId": "academy.mariel"
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "stargazers.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.elements",
@@ -277,28 +355,41 @@
       {
         "id": "elements.1",
         "name": "Felix",
-        "kind": "npc",
-        "buildId": "academy.gairyu"
+        "buildId": "academy.gairyu",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "elements.1"
+        }
       },
       {
         "id": "elements.2",
         "name": "Wren",
-        "kind": "npc",
-        "buildId": "academy.luka"
+        "buildId": "academy.luka",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "elements.2"
+        }
       },
       {
         "id": "elements.3",
         "name": "Isla",
-        "kind": "npc",
-        "buildId": "academy.ariel"
+        "buildId": "academy.ariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "elements.3"
+        }
       },
       {
         "id": "elements.4",
         "name": "Hugo",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "elements.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.runes",
@@ -320,28 +411,41 @@
       {
         "id": "runes.1",
         "name": "Cora",
-        "kind": "npc",
-        "buildId": "academy.rotary"
+        "buildId": "academy.rotary",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "runes.1"
+        }
       },
       {
         "id": "runes.2",
         "name": "Dorian",
-        "kind": "npc",
-        "buildId": "academy.fran"
+        "buildId": "academy.fran",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "runes.2"
+        }
       },
       {
         "id": "runes.3",
         "name": "Nina",
-        "kind": "npc",
-        "buildId": "academy.lumine"
+        "buildId": "academy.lumine",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "runes.3"
+        }
       },
       {
         "id": "runes.4",
         "name": "Theo",
-        "kind": "npc",
-        "buildId": "academy.mariel"
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "runes.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.frost",
@@ -363,28 +467,41 @@
       {
         "id": "frost.1",
         "name": "Yvette",
-        "kind": "npc",
-        "buildId": "academy.finmel"
+        "buildId": "academy.finmel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "frost.1"
+        }
       },
       {
         "id": "frost.2",
         "name": "Milo",
-        "kind": "npc",
-        "buildId": "academy.monica"
+        "buildId": "academy.monica",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "frost.2"
+        }
       },
       {
         "id": "frost.3",
         "name": "Rosie",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "frost.3"
+        }
       },
       {
         "id": "frost.4",
         "name": "Ulric",
-        "kind": "npc",
-        "buildId": "academy.drake"
+        "buildId": "academy.drake",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "frost.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.bedrock",
@@ -406,28 +523,41 @@
       {
         "id": "bedrock.1",
         "name": "Terra",
-        "kind": "npc",
-        "buildId": "academy.eri"
+        "buildId": "academy.eri",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "bedrock.1"
+        }
       },
       {
         "id": "bedrock.2",
         "name": "Alden",
-        "kind": "npc",
-        "buildId": "academy.drake"
+        "buildId": "academy.drake",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "bedrock.2"
+        }
       },
       {
         "id": "bedrock.3",
         "name": "Meryl",
-        "kind": "npc",
-        "buildId": "academy.artesia"
+        "buildId": "academy.artesia",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "bedrock.3"
+        }
       },
       {
         "id": "bedrock.4",
         "name": "Cedra",
-        "kind": "npc",
-        "buildId": "academy.mariel"
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "bedrock.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.alchemy",
@@ -449,28 +579,41 @@
       {
         "id": "alchemy.1",
         "name": "Flora",
-        "kind": "npc",
-        "buildId": "academy.gairyu"
+        "buildId": "academy.gairyu",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "alchemy.1"
+        }
       },
       {
         "id": "alchemy.2",
         "name": "Kian",
-        "kind": "npc",
-        "buildId": "academy.aurora"
+        "buildId": "academy.aurora",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "alchemy.2"
+        }
       },
       {
         "id": "alchemy.3",
         "name": "Remy",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "alchemy.3"
+        }
       },
       {
         "id": "alchemy.4",
         "name": "Lotte",
-        "kind": "npc",
-        "buildId": "academy.rotary"
+        "buildId": "academy.rotary",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "alchemy.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.water",
@@ -492,28 +635,41 @@
       {
         "id": "water.1",
         "name": "Marin",
-        "kind": "npc",
-        "buildId": "academy.ariel"
+        "buildId": "academy.ariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "water.1"
+        }
       },
       {
         "id": "water.2",
         "name": "Ezra",
-        "kind": "npc",
-        "buildId": "academy.finmel"
+        "buildId": "academy.finmel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "water.2"
+        }
       },
       {
         "id": "water.3",
         "name": "Odile",
-        "kind": "npc",
-        "buildId": "academy.lumine"
+        "buildId": "academy.lumine",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "water.3"
+        }
       },
       {
         "id": "water.4",
         "name": "Tobin Vale",
-        "kind": "npc",
-        "buildId": "academy.mariel"
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "water.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.wind",
@@ -535,28 +691,41 @@
       {
         "id": "wind.1",
         "name": "Aven",
-        "kind": "npc",
-        "buildId": "academy.luka"
+        "buildId": "academy.luka",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "wind.1"
+        }
       },
       {
         "id": "wind.2",
         "name": "Giselle",
-        "kind": "npc",
-        "buildId": "academy.artesia"
+        "buildId": "academy.artesia",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "wind.2"
+        }
       },
       {
         "id": "wind.3",
         "name": "Perrin",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "wind.3"
+        }
       },
       {
         "id": "wind.4",
         "name": "Soren",
-        "kind": "npc",
-        "buildId": "academy.drake"
+        "buildId": "academy.drake",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "wind.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.flame",
@@ -578,28 +747,41 @@
       {
         "id": "flame.1",
         "name": "Ignis",
-        "kind": "npc",
-        "buildId": "academy.gairyu"
+        "buildId": "academy.gairyu",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "flame.1"
+        }
       },
       {
         "id": "flame.2",
         "name": "Mina",
-        "kind": "npc",
-        "buildId": "academy.ariel"
+        "buildId": "academy.ariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "flame.2"
+        }
       },
       {
         "id": "flame.3",
         "name": "Luca Vale",
-        "kind": "npc",
-        "buildId": "academy.charlotte"
+        "buildId": "academy.charlotte",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "flame.3"
+        }
       },
       {
         "id": "flame.4",
         "name": "Ansel",
-        "kind": "npc",
-        "buildId": "academy.mariel"
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "flame.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.dusk",
@@ -621,28 +803,41 @@
       {
         "id": "dusk.1",
         "name": "Vera",
-        "kind": "npc",
-        "buildId": "academy.kreider"
+        "buildId": "academy.kreider",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "dusk.1"
+        }
       },
       {
         "id": "dusk.2",
         "name": "Lucan",
-        "kind": "npc",
-        "buildId": "academy.fran"
+        "buildId": "academy.fran",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "dusk.2"
+        }
       },
       {
         "id": "dusk.3",
         "name": "Petra",
-        "kind": "npc",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "dusk.3"
+        }
       },
       {
         "id": "dusk.4",
         "name": "Finn",
-        "kind": "npc",
-        "buildId": "academy.drake"
+        "buildId": "academy.drake",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "dusk.4"
+        }
       }
-    ]
+    ],
+    "narrativeRole": "filler"
   },
   {
     "id": "academy.class_7a",
@@ -664,37 +859,703 @@
       {
         "id": "class_7a.luka",
         "name": "Luka",
-        "kind": "loan",
-        "buildId": "academy.luka"
+        "buildId": "academy.luka",
+        "identity": {
+          "kind": "player_loan",
+          "characterId": "luka"
+        }
       },
       {
         "id": "class_7a.gairyu",
         "name": "Gairyu",
-        "kind": "loan",
-        "buildId": "academy.gairyu"
+        "buildId": "academy.gairyu",
+        "identity": {
+          "kind": "player_loan",
+          "characterId": "gairyu"
+        }
       },
       {
         "id": "class_7a.ariel",
         "name": "Ariel",
-        "kind": "loan",
-        "buildId": "academy.ariel"
+        "buildId": "academy.ariel",
+        "identity": {
+          "kind": "player_loan",
+          "characterId": "ariel"
+        }
       },
       {
         "id": "class_7a.charlotte",
         "name": "Charlotte",
-        "kind": "loan",
-        "buildId": "academy.charlotte"
+        "buildId": "academy.charlotte",
+        "identity": {
+          "kind": "player_loan",
+          "characterId": "charlotte"
+        }
       },
       {
         "id": "class_7a.clark",
         "name": "Clark",
-        "kind": "loan",
-        "buildId": "academy.clark"
+        "buildId": "academy.clark",
+        "identity": {
+          "kind": "player_loan",
+          "characterId": "clark"
+        }
       },
       {
         "id": "class_7a.mariel",
         "name": "Mariel",
-        "kind": "loan",
+        "buildId": "academy.mariel",
+        "identity": {
+          "kind": "player_loan",
+          "characterId": "mariel"
+        }
+      }
+    ],
+    "narrativeRole": "player"
+  },
+  {
+    "id": "academy.lanterns",
+    "tournamentId": "academy_tournament",
+    "name": "Những Ngọn Đèn Nhỏ",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 110,
+    "narrativeRole": "filler",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "lanterns.1",
+        "name": "Học viên Những Ngọn Đèn Nhỏ 1",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "lanterns.1"
+        },
+        "buildId": "academy.kreider"
+      },
+      {
+        "id": "lanterns.2",
+        "name": "Học viên Những Ngọn Đèn Nhỏ 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "lanterns.2"
+        },
+        "buildId": "academy.fran"
+      },
+      {
+        "id": "lanterns.3",
+        "name": "Học viên Những Ngọn Đèn Nhỏ 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "lanterns.3"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "lanterns.4",
+        "name": "Học viên Những Ngọn Đèn Nhỏ 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "lanterns.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.paper_wings",
+    "tournamentId": "academy_tournament",
+    "name": "Cánh Giấy",
+    "controller": "ai",
+    "seedPot": 2,
+    "simulationRating": 110,
+    "narrativeRole": "filler",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "paper_wings.1",
+        "name": "Học viên Cánh Giấy 1",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "paper_wings.1"
+        },
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "paper_wings.2",
+        "name": "Học viên Cánh Giấy 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "paper_wings.2"
+        },
+        "buildId": "academy.aurora"
+      },
+      {
+        "id": "paper_wings.3",
+        "name": "Học viên Cánh Giấy 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "paper_wings.3"
+        },
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "paper_wings.4",
+        "name": "Học viên Cánh Giấy 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "paper_wings.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.morning_bell",
+    "tournamentId": "academy_tournament",
+    "name": "Chuông Sớm",
+    "controller": "ai",
+    "seedPot": 4,
+    "simulationRating": 110,
+    "narrativeRole": "filler",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "morning_bell.1",
+        "name": "Học viên Chuông Sớm 1",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "morning_bell.1"
+        },
+        "buildId": "academy.fran"
+      },
+      {
+        "id": "morning_bell.2",
+        "name": "Học viên Chuông Sớm 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "morning_bell.2"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "morning_bell.3",
+        "name": "Học viên Chuông Sớm 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "morning_bell.3"
+        },
+        "buildId": "academy.ariel"
+      },
+      {
+        "id": "morning_bell.4",
+        "name": "Học viên Chuông Sớm 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "morning_bell.4"
+        },
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.old_friend",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Bạn Cũ Của Luka",
+    "controller": "ai",
+    "seedPot": 3,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "old_friend.1",
+        "name": "Học viên Đội Bạn Cũ Của Luka 1",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "old_friend.1"
+        },
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "old_friend.2",
+        "name": "Học viên Đội Bạn Cũ Của Luka 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "old_friend.2"
+        },
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "old_friend.3",
+        "name": "Học viên Đội Bạn Cũ Của Luka 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "old_friend.3"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "old_friend.4",
+        "name": "Học viên Đội Bạn Cũ Của Luka 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "old_friend.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ],
+    "storyRelationship": {
+      "anchorCharacterId": "luka",
+      "status": "draft",
+      "summary": "Bạn cũ cùng quê Luka."
+    }
+  },
+  {
+    "id": "academy.rival",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Đối Thủ Học Thuật",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "rival.1",
+        "name": "Học viên Đội Đối Thủ Học Thuật 1",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "rival.1"
+        },
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "rival.2",
+        "name": "Học viên Đội Đối Thủ Học Thuật 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "rival.2"
+        },
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "rival.3",
+        "name": "Học viên Đội Đối Thủ Học Thuật 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "rival.3"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "rival.4",
+        "name": "Học viên Đội Đối Thủ Học Thuật 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "rival.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ],
+    "storyRelationship": {
+      "anchorCharacterId": "charlotte",
+      "status": "draft",
+      "summary": "Quan hệ cụ thể chờ duyệt; chưa phải tiểu sử chính thức."
+    }
+  },
+  {
+    "id": "academy.friction",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Lời Thách Đấu",
+    "controller": "ai",
+    "seedPot": 2,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "friction.1",
+        "name": "Học viên Đội Lời Thách Đấu 1",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "friction.1"
+        },
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "friction.2",
+        "name": "Học viên Đội Lời Thách Đấu 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "friction.2"
+        },
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "friction.3",
+        "name": "Học viên Đội Lời Thách Đấu 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "friction.3"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "friction.4",
+        "name": "Học viên Đội Lời Thách Đấu 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "friction.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ],
+    "storyRelationship": {
+      "anchorCharacterId": "gairyu",
+      "status": "draft",
+      "summary": "Quan hệ cụ thể chờ duyệt; chưa phải tiểu sử chính thức."
+    }
+  },
+  {
+    "id": "academy.spotlight",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Sau Ánh Đèn",
+    "controller": "ai",
+    "seedPot": 4,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "spotlight.1",
+        "name": "Học viên Đội Sau Ánh Đèn 1",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "spotlight.1"
+        },
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "spotlight.2",
+        "name": "Học viên Đội Sau Ánh Đèn 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "spotlight.2"
+        },
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "spotlight.3",
+        "name": "Học viên Đội Sau Ánh Đèn 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "spotlight.3"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "spotlight.4",
+        "name": "Học viên Đội Sau Ánh Đèn 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "spotlight.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ],
+    "storyRelationship": {
+      "anchorCharacterId": "ariel",
+      "status": "draft",
+      "summary": "Quan hệ cụ thể chờ duyệt; chưa phải tiểu sử chính thức."
+    }
+  },
+  {
+    "id": "academy.named_rotary",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Rotary",
+    "controller": "ai",
+    "seedPot": 2,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "named_rotary.1",
+        "name": "Rotary",
+        "identity": {
+          "kind": "named_character",
+          "characterId": "rotary"
+        },
+        "buildId": "academy.rotary"
+      },
+      {
+        "id": "named_rotary.2",
+        "name": "Học viên Đội Rotary 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_rotary.2"
+        },
+        "buildId": "academy.kreider"
+      },
+      {
+        "id": "named_rotary.3",
+        "name": "Học viên Đội Rotary 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_rotary.3"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "named_rotary.4",
+        "name": "Học viên Đội Rotary 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_rotary.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.named_monica",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Monica",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "named_monica.1",
+        "name": "Monica",
+        "identity": {
+          "kind": "named_character",
+          "characterId": "monica"
+        },
+        "buildId": "academy.monica"
+      },
+      {
+        "id": "named_monica.2",
+        "name": "Học viên Đội Monica 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_monica.2"
+        },
+        "buildId": "academy.finmel"
+      },
+      {
+        "id": "named_monica.3",
+        "name": "Học viên Đội Monica 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_monica.3"
+        },
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "named_monica.4",
+        "name": "Học viên Đội Monica 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_monica.4"
+        },
+        "buildId": "academy.mariel"
+      }
+    ]
+  },
+  {
+    "id": "academy.named_lumine",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Lumine",
+    "controller": "ai",
+    "seedPot": 1,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "named_lumine.1",
+        "name": "Lumine",
+        "identity": {
+          "kind": "named_character",
+          "characterId": "lumine"
+        },
+        "buildId": "academy.lumine"
+      },
+      {
+        "id": "named_lumine.2",
+        "name": "Học viên Đội Lumine 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_lumine.2"
+        },
+        "buildId": "academy.aurora"
+      },
+      {
+        "id": "named_lumine.3",
+        "name": "Học viên Đội Lumine 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_lumine.3"
+        },
+        "buildId": "academy.drake"
+      },
+      {
+        "id": "named_lumine.4",
+        "name": "Học viên Đội Lumine 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_lumine.4"
+        },
+        "buildId": "academy.clark"
+      }
+    ]
+  },
+  {
+    "id": "academy.named_eri",
+    "tournamentId": "academy_tournament",
+    "name": "Đội Shimoe Eri",
+    "controller": "ai",
+    "seedPot": 3,
+    "simulationRating": 150,
+    "narrativeRole": "key",
+    "description": "Đội học viên phối hợp công kích và bảo hộ.",
+    "draft": true,
+    "visual": {
+      "motif": "crest",
+      "palette": [
+        "#142831",
+        "#C5AC70",
+        "#9DC8CA"
+      ]
+    },
+    "members": [
+      {
+        "id": "named_eri.1",
+        "name": "Shimoe Eri",
+        "identity": {
+          "kind": "named_character",
+          "characterId": "eri"
+        },
+        "buildId": "academy.eri"
+      },
+      {
+        "id": "named_eri.2",
+        "name": "Học viên Đội Shimoe Eri 2",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_eri.2"
+        },
+        "buildId": "academy.fran"
+      },
+      {
+        "id": "named_eri.3",
+        "name": "Học viên Đội Shimoe Eri 3",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_eri.3"
+        },
+        "buildId": "academy.artesia"
+      },
+      {
+        "id": "named_eri.4",
+        "name": "Học viên Đội Shimoe Eri 4",
+        "identity": {
+          "kind": "original_npc",
+          "npcId": "named_eri.4"
+        },
         "buildId": "academy.mariel"
       }
     ]

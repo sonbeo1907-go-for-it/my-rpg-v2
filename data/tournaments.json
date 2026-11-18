@@ -1,32 +1,14 @@
 [
   {
     "id": "academy_tournament",
-    "schemaVersion": 1,
-    "rulesetVersion": "academy-1.0.0",
+    "schemaVersion": 2,
+    "rulesetVersion": "academy-2.0.0",
     "name": "Mùa Thi Đấu, Những Vì Sao Chưa Sáng",
     "bookId": "academy_tournament",
     "publication": "data_only",
     "enabled": false,
     "description": "Lớp 7A tham dự giải đấu liên khoa của Học Viện Ma Pháp.",
     "playerTeamId": "academy.class_7a",
-    "teamIds": [
-      "academy.student_council",
-      "academy.nocturne",
-      "academy.hourglass",
-      "academy.aegis",
-      "academy.storm",
-      "academy.stargazers",
-      "academy.elements",
-      "academy.runes",
-      "academy.frost",
-      "academy.bedrock",
-      "academy.alchemy",
-      "academy.water",
-      "academy.wind",
-      "academy.flame",
-      "academy.dusk",
-      "academy.class_7a"
-    ],
     "entry": {
       "requiresOwnership": false,
       "fee": 0,
@@ -173,9 +155,11 @@
       "rngStreams": [
         "draw",
         "simulation",
-        "combat"
+        "combat",
+        "encounter"
       ],
-      "commitOnce": true
+      "commitOnce": true,
+      "keyTeamRatingAdvantage": true
     },
     "combat": {
       "rulesScope": "academy_tournament",
@@ -221,7 +205,6 @@
         "eliminated"
       ],
       "label": "Chơi lại giải đấu",
-      "newSeed": true,
       "reset": [
         "run",
         "groups",
@@ -231,6 +214,7 @@
         "rngState"
       ],
       "preserve": [
+        "firstClear",
         "firstRewardClaims",
         "storyFlags",
         "history",
@@ -239,7 +223,8 @@
         "inventory"
       ],
       "repeatRewards": [],
-      "historyLimit": 20
+      "historyLimit": 20,
+      "newRunId": true
     },
     "sceneIds": [
       "academy.registration",
@@ -295,6 +280,108 @@
       "exclusiveGear": false,
       "storyUpgrades": false,
       "requireFullAllocation": true
+    },
+    "candidateTeamIds": [
+      "academy.student_council",
+      "academy.nocturne",
+      "academy.hourglass",
+      "academy.aegis",
+      "academy.storm",
+      "academy.stargazers",
+      "academy.elements",
+      "academy.runes",
+      "academy.frost",
+      "academy.bedrock",
+      "academy.alchemy",
+      "academy.water",
+      "academy.wind",
+      "academy.flame",
+      "academy.dusk",
+      "academy.class_7a",
+      "academy.lanterns",
+      "academy.paper_wings",
+      "academy.morning_bell",
+      "academy.old_friend",
+      "academy.rival",
+      "academy.friction",
+      "academy.spotlight",
+      "academy.named_rotary",
+      "academy.named_monica",
+      "academy.named_lumine",
+      "academy.named_eri"
+    ],
+    "participantCount": 16,
+    "selection": {
+      "method": "seeded_pot_quota",
+      "npcPotQuotas": [
+        4,
+        4,
+        4,
+        3
+      ],
+      "keyCountWeights": [
+        {
+          "count": 1,
+          "weight": 1
+        },
+        {
+          "count": 2,
+          "weight": 1
+        }
+      ],
+      "tuningStatus": "playtest",
+      "introduction": {
+        "drawSeed": "academy-introduction-v1",
+        "participantTeamIds": [
+          "academy.class_7a",
+          "academy.old_friend",
+          "academy.rival",
+          "academy.friction",
+          "academy.spotlight",
+          "academy.student_council",
+          "academy.nocturne",
+          "academy.hourglass",
+          "academy.storm",
+          "academy.stargazers",
+          "academy.elements",
+          "academy.frost",
+          "academy.bedrock",
+          "academy.alchemy",
+          "academy.wind",
+          "academy.flame"
+        ],
+        "sameGroupTeamIds": [
+          "academy.class_7a",
+          "academy.old_friend"
+        ]
+      }
+    },
+    "progression": {
+      "firstClear": {
+        "outcome": "champion",
+        "scope": "profile",
+        "commitWithResult": true
+      },
+      "specialEncounterGate": "first_clear_at_run_creation"
+    },
+    "seedPolicy": {
+      "beforeFirstClear": "fixed_introduction_draw",
+      "afterFirstClear": "new_draw_each_run",
+      "combat": "new_each_run_keep_on_retry",
+      "simulation": "new_each_run_commit_once",
+      "encounter": "snapshot_at_run_creation",
+      "unitIdentity": "run_team_member"
+    },
+    "specialEncounters": {
+      "gate": "first_clear_at_run_creation",
+      "characterIds": [
+        "rotary",
+        "monica",
+        "lumine",
+        "eri"
+      ],
+      "publication": "design_only",
+      "configured": false
     }
   }
 ]

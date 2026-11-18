@@ -1,6 +1,6 @@
 # Giải đấu học viện — đặc tả triển khai v1
 
-> Cập nhật thiết kế 18/11/2026: phân loại NPC, seed giới thiệu, First Clear và pool sau First Clear ở mục 13. Đây là giải truyện với NPC trong trường, không phải Arena. Dữ liệu bước 2 vẫn là bản nền 16 đội cũ; các quyết định mới chưa được triển khai vào JSON/validator/runtime.
+> Cập nhật thiết kế 18/11/2026: phân loại NPC, seed giới thiệu, First Clear và pool sau First Clear ở mục 13. Đây là giải truyện với NPC trong trường, không phải Arena. Khung JSON/validator đã đồng bộ schema 2; xem mục “Đồng bộ khung dữ liệu” cuối tài liệu để biết phần đã triển khai và phần runtime còn thiếu.
 
 Ngày18/11/2026, múi giờ Việt Nam. Tên làm việc: **Mùa Thi Đấu, Những Vì Sao Chưa Sáng**. ID nội dung và bộ luật `academy_tournament`; không tự chiếm số Quyển III của mạch truyện chính.
 
@@ -151,7 +151,7 @@ Thứ tự sau đợt này: bước3 schedule/standings/bracket/simulation → b
 | File | Nội dung |
 | --- | --- |
 |`data/tournaments.json` |Một định nghĩa giải, luật, nhánh, retry/replay, hook cảnh/thưởng |
-|`data/tournamentTeams.json` |16 đội,66 memberID độc lập (6 người chơi +60 NPC) |
+|`data/tournamentTeams.json` |27 định nghĩa đội,110 memberID độc lập (6 người chơi +104 NPC); chọn16 tham dự |
 |`data/tournamentBuilds.json` |16 mẫu kit từ nhân vật Học viện hiện hữu, Lv30/Rank3/ba T2 |
 |`data/tournamentScenes.json` |11 cảnh bản thảo gồm cả2 kết thúc |
 |`data/tournamentRewards.json` |Ba mốc currency first_ever |
@@ -255,16 +255,16 @@ Phương án đề xuất: cuộc chạm trán tùy chọn ở khoảng nghỉ, 
 5. Viết cảnh theo đối thủ và kết quả; triển khai combat tỷ thí rồi mới thêm các siêu trùm hiếm.
 6. Kiểm tra đủ 16 đội mỗi lượt, đúng quota chủ chốt, không trùng người thật, reload không reroll; thua/rút lui/chơi lại không mất cờ hoặc nhân đôi thưởng; ưu thế NPC không thành buff bí mật khi đấu người chơi.
 
-**Trạng thái cập nhật này: chỉ tài liệu.** JSON, validator, test và runtime vẫn ở nền bước 2 nêu tại mục 11; chưa có pool 18 filler, 4 đội quan hệ, First Clear hay encounter hiếm chạy trong game.
+**Trạng thái mới:** schema 2 đã có pool/validator/helper chọn đội và contract First Clear; chưa có First Clear persist hay encounter hiếm chạy trong game. Xem mục đồng bộ cuối tài liệu.
 
 
 ## 14. Phương án giải quyết blocker trước implementation
 
-Các tên trường dưới đây là **contract schema đề xuất**, chưa tồn tại trong code. Cần cập nhật JSON, validator, loader, save và test đồng bộ; không thêm trường chỉ để validator bỏ qua.
+Contract dữ liệu ở mục này đã được thể hiện trong schema 2/validator/helper (xem mục đồng bộ cuối). Riêng session save, migration, seed runtime, giao dịch First Clear và bốc thăm nhóm thực tế chưa triển khai.
 
 ### 14.1. Chọn theo quota hạt giống
 
-Tách `candidateTeamIds` (pool nội dung) khỏi `participantTeamIds` (16 đội đã chốt trong phiên). Mỗi định nghĩa đội có `seedPot` và `narrativeRole` = filler/key/player. Mỗi giải phải có đúng 4 đội mỗi pot 1–4; 7A chiếm một suất pot 4, nên số NPC cần chọn lần lượt **4/4/4/3**.
+Tách `candidateTeamIds` (pool nội dung) khỏi `participantTeamIds` (16 đội trong cấu hình giới thiệu hoặc phiên tương lai). Mỗi định nghĩa đội có `seedPot` và `narrativeRole` = filler/key/player. Mỗi giải phải có đúng 4 đội mỗi pot 1–4; 7A chiếm một suất pot 4, nên số NPC cần chọn lần lượt **4/4/4/3**.
 
 Phân bổ authoring khả thi ban đầu:
 
@@ -309,3 +309,16 @@ Siêu trùm có enemyId/encounterId riêng, có thể tham chiếu characterId c
 - Nhân vật thật trùng hai đội bị chặn; NPC dùng cùng kit nhưng khác npcId không bị nhận nhầm thành cùng người. Bản boss không làm đổi playable.
 
 Tần suất siêu trùm, trọng số K, lợi thế rating và kit/thưởng boss vẫn là cấu hình cần playtest; các giá trị 15% và 50/50 trước đây không tự trở thành quyết định đã chốt.
+
+
+## Đồng bộ khung dữ liệu schema 2 — 18/11/2026
+
+Mục này cập nhật trạng thái triển khai, thay các ghi chú “chưa chuyển thành JSON/validator” ở phần lịch sử bên trên. Hiện đã có 27 định nghĩa đội (7A + 18 filler + 4 đội quan hệ + 4 đội nhân vật thật), schemaVersion 2/ruleset academy-2.0.0. Các đội mới và quan hệ vẫn là bản nháp, chưa duyệt tiểu sử hoặc cân bằng. Không đưa thêm nhân vật vào roster sở hữu/gacha.
+
+`candidateTeamIds` là pool; `selection.introduction.participantTeamIds` là 16 đội giới thiệu, bạn cũ Luka pot 3 khóa cùng bảng 7A pot 4. `selectTournamentParticipants` trong tournament-pool.js là hàm thuần chọn đủ đội theo quota và tránh trùng định danh; có tìm kiếm hữu hạn để kiểm tính khả thi K=1/2. Trọng số 1:1 chỉ là cấu hình playtest. Hàm chưa tạo bảng/lịch/phiên save.
+
+Member dùng identity tagged union original_npc/named_character/player_loan; build nguồn và characterId phải khớp. Pool có thể chứa nhiều phương án cho cùng một người nhưng danh sách tham dự không được trùng. Bộ validator không còn yêu cầu pool đúng 16 hoặc replay.newSeed=true; dùng First Clear gate, seedPolicy và newRunId. Các RNG được khai riêng draw/simulation/combat/encounter. Cờ First Clear mới ở contract dữ liệu, chưa có migration/transaction runtime.
+
+specialEncounters chỉ khai bốn nhân vật và gate sau First Clear, configured=false/design_only; chưa có kit, xác suất, thưởng hoặc trận siêu trùm chạy được. Rating đội chủ chốt là dữ liệu playtest cho mô phỏng tương lai, không cấp buff chiến đấu.
+
+Vẫn enabled=false/data_only. Chưa có schedule engine, áp ràng buộc cùng bảng vào bốc thăm thực tế, combat adapter, UI, save phiên hoặc replay chạy được. Các phần ấy vẫn cần triển khai/kiểm thử riêng; không dùng helper chọn pool để tuyên bố giải hoàn chỉnh.

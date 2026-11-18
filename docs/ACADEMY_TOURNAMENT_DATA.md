@@ -6,7 +6,7 @@ Năm collection được index theo ID bởi assembleContent và validate cùng 
 
 ## Định nghĩa giải
 
-`schemaVersion` cho hình dạng data; `rulesetVersion` cho luật bất biến của lượt chơi tương lai. `teamIds`, `playerTeamId`, `sceneIds`, `rewardIds` chỉ trỏ đúng collection tương ứng. `bookId` dự trữ ID, không xác định số quyển cốt truyện. `enabled:false`/`publication:data_only` là gate bắt buộc cho đợt này.
+`schemaVersion` cho hình dạng data; `rulesetVersion` cho luật bất biến của lượt chơi tương lai. `candidateTeamIds`, `playerTeamId`, `sceneIds`, `rewardIds` chỉ trỏ đúng collection tương ứng. `bookId` dự trữ ID, không xác định số quyển cốt truyện. `enabled:false`/`publication:data_only` là gate bắt buộc cho đợt này.
 
 `groupStage` khai bốc thăm4 nhóm,3 lượt bảng, điểm và phân hạng. `knockout.bracket` khai suất group/position hoặc winnerOf trận trước. Không dùng đội cụ thể cố định ở tứ kết; kết quả vòng bảng quyết định suất. Validator chống forward reference/cycle/đội cùng bảng ở cùng nửa nhánh.
 
@@ -14,7 +14,7 @@ Năm collection được index theo ID bởi assembleContent và validate cùng 
 
 ## Đội và thành viên
 
-Mỗi đội có controller, nhóm hạt giống, rating mô phỏng, mô tả chiến thuật và visual brief. Rating không được biến thành buff combat. Mỗi member cóID độc lập, tên và buildId. `kind:loan` dành cho6 người chơi; `kind:npc` cho học viên địch. NPC tái dùng kit của templateCharacterId, không phải nhân vật gốc đăng ký trùng nhiều đội.
+Mỗi đội có controller, nhóm hạt giống, rating mô phỏng, mô tả chiến thuật và visual brief. Rating không được biến thành buff combat. Mỗi member cóID độc lập, tên và buildId. `identity.kind:player_loan` dành cho6 người chơi; `original_npc` cho học viên gốc tái dùng kit, `named_character` cho chính nhân vật thật. Mỗi người tham dự phải có định danh không trùng, độc lập build kit.
 
 Visual.motif/palette là brief vẽ SVG, chưa phải đường dẫn asset. Không đặt URL ngoài hoặc đường ảnh chưa tồn tại vào renderer. Tên/chiến thuật/cảnh/reward label ưu tiên tiếng Việt; ID và enum giữ tiếng Anh nội bộ, không show raw.
 
@@ -44,11 +44,24 @@ Cấu hình chuẩn hóa chung nằm ở `trialRules`; thay mức playtest phả
 
 ## Thiết kế mới chưa chuyển thành schema — 18/11/2026
 
-Mục 13 của [đặc tả](ACADEMY_TOURNAMENT.md) là hướng cập nhật NPC/seed/First Clear. JSON hiện tại chỉ có 16 đội nền, không phải pool mới. Khi triển khai phải tách pool ứng viên với 16 đội tham dự; giữ 15 suất NPC: 14 filler + 1 chủ chốt hoặc 13 filler + 2 chủ chốt sau First Clear.
+Mục 13 của [đặc tả](ACADEMY_TOURNAMENT.md) là hướng cập nhật NPC/seed/First Clear. Đoạn này là lịch sử thiết kế; hiện JSON đã có pool schema 2 theo mục đồng bộ phía dưới. Khi triển khai phải tách pool ứng viên với 16 đội tham dự; giữ 15 suất NPC: 14 filler + 1 chủ chốt hoặc 13 filler + 2 chủ chốt sau First Clear.
 
-Phân biệt NPC có tên riêng tái dùng kit với chính Rotary/Monica/Lumine/Eri đăng ký dự thi; encounter siêu trùm của họ là dữ liệu riêng. Không dùng nhãn chủ chốt để thêm buff ngầm trong combat. Contract schema đề xuất ở mục 14 (candidate/participant, quota pot, identity union, seed policy) chưa được triển khai; không tự thêm các trường mà validator/loader chưa hiểu; chưa thay luật RNG/replay hoặc mở publication chỉ từ cập nhật tài liệu.
+Phân biệt NPC có tên riêng tái dùng kit với chính Rotary/Monica/Lumine/Eri đăng ký dự thi; encounter siêu trùm của họ là dữ liệu riêng. Không dùng nhãn chủ chốt để thêm buff ngầm trong combat. Contract schema ở mục 14 (candidate/participant, quota pot, identity union, seed policy) đã có khung schema 2; runtime phiên vẫn chưa triển khai; không tự thêm các trường mà validator/loader chưa hiểu; chưa thay luật RNG/replay hoặc mở publication chỉ từ cập nhật tài liệu.
 
 
 ## First Clear và giải pháp blocker
 
-Bỏ First Run. Trước First Clear dùng cấu hình giới thiệu/drawSeed cố định; sau First Clear mới mở pool ngẫu nhiên và gate siêu trùm ở lượt mới. Mục 14 đặc tả định nghĩa chọn đội theo quota pot 4/4/4/3 NPC, bạn cũ Luka pot 3, 7A pot 4; tách runId/drawSeed/combatSeed và identity NPC gốc/nhân vật thật. Pool mục tiêu là 26 NPC teams; 16 là số đội trong một phiên. Validator nền hiện chưa hiểu contract mới; mở rộng và test đồng bộ trước thay JSON. Không chạy runtime hoặc công bố tính năng từ tài liệu này.
+Bỏ First Run. Trước First Clear dùng cấu hình giới thiệu/drawSeed cố định; sau First Clear mới mở pool ngẫu nhiên và gate siêu trùm ở lượt mới. Mục 14 đặc tả định nghĩa chọn đội theo quota pot 4/4/4/3 NPC, bạn cũ Luka pot 3, 7A pot 4; tách runId/drawSeed/combatSeed và identity NPC gốc/nhân vật thật. Pool mục tiêu là 26 NPC teams; 16 là số đội trong một phiên. Validator đã hiểu contract mới, kèm kiểm khả thi chọn đội; vẫn cần session/runtime và migration được test trước phát hành. Không chạy runtime hoặc công bố tính năng từ tài liệu này.
+
+
+## Đồng bộ khung dữ liệu schema 2 — 18/11/2026
+
+Mục này cập nhật trạng thái triển khai, thay các ghi chú “chưa chuyển thành JSON/validator” ở phần lịch sử bên trên. Hiện đã có 27 định nghĩa đội (7A + 18 filler + 4 đội quan hệ + 4 đội nhân vật thật), schemaVersion 2/ruleset academy-2.0.0. Các đội mới và quan hệ vẫn là bản nháp, chưa duyệt tiểu sử hoặc cân bằng. Không đưa thêm nhân vật vào roster sở hữu/gacha.
+
+`candidateTeamIds` là pool; `selection.introduction.participantTeamIds` là 16 đội giới thiệu, bạn cũ Luka pot 3 khóa cùng bảng 7A pot 4. `selectTournamentParticipants` trong tournament-pool.js là hàm thuần chọn đủ đội theo quota và tránh trùng định danh; có tìm kiếm hữu hạn để kiểm tính khả thi K=1/2. Trọng số 1:1 chỉ là cấu hình playtest. Hàm chưa tạo bảng/lịch/phiên save.
+
+Member dùng identity tagged union original_npc/named_character/player_loan; build nguồn và characterId phải khớp. Pool có thể chứa nhiều phương án cho cùng một người nhưng danh sách tham dự không được trùng. Bộ validator không còn yêu cầu pool đúng 16 hoặc replay.newSeed=true; dùng First Clear gate, seedPolicy và newRunId. Các RNG được khai riêng draw/simulation/combat/encounter. Cờ First Clear mới ở contract dữ liệu, chưa có migration/transaction runtime.
+
+specialEncounters chỉ khai bốn nhân vật và gate sau First Clear, configured=false/design_only; chưa có kit, xác suất, thưởng hoặc trận siêu trùm chạy được. Rating đội chủ chốt là dữ liệu playtest cho mô phỏng tương lai, không cấp buff chiến đấu.
+
+Vẫn enabled=false/data_only. Chưa có schedule engine, áp ràng buộc cùng bảng vào bốc thăm thực tế, combat adapter, UI, save phiên hoặc replay chạy được. Các phần ấy vẫn cần triển khai/kiểm thử riêng; không dùng helper chọn pool để tuyên bố giải hoàn chỉnh.
