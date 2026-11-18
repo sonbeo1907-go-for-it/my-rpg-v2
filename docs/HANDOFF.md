@@ -1,5 +1,17 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Cập nhật nhận lớp7A — 18/11/2026
+
+Luật giải là trang `/chronicles/academy/rules`, trình bày thông báo của trường. Phải xác nhận đã đọc trước khi đăng ký mùa mới (kiểm ở core, không chỉ UI). Xác nhận lần đầu nhận Luka; First Clear nhận Clark miễn phí. Hồ sơ đã clear được nhận bù Clark khi vào trang giải hoặc xác nhận thông báo. Nhận lại không tặng dupe/tiền bù. Cờ `rulesAccepted` và `rewardClaims` giữ qua replay, có mặc định cho save cũ; không ngắt trận đang chơi.
+
+Shop có hai hàng vĩnh viễn: mỗi ô Luka/Clark giá100 Huy Hiệu, mỗi người tối đa3 lượt, không reset theo tuần. Cần sở hữu nhân vật, tổng ô vẫn cap6; giao dịch mở ô và trừ tiền cùng lúc. Original Prisma vẫn cuối danh mục. Gairyu/Ariel/Charlotte/Mariel đã vào banner thường và pool rate-up từ18/11/2026, Luka/Clark không vào gacha. Đọc `academy-enrollment.js`, `academy-event-economy.js` và tests tương ứng.
+
+
+## Hiện trạng giải học viện — 18/11/2026, bước7–8
+
+Đã chơi được giải/replay/đăng ký build tài khoản từ các bước trước. Mới thêm shop riêng dùng Huy Hiệu Học Viện và bốn thử thách siêu trùm hiếm sau First Clear. Đọc [ACADEMY_TOURNAMENT_REWARDS_SPECIALS](ACADEMY_TOURNAMENT_REWARDS_SPECIALS.md) trước các mục lịch sử bên dưới. Ruleset3.0.0; mùa cũ giữ snapshot, không phát bù. Shop stock reset thứ Hai00:00 VN, tiền giữ nguyên. Thử thách có checkpoint/outcome riêng, không đi vào bảng giải. Không thay playable hoặc áp luật Arena.
+
+
 Rà soát ngày **03/11/2026**, múi giờ Việt Nam. Đây là context dự án, không phải yêu cầu tự chạy các task lịch sử. Lần rà soát này chỉ chỉnh tài liệu; không đổi gameplay, schema hoặc build EXE.
 
 ## Đọc theo nhu cầu
@@ -13,6 +25,10 @@ Rà soát ngày **03/11/2026**, múi giờ Việt Nam. Đây là context dự á
 
 ## Giải học viện — 18/11/2026, chỉ bước1–2
 [ACADEMY_TOURNAMENT.md](ACADEMY_TOURNAMENT.md) là đặc tả luật; [ACADEMY_TOURNAMENT_DATA.md](ACADEMY_TOURNAMENT_DATA.md) mô tả5 collection/validator.16 đội,4 bảng,8 suất knockout; lớp7A mượn6 chọn4. **Kết thúc vô địch hoặc bị loại phải chơi lại được**, seed/run mới, không reset ledger/cờ/tài khoản. enabled=false, data_only, không thêm vào hai quyển đang chơi được. Chưa có schedule engine, run save, adapter combat, UI hoặc payout. Đừng báo rằng replay đã hoạt động chỉ vì data/test invariant qua.
+
+## NPC / đăng ký đội riêng sau First Clear — 18/11/2026
+
+Bước6 đã có profile/cảnh NPC/journal và đăng ký6 nhân vật đã sở hữu với tên đội tự chọn, build tài khoản snapshot (cả Thông Thạo). Roster/name/build khóa suốt mùa; lineup4 đổi giữa trận. Giữ lựa chọn loan7A. Đọc [ACADEMY_TOURNAMENT_STORIES_REGISTRATION](ACADEMY_TOURNAMENT_STORIES_REGISTRATION.md). Chưa payout/boss hiếm.
 
 ## Combat/UI giải học viện — 18/11/2026
 

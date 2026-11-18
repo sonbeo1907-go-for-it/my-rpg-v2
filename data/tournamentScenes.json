@@ -10,7 +10,7 @@
       "Gairyu giật lấy bút. “Viết gì cũng được. Miễn đừng bắt tôi đứng nhìn người khác đánh.” Clark chặn tay cậu trước khi mực dây lên danh sách: “Đọc điều lệ trước. Rồi ký.”",
       "Ariel xoay tờ đơn cho mọi người cùng nhìn. “Đội lớp 7A. Ngắn thôi, người trên khán đài dễ gọi.” Mariel ký ngay sau cô. Luka nhún vai, rồi ký vào chỗ còn lại."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.opening",
@@ -22,7 +22,7 @@
       "Ariel vẫy đáp những tiếng gọi từ khán đài. Mariel đứng thẳng hơn khi cô quay lại. Bên cạnh, Gairyu nhìn đội đối diện: “Họ cười cái gì?”",
       "“Chưa ai đánh mà cậu đã muốn gây chuyện rồi.” Clark đưa cho cậu bảng lịch. Gairyu liếc qua, gấp lại bỏ túi. Lần này ít nhất cậu cũng giữ nó."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.group_1",
@@ -34,7 +34,7 @@
       "“Cứ gọi tôi là được.” Gairyu khoanh tay. Charlotte đáp ngay: “Đội hình do cả đội chọn, không phải ai nói to hơn thì được vào.”",
       "Luka định chen vào, nhưng Ariel đã chìa tay ra giữa bàn: “Tranh tiếp sau trận. Bây giờ ai nghe thấy tín hiệu rút thì phải rút.” Mariel đặt tay lên trước. “Tớ nghe được.” Những bàn tay còn lại lần lượt nhập vào, tay Gairyu đến cuối."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.group_2",
@@ -46,7 +46,7 @@
       "“Có chứ.” Luka ngừng gõ tay khi cô chỉ vào mấy nét vẽ chồng nhau. “...Có lúc tớ nhìn hơi muộn.”",
       "Gairyu đẩy ghế tới: “Muốn tôi dừng thì nói trước. Đừng đợi tôi lao rồi mới gọi.” Clark khoanh một dấu trên sơ đồ: “Vậy chốt tín hiệu ở đây.” Charlotte giữ cây bút thêm một nhịp rồi đưa sang. “Lần này nghe hết đã, vai chính.”"
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.group_3",
@@ -58,7 +58,7 @@
       "Gairyu bẻ các khớp tay. “Tính xong thì gọi. Tôi không định nhẹ tay.” Ariel nghiêng đầu: “Chỉ cần nhớ tín hiệu đã thống nhất.” Cậu hừ một tiếng, nhưng nhắc lại đúng tín hiệu.",
       "Luka bật cười rồi dừng khi Charlotte ngẩng lên. “Biết rồi. Nghe hết trước khi lao.”"
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.interval",
@@ -70,7 +70,7 @@
       "Luka gõ nhịp lên hộp đồ. “Nếu ghép tín hiệu vào nhịp này—” Charlotte chặn nắp hộp: “Đừng biến mọi thứ thành buổi diễn của cậu.” Cô vẫn thử gõ lại nhịp vừa nghe bằng đầu bút.",
       "Gairyu kéo ghế cách bàn một đoạn. Clark đưa bình nước tới, không hỏi chuyện. Một lúc sau, từ phía chiếc ghế vọng lại: “Nhịp cuối nhanh quá. Tôi không kịp đổi hướng.” Luka thử lại, chậm hơn."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.quarterfinal",
@@ -82,7 +82,7 @@
       "Gairyu đứng dậy ngay khi nghe gọi đội. Clark chặn lối, chỉ xuống chiếc găng còn bỏ trên bàn. Cậu quay lại lấy, bực bội nhét vào tay rồi mới đi tiếp.",
       "Ariel nhìn cả sáu người trước cửa ra sân. “Ai ở ngoài cũng nhìn giúp. Có gì gọi ngay.” Mariel gật đầu, lần này nhắc lại cả tín hiệu."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.semifinal",
@@ -94,7 +94,7 @@
       "Luka chờ cây bút dừng mới lên tiếng. “Vậy tín hiệu của tớ theo sau cậu. Có đủ khoảng thì cả đội mới tiến.” Gairyu liếc cậu: “Đừng chậm quá.”",
       "“Đừng nhanh quá.” Charlotte đáp thay. Ariel bật cười; Clark ghi tín hiệu mới vào lề. Cuộc bàn bạc tiếp tục, lần này không ai phải giành lại tờ giấy."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.final",
@@ -106,7 +106,7 @@
       "Luka giơ tay định hô, Charlotte đã nâng một ngón tay. Cậu đợi Clark kiểm tra xong hành trang, đợi Gairyu kéo chặt găng. “Giờ được chưa?”",
       "“Được rồi.” Charlotte đóng sổ. Gairyu bước tới cạnh cửa: “Ra thôi. Để họ chờ đủ rồi.” Tiếng gọi tên đội vọng vào, át mất nhịp chân Luka vừa bắt đầu."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.champion",
@@ -118,7 +118,7 @@
       "Gairyu nhìn chiếc cúp, khóe miệng nhếch lên. “Lần tới khỏi mất công hỏi tôi có tham gia không.” Clark đang đếm hành trang chợt ngừng: “Vẫn phải ký đơn.”",
       "Ariel gọi Mariel vào khung hình. Mariel vội bước tới, suýt vấp chân ghế; sáu người dồn lại giữ chiếc cúp cho thẳng. Tấm ảnh chụp đúng lúc Luka bật cười, còn Charlotte vẫn chưa chịu buông quai."
     ],
-    "draft": true
+    "draft": false
   },
   {
     "id": "academy.eliminated",
@@ -130,6 +130,830 @@
       "“Ai chẳng muốn.” Gairyu đáp, giọng gắt hơn cần thiết. Charlotte mở sổ nhưng chưa viết. Clark đặt hành trang đã thu đủ xuống cạnh ghế, để khoảng im lặng kéo dài thêm một lúc.",
       "Ariel lấy tờ lịch đã gấp ra khỏi túi. “Vậy giữ cái này nhé?” Mariel vuốt phẳng một góc giấy. Charlotte viết ngày thi đấu lên trang mới. Luka thôi xoay bút, cúi xuống nhìn cùng cô."
     ],
-    "draft": true
+    "draft": false
+  },
+  {
+    "id": "academy.student_council.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Đội Hội Đồng Học Sinh · Bên hành lang",
+    "teamId": "academy.student_council",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Seren chỉ lên huy hiệu đội. “Đội Hội Đồng Học Sinh. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Phối hợp võ trang và hỗ trợ, giữ đội hình trước khi dồn sát thương. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.nocturne.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dàn Nhạc Đêm · Bên hành lang",
+    "teamId": "academy.nocturne",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Viole chỉ lên huy hiệu đội. “Dàn Nhạc Đêm. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Làm yếu phòng thủ rồi tăng áp lực phép Ám. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.hourglass.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Người Giữ Nhịp · Bên hành lang",
+    "teamId": "academy.hourglass",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Sylvie chỉ lên huy hiệu đội. “Những Người Giữ Nhịp. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Kiểm soát thứ tự lượt và che chở người gây sát thương. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.aegis.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Thành Lũy Thuật Thức · Bên hành lang",
+    "teamId": "academy.aegis",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Orin chỉ lên huy hiệu đội. “Thành Lũy Thuật Thức. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Dựng phòng tuyến trước phép thuật rồi phản kích. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.storm.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Tiếng Sấm Đầu Mùa · Bên hành lang",
+    "teamId": "academy.storm",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Tessa chỉ lên huy hiệu đội. “Tiếng Sấm Đầu Mùa. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Chuẩn bị hỗ trợ để tạo chuỗi công kích liên tiếp. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.stargazers.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Người Đọc Sao · Bên hành lang",
+    "teamId": "academy.stargazers",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Lyra chỉ lên huy hiệu đội. “Những Người Đọc Sao. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Dùng hỗ trợ và thay đổi nhịp tấn công để tạo cửa sổ bùng nổ. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.elements.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Bốn Mùa Ma Pháp · Bên hành lang",
+    "teamId": "academy.elements",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Felix chỉ lên huy hiệu đội. “Bốn Mùa Ma Pháp. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Phối hợp nhiều hệ nguyên tố và duy trì hồi phục. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.runes.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Nét Mực Và Phù Văn · Bên hành lang",
+    "teamId": "academy.runes",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Cora chỉ lên huy hiệu đội. “Nét Mực Và Phù Văn. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Tạo lợi thế lượt và giảm phòng thủ đối phương. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.frost.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Băng Kết Ban Mai · Bên hành lang",
+    "teamId": "academy.frost",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Yvette chỉ lên huy hiệu đội. “Băng Kết Ban Mai. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Bảo vệ người tấn công chủ lực và kiểm soát nhịp chiến đấu. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.bedrock.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dưới Lòng Địa Mạch · Bên hành lang",
+    "teamId": "academy.bedrock",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Terra chỉ lên huy hiệu đội. “Dưới Lòng Địa Mạch. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Phòng thủ bền bỉ, chuẩn bị cho những đòn phép mạnh. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.alchemy.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Chiếc Bình Sủi Bọt · Bên hành lang",
+    "teamId": "academy.alchemy",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Flora chỉ lên huy hiệu đội. “Chiếc Bình Sủi Bọt. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Kết hợp hồi phục, tiếp năng lượng và công kích diện rộng. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.water.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dòng Nước Trong Sân · Bên hành lang",
+    "teamId": "academy.water",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Marin chỉ lên huy hiệu đội. “Dòng Nước Trong Sân. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Hỗ trợ theo nhịp, kết hợp sát thương vật lí và phép. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.wind.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Gió Qua Giảng Đường · Bên hành lang",
+    "teamId": "academy.wind",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Aven chỉ lên huy hiệu đội. “Gió Qua Giảng Đường. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Giữ thế trận đơn giản: chuẩn bị, tấn công và hồi phục. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.flame.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Đốm Lửa Chưa Tàn · Bên hành lang",
+    "teamId": "academy.flame",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Ignis chỉ lên huy hiệu đội. “Đốm Lửa Chưa Tàn. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Công kích diện rộng dưới sự hỗ trợ của đồng đội. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.dusk.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Mực Tím Cuối Ngày · Bên hành lang",
+    "teamId": "academy.dusk",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Vera chỉ lên huy hiệu đội. “Mực Tím Cuối Ngày. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Giảm phòng thủ, giữ tài nguyên để tấn công trở lại. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.lanterns.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Ngọn Đèn Nhỏ · Bên hành lang",
+    "teamId": "academy.lanterns",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Arlen chỉ lên huy hiệu đội. “Những Ngọn Đèn Nhỏ. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Đội học viên phối hợp công kích và bảo hộ. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.paper_wings.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Cánh Giấy · Bên hành lang",
+    "teamId": "academy.paper_wings",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Flora chỉ lên huy hiệu đội. “Cánh Giấy. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Đội học viên phối hợp công kích và bảo hộ. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.morning_bell.greeting",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Chuông Sớm · Bên hành lang",
+    "teamId": "academy.morning_bell",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Dorian chỉ lên huy hiệu đội. “Chuông Sớm. Nhớ tên nhé. Bọn tôi đã tập bài này cả tháng rồi.”",
+      "Đội học viên phối hợp công kích và bảo hộ. Trước khi rời đi, các học viên xúm lại kiểm tra dụng cụ thêm một lần."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.old_friend.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Nhịp Gió Đồng Quê · Gặp lại",
+    "teamId": "academy.old_friend",
+    "trigger": "meet",
+    "audience": "requires_character",
+    "requiresCharacterId": "luka",
+    "paragraphs": [
+      "“Nhịp đó vẫn chưa đổi à?” Niall gõ hai tiếng lên lan can. Luka quay phắt lại, rồi bật cười trước khi kịp trả lời.",
+      "“Cậu cũng vào học viện?” Luka bước tới. Niall đẩy tấm thẻ đăng ký về phía cậu. “Vào giải nữa. Đọc tên đội cho kỹ. Lần này tớ không đứng ngoài đếm nhịp cho cậu đâu.”",
+      "Charlotte ghé nhìn tấm thẻ. “Tốt. Có người biết cậu ấy trước khi cậu ấy tự nhận làm vai chính.” Niall nhướng mày; Luka vội chen vào giới thiệu."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.old_friend.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Nhịp Gió Đồng Quê · Trước khi ra sân",
+    "teamId": "academy.old_friend",
+    "trigger": "before_match",
+    "audience": "requires_character",
+    "requiresCharacterId": "luka",
+    "paragraphs": [
+      "Niall đứng cạnh cửa sân. “Ngày trước cậu luôn đòi làm người mở màn.” Luka giơ tay: “Hôm nay phải hỏi đội trước đã.”",
+      "“Vậy tớ chờ câu trả lời của cả đội.” Niall quay về chỗ các đồng đội, không xin một lời hứa nhường tay."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.old_friend.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Nhịp Gió Đồng Quê · Sau trận thắng",
+    "teamId": "academy.old_friend",
+    "trigger": "after_win",
+    "audience": "requires_character",
+    "requiresCharacterId": "luka",
+    "paragraphs": [
+      "Niall nhìn kết quả rồi thở dài. “Ừ. Lần này đội cậu thắng.” Luka vừa bước tới thì cậu chìa tay trước.",
+      "“Nhưng đừng chỉ nhớ tớ là thằng từng đứng sau hàng rào.” Luka bắt tay cậu. “Tớ nhớ tên đội rồi.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.old_friend.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Nhịp Gió Đồng Quê · Sau trận thua",
+    "teamId": "academy.old_friend",
+    "trigger": "after_loss",
+    "audience": "requires_character",
+    "requiresCharacterId": "luka",
+    "paragraphs": [
+      "Niall giữ tấm bảng kết quả nghiêng cho Luka nhìn. “Giờ cậu đọc đúng tên đội tớ chưa?”",
+      "Luka nhăn mặt rồi đọc rõ từng chữ. Niall bật cười, nhưng không nói rằng trận thắng của mình chỉ là may mắn. “Gặp lại bên sân tập nhé.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.rival.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dấu Phẩy Cuối Bài · Gặp lại",
+    "teamId": "academy.rival",
+    "trigger": "meet",
+    "audience": "requires_character",
+    "requiresCharacterId": "charlotte",
+    "paragraphs": [
+      "Celine dừng trước cuốn sổ của Charlotte. “Lại ghi tên Luka ở đầu trang à?” Charlotte lập tức gấp sổ. “Đó là thứ tự cần sửa, không phải thứ tự giỏi nhất.”",
+      "“Vậy lần này cho tôi thấy phần của cậu.” Celine đặt lịch thi đấu xuống cạnh cuốn sổ, rồi quay đi. Charlotte mở lại trang giấy, gạch đậm tên mình."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.rival.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dấu Phẩy Cuối Bài · Trước khi ra sân",
+    "teamId": "academy.rival",
+    "trigger": "before_match",
+    "audience": "requires_character",
+    "requiresCharacterId": "charlotte",
+    "paragraphs": [
+      "Celine chỉnh lại tay áo. “Tôi đã chuẩn bị cho cả đội của cậu.” Charlotte đáp ngay: “Tốt. Tôi không định đứng phía sau ai.”",
+      "Clark nhắc giờ vào sân. Charlotte cất sổ nhưng vẫn nhìn Celine thêm một nhịp."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.rival.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dấu Phẩy Cuối Bài · Sau trận thắng",
+    "teamId": "academy.rival",
+    "trigger": "after_win",
+    "audience": "requires_character",
+    "requiresCharacterId": "charlotte",
+    "paragraphs": [
+      "“Tôi sẽ phải sửa bài,” Celine nói khi nhìn kết quả. Charlotte không giấu được nụ cười. “Nhớ ghi đủ tên người làm cậu phải sửa.”",
+      "Celine nhìn thẳng cô. “Tôi có ghi.” Charlotte thôi định nói thêm; cô giữ nguyên nụ cười ấy khi về chỗ đội."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.rival.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dấu Phẩy Cuối Bài · Sau trận thua",
+    "teamId": "academy.rival",
+    "trigger": "after_loss",
+    "audience": "requires_character",
+    "requiresCharacterId": "charlotte",
+    "paragraphs": [
+      "Celine chạm ngón tay lên lịch thi đấu. “Một kết quả. Không phải kết luận về cả năm học.”",
+      "Charlotte nhận lại cuốn sổ Clark vừa nhặt hộ. “Tôi biết. Và tôi chưa viết xong.” Lần này cô ghi lỗi của mình trước khi nhắc đến Luka."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.friction.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Tàn Lửa Trong Xưởng · Gặp lại",
+    "teamId": "academy.friction",
+    "trigger": "meet",
+    "audience": "requires_character",
+    "requiresCharacterId": "gairyu",
+    "paragraphs": [
+      "Brenan thấy Gairyu thì kéo thùng dụng cụ sang một bên. “Ở đây cũng có đồ dùng chung đấy.”",
+      "“Tôi chưa đụng vào.” Gairyu cau mặt. Brenan đáp: “Buổi trước cậu cũng nói thế trước khi đốt.” Clark đứng lại kiểm tra tem dụng cụ, không cười theo câu nói của ai."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.friction.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Tàn Lửa Trong Xưởng · Trước khi ra sân",
+    "teamId": "academy.friction",
+    "trigger": "before_match",
+    "audience": "requires_character",
+    "requiresCharacterId": "gairyu",
+    "paragraphs": [
+      "“Trên sân tôi sẽ không né chỉ vì cậu hét to,” Brenan nói. Gairyu kéo chặt găng. “Vậy đừng đứng sai chỗ.”",
+      "Clark chặn câu tiếp theo: “Hai người biết vạch sân ở đâu rồi. Để trọng tài gọi bắt đầu.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.friction.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Tàn Lửa Trong Xưởng · Sau trận thắng",
+    "teamId": "academy.friction",
+    "trigger": "after_win",
+    "audience": "requires_character",
+    "requiresCharacterId": "gairyu",
+    "paragraphs": [
+      "Brenan thu dụng cụ, kiểm từng chiếc rồi mới ngẩng lên. “Đội cậu thắng. Còn chuyện ở xưởng, tôi vẫn chờ cậu nói rõ.”",
+      "Gairyu hít một hơi như sắp cãi, nhưng chỉ đáp: “Sau giải. Tôi có mặt.” Clark không trả lời thay cậu."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.friction.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Tàn Lửa Trong Xưởng · Sau trận thua",
+    "teamId": "academy.friction",
+    "trigger": "after_loss",
+    "audience": "requires_character",
+    "requiresCharacterId": "gairyu",
+    "paragraphs": [
+      "Brenan không chế giễu khi kết quả được công bố. “Tôi muốn thắng một trận đàng hoàng. Chỉ thế.”",
+      "Gairyu giật chiếc găng khỏi tay còn lại. “Cậu thắng rồi. Tôi thấy.” Cậu quay đi trước, nhưng không đá vào thùng dụng cụ đặt bên lối ra."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.spotlight.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Phía Sau Tấm Màn · Gặp lại",
+    "teamId": "academy.spotlight",
+    "trigger": "meet",
+    "audience": "requires_character",
+    "requiresCharacterId": "ariel",
+    "paragraphs": [
+      "Một người ngoài hành lang gọi Violetta là “bạn của Ariel”. Cô dừng lại: “Violetta. Và kia là đội tôi.”",
+      "Ariel lặp lại tên cả đội cho người ấy nghe. Violetta nhìn cô rồi gật đầu. “Cảm ơn. Lần lên sân này tôi muốn họ tự nhớ.” Mariel nhìn tấm huy hiệu, nhẩm lại tên để không gọi sai."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.spotlight.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Phía Sau Tấm Màn · Trước khi ra sân",
+    "teamId": "academy.spotlight",
+    "trigger": "before_match",
+    "audience": "requires_character",
+    "requiresCharacterId": "ariel",
+    "paragraphs": [
+      "Violetta chỉnh dải buộc tóc. “Hôm nay tôi không đứng sau tấm màn.” Ariel đáp: “Tớ biết cậu đã tập đến đâu.”",
+      "“Vậy đừng giới thiệu hộ tớ nữa. Xem đi.” Violetta bước về phía đội mình. Ariel hạ bàn tay vừa định vẫy."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.spotlight.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Phía Sau Tấm Màn · Sau trận thắng",
+    "teamId": "academy.spotlight",
+    "trigger": "after_win",
+    "audience": "requires_character",
+    "requiresCharacterId": "ariel",
+    "paragraphs": [
+      "Violetta cúi chào khán đài trước khi rời sân. Ariel chờ cô đi ngang mới nói: “Tớ đã xem hết.”",
+      "“Thấy đoạn cuối chứ?” “Có.” Violetta thở ra, nhận khăn từ đồng đội. “Lần tới tớ sẽ làm tốt hơn đoạn đó.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.spotlight.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Phía Sau Tấm Màn · Sau trận thua",
+    "teamId": "academy.spotlight",
+    "trigger": "after_loss",
+    "audience": "requires_character",
+    "requiresCharacterId": "ariel",
+    "paragraphs": [
+      "Violetta nghe gọi tên đội mình, nhìn lên rồi cười rất nhanh. Ariel vỗ tay từ chỗ nghỉ.",
+      "Mariel định an ủi Ariel nhưng cô lắc đầu: “Đội họ vừa đánh rất tốt.” Violetta bắt gặp ánh mắt ấy, nâng tay đáp lại bằng đúng lời chào đã tập từ ngày trước."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_rotary.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Sợi Chỉ Chưa Buộc",
+    "teamId": "academy.named_rotary",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Rotary khép cuốn sổ. “Đừng lo. Hôm nay tôi chỉ thử những thứ trọng tài cho phép.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_rotary.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Sợi Chỉ Chưa Buộc",
+    "teamId": "academy.named_rotary",
+    "trigger": "before_match",
+    "audience": "any",
+    "paragraphs": [
+      "Rotary nhìn về sân. “Tôi muốn xem các cậu xử lý một lượt không thuộc nhịp quen của mình thế nào.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_rotary.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Sợi Chỉ Chưa Buộc",
+    "teamId": "academy.named_rotary",
+    "trigger": "after_win",
+    "audience": "any",
+    "paragraphs": [
+      "“Có chỗ tôi cần ghi lại.” Rotary không đòi sửa kết quả, chỉ mở sổ ngay ở lề trang."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_rotary.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Sợi Chỉ Chưa Buộc",
+    "teamId": "academy.named_rotary",
+    "trigger": "after_loss",
+    "audience": "any",
+    "paragraphs": [
+      "Rotary buộc lại sợi chỉ trên cổ tay. “Thấy điểm nối chưa? Tìm được nó thì lần tới sẽ khác.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_monica.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Phút Trước Tiếng Chuông",
+    "teamId": "academy.named_monica",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Monica kiểm giờ rồi cất đồng hồ. “Các cậu còn đủ thời gian chuẩn bị. Tôi không lấy mất phần đó.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_monica.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Phút Trước Tiếng Chuông",
+    "teamId": "academy.named_monica",
+    "trigger": "before_match",
+    "audience": "any",
+    "paragraphs": [
+      "“Tôi sẽ đợi hiệu lệnh.” Monica nhìn trọng tài, không nhìn đồng hồ nữa."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_monica.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Phút Trước Tiếng Chuông",
+    "teamId": "academy.named_monica",
+    "trigger": "after_win",
+    "audience": "any",
+    "paragraphs": [
+      "Monica gật đầu trước kết quả. “Các cậu đã giữ được nhịp của mình.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_monica.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Một Phút Trước Tiếng Chuông",
+    "teamId": "academy.named_monica",
+    "trigger": "after_loss",
+    "audience": "any",
+    "paragraphs": [
+      "“Hôm nay tôi đi trước.” Monica nhường lối ra sân. “Nhưng giờ nghỉ vẫn còn. Đừng vội.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_lumine.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Điều Lệ Viết Bằng Mực",
+    "teamId": "academy.named_lumine",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Lumine đưa lại tờ đăng ký đã kiểm. “Trên sân tôi cũng là người dự thi. Có thắc mắc về điều lệ thì hỏi trước nhé.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_lumine.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Điều Lệ Viết Bằng Mực",
+    "teamId": "academy.named_lumine",
+    "trigger": "before_match",
+    "audience": "any",
+    "paragraphs": [
+      "Lumine kéo thẳng găng. “Tôi đã làm xong việc bàn giấy. Bây giờ đến phần thi đấu.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_lumine.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Điều Lệ Viết Bằng Mực",
+    "teamId": "academy.named_lumine",
+    "trigger": "after_win",
+    "audience": "any",
+    "paragraphs": [
+      "“Kết quả được ghi nhận.” Lumine ký tên vào bảng rồi mỉm cười. “Và xin chúc mừng đội các cậu.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_lumine.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Điều Lệ Viết Bằng Mực",
+    "teamId": "academy.named_lumine",
+    "trigger": "after_loss",
+    "audience": "any",
+    "paragraphs": [
+      "Lumine không nói đến chức vụ của mình khi nhận kết quả. “Một trận thắng cho đội tôi. Các cậu còn cần kiểm tra gì không?”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_eri.meet",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Màu Đất Trên Đầu Cọ",
+    "teamId": "academy.named_eri",
+    "trigger": "meet",
+    "audience": "any",
+    "paragraphs": [
+      "Eri nhường chỗ trên ghế, giữ đầu cọ cách xa áo người vừa đi ngang. “Màu chưa khô. Cẩn thận nhé.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_eri.before_match",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Màu Đất Trên Đầu Cọ",
+    "teamId": "academy.named_eri",
+    "trigger": "before_match",
+    "audience": "any",
+    "paragraphs": [
+      "Eri nhìn đường biên sân như đo một khoảng giấy. “Tôi đã chọn được nét đầu tiên.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_eri.after_win",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Màu Đất Trên Đầu Cọ",
+    "teamId": "academy.named_eri",
+    "trigger": "after_win",
+    "audience": "any",
+    "paragraphs": [
+      "Eri ngồi xuống, vẽ lại một đường vừa bỏ lỡ. “Chưa đúng rồi. Tôi sẽ giữ bản này để nhớ.”"
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_eri.after_loss",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Màu Đất Trên Đầu Cọ",
+    "teamId": "academy.named_eri",
+    "trigger": "after_loss",
+    "audience": "any",
+    "paragraphs": [
+      "“Lần này màu đã vào đúng chỗ.” Eri rửa cọ, không vẽ đè lên tên đội đối phương trên bảng kết quả."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.old_friend.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Những Nhịp Gió Đồng Quê · Rời sân",
+    "teamId": "academy.old_friend",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Niall gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.rival.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Dấu Phẩy Cuối Bài · Rời sân",
+    "teamId": "academy.rival",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Celine gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.friction.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Tàn Lửa Trong Xưởng · Rời sân",
+    "teamId": "academy.friction",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Brenan gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.spotlight.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Phía Sau Tấm Màn · Rời sân",
+    "teamId": "academy.spotlight",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Violetta gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_rotary.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Đội Rotary · Rời sân",
+    "teamId": "academy.named_rotary",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Rotary gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_monica.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Đội Monica · Rời sân",
+    "teamId": "academy.named_monica",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Monica gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_lumine.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Đội Lumine · Rời sân",
+    "teamId": "academy.named_lumine",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Lumine gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.named_eri.farewell",
+    "tournamentId": "academy_tournament",
+    "phase": "interval",
+    "name": "Đội Shimoe Eri · Rời sân",
+    "teamId": "academy.named_eri",
+    "trigger": "eliminated_elsewhere",
+    "audience": "any",
+    "paragraphs": [
+      "Shimoe Eri gấp lịch thi đấu lại. “Đội tôi dừng ở đây. Bọn tôi sẽ ở khán đài xem những trận còn lại.”",
+      "Một người trong đội kéo ghế lại ngay ngắn, người còn lại mang túi dụng cụ đi trước. Lối ra sân nhường cho những cái tên vừa được gọi."
+    ],
+    "draft": false
+  },
+  {
+    "id": "academy.custom_registration",
+    "tournamentId": "academy_tournament",
+    "phase": "registration",
+    "name": "Một Tên Đội Mới",
+    "paragraphs": [
+      "Tấm thẻ đăng ký được đặt lên bàn. Dưới cái tên vừa chọn là sáu cái tên sẽ cùng đi hết mùa giải.",
+      "Người phụ trách kiểm lại danh sách rồi đóng dấu. Từ lúc này, các vị trí trên sân có thể đổi, nhưng sáu người đã đăng ký sẽ không thay."
+    ],
+    "draft": false
   }
 ]

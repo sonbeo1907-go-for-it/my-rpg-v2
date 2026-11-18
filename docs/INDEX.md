@@ -196,3 +196,7 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Phiên/lịch/mô phỏng giải học viện](ACADEMY_TOURNAMENT_SESSION.md)
 
 - [Tỷ thí học viện — combat và UI](ACADEMY_TOURNAMENT_COMBAT_UI.md)
+
+- [NPC, cảnh truyện và đăng ký đội riêng](ACADEMY_TOURNAMENT_STORIES_REGISTRATION.md)
+
+- [Shop và thử thách siêu trùm giải học viện](ACADEMY_TOURNAMENT_REWARDS_SPECIALS.md): bước7–8, Huy Hiệu/stock tuần/settlement và bốn boss hiếm.

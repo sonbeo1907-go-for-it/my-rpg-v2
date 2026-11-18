@@ -1,5 +1,8 @@
 # Authoring dữ liệu giải học viện
 
+> **Hiện trạng 18/11/2026:** Bước7–8 đã triển khai shop Huy Hiệu riêng và bốn siêu trùm hiếm. Xem [ACADEMY_TOURNAMENT_REWARDS_SPECIALS](ACADEMY_TOURNAMENT_REWARDS_SPECIALS.md) để biết luật hiện hành; phần mô tả “chưa thưởng/chưa boss” và bảng thưởng v1 bên dưới là lịch sử.
+
+
 Đọc [đặc tả v1](ACADEMY_TOURNAMENT.md) trước khi sửa. Trạng thái18/11/2026: **bước1–2**, data_only; chưa có phiên/lịch/combat/UI giải.
 
 Năm collection được index theo ID bởi assembleContent và validate cùng nguồn ở CLI/runtime. Không nhét định nghĩa giải vào `chronicles.json` hoặc `chronicleEvents.json` chỉ để hiện thẻ: hai adapter cũ chưa hiểu sessionType này.
@@ -75,3 +78,8 @@ Vẫn enabled=false/data_only. Chưa có schedule engine, áp ràng buộc cùng
 ## Cập nhật bước 4–5 — bản chơi thử
 
 Đã mở `/chronicles/academy` từ kệ sách; có combat adapter, lưu/khôi phục trận thật, chuẩn bị/trinh sát, bảng giải và kết quả/replay UI. Xem [Combat và UI giải học viện](ACADEMY_TOURNAMENT_COMBAT_UI.md). enabled=true/publication=playtest thay ghi chú data_only/chưa có UI ở các phần lịch sử. Chưa payout, hoàn thiện NPC hoặc boss hiếm.
+
+
+## Bước 6 và đăng ký sau clear — 18/11/2026
+
+Đã thêm hồ sơ/tương tác NPC,70 cảnh và journal theo kết quả. First Clear mở tên đội/roster6 từ nhân vật đã sở hữu với build tài khoản chụp cố định (gồm Thông Thạo); giữ quyền mượn7A. Đây là thay đổi mới thay các mô tả “luôn mượn6 người, không Thông Thạo” cho account mode. Xem [NPC và đăng ký](ACADEMY_TOURNAMENT_STORIES_REGISTRATION.md). Chưa payout/boss hiếm.

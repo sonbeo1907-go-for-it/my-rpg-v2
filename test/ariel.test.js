@@ -30,7 +30,7 @@ function seek(b,p){for(let n=0;n<300&&!p();n++)step(b);assert.ok(p());}
 
 test('Ariel is locked academy #113 data only and absent from every recruitment pool',()=>{
  assert.deepEqual(validateContent(content),[]);const a=content.characters.ariel,s=createGameSave(content);assert.equal(a.releaseId,113);assert.equal(a.affiliation,'magic_academy');assert.ok(a.tags.includes('class_7a'));assert.ok(!s.unlockedCharacterIds.includes(a.id));
- for(const b of Object.values(content.banners)){assert.ok(!b.characterPool.includes(a.id));assert.ok(!b.rateUpRotation?.roster.includes(a.id));assert.ok(!b.rateUpRotation?.rosterAdditions?.some(x=>x.id===a.id));}
+ for(const b of Object.values(content.banners)){assert.ok(b.characterPool.includes(a.id));assert.ok(!b.rateUpRotation?.roster.includes(a.id));assert.ok(b.rateUpRotation?.rosterAdditions?.some(x=>x.id===a.id));}
  delete s.characters.ariel;const saved=decodeGameSave(encodeGameSave(s,content),content);assert.equal(saved.characters.ariel.level,1);assert.ok(!saved.unlockedCharacterIds.includes('ariel'));
 });
 test('Rotary copies main Fire from a Sword Soul ally, never the additional Sword Soul damage element',()=>{

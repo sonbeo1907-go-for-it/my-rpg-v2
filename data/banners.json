@@ -107,7 +107,11 @@
       "nikita",
       "cyrus",
       "siesta",
-      "rotary"
+      "rotary",
+      "gairyu",
+      "ariel",
+      "charlotte",
+      "mariel"
     ],
     "gearRates": [
       {
@@ -332,6 +336,22 @@
         {
           "id": "rotary",
           "from": "2026-11-13"
+        },
+        {
+          "id": "gairyu",
+          "from": "2026-11-18"
+        },
+        {
+          "id": "ariel",
+          "from": "2026-11-18"
+        },
+        {
+          "id": "charlotte",
+          "from": "2026-11-18"
+        },
+        {
+          "id": "mariel",
+          "from": "2026-11-18"
         }
       ]
     }

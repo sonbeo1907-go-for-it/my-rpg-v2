@@ -2,7 +2,7 @@
   {
     "id": "academy_tournament",
     "schemaVersion": 2,
-    "rulesetVersion": "academy-2.0.0",
+    "rulesetVersion": "academy-3.0.0",
     "name": "Mùa Thi Đấu, Những Vì Sao Chưa Sáng",
     "bookId": "academy_tournament",
     "publication": "playtest",
@@ -20,7 +20,14 @@
       "opponentRosterSize": 4,
       "allowSubstitutionBetweenMatches": true,
       "allowEquipmentEditing": false,
-      "banPick": false
+      "banPick": false,
+      "afterFirstClear": {
+        "customTeamName": true,
+        "rosterSource": "owned_account",
+        "rosterSize": 6,
+        "lockRoster": true,
+        "snapshotBuild": true
+      }
     },
     "groupStage": {
       "labels": [
@@ -237,7 +244,66 @@
       "academy.semifinal",
       "academy.final",
       "academy.champion",
-      "academy.eliminated"
+      "academy.eliminated",
+      "academy.student_council.greeting",
+      "academy.nocturne.greeting",
+      "academy.hourglass.greeting",
+      "academy.aegis.greeting",
+      "academy.storm.greeting",
+      "academy.stargazers.greeting",
+      "academy.elements.greeting",
+      "academy.runes.greeting",
+      "academy.frost.greeting",
+      "academy.bedrock.greeting",
+      "academy.alchemy.greeting",
+      "academy.water.greeting",
+      "academy.wind.greeting",
+      "academy.flame.greeting",
+      "academy.dusk.greeting",
+      "academy.lanterns.greeting",
+      "academy.paper_wings.greeting",
+      "academy.morning_bell.greeting",
+      "academy.old_friend.meet",
+      "academy.old_friend.before_match",
+      "academy.old_friend.after_win",
+      "academy.old_friend.after_loss",
+      "academy.rival.meet",
+      "academy.rival.before_match",
+      "academy.rival.after_win",
+      "academy.rival.after_loss",
+      "academy.friction.meet",
+      "academy.friction.before_match",
+      "academy.friction.after_win",
+      "academy.friction.after_loss",
+      "academy.spotlight.meet",
+      "academy.spotlight.before_match",
+      "academy.spotlight.after_win",
+      "academy.spotlight.after_loss",
+      "academy.named_rotary.meet",
+      "academy.named_rotary.before_match",
+      "academy.named_rotary.after_win",
+      "academy.named_rotary.after_loss",
+      "academy.named_monica.meet",
+      "academy.named_monica.before_match",
+      "academy.named_monica.after_win",
+      "academy.named_monica.after_loss",
+      "academy.named_lumine.meet",
+      "academy.named_lumine.before_match",
+      "academy.named_lumine.after_win",
+      "academy.named_lumine.after_loss",
+      "academy.named_eri.meet",
+      "academy.named_eri.before_match",
+      "academy.named_eri.after_win",
+      "academy.named_eri.after_loss",
+      "academy.old_friend.farewell",
+      "academy.rival.farewell",
+      "academy.friction.farewell",
+      "academy.spotlight.farewell",
+      "academy.named_rotary.farewell",
+      "academy.named_monica.farewell",
+      "academy.named_lumine.farewell",
+      "academy.named_eri.farewell",
+      "academy.custom_registration"
     ],
     "rewardIds": [
       "academy.qualified",
@@ -380,8 +446,93 @@
         "lumine",
         "eri"
       ],
-      "publication": "design_only",
-      "configured": false
+      "publication": "playtest",
+      "configured": true,
+      "chance": 0.15,
+      "level": 40,
+      "maxPerRun": 1,
+      "rewardTokens": 100
+    },
+    "eventEconomy": {
+      "currencyName": "Huy Hiệu Học Viện",
+      "matchWin": 20
+    },
+    "eventShop": {
+      "reset": "monday_00_vietnam",
+      "offers": [
+        {
+          "id": "coins",
+          "name": "Túi Coin",
+          "field": "coins",
+          "amount": 1000,
+          "cost": 20,
+          "weeklyLimit": 20,
+          "icon": "coin"
+        },
+        {
+          "id": "fragments",
+          "name": "Vụn Prisma",
+          "field": "prismaFragments",
+          "amount": 100,
+          "cost": 30,
+          "weeklyLimit": 10,
+          "icon": "fragments"
+        },
+        {
+          "id": "pure",
+          "name": "Pure Prisma",
+          "field": "recruitmentShards",
+          "amount": 1,
+          "cost": 30,
+          "weeklyLimit": 15,
+          "icon": "prism"
+        },
+        {
+          "id": "books_blue",
+          "name": "Nhật Ký Hành Trình · Cấp Trung",
+          "field": "xpBooksBlue",
+          "amount": 3,
+          "cost": 20,
+          "weeklyLimit": 10,
+          "icon": "book"
+        },
+        {
+          "id": "books_purple",
+          "name": "Nhật Ký Hành Trình · Cấp Cao",
+          "field": "xpBooksPurple",
+          "amount": 1,
+          "cost": 20,
+          "weeklyLimit": 5,
+          "icon": "book"
+        },
+        {
+          "id": "slot_luka",
+          "name": "Ô Trang Bị · Luka",
+          "characterId": "luka",
+          "amount": 1,
+          "cost": 100,
+          "lifetimeLimit": 3,
+          "icon": "shield"
+        },
+        {
+          "id": "slot_clark",
+          "name": "Ô Trang Bị · Clark",
+          "characterId": "clark",
+          "amount": 1,
+          "cost": 100,
+          "lifetimeLimit": 3,
+          "icon": "shield"
+        },
+        {
+          "id": "original",
+          "name": "Original Prisma",
+          "field": "originalPrisma",
+          "amount": 1,
+          "cost": 200,
+          "weeklyLimit": 1,
+          "icon": "prism"
+        }
+      ]
     }
   }
 ]

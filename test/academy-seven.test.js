@@ -35,7 +35,7 @@ test('Luka #111 and Gairyu #112 are locked data-only additions, absent from all 
  assert.deepEqual(validateContent(content),[]);const s=createGameSave(content);
  for(const [id,releaseId]of [['luka',111],['gairyu',112]]){
   assert.equal(content.characters[id].releaseId,releaseId);assert.equal(content.characters[id].affiliation,'magic_academy');assert.ok(!s.unlockedCharacterIds.includes(id));
-  for(const banner of Object.values(content.banners)){assert.ok(!banner.characterPool.includes(id));assert.ok(!banner.rateUpRotation?.roster.includes(id));assert.ok(!banner.rateUpRotation?.rosterAdditions?.some(x=>x.id===id));}
+  for(const banner of Object.values(content.banners)){assert.equal(banner.characterPool.includes(id),id==='gairyu');assert.ok(!banner.rateUpRotation?.roster.includes(id));assert.equal(banner.rateUpRotation?.rosterAdditions?.some(x=>x.id===id),id==='gairyu');}
   delete s.characters[id];
  }
  const migrated=decodeGameSave(encodeGameSave(s,content),content);for(const id of ['luka','gairyu']){assert.equal(migrated.characters[id].level,1);assert.ok(!migrated.unlockedCharacterIds.includes(id));}

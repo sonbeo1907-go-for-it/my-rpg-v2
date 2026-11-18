@@ -1,5 +1,8 @@
 # Phiên giải học viện — nền bước 1–3
 
+> **Hiện trạng 18/11/2026:** Bước7–8 đã triển khai shop Huy Hiệu riêng và bốn siêu trùm hiếm. Xem [ACADEMY_TOURNAMENT_REWARDS_SPECIALS](ACADEMY_TOURNAMENT_REWARDS_SPECIALS.md) để biết luật hiện hành; phần mô tả “chưa thưởng/chưa boss” và bảng thưởng v1 bên dưới là lịch sử.
+
+
 Triển khai 18/11/2026. Đây là dịch vụ core + lưu game, chưa có UI/combat adapter. enabled=false/data_only vẫn giữ; các hàm mở phiên là API nội bộ để tích hợp/kiểm thử, không phải đường vào sự kiện đã phát hành.
 
 ## Module

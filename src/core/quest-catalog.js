@@ -9,10 +9,12 @@ export const SINISTER_UNLOCK_FLAG = 'illusion.sinister_unlocked';
 export function questUnlockFlag(encounter) {
   if(encounter?.trialId)return null;
   return encounter?.requires?.storyFlag ?? (encounterTier(encounter) === 'super' && encounter.category!=='chronicle'
+        && encounter.category!=='academy_special'
         && !encounter.travelerStory && encounter.category!=='chronicle' ? SINISTER_UNLOCK_FLAG : null);
 }
 export function isQuestUnlocked(encounter, campaign) {
   if (!encounter) return false;
+  if(encounter.category==='academy_special'){const r=campaign?.tournaments?.activeRun;return Boolean(r?.firstClearAtCreation&&!r.outcome&&['available','active'].includes(r.specialEncounter?.status)&&encounter.id==='academy_trial_'+r.specialEncounter.characterId);}
   if(encounter.category==='east_super')return eastSuperUnlocked(campaign);
   if(encounter.id==='miraebolis_superboss'&&campaign?.chronicles?.books?.book2?.finaleCleared)return true;
   if(encounter.id==='alice_superboss')return campaign?.chronicles?.aliceFirstEncounterCleared===true;
@@ -53,6 +55,7 @@ export function questCatalog(content, campaign, filters = {}) {
       const tier = encounterTier(encounter);
       const east = ['east_key','east_hunt','east_super'].includes(encounter.category);
       return isQuestUnlocked(encounter, campaign)
+        && encounter.category!=='academy_special'
         && !encounter.travelerStory
         && (category==='trial'?Boolean(encounter.trialId):!encounter.trialId&&(category==='east'?east:category === 'bounty' ? encounter.category==='bounty' : !east && encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super')))
         && (!query || encounter.name.toLocaleLowerCase('vi').includes(query))

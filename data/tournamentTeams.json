@@ -53,7 +53,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "student_council.1",
+      "department": "Khoa Thực Hành Thuật Thức",
+      "personality": "Ưu tiên phối hợp võ trang và hỗ trợ, giữ đội hình trước khi dồn sát thương.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.student_council.greeting"
+    ]
   },
   {
     "id": "academy.nocturne",
@@ -109,7 +118,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "nocturne.1",
+      "department": "Khoa Thực Hành Thuật Thức",
+      "personality": "Ưu tiên làm yếu phòng thủ rồi tăng áp lực phép Ám.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.nocturne.greeting"
+    ]
   },
   {
     "id": "academy.hourglass",
@@ -165,7 +183,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "hourglass.1",
+      "department": "Khoa Thực Hành Thuật Thức",
+      "personality": "Ưu tiên kiểm soát thứ tự lượt và che chở người gây sát thương.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.hourglass.greeting"
+    ]
   },
   {
     "id": "academy.aegis",
@@ -221,7 +248,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "aegis.1",
+      "department": "Khoa Thực Hành Thuật Thức",
+      "personality": "Ưu tiên dựng phòng tuyến trước phép thuật rồi phản kích.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.aegis.greeting"
+    ]
   },
   {
     "id": "academy.storm",
@@ -277,7 +313,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "storm.1",
+      "department": "Khoa Ứng Dụng Ma Pháp",
+      "personality": "Ưu tiên chuẩn bị hỗ trợ để tạo chuỗi công kích liên tiếp.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.storm.greeting"
+    ]
   },
   {
     "id": "academy.stargazers",
@@ -333,7 +378,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "stargazers.1",
+      "department": "Khoa Ứng Dụng Ma Pháp",
+      "personality": "Ưu tiên dùng hỗ trợ và thay đổi nhịp tấn công để tạo cửa sổ bùng nổ.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.stargazers.greeting"
+    ]
   },
   {
     "id": "academy.elements",
@@ -389,7 +443,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "elements.1",
+      "department": "Khoa Ứng Dụng Ma Pháp",
+      "personality": "Ưu tiên phối hợp nhiều hệ nguyên tố và duy trì hồi phục.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.elements.greeting"
+    ]
   },
   {
     "id": "academy.runes",
@@ -445,7 +508,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "runes.1",
+      "department": "Khoa Ứng Dụng Ma Pháp",
+      "personality": "Ưu tiên tạo lợi thế lượt và giảm phòng thủ đối phương.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.runes.greeting"
+    ]
   },
   {
     "id": "academy.frost",
@@ -501,7 +573,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "frost.1",
+      "department": "Khoa Nghiên Cứu Nguyên Tố",
+      "personality": "Ưu tiên bảo vệ người tấn công chủ lực và kiểm soát nhịp chiến đấu.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.frost.greeting"
+    ]
   },
   {
     "id": "academy.bedrock",
@@ -557,7 +638,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "bedrock.1",
+      "department": "Khoa Nghiên Cứu Nguyên Tố",
+      "personality": "Ưu tiên phòng thủ bền bỉ, chuẩn bị cho những đòn phép mạnh.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.bedrock.greeting"
+    ]
   },
   {
     "id": "academy.alchemy",
@@ -613,7 +703,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "alchemy.1",
+      "department": "Khoa Nghiên Cứu Nguyên Tố",
+      "personality": "Ưu tiên kết hợp hồi phục, tiếp năng lượng và công kích diện rộng.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.alchemy.greeting"
+    ]
   },
   {
     "id": "academy.water",
@@ -669,7 +768,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "water.1",
+      "department": "Khoa Nghiên Cứu Nguyên Tố",
+      "personality": "Ưu tiên hỗ trợ theo nhịp, kết hợp sát thương vật lí và phép.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.water.greeting"
+    ]
   },
   {
     "id": "academy.wind",
@@ -725,7 +833,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "wind.1",
+      "department": "Lớp Dự Bị Liên Khoa",
+      "personality": "Ưu tiên giữ thế trận đơn giản: chuẩn bị, tấn công và hồi phục.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.wind.greeting"
+    ]
   },
   {
     "id": "academy.flame",
@@ -781,7 +898,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "flame.1",
+      "department": "Lớp Dự Bị Liên Khoa",
+      "personality": "Ưu tiên công kích diện rộng dưới sự hỗ trợ của đồng đội.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.flame.greeting"
+    ]
   },
   {
     "id": "academy.dusk",
@@ -837,7 +963,16 @@
         }
       }
     ],
-    "narrativeRole": "filler"
+    "narrativeRole": "filler",
+    "profile": {
+      "captainId": "dusk.1",
+      "department": "Lớp Dự Bị Liên Khoa",
+      "personality": "Ưu tiên giảm phòng thủ, giữ tài nguyên để tấn công trở lại.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.dusk.greeting"
+    ]
   },
   {
     "id": "academy.class_7a",
@@ -922,7 +1057,6 @@
     "simulationRating": 110,
     "narrativeRole": "filler",
     "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
     "visual": {
       "motif": "crest",
       "palette": [
@@ -934,7 +1068,7 @@
     "members": [
       {
         "id": "lanterns.1",
-        "name": "Học viên Những Ngọn Đèn Nhỏ 1",
+        "name": "Arlen",
         "identity": {
           "kind": "original_npc",
           "npcId": "lanterns.1"
@@ -943,7 +1077,7 @@
       },
       {
         "id": "lanterns.2",
-        "name": "Học viên Những Ngọn Đèn Nhỏ 2",
+        "name": "Dessa",
         "identity": {
           "kind": "original_npc",
           "npcId": "lanterns.2"
@@ -952,7 +1086,7 @@
       },
       {
         "id": "lanterns.3",
-        "name": "Học viên Những Ngọn Đèn Nhỏ 3",
+        "name": "Orrin",
         "identity": {
           "kind": "original_npc",
           "npcId": "lanterns.3"
@@ -961,13 +1095,22 @@
       },
       {
         "id": "lanterns.4",
-        "name": "Học viên Những Ngọn Đèn Nhỏ 4",
+        "name": "Mabel",
         "identity": {
           "kind": "original_npc",
           "npcId": "lanterns.4"
         },
         "buildId": "academy.clark"
       }
+    ],
+    "profile": {
+      "captainId": "lanterns.1",
+      "department": "Khoa Thực Hành Thuật Thức",
+      "personality": "Ưu tiên đội học viên phối hợp công kích và bảo hộ.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.lanterns.greeting"
     ]
   },
   {
@@ -979,7 +1122,6 @@
     "simulationRating": 110,
     "narrativeRole": "filler",
     "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
     "visual": {
       "motif": "crest",
       "palette": [
@@ -991,7 +1133,7 @@
     "members": [
       {
         "id": "paper_wings.1",
-        "name": "Học viên Cánh Giấy 1",
+        "name": "Flora",
         "identity": {
           "kind": "original_npc",
           "npcId": "paper_wings.1"
@@ -1000,7 +1142,7 @@
       },
       {
         "id": "paper_wings.2",
-        "name": "Học viên Cánh Giấy 2",
+        "name": "Talen",
         "identity": {
           "kind": "original_npc",
           "npcId": "paper_wings.2"
@@ -1009,7 +1151,7 @@
       },
       {
         "id": "paper_wings.3",
-        "name": "Học viên Cánh Giấy 3",
+        "name": "Nessa",
         "identity": {
           "kind": "original_npc",
           "npcId": "paper_wings.3"
@@ -1018,13 +1160,22 @@
       },
       {
         "id": "paper_wings.4",
-        "name": "Học viên Cánh Giấy 4",
+        "name": "Ivor",
         "identity": {
           "kind": "original_npc",
           "npcId": "paper_wings.4"
         },
         "buildId": "academy.clark"
       }
+    ],
+    "profile": {
+      "captainId": "paper_wings.1",
+      "department": "Khoa Ứng Dụng Ma Pháp",
+      "personality": "Ưu tiên đội học viên phối hợp công kích và bảo hộ.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.paper_wings.greeting"
     ]
   },
   {
@@ -1036,7 +1187,6 @@
     "simulationRating": 110,
     "narrativeRole": "filler",
     "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1048,7 +1198,7 @@
     "members": [
       {
         "id": "morning_bell.1",
-        "name": "Học viên Chuông Sớm 1",
+        "name": "Dorian",
         "identity": {
           "kind": "original_npc",
           "npcId": "morning_bell.1"
@@ -1057,7 +1207,7 @@
       },
       {
         "id": "morning_bell.2",
-        "name": "Học viên Chuông Sớm 2",
+        "name": "Lena",
         "identity": {
           "kind": "original_npc",
           "npcId": "morning_bell.2"
@@ -1066,7 +1216,7 @@
       },
       {
         "id": "morning_bell.3",
-        "name": "Học viên Chuông Sớm 3",
+        "name": "Fenn",
         "identity": {
           "kind": "original_npc",
           "npcId": "morning_bell.3"
@@ -1075,25 +1225,33 @@
       },
       {
         "id": "morning_bell.4",
-        "name": "Học viên Chuông Sớm 4",
+        "name": "Tessa",
         "identity": {
           "kind": "original_npc",
           "npcId": "morning_bell.4"
         },
         "buildId": "academy.mariel"
       }
+    ],
+    "profile": {
+      "captainId": "morning_bell.1",
+      "department": "Lớp Dự Bị Liên Khoa",
+      "personality": "Ưu tiên đội học viên phối hợp công kích và bảo hộ.",
+      "goal": "Đem bài thực hành của đội ra thử trên sân đấu."
+    },
+    "storySceneIds": [
+      "academy.morning_bell.greeting"
     ]
   },
   {
     "id": "academy.old_friend",
     "tournamentId": "academy_tournament",
-    "name": "Đội Bạn Cũ Của Luka",
+    "name": "Những Nhịp Gió Đồng Quê",
     "controller": "ai",
     "seedPot": 3,
     "simulationRating": 150,
     "narrativeRole": "key",
-    "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
+    "description": "Muốn Luka nhìn nhận mình như một đối thủ ngang hàng, không phải người chỉ đứng cổ vũ.",
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1105,25 +1263,25 @@
     "members": [
       {
         "id": "old_friend.1",
-        "name": "Học viên Đội Bạn Cũ Của Luka 1",
+        "name": "Niall",
         "identity": {
           "kind": "original_npc",
           "npcId": "old_friend.1"
         },
-        "buildId": "academy.finmel"
+        "buildId": "academy.luka"
       },
       {
         "id": "old_friend.2",
-        "name": "Học viên Đội Bạn Cũ Của Luka 2",
+        "name": "Edda",
         "identity": {
           "kind": "original_npc",
           "npcId": "old_friend.2"
         },
-        "buildId": "academy.artesia"
+        "buildId": "academy.aurora"
       },
       {
         "id": "old_friend.3",
-        "name": "Học viên Đội Bạn Cũ Của Luka 3",
+        "name": "Cian",
         "identity": {
           "kind": "original_npc",
           "npcId": "old_friend.3"
@@ -1132,7 +1290,7 @@
       },
       {
         "id": "old_friend.4",
-        "name": "Học viên Đội Bạn Cũ Của Luka 4",
+        "name": "Maren",
         "identity": {
           "kind": "original_npc",
           "npcId": "old_friend.4"
@@ -1142,20 +1300,32 @@
     ],
     "storyRelationship": {
       "anchorCharacterId": "luka",
-      "status": "draft",
-      "summary": "Bạn cũ cùng quê Luka."
-    }
+      "status": "authored",
+      "summary": "Bạn cũ cùng quê Luka; quen nghe cậu gõ nhịp lên hàng rào làng."
+    },
+    "profile": {
+      "captainId": "old_friend.1",
+      "department": "Lớp Thực Hành Liên Khoa",
+      "personality": "Thẳng thắn, tự trọng; thân quen nhưng không muốn sống dưới cái bóng của Luka.",
+      "goal": "Muốn Luka nhìn nhận mình như một đối thủ ngang hàng, không phải người chỉ đứng cổ vũ."
+    },
+    "storySceneIds": [
+      "academy.old_friend.meet",
+      "academy.old_friend.before_match",
+      "academy.old_friend.after_win",
+      "academy.old_friend.after_loss",
+      "academy.old_friend.farewell"
+    ]
   },
   {
     "id": "academy.rival",
     "tournamentId": "academy_tournament",
-    "name": "Đội Đối Thủ Học Thuật",
+    "name": "Dấu Phẩy Cuối Bài",
     "controller": "ai",
     "seedPot": 1,
     "simulationRating": 150,
     "narrativeRole": "key",
-    "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
+    "description": "Muốn chứng minh một phương án chính xác vẫn có thể thắng những màn trình diễn ồn ào.",
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1167,57 +1337,69 @@
     "members": [
       {
         "id": "rival.1",
-        "name": "Học viên Đội Đối Thủ Học Thuật 1",
+        "name": "Celine",
         "identity": {
           "kind": "original_npc",
           "npcId": "rival.1"
         },
-        "buildId": "academy.finmel"
+        "buildId": "academy.charlotte"
       },
       {
         "id": "rival.2",
-        "name": "Học viên Đội Đối Thủ Học Thuật 2",
+        "name": "Armand",
         "identity": {
           "kind": "original_npc",
           "npcId": "rival.2"
         },
-        "buildId": "academy.artesia"
+        "buildId": "academy.finmel"
       },
       {
         "id": "rival.3",
-        "name": "Học viên Đội Đối Thủ Học Thuật 3",
+        "name": "Vera",
         "identity": {
           "kind": "original_npc",
           "npcId": "rival.3"
         },
-        "buildId": "academy.drake"
+        "buildId": "academy.artesia"
       },
       {
         "id": "rival.4",
-        "name": "Học viên Đội Đối Thủ Học Thuật 4",
+        "name": "Oswin",
         "identity": {
           "kind": "original_npc",
           "npcId": "rival.4"
         },
-        "buildId": "academy.clark"
+        "buildId": "academy.mariel"
       }
     ],
     "storyRelationship": {
       "anchorCharacterId": "charlotte",
-      "status": "draft",
-      "summary": "Quan hệ cụ thể chờ duyệt; chưa phải tiểu sử chính thức."
-    }
+      "status": "authored",
+      "summary": "Từng cạnh tranh thành tích thực hành với Charlotte."
+    },
+    "profile": {
+      "captainId": "rival.1",
+      "department": "Lớp Thực Hành Liên Khoa",
+      "personality": "Tỉ mỉ, hiếu thắng; lời nói bình tĩnh nhưng không chịu bị xem nhẹ.",
+      "goal": "Muốn chứng minh một phương án chính xác vẫn có thể thắng những màn trình diễn ồn ào."
+    },
+    "storySceneIds": [
+      "academy.rival.meet",
+      "academy.rival.before_match",
+      "academy.rival.after_win",
+      "academy.rival.after_loss",
+      "academy.rival.farewell"
+    ]
   },
   {
     "id": "academy.friction",
     "tournamentId": "academy_tournament",
-    "name": "Đội Lời Thách Đấu",
+    "name": "Tàn Lửa Trong Xưởng",
     "controller": "ai",
     "seedPot": 2,
     "simulationRating": 150,
     "narrativeRole": "key",
-    "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
+    "description": "Muốn được đối xử như một đồng đội thực hành có tiếng nói, thay vì người dọn hậu quả.",
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1229,34 +1411,34 @@
     "members": [
       {
         "id": "friction.1",
-        "name": "Học viên Đội Lời Thách Đấu 1",
+        "name": "Brenan",
         "identity": {
           "kind": "original_npc",
           "npcId": "friction.1"
         },
-        "buildId": "academy.finmel"
+        "buildId": "academy.gairyu"
       },
       {
         "id": "friction.2",
-        "name": "Học viên Đội Lời Thách Đấu 2",
+        "name": "Rosa",
         "identity": {
           "kind": "original_npc",
           "npcId": "friction.2"
         },
-        "buildId": "academy.artesia"
+        "buildId": "academy.lumine"
       },
       {
         "id": "friction.3",
-        "name": "Học viên Đội Lời Thách Đấu 3",
+        "name": "Oren",
         "identity": {
           "kind": "original_npc",
           "npcId": "friction.3"
         },
-        "buildId": "academy.drake"
+        "buildId": "academy.aurora"
       },
       {
         "id": "friction.4",
-        "name": "Học viên Đội Lời Thách Đấu 4",
+        "name": "Mina",
         "identity": {
           "kind": "original_npc",
           "npcId": "friction.4"
@@ -1266,20 +1448,32 @@
     ],
     "storyRelationship": {
       "anchorCharacterId": "gairyu",
-      "status": "draft",
-      "summary": "Quan hệ cụ thể chờ duyệt; chưa phải tiểu sử chính thức."
-    }
+      "status": "authored",
+      "summary": "Từng bất đồng với Gairyu trong buổi thực hành vì dụng cụ chung bị hỏng."
+    },
+    "profile": {
+      "captainId": "friction.1",
+      "department": "Lớp Thực Hành Liên Khoa",
+      "personality": "Thực tế, cứng đầu; không chấp nhận việc người khác làm hỏng đồ chung rồi bỏ đi.",
+      "goal": "Muốn được đối xử như một đồng đội thực hành có tiếng nói, thay vì người dọn hậu quả."
+    },
+    "storySceneIds": [
+      "academy.friction.meet",
+      "academy.friction.before_match",
+      "academy.friction.after_win",
+      "academy.friction.after_loss",
+      "academy.friction.farewell"
+    ]
   },
   {
     "id": "academy.spotlight",
     "tournamentId": "academy_tournament",
-    "name": "Đội Sau Ánh Đèn",
+    "name": "Phía Sau Tấm Màn",
     "controller": "ai",
     "seedPot": 4,
     "simulationRating": 150,
     "narrativeRole": "key",
-    "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
+    "description": "Muốn đội được khán giả nhớ bằng tên riêng.",
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1291,46 +1485,59 @@
     "members": [
       {
         "id": "spotlight.1",
-        "name": "Học viên Đội Sau Ánh Đèn 1",
+        "name": "Violetta",
         "identity": {
           "kind": "original_npc",
           "npcId": "spotlight.1"
         },
-        "buildId": "academy.finmel"
+        "buildId": "academy.ariel"
       },
       {
         "id": "spotlight.2",
-        "name": "Học viên Đội Sau Ánh Đèn 2",
+        "name": "Alden",
         "identity": {
           "kind": "original_npc",
           "npcId": "spotlight.2"
         },
-        "buildId": "academy.artesia"
+        "buildId": "academy.finmel"
       },
       {
         "id": "spotlight.3",
-        "name": "Học viên Đội Sau Ánh Đèn 3",
+        "name": "Sera",
         "identity": {
           "kind": "original_npc",
           "npcId": "spotlight.3"
         },
-        "buildId": "academy.drake"
+        "buildId": "academy.aurora"
       },
       {
         "id": "spotlight.4",
-        "name": "Học viên Đội Sau Ánh Đèn 4",
+        "name": "Tobinelle",
         "identity": {
           "kind": "original_npc",
           "npcId": "spotlight.4"
         },
-        "buildId": "academy.clark"
+        "buildId": "academy.mariel"
       }
     ],
     "storyRelationship": {
       "anchorCharacterId": "ariel",
-      "status": "draft",
-      "summary": "Quan hệ cụ thể chờ duyệt; chưa phải tiểu sử chính thức."
-    }
+      "status": "authored",
+      "summary": "Từng tập cùng Ariel trong một tiết mục học viện, không muốn mãi được giới thiệu là người đứng bên cạnh idol."
+    },
+    "profile": {
+      "captainId": "spotlight.1",
+      "department": "Lớp Thực Hành Liên Khoa",
+      "personality": "Có lòng tự trọng trong biểu diễn; muốn được gọi bằng tên mình thay vì tên người nổi tiếng đứng cạnh.",
+      "goal": "Muốn đội được khán giả nhớ bằng tên riêng."
+    },
+    "storySceneIds": [
+      "academy.spotlight.meet",
+      "academy.spotlight.before_match",
+      "academy.spotlight.after_win",
+      "academy.spotlight.after_loss",
+      "academy.spotlight.farewell"
+    ]
   },
   {
     "id": "academy.named_rotary",
@@ -1341,7 +1548,6 @@
     "simulationRating": 150,
     "narrativeRole": "key",
     "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1362,7 +1568,7 @@
       },
       {
         "id": "named_rotary.2",
-        "name": "Học viên Đội Rotary 2",
+        "name": "Nerina",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_rotary.2"
@@ -1371,7 +1577,7 @@
       },
       {
         "id": "named_rotary.3",
-        "name": "Học viên Đội Rotary 3",
+        "name": "Silas",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_rotary.3"
@@ -1380,13 +1586,26 @@
       },
       {
         "id": "named_rotary.4",
-        "name": "Học viên Đội Rotary 4",
+        "name": "Olwen",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_rotary.4"
         },
         "buildId": "academy.clark"
       }
+    ],
+    "profile": {
+      "captainId": "named_rotary.1",
+      "department": "Đội Đại Diện Học Viện",
+      "personality": "Rotary khép cuốn sổ. “Đừng lo. Hôm nay tôi chỉ thử những thứ trọng tài cho phép.”",
+      "goal": "Thử sức trong khuôn khổ tỷ thí học viện."
+    },
+    "storySceneIds": [
+      "academy.named_rotary.meet",
+      "academy.named_rotary.before_match",
+      "academy.named_rotary.after_win",
+      "academy.named_rotary.after_loss",
+      "academy.named_rotary.farewell"
     ]
   },
   {
@@ -1398,7 +1617,6 @@
     "simulationRating": 150,
     "narrativeRole": "key",
     "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1419,7 +1637,7 @@
       },
       {
         "id": "named_monica.2",
-        "name": "Học viên Đội Monica 2",
+        "name": "Corin",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_monica.2"
@@ -1428,7 +1646,7 @@
       },
       {
         "id": "named_monica.3",
-        "name": "Học viên Đội Monica 3",
+        "name": "Lyra",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_monica.3"
@@ -1437,13 +1655,26 @@
       },
       {
         "id": "named_monica.4",
-        "name": "Học viên Đội Monica 4",
+        "name": "Davin",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_monica.4"
         },
         "buildId": "academy.mariel"
       }
+    ],
+    "profile": {
+      "captainId": "named_monica.1",
+      "department": "Đội Đại Diện Học Viện",
+      "personality": "Monica kiểm giờ rồi cất đồng hồ. “Các cậu còn đủ thời gian chuẩn bị. Tôi không lấy mất phần đó.”",
+      "goal": "Thử sức trong khuôn khổ tỷ thí học viện."
+    },
+    "storySceneIds": [
+      "academy.named_monica.meet",
+      "academy.named_monica.before_match",
+      "academy.named_monica.after_win",
+      "academy.named_monica.after_loss",
+      "academy.named_monica.farewell"
     ]
   },
   {
@@ -1455,7 +1686,6 @@
     "simulationRating": 150,
     "narrativeRole": "key",
     "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1476,7 +1706,7 @@
       },
       {
         "id": "named_lumine.2",
-        "name": "Học viên Đội Lumine 2",
+        "name": "Erin",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_lumine.2"
@@ -1485,7 +1715,7 @@
       },
       {
         "id": "named_lumine.3",
-        "name": "Học viên Đội Lumine 3",
+        "name": "Aster",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_lumine.3"
@@ -1494,13 +1724,26 @@
       },
       {
         "id": "named_lumine.4",
-        "name": "Học viên Đội Lumine 4",
+        "name": "Rowen",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_lumine.4"
         },
         "buildId": "academy.clark"
       }
+    ],
+    "profile": {
+      "captainId": "named_lumine.1",
+      "department": "Đội Đại Diện Học Viện",
+      "personality": "Lumine đưa lại tờ đăng ký đã kiểm. “Trên sân tôi cũng là người dự thi. Có thắc mắc về điều lệ thì hỏi trước nhé.”",
+      "goal": "Thử sức trong khuôn khổ tỷ thí học viện."
+    },
+    "storySceneIds": [
+      "academy.named_lumine.meet",
+      "academy.named_lumine.before_match",
+      "academy.named_lumine.after_win",
+      "academy.named_lumine.after_loss",
+      "academy.named_lumine.farewell"
     ]
   },
   {
@@ -1512,7 +1755,6 @@
     "simulationRating": 150,
     "narrativeRole": "key",
     "description": "Đội học viên phối hợp công kích và bảo hộ.",
-    "draft": true,
     "visual": {
       "motif": "crest",
       "palette": [
@@ -1533,7 +1775,7 @@
       },
       {
         "id": "named_eri.2",
-        "name": "Học viên Đội Shimoe Eri 2",
+        "name": "Milla",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_eri.2"
@@ -1542,7 +1784,7 @@
       },
       {
         "id": "named_eri.3",
-        "name": "Học viên Đội Shimoe Eri 3",
+        "name": "Lucan",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_eri.3"
@@ -1551,13 +1793,26 @@
       },
       {
         "id": "named_eri.4",
-        "name": "Học viên Đội Shimoe Eri 4",
+        "name": "Faye",
         "identity": {
           "kind": "original_npc",
           "npcId": "named_eri.4"
         },
         "buildId": "academy.mariel"
       }
+    ],
+    "profile": {
+      "captainId": "named_eri.1",
+      "department": "Đội Đại Diện Học Viện",
+      "personality": "Eri nhường chỗ trên ghế, giữ đầu cọ cách xa áo người vừa đi ngang. “Màu chưa khô. Cẩn thận nhé.”",
+      "goal": "Thử sức trong khuôn khổ tỷ thí học viện."
+    },
+    "storySceneIds": [
+      "academy.named_eri.meet",
+      "academy.named_eri.before_match",
+      "academy.named_eri.after_win",
+      "academy.named_eri.after_loss",
+      "academy.named_eri.farewell"
     ]
   }
 ]

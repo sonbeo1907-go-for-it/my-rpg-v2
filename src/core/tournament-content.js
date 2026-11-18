@@ -3,7 +3,7 @@ import {normalizeLevelState,allocationSpent} from './leveling.js';
 import {skillRankCap,skillRules} from './skill-rules.js';
 import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
 
-// Definitions only. Schedule generation, run saves, battle adapters and payouts are later steps.
+// Validate live academy content; runtime snapshots retain their own ruleset.
 const record=x=>Boolean(x&&typeof x==='object'&&!Array.isArray(x));
 const text=x=>typeof x==='string'&&x.trim().length>0;
 const whole=(x,min,max)=>Number.isSafeInteger(x)&&x>=min&&x<=max;
@@ -41,10 +41,12 @@ export function validateTournamentContent(content){
    if(team.controller==='player'&&!content.characters[build.templateCharacterId]?.tags?.includes('class_7a'))fail(team.id+': player loan is not class 7A');
   }
  }
- for(const scene of Object.values(scenes))if(!tournaments[scene.tournamentId]||!['registration','opening','group_before','interval','knockout_before','ending'].includes(scene.phase)||scene.draft!==true||!Array.isArray(scene.paragraphs)||!scene.paragraphs.length||scene.paragraphs.some(p=>!text(p)))fail(scene.id+': invalid scene');
+ for(const scene of Object.values(scenes))if(!tournaments[scene.tournamentId]||!['registration','opening','group_before','interval','knockout_before','ending'].includes(scene.phase)||typeof scene.draft!=='boolean'||!Array.isArray(scene.paragraphs)||!scene.paragraphs.length||scene.paragraphs.some(p=>!text(p)))fail(scene.id+': invalid scene');
+ for(const scene of Object.values(scenes))if(scene.teamId){const team=teams[scene.teamId];if(!team||team.tournamentId!==scene.tournamentId||!includes(team.storySceneIds,scene.id)||!['meet','before_match','after_win','after_loss','eliminated_elsewhere'].includes(scene.trigger)||!['any','requires_character'].includes(scene.audience)||scene.audience==='requires_character'&&!content.characters[scene.requiresCharacterId])fail(scene.id+': invalid team story');}
+ for(const team of Object.values(teams))if(team.controller==='ai'&&(!record(team.profile)||(!Array.isArray(team.members)||!team.members.some(m=>m.id===team.profile.captainId))||!text(team.profile.department)||!text(team.profile.personality)||!text(team.profile.goal)||!unique(team.storySceneIds)||!team.storySceneIds.length||team.storySceneIds.some(id=>scenes[id]?.teamId!==team.id)))fail(team.id+': invalid NPC profile');
  for(const reward of Object.values(rewards)){
-  if(!tournaments[reward.tournamentId]||!['qualified','finalist','champion'].includes(reward.trigger)||reward.scope!=='first_ever'||!Array.isArray(reward.rewards)||!reward.rewards.length){fail(reward.id+': invalid reward milestone');continue;}
-  for(const r of reward.rewards)if(!record(r)||r.type!=='currency'||!FIRST_CLEAR_CURRENCIES.includes(r.currency)||!whole(r.amount,1,100000))fail(reward.id+': invalid reward currency');
+  if(!tournaments[reward.tournamentId]||!['qualified','finalist','champion'].includes(reward.trigger)||reward.scope!=='per_run'||reward.currency!=='academyTokens'||reward.rewards!==undefined||!whole(reward.amount,1,100000)){fail(reward.id+': invalid reward milestone');continue;}
+
  }
  for(const d of Object.values(tournaments)){
   if(d.schemaVersion!==2||!/^academy-\d+\.\d+\.\d+$/.test(d.rulesetVersion)||!text(d.bookId)||content.chronicles?.[d.bookId]||!((d.publication==='data_only'&&d.enabled===false)||(d.publication==='playtest'&&d.enabled===true))||!text(d.description))fail(d.id+': unpublished definition required');
@@ -56,11 +58,14 @@ export function validateTournamentContent(content){
   else for(const buildId of new Set(members.flatMap(t=>t.members??[]).map(m=>m?.buildId))){const b=builds[buildId];if(!b)continue;
    if(b.level!==normalization.level||b.skillRank!==normalization.skillRank||b.basicRank!==normalization.basicRank||b.duplicateCount!==normalization.duplicateCount||!Array.isArray(b.equipment)||b.equipment.length!==normalization.gearSlots||b.equipment.some(g=>!normalization.allowedGearTypes.includes(g?.typeId))||!record(b.allocations)||Object.keys(b.allocations).some(key=>!Object.hasOwn(content.progressionRules.default.allocations,key))||allocationSpent(content,b.allocations)!==b.level-1)fail(d.id+': build differs from common normalization '+buildId);
   }
+  const ec=d.eventEconomy,shop=d.eventShop,fields=['coins','prismaFragments','recruitmentShards','originalPrisma','xpBooksBlue','xpBooksPurple'];
+  if(!record(ec)||!text(ec.currencyName)||!whole(ec.matchWin,1,10000)||!record(shop)||shop.reset!=='monday_00_vietnam'||!Array.isArray(shop.offers)||!shop.offers.length||new Set(shop.offers.map(o=>o.id)).size!==shop.offers.length||shop.offers.some(o=>!text(o.id)||!text(o.name)||!(fields.includes(o.field)||['luka','clark'].includes(o.characterId))||!whole(o.amount,1,100000)||!whole(o.cost,1,100000)||!(o.characterId?o.lifetimeLimit===3&&o.weeklyLimit===undefined:whole(o.weeklyLimit,1,999))))fail(d.id+': invalid event shop');
   const entry=d.entry,reg=d.registration,g=d.groupStage;
   if(!record(entry)||entry.requiresOwnership!==false||entry.fee!==0||!same(entry.requires,[]))fail(d.id+': entry must not require ownership/payment');
   if(!record(reg)||reg.activeSize!==4||reg.playerRosterSize!==6||reg.opponentRosterSize!==4||reg.allowSubstitutionBetweenMatches!==true||reg.allowEquipmentEditing!==false||reg.banPick!==false)fail(d.id+': invalid registration');
   if(!record(g)||!same(g.labels,['A','B','C','D'])||g.size!==4||g.qualifiersPerGroup!==2||g.format!=='single_round_robin'||g.rounds!==3||!same(g.points,{win:3,loss:0})||!same(g.tiebreakers,['head_to_head','survivor_difference','playoff'])||g.aiResultsReveal!=='after_player_result_committed'||g.regularMatchCount!==24)fail(d.id+': invalid group rules');
   if(!record(g?.draw)||g.draw.method!=='seeded_pots'||g.draw.pots!==4||g.draw.teamsPerPot!==4||g.draw.labelPlayerGroupA!==true)fail(d.id+': invalid draw');
+  if(!same(reg?.afterFirstClear,{customTeamName:true,rosterSource:'owned_account',rosterSize:6,lockRoster:true,snapshotBuild:true}))fail(d.id+': invalid post-clear registration');
   validateBracket(d,fail);
   const sim=d.simulation,c=d.combat,retry=d.retry,replay=d.replay;
   if(!record(sim)||sim.method!=='rating_and_composition'||!Number.isFinite(sim.maxUpsetInfluence)||sim.maxUpsetInfluence<0||sim.maxUpsetInfluence>.25||!same(sim.rngStreams,['draw','simulation','combat','encounter'])||sim.commitOnce!==true)fail(d.id+': invalid simulation');
@@ -81,6 +86,8 @@ export function validateTournamentContent(content){
  }
  for(const team of Object.values(teams))if(!includes(tournaments[team.tournamentId]?.candidateTeamIds,team.id))fail(team.id+': orphan team');
  for(const scene of Object.values(scenes))if(!includes(tournaments[scene.tournamentId]?.sceneIds,scene.id))fail(scene.id+': orphan scene');
+ for(const scene of Object.values(scenes))if(scene.teamId){const team=teams[scene.teamId];if(!team||team.tournamentId!==scene.tournamentId||!includes(team.storySceneIds,scene.id)||!['meet','before_match','after_win','after_loss','eliminated_elsewhere'].includes(scene.trigger)||!['any','requires_character'].includes(scene.audience)||scene.audience==='requires_character'&&!content.characters[scene.requiresCharacterId])fail(scene.id+': invalid team story');}
+ for(const team of Object.values(teams))if(team.controller==='ai'&&(!record(team.profile)||(!Array.isArray(team.members)||!team.members.some(m=>m.id===team.profile.captainId))||!text(team.profile.department)||!text(team.profile.personality)||!text(team.profile.goal)||!unique(team.storySceneIds)||!team.storySceneIds.length||team.storySceneIds.some(id=>scenes[id]?.teamId!==team.id)))fail(team.id+': invalid NPC profile');
  for(const reward of Object.values(rewards))if(!includes(tournaments[reward.tournamentId]?.rewardIds,reward.id))fail(reward.id+': orphan reward');
  return errors;
 }

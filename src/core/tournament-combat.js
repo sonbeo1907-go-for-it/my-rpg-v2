@@ -1,3 +1,4 @@
+import {checkpointAcademySpecial,academySpecialAvailable} from './academy-special.js';
 import {createBattle,executeAction,executeEnemyTurn,activeActor} from './battle.js';
 import {createGameSave} from './game-save.js';
 import {seededRandom} from './random.js';
@@ -5,8 +6,9 @@ import {characterSkillIds} from './skill-rules.js';
 import {snapshotChronicleBattle,restoreChronicleBattle} from './chronicle-combat.js';
 import {currentTournamentPlayerMatch,tournamentCombatSeed,checkpointTournament,proposeTournamentResult} from './tournament-session.js';
 function seedNumber(text){let n=2166136261;for(const c of text)n=Math.imul(n^c.charCodeAt(0),16777619);return n>>>0;}
-export function tournamentContent(content,run){return {...content,...run.snapshot.kits,characters:{...content.characters,...run.snapshot.kits.characters}};}
+export function tournamentContent(content,run){const extra=run.snapshot.specialKits??{};return {...content,...run.snapshot.kits,...Object.fromEntries(Object.entries(extra).map(([key,rows])=>[key,{...content[key],...run.snapshot.kits[key],...rows}])),characters:{...content.characters,...run.snapshot.kits.characters}};}
 export function tournamentLoanCampaign(content,run,teamId){
+ if(teamId===run.snapshot.definition.playerTeamId&&run.registration?.mode==='account'){const copy=structuredClone(run.snapshot.accountCampaign);copy.party=run.lineup.map(id=>run.snapshot.teams[teamId].members.find(m=>m.id===id).identity.characterId);copy.partyPresets[0].slots=[...copy.party];return copy;}
  const team=run.snapshot.teams[teamId],campaign=createGameSave(content),members=team.controller==='player'?run.lineup.map(id=>team.members.find(m=>m.id===id)):team.members;
  campaign.party=members.map(m=>run.snapshot.builds[m.buildId].templateCharacterId);campaign.partyPresets[0].slots=[...campaign.party];campaign.unlockedCharacterIds=[...new Set([...campaign.unlockedCharacterIds,...team.members.map(m=>run.snapshot.builds[m.buildId].templateCharacterId)])];
  for(const m of team.members){const b=run.snapshot.builds[m.buildId],id=b.templateCharacterId;Object.assign(campaign.characters[id],{level:b.level,limitBreakRank:b.limitBreakRank,allocations:structuredClone(b.allocations),upgradeIds:[],skillRanks:{basic:b.basicRank}});
@@ -15,15 +17,28 @@ export function tournamentLoanCampaign(content,run,teamId){
  }
  return campaign;
 }
-export function createTournamentBattle(content,campaign){
+export function createTournamentBattle(content,campaign,{special=false}={}){
+ if(special)return createAcademySpecialBattle(content,campaign);
  const run=campaign.tournaments?.activeRun,match=currentTournamentPlayerMatch(run);if(!match||run.pendingResult&&!run.battleCheckpoint)throw Error('Không có trận đấu chờ xuất chiến.');
  const scoped=tournamentContent(content,run);
  if(run.battleCheckpoint){const snap=run.battleCheckpoint.data;if(!snap.state||snap.matchId!==match.id)throw Error('Bản lưu trận tỷ thí không hợp lệ.');const battle=restoreChronicleBattle(scoped,snap);if(battle.tournament?.runId!==run.runId||battle.tournament.matchId!==match.id||battle.actors.length!==8||battle.actors.some(a=>!a.id.startsWith(run.runId+':')||!Number.isFinite(a.hp)||a.hp<0||!scoped.characters[a.definitionId]))throw Error('Không thể khôi phục trận tỷ thí.');return battle;}
- const player=run.snapshot.definition.playerTeamId,enemy=match.teams.find(id=>id!==player),tournament={runId:run.runId,matchId:match.id,playerTeamId:player,enemyTeamId:enemy,maxMainRounds:run.snapshot.definition.combat.maxMainRounds,directHpDamage:{party:0,enemy:0}};
+ const player=run.snapshot.definition.playerTeamId,enemy=match.teams.find(id=>id!==player),tournament={runId:run.runId,matchId:match.id,playerTeamId:player,enemyTeamId:enemy,accountBuild:run.registration?.mode==='account',maxMainRounds:run.snapshot.definition.combat.maxMainRounds,directHpDamage:{party:0,enemy:0}};
  const b=createBattle(scoped,tournamentLoanCampaign(scoped,run,player),'forest_patrol',seededRandom(seedNumber(tournamentCombatSeed(run,match.id))),{opponentCampaign:tournamentLoanCampaign(scoped,run,enemy),tournament,unitIdPrefix:run.runId+':'});
  for(const a of b.actors){const t=run.snapshot.teams[a.team==='party'?player:enemy],m=t.members.find(m=>run.snapshot.builds[m.buildId].templateCharacterId===a.definitionId);a.name=m.name;a.characterName=m.name;}
  b.log=['— Tỷ thí học viện · Vòng Chính 1 —'];return b;
 }
-export function saveTournamentBattle(campaign,battle){const run=campaign.tournaments.activeRun,args={runId:run.runId,revision:campaign.tournaments.revision,matchId:battle.tournament.matchId};const data={...snapshotChronicleBattle(battle),matchId:args.matchId};let next=checkpointTournament(campaign,{...args,checkpoint:data});
+export function saveTournamentBattle(campaign,battle){if(battle.tournament?.specialEncounter)return checkpointAcademySpecial(campaign,{runId:battle.tournament.runId,revision:campaign.tournaments.revision,checkpoint:snapshotChronicleBattle(battle),outcome:battle.outcome});const run=campaign.tournaments.activeRun,args={runId:run.runId,revision:campaign.tournaments.revision,matchId:battle.tournament.matchId};const data={...snapshotChronicleBattle(battle),matchId:args.matchId};let next=checkpointTournament(campaign,{...args,checkpoint:data});
  if(battle.outcome){const player=run.snapshot.definition.playerTeamId,winnerId=battle.outcome==='victory'?player:battle.tournament.enemyTeamId,match=run.fixtures.find(m=>m.id===args.matchId),survivors=match.teams.map(id=>battle.actors.filter(a=>a.team===(id===player?'party':'enemy')&&a.hp>0).length);next=proposeTournamentResult(next,{...args,revision:next.tournaments.revision,winnerId,survivors});}return next;}
-export function stepTournamentBattle(content,campaign,command){const b=createTournamentBattle(content,campaign);if(activeActor(b)?.team==='enemy')executeEnemyTurn(b);else if(command)executeAction(b,command);else throw Error('Hãy chọn kỹ năng.');return {battle:b,campaign:saveTournamentBattle(campaign,b)};}
+export function stepTournamentBattle(content,campaign,command,{special=false}={}){const b=createTournamentBattle(content,campaign,{special});if(activeActor(b)?.team==='enemy')executeEnemyTurn(b);else if(command)executeAction(b,command);else throw Error('Hãy chọn kỹ năng.');return {battle:b,campaign:saveTournamentBattle(campaign,b)};}
+
+export function createAcademySpecialBattle(content,campaign){
+ const run=campaign.tournaments?.activeRun,e=run?.specialEncounter;
+ if(!academySpecialAvailable(run)||run.battleCheckpoint||run.pendingResult)throw Error('Thử thách đặc biệt chưa sẵn sàng.');
+ const scoped=tournamentContent(content,run),id='academy_trial_'+e.characterId;scoped.encounters[id]={...scoped.encounters[id],enemyLevel:run.snapshot.definition.specialEncounters.level};
+ if(e.checkpoint){const b=restoreChronicleBattle(scoped,e.checkpoint);if(b.encounterId!==id||b.tournament?.runId!==run.runId||!b.tournament.specialEncounter||b.actors.length!==5||b.actors.some(a=>!Number.isFinite(a.hp)||a.hp<0||!(a.team==='party'?scoped.characters:scoped.enemies)[a.definitionId]))throw Error('Bản lưu thử thách không hợp lệ.');return b;}
+ const player=run.snapshot.definition.playerTeamId,tournament={runId:run.runId,matchId:id,specialEncounter:true,playerTeamId:player,enemyTeamId:id,maxMainRounds:60,directHpDamage:{party:0,enemy:0}};
+ const loan=tournamentLoanCampaign(scoped,run,player);loan.tournaments=campaign.tournaments;
+ const b=createBattle(scoped,loan,id,seededRandom(seedNumber(run.seeds.encounter+':battle:'+e.characterId)),{tournament});
+ if(run.registration?.mode!=='account')for(const a of b.actors.filter(a=>a.team==='party'))a.masteryDisabled=true;
+ b.log=['— Thử thách đặc biệt · '+scoped.encounters[id].name+' —'];return b;
+}

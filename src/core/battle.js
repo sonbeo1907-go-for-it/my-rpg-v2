@@ -179,7 +179,7 @@ export function createBattle(
       );
     })),
   ];
-  if(opponent||options.pvpRules)for(const actor of actors){actor.masteryDisabled=true;actor.skillRanks=Object.fromEntries(Object.entries(actor.skillRanks??{}).map(([key,rank])=>[key,Math.min(5,rank)]));}
+  if(opponent&&!options.tournament?.accountBuild||options.pvpRules)for(const actor of actors){actor.masteryDisabled=true;actor.skillRanks=Object.fromEntries(Object.entries(actor.skillRanks??{}).map(([key,rank])=>[key,Math.min(5,rank)]));}
   if(opponent)for(const actor of actors){
     actor.actorKind='character';actor.characterId=actor.definitionId;actor.characterName=actor.name;if(actor.team==='enemy')actor.name+=' (đối thủ)';
     actor.formationSlot=(actor.team==='party'?campaign:opponent).party.indexOf(actor.characterId);
@@ -2532,7 +2532,7 @@ export function planArenaEnemyTurn(battle){
 export function executeEnemyTurn(battle,plannedCommand) {
   const actor = activeActor(battle);
   if (!actor || actor.team !== "enemy") return;
-  if(battle.arena||battle.tournament){
+  if(battle.arena||battle.tournament&&!battle.tournament.specialEncounter){
     const command=plannedCommand??planArenaEnemyTurn(battle);
     executeAction(battle,command);
     emitEvent(battle,{type:'arena_ai_decision',sourceId:actor.id,abilityId:command.abilityId,targetId:command.targetId,reason:command.aiReason,score:command.aiScore});

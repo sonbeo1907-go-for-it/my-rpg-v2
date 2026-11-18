@@ -1,5 +1,8 @@
 # Tỷ thí học viện — combat và giao diện bản chơi thử
 
+> **Hiện trạng 18/11/2026:** Bước7–8 đã triển khai shop Huy Hiệu riêng và bốn siêu trùm hiếm. Xem [ACADEMY_TOURNAMENT_REWARDS_SPECIALS](ACADEMY_TOURNAMENT_REWARDS_SPECIALS.md) để biết luật hiện hành; phần mô tả “chưa thưởng/chưa boss” và bảng thưởng v1 bên dưới là lịch sử.
+
+
 Triển khai bước 4–5 ngày 18/11/2026. Route `/chronicles/academy`, mở từ thẻ riêng trên kệ Biên Niên Ký. Definition enabled=true/publication=playtest. Không phải Arena; không cần sở hữu 7A. Nội dung đối thủ/quan hệ vẫn nháp, chưa có payout, boss hiếm hay cảnh đối thủ đầy đủ (các bước sau).
 
 ## Combat adapter
@@ -29,3 +32,8 @@ Test engine qua createBattle/executeAction thực, hai phe, save envelope, RNG, 
 ## Còn lại
 
 Hoàn thiện nội dung/quan hệ NPC, cảnh phản ứng kết quả, cân bằng build và simulation, payout/milestones, encounter đặc biệt. Boss hiếm vẫn configured=false. Bản chơi thử không phải nghiệm thu các nội dung chưa triển khai đó.
+
+
+## Bước 6 và đăng ký sau clear — 18/11/2026
+
+Đã thêm hồ sơ/tương tác NPC,70 cảnh và journal theo kết quả. First Clear mở tên đội/roster6 từ nhân vật đã sở hữu với build tài khoản chụp cố định (gồm Thông Thạo); giữ quyền mượn7A. Đây là thay đổi mới thay các mô tả “luôn mượn6 người, không Thông Thạo” cho account mode. Xem [NPC và đăng ký](ACADEMY_TOURNAMENT_STORIES_REGISTRATION.md). Chưa payout/boss hiếm.

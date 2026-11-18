@@ -496,7 +496,7 @@ export function validateContent(content) {
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1 && encounter.bossEncounter?.type!=='linked_bosses') fail(`${id}: scripted boss requires a solo encounter`);
     if(encounter.rewardTier==='super'&&encounter.enemies?.length===1){const boss=content.enemies[encounter.enemies[0]];if(boss&&!boss.boss&&!boss.controlImmunities?.includes('stun'))fail(id+': superboss requires stun immunity');}
     exists('music', encounter.bgm ?? 'normal', id);
-    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt','east_super','trial'].includes(encounter.category)) fail(id+': invalid quest category');
+    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt','east_super','trial','academy_special'].includes(encounter.category)) fail(id+': invalid quest category');
     if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
     if(encounter.superLevels!==undefined&&(encounter.rewardTier!=='super'||!encounter.enemies?.every(key=>content.enemies[key]?.boss||content.enemies[key]?.controlImmunities?.includes('stun'))||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');

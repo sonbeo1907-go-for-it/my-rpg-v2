@@ -1,5 +1,8 @@
 # Giải đấu học viện — đặc tả triển khai v1
 
+> **Hiện trạng 18/11/2026:** Bước7–8 đã triển khai shop Huy Hiệu riêng và bốn siêu trùm hiếm. Xem [ACADEMY_TOURNAMENT_REWARDS_SPECIALS](ACADEMY_TOURNAMENT_REWARDS_SPECIALS.md) để biết luật hiện hành; phần mô tả “chưa thưởng/chưa boss” và bảng thưởng v1 bên dưới là lịch sử.
+
+
 > Cập nhật thiết kế 18/11/2026: phân loại NPC, seed giới thiệu, First Clear và pool sau First Clear ở mục 13. Đây là giải truyện với NPC trong trường, không phải Arena. Khung JSON/validator đã đồng bộ schema 2; xem mục “Đồng bộ khung dữ liệu” cuối tài liệu để biết phần đã triển khai và phần runtime còn thiếu.
 
 Ngày18/11/2026, múi giờ Việt Nam. Tên làm việc: **Mùa Thi Đấu, Những Vì Sao Chưa Sáng**. ID nội dung và bộ luật `academy_tournament`; không tự chiếm số Quyển III của mạch truyện chính.
@@ -332,3 +335,8 @@ Vẫn enabled=false/data_only. Chưa có schedule engine, áp ràng buộc cùng
 ## Cập nhật bước 4–5 — bản chơi thử
 
 Đã mở `/chronicles/academy` từ kệ sách; có combat adapter, lưu/khôi phục trận thật, chuẩn bị/trinh sát, bảng giải và kết quả/replay UI. Xem [Combat và UI giải học viện](ACADEMY_TOURNAMENT_COMBAT_UI.md). enabled=true/publication=playtest thay ghi chú data_only/chưa có UI ở các phần lịch sử. Chưa payout, hoàn thiện NPC hoặc boss hiếm.
+
+
+## Bước 6 và đăng ký sau clear — 18/11/2026
+
+Đã thêm hồ sơ/tương tác NPC,70 cảnh và journal theo kết quả. First Clear mở tên đội/roster6 từ nhân vật đã sở hữu với build tài khoản chụp cố định (gồm Thông Thạo); giữ quyền mượn7A. Đây là thay đổi mới thay các mô tả “luôn mượn6 người, không Thông Thạo” cho account mode. Xem [NPC và đăng ký](ACADEMY_TOURNAMENT_STORIES_REGISTRATION.md). Chưa payout/boss hiếm.

@@ -763,7 +763,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
         title={
           battle.dungeon
             ? `${content.dungeons[battle.dungeon.typeId].name} · ${content.dungeons[battle.dungeon.typeId].difficulties.find((item: any) => item.id === battle.dungeon.difficultyId).name}`
-            : battle.tournament?"Tỷ thí học viện":battle.arena?"Đấu Trường":content.encounters[battle.encounterId].name
+            : battle.tournament?(battle.tournament.specialEncounter?content.encounters[battle.encounterId].name:"Tỷ thí học viện"):battle.arena?"Đấu Trường":content.encounters[battle.encounterId].name
         }
         subtitle={
           battle.dungeon

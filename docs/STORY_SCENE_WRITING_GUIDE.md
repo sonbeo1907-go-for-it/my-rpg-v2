@@ -51,4 +51,4 @@ Thói quen gõ nhịp, cuốn sổ, găng tay và việc Ariel nối lời trong
 4. Đọc thành tiếng, cắt câu giải thích lặp; kiểm tra tiếng Việt và giọng nhân vật.
 5. Giữ ID/hook/schema; chạy validator và test collection liên quan. Qua test chỉ chứng minh dữ liệu hợp lệ, không thay cho duyệt văn học.
 
-Các cảnh giải học viện hiện vẫn draft/data_only. Chưa có trình diễn cảnh hoặc lựa chọn thoại hoạt động trong game.
+Cảnh giải học viện đã có trình diễn/journal optional ở bản playtest. Hồ sơ và cảnh dùng nhánh theo đội/roster/kết quả thật, không phải lựa chọn thoại thay đổi kết quả trận. Xem ACADEMY_TOURNAMENT_STORIES_REGISTRATION.md.

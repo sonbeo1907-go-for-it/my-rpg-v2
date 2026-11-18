@@ -105,6 +105,7 @@ function hintList(
   root: Element,
   active: Element | null,
 ): [string, string][] {
+  if(path==='/chronicles/academy/shop'&&!root.matches('dialog'))return [['A','Đổi thưởng'],['B','Trở về giải'],['RS','Cuộn']];
   if(path==='/chronicles/academy'&&!root.matches('dialog'))return root.matches('.battle-page')?[["A","Kỹ năng / Mục tiêu"],["B","Trở về giải"],["Y","Chi tiết"],["RS","Cuộn"]]:[["A","Chọn"],["B","Trở về"],["RS","Cuộn"]];
   if(path==='/chronicles/book2'&&!root.matches('dialog'))return [['A','Chọn'],['X','Công việc'],['Y','Đội hình'],['LB / RB','Khu vực'],['LT / RT','Đổi vùng'],['B','Khu vực / Kệ sách'],['RS','Cuộn']];
   if(path.startsWith('/chronicles')&&!root.matches('dialog'))return root.querySelector('.chronicle-location-list')?[['A','Chọn'],['LB / RB','Địa điểm'],['B','Trở về'],['RS','Cuộn']]:[['A','Tương tác'],['B','Trở về'],['RS','Cuộn']];
