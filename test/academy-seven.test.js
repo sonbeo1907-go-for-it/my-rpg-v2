@@ -59,7 +59,7 @@ test('Luka consumes all five before hitting; primary/sides scale 420%/260% ATK, 
 test('Luka Rank5 raises both base and per-stack damage; preview agrees for primary and adjacent',()=>{
  const {b,c}=fixture(),a=getActor(b,'luka');a.resourceValues.rhythm=5;a.skillRanks={'luka.encore':5};
  const text=compactSkillScaling(c.abilities['luka.encore'],a,getActor(b,'enemy_1'),c,b);assert.match(text,/614,92% ATK chính/);assert.match(text,/380,67% ATK ô kề/);
- const preview=skillPresentation(c.abilities['luka.encore'],a,c,{live:true,spent:5});assert.match(JSON.stringify(preview),/20%\/12%/);
+ const preview=skillPresentation(c.abilities['luka.encore'],a,c,{live:true,spent:5});assert.match(JSON.stringify(preview),/29,28%\/17,57%/);
  use(b,a.id,'luka.encore','enemy_1');assert.deepEqual(hits(b,a.id).map(e=>e.amount),[Math.floor(34*2.6*1.1**4),Math.floor(34*4.2*1.1**4),Math.floor(34*2.6*1.1**4)]);
 });
 test('one ally magical AoE multi-hit grants only one rhythm, even with full shield absorption',()=>{

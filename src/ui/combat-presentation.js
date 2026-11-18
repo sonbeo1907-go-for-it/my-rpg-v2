@@ -86,7 +86,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
       parts.push(`${formula || '0'} → ${amount} ${effect.type === 'shield' ? 'khiên' : 'HP'}${effect.durationRounds?' · '+effect.durationRounds+' vòng':''}`);
     } else if (effect.type === 'status' || effect.type === 'toggle_status') {
       const status = content.statuses[effect.status];
-      const modifiers = Object.entries(effect.appliedModifiers ?? status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `Địch có khiên: ST ×${compactNumber(1+Number(value))}` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? key}`);
+      const modifiers = Object.entries(effect.appliedModifiers ?? status.modifiers ?? {}).map(([key, value]) => key === 'attackMultiplier' ? `Đòn kế ×${value}` : key === 'damageVsShielded' ? `Địch có khiên: ST ×${compactNumber(1+Number(value))}` : `${Number(value) >= 0 ? '+' : '−'}${percent(Math.abs(Number(value)))} ${statNames[key] ?? ({damageBonusMagical:'khuếch đại phép',damageBonusPhysical:'khuếch đại vật lí',damageBonus:'khuếch đại sát thương',damageReduction:'giảm sát thương nhận',evasion:'né vật lí'}[key]??key)}`);
       parts.push(...modifiers);
       if(effect.baseStatModifiers)parts.push(...Object.entries(effect.baseStatModifiers).map(([k,n])=>'+'+compactNumber(n)+' '+statNames[k]+' căn bản'));
       for (const id of effect.linkedStatuses??[]) parts.push(content.statuses[id].name);
@@ -102,7 +102,7 @@ export function compactSkillScaling(skill, actor, target, content, battle) {
     else if (['enter_mode','prepare_mode'].includes(effect.type)) {parts.push((effect.type==='prepare_mode'?'Đầu vòng sau: ':'Triển khai ')+actor.combatModes[effect.mode].name);if(effect.followUpBonus!==undefined)parts.push('Liên kích '+percent(content.abilities[actor.passive.followUpAbility].effects[0].multiplier+effect.followUpBonus)+' MAG / '+actor.passive.modePerRound+' lần mỗi vòng') ;}
     else if (effect.type==='summon_companion') parts.push('Đầu vòng sau: '+actor.companions[effect.companion].name+' · '+actor.companions[effect.companion].durationRounds+' vòng');
     else if (effect.type === 'turn_order_field') parts.push((effect.kind==='speed_shift'?'Đồng đội +'+percent(effect.allySpeed)+' SPD / Địch '+percent(effect.enemySpeed)+' SPD':'Ưu tiên lượt đồng minh')+' · '+effect.durationRounds+' vòng');
-    else if (effect.type === 'grant_extra_turn') parts.push(skill.target==='adjacent_allies'?'+1 Lượt Thêm / ô kề':'+1 Lượt Thêm');
+    else if (effect.type === 'grant_extra_turn') parts.push(effect.to==='self'||skill.target==='self'?'Bản thân: +1 Lượt Thêm':skill.target==='ally'?'Người được chọn: +1 Lượt Thêm':skill.target==='adjacent_allies'?'+1 Lượt Thêm / ô kề':'+1 Lượt Thêm');
     else if (effect.type === 'formula_field') parts.push('Đại Đồ Thức · '+effect.durationRounds+' vòng');
     else if (effect.type === 'edit_formula') parts.push('Đổi chỗ / viết lại dấu');
     else if(effect.type==='dispel')parts.push('Xóa '+(effect.all?'toàn bộ':effect.count)+' buff địch');
@@ -142,3 +142,6 @@ export function statusDetails(status, actor, battle, content) {
   if (definition.exposedElement) lines.push(`Còn ${status.stacks} tầng Sơ hở.`);
   return { source: source.name, duration: definition.healingDebt ? 'Đến khi thanh toán hết hoặc bị giải' : definition.buffRejection||definition.consumeOnPaidSkill ? `${status.charges} lần còn lại` : definition.damageUses ? status.charges+' lần gây sát thương còn lại' : definition.effectImmunity ? `${status.charges} lần chặn còn lại` : status.remaining === null ? definition.exposedElement ? 'Đến khi hết tầng hoặc bị giải' : definition.consumeOnAttack ? 'Đến đòn tấn công kế tiếp' : definition.expiresOnShieldGain ? 'Đến khi nhận khiên mới' : 'Duy trì' : definition.durationClock === "round" ? `${status.remaining} vòng, tính cả vòng hiện tại` : `${status.remaining} lượt${definition.durationClock === "main_turn" ? " chính" : ""} của người mang`, lines };
 }
+
+// Scoped adapters can retain native Sets; the global publisher exposes arrays.
+export function hasExtraTurnGrant(grants,id){return grants instanceof Set?grants.has(id):Array.isArray(grants)&&grants.includes(id);}

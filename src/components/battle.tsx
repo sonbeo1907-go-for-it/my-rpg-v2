@@ -1,4 +1,5 @@
 "use client";
+import {hasExtraTurnGrant} from '../ui/combat-presentation.js';
 import {GreatYokaiNotices} from './great-yokai';
 import {bossActionCount} from '../core/encounter-rituals.js';
 import {VoodooMark} from './voodoo-mark';
@@ -937,7 +938,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
                   <div className="target-summary" aria-live="polite">
                     <span>MỤC TIÊU THỰC THI</span>
                     <strong>{targetLabel}</strong>
-                    {skill.effects.some((effect:any)=>effect.type==="grant_extra_turn") && <small>{battle.phase==="extra" ? "Vòng Phụ: hiệu ứng cấp Lượt Thêm bị bỏ qua; vẫn tiêu MP và hồi chiêu." : battle.extraTurnGrants?.includes(targets.targetId) ? "Mục tiêu đã có Lượt Thêm trong vòng này; không cộng thêm lượt." : "Lượt Thêm sẽ thực hiện sau lượt chính, theo SPD ở đầu Vòng Phụ."}</small>}
+                    {skill.effects.some((effect:any)=>effect.type==="grant_extra_turn") && <small>{battle.phase==="extra" ? "Vòng Phụ: hiệu ứng cấp Lượt Thêm bị bỏ qua; vẫn tiêu MP và hồi chiêu." : hasExtraTurnGrant(battle.extraTurnGrants,targets.targetId) ? "Mục tiêu đã có Lượt Thêm trong vòng này; không cộng thêm lượt." : "Lượt Thêm sẽ thực hiện sau lượt chính, theo SPD ở đầu Vòng Phụ."}</small>}
                     {skill.target === "adjacent_allies" && <small>Hai ô kề cố định · nối vòng ô 1 ↔ 4. Ô trống và người đã gục bị bỏ qua.</small>}
                     {skill.target === "enemy_splash" && <small>{targets.affectedIds.length} mục tiêu · chính và hai ô kề, không nối vòng.</small>}
                     {skill.target === "random_enemies" && <small>{targets.affectedIds.length} đối thủ có thể bị chọn · mỗi đòn chọn lại, có thể trúng lặp.</small>}

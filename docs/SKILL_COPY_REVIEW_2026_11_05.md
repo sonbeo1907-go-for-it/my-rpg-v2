@@ -2,7 +2,7 @@
 
 Ảnh chụp biên tập từ dữ liệu hiện hành; không thay thế bảng cân bằng. Thông số được sinh từ resolver khi chơi. Các mô tả không cần sửa được giữ nguyên. Tạo lại: `node scripts/audit-skill-copy.mjs`.
 
-Phạm vi: **92 nhân vật, 295 kỹ năng chủ động/nâng cấp/dạng** và nội tại tương ứng.
+Phạm vi: **115 nhân vật, 365 kỹ năng chủ động/nâng cấp/dạng** và nội tại tương ứng.
 
 ## Arthur
 
@@ -376,19 +376,6 @@ Cường hóa đồng đội, cấp Lượt Thêm và tiếp MP cho người c�
 | Tiến lên một lần nữa! | Trao Lượt Thêm và Hội Tâm cho một đồng đội. |
 | Ánh nước soi đường | Chiếu ánh nước tấn công một địch. |
 
-## Astoria
-
-Tích Vết nứt để triệu hồi Magnamut, thay đổi chiến trường và ra lệnh hủy diệt.
-
-**Cộng hưởng không gian và thời gian:** Magnamut hiện diện: +15 MAG căn bản. Mỗi lần Magnamut rời sân, hồi 35% MP tối đa.
-
-| Kỹ năng | Mô tả |
-|---|---|
-| Vết chém không gian | Xé đội hình địch bằng một vết chém thời không. |
-| Không gian rạn nứt | Chém xuyên không gian, làm suy yếu kháng phép của mục tiêu. |
-| Triệu hồi Magnamut | Hãy trỗi dậy từ hố đen đi, Magnamut. |
-| Mệnh lệnh hủy diệt | Hủy diệt mọi thứ trước mắt ngươi đi, Magnamut. |
-
 ## Monica
 
 Điều khiển thứ tự lượt, làm yếu địch và khai thác những kẻ chậm nhịp.
@@ -580,9 +567,9 @@ Dùng ATK tung quyền gây sát thương phép; chuyển dạng để tăng t�
 
 ## Karin
 
-HP càng thấp, kiếm quét càng mạnh; có thể chủ động đổi máu lấy sức công phá.
+HP càng thấp, kiếm quét càng mạnh; có thể chủ động đổi máu lấy sức công phá, và một lần mỗi trận trụ lại khi cận kề cái chết.
 
-**Cơn cuồng chiến:** Thương tích biến thành sức công phá.
+**Cơn cuồng chiến:** Thương tích càng nhiều đao càng mạnh; một lần mỗi trận có thể Bất Tử.
 
 | Kỹ năng | Mô tả |
 |---|---|
@@ -921,7 +908,7 @@ Gây Vết Thương Sâu, thanh tẩy bạn đồng hành và kết thúc bằng
 
 Chuyên hồi HP theo MAG, chuyển một phần lượng hồi thành MP cho bản thân.
 
-**Đèn Dầu Không Tắt:** Hồi máu cũng tiếp MP cho bản thân.
+**Đèn Dầu Không Tắt:** Hồi máu cũng tiếp MP cho người được hồi.
 
 | Kỹ năng | Mô tả |
 |---|---|
@@ -1108,4 +1095,294 @@ Dùng ATK thi triển kiếm thuật gây sát thương phép, hợp nhất tổ
 | Nhị Thức — Đoạn Không | Chém hai nhịp vào mục tiêu chính và hai ô kề, tạo 1 Hồn Kiếm. |
 | Tổ Kiếm — Hợp Mạch | Hợp nhất kiếm pháp tổ tiên đến hết trận, mở Tuyệt Thức. |
 | Tuyệt Thức — Vạn Ảnh Quy Kiếm | Chém toàn địch năm nhịp, rồi kết liễu mục tiêu chính bằng một nhát xuyên RES. |
+
+## Astoria
+
+Tích Vết nứt để triệu hồi Magnamut, thay đổi chiến trường và ra lệnh hủy diệt.
+
+**Cộng hưởng không gian và thời gian:** Magnamut hiện diện: +15 MAG căn bản. Mỗi lần Magnamut rời sân, hồi 35% MP tối đa.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Vết chém không gian | Xé đội hình địch bằng một vết chém thời không. |
+| Không gian rạn nứt | Chém xuyên không gian, làm suy yếu kháng phép của mục tiêu. |
+| Triệu hồi Magnamut | Hãy trỗi dậy từ hố đen đi, Magnamut. |
+| Mệnh lệnh hủy diệt | Hủy diệt mọi thứ trước mắt ngươi đi, Magnamut. |
+| Thu Hồi Lỗ Hổng | Astoria cắt kết nối với lỗ sâu, thu hồi Magnamut để trở lại đội hình. Toàn bộ Vết nứt còn lại được giữ nguyên. |
+
+## Patricia
+
+Tăng MAG theo số đồng đội có khiên, rồi dồn phép Thổ vào một mục tiêu.
+
+**Cộng Hưởng Khiên Đá:** Khiên của đồng đội cộng hưởng thành MAG.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Lớp Chắn Địa Tầng | Tạo khiên cho toàn đội dựa trên MAG. |
+| Quét Sóng Địa Chấn | Gây sát thương phép Thổ lên toàn địch. |
+| Khoan Phá Lõi Đá | Khoan một địch bằng phép Thổ, có cơ hội gây Choáng. |
+
+## Vilgard
+
+Tích Ám Ảnh, hồi sinh và trả đòn bằng những nhát chém xuyên DEF.
+
+**Mối Thù Chưa Trả:** Chết đi để trỗi dậy, mang theo mối thù chồng chất.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Truy Sát Không Rời | Chém một địch và một mục tiêu khác ngẫu nhiên, rồi tích Ám Ảnh. |
+| Nhát Chém Oán Hận | Chém một địch và hai ô kề, gây Rạn Khiên và tích Ám Ảnh. |
+| Trả Thù Toàn Diện | Tiêu toàn bộ Ám Ảnh để chém toàn địch, tăng xuyên DEF theo số tầng. |
+
+## Ardelia
+
+Dùng RES để hồi phục, thanh tẩy và tạo khiên cho toàn đội.
+
+**Tuyến Phòng Thủ Quân Y:** Còn sống là còn giữ tuyến, cộng DEF/RES nền cho cả đội.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Ca Mổ Tiền Tuyến | Hồi HP toàn đội theo RES, đồng thời tăng DEF và RES. |
+| Lá Chắn Quân Y | Thanh tẩy toàn đội và tạo khiên dựa trên RES. |
+| Sóng Xung Kích | Gây phép Thủy toàn địch, giảm ATK và MAG khi trúng. |
+
+## Belochkin
+
+Cấp Lượt Thêm, tăng ATK và khuếch đại sát thương vật lí toàn đội.
+
+**Nhịp Tiến Công:** Đủ 2/3 nhóm kỹ năng trong vòng để cuối vòng hồi MP cho cả đội.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Gió Xé Tuyến | Gây sát thương toàn địch và giảm DEF khi trúng. |
+| Lệnh Tiến Công | Tăng ATK và cấp Lượt Thêm cho bản thân cùng một đồng đội khác. |
+| Bão Gươm Viễn Chinh | Tấn công toàn địch và khuếch đại sát thương vật lí của cả đội. |
+
+## Chen
+
+Giảm DEF, mở Sơ Hở Thường và dồn sát thương bằng chuỗi chém đơn mục tiêu.
+
+**Lưỡi Kiếm Quyết Đấu:** Chỉ lao vào thế quyết đấu khi có trùm hoặc siêu trùm.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Nhất Trảm | Chém một địch và giảm DEF. |
+| Song Trảm | Chém liên tiếp một địch và mở Sơ Hở Thường. |
+| Lục Kiếm Quyết | Chém liên hoàn một địch, kết thúc bằng một nhát mạnh hơn. |
+
+## Angelica
+
+Khóa buff, làm hao MP và kéo dài hồi chiêu của đối phương.
+
+**Bám Nhịp Hậu Cần:** Bám theo người dẫn đường nhanh nhất của đội.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Ấn Phong Hậu Cần | Áp Phong Ấn lên toàn địch để chặn buff mới. |
+| Nghi Thức Hỗn Loạn | Gây Nhiễu Ma Lực, Vết Thương Sâu và giảm DEF, RES toàn địch. |
+| Dấu Ấn Ngưng Đọng | Kéo dài hồi chiêu của các kỹ năng hợp lệ trên toàn địch. |
+
+## Melpiphia
+
+Mở Sơ Hở Thủy, bào mòn RES, SPD và tiếp sức bằng Lượt Thêm.
+
+**Tiếp Nước:** Tiếp nước cho cả đội theo số đồng đội hệ Thủy.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Mũi Nước Dò Đường | Gây phép Thủy đơn mục tiêu và mở Sơ Hở Thủy. |
+| Dòng Nước Dẫn Lối | Tăng MAG và cấp Lượt Thêm cho một đồng đội hệ Thủy. |
+| Xoáy Nước Nặng | Tấn công một địch, giảm RES, SPD và nhận Lượt Thêm. |
+
+## Senya
+
+Một thợ săn trẻ sống trong làng, dùng Hồn Kiếm như một nghi lễ săn đuổi. Càng tiêu Hồn Kiếm, nhịp chém của cậu càng dữ dội.
+
+**Nhịp Săn:** Sau khi tiêu Hồn Kiếm, bản thân bước vào nhịp săn.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Nhát Săn | Chém một địch bằng Hồn Kiếm. |
+| Dấu Chân Trong Rừng | Tạo Hồn Kiếm và hồi HP cho bản thân theo ATK. |
+| Khép Vòng Săn | Ưu tiên tiêu Hồn Kiếm để chém liên hoàn một địch; thiếu tầng thì trả MP. |
+
+## Kanade Hanasato
+
+Khai thác điểm yếu Thổ, bẻ gãy kháng phép và khóa sức mạnh đối phương.
+
+**Hoa Nở Trên Kẽ Đá:** Kỹ năng khai thác mạnh điểm yếu Thổ.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Hoa Nở Nơi Đất Khách | Tăng MAG cho bản thân và nhận Lượt Thêm. |
+| Địa Mạch — Hoa Chạm Đá | Tấn công một địch và giảm RES. |
+| Hanasato — Vườn Hoa Khép Lối | Tấn công toàn địch và áp một lần Phong Ấn. |
+
+## Wilson Marquis
+
+Mở Sơ Hở Thổ, giảm RES và tiếp sức bằng những Liên kích diện rộng.
+
+**Hoa Nối Nhịp Đồng Hành:** Đồng đội Thổ khác hành động sẽ kéo theo Liên kích diện rộng.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Hoa Đất Mở Đường | Tấn công toàn địch và mở Sơ Hở Thổ. |
+| Lời Hẹn Trên Địa Mạch | Tấn công toàn địch và giảm RES. |
+| Mùa Hoa Chưa Hẹn | Hồi HP cho toàn đội. |
+
+## Remulia
+
+Nương theo Sơ Hở của từng địch, tích Khúc Ca để hồi phục cả đội.
+
+**Khúc Ca Chưa Được Gọi Tên:** Đổi hệ theo Sơ Hở trên từng địch, tích Khúc Ca để tiếp sức cả đội.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Dạo Khúc — Tiếng Gọi Đầu Tiên | Tăng MAG và nhận Khai Phá Điểm Yếu. |
+| Điệp Khúc — Ký Ức Không Tên | Tấn công toàn địch và tích Khúc Ca. |
+| Chung Khúc — Ngoài Trang Sử | Tấn công toàn địch; đủ Khúc Ca sẽ tiêu hết để hồi phục và làm mới cả đội. |
+
+## Geoffrey
+
+Giữ vững phòng tuyến bằng hào quang phòng thủ và che chắn toàn đội.
+
+**Vương Thành Bất Động:** Giữ vững phòng tuyến khi người bảo hộ còn trụ vững.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Vương Thuẫn — Giữ Vững Hàng Quân | Tạo khiên toàn đội và Khiêu Khích bản thân. |
+| Quân Lệnh — Hạ Vũ Khí | Tấn công toàn địch, giảm ATK và MAG. |
+| Thành Trì Trước Ngai Vàng | Dựng khiên bản thân, nhận đòn thay cả đội. |
+
+## Anabel
+
+Tích sức mạnh từ buff, tung những đòn trảm quang nối tiếp lên mục tiêu còn trụ vững.
+
+**Uy Danh Tổng Chỉ Huy:** Càng được tiếp sức, đòn kiếm càng sắc bén.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Quân Lệnh — Ánh Dương Dẫn Lối | Tăng ATK cho bản thân. |
+| Tiên Phong — Trảm Quang | Chém một địch; nếu mục tiêu sống sót, Liên kích bằng cùng chiêu. |
+| Phán Quyết — Bình Minh Viễn Chinh | Trảm một địch; nếu mục tiêu sống sót, Liên kích bằng cùng chiêu. |
+
+## Nikita
+
+Tích Ám Phong, khai thác điểm yếu Phong rồi kết liễu bằng dao gió.
+
+**Lưỡi Dao Trong Gió:** Kỹ năng khai thác mạnh điểm yếu Phong.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Màn Gió — Hộ Giá | Đâm một địch, tăng MAG bản thân và tích Ám Phong. |
+| Phong Nhận — Vô Thanh | Đâm một địch và tích Ám Phong. |
+| Mật Lệnh — Xóa Dấu | Tiêu đủ Ám Phong để tung nhát dao kết liễu. |
+
+## Cyrus
+
+Tiếp ma lực bằng Phòng thủ, dẫn đồng đội Phong khai thác điểm yếu.
+
+**Hơi Thở Giữa Trang Sách:** Phòng thủ tiếp ma lực cho đồng đội cùng hệ.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Phong Điển — Trang Sách Đồng Hành | Tăng ATK và MAG cho đồng đội hệ Phong. |
+| Lật Trang — Gió Xé Kết Giới | Gây sát thương Phong, gắn Sơ Hở Phong và giảm phòng thủ toàn địch. |
+| Dấu Sách — Lối Gió Trở Về | Hồi HP và cấp Khai Phá Điểm Yếu cho đồng đội hệ Phong. |
+
+## Siesta
+
+Đánh thường tích Dã Tính, rồi nối rìu bằng những đợt Liên kích dữ dội.
+
+**Bản Năng Bầy Sói:** Đánh thường tích sức mạnh cho những đợt Liên kích.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Nanh Rìu — Xé Vòng Vây | Chém mục tiêu chính và hai ô kề, gắn Sơ Hở Phong. |
+| Tiếng Tru — Đánh Thức Dã Tính | Tăng ATK bản thân và nhận Khai Phá Điểm Yếu. |
+| Bầy Sói — Rìu Cuồng Phong | Giáng hai nhát rìu lên mục tiêu chính và hai ô kề. |
+
+## Rotary
+
+Dùng Voodoo chuyển lượt chính cho đồng đội và bảo vệ người được liên kết.
+
+**Mối Liên Kết Thần Bí:** Đồng đội mang Voodoo mạnh hơn và nhận lượt chính của Rotary.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Voodoo — Sợi Chỉ Đồng Mệnh | Liên kết với một đồng đội khác để chuyển lượt chính cho họ. |
+| Búp Bê Hộ Mệnh | Tạo khiên và cấp một Hộ Ấn cho đồng đội đang mang Voodoo. |
+| Kim Châm — Dấu Ấn Giao Cảm | Gây sát thương Ám và tạo Sơ Hở theo hệ chính của đồng đội mang Voodoo, trừ Hồn Kiếm. |
+
+## Luka
+
+Dùng ATK gây sát thương phép, tích Nhịp Điệu rồi dồn sức vào đòn lan.
+
+**Bắt Nhịp Cùng Nhau:** Dùng kỹ năng nhận 1 Nhịp Điệu. Đồng đội khác gây sát thương phép ngoài Quang và Ám cũng tạo 1 tầng mỗi hành động; tối đa 5.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Nhịp Nổi Loạn | Tăng ATK bản thân và tích thêm Nhịp Điệu. |
+| Hợp Âm Xé Gió | Gây phép Phong theo ATK lên một địch và tích Nhịp Điệu. |
+| Khúc Cao Trào | Tiêu toàn bộ Nhịp Điệu để tăng hệ số đòn phép Phong lên mục tiêu chính và hai ô kề. |
+
+## Gairyu
+
+Dồn lửa diện rộng, nối chiêu bằng Liên kích có cơ hội được bảo đảm.
+
+**Đừng Hòng Cản Ta!:** Tăng 30% MAG. Một lần thử Liên kích thất bại sẽ bảo đảm lần thử tiếp theo thành công.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Hỏa Khí Bốc Đồng | Thiêu đốt toàn bộ kẻ địch. |
+| Đừng Chọc Giận Ta! | Thiêu đốt toàn địch; có cơ hội Liên kích bằng Hỏa Khí Bốc Đồng. |
+| Thiêu Rụi Tất Cả! | Công kích toàn địch; có cơ hội nối Liên kích qua Đừng Chọc Giận Ta! đến Hỏa Khí Bốc Đồng. |
+
+## Ariel
+
+Dựng Sân Khấu tiếp sức đồng đội, dùng MAG hỗ trợ sát thương phép.
+
+**Cùng Nhau Tỏa Sáng:** Khi Ariel còn đứng vững và Sân Khấu tồn tại, kỹ năng phép ngoài Quang và Ám của phe mình được khuếch đại 20%.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Khúc Ca Thanh Xuân | Tăng ATK và MAG cho toàn đội. |
+| Tâm Điểm Ánh Đèn | Cộng sát thương cho kỹ năng phép kế tiếp của một đồng đội, dựa trên MAG của Ariel. |
+| Sân Khấu — Thanh Xuân Rực Rỡ | Dựng Sân Khấu để tăng SPD toàn đội. |
+
+## Charlotte
+
+Tích Tham Vọng từ kỹ năng hỗ trợ của đồng đội, rồi Liên kích phép Lôi diện rộng.
+
+**Đến Lượt Tôi Tỏa Sáng!:** Tích Tham Vọng để nối tiếp phép thuật của đồng đội.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Màn Chào Sấm Sét | Tấn công toàn địch, giảm RES khi trúng và tích Tham Vọng. |
+| Tài Năng Không Thể Lu Mờ | Tăng ATK và MAG căn bản cho đồng đội ngoài Quang, Ám và tích Tham Vọng. |
+| Hào Quang Thuộc Về Chúng Ta! | Bản thân và một đồng đội khác ngoài Quang, Ám nhận khuếch đại phép theo số lần dùng cùng Lượt Thêm. |
+
+## Clark
+
+Hồi phục, giải hiệu ứng bất lợi khi đầy HP và giữ cả đội vững vàng.
+
+**Chu Toàn Đến Cùng:** Hồi phục trọn vẹn để gỡ bỏ trở ngại.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Sơ Cứu Chuẩn Mực | Hồi HP và cấp Hộ Ấn cho một đồng đội. |
+| Chấn Chỉnh Thuật Thức | Giảm ATK và MAG toàn địch. |
+| Giờ Nghỉ An Toàn | Cấp hồi phục đầu lượt và giảm sát thương nhận vào cho toàn đội. |
+
+## Mariel
+
+Chắn đòn cho đồng đội và củng cố hàng khiên trước sát thương phép.
+
+**Có Tôi Ở Đây:** Hàng khiên giúp đồng đội đứng vững trước phép thuật.
+
+| Kỹ năng | Mô tả |
+|---|---|
+| Kết Giới Không Bỏ Ai | Tạo khiên cho toàn đội và giải 1 hiệu ứng bất lợi trên mỗi người. |
+| Ôn Tập Kết Giới | Tăng RES cho toàn đội. |
+| Cứ Để Tôi Đứng Trước | Khiêu Khích, Che Chắn toàn đội và tăng RES bản thân. |
 

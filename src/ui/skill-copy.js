@@ -209,7 +209,7 @@ export function skillPresentation(skill,actor,content,choices={}) {
     if(effect.requiresDamageHit)rules.push('Chỉ áp dụng sau khi mục tiêu thực sự nhận sát thương HP hoặc khiên của chiêu; nhiều hit vẫn chỉ cấp một lần sau đòn.');
     if(effect.type==='grant_extra_turn'){
       if(effect.selectAlly)facts.push('Một đồng đội Hồn Kiếm khác còn sống ở ô nhỏ nhất; không có thì chỉ bản thân nhận lượt');
-      facts.push('Nhận 1 Lượt Thêm trong Vòng Phụ');
+      facts.push((effect.to==='self'||skill.target==='self'?'Bản thân':skill.target==='ally'?'Người được chọn':'Người nhận')+': 1 Lượt Thêm trong Vòng Phụ');
       rules.push('Mỗi người nhận tối đa một Lượt Thêm mỗi vòng.','Trong Vòng Phụ, chỉ bỏ qua hiệu ứng cấp lượt; vẫn tiêu MP và hồi chiêu.');
     }
   }

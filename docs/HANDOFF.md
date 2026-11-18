@@ -172,3 +172,5 @@ Ba encounter category `east_super` ở Phương Đông, mở bởi `east_campaig
 
 ## Mariel — 17/11/2026
 [MARIEL.md](MARIEL.md): #116 Thủ Hộ Thường lớp7A, chưa có nguồn nhận/gacha. Chốt chỉ người có khiên nhận+9 RES căn bản/giảm15% phép, Mariel còn sống; không cộng theo số đồng đội. Khiên AoE chốt RES trước effect bằng snapshotScaling, tránh tự nâng giữa danh sách mục tiêu. cleanse.count=1 mỗi người, không khai count vẫn giải toàn bộ.
+
+- Rà soát 18/11: [mô tả từ Patricia và kiểm tra Lượt Thêm từ Belochkin](SKILL_COPY_REVIEW_2026_11_18.md). Sửa crash học viện do Set/mảng ở extraTurnGrants; giữ bộ luật Vòng Phụ.

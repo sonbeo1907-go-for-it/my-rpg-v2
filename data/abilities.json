@@ -11153,7 +11153,7 @@
   {
     "id": "patricia.bedrock",
     "name": "Lớp Chắn Địa Tầng",
-    "description": "Dựng một lớp khiên đá cho toàn đội, hội tụ từ nền địa tầng dưới chân.",
+    "description": "Tạo khiên cho toàn đội dựa trên MAG.",
     "target": "all_allies",
     "cost": {
       "mp": 10
@@ -11176,7 +11176,7 @@
   {
     "id": "patricia.survey",
     "name": "Quét Sóng Địa Chấn",
-    "description": "Gửi một đợt sóng địa chấn quét qua toàn bộ chiến trường.",
+    "description": "Gây sát thương phép Thổ lên toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 5
@@ -11199,7 +11199,7 @@
   {
     "id": "patricia.core",
     "name": "Khoan Phá Lõi Đá",
-    "description": "Dồn toàn bộ cộng hưởng địa chất vào một điểm, có cơ hội làm Choáng mục tiêu.",
+    "description": "Khoan một địch bằng phép Thổ, có cơ hội gây Choáng.",
     "target": "enemy",
     "cost": {
       "mp": 18
@@ -11233,7 +11233,7 @@
   {
     "id": "vilgard.pursuit",
     "name": "Truy Sát Không Rời",
-    "description": "Chém kẻ địch chỉ định; nếu còn kẻ khác, lưỡi kiếm thù hận tự tìm thêm một mục tiêu ngẫu nhiên.",
+    "description": "Chém một địch và một mục tiêu khác ngẫu nhiên, rồi tích Ám Ảnh.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -11264,7 +11264,7 @@
   {
     "id": "vilgard.cleave",
     "name": "Nhát Chém Oán Hận",
-    "description": "Chém mục tiêu chính và kẻ kề bên, để lại Rạn Khiên; mối thù chồng thêm hai tầng.",
+    "description": "Chém một địch và hai ô kề, gây Rạn Khiên và tích Ám Ảnh.",
     "target": "enemy_splash",
     "cost": {
       "mp": 8
@@ -11300,7 +11300,7 @@
   {
     "id": "vilgard.reckoning",
     "name": "Trả Thù Toàn Diện",
-    "description": "Trút toàn bộ Ám Ảnh vào một nhát chém diện rộng; mỗi tầng xuyên thêm 20% DEF, sau đó mối thù tan biến.",
+    "description": "Tiêu toàn bộ Ám Ảnh để chém toàn địch, tăng xuyên DEF theo số tầng.",
     "target": "all_enemies",
     "cost": {
       "mp": 20
@@ -11326,7 +11326,7 @@
   {
     "id": "ardelia.triage",
     "name": "Ca Mổ Tiền Tuyến",
-    "description": "Hồi HP toàn đội theo RES và củng cố DEF/RES của mọi đồng đội.",
+    "description": "Hồi HP toàn đội theo RES, đồng thời tăng DEF và RES.",
     "target": "all_allies",
     "cost": {
       "mp": 12
@@ -11354,7 +11354,7 @@
   {
     "id": "ardelia.aegis",
     "name": "Lá Chắn Quân Y",
-    "description": "Giải mọi debuff trên đồng đội và dựng khiên nước theo RES.",
+    "description": "Thanh tẩy toàn đội và tạo khiên dựa trên RES.",
     "target": "all_allies",
     "cost": {
       "mp": 10
@@ -11379,7 +11379,7 @@
   {
     "id": "ardelia.purge",
     "name": "Sóng Xung Kích",
-    "description": "Quét toàn địch bằng xung lực nước, làm suy yếu ATK và MAG của chúng.",
+    "description": "Gây phép Thủy toàn địch, giảm ATK và MAG khi trúng.",
     "target": "all_enemies",
     "cost": {
       "mp": 18
@@ -11408,7 +11408,7 @@
   {
     "id": "belochkin.gale",
     "name": "Gió Xé Tuyến",
-    "description": "Quét gió sắc qua toàn địch, bào mòn giáp của những kẻ trúng đòn.",
+    "description": "Gây sát thương toàn địch và giảm DEF khi trúng.",
     "target": "all_enemies",
     "cost": {
       "mp": 8
@@ -11436,7 +11436,7 @@
   {
     "id": "belochkin.command",
     "name": "Lệnh Tiến Công",
-    "description": "Ban lệnh tiến công cho bản thân và đồng đội được chọn, tăng mạnh ATK và cho cả hai thêm lượt.",
+    "description": "Tăng ATK và cấp Lượt Thêm cho bản thân cùng một đồng đội khác.",
     "target": "ally",
     "cost": {
       "mp": 25
@@ -11473,7 +11473,7 @@
   {
     "id": "belochkin.storm",
     "name": "Bão Gươm Viễn Chinh",
-    "description": "Gọi một cơn bão gươm lên toàn địch, đồng thời khuếch đại sát thương vật lý của cả đội.",
+    "description": "Tấn công toàn địch và khuếch đại sát thương vật lí của cả đội.",
     "target": "all_enemies",
     "cost": {
       "mp": 18
@@ -11503,7 +11503,7 @@
   {
     "id": "chen.slash",
     "name": "Nhất Trảm",
-    "description": "Một nhát chém dứt khoát vào mục tiêu, phá giáp của kẻ địch.",
+    "description": "Chém một địch và giảm DEF.",
     "target": "enemy",
     "cost": {
       "mp": 5
@@ -11531,7 +11531,7 @@
   {
     "id": "chen.double",
     "name": "Song Trảm",
-    "description": "Hai nhát chém liên tiếp, mở ra Sơ hở Thường trên mục tiêu.",
+    "description": "Chém liên tiếp một địch và mở Sơ Hở Thường.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -11561,7 +11561,7 @@
   {
     "id": "chen.fulfill",
     "name": "Lục Kiếm Quyết",
-    "description": "Sáu nhát chém: năm nhát dồn lực, kết thúc bằng một nhát chém nặng hơn.",
+    "description": "Chém liên hoàn một địch, kết thúc bằng một nhát mạnh hơn.",
     "target": "enemy",
     "cost": {
       "mp": 20
@@ -11594,7 +11594,7 @@
   {
     "id": "angelica.seal",
     "name": "Ấn Phong Hậu Cần",
-    "description": "Phủ một vòng ấn lên toàn địch, chặn hiệu ứng có lợi kế tiếp của chúng.",
+    "description": "Áp Phong Ấn lên toàn địch để chặn buff mới.",
     "target": "all_enemies",
     "cost": {
       "mp": 15
@@ -11621,7 +11621,7 @@
   {
     "id": "angelica.curse",
     "name": "Nghi Thức Hỗn Loạn",
-    "description": "Một nghi thức hậu cần rối ren: gây Nhiễu Ma Lực, Vết Thương Sâu và bào mòn DEF/RES toàn địch.",
+    "description": "Gây Nhiễu Ma Lực, Vết Thương Sâu và giảm DEF, RES toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 24
@@ -11652,7 +11652,7 @@
   {
     "id": "angelica.iconic",
     "name": "Dấu Ấn Ngưng Đọng",
-    "description": "Đóng dấu thuật thức lên toàn địch, làm mọi kỹ năng có hồi chiêu bị kéo dài thêm 1 vòng.",
+    "description": "Kéo dài hồi chiêu của các kỹ năng hợp lệ trên toàn địch.",
     "target": "all_enemies",
     "cost": {
       "mp": 30
@@ -11683,7 +11683,7 @@
   {
     "id": "melpiphia.strike",
     "name": "Mũi Nước Dò Đường",
-    "description": "Một tia nước xoáy đánh thẳng vào mục tiêu, mở ra ba tầng Sơ hở Thủy.",
+    "description": "Gây phép Thủy đơn mục tiêu và mở Sơ Hở Thủy.",
     "target": "enemy",
     "cost": {
       "mp": 8
@@ -11712,7 +11712,7 @@
   {
     "id": "melpiphia.bless",
     "name": "Dòng Nước Dẫn Lối",
-    "description": "Tiếp một dòng nước cho đồng đội hệ Thủy, tăng MAG và trao thêm một lượt.",
+    "description": "Tăng MAG và cấp Lượt Thêm cho một đồng đội hệ Thủy.",
     "target": "ally",
     "targetElement": "water",
     "cost": {
@@ -11739,7 +11739,7 @@
   {
     "id": "melpiphia.undertow",
     "name": "Xoáy Nước Nặng",
-    "description": "Kéo một xoáy nước lớn vào mục tiêu, bào mòn RES/SPD và cho bản thân thêm lượt.",
+    "description": "Tấn công một địch, giảm RES, SPD và nhận Lượt Thêm.",
     "target": "enemy",
     "cost": {
       "mp": 18
@@ -11792,7 +11792,7 @@
   {
     "id": "senya.slash",
     "name": "Nhát Săn",
-    "description": "Một nhát chém nhanh mang cả hơi thở Hồn Kiếm.",
+    "description": "Chém một địch bằng Hồn Kiếm.",
     "target": "enemy",
     "cost": {
       "mp": 3
@@ -11819,7 +11819,7 @@
   {
     "id": "senya.hunt",
     "name": "Dấu Chân Trong Rừng",
-    "description": "Senya đánh dấu con mồi, tạo Hồn Kiếm và hồi HP theo ATK.",
+    "description": "Tạo Hồn Kiếm và hồi HP cho bản thân theo ATK.",
     "target": "self",
     "cost": {
       "mp": 8
@@ -11847,7 +11847,7 @@
   {
     "id": "senya.fulfill",
     "name": "Khép Vòng Săn",
-    "description": "Tiêu 3 Hồn Kiếm hoặc 24 MP để chém liên hoàn mục tiêu.",
+    "description": "Ưu tiên tiêu Hồn Kiếm để chém liên hoàn một địch; thiếu tầng thì trả MP.",
     "target": "enemy",
     "cost": {
       "mp": 24,
@@ -12331,7 +12331,7 @@
   {
     "id": "remulia.echo",
     "name": "Điệp Khúc — Ký Ức Không Tên",
-    "description": "Tấn công toàn địch và nhận 1 Khúc Ca.",
+    "description": "Tấn công toàn địch và tích Khúc Ca.",
     "target": "all_enemies",
     "cost": {
       "mp": 12
@@ -12362,7 +12362,7 @@
   {
     "id": "remulia.coda",
     "name": "Chung Khúc — Ngoài Trang Sử",
-    "description": "Dồn khúc ca thành đợt công kích, tiếp sức cho cả đội.",
+    "description": "Tấn công toàn địch; đủ Khúc Ca sẽ tiêu hết để hồi phục và làm mới cả đội.",
     "target": "all_enemies",
     "cost": {
       "mp": 24
@@ -12503,7 +12503,7 @@
   {
     "id": "anabel.advance",
     "name": "Tiên Phong — Trảm Quang",
-    "description": "Chém một địch; mục tiêu còn sống sẽ chịu thêm một lần tái kích.",
+    "description": "Chém một địch; nếu mục tiêu sống sót, Liên kích bằng cùng chiêu.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -12532,7 +12532,7 @@
   {
     "id": "anabel.judgment",
     "name": "Phán Quyết — Bình Minh Viễn Chinh",
-    "description": "Dồn sức trảm một địch; mục tiêu còn sống sẽ chịu thêm một lần tái kích.",
+    "description": "Trảm một địch; nếu mục tiêu sống sót, Liên kích bằng cùng chiêu.",
     "target": "enemy",
     "cost": {
       "mp": 20
@@ -12562,7 +12562,7 @@
   {
     "id": "nikita.veil",
     "name": "Màn Gió — Hộ Giá",
-    "description": "Đâm một địch, tăng MAG bản thân và tạo 1 Ám Phong.",
+    "description": "Đâm một địch, tăng MAG bản thân và tích Ám Phong.",
     "target": "enemy",
     "cost": {
       "mp": 10
@@ -12600,7 +12600,7 @@
   {
     "id": "nikita.dagger",
     "name": "Phong Nhận — Vô Thanh",
-    "description": "Đâm một địch và tạo 1 Ám Phong.",
+    "description": "Đâm một địch và tích Ám Phong.",
     "target": "enemy",
     "cost": {
       "mp": 6
@@ -12631,7 +12631,7 @@
   {
     "id": "nikita.execution",
     "name": "Mật Lệnh — Xóa Dấu",
-    "description": "Tiêu 4 Ám Phong để tung nhát dao kết liễu.",
+    "description": "Tiêu đủ Ám Phong để tung nhát dao kết liễu.",
     "target": "enemy",
     "cost": {
       "mp": 0,
@@ -12964,7 +12964,7 @@
         "amount": 2
       }
     ],
-    "description": "Tăng ATK bản thân trong 3 lượt chính và tạo 2 Nhịp Điệu.",
+    "description": "Tăng ATK bản thân và tích thêm Nhịp Điệu.",
     "skillLineId": "luka.tempo",
     "growthProfile": "stat_buff",
     "growthGroups": [
@@ -12995,7 +12995,7 @@
         "amount": 1
       }
     ],
-    "description": "Gây sát thương phép Phong cho một địch và tạo 1 Nhịp Điệu.",
+    "description": "Gây phép Phong theo ATK lên một địch và tích Nhịp Điệu.",
     "skillLineId": "luka.riff",
     "growthProfile": "damage",
     "growthGroups": [
@@ -13028,7 +13028,7 @@
         "primaryPerResource": 0.2
       }
     ],
-    "description": "Dồn toàn bộ Nhịp Điệu thành đòn phép Phong vào một địch và hai ô kề. Mỗi tầng tăng hệ số chính/kề thêm 20%/12% ATK.",
+    "description": "Tiêu toàn bộ Nhịp Điệu để tăng hệ số đòn phép Phong lên mục tiêu chính và hai ô kề.",
     "skillLineId": "luka.encore",
     "growthProfile": "damage",
     "growthGroups": [
@@ -13078,7 +13078,7 @@
         "multiplier": 2.5
       }
     ],
-    "description": "Công kích toàn bộ địch; có 50% cơ hội Liên kích bằng Hỏa Khí Bốc Đồng.",
+    "description": "Thiêu đốt toàn địch; có cơ hội Liên kích bằng Hỏa Khí Bốc Đồng.",
     "skillLineId": "gairyu.rampage",
     "growthProfile": "damage",
     "growthGroups": [
@@ -13107,7 +13107,7 @@
         "multiplier": 4.2
       }
     ],
-    "description": "Dốc lửa lên toàn bộ địch; có 50% cơ hội Liên kích bằng Đừng Chọc Giận Ta!, có thể nối tiếp Hỏa Khí Bốc Đồng.",
+    "description": "Công kích toàn địch; có cơ hội nối Liên kích qua Đừng Chọc Giận Ta! đến Hỏa Khí Bốc Đồng.",
     "skillLineId": "gairyu.inferno",
     "growthProfile": "damage",
     "growthGroups": [
@@ -13134,7 +13134,7 @@
         "duration": 6
       }
     ],
-    "description": "Tăng ATK và MAG toàn đội trong 6 lượt chính của người nhận.",
+    "description": "Tăng ATK và MAG cho toàn đội.",
     "skillLineId": "ariel.anthem",
     "growthProfile": "stat_buff",
     "growthGroups": [
@@ -13160,7 +13160,7 @@
         }
       }
     ],
-    "description": "Kỹ năng phép kế tiếp của người nhận được cộng sát thương theo MAG của Ariel; chia đều cho các hit phép, trước khuếch đại.",
+    "description": "Cộng sát thương cho kỹ năng phép kế tiếp của một đồng đội, dựa trên MAG của Ariel.",
     "skillLineId": "ariel.spotlight",
     "growthProfile": "damage",
     "growthGroups": [
@@ -13184,7 +13184,7 @@
         "speed": 0.2
       }
     ],
-    "description": "Dựng Sân Khấu trong 4 vòng, tăng 20% SPD toàn đội.",
+    "description": "Dựng Sân Khấu để tăng SPD toàn đội.",
     "skillLineId": "ariel.stage",
     "growthProfile": "fixed",
     "growthGroups": [],
@@ -13218,7 +13218,7 @@
         "amount": 2
       }
     ],
-    "description": "Công kích toàn bộ địch, giảm RES trong 3 lượt chính nếu trúng và tạo 2 Tham Vọng.",
+    "description": "Tấn công toàn địch, giảm RES khi trúng và tích Tham Vọng.",
     "skillLineId": "charlotte.entrance",
     "growthProfile": "damage",
     "growthGroups": [
@@ -13251,7 +13251,7 @@
         "amount": 3
       }
     ],
-    "description": "Tăng ATK và MAG căn bản cho đồng đội ngoài Quang/Ám trong 4 lượt chính, tạo 3 Tham Vọng. Rank kỹ năng cũng tăng sát thương Liên kích nội tại.",
+    "description": "Tăng ATK và MAG căn bản cho đồng đội ngoài Quang, Ám và tích Tham Vọng.",
     "skillLineId": "charlotte.rivalry",
     "growthProfile": "stat_buff",
     "growthGroups": [
@@ -13293,7 +13293,7 @@
         "type": "grant_extra_turn"
       }
     ],
-    "description": "Bản thân và một đồng đội khác ngoài Quang/Ám nhận khuếch đại sát thương phép cho 2 lần gây sát thương phép, đồng thời nhận Lượt Thêm.",
+    "description": "Bản thân và một đồng đội khác ngoài Quang, Ám nhận khuếch đại phép theo số lần dùng cùng Lượt Thêm.",
     "skillLineId": "charlotte.spotlight",
     "growthProfile": "output_buff_mp",
     "growthGroups": [
@@ -13347,7 +13347,7 @@
         "status": "effect_ward"
       }
     ],
-    "description": "Hồi HP cho một đồng đội và cấp 1 Hộ Ấn.",
+    "description": "Hồi HP và cấp Hộ Ấn cho một đồng đội.",
     "skillLineId": "clark.first_aid",
     "growthProfile": "heal",
     "growthGroups": [
@@ -13370,7 +13370,7 @@
         "duration": 3
       }
     ],
-    "description": "Giảm 20% ATK và MAG toàn bộ địch trong 3 lượt chính.",
+    "description": "Giảm ATK và MAG toàn địch.",
     "skillLineId": "clark.reprimand",
     "growthProfile": "fixed",
     "growthGroups": [],
@@ -13392,7 +13392,7 @@
         "duration": 3
       }
     ],
-    "description": "Trong 3 vòng, toàn đội hồi 25% HP tối đa mỗi đầu lượt và giảm 15% sát thương nhận vào.",
+    "description": "Cấp hồi phục đầu lượt và giảm sát thương nhận vào cho toàn đội.",
     "skillLineId": "clark.sanctuary",
     "growthProfile": "fixed",
     "growthGroups": [],
@@ -13442,7 +13442,7 @@
         "duration": 4
       }
     ],
-    "description": "Tăng RES toàn đội trong 4 lượt chính.",
+    "description": "Tăng RES cho toàn đội.",
     "skillLineId": "mariel.lesson",
     "growthProfile": "stat_buff",
     "growthGroups": [
@@ -13465,7 +13465,7 @@
         "duration": 3
       }
     ],
-    "description": "Khiêu Khích, Che Chắn toàn đội và tăng RES bản thân trong 3 lượt chính.",
+    "description": "Khiêu Khích, Che Chắn toàn đội và tăng RES bản thân.",
     "skillLineId": "mariel.interpose",
     "growthProfile": "stat_buff",
     "growthGroups": [
