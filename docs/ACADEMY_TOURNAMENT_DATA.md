@@ -10,7 +10,7 @@ Năm collection được index theo ID bởi assembleContent và validate cùng 
 
 `groupStage` khai bốc thăm4 nhóm,3 lượt bảng, điểm và phân hạng. `knockout.bracket` khai suất group/position hoặc winnerOf trận trước. Không dùng đội cụ thể cố định ở tứ kết; kết quả vòng bảng quyết định suất. Validator chống forward reference/cycle/đội cùng bảng ở cùng nửa nhánh.
 
-`retry` và `replay` khác nhau: retry cùng trận giữseed; replay sau kết thúc tạo run/seed mới nhưng giữ permanent ledger. Tuyệt đối không đặt `inventory`, `ownership`, `storyFlags` hoặc `firstRewardClaims` vào danh sách reset. `repeatRewards:[]` không cấm chơi lại, chỉ cấm tự phát thưởng lặp ởv1.
+`retry` và `replay` khác nhau: retry cùng trận giữseed; replay sau kết thúc tạo run mới nhưng giữ permanent ledger; schema mới tách drawSeed cố định trước First Clear khỏi seed chiến đấu mới (mục 14 đặc tả), boolean newSeed hiện tại chỉ là invariant dữ liệu nền cũ. Tuyệt đối không đặt `inventory`, `ownership`, `storyFlags` hoặc `firstRewardClaims` vào danh sách reset. `repeatRewards:[]` không cấm chơi lại, chỉ cấm tự phát thưởng lặp ởv1.
 
 ## Đội và thành viên
 
@@ -46,4 +46,9 @@ Cấu hình chuẩn hóa chung nằm ở `trialRules`; thay mức playtest phả
 
 Mục 13 của [đặc tả](ACADEMY_TOURNAMENT.md) là hướng cập nhật NPC/seed/First Clear. JSON hiện tại chỉ có 16 đội nền, không phải pool mới. Khi triển khai phải tách pool ứng viên với 16 đội tham dự; giữ 15 suất NPC: 14 filler + 1 chủ chốt hoặc 13 filler + 2 chủ chốt sau First Clear.
 
-Phân biệt NPC có tên riêng tái dùng kit với chính Rotary/Monica/Lumine/Eri đăng ký dự thi; encounter siêu trùm của họ là dữ liệu riêng. Không dùng nhãn chủ chốt để thêm buff ngầm trong combat. Chưa chốt schema mới, không tự thêm các trường mà validator/loader chưa hiểu; chưa thay luật RNG/replay hoặc mở publication chỉ từ cập nhật tài liệu.
+Phân biệt NPC có tên riêng tái dùng kit với chính Rotary/Monica/Lumine/Eri đăng ký dự thi; encounter siêu trùm của họ là dữ liệu riêng. Không dùng nhãn chủ chốt để thêm buff ngầm trong combat. Contract schema đề xuất ở mục 14 (candidate/participant, quota pot, identity union, seed policy) chưa được triển khai; không tự thêm các trường mà validator/loader chưa hiểu; chưa thay luật RNG/replay hoặc mở publication chỉ từ cập nhật tài liệu.
+
+
+## First Clear và giải pháp blocker
+
+Bỏ First Run. Trước First Clear dùng cấu hình giới thiệu/drawSeed cố định; sau First Clear mới mở pool ngẫu nhiên và gate siêu trùm ở lượt mới. Mục 14 đặc tả định nghĩa chọn đội theo quota pot 4/4/4/3 NPC, bạn cũ Luka pot 3, 7A pot 4; tách runId/drawSeed/combatSeed và identity NPC gốc/nhân vật thật. Pool mục tiêu là 26 NPC teams; 16 là số đội trong một phiên. Validator nền hiện chưa hiểu contract mới; mở rộng và test đồng bộ trước thay JSON. Không chạy runtime hoặc công bố tính năng từ tài liệu này.

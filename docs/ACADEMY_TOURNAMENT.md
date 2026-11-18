@@ -184,12 +184,12 @@ Nghiệm thu bước1–2 ngày18/11: validate qua đủ5 collection;1.773/1.773
 
 ### 13.2. Những yêu cầu đã được người dùng chốt
 
-- Có First Clear Flag vĩnh viễn theo hồ sơ; lượt đầu dùng **seed cố định**. Không ép kết quả chiến đấu theo seed truyện.
+- Có First Clear Flag vĩnh viễn theo hồ sơ; trước First Clear dùng **cấu hình giới thiệu và drawSeed cố định**. Không ép kết quả chiến đấu theo seed truyện.
 - Có **18 đội NPC phụ (filler)** để làm đầy giải và tạo đa dạng đội hình.
 - Có **4 đội NPC chủ chốt có quan hệ với lớp 7A**. Trong đó một đội có bạn cũ cùng quê Luka, gắn với cấu hình giới thiệu cố định. Ba đội còn lại phải có quan hệ với thành viên 7A; chưa chốt tên, tiểu sử hay quan hệ cụ thể.
 - Sau First Clear, mỗi giải có **1–2 đội chủ chốt**, phần còn lại là filler; vẫn có lớp 7A.
 - Đội chủ chốt thường có xác suất thắng cao hơn khi mô phỏng các trận NPC.
-- Rotary, Monica, Lumine và Eri có thể xuất hiện trong giải. Ngoài ra có bốn cuộc chạm trán siêu trùm hiếm sau lượt đầu, tương ứng bốn người này; bản siêu trùm không bắt buộc giống bộ kỹ năng playable.
+- Rotary, Monica, Lumine và Eri có thể xuất hiện trong giải. Ngoài ra có bốn cuộc chạm trán siêu trùm hiếm ở các lượt giải được mở sau First Clear, tương ứng bốn người này; bản siêu trùm không bắt buộc giống bộ kỹ năng playable.
 
 ### 13.3. Số đội và pool
 
@@ -202,17 +202,29 @@ Giữ giải 16 đội, nên có 15 suất NPC bên cạnh 7A. Cách quy đổi 
 
 Đây là điều chỉnh số học theo thể thức đang giữ, không phải tăng giải lên 17–18 đội. Tỷ lệ chọn hai cấu hình **chưa được người dùng chốt**; 50/50 là đề xuất playtest, không phải luật đã duyệt.
 
-Pool authoring gồm 18 đội filler và 4 đội quan hệ. Đề xuất bổ sung 4 đội do Rotary/Monica/Lumine/Eri đại diện vào pool chủ chốt: khi triển khai phải chốt họ là bốn đội riêng hay thuộc các đội quan hệ, không âm thầm coi tổng pool 26 đã được duyệt. Trong một giải, các đội đặc biệt này chiếm suất chủ chốt, không xuất hiện thêm ngoài 15 suất NPC. Một nhân vật thật không đăng ký ở hai đội cùng giải.
+Pool mục tiêu của phương án triển khai: **26 đội NPC**, gồm 18 filler + 4 đội quan hệ với 7A + 4 đội do Rotary/Monica/Lumine/Eri đại diện. Hai nhóm sau đều tính là chủ chốt. Đây là phương án tổ chức nội dung để giải quyết pool, không phải 26 đội cùng thi. Cộng đội 7A là 27 định nghĩa đội; mỗi giải vẫn chỉ chọn 16. Chưa có tên/roster hoàn chỉnh cho các đội mới.
 
-### 13.4. First Run, First Clear và chơi lại
+### 13.4. First Clear là mốc tiến trình duy nhất
 
-Phải tách: (a) lượt đầu đã kết thúc, (b) đã vô địch lần đầu — ý nghĩa đề xuất của First Clear, (c) đã nhận từng mốc thưởng. Không dùng ledger thưởng làm cờ kết thúc lượt đầu. Chơi lại không xóa bất kỳ trạng thái vĩnh viễn nào này.
+**Quyết định mới nhất thay thế các cách diễn đạt cũ:** bỏ First Run. Không tạo cờ “đã kết thúc lượt đầu” hoặc dùng số lượt đã chơi để mở nội dung. First Clear nghĩa là hồ sơ đã vô địch giải ít nhất một lần.
 
-**Đề xuất cấu hình giới thiệu, chưa triển khai:** 7A + 4 đội quan hệ + 11 filler chọn sẵn; bạn cũ Luka cùng bảng để chắc chắn có trận trực tiếp. Seed cố định chốt chọn đội/bốc thăm/lịch và RNG liên quan; không chốt thắng thua của người chơi. ID lượt chơi vẫn phải mới khi chơi lại dù dùng lại seed giới thiệu.
+| Trạng thái khi tạo lượt giải | Cấu hình |
+| --- | --- |
+| Chưa First Clear | Cấu hình giới thiệu cố định; 7A + 4 đội quan hệ + 11 filler chọn sẵn; bảo đảm bạn cũ Luka cùng bảng |
+| Đã First Clear | Chọn theo quota ở mục 14; 1–2 đội chủ chốt; mở khả năng sinh encounter siêu trùm hiếm |
 
-**Điểm cần chốt trước runtime:** nếu kết thúc lượt đầu nhưng chưa vô địch, thử lại tiếp tục seed giới thiệu hay chuyển sang seed mới? Phương án đề xuất là giữ cấu hình giới thiệu đến First Clear. Đây không phải quyết định đã được người dùng xác nhận.
+Thua, bị loại hoặc rút giải không bật First Clear. Chơi lại trước khi clear vẫn dùng cấu hình giới thiệu. Vô địch lần đầu phải chốt kết quả giải và First Clear trong cùng giao dịch lưu thành công; lỗi lưu giữ kết quả chờ, không mở nội dung sớm. Cờ vĩnh viễn độc lập với ledger thưởng: chưa bấm nhận thưởng không đồng nghĩa chưa clear. Chơi lại/qua ngày/cập nhật luật không xóa cờ.
 
-Ngưỡng mở siêu trùm cần phân biệt: yêu cầu ban đầu là “sau first run”; phương án kế hoạch trước đề xuất “sau First Clear”. Chưa được phép đồng nhất hai mốc này trong code. Khi chốt phải chỉ rõ xử lý thua/rút lui ở lượt đầu.
+Lượt giải đang diễn ra giữ nguyên cấu hình đã chốt lúc tạo. Vô địch không chèn siêu trùm vào phần cuối lượt giới thiệu; pool mới và gate encounter chỉ áp dụng khi mở lượt giải tiếp theo.
+
+Tách danh tính và các luồng ngẫu nhiên:
+- `runId`: duy nhất cho mỗi lượt giải mới, kể cả khi dùng cùng cấu hình giới thiệu; tạo lượt phải chống nhấn lặp bằng token/revision.
+- `drawSeed`: cố định theo phiên bản cấu hình giới thiệu trước clear; mới mỗi lượt giải sau clear. Chốt chọn đội/bốc thăm/lịch. Không suy drawSeed chỉ từ runId.
+- `simulationSeed`: luồng độc lập cho NPC–NPC, đề xuất mới mỗi lượt giải; kết quả từng trận chỉ commit một lần.
+- `combatSeed`: độc lập theo lượt giải và trận. Mở lượt giải mới tạo seed mới; thử lại cùng trận hoặc tải save giữ nguyên seed và checkpoint/RNG đã lưu.
+- `encounterSeed`: luồng riêng cho encounter hiếm, chỉ dùng ở lượt đủ điều kiện; quyết định và kết quả đã lưu không quay lại khi xem menu hoặc tải save.
+
+Seed cố định bảo đảm cuộc gặp và lịch giới thiệu, không ép thắng thua hoặc buộc các lượt chơi mới lặp toàn bộ RNG chiến đấu. Cấu hình/version, danh sách đội và snapshot luật đã lưu không bị đổi bởi cập nhật giữa phiên.
 
 ### 13.5. NPC phụ và chủ chốt
 
@@ -236,11 +248,64 @@ Phương án đề xuất: cuộc chạm trán tùy chọn ở khoảng nghỉ, 
 
 ### 13.8. Các bước cập nhật tiếp theo và nghiệm thu
 
-1. Chốt các điểm mở về seed khi chưa clear, ngưỡng mở siêu trùm và ánh xạ bốn nhân vật thật vào đội.
-2. Viết/duyệt hồ sơ 18 filler và 4 đội quan hệ; thêm đội đặc biệt theo quyết định ở bước 1.
+1. Dùng First Clear làm gate duy nhất; triển khai contract seed, quota và định danh ở mục 14 trước khi thêm nội dung.
+2. Viết/duyệt 18 đội filler, 4 đội quan hệ và 4 đội đại diện nhân vật thật theo pool mục tiêu.
 3. Mở rộng schema/validator: pool khác danh sách tham dự; phân loại đội; giới hạn số đội; cấu hình giới thiệu và trạng thái hồ sơ. Không chỉ thêm đội vào teamIds hiện tại vì validator cũ đang yêu cầu đúng 16.
-4. Triển khai chọn 15 NPC, chia hạt giống, bốc thăm/lịch và mô phỏng có lưu seed. Sau đó tích hợp phiên/save/First Clear/replay.
+4. Triển khai chọn đội đồng thời theo quota hạt giống và chủ chốt, sau đó bốc thăm/lịch và mô phỏng có lưu seed. Sau đó tích hợp phiên/save/First Clear/replay.
 5. Viết cảnh theo đối thủ và kết quả; triển khai combat tỷ thí rồi mới thêm các siêu trùm hiếm.
 6. Kiểm tra đủ 16 đội mỗi lượt, đúng quota chủ chốt, không trùng người thật, reload không reroll; thua/rút lui/chơi lại không mất cờ hoặc nhân đôi thưởng; ưu thế NPC không thành buff bí mật khi đấu người chơi.
 
 **Trạng thái cập nhật này: chỉ tài liệu.** JSON, validator, test và runtime vẫn ở nền bước 2 nêu tại mục 11; chưa có pool 18 filler, 4 đội quan hệ, First Clear hay encounter hiếm chạy trong game.
+
+
+## 14. Phương án giải quyết blocker trước implementation
+
+Các tên trường dưới đây là **contract schema đề xuất**, chưa tồn tại trong code. Cần cập nhật JSON, validator, loader, save và test đồng bộ; không thêm trường chỉ để validator bỏ qua.
+
+### 14.1. Chọn theo quota hạt giống
+
+Tách `candidateTeamIds` (pool nội dung) khỏi `participantTeamIds` (16 đội đã chốt trong phiên). Mỗi định nghĩa đội có `seedPot` và `narrativeRole` = filler/key/player. Mỗi giải phải có đúng 4 đội mỗi pot 1–4; 7A chiếm một suất pot 4, nên số NPC cần chọn lần lượt **4/4/4/3**.
+
+Phân bổ authoring khả thi ban đầu:
+
+| Pool | Pot 1 | Pot 2 | Pot 3 | Pot 4 | Tổng |
+| --- | --- | --- | --- | --- | --- |
+| Filler | 5 | 5 | 4 | 4 | 18 |
+| Bốn đội quan hệ | 1 | 1 | 1 (bạn cũ Luka) | 1 | 4 |
+| Bốn đội nhân vật thật | Phân pot theo sức mạnh sau playtest; không bắt buộc mỗi pot một đội | — | — | — | 4 |
+| 7A | 0 | 0 | 0 | 1 | 1 |
+
+Giới thiệu chọn cả bốn đội quan hệ, rồi filler theo quota **3/3/3/2**; bạn cũ pot 3 và 7A pot 4 được khóa cùng bảng trước khi điền các suất còn lại. Kiểm ràng buộc ngay lúc authoring, không hy vọng một seed ngẫu nhiên sửa được hai đội cùng pot.
+
+Sau clear, chọn số đội chủ chốt K = 1 hoặc 2 theo trọng số cấu hình. Bộ chọn có seed dùng tìm kiếm hữu hạn/backtracking trên tổ hợp nhỏ: chọn các đội chủ chốt không xung đột định danh, giữ đủ suất cho từng pot, rồi điền filler trong từng pot. Rút gọn nhánh ngay khi không còn đủ ứng viên. Không chọn 15 đội tùy ý rồi đổi pot để vá, không nới quota hoặc lặp roll vô hạn.
+
+Validator phải chứng minh mỗi cấu hình K có trọng số dương có ít nhất một tập hợp hợp lệ. Nếu thiếu, báo lỗi nội dung kèm pot/quota/xung đột; không bắt đầu phiên và không ghi save nửa chừng. Thứ tự ứng viên chuẩn hóa trước khi shuffle để cùng seed/content version có cùng kết quả.
+
+### 14.2. Thay hợp đồng replay một seed
+
+Schema mới dùng chính sách seed theo mục 13.4, thay invariant `replay.newSeed === true`. Không đổi ý nghĩa boolean cũ một cách im lặng. Giữ `replay.enabled`, điều kiện phiên đã kết thúc, preserve ledger/cờ/account và chống tạo hai lượt.
+
+Runtime lưu runId, drawSeed, các seed/tiến độ RNG độc lập, phiên bản cấu hình, participantTeamIds và luật snapshot. ID instance đơn vị phải dựa trên runId/đội/ô, không dựa riêng drawSeed vì drawSeed giới thiệu được dùng lại. Nếu gặp save thử nghiệm cũ khi migration, không tự coi một lượt đã kết thúc là First Clear; chỉ suy từ kết quả champion đã được lưu đáng tin cậy, nếu không giữ false.
+
+### 14.3. Định danh học viên gốc và nhân vật thật
+
+Mỗi member có memberId độc lập và `identity` theo tagged union:
+- `kind: original_npc`, `npcId`: học viên gốc; buildId có thể tái dùng templateCharacterId. Dùng kit Monica không có nghĩa học viên đó chính là Monica.
+- `kind: named_character`, `characterId`: chính Rotary/Monica/Lumine/Eri; tham chiếu nhân vật thật và build thi đấu riêng, không cấp ownership/gear vào tài khoản.
+- `kind: player_loan`, `characterId`: sáu người lớp 7A, chọn bốn xuất chiến như hiện tại.
+
+Kiểm memberId/npcId phù hợp, characterId và build nguồn khớp nhau. Sau khi chọn danh sách tham dự, mỗi characterId thật chỉ được đăng ký ở một đội (kể cả người dự bị); không cấm một nhân vật có nhiều phương án đội trong pool nhưng không thể cùng được chọn. Tương tự không nhân bản một npcId gốc trong hai đội tham dự. Unit instanceId combat vẫn riêng, không dùng characterId làm ID đơn vị.
+
+Siêu trùm có enemyId/encounterId riêng, có thể tham chiếu characterId cho lore nhưng không dùng roster thi đấu để suy ra kit boss. Cùng nhân vật xuất hiện ở giải và cuộc chạm trán riêng không phải hai đăng ký đội; việc hạn chế lặp mặt là chính sách nội dung riêng chưa chốt.
+
+### 14.4. Ma trận nghiệm thu bắt buộc
+
+- Giới thiệu luôn đủ 16 đội/4 đội mỗi pot, bạn cũ khác pot và cùng bảng 7A; không ép kết quả.
+- Sau clear: K=1 → 14 filler, K=2 → 13 filler; quota 4/4/4/3 NPC luôn đúng, đội chủ chốt tính gồm đội nhân vật thật.
+- Chạy nhiều seed; dữ liệu không khả thi thất bại hữu hạn trước ghi phiên; seed giống với cùng version cho cùng bốc thăm.
+- Thua/rút lui chưa clear → seed giới thiệu; champion commit thành công → clear; lỗi lưu/nhận thưởng chậm không tạo sai gate.
+- Chơi lại: runId/unit instance mới dù drawSeed cũ; combat seed mới. Retry/reload cùng trận không reroll; AI kết quả commit một lần.
+- Trước clear không sinh siêu trùm; sau clear chỉ có cơ hội, không bảo đảm xuất hiện. Không thêm vào lượt đã tạo trước khi clear.
+- Nhân vật thật trùng hai đội bị chặn; NPC dùng cùng kit nhưng khác npcId không bị nhận nhầm thành cùng người. Bản boss không làm đổi playable.
+
+Tần suất siêu trùm, trọng số K, lợi thế rating và kit/thưởng boss vẫn là cấu hình cần playtest; các giá trị 15% và 50/50 trước đây không tự trở thành quyết định đã chốt.

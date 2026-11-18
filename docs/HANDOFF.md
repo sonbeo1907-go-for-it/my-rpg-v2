@@ -16,7 +16,7 @@ Rà soát ngày **03/11/2026**, múi giờ Việt Nam. Đây là context dự á
 
 ## Thiết kế NPC giải học viện — 18/11/2026, chỉ tài liệu
 
-Xem mục 13 [ACADEMY_TOURNAMENT](ACADEMY_TOURNAMENT.md): 18 filler, 4 đội có quan hệ 7A; sau First Clear giữ 16 đội gồm 7A + 14 filler/1 chủ chốt hoặc 13 filler/2 chủ chốt. Rotary/Monica/Lumine/Eri có thể dự giải và có bản siêu trùm riêng. Đội chủ chốt được ưu thế mô phỏng, không buff bí mật trong trận với người chơi. Seed đầu cố định; các điểm còn mở (retry trước clear, gate siêu trùm, pool đội đặc biệt) được đánh dấu, không coi đề xuất là đã chốt. JSON/validator vẫn là nền 16 đội cũ, chưa triển khai cơ chế mới.
+Xem mục 13 [ACADEMY_TOURNAMENT](ACADEMY_TOURNAMENT.md): 18 filler, 4 đội có quan hệ 7A; sau First Clear giữ 16 đội gồm 7A + 14 filler/1 chủ chốt hoặc 13 filler/2 chủ chốt. Rotary/Monica/Lumine/Eri có thể dự giải và có bản siêu trùm riêng. Đội chủ chốt được ưu thế mô phỏng, không buff bí mật trong trận với người chơi. First Clear là gate duy nhất, bỏ First Run; chưa clear dùng drawSeed giới thiệu cố định, clear rồi mới mở pool ngẫu nhiên/siêu trùm ở lượt mới. Mục 14 có giải pháp quota pot, pool mục tiêu 26 NPC, runId/seed tách biệt và identity nhân vật thật. Các con số xác suất còn là đề xuất playtest. JSON/validator vẫn là nền 16 đội cũ, chưa triển khai cơ chế mới.
 
 ## Cập nhật 17/11/2026 — Charlotte
 
