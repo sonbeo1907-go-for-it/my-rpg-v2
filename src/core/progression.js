@@ -1,3 +1,4 @@
+import {emptyTournamentState,normalizeTournamentState} from './tournament-session.js';
 import {preparedTeamAuras} from './knight-passives.js';
 import {grantTrialMilestones} from './unrecorded-rewards.js';
 import {normalizeTrialLedger} from './unrecorded-trials.js';
@@ -53,6 +54,7 @@ export function createCampaign(content) {
     dailyCommissions: emptyDailyCommissions(),
     shopDaily: emptyShopDaily(),
     chronicles:emptyChronicleState(),
+    tournaments:emptyTournamentState(),
     illusion: emptyIllusionState(),
     ...emptyBlacksmithState(),
   };
@@ -179,6 +181,7 @@ export function serializeCampaign(campaign) {
     pendingGearReforge: campaign.pendingGearReforge ?? null,
     illusion: campaign.illusion ?? emptyIllusionState(),
     chronicles:campaign.chronicles??emptyChronicleState(),
+    tournaments:campaign.tournaments??emptyTournamentState(),
   });
 }
 
@@ -362,6 +365,7 @@ export function deserializeCampaign(raw, content) {
     result.gacha = normalizeGachaState(input.gacha, result, content);
   Object.assign(result, normalizeBlacksmithState(input, content, result));
   result.chronicles=normalizeChronicleState(input.chronicles,content,result);
+  result.tournaments=normalizeTournamentState(input.tournaments);
   for(const id of Object.keys(result.characters)) result.characters[id].skillRanks=validateCharacterSkillRanks(content,result,id);
   grantTrialMilestones(result,content);
   return result;

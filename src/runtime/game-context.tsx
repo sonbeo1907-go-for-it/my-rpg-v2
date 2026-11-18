@@ -108,6 +108,7 @@ type GameContextValue = {
   ) => Promise<boolean>;
   startBattle: (id: string,difficultyId?:string,superLevel?:number,trial?:any) => boolean;
   progressionLocked:boolean;
+  tournamentAudio:(group:string|null)=>void;
   upgradeCharacterSkill:(id:string,line:string,expectedRank:number)=>Promise<boolean>;
   updateAllocations:(id:string,allocations:Record<string,number>)=>Promise<boolean>;
   breakCharacterLimit:(id:string)=>Promise<boolean>;
@@ -127,7 +128,7 @@ type GameContextValue = {
   cancelNewBattle: () => void;
   confirmNewBattle: () => boolean;
 };
-const GameContext = createContext<GameContextValue | null>(null);
+export const GameContext = createContext<GameContextValue | null>(null);
 export const useGame = () => {
   const value = useContext(GameContext);
   if (!value) throw new Error("Thiếu GameProvider");
@@ -863,6 +864,7 @@ export function GameProvider({
   }
   const inAdventure=()=>Boolean(campaignRef.current?.arenaProgress?.pending)||Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
+    tournamentAudio:group=>{if(group){music.current?.setRoute('/battle');music.current?.start(group);}else{music.current?.stop();music.current?.setRoute(path);}},
     farm,startFarming,stopFarming:()=>stopFarming(),toggleAutoBattle,
     sweepResult,dismissSweepResult:()=>setSweepResult(null),
     fortressCommand,visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,

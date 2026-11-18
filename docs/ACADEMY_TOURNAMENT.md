@@ -322,3 +322,13 @@ Member dùng identity tagged union original_npc/named_character/player_loan; bui
 specialEncounters chỉ khai bốn nhân vật và gate sau First Clear, configured=false/design_only; chưa có kit, xác suất, thưởng hoặc trận siêu trùm chạy được. Rating đội chủ chốt là dữ liệu playtest cho mô phỏng tương lai, không cấp buff chiến đấu.
 
 Vẫn enabled=false/data_only. Chưa có schedule engine, áp ràng buộc cùng bảng vào bốc thăm thực tế, combat adapter, UI, save phiên hoặc replay chạy được. Các phần ấy vẫn cần triển khai/kiểm thử riêng; không dùng helper chọn pool để tuyên bố giải hoàn chỉnh.
+
+
+## Trạng thái bước phiên/lịch/mô phỏng — 18/11/2026
+
+Đã triển khai ba bước core tiếp theo: [Phiên giải học viện](ACADEMY_TOURNAMENT_SESSION.md). Có save v7 tương thích, snapshot, lịch bảng/nhánh/playoff hữu hạn và simulation sau confirm. Những ghi chú “chưa có schedule/session/save” phía trên là lịch sử trước đợt này. Chưa có UI, combat adapter/restore engine thật, cảnh tương tác, payout hay boss hiếm; vẫn data_only và chưa phát hành.
+
+
+## Cập nhật bước 4–5 — bản chơi thử
+
+Đã mở `/chronicles/academy` từ kệ sách; có combat adapter, lưu/khôi phục trận thật, chuẩn bị/trinh sát, bảng giải và kết quả/replay UI. Xem [Combat và UI giải học viện](ACADEMY_TOURNAMENT_COMBAT_UI.md). enabled=true/publication=playtest thay ghi chú data_only/chưa có UI ở các phần lịch sử. Chưa payout, hoàn thiện NPC hoặc boss hiếm.

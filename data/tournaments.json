@@ -5,8 +5,8 @@
     "rulesetVersion": "academy-2.0.0",
     "name": "Mùa Thi Đấu, Những Vì Sao Chưa Sáng",
     "bookId": "academy_tournament",
-    "publication": "data_only",
-    "enabled": false,
+    "publication": "playtest",
+    "enabled": true,
     "description": "Lớp 7A tham dự giải đấu liên khoa của Học Viện Ma Pháp.",
     "playerTeamId": "academy.class_7a",
     "entry": {

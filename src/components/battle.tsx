@@ -474,7 +474,7 @@ function BattleResultControls() {
     </>
   );
 }
-export function BattlePage() {
+export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode}={}) {
   const { preferences } = useSettings();
   const [gamepadPhase, setGamepadPhase] = useState<"skill" | "target">("skill");
   const {
@@ -745,6 +745,7 @@ export function BattlePage() {
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined||effect.to==='primary') ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
+  if(battle.tournament&&isBattleFinished(battle)&&!busy)return <main className="page battle-page"><PageHeader title={battle.outcome==='victory'?'Tỷ thí kết thúc · Chiến thắng':'Tỷ thí kết thúc · Thất bại'} back="/chronicles/academy"/><section className="panel">{tournamentResult}</section><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · {battle.arena.matchType==="ranked"?"Đấu Hạng với AI":battle.arena.mode==="match"?"Đấu Thường với AI":"Luyện Tập"}</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(isBattleFinished(battle)&&!busy&&!farm?.enabled)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel,battle.trial?.selection)}/><FarmPanel/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
   return (
@@ -762,7 +763,7 @@ export function BattlePage() {
         title={
           battle.dungeon
             ? `${content.dungeons[battle.dungeon.typeId].name} · ${content.dungeons[battle.dungeon.typeId].difficulties.find((item: any) => item.id === battle.dungeon.difficultyId).name}`
-            : battle.arena?"Đấu Trường":content.encounters[battle.encounterId].name
+            : battle.tournament?"Tỷ thí học viện":battle.arena?"Đấu Trường":content.encounters[battle.encounterId].name
         }
         subtitle={
           battle.dungeon
@@ -772,10 +773,10 @@ export function BattlePage() {
         back={
           battle.dungeon
             ? `/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`
-            : battle.arena?"/arena":encounterReturnPath(content, battle.encounterId,battle.questDifficulty,battle.enemyLevel,battle.trial?.selection)
+            : battle.tournament?"/chronicles/academy":battle.arena?"/arena":encounterReturnPath(content, battle.encounterId,battle.questDifficulty,battle.enemyLevel,battle.trial?.selection)
         }
       >
-        {!battle.arena&&!battle.chronicle&&!battle.outcome&&<button className="auto-battle-toggle" aria-pressed={Boolean(farm?.enabled)} disabled={busy&&!farm?.enabled} onClick={toggleAutoBattle}>Tự động: {farm?.enabled?'Bật':'Tắt'}</button>}
+        {!battle.arena&&!battle.tournament&&!battle.chronicle&&!battle.outcome&&<button className="auto-battle-toggle" aria-pressed={Boolean(farm?.enabled)} disabled={busy&&!farm?.enabled} onClick={toggleAutoBattle}>Tự động: {farm?.enabled?'Bật':'Tắt'}</button>}
         {battle.arena&&<Link className="button arena-exit" href="/arena">Rời trận · Xử thua</Link>}
         <div className="combat-speed" role="group" aria-label="Tốc độ hiệu ứng">
           <button

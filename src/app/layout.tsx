@@ -18,6 +18,7 @@ import "./quests.css";
 import "./unrecorded.css";
 import "./stories.css";
 import "./chronicles.css";
+import "./academy.css";
 import "./fortress.css";
 import "./blacksmith.css";
 import "./garden.css";

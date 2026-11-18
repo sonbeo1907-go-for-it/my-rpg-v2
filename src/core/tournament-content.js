@@ -47,7 +47,7 @@ export function validateTournamentContent(content){
   for(const r of reward.rewards)if(!record(r)||r.type!=='currency'||!FIRST_CLEAR_CURRENCIES.includes(r.currency)||!whole(r.amount,1,100000))fail(reward.id+': invalid reward currency');
  }
  for(const d of Object.values(tournaments)){
-  if(d.schemaVersion!==2||!/^academy-\d+\.\d+\.\d+$/.test(d.rulesetVersion)||!text(d.bookId)||content.chronicles?.[d.bookId]||d.publication!=='data_only'||d.enabled!==false||!text(d.description))fail(d.id+': unpublished definition required');
+  if(d.schemaVersion!==2||!/^academy-\d+\.\d+\.\d+$/.test(d.rulesetVersion)||!text(d.bookId)||content.chronicles?.[d.bookId]||!((d.publication==='data_only'&&d.enabled===false)||(d.publication==='playtest'&&d.enabled===true))||!text(d.description))fail(d.id+': unpublished definition required');
   const poolErrors=validateTournamentPool(d,teams,builds,content.characters);poolErrors.forEach(fail);
   if(poolErrors.length)continue;
   const members=d.candidateTeamIds.map(id=>teams[id]);

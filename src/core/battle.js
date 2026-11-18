@@ -1,3 +1,4 @@
+import {judgeTournamentLimit} from './tournament-judging.js';
 import {initializeEncounterBosses,observeEncounterBosses,encounterBossRoundStart,prepareBossRitual,observeBossWeakness,encounterHitMultiplier,encounterOffenseMultiplier,beginBossRitualTurn,finishBossRitualTurn,bossIncomingMultiplier,ritualJobAbility,beginRitualAction,finishEncounterBosses} from './encounter-rituals.js';
 import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
 import {trialRoundStart,announceTrialMechanic} from './trial-warnings.js';
@@ -163,9 +164,9 @@ export function createBattle(
       : campaign.party
           .filter(Boolean)
           .map((id) =>
-            makeActor(resolveCharacter(content, campaign, id), "party", opponent?`party:${campaign.party.indexOf(id)}:${id}`:id),
+            makeActor(resolveCharacter(content, campaign, id), "party", opponent?`${options.unitIdPrefix??""}party:${campaign.party.indexOf(id)}:${id}`:id),
           )),
-    ...(opponent ? opponent.party.filter(Boolean).map(id=>makeActor(resolveCharacter(content,opponent,id),'enemy',`enemy:${opponent.party.indexOf(id)}:${id}`)) : (encounter.waves?.[options.storyWaveIndex ?? 0] ?? encounter.enemies).map((id, index) => {
+    ...(opponent ? opponent.party.filter(Boolean).map(id=>makeActor(resolveCharacter(content,opponent,id),'enemy',`${options.unitIdPrefix??''}enemy:${opponent.party.indexOf(id)}:${id}`)) : (encounter.waves?.[options.storyWaveIndex ?? 0] ?? encounter.enemies).map((id, index) => {
       const definition = structuredClone(content.enemies[id]);
       definition.referenceLevel=encounter.referenceLevel??definition.referenceLevel;
       const level=requestedLevel??definition.referenceLevel;
@@ -210,7 +211,8 @@ export function createBattle(
   const battle = {
     content,
     encounterId,
-    arena:opponent?{prototype:true,opponentName:options.opponentName??'Đội mô phỏng',maxRounds:options.pvpRules?.maxRounds??40,rulesetVersion:options.pvpRules?.rulesetVersion}:null,
+    tournament:options.tournament?structuredClone(options.tournament):null,
+    arena:opponent&&!options.tournament?{prototype:true,opponentName:options.opponentName??'Đội mô phỏng',maxRounds:options.pvpRules?.maxRounds??40,rulesetVersion:options.pvpRules?.rulesetVersion}:null,
     pvpRules:options.pvpRules,
     formationSize:opponent?{party:4,enemy:4}:undefined,
     encounterSupport,
@@ -270,6 +272,7 @@ function write(battle, message) {
 // Presentation events describe actual outcomes, independently of translated log text.
 // They contain only the most recent action, including reactions and next-turn regen.
 function emitEvent(battle, event) {
+  if(battle.tournament&&event.tournamentDirect){const source=battle.actors.find(a=>a.id===event.sourceId),target=battle.actors.find(a=>a.id===event.targetId);if(source&&target&&source.team!==target.team)battle.tournament.directHpDamage[source.team]+=event.amount;}
   battle.events.push(event);
 }
 
@@ -1018,6 +1021,7 @@ function finishMainRound(battle) {
   if(checkOutcome(battle))return;
   emitEvent(battle, { type: "round_end", round: battle.round });
   write(battle, `— Kết thúc Vòng Chính ${battle.round} —`);
+  if(judgeTournamentLimit(battle))return;
   if(battle.arena&&battle.round>=battle.arena.maxRounds){battle.outcome='draw';write(battle,'Đã hết giới hạn vòng · Hòa.');checkOutcome(battle);return;}
   startRound(battle);
 }
@@ -1724,6 +1728,7 @@ function resolveHit(
     targetId: target.id,
     sourceId: attacker.id,
     amount: vitalityDamage,
+    ...(battle.tournament?{tournamentDirect:true}:{}),
     ...(cappedHit.info?{pvpDamage:cappedHit.info}:{}),
     ...(life.maxHpLost?{maxHpDamage:life.maxHpLost}:{}),
     absorbed,
@@ -2521,13 +2526,13 @@ export function planAutoBattleTurn(battle){
  return chooseBattleAction(battle,actor,{abilityAvailability,targetsFor,basicAbility,forecast:forecastBattleAction});
 }
 export function planArenaEnemyTurn(battle){
- const actor=activeActor(battle);if(!battle.arena||battle.outcome||actor?.team!=='enemy')return null;
+ const actor=activeActor(battle);if((!battle.arena&&!battle.tournament)||battle.outcome||actor?.team!=='enemy')return null;
  return chooseBattleAction(battle,actor,{abilityAvailability,targetsFor,basicAbility,forecast:forecastArenaAction});
 }
 export function executeEnemyTurn(battle,plannedCommand) {
   const actor = activeActor(battle);
   if (!actor || actor.team !== "enemy") return;
-  if(battle.arena){
+  if(battle.arena||battle.tournament){
     const command=plannedCommand??planArenaEnemyTurn(battle);
     executeAction(battle,command);
     emitEvent(battle,{type:'arena_ai_decision',sourceId:actor.id,abilityId:command.abilityId,targetId:command.targetId,reason:command.aiReason,score:command.aiScore});

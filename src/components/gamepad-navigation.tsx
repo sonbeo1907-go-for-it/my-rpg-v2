@@ -41,6 +41,7 @@ const keyFor = (element: HTMLElement) =>
 function initial(root: ParentNode, path: string) {
   if(root instanceof Element&&root.matches('dialog.arena-preban-modal'))return root.querySelector<HTMLElement>('.arena-preban-grid button:not(:disabled),.filter-bar input');
   if(root instanceof Element&&root.matches('dialog'))return root.querySelector<HTMLElement>('[role=tab][aria-selected=true]')??root.querySelector<HTMLElement>('footer button:not(:disabled)')??controls(root)[0];
+  if(path==='/chronicles/academy')return root.querySelector<HTMLElement>('.skill-command.selected,.academy-actions .gold,.academy-actions button');
   if(path==='/chronicles')return root.querySelector<HTMLElement>('.chronicle-book-cover');
   if(path==='/chronicles/book2')return root.querySelector<HTMLElement>('[data-fortress-primary]:not(:disabled),.fortress-area-list .selected');
   if(path.startsWith('/chronicles/unrecorded/'))return root.querySelector<HTMLElement>('.quest-difficulty-buttons button[aria-pressed=true]');
@@ -104,6 +105,7 @@ function hintList(
   root: Element,
   active: Element | null,
 ): [string, string][] {
+  if(path==='/chronicles/academy'&&!root.matches('dialog'))return root.matches('.battle-page')?[["A","Kỹ năng / Mục tiêu"],["B","Trở về giải"],["Y","Chi tiết"],["RS","Cuộn"]]:[["A","Chọn"],["B","Trở về"],["RS","Cuộn"]];
   if(path==='/chronicles/book2'&&!root.matches('dialog'))return [['A','Chọn'],['X','Công việc'],['Y','Đội hình'],['LB / RB','Khu vực'],['LT / RT','Đổi vùng'],['B','Khu vực / Kệ sách'],['RS','Cuộn']];
   if(path.startsWith('/chronicles')&&!root.matches('dialog'))return root.querySelector('.chronicle-location-list')?[['A','Chọn'],['LB / RB','Địa điểm'],['B','Trở về'],['RS','Cuộn']]:[['A','Tương tác'],['B','Trở về'],['RS','Cuộn']];
   if (root.matches("dialog")) {

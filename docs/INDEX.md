@@ -192,3 +192,7 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Mariel — khiên, RES căn bản và cleanse có số lượng](MARIEL.md)
 
 - [Giải học viện — đặc tả bước1 và dữ liệu bước2](ACADEMY_TOURNAMENT.md) · [Hướng dẫn authoring](ACADEMY_TOURNAMENT_DATA.md) —18/11/2026, data_only, chưa mở chơi.
+
+- [Phiên/lịch/mô phỏng giải học viện](ACADEMY_TOURNAMENT_SESSION.md)
+
+- [Tỷ thí học viện — combat và UI](ACADEMY_TOURNAMENT_COMBAT_UI.md)

@@ -14,6 +14,14 @@ Rà soát ngày **03/11/2026**, múi giờ Việt Nam. Đây là context dự á
 ## Giải học viện — 18/11/2026, chỉ bước1–2
 [ACADEMY_TOURNAMENT.md](ACADEMY_TOURNAMENT.md) là đặc tả luật; [ACADEMY_TOURNAMENT_DATA.md](ACADEMY_TOURNAMENT_DATA.md) mô tả5 collection/validator.16 đội,4 bảng,8 suất knockout; lớp7A mượn6 chọn4. **Kết thúc vô địch hoặc bị loại phải chơi lại được**, seed/run mới, không reset ledger/cờ/tài khoản. enabled=false, data_only, không thêm vào hai quyển đang chơi được. Chưa có schedule engine, run save, adapter combat, UI hoặc payout. Đừng báo rằng replay đã hoạt động chỉ vì data/test invariant qua.
 
+## Combat/UI giải học viện — 18/11/2026
+
+Đã có bản chơi thử `/chronicles/academy`, thẻ kệ sách, loan combat không PvP cap, checkpoint save, luật 40 vòng, kết quả và replay. Đọc [ACADEMY_TOURNAMENT_COMBAT_UI](ACADEMY_TOURNAMENT_COMBAT_UI.md); publication=playtest/enabled=true. Chưa payout/cảnh đối thủ/boss hiếm. Ghi chú chưa có UI bên dưới là lịch sử.
+
+## Phiên giải học viện — nền mới 18/11/2026
+
+Đã có core session/save v7, snapshot, fixtures/standings/playoff và mô phỏng NPC sau confirm. Đọc [ACADEMY_TOURNAMENT_SESSION](ACADEMY_TOURNAMENT_SESSION.md). Chưa có UI/combat adapter/payout/boss; data_only vẫn giữ. Các ghi chú bước 2 phía dưới là lịch sử.
+
 ## Thiết kế NPC giải học viện — 18/11/2026, chỉ tài liệu
 
 Xem mục 13 [ACADEMY_TOURNAMENT](ACADEMY_TOURNAMENT.md): 18 filler, 4 đội có quan hệ 7A; sau First Clear giữ 16 đội gồm 7A + 14 filler/1 chủ chốt hoặc 13 filler/2 chủ chốt. Rotary/Monica/Lumine/Eri có thể dự giải và có bản siêu trùm riêng. Đội chủ chốt được ưu thế mô phỏng, không buff bí mật trong trận với người chơi. First Clear là gate duy nhất, bỏ First Run; chưa clear dùng drawSeed giới thiệu cố định, clear rồi mới mở pool ngẫu nhiên/siêu trùm ở lượt mới. Mục 14 có giải pháp quota pot, pool mục tiêu 26 NPC, runId/seed tách biệt và identity nhân vật thật. Các con số xác suất còn là đề xuất playtest. Khung đã đồng bộ schema 2: 27 định nghĩa đội/pool, identity union, quota selector thuần và seed/First Clear contract; xem mục đồng bộ cuối đặc tả. Vẫn data_only: chưa có session/save/lịch/combat/UI/replay runtime.
