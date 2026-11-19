@@ -864,7 +864,7 @@ export function GameProvider({
   }
   const inAdventure=()=>Boolean(campaignRef.current?.arenaProgress?.pending)||Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
   const value: GameContextValue = {
-    tournamentAudio:group=>{if(group){music.current?.setRoute('/battle');music.current?.start(group);}else{music.current?.stop();music.current?.setRoute(path);}},
+    tournamentAudio:group=>{music.current?.setTournament(group);},
     farm,startFarming,stopFarming:()=>stopFarming(),toggleAutoBattle,
     sweepResult,dismissSweepResult:()=>setSweepResult(null),
     fortressCommand,visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,

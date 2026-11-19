@@ -174,3 +174,6 @@ Ba encounter category `east_super` ở Phương Đông, mở bởi `east_campaig
 [MARIEL.md](MARIEL.md): #116 Thủ Hộ Thường lớp7A, chưa có nguồn nhận/gacha. Chốt chỉ người có khiên nhận+9 RES căn bản/giảm15% phép, Mariel còn sống; không cộng theo số đồng đội. Khiên AoE chốt RES trước effect bằng snapshotScaling, tránh tự nâng giữa danh sách mục tiêu. cleanse.count=1 mỗi người, không khai count vẫn giải toàn bộ.
 
 - Rà soát 18/11: [mô tả từ Patricia và kiểm tra Lượt Thêm từ Belochkin](SKILL_COPY_REVIEW_2026_11_18.md). Sửa crash học viện do Set/mảng ở extraTurnGrants; giữ bộ luật Vòng Phụ.
+
+## BGM học viện — 18/11/2026
+Năm file tournament_* mới đã gắn: menu/luật/shop vòng bảng dùng first_half, từ tứ kết dùng second_half; trận tương ứng dùng battle_first_half/battle_sec_half. Lời mời/đấu siêu trùm dùng emergent, thắng dùng victory. Player tournament riêng, không ép route /battle hoặc dừng toàn bộ player. Route thật sở hữu pause/resume; cập nhật campaign không restart nhạc. Luật/mute/volume/tab ẩn dùng bộ điều khiển chung. Xem src/ui/academy-music.js và src/components/use-academy-music.ts.

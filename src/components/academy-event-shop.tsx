@@ -1,4 +1,6 @@
 "use client";
+import {academyMusicGroup} from '../ui/academy-music.js';
+import {useAcademyMusic} from './use-academy-music';
 import {useEffect,useState} from 'react';
 import {useGame} from '../runtime/game-context';
 import {PageHeader,Modal,Icon,fmt} from './ui';
@@ -7,6 +9,7 @@ import {academyShopState,buyAcademyItem} from '../core/academy-event-economy.js'
 export function AcademyMedal(){return <svg className="academy-medal" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="m18 3 14 7L46 3l-4 24H22Z" fill="currentColor" opacity=".4"/><circle cx="32" cy="39" r="20" stroke="currentColor" strokeWidth="2"/><circle cx="32" cy="39" r="15" stroke="currentColor"/><path d="m32 27 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1Z" fill="currentColor"/></svg>;}
 export function AcademyEventShop(){
  const {campaign,content,transact,busy}=useGame(),definition=content.tournaments.academy_tournament;
+ useAcademyMusic(academyMusicGroup(campaign.tournaments.activeRun));
  const [now,setNow]=useState(()=>new Date()),[guideOpen,setGuideOpen]=useState(false),[selected,setSelected]=useState<string|null>(null),[quantity,setQuantity]=useState(1);
  useEffect(()=>{const timer=setInterval(()=>setNow(new Date()),30000);return()=>clearInterval(timer);},[]);
  const {wallet,offers}=academyShopState(campaign,definition,now),offer=offers.find((o:any)=>o.id===selected);

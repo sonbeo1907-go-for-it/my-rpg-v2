@@ -203,5 +203,45 @@
       "/bgm/bgn_song_menu.mp3"
     ],
     "loop": true
+  },
+  {
+    "id": "tournament_first_half",
+    "name": "Học viện · Vòng bảng",
+    "tracks": [
+      "/bgm/tournament_first_half.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "tournament_second_half",
+    "name": "Học viện · Vòng loại trực tiếp",
+    "tracks": [
+      "/bgm/tournament_second_half.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "tournament_battle_first_half",
+    "name": "Học viện · Tỷ thí vòng bảng",
+    "tracks": [
+      "/bgm/tournament_battle_first_half.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "tournament_battle_sec_half",
+    "name": "Học viện · Tỷ thí loại trực tiếp",
+    "tracks": [
+      "/bgm/tournament_battle_sec_half.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "tournament_emergent",
+    "name": "Học viện · Thử thách bất ngờ",
+    "tracks": [
+      "/bgm/tournament_emergent.mp3"
+    ],
+    "loop": true
   }
 ]

@@ -1,5 +1,7 @@
 "use client";
 import Link from 'next/link';
+import {academyMusicGroup} from '../ui/academy-music.js';
+import {useAcademyMusic} from './use-academy-music';
 import {claimAcademyClark} from '../core/academy-enrollment.js';
 import {AcademyMedal} from './academy-event-shop';
 import {academySpecialAvailable,finishAcademySpecial} from '../core/academy-special.js';
@@ -19,6 +21,9 @@ export function AcademyTournament(){
  const [view,setView]=useState('overview'),[modal,setModal]=useState<string|null>(null),[groupTab,setGroupTab]=useState('A'),[slot,setSlot]=useState(0),[lineup,setLineup]=useState<string[]>([]);
  const [registrationMode,setRegistrationMode]=useState('account'),[teamName,setTeamName]=useState(''),[roster,setRoster]=useState<string[]>([]),[search,setSearch]=useState(''),[selectedStory,setSelectedStory]=useState<string|null>(null),[storyFilter,setStoryFilter]=useState('new'),[profileTeam,setProfileTeam]=useState<string|null>(null);
  const state=campaign.tournaments,run=state?.activeRun,definition=content.tournaments.academy_tournament,match=run?currentTournamentPlayerMatch(run):null;
+ const combat=view==='combat'||view==='special',special=view==='special'||modal==='special'||!combat&&academySpecialAvailable(run);
+ const musicOutcome=view==='special'?run?.specialEncounter?.pendingOutcome:run?.pendingResult?(run.pendingResult.result.winnerId===run.snapshot.definition.playerTeamId?'victory':'defeat'):null;
+ useAcademyMusic(academyMusicGroup(run,{combat,special,outcome:combat?musicOutcome:null}));
  useEffect(()=>{if(state.firstClear&&!state.rewardClaims?.includes('clark')&&!busy)void transact(c=>claimAcademyClark(c),'Đã nhận Clark từ lần vô địch đầu tiên.');},[state.firstClear,state.rewardClaims,busy]);
  useEffect(()=>{if(run)setLineup(run.lineup);},[run?.runId,run?.lineup]);
  const entries=run?tournamentStoryEntries(run):[],story=entries.find((e:any)=>e.key===selectedStory),readKeys=run?.storyReadKeys??[];
@@ -53,8 +58,8 @@ export function AcademyTournament(){
 function AcademyCombat({onBack,special=false}:{onBack:()=>void,special?:boolean}){
  const game=useGame(),{campaign,content,transact,notify}=game,run=campaign.tournaments.activeRun,lock=useRef(false),[acting,setActing]=useState(false),[ui,setUI]=useState<any>({allyId:'',enemyId:'',skillId:'$attack'});
  const b=useMemo(()=>createTournamentBattle(content,campaign,{special}),[content,campaign.tournaments.revision,special]);
- useEffect(()=>{game.tournamentAudio(special?'boss':'normal');return()=>game.tournamentAudio(null);},[]);
- useEffect(()=>{if(b.outcome)game.tournamentAudio(b.outcome==='victory'?'victory':null);},[b.outcome]);
+
+
  const actor=activeActor(b),[visual,setVisual]=useState(0);
  useEffect(()=>setUI((old:any)=>({...old,skillId:activeActor(b)?.combatModes?.[activeActor(b)?.activeMode]?.allowedAbilities[0]??'$attack'})),[actor?.id,b.round,b.phase,b.cursor]);
  async function step(command?:any){if(lock.current||game.busy||b.outcome)return;lock.current=true;setActing(true);try{if(activeActor(b)?.team==='enemy')await new Promise(resolve=>setTimeout(resolve,650));const ok=await transact(current=>{if(current.tournaments.activeRun?.runId!==run.runId)throw Error('Phiên giải đã thay đổi.');return stepTournamentBattle(content,current,command,{special}).campaign;},'');if(ok)setVisual(x=>x+1);}finally{lock.current=false;setActing(false);}}
