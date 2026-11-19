@@ -10,6 +10,7 @@ import "./globals.css";
 import "./arena.css";
 import "./farm.css";
 import "./combat.css";
+import "./moonlight.css";
 import "./summon.css";
 import "./shop.css";
 import "./controls.css";

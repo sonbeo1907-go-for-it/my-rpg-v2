@@ -1,3 +1,4 @@
+import moonlightBlessings from '../../data/moonlightBlessings.json';
 import {eastSuperAbilities,eastSuperEnemies,eastSuperEncounters,eastSuperStatuses,eastSuperMusic} from '../core/east-superbosses.js';
 import trials from '../../data/trials.json';
 import tournaments from '../../data/tournaments.json';
@@ -30,7 +31,7 @@ import travelerStories from "../../data/travelerStories.json";
 import { eastEnemies, eastEncounters, eastMusic, eastBossAbilities } from "../core/east-campaign.js";
 export function getContent(): any {
   return assembleContent({
-    trials,chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
+    moonlightBlessings,trials,chronicles,chronicleEvents,pvpRules,pvpAiProfiles,
     tournaments,tournamentTeams,tournamentBuilds,tournamentScenes,tournamentRewards,
     progressionRules,
     characters,

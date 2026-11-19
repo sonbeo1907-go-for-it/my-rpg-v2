@@ -1,6 +1,6 @@
 // Pure presentation plan. Reads resolved outcomes; never rolls RNG or changes combat.
 export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed',moon:'#d5edff',sword_soul:'#83caff'};
-const custom=skill=>/^(cosmic|academic|hero|nature|edict|iaido|angelica|anabel)_/.test(skill?.presentation??'');
+const custom=skill=>/^(cosmic|academic|hero|nature|edict|iaido|angelica|anabel|moonlight)_/.test(skill?.presentation??'');
 // Presentation clocks only: hit feedback and its cut share exactly one timestamp.
 export function iaidoHitDelay(presentation,index,speed='normal',reduced=false){
  if(reduced)return 0;
@@ -49,9 +49,13 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
   if((event.type==='damage'||event.type==='dodge')&&action?.presentation?.startsWith('iaido_')){action.iaidoHits??=new Set();const key=event.hitIndex??0;if(!action.iaidoHits.has(key)){action.iaidoHits.add(key);add(event,'signature',at,{presentation:action.presentation,area:Boolean(action.area&&!event.primaryOnly),custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?100:event.primaryOnly?400:action.presentation==='iaido_twin'?(key%2?190:240):200;}}
   if((event.type==='damage'||event.type==='dodge')&&action?.presentation==='anabel_dawn'&&!action.signature){action.signature=true;const contactDelay=anabelHitDelay(action.presentation,speed,reduced);add(event,'signature',at-contactDelay,{presentation:action.presentation,area:false,custom:true,contactDelay});frames.at(-1).duration=reduced?80:speed==='fast'?340:660;}
   if((event.type==='damage'||event.type==='dodge')&&['anabel_slash','anabel_cleave'].includes(action?.presentation)&&!action.signature){action.signature=true;add(event,'signature',at,{presentation:action.presentation,area:false,custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?180:action.presentation==='anabel_cleave'?430:320;}
+  if((event.type==='damage'||event.type==='dodge')&&action?.presentation?.startsWith('moonlight_')){
+   action.moonlightTargets??=new Set();const seed=action.presentation==='moonlight_seed',key=seed?event.targetId:'area';
+   if(!action.moonlightTargets.has(key)){action.moonlightTargets.add(key);add(event,'signature',at,{presentation:action.presentation,area:!seed,custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?240:620;}
+  }
   if(event.type==='damage'||event.type==='dodge')lastImpact=Math.max(lastImpact,at);
   const kind=event.type==='damage'?event.amount>0?'hurt':event.absorbed>0?'block':'zero':event.type;
-  add(event,kind,at,{custom:action?.custom&&!event.periodic&&!event.automatic,primary:Boolean(action?.primary&&event.targetId===action.targetId)});
+  add(event,kind,at,{custom:action?.custom&&!event.periodic&&(!event.automatic||action.presentation?.startsWith('moonlight_')),primary:Boolean(action?.primary&&event.targetId===action.targetId)});
  }
  return {frames,duration:frames.length?Math.max(reduced?60:speed==='fast'?180:620,...frames.map(frame=>frame.at+frame.duration+20)):reduced?60:speed==='fast'?180:620};
 }

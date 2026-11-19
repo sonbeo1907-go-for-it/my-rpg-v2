@@ -1,4 +1,5 @@
 "use client";
+import {moonlightSnapshot} from '../core/battle.js';
 import Link from 'next/link';
 import {academyMusicGroup} from '../ui/academy-music.js';
 import {useAcademyMusic} from './use-academy-music';
@@ -65,7 +66,7 @@ function AcademyCombat({onBack,special=false}:{onBack:()=>void,special?:boolean}
  async function step(command?:any){if(lock.current||game.busy||b.outcome)return;lock.current=true;setActing(true);try{if(activeActor(b)?.team==='enemy')await new Promise(resolve=>setTimeout(resolve,650));const ok=await transact(current=>{if(current.tournaments.activeRun?.runId!==run.runId)throw Error('Phiên giải đã thay đổi.');return stepTournamentBattle(content,current,command,{special}).campaign;},'');if(ok)setVisual(x=>x+1);}finally{lock.current=false;setActing(false);}}
 
  async function result(retry=false){const ok=await transact(current=>special?finishAcademySpecial(current,{runId:run.runId,revision:current.tournaments.revision,retry}):(retry?retryTournamentMatch:confirmTournamentResult)(current,{runId:run.runId,revision:current.tournaments.revision}),'Đã lưu kết quả giải đấu.');if(ok)onBack();}
- const view={...b,extraTurnGrants:[...b.extraTurnGrants],sessionId:run.runId+':'+b.tournament.matchId,activeId:actor?.id,presentation:null};
+ const view={...b,moonlight:moonlightSnapshot(b),extraTurnGrants:[...b.extraTurnGrants],sessionId:run.runId+':'+b.tournament.matchId,activeId:actor?.id,presentation:null};
  const value:any={...game,content:b.content,battle:view,events:b.events.map((e:any,i:number)=>({...e,key:run.runId+':'+visual+':'+i})),busy:acting||game.busy,battleUI:ui,updateBattleUI:(patch:any)=>setUI((old:any)=>({...old,...patch})),runBattle:step};
  return <GameContext.Provider value={value}><div className="academy-combat-return"><button disabled={acting||game.busy} onClick={onBack}>← Trở về giải · Trận được lưu tự động</button></div><BattlePage tournamentResult={<><h2>{b.outcome==='victory'?'Một trận thắng cho đội bạn':'Trận tỷ thí đã khép lại'}</h2><p>{b.outcome==='victory'?`Xác nhận để nhận ${special?run.snapshot.definition.specialEncounters.rewardTokens:run.snapshot.definition.eventEconomy?.matchWin??0} Huy Hiệu Học Viện${special?'':'; mốc thành tích của giải được cộng riêng'}.`:'Không mất huy hiệu khi thua. Có thể thử lại cùng trận hoặc xác nhận kết quả.'}</p>{b.tournament.judged&&<p>Trận được phân thắng theo luật giới hạn {special?60:40} vòng.</p>}<div className="academy-actions">{b.outcome==='defeat'&&<button disabled={acting||game.busy} onClick={()=>result(true)}>Thử lại trận này</button>}<button className="gold" disabled={acting||game.busy} onClick={()=>result(false)}>{b.outcome==='victory'?'Xác nhận chiến thắng':'Chấp nhận kết quả'}</button><button onClick={onBack}>Xem bảng giải sau</button></div></>}/></GameContext.Provider>;
 }

@@ -111,7 +111,8 @@
       "gairyu",
       "ariel",
       "charlotte",
-      "mariel"
+      "mariel",
+      "noelle"
     ],
     "gearRates": [
       {
@@ -352,6 +353,10 @@
         {
           "id": "mariel",
           "from": "2026-11-18"
+        },
+        {
+          "id": "noelle",
+          "from": "2026-11-19"
         }
       ]
     }

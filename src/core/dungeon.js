@@ -124,6 +124,7 @@ function makeWave(content, run, previous = null) {
       enemyLevel:run.enemyLevel??null,
       partyActors,
       teamResources:previous?.teamResources,
+      moonlight:previous?.moonlight,
       turnOrderField: previous?.turnOrderField,
       // Each wave resolves its own turn queue; summon lifetime spans the whole run.
       continuesOnVictory: run.waveIndex < run.waveIds.length - 1,

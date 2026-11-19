@@ -1,4 +1,5 @@
 "use client";
+import {MoonlightBoard,MoonlightSeedMark} from './moonlight-board';
 import {hasExtraTurnGrant} from '../ui/combat-presentation.js';
 import {GreatYokaiNotices} from './great-yokai';
 import {bossActionCount} from '../core/encounter-rituals.js';
@@ -136,6 +137,7 @@ export function CombatantCard({
       data-formation-span={actor.formationSpan??1}
       data-boss-art={actor.bossArt}
     >
+      <MoonlightSeedMark battle={battle} actor={actor}/>
       <button
         className="target-hitbox"
         data-gamepad-target={actor.id}
@@ -877,6 +879,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
           </div>
           <TurnOrder onHover={setHovered} />
           <FormulaBoards battle={{...battle,content}} content={content}/>
+          <MoonlightBoard battle={{...battle,content}}/><MoonlightBoard battle={{...battle,content}} team="enemy"/>
           <SwordSoulBoard battle={{...battle,content}}/>{battle.arena&&<SwordSoulBoard battle={{...battle,content}} team="enemy"/>}<EvidenceBoard battle={{...battle,content}}/>{battle.arena&&<EvidenceBoard battle={{...battle,content}} team="enemy"/>}<GunpowderBoard battle={{...battle,content}}/>{battle.arena&&<GunpowderBoard battle={{...battle,content}} team="enemy"/>}
           <div className="ally-grid">
             {battle.actors

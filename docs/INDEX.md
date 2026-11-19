@@ -17,7 +17,7 @@
 
 ## Combat và UX
 
-- [Nguyệt Quang Chúc Phúc — khung hệ thống và Noelle Model 4.0 (thiết kế)](MOONLIGHT_BLESSING.md)
+- [Nguyệt Quang Chúc Phúc — khung hệ thống và Noelle Model 4.0](MOONLIGHT_BLESSING.md)
 - [Hợp đồng vòng đời chiến đấu](COMBAT_LIFECYCLE_CONTRACT.md)
 
 

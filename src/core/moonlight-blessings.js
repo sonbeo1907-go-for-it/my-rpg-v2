@@ -1,0 +1,99 @@
+import {isAlive} from './actor-life.js';
+import {damageElements} from './elements.js';
+
+const pairKey=pair=>[...pair].sort().join(':');
+const PAIRS=new Set([['water','thunder'],['water','fire'],['light','earth'],['light','dark']].map(pairKey));
+export function validateMoonlight(content){
+ const errors=[],defs=content.moonlightBlessings??{};
+ for(const d of Object.values(defs)){
+  if(!d.name||!d.description||!Array.isArray(d.elements)||d.elements.length!==2||!PAIRS.has(pairKey(d.elements))||!['attack','magic'].includes(d.stat)||!Number.isFinite(d.statRatio)||d.statRatio<=0||d.durationRounds!==3||!['all_enemies','anchored_enemies'].includes(d.targetMode)||!Array.isArray(d.phases)||!d.phases.length||new Set(d.phases).size!==d.phases.length||d.phases.some(p=>!['start','end'].includes(p)))errors.push(d.id+': invalid moonlight definition');
+  const skill=content.abilities?.[d.abilityId];
+  if(!skill||skill.activation!=='passive'||skill.growthProfile!=='fixed'||skill.effects?.length!==1||skill.effects[0].type!=='damage'||skill.effects[0].scalingStat!==d.stat||!damageElements(skill.effects[0]).includes('moon'))errors.push(d.id+': invalid moonlight pulse');
+ }
+ for(const a of [...Object.values(content.characters??{}),...Object.values(content.enemies??{})]){
+  if(a.moonlightBlessings!==undefined&&(!Array.isArray(a.moonlightBlessings)||!a.moonlightBlessings.length||new Set(a.moonlightBlessings).size!==a.moonlightBlessings.length||a.moonlightBlessings.some(id=>!defs[id])))errors.push(a.id+': invalid moonlight access');
+  const p=a.passive;if(p?.type==='moonlight_guardian'&&(!a.moonlightBlessings?.includes(p.blessingId)||!defs[p.blessingId]||!a.abilities.includes(p.followUpAbility)||!Number.isInteger(p.perRound)||p.perRound<1||p.perRound>3))errors.push(a.id+': invalid moonlight guardian');
+ }
+ return errors;
+}
+export function initializeMoonlight(battle,previous){
+ battle.moonlight={};
+ for(const team of new Set(battle.actors.map(a=>a.team))){
+  const allowed=[...new Set(battle.actors.filter(a=>a.team===team).flatMap(a=>a.moonlightBlessings??[]))].sort();
+  if(!allowed.length)continue;
+  const old=previous?.[team];
+  battle.moonlight[team]=old?structuredClone(old):{slots:[],active:null,lastActivatedRound:-1,revision:0};
+  battle.moonlight[team].allowed=allowed;
+ }
+}
+export function moonlightSourceId(team){return 'moonlight_'+team;}
+export function moonlightDefinition(battle,team){const active=battle.moonlight?.[team]?.active;return active?battle.content.moonlightBlessings?.[active.id]:null;}
+export function moonlightStat(battle,team,readStat){
+ const d=moonlightDefinition(battle,team);if(!d)return 0;
+ const members=battle.actors.filter(a=>a.team===team&&isAlive(a)&&battle.content.characters[a.definitionId??a.id]&&d.elements.includes(a.element));
+ return members.length?members.reduce((n,a)=>n+readStat(a,d.stat),0)/members.length*d.statRatio:0;
+}
+// Observe real enemy HP/shield damage; never allow a blessing to fuel itself.
+export function recordMoonlightDamage(battle,source,target,effect,amount,io){
+ const state=battle.moonlight?.[source?.team];
+ if(!state||state.active||amount<=0||source.team===target.team||!battle.actors.includes(source))return;
+ for(const element of damageElements(effect)){
+  if(state.slots.includes(element)||state.slots.length>=2)continue;
+  const candidates=state.allowed.map(id=>battle.content.moonlightBlessings[id]).filter(d=>d.elements.includes(element)&&state.slots.every(e=>d.elements.includes(e)));
+  if(!candidates.length)continue;
+  state.slots.push(element);state.revision++;
+  io.emit(battle,{type:'moonlight_charge',sourceId:source.id,team:source.team,element,slots:[...state.slots]});
+ }
+}
+function makeSource(battle,team,d,amount){
+ const id=moonlightSourceId(team);
+ let actor=battle.sourceActors.find(a=>a.id===id);
+ if(!actor){actor={id,definitionId:'moonlight.'+d.id,actorKind:'moonlight',name:d.name,team,hp:1,mp:0,stats:{maxHp:1,maxMp:0,attack:0,magic:0,defense:0,resistance:0,speed:0},statuses:[],cooldowns:{},abilities:[],resources:{},resourceValues:{},tags:[]};battle.sourceActors.push(actor);}
+ actor.name=d.name;actor.element=battle.content.abilities[d.abilityId].effects[0].element;actor.stats[d.stat]=amount;actor.definitionId='moonlight.'+d.id;
+ return actor;
+}
+// Called only at engine quiescent boundaries, after all synchronous reactions.
+export function settleMoonlight(battle,io){
+ if(battle.outcome||!battle.actors.some(a=>a.team==='party'&&isAlive(a))||!battle.actors.some(a=>a.team==='enemy'&&isAlive(a)))return;
+ for(const [team,state]of Object.entries(battle.moonlight??{})){
+  if(state.active||state.slots.length!==2||state.lastActivatedRound===battle.round)continue;
+  const d=state.allowed.map(id=>battle.content.moonlightBlessings[id]).find(d=>pairKey(d.elements)===pairKey(state.slots));if(!d)continue;
+  state.slots=[];state.lastActivatedRound=battle.round;state.revision++;
+  state.active={id:d.id,startedRound:battle.round,expiresAfterRound:battle.round+d.durationRounds-1,pulses:{},targets:d.targetMode==='anchored_enemies'?battle.actors.filter(a=>a.team!==team&&isAlive(a)).map(a=>a.id):[],followUps:{}};
+  const source=makeSource(battle,team,d,moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)));
+  io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kích hoạt trong 3 vòng.');
+  io.emit(battle,{type:'moonlight_enter',sourceId:source.id,team,blessingId:d.id,label:d.name,stat:d.stat,statValue:source.stats[d.stat],targetIds:state.active.targets});
+ }
+}
+export function moonlightDamageEffect(battle,source,effect){
+ const p=source?.passive;
+ if(p?.type!=='moonlight_guardian'||battle.moonlight?.[source.team]?.active?.id!==p.blessingId)return effect;
+ return {...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])].filter(e=>e!==effect.element)};
+}
+export function pulseMoonlight(battle,phase,io){
+ for(const [team,state]of Object.entries(battle.moonlight??{})){
+  const active=state.active,d=moonlightDefinition(battle,team);
+  if(!d||!active||!d.phases.includes(phase)||active.pulses[phase]===battle.round||battle.round>active.expiresAfterRound||battle.outcome)continue;
+  if(!battle.actors.some(a=>a.team===team&&isAlive(a))||!battle.actors.some(a=>a.team!==team&&isAlive(a)))continue;
+  const targets=battle.actors.filter(a=>a.team!==team&&isAlive(a)&&(d.targetMode!=='anchored_enemies'||active.targets.includes(a.id)));
+  active.pulses[phase]=battle.round;
+  if(!targets.length)continue;
+  const amount=moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)),source=makeSource(battle,team,d,amount);
+  io.pulse(battle,source,d,targets,amount,phase);
+  if(io.outcome(battle))return;
+  for(const owner of battle.actors){
+   const p=owner.passive;if(owner.team!==team||!isAlive(owner)||p?.type!=='moonlight_guardian'||p.blessingId!==d.id)continue;
+   const count=active.followUps[owner.id];if(count?.round===battle.round&&count.count>=p.perRound)continue;
+   active.followUps[owner.id]={round:battle.round,count:(count?.round===battle.round?count.count:0)+1};
+   io.followUp(battle,owner,p.followUpAbility);
+   if(io.outcome(battle))return;
+  }
+ }
+}
+export function expireMoonlight(battle,io){
+ for(const [team,state]of Object.entries(battle.moonlight??{}))if(state.active&&battle.round>=state.active.expiresAfterRound){
+  const d=moonlightDefinition(battle,team);state.active=null;state.slots=[];state.revision++;
+  io.emit(battle,{type:'moonlight_exit',sourceId:moonlightSourceId(team),team,blessingId:d.id,label:d.name});
+  io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kết thúc.');
+ }
+}

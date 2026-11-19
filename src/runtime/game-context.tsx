@@ -1,4 +1,5 @@
 "use client";
+import {moonlightSnapshot} from '../core/battle.js';
 import {createCompetitiveArena} from '../core/arena-ranked.js';
 import {reserveArenaMatch,settleArenaMatch} from '../core/arena-progression.js';
 import {validateDraftFormation,arrangeDraftAI} from '../core/arena-draft.js';
@@ -235,6 +236,7 @@ export function GameProvider({
         ? {
             presentation: current.arena?null:battlePresentation(current.actors),
             teamResources:structuredClone(current.teamResources??{}),
+            moonlight:moonlightSnapshot(current),
             linkedBossState:structuredClone(current.linkedBossState??null),
             encounterId: current.encounterId,
             arena:structuredClone(current.arena??null),

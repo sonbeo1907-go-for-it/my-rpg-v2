@@ -12200,7 +12200,7 @@
         "type": "damage",
         "element": "plain",
         "damageType": "magical",
-        "multiplier": 1.0
+        "multiplier": 1
       }
     ],
     "cost": {
@@ -12262,7 +12262,7 @@
         "type": "damage",
         "element": "dark",
         "damageType": "magical",
-        "multiplier": 1.0
+        "multiplier": 1
       }
     ],
     "cost": {
@@ -13472,5 +13472,135 @@
       "stat_buff"
     ],
     "rankable": true
+  },
+  {
+    "id": "noelle.thunder",
+    "name": "Mạch Sét Dẫn Lối",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "scalingStat": "attack",
+        "multiplier": 1.5
+      },
+      {
+        "type": "status",
+        "status": "exposure_thunder",
+        "stacks": 2,
+        "duration": 3
+      }
+    ],
+    "description": "Tấn công toàn bộ địch và gắn 2 Sơ Hở Lôi.",
+    "skillLineId": "noelle.thunder",
+    "growthProfile": "damage",
+    "rankable": true,
+    "presentation": "moonlight_noelle"
+  },
+  {
+    "id": "noelle.shelter",
+    "name": "Vòng Tay Bảo Hộ",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "attack",
+        "multiplier": 1
+      },
+      {
+        "type": "status",
+        "status": "noelle_guard",
+        "duration": 3
+      }
+    ],
+    "description": "Tạo khiên toàn đội và giảm 15% sát thương nhận vào trong 3 vòng.",
+    "skillLineId": "noelle.shelter",
+    "growthProfile": "shield",
+    "rankable": true
+  },
+  {
+    "id": "noelle.repair",
+    "name": "Chăm Sóc Tận Tâm",
+    "target": "ally",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "heal",
+        "scalingStat": "attack",
+        "multiplier": 1.5
+      }
+    ],
+    "description": "Hồi HP cho một đồng đội.",
+    "skillLineId": "noelle.repair",
+    "growthProfile": "heal",
+    "rankable": true
+  },
+  {
+    "id": "moonlight.thunder_wrath",
+    "name": "Lôi Sấm Thịnh Nộ",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 0
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "additionalElements": [
+          "moon"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "description": "Lôi Sấm Thịnh Nộ",
+    "skillLineId": "moonlight.thunder_wrath",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "activation": "passive",
+    "fixedReason": "Hiệu ứng tự động của Nguyệt Quang Chúc Phúc.",
+    "presentation": "moonlight_storm"
+  },
+  {
+    "id": "moonlight.bountiful_seed",
+    "name": "Hạt Giống Bội Thu",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 0
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "additionalElements": [
+          "moon"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 1.5
+      }
+    ],
+    "description": "Hạt Giống Bội Thu",
+    "skillLineId": "moonlight.bountiful_seed",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "activation": "passive",
+    "fixedReason": "Hiệu ứng tự động của Nguyệt Quang Chúc Phúc.",
+    "presentation": "moonlight_seed"
   }
 ]

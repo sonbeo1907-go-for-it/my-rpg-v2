@@ -1,8 +1,8 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
-## Nguyệt Quang Chúc Phúc — thiết kế, 19/11/2026
+## Nguyệt Quang Chúc Phúc / Noelle — triển khai, 19/11/2026
 
-[MOONLIGHT_BLESSING](MOONLIGHT_BLESSING.md) ghi khung dùng chung và Technical Test Noelle Model 4.0. Tên “Không Nguyệt Chúc Phúc” đã đổi thành Nguyệt Quang Chúc Phúc. Hai ô nguyên tố, bốn cặp Thủy–Lôi/Thủy–Hỏa/Quang–Thổ/Quang–Ám; từng nhân vật chỉ cấp quyền tổ hợp cụ thể. Chúc Phúc có chỉ số riêng; Lôi Sấm Thịnh Nộ dùng trung bình ATK động của nhân vật Lôi/Thủy. Chưa triển khai gameplay/developer option; còn các điểm chốt ở mục 9. Đừng coi đề xuất thực thể hỗ trợ không chiếm slot hoặc chính sách nạp/tick là quyết định người dùng đã duyệt.
+[MOONLIGHT_BLESSING](MOONLIGHT_BLESSING.md) đã cập nhật từ nháp thành bản runtime: Noelle #117 vào gacha; ghép Thủy–Lôi sau khi cả chuỗi hành động kết toán, thực thể theo phe có ATK động và đợt vật lí Lôi–Nguyệt đầu/cuối vòng. Hạt Giống Bội Thu Quang–Thổ có engine phép Thổ–Nguyệt nhưng chưa ai cấp quyền. Ba vòng tính cả vòng gọi; tồn tại sau khi provider gục, không giữ trận nếu cả phe gục. State có source ID riêng ngoài bốn ô, carry dungeon/story/checkpoint và tách phe PvP. Xem tài liệu để biết chính sách hai ô, seed anchors, Noelle FuA và đường stat snapshot UI; không lấy đề xuất cũ làm luật mới.
 
 ## Cập nhật nhận lớp7A — 18/11/2026
 

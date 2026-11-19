@@ -1,0 +1,37 @@
+[
+  {
+    "id": "thunder_wrath",
+    "name": "Lôi Sấm Thịnh Nộ",
+    "description": "Ghép Thủy và Lôi. Trong 3 vòng, đầu và cuối vòng gây sát thương vật lí Lôi–Nguyệt toàn bộ địch, dựa trên trung bình ATK động của các thành viên Thủy/Lôi còn sống.",
+    "elements": [
+      "water",
+      "thunder"
+    ],
+    "stat": "attack",
+    "statRatio": 1,
+    "durationRounds": 3,
+    "phases": [
+      "start",
+      "end"
+    ],
+    "targetMode": "all_enemies",
+    "abilityId": "moonlight.thunder_wrath"
+  },
+  {
+    "id": "bountiful_seed",
+    "name": "Hạt Giống Bội Thu",
+    "description": "Ghép Quang và Thổ. Gieo hạt tại mỗi địch trong 3 vòng; cuối vòng gây sát thương phép Thổ–Nguyệt. MAG của hạt bằng 150% trung bình MAG động của các thành viên Quang/Thổ còn sống.",
+    "elements": [
+      "light",
+      "earth"
+    ],
+    "stat": "magic",
+    "statRatio": 1.5,
+    "durationRounds": 3,
+    "phases": [
+      "end"
+    ],
+    "targetMode": "anchored_enemies",
+    "abilityId": "moonlight.bountiful_seed"
+  }
+]

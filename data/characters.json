@@ -5248,5 +5248,43 @@
       },
       "magicReduction": 0.15
     }
+  },
+  {
+    "id": "noelle",
+    "releaseId": 117,
+    "name": "Noelle Model 4.0",
+    "title": "Người bạn dưới ánh trăng",
+    "affiliation": "rhett_research_facility",
+    "role": "Hỗ trợ phòng thủ",
+    "roleGroup": "defensive_support",
+    "element": "thunder",
+    "basicDamageType": "physical",
+    "description": "Ghép Thủy và Lôi để gọi Lôi Sấm Thịnh Nộ, bảo vệ đồng đội bằng khiên và hồi phục.",
+    "biography": "Mẫu người máy tân tiến nhất do Aisha chế tác tại khu nghiên cứu tự xưng của Rhett. Noelle vừa là người bạn thân thiết, vừa là bảo mẫu luôn để mắt đến cô chủ nhỏ.",
+    "stats": {
+      "maxHp": 200,
+      "maxMp": 100,
+      "attack": 35,
+      "magic": 5,
+      "defense": 24,
+      "resistance": 24,
+      "speed": 20
+    },
+    "abilities": [
+      "noelle.thunder",
+      "noelle.shelter",
+      "noelle.repair"
+    ],
+    "moonlightBlessings": [
+      "thunder_wrath"
+    ],
+    "passive": {
+      "type": "moonlight_guardian",
+      "name": "Người Bạn Không Ngủ",
+      "description": "Mở Lôi Sấm Thịnh Nộ. Khi Chúc Phúc hoạt động, sát thương của Noelle mang thêm Nguyệt; mỗi đợt Chúc Phúc tấn công gọi một Liên kích bằng Mạch Sét Dẫn Lối, tối đa 3 lần/vòng.",
+      "blessingId": "thunder_wrath",
+      "followUpAbility": "noelle.thunder",
+      "perRound": 3
+    }
   }
 ]

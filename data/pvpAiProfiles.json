@@ -1749,5 +1749,20 @@
       "mariel.lesson": 16,
       "mariel.interpose": 14
     }
+  },
+  {
+    "id": "noelle",
+    "role": "defensive_support",
+    "healBelow": 0.7,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "noelle.shelter"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "noelle.thunder": 16,
+      "noelle.shelter": 20,
+      "noelle.repair": 8
+    }
   }
 ]

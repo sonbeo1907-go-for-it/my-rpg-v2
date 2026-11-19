@@ -1,3 +1,4 @@
+import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat} from './moonlight-blessings.js';
 import {judgeTournamentLimit} from './tournament-judging.js';
 import {initializeEncounterBosses,observeEncounterBosses,encounterBossRoundStart,prepareBossRitual,observeBossWeakness,encounterHitMultiplier,encounterOffenseMultiplier,beginBossRitualTurn,finishBossRitualTurn,bossIncomingMultiplier,ritualJobAbility,beginRitualAction,finishEncounterBosses} from './encounter-rituals.js';
 import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
@@ -95,6 +96,7 @@ const modeIO = { announce:announcePassive, write, emit: emitEvent, restore: gain
 };
 const specialIO={restore:gainResource,heal:healHp,status:applyStatus,stat,emit:emitEvent,write,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId)??t,[t],{type:'shield',flat},0,false)};
 const teamIO={emit:emitEvent,write,status:applyStatus,announce:announcePassive,restore:gainResource,checkModes:(b,team)=>{for(const a of b.actors.filter(a=>a.team===team))checkCombatMode(b,a,'team_resource_changed',modeIO);}};
+const moonlightIO={stat,emit:emitEvent,write,outcome:checkOutcome,pulse:moonlightPulse,followUp:moonlightFollowUp};
 const gearIO={status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write,shield:(battle,actor,flat)=>applyEffect(battle,actor,[actor],{type:'shield',flat},0,false)};
 const living = isAlive;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -241,6 +243,7 @@ export function createBattle(
   initializeEncounterBosses(battle);
   initializeTrial(battle,campaign,options.trial,{status:applyStatus,write});
   initializeTeamResources(battle,options.teamResources);
+  initializeMoonlight(battle,options.moonlight);
   for(const actor of actors){if((options.partyActors??[]).some(a=>a.id===actor.id))continue;const p=actor.passive;if(p?.type==='starting_resource_skill_chance')gainResource(battle,actor,p.resource,p.initial);initializeExclusiveResources(battle,actor,specialIO);}
   if (!actors.some((actor) => actor.team === "party" && living(actor))) {
     battle.outcome = "defeat";
@@ -272,7 +275,7 @@ function write(battle, message) {
 // Presentation events describe actual outcomes, independently of translated log text.
 // They contain only the most recent action, including reactions and next-turn regen.
 function emitEvent(battle, event) {
-  if(battle.tournament&&event.tournamentDirect){const source=battle.actors.find(a=>a.id===event.sourceId),target=battle.actors.find(a=>a.id===event.targetId);if(source&&target&&source.team!==target.team)battle.tournament.directHpDamage[source.team]+=event.amount;}
+  if(battle.tournament&&event.tournamentDirect){const source=getActor(battle,event.sourceId),target=battle.actors.find(a=>a.id===event.targetId);if(source&&target&&source.team!==target.team)battle.tournament.directHpDamage[source.team]+=event.amount;}
   battle.events.push(event);
 }
 
@@ -541,6 +544,29 @@ function triggerSurvivingTargetRepeat(battle,owner,skill,context){
  for(const effect of repeat.effects)applyEffect(battle,owner,[target],effect,0,false,reaction);
  finishAttackContext(battle,owner,reaction);
 }
+export function moonlightSnapshot(battle){
+ const view=structuredClone(battle.moonlight??{});
+ for(const [team,state]of Object.entries(view))if(state.active)state.active.statValue=moonlightStat(battle,team,(a,key)=>stat(battle,a,key));
+ return view;
+}
+function moonlightPulse(battle,source,definition,targets,amount,phase){
+ const skill=battle.content.abilities[definition.abilityId];
+ const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:targets[0].id};
+ emitEvent(battle,{type:'ability_cast',sourceId:source.id,targetId:targets[0].id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:true,automaticCast:true,moonlight:true,team:source.team});
+ write(battle,source.name+' tấn công · '+(phase==='start'?'đầu vòng':'cuối vòng')+'.');
+ for(const target of targets){if(!living(target))continue;hit(battle,source,target,{...skill.effects[0],gearPower:amount},0,{area:true,reaction:true,actionContext:ctx});}
+ finishAttackContext(battle,source,ctx);
+ transitionBossPhases(battle,{write,restoreMp:gainResource});
+}
+function moonlightFollowUp(battle,owner,abilityId){
+ const targets=battle.actors.filter(a=>a.team!==owner.team&&living(a));if(!targets.length||!reservePvpAutomatic(battle,owner,modeIO))return;
+ const skill=resolveRankedAbility(battle.content,owner,abilityId),ctx={...attackContext(battle,owner),pvpRegistered:true,skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',primaryTargetId:targets[0].id};
+ emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(a=>a.id),area:true,abilityId:skill.id,presentation:skill.presentation});
+ write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+skill.name+'.');
+ for(const effect of skill.effects)applyEffect(battle,owner,targets,effect,0,true,ctx);
+ finishAttackContext(battle,owner,ctx);
+ transitionBossPhases(battle,{write,restoreMp:gainResource});
+}
 function startRound(battle) {
   battle.round += 1;
   battle.phase = "main";
@@ -574,6 +600,9 @@ function startRound(battle) {
     if(members>=p.memberThreshold&&p.enhancedTeamMpRatio)for(const ally of battle.actors.filter(a=>a.team===owner.team&&living(a)))gainResource(battle,ally,"mp",Math.floor(battleMaxMp(battle.content,ally)*p.enhancedTeamMpRatio),owner.id);
   }
   for(const owner of battle.actors)checkCombatMode(battle,owner,'team_resource_changed',modeIO);
+  settleMoonlight(battle,moonlightIO);
+  pulseMoonlight(battle,"start",moonlightIO);
+  settleMoonlight(battle,moonlightIO);
   if (checkOutcome(battle)) return;
   cleanupTurnDelegations(battle);grantDelegationExtraTurns(battle,{write,emit:emitEvent});
   battle.queue = orderActorIds(battle,battle.actors.filter(living).map(actor=>actor.id));
@@ -685,8 +714,10 @@ function beginActorTurn(battle,actor,delegating=false) {
     const requested=Math.floor(status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
     const periodicCap=applyPvpDamageCap(battle,getActor(battle,status.sourceId),actor,requested,battle.pvpRules?pvpPeriodicContext(battle,getActor(battle,status.sourceId),actor):{},false,modeIO);
     const life=applyLifeDamage(battle,actor,periodicCap.amount>0?periodicCap.amount:status.potency>0&&isInAgony(actor)?1:0,{element:definition.damageOverTime.element,healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
+    const periodicEffect=moonlightDamageEffect(battle,getActor(battle,status.sourceId),{element:definition.damageOverTime.element});
     const amount=life.hpLost+life.maxHpLost;
     maybeEnterContingency(battle,actor,life.hpLost);
+    recordMoonlightDamage(battle,getActor(battle,status.sourceId),actor,periodicEffect,amount,moonlightIO);
     status.remaining -= 1;
     emitEvent(battle, {
       type: "damage",
@@ -696,6 +727,7 @@ function beginActorTurn(battle,actor,delegating=false) {
       absorbed: 0,
       weakness: false,
       periodic: true,
+      ...(periodicEffect.additionalElements?{element:periodicEffect.element,elements:damageElements(periodicEffect)}:{}),
       ...(periodicCap.info?{pvpDamage:periodicCap.info}:{}),
       ...(life.maxHpLost?{maxHpDamage:life.maxHpLost}:{}),
     });
@@ -797,6 +829,7 @@ function beginActorTurn(battle,actor,delegating=false) {
     transitionBossPhases(battle, { write, restoreMp: gainResource });
     if (checkOutcome(battle)) return false;
   }
+  settleMoonlight(battle,moonlightIO);
   if(!delegating&&skipStunnedTurn(battle,actor))return false;
   return true;
 }
@@ -921,6 +954,7 @@ function checkOutcome(battle) {
 }
 
 function advance(battle) {
+  settleMoonlight(battle,moonlightIO);
   delete battle.delegatedTurn;
   if (checkOutcome(battle)) return;
   battle.cursor += 1;
@@ -1019,6 +1053,11 @@ function finishMainRound(battle) {
   expireAgony(battle,{write,emit:emitEvent});
   trialRoundEnd(battle,{write,emit:emitEvent,maxMp:battleMaxMp,heal:healHp,shield:(b,a,flat)=>applyEffect(b,a,[a],{type:'shield',flat},0,false),pulse:(b,a,effect)=>{const ctx={...attackContext(b,a),skillId:'$trial_echo',reaction:true,automatic:true};for(const target of b.actors.filter(t=>t.team!==a.team&&living(t)))hit(b,a,target,effect,0,{area:true,reaction:true,actionContext:ctx});finishAttackContext(b,a,ctx);}});
   if(checkOutcome(battle))return;
+  settleMoonlight(battle,moonlightIO);
+  pulseMoonlight(battle,"end",moonlightIO);
+  if(checkOutcome(battle))return;
+  expireMoonlight(battle,moonlightIO);
+  settleMoonlight(battle,moonlightIO);
   emitEvent(battle, { type: "round_end", round: battle.round });
   write(battle, `— Kết thúc Vòng Chính ${battle.round} —`);
   if(judgeTournamentLimit(battle))return;
@@ -1501,6 +1540,7 @@ function resolveHit(
     write(battle, `${target.name} chắn đòn cho ${originalTarget.name}.`);
   effect=exclusiveDamageEffect(attacker,actionContext.skillId,effect);
   effect=attunedDamageEffect(target,effect,actionContext);
+  effect=moonlightDamageEffect(battle,attacker,effect);
   if(!actionContext.reaction&&!actionContext.automatic&&actionContext.skillId&&!actionContext.skillId.startsWith('$')&&originalTarget.id===actionContext.primaryTargetId&&[...guardianRecipes(attacker,'single_skill_echo')].length){
     const multiplier=damageMultiplier(effect,{spent,stacks:effect.consumeStatus?(target.statuses.find(s=>s.id===effect.consumeStatus)?.stacks??0):0,hpRatio:attacker.hp/attacker.stats.maxHp,buffs:buffTypeCount(battle.content,target)});
     (actionContext.gearEchoPackets??=[]).push({type:'damage',damageType:effect.damageType,element:effect.element,...(effect.additionalElements?{additionalElements:[...effect.additionalElements]}:{}),gearPower:resolvedHitPower(battle,attacker,target,effect,actionContext),multiplier,penetration:effect.penetration??0});
@@ -1695,6 +1735,7 @@ function resolveHit(
   const life=applyLifeDamage(battle,target,amount,{element:effect.element,healthFloor:bossHealthFloor(target)},{write,emit:emitEvent});
   const lostHp=life.hpLost,vitalityDamage=life.hpLost+life.maxHpLost;
   const hpAfter=target.hp;
+  recordMoonlightDamage(battle,attacker,target,effect,vitalityDamage+absorbed,moonlightIO);
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0){
     if(!living(target)){actionContext.directDefeats??=new Set();actionContext.directDefeats.add(target.id);}
     for(const owner of battle.actors){const p=owner.passive;if(living(owner)&&owner.team===target.team&&p?.type==='blessed_team_resource'&&activeStatuses(target).some(s=>s.id===p.blessingStatus&&(s.remaining==null||s.remaining>0))){actionContext.blessedResourceOwners??=new Set();actionContext.blessedResourceOwners.add(owner.id);}}
@@ -2458,7 +2499,7 @@ function resolveAction(
   if (endTurn) {
     endTurnPassive(battle, actor);
     advance(battle);
-  } else checkOutcome(battle);
+  } else {settleMoonlight(battle,moonlightIO);checkOutcome(battle);}
   return battle;
 }
 

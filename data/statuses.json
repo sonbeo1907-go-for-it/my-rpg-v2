@@ -2083,5 +2083,16 @@
       "resistance": 0.75
     },
     "description": "Khiêu Khích và nhận đòn thay đồng đội, kể cả diện rộng và Liên kích; tăng RES bản thân."
+  },
+  {
+    "id": "noelle_guard",
+    "name": "Vòng Tay Bảo Hộ",
+    "kind": "buff",
+    "duration": 3,
+    "durationClock": "round",
+    "modifiers": {
+      "damageReduction": 0.15
+    },
+    "description": "Giảm 15% sát thương nhận vào."
   }
 ]
