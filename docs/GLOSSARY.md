@@ -30,6 +30,7 @@ Hunter Guild = Hội Thợ Săn; Magic Academy = Học viện Ma pháp; Capital 
 | Hộ Ấn / Phong Ấn | effect_ward / buff_seal: charge chặn debuff / chặn buff mới |
 | Vết Thương Sâu / Rạn Khiên / Nhiễu Ma Lực | deep_wound / shield_fracture / mana_disruption |
 | Bằng Chứng Đanh Thép / Thuốc Súng | teamResources, phe riêng; không phải status buff |
+| Nguyệt Quang Chúc Phúc | Moonlight Blessing; tên cũ “Không Nguyệt Chúc Phúc”. Cơ chế theo phe, hai ô nguyên tố và tổ hợp có chỉ số riêng; mới là [đặc tả thiết kế](MOONLIGHT_BLESSING.md), chưa có ID/schema runtime chính thức |
 | Thảo Phạt / Truy Nã / Hiểm Ác | extermination / bounty / sinister, khác rewardTier normal/boss/super |
 | Hiểm trở / Hiểm Nguy | các tên trao đổi của dungeon dangerous; không nhầm tab siêu trùm Hiểm Ác. Tên UI lấy dungeons.json |
 | Câu chuyện Lữ Hành | travelerStories; “Lữ Khách” trong trao đổi cũ là cùng nhóm tính năng |

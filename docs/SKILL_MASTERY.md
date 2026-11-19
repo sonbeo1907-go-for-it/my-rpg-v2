@@ -4,7 +4,7 @@ Quyết định mới nhất của người dùng. Không phải áp dụng Thô
 
 ## Phạm vi và chi phí
 
-Danh sách cố định `progressionRules.default.skillProgression.mastery.characterIds` gồm #1 Arthur đến #31 Mandred, thêm Sylva, Monica, Logia, Tywin, Tobin, Lumine, Rivia và Elise. Astoria chưa mở. Không tự suy ra phạm vi từ thứ tự dữ liệu khi roster được sắp xếp lại.
+Danh sách cố định `progressionRules.default.skillProgression.mastery.characterIds` gồm #1 Arthur đến #31 Mandred, thêm Sylva, Monica, Logia, Tywin, Tobin, Lumine, Rivia và Elise. Bổ sung ngày 19/11/2026: Lionel, Charlemagnes, Kreider, Roland, Victorina, Sieg, Minerva, Auguste, Amelia, Chloe, Drake, Yufina, Karin, Yumia, Chelsea, Astraea và Artesia. Tổng cộng 56 nhân vật được mở Thông Thạo; toàn bộ 54 nhân vật có releaseId trước Selene (#56) đều đã mở. Astoria hiện ra mắt sau Chiyoko và chưa mở Thông Thạo. Không tự suy ra phạm vi từ thứ tự dữ liệu khi roster được sắp xếp lại.
 
 Chỉ kỹ năng đã rankable mới được nâng, gồm Đánh thường. Giữ nguyên fixed/utility/passive. Mọi nhánh Ogre’s Bane là ngoại lệ: chỉ mở Rank1–5 sau Hắc Ảnh Arthur — Khó, `masteryEligible:false`, không có Thông Thạo. Các chiêu thay thế dùng cùng skillLineId thừa hưởng tiến trình như Rank hiện tại.
 

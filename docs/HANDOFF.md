@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Nguyệt Quang Chúc Phúc — thiết kế, 19/11/2026
+
+[MOONLIGHT_BLESSING](MOONLIGHT_BLESSING.md) ghi khung dùng chung và Technical Test Noelle Model 4.0. Tên “Không Nguyệt Chúc Phúc” đã đổi thành Nguyệt Quang Chúc Phúc. Hai ô nguyên tố, bốn cặp Thủy–Lôi/Thủy–Hỏa/Quang–Thổ/Quang–Ám; từng nhân vật chỉ cấp quyền tổ hợp cụ thể. Chúc Phúc có chỉ số riêng; Lôi Sấm Thịnh Nộ dùng trung bình ATK động của nhân vật Lôi/Thủy. Chưa triển khai gameplay/developer option; còn các điểm chốt ở mục 9. Đừng coi đề xuất thực thể hỗ trợ không chiếm slot hoặc chính sách nạp/tick là quyết định người dùng đã duyệt.
+
 ## Cập nhật nhận lớp7A — 18/11/2026
 
 Luật giải là trang `/chronicles/academy/rules`, trình bày thông báo của trường. Phải xác nhận đã đọc trước khi đăng ký mùa mới (kiểm ở core, không chỉ UI). Xác nhận lần đầu nhận Luka; First Clear nhận Clark miễn phí. Hồ sơ đã clear được nhận bù Clark khi vào trang giải hoặc xác nhận thông báo. Nhận lại không tặng dupe/tiền bù. Cờ `rulesAccepted` và `rewardClaims` giữ qua replay, có mặc định cho save cũ; không ngắt trận đang chơi.
