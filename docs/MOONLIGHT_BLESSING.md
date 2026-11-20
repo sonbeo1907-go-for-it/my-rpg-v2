@@ -1,4 +1,4 @@
-# Nguyệt Quang Chúc Phúc — Noelle và khung tổ hợp
+# Nguyệt Quang Chúc Phúc — khung tổ hợp và các nhân vật cấp quyền
 
 Cập nhật **20/11/2026**, giờ Việt Nam. Trạng thái: **Noelle đã phát hành chính thức từ 20/11/2026**. Tài liệu này thay đặc tả nháp 0.1 và tên cũ “Không Nguyệt Chúc Phúc”.
 
@@ -8,7 +8,7 @@ Cập nhật **20/11/2026**, giờ Việt Nam. Trạng thái: **Noelle đã phá
 - Có bảng hiệu ứng riêng theo phe, cùng vùng trình bày Hồn Kiếm/Thuốc Súng. Khi chờ có hai ô nguyên tố; khi hoạt động hiện tên, chỉ số động và số vòng còn lại.
 - Chúc Phúc tự kích hoạt khi đủ hai tầng tương ứng **và toàn bộ chuỗi hành động đang xử lý đã kết toán**, gồm nhiều hit, nhiều mục tiêu, phản công, Liên kích và các phản ứng phát sinh. Không chen vào giữa chiêu, không chờ hết vòng, không phụ thuộc thời lượng VFX.
 - Mỗi tổ hợp có chỉ số/công thức riêng. Lôi Sấm Thịnh Nộ dùng ATK; Hạt Giống Bội Thu dùng MAG.
-- Noelle là nhân vật chính thức, vào gacha ngay. Hạt Giống Bội Thu có engine và cấu hình nhưng **chưa có nhân vật cấp quyền**, không thêm Developer Option cho tổ hợp này.
+- Noelle, Shashthi và Flynn là nhân vật chính thức trong gacha. Shashthi cấp quyền Hạt Giống Bội Thu; Noelle/Flynn cấp Lôi Sấm Thịnh Nộ. Xem [SHASHTHI_FLYNN](SHASHTHI_FLYNN.md) cho hai nhân vật mới và Hé Lộ Yufina/Astraea.
 - Lôi Sấm Thịnh Nộ gây **vật lí Lôi–Nguyệt**. Hạt Giống Bội Thu gây **phép Thổ–Nguyệt**.
 - Ba vòng tính cả vòng kích hoạt. Thực thể đã gọi tồn tại khi người cấp quyền bị hạ; không giữ trận tiếp tục nếu cả đội gục.
 
@@ -147,7 +147,7 @@ Kiểm tra UI qua chiến đấu thật: trang kỹ năng Noelle, hai ô chờ, 
 
 ## 9. Hiệu lệnh Chúc Phúc — 20/11/2026
 
-Đã có effect tái sử dụng `{"type":"command_moonlight","blessingId":"thunder_wrath"}`. Nhân vật ra lệnh không cần tự cấp quyền tổ hợp; cần Chúc Phúc đúng loại đang hoạt động ở phe mình, người ra lệnh còn sống và đợt trước đã kết toán. Chưa đưa kỹ năng này cho bất kỳ nhân vật chính thức nào; kiểm thử dùng kỹ năng/nhân vật fixture riêng.
+Đã có effect tái sử dụng `{"type":"command_moonlight","blessingId":"thunder_wrath"}`. Nhân vật ra lệnh không cần tự cấp quyền tổ hợp; cần Chúc Phúc đúng loại đang hoạt động ở phe mình, người ra lệnh còn sống và đợt trước đã kết toán. Gawain (Hé Lộ) và Flynn đã có hiệu lệnh chính thức; Flynn hỗ trợ hệ số chính/còn lại và hiệu lệnh tùy điều kiện.
 
 Đợt theo hiệu lệnh là Liên kích từ chính nguồn Chúc Phúc, giữ chỉ số động, hệ số, nguyên tố, mục tiêu, phòng thủ, VFX và các giới hạn PvP của nó. Không mượn ATK/MAG, Rank hoặc trang bị người ra lệnh. Chi phí và hồi chiêu thuộc kỹ năng ra lệnh; đợt Chúc Phúc và phản hồi của Noelle không trả thêm MP.
 
@@ -169,11 +169,11 @@ Các bảo đảm của khung:
 
 ### Mở khóa và cấu hình
 
-Nguyệt Quang Hé Lộ là nội tại bổ sung của Rhett, Gawain và Tywin, không thay nội tại gốc. Mỗi người mở một lần bằng **30 Pure Prisma** ở tab Kỹ Năng, mặc định bật sau khi mua; bật/tắt sau đó miễn phí. Phải sở hữu nhân vật. Không đổi khi đang chiến đấu, trong chuyến hầm ngục hoặc phiên pháo đài. Giao dịch dùng bản sao và chỉ công bố sau khi lưu thành công; không trừ tiền khi thất bại.
+Nguyệt Quang Hé Lộ là nội tại bổ sung của Rhett, Gawain, Tywin, Yufina và Astraea, không thay nội tại gốc. Mỗi người mở một lần bằng **30 Pure Prisma** ở tab Kỹ Năng, mặc định bật sau khi mua; bật/tắt sau đó miễn phí. Phải sở hữu nhân vật. Không đổi khi đang chiến đấu, trong chuyến hầm ngục hoặc phiên pháo đài. Giao dịch dùng bản sao và chỉ công bố sau khi lưu thành công; không trừ tiền khi thất bại.
 
 Save v7 có thêm `moonlightRevelations[id]={unlocked:true,enabled:boolean}`. Save thiếu trường nhận `{}`, không tự mở hoặc thu phí. Resolver chốt `moonlightRevelationEnabled` vào build trận. Roster mượn không tự được nâng cấp tài khoản; PvP dùng snapshot của từng phe và Rank tối đa 5 như trước.
 
-Người có Hé Lộ **không có `moonlightBlessings`**, không tạo bảng/tổ hợp khi đi riêng. Chỉ Chúc Phúc **Lôi Sấm Thịnh Nộ** cùng phe đang hoạt động mới mở hiệu quả. Hiệu quả mất ngay khi Chúc Phúc kết thúc, không tạo buff status có thể xóa hoặc bị Phong Ấn. Giữ trạng thái mua/bật qua save; hiệu quả trong trận và deadline Chúc Phúc theo cơ chế carry đã có.
+Người có Hé Lộ **không có `moonlightBlessings`**, không tạo bảng/tổ hợp khi đi riêng. Chúc Phúc tương ứng cùng phe đang hoạt động mới mở hiệu quả: Lôi Sấm Thịnh Nộ cho Rhett/Gawain/Tywin; Hạt Giống Bội Thu cho Yufina/Astraea (kèm mode). Hiệu quả mất ngay khi Chúc Phúc kết thúc, không tạo buff status có thể xóa hoặc bị Phong Ấn. Giữ trạng thái mua/bật qua save; hiệu quả trong trận và deadline Chúc Phúc theo cơ chế carry đã có.
 
 | Nhân vật | Khi Lôi Sấm Thịnh Nộ đang tồn tại |
 | --- | --- |
@@ -198,3 +198,7 @@ CD3 theo engine: thi triển R khóa R+1/R+2/R+3, sẵn sàng R+4; mode5 vòng v
 ### Bằng chứng kiểm thử
 
 `test/moonlight-revelation.test.js` kiểm mua/bật/tắt/save cũ, không tự cấp tổ hợp, điều kiện active, ATK, 2/3 Điện tích, sát thương thêm cố định qua Rank/Thông Thạo Rhett/Tywin, hệ số180%, Noelle response, forecast không sửa trận thật, PvP hai phe, aura Aisha chỉ đúng hệ, pulse vòng/Extra/expiry, hồi MP ở vòng cuối và khi nguồn gục. `e2e/revelation.spec.ts` kiểm giao dịch và reload hồ sơ thật trên trình duyệt, copy kỹ năng Aisha, bố cục1440/768/390px.
+
+## 11. Shashthi / Flynn / Hé Lộ Hạt Giống
+
+Đã triển khai chính thức; hợp đồng nhân vật, hệ số, đồng hồ và kiểm chứng nằm tại [SHASHTHI_FLYNN](SHASHTHI_FLYNN.md). command_moonlight có primaryMultiplier cho mục tiêu chính và optional:true cho hiệu lệnh đi kèm đòn cá nhân: thiếu Chúc Phúc vẫn trả chi phí và đánh phần cá nhân, bỏ riêng hiệu lệnh. Không đổi tính bắt buộc của hiệu lệnh thuần cũ.

@@ -113,7 +113,9 @@
       "charlotte",
       "mariel",
       "noelle",
-      "aisha"
+      "aisha",
+      "shashthi",
+      "flynn"
     ],
     "gearRates": [
       {
@@ -361,6 +363,14 @@
         },
         {
           "id": "aisha",
+          "from": "2026-11-20"
+        },
+        {
+          "id": "shashthi",
+          "from": "2026-11-20"
+        },
+        {
+          "id": "flynn",
           "from": "2026-11-20"
         }
       ]

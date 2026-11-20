@@ -13708,5 +13708,263 @@
         "multiplier": 0.5
       }
     ]
+  },
+  {
+    "id": "shashthi.gift",
+    "name": "Lời Khấn Ban Phước",
+    "description": "Tăng MAG cho một đồng đội Quang hoặc Thổ. Người cấp quyền Chúc Phúc nhận gấp đôi hiệu quả và thời hạn.",
+    "target": "ally",
+    "targetElements": [
+      "light",
+      "earth"
+    ],
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "shashthi_magic",
+        "duration": 3,
+        "moonlightProviderBonus": {
+          "modifierMultiplier": 2,
+          "durationMultiplier": 2
+        }
+      }
+    ],
+    "skillLineId": "shashthi.gift",
+    "growthProfile": "stat_buff",
+    "rankable": true
+  },
+  {
+    "id": "shashthi.harvest",
+    "name": "Đại Lễ Đón Trăng",
+    "description": "Cử hành đại lễ dưới trăng, nuôi dưỡng Hạt Giống Bội Thu và giáng ánh sáng lên toàn địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "harvest",
+        "to": "self"
+      },
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "scalingStat": "magic",
+        "multiplier": 0.5
+      }
+    ],
+    "skillLineId": "shashthi.harvest",
+    "growthProfile": "damage",
+    "growthAdapter": "mode_command",
+    "rankable": true
+  },
+  {
+    "id": "shashthi.pulse",
+    "name": "Ánh Trăng Giáng Phúc",
+    "description": "Đầu vòng, tấn công Quang toàn địch khi Đại Lễ Đón Trăng còn tồn tại.",
+    "target": "all_enemies",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "light",
+        "scalingStat": "magic",
+        "multiplier": 0.5
+      }
+    ],
+    "rankFromAbility": "shashthi.harvest",
+    "skillLineId": "shashthi.pulse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Sát thương theo Rank Đại Lễ Đón Trăng."
+  },
+  {
+    "id": "shashthi.guard",
+    "name": "Nguyệt Thần Chở Che",
+    "description": "Tăng DEF và RES toàn đội trong 3 vòng.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "status": "shashthi_guard",
+        "duration": 3
+      }
+    ],
+    "skillLineId": "shashthi.guard",
+    "growthProfile": "stat_buff",
+    "rankable": true
+  },
+  {
+    "id": "flynn.charge",
+    "name": "Khơi Lại Ánh Đèn",
+    "description": "Đánh toàn địch, tăng 25% ATK trong 3 lượt chính, tạo 2 Dư Quang và nhận Lượt Thêm.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 5
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "scalingStat": "attack",
+        "multiplier": 0.6
+      },
+      {
+        "type": "status",
+        "status": "flynn_fervor",
+        "to": "self",
+        "duration": 3
+      },
+      {
+        "type": "resource",
+        "resource": "storm_charge",
+        "amount": 2,
+        "to": "self"
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "flynn.charge",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "flynn.breaker",
+    "name": "Hoành Kích Xua Đêm",
+    "description": "Đánh toàn địch, xóa 1 buff và giảm 25% SPD trong 2 lượt chính.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "dispel",
+        "count": 1
+      },
+      {
+        "type": "status",
+        "status": "flynn_slow",
+        "duration": 2
+      }
+    ],
+    "skillLineId": "flynn.breaker",
+    "growthProfile": "damage",
+    "rankable": true
+  },
+  {
+    "id": "flynn.burst",
+    "name": "Vì Những Người Nằm Lại",
+    "description": "Có Dư Quang: tiêu 1 tầng. Hết tầng: dốc 35 MP tung đòn mạnh hơn. Chúc Phúc đang tồn tại sẽ nhận hiệu lệnh Liên kích riêng.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 35
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "thunder",
+        "scalingStat": "attack",
+        "multiplier": 2,
+        "primaryMultiplier": 3.6
+      },
+      {
+        "type": "command_moonlight",
+        "blessingId": "thunder_wrath",
+        "optional": true,
+        "multiplier": 3.2,
+        "primaryMultiplier": 4.8
+      }
+    ],
+    "resourceVariants": {
+      "resource": "storm_charge",
+      "minimum": 1,
+      "ready": {
+        "cost": {
+          "resource": {
+            "id": "storm_charge",
+            "amount": 1
+          }
+        },
+        "cooldown": 0,
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "physical",
+            "element": "thunder",
+            "scalingStat": "attack",
+            "multiplier": 1.2,
+            "primaryMultiplier": 2.4
+          },
+          {
+            "type": "command_moonlight",
+            "blessingId": "thunder_wrath",
+            "optional": true,
+            "multiplier": 2,
+            "primaryMultiplier": 3.6
+          }
+        ]
+      },
+      "empty": {
+        "cost": {
+          "mp": 35
+        },
+        "cooldown": 3,
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "physical",
+            "element": "thunder",
+            "scalingStat": "attack",
+            "multiplier": 2,
+            "primaryMultiplier": 3.6
+          },
+          {
+            "type": "command_moonlight",
+            "blessingId": "thunder_wrath",
+            "optional": true,
+            "multiplier": 3.2,
+            "primaryMultiplier": 4.8
+          }
+        ]
+      }
+    },
+    "rules": [
+      "Có Dư Quang: 240% ATK mục tiêu chính / 120% mỗi địch khác; tiêu 1 tầng, không tốn MP hoặc hồi chiêu.",
+      "Không có Dư Quang: 360% / 200% ATK; 35 MP, hồi chiêu 3 vòng.",
+      "Lôi Sấm Thịnh Nộ đang tồn tại: đợt riêng dùng ATK Chúc Phúc, 360% / 200% khi tiêu tầng hoặc 480% / 320% khi trả MP."
+    ],
+    "skillLineId": "flynn.burst",
+    "growthProfile": "damage",
+    "rankable": true
   }
 ]

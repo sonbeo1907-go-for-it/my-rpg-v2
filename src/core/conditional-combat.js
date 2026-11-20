@@ -1,3 +1,4 @@
+import {resourceVariantAbility} from './resource-variants.js';
 import {selectedTeamCost} from './team-resources.js';
 import {preferredLifeDebtCost} from './life-debt.js';
 import {specialMpMultiplier} from './exclusive-specials.js';
@@ -6,10 +7,12 @@ import {activeStatuses} from './status-state.js';
 
 // Preferred resource replaces MP only when the full authored amount is available.
 export function resourceCost(skill,actor) {
+  skill=resourceVariantAbility(actor,skill);
   const preferred=skill.cost?.preferResource;
   return preferred && (actor?.resourceValues?.[preferred.id]??0)>=preferred.amount ? preferred : skill.cost?.resource??null;
 }
 export function mpCost(skill,actor,battle) {
+  skill=resourceVariantAbility(actor,skill);
   if(battle&&skill.cost?.preferTeamResource&&selectedTeamCost(battle,actor,skill)===skill.cost.preferTeamResource)return 0;
   if(preferredLifeDebtCost(skill,actor))return 0;
   const base=skill.cost?.preferResource && resourceCost(skill,actor)===skill.cost.preferResource ? 0 : skill.cost?.mp??0;

@@ -30,6 +30,7 @@ export function revelationActive(battle,actor){return actor.moonlightRevelationE
 export function syncMoonlightAuras(battle){
  for(const actor of battle.actors){
   actor.moonlightModifiers={};
+  actor.moonlightRevelationActive=isAlive(actor)&&revelationActive(battle,actor)&&(!actor.moonlightRevelation.requiresMode||actor.activeMode===actor.moonlightRevelation.requiresMode);
   if(isAlive(actor)&&revelationActive(battle,actor))for(const[key,n]of Object.entries(actor.moonlightRevelation.modifiers??{}))actor.moonlightModifiers[key]=n;
   for(const source of battle.actors){
    const mode=source.combatModes?.[source.activeMode];
@@ -41,12 +42,13 @@ export function syncMoonlightAuras(battle){
 }
 // Inject into the same cast after its real resource payment, before damage resolves.
 export function revelationEffects(battle,actor,skill,spent){
- if(!revelationActive(battle,actor))return skill.effects;
- const rule=actor.moonlightRevelation;if(skill.id!==rule.abilityId)return skill.effects;
+ if(!revelationActive(battle,actor)||actor.moonlightRevelation.requiresMode&&actor.activeMode!==actor.moonlightRevelation.requiresMode)return skill.effects;
+ const rule=actor.moonlightRevelation;if(rule.followUpOnly)return skill.effects;
+ if(rule.allDamagingSkills?(skill.id.startsWith('$')||!skill.effects.some(e=>e.type==='damage')):skill.id!==rule.abilityId)return skill.effects;
  const effects=skill.effects.map(effect=>effect.type==='damage'&&(!rule.moonAtResource||spent>=rule.moonAtResource)?{...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])]}:effect);
  if(rule.commandMultiplier)return [...effects,{type:'command_moonlight',blessingId:rule.blessingId,multiplier:rule.commandMultiplier}];
  const count=rule.perSpentResource?spent:1,base=skill.effects.find(e=>e.type==='damage');
- return [...effects,{type:'damage',damageType:base.damageType,element:actor.element,additionalElements:['moon'],scalingStat:'attack',multiplier:rule.bonusMultiplier,hits:count,rankDamageFactor:1,...(base.unavoidable?{unavoidable:true}:{})}];
+ return [...effects,{type:'damage',damageType:base.damageType,element:actor.element,additionalElements:['moon'],scalingStat:rule.bonusScalingStat??'attack',multiplier:rule.bonusMultiplier,hits:count,rankDamageFactor:1,...(base.unavoidable?{unavoidable:true}:{})}];
 }
 export function moonlightRoundStart(battle,io){
  for(const actor of battle.actors){const mode=actor.combatModes?.[actor.activeMode];

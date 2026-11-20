@@ -1,3 +1,4 @@
+import {supportFollowupLimit} from './support-followup.js';
 import {teamResourceValue} from './team-resources.js';
 import {battleMaxMp} from './stat-values.js';
 
@@ -61,9 +62,10 @@ export function checkCombatMode(battle,actor,reason,io) {
   return exited;
 }
 // Turn-based modes count the owner's own turns, including the turn that entered the mode.
-export function spendModeTurn(actor) {
+export function spendModeTurn(actor,phase) {
   const mode=activeCombatMode(actor);
   if (!mode || modeLifetime(mode)!=='turns' || actor.modeTurnsRemaining===undefined) return false;
+  if(mode.durationClock==='main_turn'&&phase==='extra')return false;
   actor.modeTurnsRemaining -= 1;
   return true;
 }
@@ -86,7 +88,7 @@ export function battlePresentation(actors) {
   const scenes=[];
   for (const actor of actors.filter(actor=>isAlive(actor))) {
     const mode=activeCombatMode(actor);
-    if (mode && !['actor','none'].includes(mode.presentationScope)) scenes.push({ownerId:actor.id,mode:actor.activeMode,name:mode.name,music:mode.music,background:mode.background,summary:actor.modeFollowUpBonus!==undefined?('+'+Number(((actor.modeAppliedModifiers?.magic??mode.statModifiers?.magic??0)*100).toFixed(2))+'% MAG · Liên kích '+actor.passive.modePerRound+' lần/vòng · thêm '+Number((actor.modeFollowUpBonus*100).toFixed(2))+'% MAG hệ số'):mode.summary??'+15 MAG căn bản · Mệnh lệnh hủy diệt'});
+    if (mode && !['actor','none'].includes(mode.presentationScope)) scenes.push({ownerId:actor.id,mode:actor.activeMode,name:mode.name,music:mode.music,background:mode.background,summary:actor.modeFollowUpBonus!==undefined?('+'+Number(((actor.modeAppliedModifiers?.magic??mode.statModifiers?.magic??0)*100).toFixed(2))+'% MAG · Liên kích '+supportFollowupLimit(actor)+' lần/vòng · thêm '+Number((actor.modeFollowUpBonus*100).toFixed(2))+'% MAG hệ số'):mode.summary??'+15 MAG căn bản · Mệnh lệnh hủy diệt'});
     for (const [id,state] of Object.entries(actor.companionStates??{})) {
       if (!state.active) continue;
       const companion=actor.companions[id];

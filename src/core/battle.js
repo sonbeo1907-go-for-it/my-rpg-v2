@@ -1,3 +1,4 @@
+import {moonlightActivated,moonlightPotencyMultiplier,providerBuff} from './moonlight-synergy.js';
 import {revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
 import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
 import {judgeTournamentLimit} from './tournament-judging.js';
@@ -97,7 +98,7 @@ const modeIO = { announce:announcePassive, write, emit: emitEvent, restore: gain
 };
 const specialIO={restore:gainResource,heal:healHp,status:applyStatus,stat,emit:emitEvent,write,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId)??t,[t],{type:'shield',flat},0,false)};
 const teamIO={emit:emitEvent,write,status:applyStatus,announce:announcePassive,restore:gainResource,checkModes:(b,team)=>{for(const a of b.actors.filter(a=>a.team===team))checkCombatMode(b,a,'team_resource_changed',modeIO);}};
-const moonlightIO={stat,emit:emitEvent,write,outcome:checkOutcome,pulse:moonlightPulse,followUp:moonlightFollowUp};
+const moonlightIO={onActivate:(b,team,d)=>moonlightActivated(b,team,d,modeIO),stat,emit:emitEvent,write,outcome:checkOutcome,pulse:moonlightPulse,followUp:moonlightFollowUp};
 const gearIO={status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write,shield:(battle,actor,flat)=>applyEffect(battle,actor,[actor],{type:'shield',flat},0,false)};
 const living = isAlive;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -551,12 +552,15 @@ export function moonlightSnapshot(battle){
  for(const [team,state]of Object.entries(view))if(state.active)state.active.statValue=moonlightStat(battle,team,(a,key)=>stat(battle,a,key));
  return view;
 }
-function moonlightPulse(battle,source,definition,targets,amount,phase,multiplier){
- const skill=battle.content.abilities[definition.abilityId];
- const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:targets[0].id};
- emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:targets[0].id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:true,automaticCast:true,moonlight:true,team:source.team});
+function moonlightPulse(battle,source,definition,targets,amount,phase,request){
+ const options=typeof request==='number'?{multiplier:request}:request??{},base=battle.content.abilities[definition.abilityId];
+ const skill={...base,effects:[{...base.effects[0],...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{})}]};
+ const primary=targets.find(t=>t.id===options.primaryTargetId)??targets[0],potency=moonlightPotencyMultiplier(battle,source.team,definition.id);
+ skill.effects[0].multiplier*=potency;if(skill.effects[0].primaryMultiplier!==undefined)skill.effects[0].primaryMultiplier*=potency;
+ const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:primary.id};
+ emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:primary.id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:true,automaticCast:true,moonlight:true,team:source.team});
  write(battle,source.name+' tấn công · '+(phase==='command'?'theo hiệu lệnh':phase==='start'?'đầu vòng':'cuối vòng')+'.');
- for(const target of targets){if(!living(target))continue;hit(battle,source,target,{...skill.effects[0],...(multiplier!==undefined?{multiplier}:{}),gearPower:amount},0,{area:true,reaction:true,actionContext:ctx});}
+ for(const target of targets){if(!living(target))continue;hit(battle,source,target,primaryDamageEffect({...skill.effects[0],gearPower:amount},target.id===primary.id),0,{area:true,reaction:true,actionContext:ctx});}
  finishAttackContext(battle,source,ctx);
  transitionBossPhases(battle,{write,restoreMp:gainResource});
  return ctx.pvpDenied!==true;
@@ -686,7 +690,7 @@ function beginTurn(battle) {
     cleanupTurnDelegations(battle);
     const target=boundAlly(battle,owner);
     if(target){
-      finishStatuses(battle,owner,[...owner.statuses],false);spendModeTurn(owner);
+      finishStatuses(battle,owner,[...owner.statuses],false);spendModeTurn(owner,battle.phase);
       for(const a of battle.actors)checkCombatMode(battle,a,'action_end',modeIO);
       endTurnPassive(battle,owner);
       battle.delegatedTurn={ownerId:owner.id,actorId:target.id,round:battle.round,phase:battle.phase,cursor:battle.cursor};
@@ -703,7 +707,7 @@ function skipStunnedTurn(battle,actor){
   if(!flag(battle,actor,'skipTurn'))return false;
   write(battle, `${actor.name} bị choáng, mất lượt hành động.`);
   finishStatuses(battle,actor,[...actor.statuses],false);battle.actionCount++;
-  spendModeTurn(actor);for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);
+  spendModeTurn(actor,battle.phase);for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);
   finishBossRitualTurn(battle,actor);
   endTurnPassive(battle,actor);advance(battle);return true;
 }
@@ -1080,6 +1084,7 @@ export function targetsFor(battle, actor, skill) {
       living(target) &&
       (allies ? target.team === actor.team : target.team !== actor.team),
   );
+  if(skill.targetElements)targets=targets.filter(target=>skill.targetElements.includes(target.element));
   if(skill.targetElement)targets=targets.filter(target=>target.element===skill.targetElement);
   if(skill.excludedTargetElements)targets=targets.filter(target=>!skill.excludedTargetElements.includes(target.element));
   if(skill.targetTag)targets=targets.filter(target=>target.tags?.includes(skill.targetTag));
@@ -1101,7 +1106,8 @@ export function selectedTargets(battle,actor,skill,targetId) {
 }
 
 export function abilityAvailability(battle, actor, skill) {
-  if(actor&&(skill.targetElement||skill.targetTag||skill.excludeSelf)&&!targetsFor(battle,actor,skill).length)return {ok:false,reason:"Không có đồng đội phù hợp để nhận kỹ năng."};
+  if(actor&&skill.resourceVariants)skill=resolveRankedAbility(battle.content,actor,skill);
+  if(actor&&(skill.targetElements||skill.targetElement||skill.targetTag||skill.excludeSelf)&&!targetsFor(battle,actor,skill).length)return {ok:false,reason:"Không có đồng đội phù hợp để nhận kỹ năng."};
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
   if(skill.requiresLifeDebt&&lifeDebt(actor)<=0)return {ok:false,reason:'Cần có Thế Chấp để tất toán.'};
@@ -1123,7 +1129,7 @@ export function abilityAvailability(battle, actor, skill) {
   if (skill.target === "adjacent_allies" && !targetsFor(battle,actor,skill).length) return {ok:false,reason:"Không có đồng đội còn sống ở hai ô kề."};
   if (skill.requiresTargetStatus && !targetsFor(battle,actor,skill).length)
     return { ok: false, reason: `Cần mục tiêu có ${battle.content.statuses[skill.requiresTargetStatus].name}.` };
-  for(const effect of skill.effects??[])if(effect.type==='command_moonlight'&&!canCommandMoonlight(battle,actor,effect.blessingId))return {ok:false,reason:'Cần '+(battle.content.moonlightBlessings[effect.blessingId]?.name??'Nguyệt Quang Chúc Phúc')+' đang hoạt động và sẵn sàng nhận hiệu lệnh.'};
+  for(const effect of skill.effects??[])if(effect.type==='command_moonlight'&&!effect.optional&&!canCommandMoonlight(battle,actor,effect.blessingId))return {ok:false,reason:'Cần '+(battle.content.moonlightBlessings[effect.blessingId]?.name??'Nguyệt Quang Chúc Phúc')+' đang hoạt động và sẵn sàng nhận hiệu lệnh.'};
   const resource = resourceCost(skill,actor);
   if (
     resource &&
@@ -1546,7 +1552,7 @@ function resolveHit(
     write(battle, `${target.name} chắn đòn cho ${originalTarget.name}.`);
   effect=exclusiveDamageEffect(attacker,actionContext.skillId,effect);
   effect=attunedDamageEffect(target,effect,actionContext);
-  effect=moonlightDamageEffect(battle,attacker,effect);
+  effect=moonlightDamageEffect(battle,attacker,effect,actionContext);
   if(!actionContext.reaction&&!actionContext.automatic&&actionContext.skillId&&!actionContext.skillId.startsWith('$')&&originalTarget.id===actionContext.primaryTargetId&&[...guardianRecipes(attacker,'single_skill_echo')].length){
     const multiplier=damageMultiplier(effect,{spent,stacks:effect.consumeStatus?(target.statuses.find(s=>s.id===effect.consumeStatus)?.stacks??0):0,hpRatio:attacker.hp/attacker.stats.maxHp,buffs:buffTypeCount(battle.content,target)});
     (actionContext.gearEchoPackets??=[]).push({type:'damage',damageType:effect.damageType,element:effect.element,...(effect.additionalElements?{additionalElements:[...effect.additionalElements]}:{}),gearPower:resolvedHitPower(battle,attacker,target,effect,actionContext),multiplier,penetration:effect.penetration??0});
@@ -2024,7 +2030,7 @@ function applyEffect(
 ) {
   if(effect.type==='performance_stage'){applyPerformanceStage(battle,actor,effect,{order:orderActorIds,write,emit:emitEvent});return;}
   if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
-  if(effect.type==='command_moonlight'){commandMoonlight(battle,actor,effect.blessingId,moonlightIO,effect.multiplier);return;}
+  if(effect.type==='command_moonlight'){commandMoonlight(battle,actor,effect.blessingId,moonlightIO,{...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})});return;}
   if(effect.type==='bound_exposure'){applyBoundExposure(battle,actor,targets,effect,actionContext,{status:applyStatus});return;}
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
   if(effect.divideAmongTargets)effect={...effect,multiplier:effect.multiplier/Math.max(1,targets.filter(t=>living(t)).length)};
@@ -2152,12 +2158,13 @@ function applyEffect(
         actor.id,
       );
     if (effect.type === "status") {
+      const statusEffect=providerBuff(effect,target,battle.content);
       const count = (effect.stacks ?? 1) + (effect.extraStacksIfPresent && actionContext.preMarkedTargets?.has(target.id + ":" + effect.status) ? effect.extraStacksIfPresent : 0);
       const extension = exclusivePassive(actor,"skill_status_duration",actionContext.skillId);
-      const duration = effect.duration === undefined ? undefined : effect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
+      const duration = statusEffect.duration === undefined ? undefined : statusEffect.duration + (extension?.statusId === effect.status ? extension.extraDuration : 0);
       if (battle.content.statuses[effect.status].exposedElement) recordCreatedExposure(battle.content,actionContext,applyStatus(battle, target, effect.status, duration, actor.id, {stacks:count}));
       else for (let i = 0; i < count; i++) {
-        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,...(effect.baseStatModifiers?{baseStatModifiers:effect.baseStatModifiers}:{}),...(effect.flatSkillScaling?{flatSkillBonus:stat(battle,actor,effect.flatSkillScaling.stat)*effect.flatSkillScaling.multiplier}:{}),appliedModifiers:effect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio,chanceScaling:effect.chanceScaling});
+        const applied = applyStatus(battle, target, effect.status, duration, actor.id, {charges:effect.charges,...(effect.baseStatModifiers?{baseStatModifiers:effect.baseStatModifiers}:{}),...(effect.flatSkillScaling?{flatSkillBonus:stat(battle,actor,effect.flatSkillScaling.stat)*effect.flatSkillScaling.multiplier}:{}),appliedModifiers:statusEffect.appliedModifiers,linkedAppliedModifiers:effect.linkedAppliedModifiers,debtMaxHpRatio:effect.debtMaxHpRatio,chanceScaling:effect.chanceScaling});
         if (!applied || applied.stacks >= (battle.content.statuses[effect.status].maxStacks ?? 1)) break;
       }
     }
@@ -2501,7 +2508,7 @@ function resolveAction(
   triggerSupportSkillCounters(battle,actor,skill,actionContext);
   triggerShieldModeRouse(battle,actor,skill,actionContext);
   if(teamCost)triggerSpentResourceFollowups(battle,actor,teamCost);
-  spendModeTurn(actor);
+  spendModeTurn(actor,battle.phase);
   for(const member of battle.actors)checkCombatMode(battle,member,'action_end',modeIO);
   if(supportScopeBefore)battle.supportChargeScope=supportScopeBefore;else delete battle.supportChargeScope;
   trialAfterAction(battle,actor,{write,emit:emitEvent});

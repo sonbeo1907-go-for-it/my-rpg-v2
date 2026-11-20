@@ -1764,5 +1764,39 @@
       "noelle.shelter": 20,
       "noelle.repair": 8
     }
+  },
+  {
+    "id": "shashthi",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "shashthi.harvest",
+      "shashthi.gift",
+      "shashthi.guard"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "shashthi.harvest": 24,
+      "shashthi.gift": 20,
+      "shashthi.guard": 12
+    }
+  },
+  {
+    "id": "flynn",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "flynn.charge"
+    ],
+    "burstAbilities": [
+      "flynn.burst"
+    ],
+    "skillBias": {
+      "flynn.charge": 28,
+      "flynn.breaker": 8,
+      "flynn.burst": 20
+    }
   }
 ]

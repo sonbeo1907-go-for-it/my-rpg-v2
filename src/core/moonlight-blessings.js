@@ -1,3 +1,5 @@
+import {moonlightOffenseMultiplier} from './moonlight-synergy.js';
+import {revelationActive} from './moonlight-revelation.js';
 import {isAlive} from './actor-life.js';
 import {damageElements} from './elements.js';
 
@@ -34,7 +36,7 @@ export function moonlightDefinition(battle,team){const active=battle.moonlight?.
 export function moonlightStat(battle,team,readStat){
  const d=moonlightDefinition(battle,team);if(!d)return 0;
  const members=battle.actors.filter(a=>a.team===team&&isAlive(a)&&battle.content.characters[a.definitionId??a.id]&&d.elements.includes(a.element));
- return members.length?members.reduce((n,a)=>n+readStat(a,d.stat),0)/members.length*d.statRatio:0;
+ return members.length?members.reduce((n,a)=>n+readStat(a,d.stat),0)/members.length*d.statRatio*moonlightOffenseMultiplier(battle,team,d.id):0;
 }
 // Observe real enemy HP/shield damage; never allow a blessing to fuel itself.
 export function recordMoonlightDamage(battle,source,target,effect,amount,io){
@@ -63,14 +65,17 @@ export function settleMoonlight(battle,io){
   const d=state.allowed.map(id=>battle.content.moonlightBlessings[id]).find(d=>pairKey(d.elements)===pairKey(state.slots));if(!d)continue;
   state.slots=[];state.lastActivatedRound=battle.round;state.revision++;
   state.active={id:d.id,startedRound:battle.round,expiresAfterRound:battle.round+d.durationRounds-1,pulses:{},targets:d.targetMode==='anchored_enemies'?battle.actors.filter(a=>a.team!==team&&isAlive(a)).map(a=>a.id):[],followUps:{}};
+  io.onActivate?.(battle,team,d);
   const source=makeSource(battle,team,d,moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)));
   io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kích hoạt trong 3 vòng.');
   io.emit(battle,{type:'moonlight_enter',sourceId:source.id,team,blessingId:d.id,label:d.name,stat:d.stat,statValue:source.stats[d.stat],targetIds:state.active.targets});
  }
 }
-export function moonlightDamageEffect(battle,source,effect){
- const p=source?.passive;
- if(p?.type!=='moonlight_guardian'||battle.moonlight?.[source.team]?.active?.id!==p.blessingId)return effect;
+export function moonlightDamageEffect(battle,source,effect,context){
+ const p=source?.passive,rule=source?.moonlightRevelation;
+ const native=(['moonlight_guardian','moonlight_potency'].includes(p?.type)&&battle.moonlight?.[source.team]?.active?.id===p.blessingId)||(p?.type==='moonlight_activation_mode'&&source.activeMode===p.modeId);
+ const revealed=rule&&(rule.allDamagingSkills||rule.followUpOnly)&&revelationActive(battle,source)&&(!rule.requiresMode||source.activeMode===rule.requiresMode)&&(!rule.followUpOnly||context?.skillId===source.passive?.followUpAbility);
+ if(!native&&!revealed)return effect;
  return {...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])].filter(e=>e!==effect.element)};
 }
 // All blessing attacks share their guardian reaction path. Only natural pulses own clock slots.
@@ -109,10 +114,11 @@ export function canCommandMoonlight(battle,actor,blessingId){
  const state=battle.moonlight?.[actor?.team];
  return Boolean(actor&&battle.actors.includes(actor)&&isAlive(actor)&&!battle.outcome&&!state?.attackInProgress&&state?.active?.id===blessingId&&battle.round<=state.active.expiresAfterRound);
 }
-export function commandMoonlight(battle,actor,blessingId,io,multiplier){
- if(multiplier!==undefined&&(!Number.isFinite(multiplier)||multiplier<=0||multiplier>10))return false;
+export function commandMoonlight(battle,actor,blessingId,io,request){
+ const options=typeof request==='number'?{multiplier:request}:request;
+ if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['multiplier','primaryMultiplier','primaryTargetId'].includes(k))||['multiplier','primaryMultiplier'].some(k=>options[k]!==undefined&&(!Number.isFinite(options[k])||options[k]<=0||options[k]>10))||options.primaryTargetId!==undefined&&typeof options.primaryTargetId!=='string'))return false;
  if(!canCommandMoonlight(battle,actor,blessingId))return false;
- return performMoonlightAttack(battle,actor.team,'command',io,multiplier);
+ return performMoonlightAttack(battle,actor.team,'command',io,options);
 }
 
 export function expireMoonlight(battle,io){

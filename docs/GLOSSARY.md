@@ -6,6 +6,10 @@
 
 Hunter Guild = Hội Thợ Săn; Magic Academy = Học viện Ma pháp; Capital Knights = Kị sĩ đoàn Thủ đô. Trong `data/characters.json`, `affiliation` là slug tiếng Anh ổn định (ví dụ `capital_knights`, `hunters_guild`, `magic_academy`), kèm tag nhóm và tag danh xưng riêng từng người (ví dụ `lion_knight` của Mandred); UI hiển thị tiếng Việt qua `AFFILIATION_LABELS` trong [catalog.js](../src/core/catalog.js). Danh sách phe và luật thêm phe ở [AFFILIATIONS](AFFILIATIONS.md). Valmont, Vertosse, Ranoc, Black Rose Mafia là liên kết nội dung; dùng tag/affiliation trong dữ liệu. Simon thuộc Vertosse nhưng không mang họ Vertosse. Sandra có bối cảnh chức vụ được phát triển qua nhiều lần thiết kế; dùng nội dung hiện tại, không tự hợp nhất vai trò lore khác nhau bằng đổi tênID.
 
+### Drageshelmfjall / Người Giữ Đèn
+
+Lampkeeper = **Người Giữ Đèn**, đội dân quân tự vệ tự phong của thị trấn dưới núi phía Bắc, không phải kị sĩ đoàn thủ đô. Đồ da chắp vá, mũ len và vũ khí tùy điều kiện; chiếc đèn dầu bên người soi đường và xua ma vật. Có nghĩa trang riêng; linh hồn người đã khuất khó siêu thoát ở vùng núi hiểm trở. Flynn là High Elf quý tộc phương Bắc, đã ở thị trấn vài trăm năm và là thành viên cấp cao; dùng kích có đèn nhỏ, giữ chiếc đèn cũ rỉ sét và thường chăm sóc mộ đồng đội. Đọc [Shashthi / Flynn](SHASHTHI_FLYNN.md) cho lore và bộ tên hiện hành.
+
 ## UI ↔ engine
 
 | UI tiếng Việt | ID / ý nghĩa |

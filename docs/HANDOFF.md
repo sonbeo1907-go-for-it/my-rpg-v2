@@ -1,5 +1,20 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Flynn / Người Giữ Đèn — 20/11/2026
+
+Flynn là High Elf quý tộc phương Bắc, thành viên cấp cao đội tự vệ Lampkeeper (Người Giữ Đèn), dùng kích gắn đèn và chăm sóc nghĩa trang đồng đội. Danh hiệu Người giữ đèn trăm năm. Tên mới: Khơi Lại Ánh Đèn, Hoành Kích Xua Đêm, Vì Những Người Nằm Lại; nội tại Lời Thề Bên Đèn Cũ, mode Đèn Sáng Qua Đêm Dài, tầng Dư Quang. Đã đồng bộ tên buff/log/copy và tài liệu; giữ ID/cân bằng. Lore ở [SHASHTHI_FLYNN](SHASHTHI_FLYNN.md) và [GLOSSARY](GLOSSARY.md).
+
+## Tên nghi lễ và thân thế Shashthi — 20/11/2026
+
+Shashthi là thánh nữ kế nhiệm của tín ngưỡng Thần Mặt Trăng tại Drageshelmfjall. Bộ tên mới: Lời Nguyện Ngàn Năm (nội tại), Lời Khấn Ban Phước, Đại Lễ Đón Trăng (mode), Nguyệt Thần Chở Che; pulse Ánh Trăng Giáng Phúc. Danh hiệu Thánh nữ miền tuyết trắng. Giữ nguyên ID và cân bằng. Bối cảnh tự trị/thương nhân/người bản địa ghi tại [SHASHTHI_FLYNN](SHASHTHI_FLYNN.md).
+
+## Shashthi / Flynn / Hé Lộ Hạt Giống — 20/11/2026
+
+Hai provider chính thức #119/#120 vào gacha; Shashthi mở Quang–Thổ, Flynn thêm người cấp Thủy–Lôi. Đọc [SHASHTHI_FLYNN](SHASHTHI_FLYNN.md) cho hợp đồng đầy đủ. Shashthi tăng seed20% trước khuếch đại, trong mode thành50% tổng; buff MAG chỉ chọn Quang/Thổ, provider nhận gấp đôi hệ số/thời hạn. Yufina/Astraea thêm Hé Lộ30 Pure: Yufina mode thêm Nguyệt và hit120%MAG cố định; Astraea trong Vườn thêm Nguyệt cho Liên kích và trần3/vòng chung Main/Extra.
+
+Flynn mode5 lượt chính, +12baseATK và ×1,2ATK Chúc Phúc, kích/gia hạn chỉ ở actual activation. durationClock main_turn là ngoại lệ khai báo, không đổi mode cũ. Trảm Lôi tự chọn resourceVariants theo tầng, chi phí/CD/preview/AI cùng nhánh; hiệu lệnh là source Chúc Phúc độc lập, main/others riêng, Noelle vẫn đáp ứng chung3/vòng. Test rotation thật R1 charge→Extra burst→R2 burst→R3 charge, stun/Extra/carry/PvP/forecast. Hai mode mới dùng presentationScope none; không dùng VFX Selene.
+
+
 ## Hắc Ảnh Arthur Lv70/80/90 — 20/11/2026
 
 Ba chương cố định nối tiếp Lv60, cùng boss ba phase và BGM ogrebane. Thắng lần đầu cấp thẳng Thông Thạo1/2/3 cho hai dòng Ogre’s Bane, không tốn Original/Coin và không cần Rank5 trước. Raw rank/level giữ nguyên; operation skill_rank_floor suy ra floor/cap trong actor snapshot, quote và resolver. PvP vẫn cap5, không mua vượt mốc. Đọc [SKILL_MASTERY](SKILL_MASTERY.md) và [ARTHUR_COMPLETE_CONTROL](ARTHUR_COMPLETE_CONTROL.md); test/arthur-story-mastery.test.js.

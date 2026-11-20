@@ -15,10 +15,10 @@ function fresh(content=c,s=save(content)){const b=createBattle(content,s,'forest
 function cast(b,id,ability,target='enemy_0'){b.queue=[id,...b.actors.filter(a=>a.id!==id&&a.hp>0).map(a=>a.id)];b.cursor=0;executeAction(b,{actorId:id,abilityId:ability,targetId:target});}
 function round(b){const r=b.round;for(let n=0;n<80&&b.round===r&&!b.outcome;n++){const a=activeActor(b);executeAction(b,{actorId:a.id,abilityId:'$defend',targetId:a.id});}assert.ok(b.round>r||b.outcome);}
 function activate(b){cast(b,'noelle','noelle.thunder');cast(b,'elaine','$attack');assert.equal(b.moonlight.party.active.id,'thunder_wrath');}
-test('Noelle ships in gacha with stable stats; seed blessing has no published provider',()=>{
+test('Noelle ships in gacha with stable stats; Shashthi now grants seed access',()=>{
  assert.deepEqual(c.characters.noelle.stats,{maxHp:200,maxMp:100,attack:35,magic:5,defense:24,resistance:24,speed:20});assert.equal(c.characters.noelle.releaseId,117);
  assert.ok(c.banners.standard.characterPool.includes('noelle'));assert.ok(!c.characters.noelle.developerOnly);
- assert.ok(!Object.values(c.characters).some(a=>a.moonlightBlessings?.includes('bountiful_seed')));
+ assert.deepEqual(Object.values(c.characters).filter(a=>a.moonlightBlessings?.includes('bountiful_seed')).map(a=>a.id),['shashthi']);
  assert.deepEqual(validateMoonlight(c),[]);assert.deepEqual(decodeGameSave(encodeGameSave(save(),c),c),save());
 });
 test('activation waits until every hit and reaction resolves, then atomically consumes both slots',()=>{

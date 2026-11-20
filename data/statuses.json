@@ -2103,5 +2103,42 @@
     "modifiers": {
       "defense": -0.4
     }
+  },
+  {
+    "id": "shashthi_magic",
+    "name": "Lời Khấn Ban Phước",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifiers": {
+      "magic": 0.45
+    }
+  },
+  {
+    "id": "shashthi_guard",
+    "name": "Nguyệt Thần Chở Che",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifiers": {
+      "defense": 0.25,
+      "resistance": 0.25
+    }
+  },
+  {
+    "id": "flynn_fervor",
+    "name": "Ánh Đèn Khơi Dậy",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.25
+    }
+  },
+  {
+    "id": "flynn_slow",
+    "name": "Kích Ảnh Níu Bước",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.25
+    }
   }
 ]

@@ -52,7 +52,7 @@ Không tự hiểu “3 lượt” là “3 lần cast”. Nếu tài liệu kh�
 | CD kỹ năng | Gán khi thi triển hoặc mode exit; giảm ở `startRound` | CD2 cast ởR khóaR+1/R+2, dùng lạiR+3. Lượt Thêm không giảm CD |
 | CD gear / proc theo vòng | `gear-effects.js` | Ready tại `R + cooldownRounds`; khác quy ước CD kỹ năng. Chỉ reserve/tiêu khi điều kiện kích hoạt thỏa theo hook |
 | Mode `rounds` | `enterCombatMode` / `checkCombatMode` | Deadline vòng, tính vòng gọi; không gia hạn do nhiều lượt hoặc chuyển phòng |
-| Mode `turns` | `spendModeTurn` và exit check | Mọi lượt của chủ, kể cả lượt gọi, lượt phụ và choáng; không giảm khi người khác hành động |
+| Mode `turns` | `spendModeTurn` và exit check | Mặc định mọi lượt của chủ, kể cả lượt gọi, lượt phụ và choáng; mode khai `durationClock:main_turn` (Flynn) bỏ trừ ở Extra, vẫn trừ lượt chính bị Choáng; không giảm khi người khác hành động |
 | Mode tài nguyên | `checkCombatMode` | Theo `resource`/`team_resource` và reason được khai báo; không tự đổi thành CD hay deadline vòng |
 | Trường / companion / Oán Hận | Module riêng | Deadline/hook riêng; không gọi tick status để mô phỏng chúng |
 

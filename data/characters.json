@@ -1849,7 +1849,17 @@
         "bypassEvasion": true
       }
     },
-    "releaseId": 48
+    "releaseId": 48,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "bountiful_seed",
+      "abilityId": "yufina.pierce",
+      "requiresMode": "radiant_fists",
+      "allDamagingSkills": true,
+      "bonusMultiplier": 1.2,
+      "bonusScalingStat": "magic",
+      "description": "Hạt Giống Bội Thu tồn tại và Quang quyền bừng sáng đang hoạt động: mọi sát thương mang thêm Nguyệt. Kỹ năng công kích đánh thêm một đòn 120% MAG của Yufina."
+    }
   },
   {
     "id": "karin",
@@ -2107,7 +2117,16 @@
         "description": "Duy trì 3 vòng tính cả vòng thi triển. Hết ở cuối vòng sau Vòng Phụ; lượt kế tiếp có thể dùng lại. Kỹ năng bản thân không kích hoạt Liên kích."
       }
     },
-    "releaseId": 54
+    "releaseId": 54,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "bountiful_seed",
+      "abilityId": "astraea.garden",
+      "requiresMode": "black_garden",
+      "followUpOnly": true,
+      "modePerRound": 3,
+      "description": "Hạt Giống Bội Thu tồn tại và Vườn Hắc Hoa đang hoạt động: Liên kích mang thêm Nguyệt, tối đa 3 lần/vòng."
+    }
   },
   {
     "id": "artesia",
@@ -5376,6 +5395,124 @@
           "$defend",
           "aisha.breaker",
           "aisha.shot"
+        ]
+      }
+    }
+  },
+  {
+    "id": "shashthi",
+    "releaseId": 119,
+    "name": "Shashthi",
+    "title": "Thánh nữ miền tuyết trắng",
+    "element": "light",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "basicDamageType": "magical",
+    "description": "Nữ tư tế bản địa Drageshelmfjall, kế nhiệm ngôi vị thánh nữ của tín ngưỡng thờ Thần Mặt Trăng. Khi nhiều đồng bào xuống thị trấn tuyết giao thương, cô ở lại gìn giữ nghi lễ đã truyền qua nghìn năm. Dâng lời khấn để tiếp sức cho đồng đội Quang/Thổ và nuôi dưỡng Hạt Giống Bội Thu.",
+    "stats": {
+      "maxHp": 180,
+      "maxMp": 120,
+      "defense": 16,
+      "resistance": 24,
+      "attack": 8,
+      "magic": 36,
+      "speed": 24
+    },
+    "abilities": [
+      "shashthi.gift",
+      "shashthi.harvest",
+      "shashthi.guard"
+    ],
+    "moonlightBlessings": [
+      "bountiful_seed"
+    ],
+    "passive": {
+      "type": "moonlight_potency",
+      "name": "Lời Nguyện Ngàn Năm",
+      "description": "Hạt Giống Bội Thu gây thêm 20% sát thương trước khuếch đại; tăng thành 50% trong Đại Lễ Đón Trăng. Khi Chúc Phúc hoạt động, sát thương Shashthi mang thêm Nguyệt.",
+      "blessingId": "bountiful_seed",
+      "ratio": 0.2,
+      "modeRatio": 0.5,
+      "modeId": "harvest"
+    },
+    "combatModes": {
+      "harvest": {
+        "name": "Đại Lễ Đón Trăng",
+        "summary": "Hạt giống +50% sát thương trước khuếch đại · đầu vòng đánh Quang toàn địch.",
+        "lifetime": "rounds",
+        "durationRounds": 5,
+        "baseStatBonuses": {},
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "roundStartAbility": "shashthi.pulse",
+        "allowedAbilities": [
+          "$attack",
+          "$defend",
+          "shashthi.gift",
+          "shashthi.guard"
+        ]
+      }
+    }
+  },
+  {
+    "id": "flynn",
+    "releaseId": 120,
+    "name": "Flynn",
+    "title": "Người giữ đèn trăm năm",
+    "element": "thunder",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "basicDamageType": "physical",
+    "description": "High Elf xuất thân quý tộc phương Bắc, đã sống ở thị trấn dưới núi tuyết suốt vài trăm năm. Thành viên cấp cao của Người Giữ Đèn, dùng cây kích gắn một ngọn đèn nhỏ; chiếc đèn bên người đã rỉ sét theo năm tháng. Anh thường lặng lẽ chăm sóc mộ những đồng đội đã ngã xuống.",
+    "stats": {
+      "maxHp": 175,
+      "maxMp": 90,
+      "defense": 20,
+      "resistance": 18,
+      "attack": 38,
+      "magic": 10,
+      "speed": 18
+    },
+    "abilities": [
+      "flynn.charge",
+      "flynn.breaker",
+      "flynn.burst"
+    ],
+    "resources": {
+      "storm_charge": {
+        "name": "Dư Quang",
+        "max": 3
+      }
+    },
+    "moonlightBlessings": [
+      "thunder_wrath"
+    ],
+    "passive": {
+      "type": "moonlight_activation_mode",
+      "name": "Lời Thề Bên Đèn Cũ",
+      "description": "Lôi Sấm Thịnh Nộ kích hoạt: vào hoặc kéo dài dạng đến 5 lượt chính. Trong dạng, +12 ATK căn bản, mọi sát thương mang thêm Nguyệt và ATK Chúc Phúc tăng 20%.",
+      "blessingId": "thunder_wrath",
+      "modeId": "moon_storm",
+      "blessingAttackBonus": 0.2
+    },
+    "combatModes": {
+      "moon_storm": {
+        "name": "Đèn Sáng Qua Đêm Dài",
+        "summary": "+12 ATK căn bản · sát thương thêm Nguyệt · ATK Lôi Sấm Thịnh Nộ +20%.",
+        "lifetime": "turns",
+        "durationClock": "main_turn",
+        "durationTurns": 5,
+        "baseStatBonuses": {
+          "attack": 12
+        },
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "allowedAbilities": [
+          "$attack",
+          "$defend",
+          "flynn.charge",
+          "flynn.breaker",
+          "flynn.burst"
         ]
       }
     }

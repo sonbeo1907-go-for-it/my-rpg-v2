@@ -1,0 +1,29 @@
+import {test,expect} from '@playwright/test';
+import {loadContent} from '../scripts/load-content.mjs';
+import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
+const c:any=await loadContent();
+async function fixture(page:any,party:string[]){const s=createGameSave(c);s.unlockedCharacterIds=[...new Set([...s.unlockedCharacterIds,...party,'shashthi','flynn','yufina','astraea'])];s.recruitmentShards=90;s.party=party;s.partyPresets[0].slots=[...party];await page.addInitScript((raw:string)=>{if(sessionStorage.getItem('seed-storm-fixture'))return;sessionStorage.setItem('seed-storm-fixture','1');localStorage.setItem('northern-prisma.campaign.v7',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false,controlMode:'mouse'}));localStorage.setItem('northern-prisma.combat.speed','fast');},encodeGameSave(s,c));}
+async function act(page:any,id:string){await page.locator(`[data-gamepad-skill="${id}"]`).click();await page.locator('.execute').click();}
+async function enter(page:any){await page.goto('/quests?tab=hunt&selected=forest_patrol');await page.getByRole('button',{name:/Xuất chiến/}).first().click();await expect(page.locator('.skill-command').first()).toBeVisible();}
+
+test('new character skill copy and Seed revelation purchase use the correct blessing',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await fixture(page,['shashthi','astraea','yufina','iris']);
+ await page.goto('/characters/shashthi?tab=skills');const panel=page.locator('.character-tab-panel');await expect(panel).toContainText('Hạt Giống Bội Thu');await expect(panel).toContainText('50%');await expect(panel).toContainText('Lời Khấn Ban Phước');
+ await page.goto('/characters/yufina?tab=skills');const reveal=page.getByRole('region',{name:'Nguyệt Quang Hé Lộ'});await expect(reveal).toContainText('Hạt Giống Bội Thu');await expect(reveal).toContainText('120% MAG');await reveal.getByRole('button',{name:/Mở khóa/}).click();await page.getByRole('button',{name:'Xác nhận mở khóa'}).click();await expect(reveal.getByRole('checkbox')).toBeChecked();
+ await page.goto('/characters/astraea?tab=skills');await expect(reveal).toContainText('3 lần/vòng');await expect(reveal).toContainText('Hạt Giống Bội Thu');await page.goto('/characters/flynn?tab=skills');await expect(panel).toContainText('5 lượt chính');await expect(panel).toContainText('Vì Những Người Nằm Lại');await page.screenshot({path:'test-results/flynn-skills.png',fullPage:true});expect(errors).toEqual([]);
+});
+test('Shashthi activates the real Seed board and anchors; her mode is a standard label',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await fixture(page,['shashthi','astraea','yufina','iris']);await enter(page);
+ const board=page.locator('[data-moonlight-board="party"]');await expect(board.locator('[data-moonlight-slot="light"]')).toHaveCount(1);await expect(board.locator('[data-moonlight-slot="earth"]')).toHaveCount(1);
+ let mode=false;for(let i=0;i<12;i++){await expect(page.locator('.skill-command').first()).toBeVisible();if(await page.locator('[data-gamepad-skill="shashthi.harvest"]').count()){await act(page,'shashthi.harvest');mode=true;}else if(await page.locator('[data-gamepad-skill="astraea.garden"]').count())await act(page,'$attack');else await act(page,'$defend');if(await board.getAttribute('data-blessing')==='bountiful_seed')break;}
+ expect(mode).toBe(true);await expect(board).toHaveAttribute('data-blessing','bountiful_seed');await expect(board).toContainText('MAG');await expect(page.locator('.moonlight-seed-mark')).toHaveCount(3);
+ const owner=page.locator('.combatant[data-actor-id="shashthi"]');await expect(owner.locator('.local-mode-label')).toContainText('Đại Lễ Đón Trăng');await expect(owner.locator('[data-local-mode]')).toHaveCount(0);await expect(page.locator('.battle-page[data-combat-mode]')).toHaveCount(0);
+ for(const width of [1440,768,390]){await page.setViewportSize({width,height:960});await board.scrollIntoViewIfNeeded();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:`test-results/seed-board-${width}.png`,fullPage:true});}expect(errors).toEqual([]);
+});
+test('Flynn enters a standard mode and spends a layer in his real Extra Turn',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await fixture(page,['flynn','noelle','tywin','iris']);await enter(page);
+ for(let i=0;i<10;i++){await expect(page.locator('.skill-command').first()).toBeVisible();if(await page.locator('[data-gamepad-skill="flynn.charge"]').count())break;if(await page.locator('[data-gamepad-skill="noelle.thunder"]').count())await act(page,'noelle.thunder');else if(await page.locator('[data-gamepad-skill="tywin.truecut"]').count())await act(page,'$attack');else await act(page,'$defend');}
+ const owner=page.locator('.combatant[data-actor-id="flynn"]');await expect(owner.locator('.local-mode-label')).toContainText('Đèn Sáng Qua Đêm Dài');await expect(owner.locator('[data-local-mode]')).toHaveCount(0);await act(page,'flynn.charge');await expect(owner).toContainText('Dư Quang: 2 / 3');
+ for(let i=0;i<8;i++){await expect(page.locator('.skill-command').first()).toBeVisible();if(await page.locator('[data-gamepad-skill="flynn.burst"]').count())break;await act(page,'$defend');}
+ await act(page,'flynn.burst');await expect(owner).toContainText('Dư Quang: 1 / 3');await page.screenshot({path:'test-results/flynn-extra-burst.png',fullPage:true});expect(errors).toEqual([]);
+});
