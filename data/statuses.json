@@ -2094,5 +2094,14 @@
       "damageReduction": 0.15
     },
     "description": "Giảm 15% sát thương nhận vào."
+  },
+  {
+    "id": "aisha_armor_break",
+    "name": "Giáp Vỡ Dưới Kẹo Nổ",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.4
+    }
   }
 ]

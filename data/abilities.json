@@ -13602,5 +13602,107 @@
     "activation": "passive",
     "fixedReason": "Hiệu ứng tự động của Nguyệt Quang Chúc Phúc.",
     "presentation": "moonlight_seed"
+  },
+  {
+    "id": "aisha.breaker",
+    "name": "Kẹo Nổ Phá Giáp",
+    "description": "Bắn một địch và giảm 40% DEF trong 3 lượt chính.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 2,
+    "skillLineId": "aisha.breaker",
+    "growthProfile": "damage",
+    "rankable": true,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "status": "aisha_armor_break",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "aisha.shot",
+    "name": "Phát Minh Nhỏ, Tiếng Nổ Lớn",
+    "description": "Bắn một địch bằng thiết bị tự chế.",
+    "target": "enemy",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 0,
+    "skillLineId": "aisha.shot",
+    "growthProfile": "damage",
+    "rankable": true,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "attack",
+        "multiplier": 1.8
+      }
+    ]
+  },
+  {
+    "id": "aisha.workshop",
+    "name": "Xưởng Kẹo Sấm",
+    "description": "Mở máy trợ chiến trong 5 vòng và tấn công toàn địch. Đồng đội Thủy/Lôi tăng ATK; hiệu quả gấp đôi khi Lôi Sấm Thịnh Nộ tồn tại.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "skillLineId": "aisha.workshop",
+    "growthProfile": "stat_buff",
+    "growthAdapter": "mode_stat_buff",
+    "rankable": true,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "workshop",
+        "to": "self"
+      },
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "attack",
+        "multiplier": 0.8
+      }
+    ],
+    "growthGroups": [
+      "stat_buff",
+      "damage"
+    ]
+  },
+  {
+    "id": "aisha.pulse",
+    "name": "Máy Trợ Chiến Kẹo Sấm",
+    "description": "Máy trợ chiến tấn công toàn địch ở đầu vòng.",
+    "target": "all_enemies",
+    "activation": "passive",
+    "skillLineId": "aisha.pulse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Sát thương theo Rank Xưởng Kẹo Sấm.",
+    "rankFromAbility": "aisha.workshop",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "attack",
+        "multiplier": 0.5
+      }
+    ]
   }
 ]

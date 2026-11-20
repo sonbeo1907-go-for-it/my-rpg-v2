@@ -1,5 +1,6 @@
 "use client";
 import {partyReturnPath,partyLinkHref} from "../ui/party-navigation.js";
+import {MoonlightRevelation} from './moonlight-revelation';
 import {SkillUpgrade} from './skill-upgrade';
 import {skillMasteryClass} from '../core/skill-rules.js';
 import {resolveRankedAbility} from '../core/skill-resolver.js';
@@ -222,7 +223,7 @@ export function CharacterDetail({ id }: { id: string }) {
       </div>
       </section>}
       {tab==='level'&&<section aria-label="Cấp Độ" className="character-tab-panel"><CharacterProgression id={id}/></section>}
-      {tab==='skills'&&<section aria-label="Kỹ Năng" className="character-tab-panel"><PassiveBody actor={actor} content={content}/>
+      {tab==='skills'&&<section aria-label="Kỹ Năng" className="character-tab-panel"><PassiveBody actor={actor} content={content}/><MoonlightRevelation actor={actor}/>
       <div className="section-heading">
         <div>
           <span className="eyebrow">SỨC MẠNH & DẤU ẤN</span>

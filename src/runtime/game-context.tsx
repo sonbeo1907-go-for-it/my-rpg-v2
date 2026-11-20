@@ -11,6 +11,7 @@ import {assertFortressLoadoutUnchanged} from '../core/fortress-session.js';
 import {enterFortress,moveFortress,leaveFortress,beginFortressEvent,performFortressService,actFortressEvent} from '../core/fortress.js';
 import {beginChronicleEvent,actChronicle} from '../core/chronicles.js';
 import {activeChronicleSnapshot,createChronicleBattle,restoreChronicleBattle,snapshotChronicleBattle,checkpointChronicleBattle,advanceChronicleWave,finishChronicleBattle} from '../core/chronicle-combat.js';
+import {changeRevelation} from '../core/moonlight-revelation.js';
 import {upgradeSkill} from '../core/skill-progression.js';
 import {allocatePoints,limitBreak} from '../core/leveling.js';
 import {sweepDungeon as sweepDungeonAction} from '../core/dungeon.js';
@@ -110,6 +111,7 @@ type GameContextValue = {
   startBattle: (id: string,difficultyId?:string,superLevel?:number,trial?:any) => boolean;
   progressionLocked:boolean;
   tournamentAudio:(group:string|null)=>void;
+  updateMoonlightRevelation:(id:string,enabled:boolean)=>Promise<boolean>;
   upgradeCharacterSkill:(id:string,line:string,expectedRank:number)=>Promise<boolean>;
   updateAllocations:(id:string,allocations:Record<string,number>)=>Promise<boolean>;
   breakCharacterLimit:(id:string)=>Promise<boolean>;
@@ -871,6 +873,7 @@ export function GameProvider({
     sweepResult,dismissSweepResult:()=>setSweepResult(null),
     fortressCommand,visitChronicle,actChronicleScene,startChronicleFight,retreatChronicleFight,
     progressionLocked:inAdventure()||Boolean(campaign?.chronicles?.activeSession),
+    updateMoonlightRevelation:(id,enabled)=>transact(c=>changeRevelation(c,content,id,enabled,{battleActive:inAdventure()}),"Đã lưu Nguyệt Quang Hé Lộ."),
     upgradeCharacterSkill:(id,line,expectedRank)=>transact(c=>upgradeSkill(c,content,id,line,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession),expectedRank}),"Đã nâng cấp kỹ năng và lưu tiến trình."),
     updateAllocations:(id,allocations)=>transact(c=>allocatePoints(c,content,id,allocations,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã lưu điểm phân bổ."),
     breakCharacterLimit:id=>transact(c=>limitBreak(c,content,id,{battleActive:inAdventure()||Boolean(campaignRef.current.chronicles?.activeSession)}),"Đã Đột Phá giới hạn."),

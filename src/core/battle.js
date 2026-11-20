@@ -1,4 +1,5 @@
-import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat} from './moonlight-blessings.js';
+import {revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
+import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
 import {judgeTournamentLimit} from './tournament-judging.js';
 import {initializeEncounterBosses,observeEncounterBosses,encounterBossRoundStart,prepareBossRitual,observeBossWeakness,encounterHitMultiplier,encounterOffenseMultiplier,beginBossRitualTurn,finishBossRitualTurn,bossIncomingMultiplier,ritualJobAbility,beginRitualAction,finishEncounterBosses} from './encounter-rituals.js';
 import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
@@ -549,14 +550,15 @@ export function moonlightSnapshot(battle){
  for(const [team,state]of Object.entries(view))if(state.active)state.active.statValue=moonlightStat(battle,team,(a,key)=>stat(battle,a,key));
  return view;
 }
-function moonlightPulse(battle,source,definition,targets,amount,phase){
+function moonlightPulse(battle,source,definition,targets,amount,phase,multiplier){
  const skill=battle.content.abilities[definition.abilityId];
  const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:targets[0].id};
- emitEvent(battle,{type:'ability_cast',sourceId:source.id,targetId:targets[0].id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:true,automaticCast:true,moonlight:true,team:source.team});
- write(battle,source.name+' tấn công · '+(phase==='start'?'đầu vòng':'cuối vòng')+'.');
- for(const target of targets){if(!living(target))continue;hit(battle,source,target,{...skill.effects[0],gearPower:amount},0,{area:true,reaction:true,actionContext:ctx});}
+ emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:targets[0].id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:true,automaticCast:true,moonlight:true,team:source.team});
+ write(battle,source.name+' tấn công · '+(phase==='command'?'theo hiệu lệnh':phase==='start'?'đầu vòng':'cuối vòng')+'.');
+ for(const target of targets){if(!living(target))continue;hit(battle,source,target,{...skill.effects[0],...(multiplier!==undefined?{multiplier}:{}),gearPower:amount},0,{area:true,reaction:true,actionContext:ctx});}
  finishAttackContext(battle,source,ctx);
  transitionBossPhases(battle,{write,restoreMp:gainResource});
+ return ctx.pvpDenied!==true;
 }
 function moonlightFollowUp(battle,owner,abilityId){
  const targets=battle.actors.filter(a=>a.team!==owner.team&&living(a));if(!targets.length||!reservePvpAutomatic(battle,owner,modeIO))return;
@@ -594,6 +596,7 @@ function startRound(battle) {
   }
   activateRoundGear(battle,{status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write});
   roundSummons(battle,"start",modeIO);
+  moonlightRoundStart(battle,modeIO);
   for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||p?.type!=='round_team_resource'||!procAvailable(battle,owner,p.type))continue;
     markProc(battle,owner,p.type);const members=battle.actors.filter(a=>a.team===owner.team&&a.tags?.includes(p.memberTag)).length;
     announcePassive(battle,owner,owner.id);changeTeamResource(battle,owner,p.resource,members>=p.memberThreshold?p.enhancedAmount:p.amount,teamIO);
@@ -1056,6 +1059,7 @@ function finishMainRound(battle) {
   settleMoonlight(battle,moonlightIO);
   pulseMoonlight(battle,"end",moonlightIO);
   if(checkOutcome(battle))return;
+  moonlightRoundEnd(battle,{...modeIO,maxMp:battleMaxMp});
   expireMoonlight(battle,moonlightIO);
   settleMoonlight(battle,moonlightIO);
   emitEvent(battle, { type: "round_end", round: battle.round });
@@ -1118,6 +1122,7 @@ export function abilityAvailability(battle, actor, skill) {
   if (skill.target === "adjacent_allies" && !targetsFor(battle,actor,skill).length) return {ok:false,reason:"Không có đồng đội còn sống ở hai ô kề."};
   if (skill.requiresTargetStatus && !targetsFor(battle,actor,skill).length)
     return { ok: false, reason: `Cần mục tiêu có ${battle.content.statuses[skill.requiresTargetStatus].name}.` };
+  for(const effect of skill.effects??[])if(effect.type==='command_moonlight'&&!canCommandMoonlight(battle,actor,effect.blessingId))return {ok:false,reason:'Cần '+(battle.content.moonlightBlessings[effect.blessingId]?.name??'Nguyệt Quang Chúc Phúc')+' đang hoạt động và sẵn sàng nhận hiệu lệnh.'};
   const resource = resourceCost(skill,actor);
   if (
     resource &&
@@ -1481,7 +1486,7 @@ function triggerSupportSkillCounters(battle,caster,skill,context) {
 }
 
 function companionPulse(battle,owner,abilityId,name,phase) {
-  const skill=battle.content.abilities[abilityId],targets=targetsFor(battle,owner,skill);
+  const skill=moonlightPulseRank(battle.content,owner,battle.content.abilities[abilityId]),targets=targetsFor(battle,owner,skill);
   if (!targets.length||!reservePvpAutomatic(battle,owner,modeIO)) return;
   write(battle,name+" "+FOLLOW_UP_LABEL+" "+(phase==="start"?"đầu":"cuối")+" vòng: "+skill.name+".");
   emitEvent(battle,{type:"reaction",kind:"follow_up",label:name+" · "+FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(target=>target.id),abilityId,area:true,automaticCast:true});
@@ -2018,6 +2023,7 @@ function applyEffect(
 ) {
   if(effect.type==='performance_stage'){applyPerformanceStage(battle,actor,effect,{order:orderActorIds,write,emit:emitEvent});return;}
   if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
+  if(effect.type==='command_moonlight'){commandMoonlight(battle,actor,effect.blessingId,moonlightIO,effect.multiplier);return;}
   if(effect.type==='bound_exposure'){applyBoundExposure(battle,actor,targets,effect,actionContext,{status:applyStatus});return;}
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
   if(effect.divideAmongTargets)effect={...effect,multiplier:effect.multiplier/Math.max(1,targets.filter(t=>living(t)).length)};
@@ -2382,7 +2388,9 @@ function resolveAction(
         .filter((effect) => effect.type === "damage")
         .map((effect) => effect.damageType),
     ).size > 1;
-  for (const effect of skill.effects)
+  const effectiveEffects=revelationEffects(battle,actor,skill,spent);
+  actionContext.skill={...skill,effects:effectiveEffects};
+  for (const effect of effectiveEffects)
     applyEffect(battle, actor, targets, effect, spent, area, actionContext);
   gearGuardAfterShield(battle,actor,skill,actionContext,gearIO);
   recordRoundCategory(battle,actor,skill);

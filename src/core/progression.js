@@ -1,3 +1,4 @@
+import {normalizeRevelations} from './moonlight-revelation.js';
 import {emptyTournamentState,normalizeTournamentState} from './tournament-session.js';
 import {preparedTeamAuras} from './knight-passives.js';
 import {grantTrialMilestones} from './unrecorded-rewards.js';
@@ -33,6 +34,7 @@ export function createCampaign(content) {
     honor:0,arenaProgress:emptyArenaProgress(),
     recruitmentTickets:0,xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
     party: ["arthur", "iris", "elaine", "garrek"],
+    moonlightRevelations:{},
     characters: Object.fromEntries(
       Object.keys(content.characters).map((id) => [
         id,
@@ -91,6 +93,7 @@ export function resolveCharacter(content, campaign, characterId) {
         character.passive = structuredClone(change.passive);
     }
   }
+  character.moonlightRevelationEnabled=campaign.moonlightRevelations?.[characterId]?.enabled===true;
   character.skillRanks=structuredClone(state.skillRanks??{});character.skillProgression=structuredClone(skillRules(content));
   character.level=state.level;character.levelCap=levelCap(state,content);character.xp=state.xp;character.limitBreakRank=state.limitBreakRank;
   character.levelBonuses=allocationBonuses(content,state);
@@ -149,6 +152,7 @@ export function serializeCampaign(campaign) {
     claimedFirstClearRewards = [],
   } = campaign;
   return JSON.stringify({
+    moonlightRevelations:campaign.moonlightRevelations??{},
     recruitmentTickets:campaign.recruitmentTickets??0,xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
     unrecordedLedger:normalizeTrialLedger(campaign.unrecordedLedger),
     honor:campaign.honor??0,arenaProgress:campaign.arenaProgress??emptyArenaProgress(),
@@ -341,6 +345,7 @@ export function deserializeCampaign(raw, content) {
     }
     result.characters[id] = normalizeLevelState(content,{...saved,upgradeIds:[...new Set(saved.upgradeIds)]},{legacy:input.levelProgressionVersion!==1});
   }
+  result.moonlightRevelations=normalizeRevelations(input.moonlightRevelations,content,result.unlockedCharacterIds);
   grantEligibleUpgrades(result, content);
   for (const id of claimed)
     for (const reward of content.encounters[id].firstClearRewards??[]) {

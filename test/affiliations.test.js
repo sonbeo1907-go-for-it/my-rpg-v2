@@ -11,7 +11,7 @@ const EXPECTED={
  hunters_guild:['bennett','brant','chloe','dain','ember','flammelapis','freya','galliard','henrris','iris','joshua','judy','karin','logia','rowan','senya','sylva','takeshi','tywin','yumia'],
  magic_academy:['ariel','artesia','auguste','aurora','charlotte','clark','drake','eri','finmel','fran','gairyu','kreider','luka','lumine','mariel','monica','rotary'],
  house_ranoc:['helena','kyle','leonardo','lisbeth'],
- rhett_research_facility:['amaryllis','arden','noelle','rhett'],
+ rhett_research_facility:['aisha','amaryllis','arden','noelle','rhett'],
  expedition_corps:['anabel','patricia','vilgard','ardelia','belochkin','chen','angelica','melpiphia'],
 };
 const members=faction=>Object.values(content.characters).filter(c=>c.affiliation===faction).map(c=>c.id).sort();

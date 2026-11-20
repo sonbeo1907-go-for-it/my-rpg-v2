@@ -230,6 +230,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     }
     if(effect.lifeStealRatio)lines.push('Hút máu '+percent(effect.lifeStealRatio)+' sát thương HP thực gây ra; không tính khiên hoặc overkill.');
     if(effect.type==='shield'&&effect.primaryMultiplier!==undefined)lines.push('Mục tiêu chính: '+percent(effect.primaryMultiplier)+' '+scalingLabel(effect,{defense:'DEF',speed:'SPD'})+'; các đồng đội còn lại: '+percent(effect.multiplier)+' cùng chỉ số.');
+    if(effect.type==='command_moonlight')lines.push('Ra lệnh '+content.moonlightBlessings[effect.blessingId].name+' Liên kích; không thay đợt tự động hoặc làm mới thời hạn.');
     if(effect.type==='reduce_cooldowns')lines.push('Giảm '+effect.amount+' vòng hồi chiêu đang có, không xuống dưới 0.');
     if(effect.selectAlly)lines.push('Chọn đồng đội Hồn Kiếm khác còn sống ở ô nhỏ nhất; thiếu mục tiêu thì chỉ bản thân nhận lượt.');
     if(effect.onHitStatus?.chanceScaling){const q=effect.onHitStatus.chanceScaling;lines.push('Choáng: '+Number((statusApplicationChance(content,{...actor,statuses:actor.statuses??[]},q)*100).toFixed(1))+'%, tối đa '+Number(q.cap*100)+'% tại '+q.at+' '+STAT_LABELS[q.stat]+' ('+(q.basis==='base'?'căn bản':'hiện tại')+'). Boss miễn nhiễm.');}

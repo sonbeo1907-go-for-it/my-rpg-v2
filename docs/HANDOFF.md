@@ -1,5 +1,16 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Nguyệt Quang Hé Lộ / Aisha — 20/11/2026
+
+Hé Lộ là nâng cấp bổ sung cho Rhett/Gawain/Tywin: mở30 Pure Prisma mỗi người tại Kỹ Năng, bật/tắt miễn phí ngoài chuyến đi, không cấp quyền ghép Chúc Phúc. Save v7 thêm `moonlightRevelations`, thiếu trường mặc định chưa mở; tiến trình tách khỏi nâng cấp truyện. Đọc mục10 [MOONLIGHT_BLESSING](MOONLIGHT_BLESSING.md). Aisha #118 chính thức vào gacha, hỗ trợ Thủy scale ATK, mode tiêu chuẩn5 vòng với aura Thủy/Lôi và pulse đầu vòng, hồi8%MP Thủy/Lôi cuối vòng khi Chúc Phúc còn tồn tại. Không tạo asset toàn bàn mới.
+
+Đợt180% của Gawain dùng ATK Chúc Phúc, không sửa hệ số pulse tự động; Noelle vẫn đáp ứng và dùng chung3/vòng. Hit thêm Rhett/Tywin là cùng cast/chi phí, cố định 70% ATK mỗi Điện tích / 250% ATK; không tăng theo Rank hoặc Thông Thạo. `moonlight-revelation.js` giữ giao dịch, aura, hiệu quả conditional và hook vòng; `test/moonlight-revelation.test.js`, `e2e/revelation.spec.ts` kiểm lifecycle/save/UI. Không tự hiểu actor mang Hé Lộ là provider.
+
+## Noelle phát hành chính thức và hiệu lệnh Chúc Phúc — 20/11/2026
+
+Noelle #117 được xác nhận chính thức; giữ nguyên ID, gacha và tiến trình đã có, không cấp lại nhân vật hoặc reset save. Đã bổ sung effect dùng lại `command_moonlight` với `blessingId` để nhân vật tương lai ra lệnh Chúc Phúc đang hoạt động Liên kích. Chưa thêm nhân vật hoặc kỹ năng ra lệnh vào roster phát hành. Đợt ra lệnh dùng chung đường tấn công/Noelle response với đợt tự động, không dùng slot đầu/cuối vòng hay gia hạn thời gian. Noelle dùng chung tối đa3 lần/vòng cho mọi nguồn, kể cả Vòng Phụ. Xem [MOONLIGHT_BLESSING](MOONLIGHT_BLESSING.md) và `test/moonlight-command.test.js`.
+
+
 ## Nguyệt Quang Chúc Phúc / Noelle — triển khai, 19/11/2026
 
 [MOONLIGHT_BLESSING](MOONLIGHT_BLESSING.md) đã cập nhật từ nháp thành bản runtime: Noelle #117 vào gacha; ghép Thủy–Lôi sau khi cả chuỗi hành động kết toán, thực thể theo phe có ATK động và đợt vật lí Lôi–Nguyệt đầu/cuối vòng. Hạt Giống Bội Thu Quang–Thổ có engine phép Thổ–Nguyệt nhưng chưa ai cấp quyền. Ba vòng tính cả vòng gọi; tồn tại sau khi provider gục, không giữ trận nếu cả phe gục. State có source ID riêng ngoài bốn ô, carry dungeon/story/checkpoint và tách phe PvP. Xem tài liệu để biết chính sách hai ô, seed anchors, Noelle FuA và đường stat snapshot UI; không lấy đề xuất cũ làm luật mới.

@@ -343,7 +343,19 @@
       "rhett.overload"
     ],
     "roleGroup": "physical_dps",
-    "releaseId": 11
+    "releaseId": 11,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "thunder_wrath",
+      "modifiers": {
+        "attack": 0.3
+      },
+      "abilityId": "rhett.overload",
+      "moonAtResource": 3,
+      "perSpentResource": true,
+      "bonusMultiplier": 0.7,
+      "description": "Lôi Sấm Thịnh Nộ tồn tại: +30% ATK. Ka-Boom! đánh thêm một đợt Lôi–Nguyệt 70% ATK cho mỗi Điện tích đã tiêu; đủ 3 Điện tích, vụ nổ chính cũng mang thêm Nguyệt."
+    }
   },
   {
     "id": "galliard",
@@ -678,7 +690,14 @@
       "capital_knights",
       "storm_knight"
     ],
-    "releaseId": 21
+    "releaseId": 21,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "thunder_wrath",
+      "abilityId": "gawain.judgment",
+      "commandMultiplier": 1.8,
+      "description": "Khi Lôi Sấm Thịnh Nộ tồn tại, Thiên phạt trọng trảm ra lệnh Chúc Phúc Liên kích với 180% ATK của chính Chúc Phúc."
+    }
   },
   {
     "id": "lucien",
@@ -2999,7 +3018,17 @@
     ],
     "description": "Gây Vết Thương Sâu, thanh tẩy bạn đồng hành và kết thúc bằng kiếm Hội Tâm.",
     "biography": "Kiếm sĩ Hội Thợ Săn từng học võ phương Đông. Để lại vết thương sâu, gột bỏ tà thuật cho bạn đồng hành và kết thúc bằng nhát kiếm Hội Tâm.",
-    "releaseId": 74
+    "releaseId": 74,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "thunder_wrath",
+      "modifiers": {
+        "attack": 0.25
+      },
+      "abilityId": "tywin.truecut",
+      "bonusMultiplier": 2.5,
+      "description": "Lôi Sấm Thịnh Nộ tồn tại: +25% ATK. Nhất Kiếm — Thủy Nguyệt mang thêm Nguyệt và đánh thêm một đòn Thủy–Nguyệt 250% ATK."
+    }
   },
   {
     "id": "cerise",
@@ -5281,10 +5310,74 @@
     "passive": {
       "type": "moonlight_guardian",
       "name": "Người Bạn Không Ngủ",
-      "description": "Mở Lôi Sấm Thịnh Nộ. Khi Chúc Phúc hoạt động, sát thương của Noelle mang thêm Nguyệt; mỗi đợt Chúc Phúc tấn công gọi một Liên kích bằng Mạch Sét Dẫn Lối, tối đa 3 lần/vòng.",
+      "description": "Mở Lôi Sấm Thịnh Nộ. Khi Chúc Phúc hoạt động, sát thương Noelle mang thêm Nguyệt. Mỗi đợt Chúc Phúc tấn công, kể cả theo hiệu lệnh, gọi Mạch Sét Dẫn Lối không tốn MP; tối đa 3 lần/vòng.",
       "blessingId": "thunder_wrath",
       "followUpAbility": "noelle.thunder",
       "perRound": 3
+    }
+  },
+  {
+    "id": "aisha",
+    "releaseId": 118,
+    "name": "Aisha",
+    "title": "Thiên tài mê đồ ngọt",
+    "affiliation": "rhett_research_facility",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "element": "water",
+    "basicDamageType": "physical",
+    "description": "Tiếp sức cho đồng đội Thủy và Lôi, duy trì máy trợ chiến bên dưới Lôi Sấm Thịnh Nộ.",
+    "biography": "Cô bé thiên tài tại khu nghiên cứu tự xưng của Rhett, người chế tác Noelle Model 4.0. Aisha có thể quên giờ ngủ khi nghiên cứu, nhưng hiếm khi quên món ngọt yêu thích.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 120,
+      "attack": 36,
+      "magic": 6,
+      "defense": 18,
+      "resistance": 14,
+      "speed": 24
+    },
+    "abilities": [
+      "aisha.breaker",
+      "aisha.shot",
+      "aisha.workshop"
+    ],
+    "passive": {
+      "type": "moonlight_team_mp",
+      "name": "Tiếp Năng Dưới Trăng",
+      "description": "Khi Lôi Sấm Thịnh Nộ tồn tại, cuối vòng hồi 8% MP tối đa cho mọi thành viên Thủy và Lôi trong đội.",
+      "blessingId": "thunder_wrath",
+      "elements": [
+        "water",
+        "thunder"
+      ],
+      "ratio": 0.08
+    },
+    "combatModes": {
+      "workshop": {
+        "name": "Xưởng Kẹo Sấm",
+        "summary": "Tăng ATK đồng đội Thủy/Lôi; đầu vòng máy trợ chiến tấn công toàn địch.",
+        "lifetime": "rounds",
+        "durationRounds": 5,
+        "exitMpRatio": 0,
+        "baseStatBonuses": {},
+        "statModifiers": {
+          "attack": 0.25
+        },
+        "teamAuraElements": [
+          "water",
+          "thunder"
+        ],
+        "enhancedByMoonlight": "thunder_wrath",
+        "roundStartAbility": "aisha.pulse",
+        "presentationScope": "none",
+        "allowedAbilities": [
+          "$attack",
+          "$defend",
+          "aisha.breaker",
+          "aisha.shot"
+        ]
+      }
     }
   }
 ]

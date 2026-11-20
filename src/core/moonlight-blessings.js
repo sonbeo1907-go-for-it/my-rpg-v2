@@ -12,7 +12,10 @@ export function validateMoonlight(content){
  }
  for(const a of [...Object.values(content.characters??{}),...Object.values(content.enemies??{})]){
   if(a.moonlightBlessings!==undefined&&(!Array.isArray(a.moonlightBlessings)||!a.moonlightBlessings.length||new Set(a.moonlightBlessings).size!==a.moonlightBlessings.length||a.moonlightBlessings.some(id=>!defs[id])))errors.push(a.id+': invalid moonlight access');
-  const p=a.passive;if(p?.type==='moonlight_guardian'&&(!a.moonlightBlessings?.includes(p.blessingId)||!defs[p.blessingId]||!a.abilities.includes(p.followUpAbility)||!Number.isInteger(p.perRound)||p.perRound<1||p.perRound>3))errors.push(a.id+': invalid moonlight guardian');
+  const revelation=a.moonlightRevelation;
+  if(revelation&&(!defs[revelation.blessingId]||!a.abilities.includes(revelation.abilityId)||!revelation.name||!revelation.description||revelation.commandMultiplier!==undefined&&(!Number.isFinite(revelation.commandMultiplier)||revelation.commandMultiplier<=0||revelation.commandMultiplier>10)||revelation.bonusMultiplier!==undefined&&(!Number.isFinite(revelation.bonusMultiplier)||revelation.bonusMultiplier<=0)||revelation.modifiers&&Object.entries(revelation.modifiers).some(([key,n])=>!['attack','magic','defense','resistance','speed'].includes(key)||!Number.isFinite(n)||n<0||n>1)))errors.push(a.id+': invalid moonlight revelation');
+  const p=a.passive;if(p?.type==='moonlight_team_mp'&&(!defs[p.blessingId]||!Number.isFinite(p.ratio)||p.ratio<=0||p.ratio>1||!Array.isArray(p.elements)||!p.elements.length||p.elements.some(e=>!defs[p.blessingId].elements.includes(e))))errors.push(a.id+': invalid moonlight recovery');
+  if(p?.type==='moonlight_guardian'&&(!a.moonlightBlessings?.includes(p.blessingId)||!defs[p.blessingId]||!a.abilities.includes(p.followUpAbility)||!Number.isInteger(p.perRound)||p.perRound<1||p.perRound>3))errors.push(a.id+': invalid moonlight guardian');
  }
  return errors;
 }
@@ -70,26 +73,48 @@ export function moonlightDamageEffect(battle,source,effect){
  if(p?.type!=='moonlight_guardian'||battle.moonlight?.[source.team]?.active?.id!==p.blessingId)return effect;
  return {...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])].filter(e=>e!==effect.element)};
 }
-export function pulseMoonlight(battle,phase,io){
- for(const [team,state]of Object.entries(battle.moonlight??{})){
-  const active=state.active,d=moonlightDefinition(battle,team);
-  if(!d||!active||!d.phases.includes(phase)||active.pulses[phase]===battle.round||battle.round>active.expiresAfterRound||battle.outcome)continue;
-  if(!battle.actors.some(a=>a.team===team&&isAlive(a))||!battle.actors.some(a=>a.team!==team&&isAlive(a)))continue;
-  const targets=battle.actors.filter(a=>a.team!==team&&isAlive(a)&&(d.targetMode!=='anchored_enemies'||active.targets.includes(a.id)));
-  active.pulses[phase]=battle.round;
-  if(!targets.length)continue;
-  const amount=moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)),source=makeSource(battle,team,d,amount);
-  io.pulse(battle,source,d,targets,amount,phase);
-  if(io.outcome(battle))return;
+// All blessing attacks share their guardian reaction path. Only natural pulses own clock slots.
+function performMoonlightAttack(battle,team,phase,io,multiplier){
+ const state=battle.moonlight?.[team],active=state?.active,d=moonlightDefinition(battle,team);
+ if(!active||!d||state.attackInProgress||battle.outcome||battle.round>active.expiresAfterRound)return false;
+ if(!battle.actors.some(a=>a.team===team&&isAlive(a))||!battle.actors.some(a=>a.team!==team&&isAlive(a)))return false;
+ const targets=battle.actors.filter(a=>a.team!==team&&isAlive(a)&&(d.targetMode!=='anchored_enemies'||active.targets.includes(a.id)));
+ if(!targets.length)return false;
+ const amount=moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)),source=makeSource(battle,team,d,amount);
+ state.attackInProgress=true;
+ try{
+  if(io.pulse(battle,source,d,targets,amount,phase,multiplier)===false)return false;
+  if(io.outcome(battle))return true;
   for(const owner of battle.actors){
    const p=owner.passive;if(owner.team!==team||!isAlive(owner)||p?.type!=='moonlight_guardian'||p.blessingId!==d.id)continue;
    const count=active.followUps[owner.id];if(count?.round===battle.round&&count.count>=p.perRound)continue;
    active.followUps[owner.id]={round:battle.round,count:(count?.round===battle.round?count.count:0)+1};
    io.followUp(battle,owner,p.followUpAbility);
-   if(io.outcome(battle))return;
+   if(io.outcome(battle))break;
   }
+  return true;
+ }finally{delete state.attackInProgress;}
+}
+export function pulseMoonlight(battle,phase,io){
+ for(const [team,state]of Object.entries(battle.moonlight??{})){
+  const active=state.active,d=moonlightDefinition(battle,team);
+  if(!active||!d||!d.phases.includes(phase)||active.pulses[phase]===battle.round||state.attackInProgress||battle.round>active.expiresAfterRound||battle.outcome)continue;
+  active.pulses[phase]=battle.round;
+  performMoonlightAttack(battle,team,phase,io);
+  if(battle.outcome)return;
  }
 }
+export function canCommandMoonlight(battle,actor,blessingId){
+ if(typeof blessingId!=='string'||!battle.content.moonlightBlessings?.[blessingId])return false;
+ const state=battle.moonlight?.[actor?.team];
+ return Boolean(actor&&battle.actors.includes(actor)&&isAlive(actor)&&!battle.outcome&&!state?.attackInProgress&&state?.active?.id===blessingId&&battle.round<=state.active.expiresAfterRound);
+}
+export function commandMoonlight(battle,actor,blessingId,io,multiplier){
+ if(multiplier!==undefined&&(!Number.isFinite(multiplier)||multiplier<=0||multiplier>10))return false;
+ if(!canCommandMoonlight(battle,actor,blessingId))return false;
+ return performMoonlightAttack(battle,actor.team,'command',io,multiplier);
+}
+
 export function expireMoonlight(battle,io){
  for(const [team,state]of Object.entries(battle.moonlight??{}))if(state.active&&battle.round>=state.active.expiresAfterRound){
   const d=moonlightDefinition(battle,team);state.active=null;state.slots=[];state.revision++;

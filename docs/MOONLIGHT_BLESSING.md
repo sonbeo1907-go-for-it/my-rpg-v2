@@ -1,6 +1,6 @@
 # Nguyệt Quang Chúc Phúc — Noelle và khung tổ hợp
 
-Cập nhật **19/11/2026**, giờ Việt Nam. Trạng thái: **đã triển khai, bản playtest**. Tài liệu này thay đặc tả nháp 0.1 và tên cũ “Không Nguyệt Chúc Phúc”.
+Cập nhật **20/11/2026**, giờ Việt Nam. Trạng thái: **Noelle đã phát hành chính thức từ 20/11/2026**. Tài liệu này thay đặc tả nháp 0.1 và tên cũ “Không Nguyệt Chúc Phúc”.
 
 ## Quyết định mới nhất
 
@@ -93,7 +93,7 @@ Mẫu người máy tân tiến nhất do Aisha chế tác tại khu nghiên c�
 - Khi Lôi Sấm Thịnh Nộ hoạt động, mọi nguồn damage của Noelle mang thêm Nguyệt.
 - Mỗi đợt Chúc Phúc tấn công gọi một Liên kích bằng **Mạch Sét Dẫn Lối**, không trả MP. Tối đa ba lần mỗi vòng, tính chung pha chính/phụ.
 - Một AoE Chúc Phúc chỉ gọi một Liên kích, không gọi theo từng hit/địch. Phản ứng reserve hạn mức trước khi giải; không cho Noelle tự gọi lại Chúc Phúc hoặc nối vô hạn.
-- Hai mốc đầu/cuối vòng thường chỉ dùng hai lần; trần ba không tự thêm đợt đánh thứ ba. Không Liên kích nếu không còn địch hoặc Noelle đã gục.
+- Hai mốc đầu/cuối vòng thường chỉ dùng hai lần; trần ba không tự thêm đợt đánh thứ ba. Nhân vật khác có thể ra lệnh cho Chúc Phúc Liên kích; Noelle phản hồi cả đợt ra lệnh và dùng chung trần ba/vòng với các đợt tự động. Không Liên kích nếu không còn địch hoặc Noelle đã gục.
 
 ### Kỹ năng
 
@@ -144,3 +144,57 @@ Các bài kiểm tra mới nằm ở `test/moonlight.test.js`, `test/moonlight-e
 Phạm vi đã có test: gacha/stats, tầng và kết toán nhiều hit, Noelle không hưởng Nguyệt hồi tố, đợt đầu/cuối vòng và Liên kích theo AoE, chỉ số động, người cấp quyền gục/cả đội thua, snapshot/forecast, mirror hai phe, Hạt Giống N hit cho N mục tiêu, ATK support scaling, Choáng/Extra Turn, carry dungeon, phase Miraebolis, hạn một kích hoạt/vòng, không nạp từ damage0 và VFX theo hit.
 
 Kiểm tra UI qua chiến đấu thật: trang kỹ năng Noelle, hai ô chờ, kích hoạt mây giông, chỉ số hiển thị và màn 1440/768/390px. Toàn bộ suite và build ghi kết quả trong bàn giao task; tài liệu này không thay bằng chứng cân bằng thực chiến.
+
+## 9. Hiệu lệnh Chúc Phúc — 20/11/2026
+
+Đã có effect tái sử dụng `{"type":"command_moonlight","blessingId":"thunder_wrath"}`. Nhân vật ra lệnh không cần tự cấp quyền tổ hợp; cần Chúc Phúc đúng loại đang hoạt động ở phe mình, người ra lệnh còn sống và đợt trước đã kết toán. Chưa đưa kỹ năng này cho bất kỳ nhân vật chính thức nào; kiểm thử dùng kỹ năng/nhân vật fixture riêng.
+
+Đợt theo hiệu lệnh là Liên kích từ chính nguồn Chúc Phúc, giữ chỉ số động, hệ số, nguyên tố, mục tiêu, phòng thủ, VFX và các giới hạn PvP của nó. Không mượn ATK/MAG, Rank hoặc trang bị người ra lệnh. Chi phí và hồi chiêu thuộc kỹ năng ra lệnh; đợt Chúc Phúc và phản hồi của Noelle không trả thêm MP.
+
+Noelle phản hồi **mọi đợt tấn công hợp lệ của Lôi Sấm Thịnh Nộ**, gồm đầu vòng, cuối vòng và Liên kích được ra lệnh. Tất cả dùng chung **tối đa3 lần mỗi vòng**, không phải3 lần mỗi lượt của người ra lệnh và không tách hạn mức cho từng nguồn. Đây là lý do trần3 cao hơn hai đợt tự động thông thường.
+
+Ví dụ: đầu vòng Noelle phản hồi lần1; một hiệu lệnh tạo lần2; cuối vòng tạo lần3. Nếu các hiệu lệnh đã dùng đủ ba lần trước cuối vòng, đợt cuối vòng vẫn đánh nhưng Noelle không phản hồi nữa. Đầu vòng kế tiếp được xét hạn mức mới.
+
+Các bảo đảm của khung:
+
+- Hiệu lệnh không đánh dấu hoặc tiêu slot đợt tự động đầu/cuối vòng, không nạp nguyên tố, không kích hoạt lại hoặc làm mới thời hạn.
+- Không có Chúc Phúc, sai tổ hợp hoặc đã hết hạn: kỹ năng bị chặn trước chi phí MP/hồi chiêu.
+- Khi một đợt Chúc Phúc và các phản ứng của nó đang giải, không nhận lệnh đệ quy vào chính đợt đó. Khóa tạm giải phóng bằng finally, không trở thành trạng thái duy trì hay clock mới.
+- Noelle đã gục: Chúc Phúc còn hiệu lực vẫn nhận hiệu lệnh, nhưng không tạo phản hồi của Noelle. Đòn kết liễu cuối cùng dừng chuỗi theo kết quả thật.
+- Forecast dùng trial clone; không tiêu MP, quota hoặc slot của trận thật. Hai phe có thể ra lệnh cho Chúc Phúc của phe mình, không điều khiển phe đối thủ.
+
+Đường gọi: `applyEffect → commandMoonlight → performMoonlightAttack`; đợt tự động cũng dùng `performMoonlightAttack`. Hook phản hồi Noelle nằm ở đường chung, không gắn riêng vào vòng lặp đầu/cuối vòng. Test hồi quy: `test/moonlight-command.test.js`.
+
+## 10. Nguyệt Quang Hé Lộ và Aisha — 20/11/2026
+
+### Mở khóa và cấu hình
+
+Nguyệt Quang Hé Lộ là nội tại bổ sung của Rhett, Gawain và Tywin, không thay nội tại gốc. Mỗi người mở một lần bằng **30 Pure Prisma** ở tab Kỹ Năng, mặc định bật sau khi mua; bật/tắt sau đó miễn phí. Phải sở hữu nhân vật. Không đổi khi đang chiến đấu, trong chuyến hầm ngục hoặc phiên pháo đài. Giao dịch dùng bản sao và chỉ công bố sau khi lưu thành công; không trừ tiền khi thất bại.
+
+Save v7 có thêm `moonlightRevelations[id]={unlocked:true,enabled:boolean}`. Save thiếu trường nhận `{}`, không tự mở hoặc thu phí. Resolver chốt `moonlightRevelationEnabled` vào build trận. Roster mượn không tự được nâng cấp tài khoản; PvP dùng snapshot của từng phe và Rank tối đa 5 như trước.
+
+Người có Hé Lộ **không có `moonlightBlessings`**, không tạo bảng/tổ hợp khi đi riêng. Chỉ Chúc Phúc **Lôi Sấm Thịnh Nộ** cùng phe đang hoạt động mới mở hiệu quả. Hiệu quả mất ngay khi Chúc Phúc kết thúc, không tạo buff status có thể xóa hoặc bị Phong Ấn. Giữ trạng thái mua/bật qua save; hiệu quả trong trận và deadline Chúc Phúc theo cơ chế carry đã có.
+
+| Nhân vật | Khi Lôi Sấm Thịnh Nộ đang tồn tại |
+| --- | --- |
+| Rhett | +30% ATK. Ka-Boom! vẫn trả MP và tiêu Điện tích một lần. Mỗi Điện tích thực tiêu tạo thêm một đợt vật lí Lôi–Nguyệt 70% ATK vào toàn bộ mục tiêu; 2 Điện tích = 2 đợt, 3 = 3. Đủ 3 thì đợt chính cũng thêm Nguyệt. Các đợt thêm không tăng theo Rank hoặc Thông Thạo; là các hit cùng kỹ năng, không phải cast hay Liên kích mới. |
+| Gawain | Sau Thiên phạt trọng trảm, ra lệnh Chúc Phúc đánh một đợt với **180% ATK động của Chúc Phúc**. Hệ số này cố định, không lấy ATK/Rank/gear Gawain. Noelle phản hồi và tính chung giới hạn 3 lần/vòng. Không có Chúc Phúc thì kỹ năng gốc vẫn dùng bình thường. |
+| Tywin | +25% ATK. Nhất Kiếm — Thủy Nguyệt mang thêm Nguyệt và có thêm một hit vật lí Thủy–Nguyệt 250% ATK. Hit thêm giữ Hội Tâm, không tăng theo Rank hoặc Thông Thạo và cùng lần trả MP/CD. |
+
+Effect `command_moonlight` có thêm `multiplier` tùy chọn (giới hạn hợp lệ 0 < x ≤ 10). Bỏ trống dùng hệ số gốc của Chúc Phúc; hiệu lệnh không sửa definition, pulse tự động hoặc thời hạn. Đợt 180% của Gawain không biến các đợt sau thành 180%.
+
+### Aisha #118
+
+Nhân vật chính thức thuộc khu nghiên cứu Rhett, vào banner thường và pool phụ rate-up từ 20/11/2026. Hỗ trợ tấn công hệ Thủy; đòn đánh dùng ATK và gây vật lí. HP150, MP120, ATK36, MAG6, DEF18, RES14, SPD24. Cô bé thiên tài thích đồ ngọt, người chế tác và bạn của Noelle. Không tự cấp quyền Chúc Phúc.
+
+- **Tiếp Năng Dưới Trăng:** cuối vòng, khi Lôi Sấm Thịnh Nộ cùng phe còn hoạt động, hồi 8% MP tối đa (làm tròn lên) cho mọi người Thủy/Lôi còn sống, gồm bản thân. Aisha phải còn sống. Kết toán sau đợt cuối vòng, trước Chúc Phúc hết hạn; vòng cuối vẫn có hồi. Một lần/vòng, không thêm ở Vòng Phụ hoặc mỗi hit. Choáng không chặn nội tại vòng.
+- **Kẹo Nổ Phá Giáp:** 8 MP, CD2; một địch nhận 120% ATK, giảm 40% DEF trong 3 lượt chính người nhận. Debuff bị Hộ Ấn/cleanse theo luật thường, không tăng độ giảm theo Rank.
+- **Phát Minh Nhỏ, Tiếng Nổ Lớn:** 8 MP, CD0; một địch nhận 180% ATK.
+- **Xưởng Kẹo Sấm:** 20 MP, CD3 từ lúc thi triển; vào mode5 vòng tính cả vòng tạo, rồi đánh toàn địch 80% ATK ngay. Trong mode, người Thủy/Lôi cùng phe nhận +25% ATK, gấp đôi thành +50% khi Chúc Phúc còn tồn tại; gồm Aisha, cập nhật động khi Chúc Phúc vào/rời. Đây là aura mode, không phải status buff. Nguồn gục/rời mode thì aura mất; không cộng riêng một buff tự thân lần nữa. Mode đang chạy không thể thi triển lại.
+- Từ đầu vòng kế tiếp, máy đánh toàn địch 50% ATK mỗi đầu vòng. Không đánh riêng ở đầu lượt Aisha hoặc Vòng Phụ. Rank Xưởng Kẹo Sấm tăng sát thương vào dạng/pulse theo luật10%, aura ATK theo luật5%. Không có asset/scene đổi nền hay BGM; dùng hiển thị mode tiêu chuẩn ở ô Aisha.
+
+CD3 theo engine: thi triển R khóa R+1/R+2/R+3, sẵn sàng R+4; mode5 vòng vẫn khóa việc gọi lại đến khi rời ở cuối R+4. Có thể triển khai lại lượt kế tiếp khi hết mode. Wave/phòng giữ actor mode và deadline vòng; encounter mới trong phiên pháo đài chỉ mang HP/MP. Không ghi mode đang đánh vào tiến trình nhân vật vĩnh viễn.
+
+### Bằng chứng kiểm thử
+
+`test/moonlight-revelation.test.js` kiểm mua/bật/tắt/save cũ, không tự cấp tổ hợp, điều kiện active, ATK, 2/3 Điện tích, sát thương thêm cố định qua Rank/Thông Thạo Rhett/Tywin, hệ số180%, Noelle response, forecast không sửa trận thật, PvP hai phe, aura Aisha chỉ đúng hệ, pulse vòng/Extra/expiry, hồi MP ở vòng cuối và khi nguồn gục. `e2e/revelation.spec.ts` kiểm giao dịch và reload hồ sơ thật trên trình duyệt, copy kỹ năng Aisha, bố cục1440/768/390px.
