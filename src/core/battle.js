@@ -118,6 +118,7 @@ export function createBattle(
   assertQuestUnlocked(encounter, campaign);
   if(encounter.bookId==='book2'&&(!campaign.chronicles?.firstClearIds.includes('book1.intro.f10')||campaign.chronicles.activeSession?.currentLocation!==content.chronicleEvents[encounter.chronicleEventId]?.steps.find(s=>s.battle)?.locationId))throw Error('Hãy đến đúng khu vực trong phiên pháo đài.');
   if(encounter.category==='chronicle'&&![...Object.values(campaign.chronicles.pendingByLocation),campaign.chronicles.activeSession?.activeEvent].filter(Boolean).some(p=>p.instanceId===options.chronicleInstanceId&&p.eventId===encounter.chronicleEventId&&p.level===options.enemyLevel&&p.stepId===p.battleStepId))throw Error('Hãy bắt đầu trận từ địa điểm đang khám phá.');
+  if(encounter.travelerStory&&encounter.fixedEnemyLevel!==undefined&&options.enemyLevel!==undefined&&options.enemyLevel!==encounter.fixedEnemyLevel)throw Error('Thử thách này dùng cấp cố định Lv'+encounter.fixedEnemyLevel+'.');
   if(encounter.superLevels&&options.enemyLevel!==undefined&&!encounter.superLevels.includes(options.enemyLevel))throw Error('Cấp thử thách không hợp lệ.');
   assertEncounterParty(encounter, campaign, content);
   if (!isValidParty(campaign.party, content.characters))

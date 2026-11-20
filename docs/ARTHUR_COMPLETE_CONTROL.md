@@ -1,16 +1,19 @@
-# Arthur — Ba thử thách Hắc Ảnh và nâng cấp Ogre’s Bane
+# Arthur — Sáu thử thách Hắc Ảnh và nâng cấp Ogre’s Bane
 
-Cập nhật 06/11/2026. JSON và engine là nguồn xác định hành vi; thông số dưới là Rank1 trừ khi ghi khác.
+Cập nhật 20/11/2026. JSON và engine là nguồn xác định hành vi; thông số dưới là Rank1 trừ khi ghi khác.
 
 ## Mở khóa
 
-Cần hoàn thành ba truyện Iris/Fiona/Takeshi, Arthur phải tham chiến. Ba mức dùng chung boss ba phase, đường HP siêu trùm và BGM `ogrebane`; chỉ cấp địch và thưởng khác nhau:
+Cần hoàn thành ba truyện Iris/Fiona/Takeshi, Arthur phải tham chiến. Sáu mức dùng chung boss ba phase, đường HP siêu trùm và BGM `ogrebane`; chỉ cấp địch và thưởng khác nhau:
 
 | Mức | Cấp | Thưởng lần đầu |
 | --- | ---: | --- |
 | Dễ (`epilogue_shadow_easy`) | 1 | Cờ `eastern_hunts_unlocked`, +1 ô trang bị Arthur, trần6 |
 | Thường (`epilogue_unfinished`, giữ ID cũ) | 30 | Kiểm soát hoàn toàn và Thiểm Quang Kiếm |
 | Khó (`epilogue_shadow_hard`) | 60 | Ánh sáng không lùi bước; mở nâng Rank1–5 cho mọi nhánh Ogre’s Bane |
+| Thông Thạo 1 (`epilogue_shadow_70`) | 70 | Cấp thẳng Thông Thạo 1 cho hai dòng Ogre’s Bane |
+| Thông Thạo 2 (`epilogue_shadow_80`) | 80 | Cấp thẳng Thông Thạo 2 cho hai dòng Ogre’s Bane |
+| Thông Thạo 3 (`epilogue_shadow_90`) | 90 | Cấp thẳng Thông Thạo 3 cho hai dòng Ogre’s Bane |
 
 Mở tuần tự bằng first-clear. Thảo Phạt Phương Đông hiện chỉ là cờ chờ nội dung. Save đã thắng mức Thường cũ giữ thưởng cũ, không tự nhận thưởng Dễ/Khó; có thể quay lại đánh Dễ. Thưởng đi qua persistence trước publish, thất bại có thể thử lại, không phát trùng.
 
@@ -23,7 +26,7 @@ Mở tuần tự bằng first-clear. Thảo Phạt Phương Đông hiện chỉ 
 
 Không có CD riêng. Kiểm soát hoàn toàn bỏ Dư chấn; buff sau damage, không cộng dồn, dispel được và có thể cấp lại. AoE không tự cấp buff. Trấn Khế ước bất kham xuyên25% DEF vẫn chỉ áp dụng bản đơn mục tiêu.
 
-Sau màn Khó, mọi nhánh Ogre’s Bane nâng Rank1–5 theo luật chuẩn, tuyệt đối không Thông Thạo. Bất kham/Kiểm soát/Kiểm soát hoàn toàn dùng chung dòng tiến trình; Thiểm Quang Kiếm dùng dòng riêng. Tăng damage10%/Rank và buff chỉ số5%/Rank nếu có; MP/Cộng hưởng giữ nguyên. Trước cờ Khó có thể xem preview nhưng không mua Rank.
+Sau màn Khó, mọi nhánh Ogre’s Bane nâng Rank1–5 theo luật chuẩn, chưa mở Thông Thạo. Thắng các mốc Lv70/80/90 nhận ngay mức Thông Thạo tương ứng, không tiêu Original Prisma; xem SKILL_MASTERY.md. Bất kham/Kiểm soát/Kiểm soát hoàn toàn dùng chung dòng tiến trình; Thiểm Quang Kiếm dùng dòng riêng. Tăng damage10%/Rank và buff chỉ số5%/Rank nếu có; MP/Cộng hưởng giữ nguyên. Trước cờ Khó có thể xem preview nhưng không mua Rank.
 
 ## Ánh sáng không lùi bước
 

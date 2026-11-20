@@ -460,6 +460,9 @@ export function validateContent(content) {
         exists('abilities', change.to, id);
       } else if (change.type === 'resource_max') {
         if (!content.characters[upgrade.characterId]?.resources?.[change.resource] || !Number.isInteger(change.max) || change.max < 1) fail(`${id}: invalid resource upgrade`);
+      } else if(change.type==='skill_rank_floor'){
+        const owned=Object.values(content.abilities).some(skill=>skill.masterySource==='story'&&(skill.skillLineId??skill.id)===change.lineId&&Object.values(content.upgrades).filter(u=>u.characterId===upgrade.characterId).some(u=>u.changes.some(c=>c.ability===skill.id||c.to===skill.id)));
+        if(!owned||!Number.isInteger(change.rank)||change.rank<6||change.rank>8||Object.keys(change).some(k=>!['type','lineId','rank'].includes(k)))fail(id+': invalid story skill rank reward');
       } else if (change.type === 'set_passive') {
         if (!validReactivePassive(change.passive,content,content.characters[upgrade.characterId])) fail(`${id}: invalid passive upgrade`);
       } else fail(`${id}: unknown upgrade operation`);

@@ -1,3 +1,4 @@
+import {storySkillRankFloors} from './story-skill-mastery.js';
 import {normalizeRevelations} from './moonlight-revelation.js';
 import {emptyTournamentState,normalizeTournamentState} from './tournament-session.js';
 import {preparedTeamAuras} from './knight-passives.js';
@@ -95,6 +96,8 @@ export function resolveCharacter(content, campaign, characterId) {
   }
   character.moonlightRevelationEnabled=campaign.moonlightRevelations?.[characterId]?.enabled===true;
   character.skillRanks=structuredClone(state.skillRanks??{});character.skillProgression=structuredClone(skillRules(content));
+  character.storySkillRankCaps=storySkillRankFloors(content,state);
+  for(const[line,rank]of Object.entries(character.storySkillRankCaps))character.skillRanks[line]=Math.max(character.skillRanks[line]??1,rank);
   character.level=state.level;character.levelCap=levelCap(state,content);character.xp=state.xp;character.limitBreakRank=state.limitBreakRank;
   character.levelBonuses=allocationBonuses(content,state);
   for(const[key,n]of Object.entries(character.levelBonuses))character.stats[key]+=n;

@@ -1,3 +1,4 @@
+import {storySkillRankFloors} from './story-skill-mastery.js';
 import {skillRules,skillLineId,skillRankCap,skillUpgradeCost,getSkillRank,characterSkillIds,validateCharacterSkillRanks,masteryEnabled} from './skill-rules.js';
 import {resolveRankedAbility} from './skill-resolver.js';
 export {getSkillRank,skillRankCap,skillUpgradeCost} from './skill-rules.js';
@@ -5,7 +6,8 @@ export {getSkillRank,skillRankCap,skillUpgradeCost} from './skill-rules.js';
 export function skillUpgradeQuote(campaign,content,id,line,options={}){
  const state=campaign.characters[id],rules=skillRules(content);
  const skill=line==='basic'?{id:'$attack',name:'Đánh thường',target:'enemy',growthProfile:'basic',effects:content.characters[id]?.basicAttack??[{type:'damage',damageType:content.characters[id]?.basicDamageType??'physical',element:content.characters[id]?.element,multiplier:1}]}:characterSkillIds(content,state??{},id).map(id=>content.abilities[id]).find(skill=>skillLineId(skill)===line);
- const rank=getSkillRank(campaign,id,line),nextRank=rank+1,maxRank=masteryEnabled(content,id)&&skill?.masteryEligible!==false?rules.mastery.maxRank:rules.maxRank,mastery=rank>=5,originalCost=mastery?(rules.mastery?.costs[rank-5]??0):0,coinCost=skillUpgradeCost(rank,rules),requiredLevel=mastery?50:rules.characterLevelRequired[rank];
+ const storyFloor=storySkillRankFloors(content,state)[line]??1,storyMastery=skill?.masterySource==='story';
+ const rank=getSkillRank(campaign,id,line,content),nextRank=rank+1,maxRank=storyMastery?Math.max(5,storyFloor):masteryEnabled(content,id)&&skill?.masteryEligible!==false?rules.mastery.maxRank:rules.maxRank,mastery=rank>=5,originalCost=mastery&&!storyMastery?(rules.mastery?.costs[rank-5]??0):0,coinCost=skillUpgradeCost(rank,rules),requiredLevel=mastery?50:rules.characterLevelRequired[rank];
  let reason='';
  try{if(state)validateCharacterSkillRanks(content,campaign,id);}catch(error){reason=error.message;}
  if(reason)return {ok:false,reason,rank:1,nextRank:2,coinCost:0,requiredLevel:15,fixed:true,skill,current:null,next:null};
@@ -18,8 +20,8 @@ export function skillUpgradeQuote(campaign,content,id,line,options={}){
  else if(state.level<requiredLevel)reason='Cần nhân vật Lv'+requiredLevel+'.';
  else if(mastery&&(!Number.isSafeInteger(campaign.originalPrisma)||campaign.originalPrisma<originalCost))reason='Không đủ Original Prisma.';
  else if(campaign.coins<coinCost)reason='Không đủ Coin.';
- const actor={...content.characters[id],skillRanks:state?.skillRanks??{},skillProgression:rules};
- return {ok:!reason,reason,rank,nextRank:Math.min(maxRank,nextRank),maxRank,mastery,originalCost,coinCost,requiredLevel,fixed:!skill||skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive',skill,current:skill?resolveRankedAbility(content,actor,skill,rank):null,next:skill&&rank<maxRank?resolveRankedAbility(content,actor,skill,nextRank):null};
+ const actor={...content.characters[id],storySkillRankCaps:storySkillRankFloors(content,state),skillRanks:state?.skillRanks??{},skillProgression:rules};
+ return {ok:!reason,reason,storyMastery,storyMasteryTier:Math.max(0,storyFloor-5),rank,nextRank:Math.min(maxRank,nextRank),maxRank,mastery,originalCost,coinCost,requiredLevel,fixed:!skill||skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive',skill,current:skill?resolveRankedAbility(content,actor,skill,rank):null,next:skill&&rank<maxRank?resolveRankedAbility(content,actor,skill,nextRank):null};
 }
 // Clone before changing either balance or rank. Caller publishes only after persistence succeeds.
 export function upgradeSkill(campaign,content,id,line,options={}){

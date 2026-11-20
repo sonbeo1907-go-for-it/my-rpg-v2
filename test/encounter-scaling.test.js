@@ -120,12 +120,12 @@ test('all authored encounters and five selectable difficulties wire the same imm
  }
 });
 
-test('Superboss HP extension is available to 90 without opening content or extrapolating offense',()=>{
+test('Superboss HP extension is available to 90 and new authored Arthur chapters stay fixed',()=>{
  for(const [level,alice,mira]of [[50,4978,7467],[60,6372,9558],[80,10442,15662],[90,14033,21049]]){
   for(const [id,expected]of [['dark_holy_blade_alice',alice],['miraebolis',mira]])assert.equal(levelScaledEnemyStats(content.enemies[id],level,content,1,{rewardTier:'super',hpReferenceLevel:1}).maxHp,expected);
  }
  assert.equal(content.progressionRules.default.maxLevel,50);
- assert.ok(Object.values(content.encounters).every(e=>e.enemyLevel<=60));
+ assert.deepEqual(Object.values(content.encounters).filter(e=>e.enemyLevel>60).map(e=>[e.id,e.enemyLevel]),[['epilogue_shadow_70',70],['epilogue_shadow_80',80],['epilogue_shadow_90',90]]);
 });
 
 test('every non-story Boss and Bounty uses encounter reference 1 for all seven stats without affecting shared normal/story enemies',()=>{

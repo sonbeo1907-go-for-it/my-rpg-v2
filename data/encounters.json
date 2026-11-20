@@ -2222,5 +2222,98 @@
     "enemies": [
       "song_calamity"
     ]
+  },
+  {
+    "id": "epilogue_shadow_70",
+    "name": "Hắc Ảnh Arthur — Lv70",
+    "description": "Đối diện hắc ảnh ở Lv70. Thắng lần đầu nhận ngay Thông Thạo 1 cho hai chiêu Ogre’s Bane, không tốn Original Prisma.",
+    "enemies": [
+      "shadow_arthur"
+    ],
+    "bgm": "ogrebane",
+    "rewardTier": "super",
+    "travelerStory": "epilogue",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ],
+      "firstClear": "epilogue_shadow_hard"
+    },
+    "requiredPartyIds": [
+      "arthur"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "arthur.ogre_mastery_1"
+      }
+    ],
+    "enemyLevel": 70,
+    "referenceLevel": 1,
+    "fixedEnemyLevel": 70
+  },
+  {
+    "id": "epilogue_shadow_80",
+    "name": "Hắc Ảnh Arthur — Lv80",
+    "description": "Đối diện hắc ảnh ở Lv80. Thắng lần đầu nhận ngay Thông Thạo 2 cho hai chiêu Ogre’s Bane, không tốn Original Prisma.",
+    "enemies": [
+      "shadow_arthur"
+    ],
+    "bgm": "ogrebane",
+    "rewardTier": "super",
+    "travelerStory": "epilogue",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ],
+      "firstClear": "epilogue_shadow_70"
+    },
+    "requiredPartyIds": [
+      "arthur"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "arthur.ogre_mastery_2"
+      }
+    ],
+    "enemyLevel": 80,
+    "referenceLevel": 1,
+    "fixedEnemyLevel": 80
+  },
+  {
+    "id": "epilogue_shadow_90",
+    "name": "Hắc Ảnh Arthur — Lv90",
+    "description": "Đối diện hắc ảnh ở Lv90. Thắng lần đầu nhận ngay Thông Thạo 3 cho hai chiêu Ogre’s Bane, không tốn Original Prisma.",
+    "enemies": [
+      "shadow_arthur"
+    ],
+    "bgm": "ogrebane",
+    "rewardTier": "super",
+    "travelerStory": "epilogue",
+    "requires": {
+      "firstClears": [
+        "iris_story_revenge",
+        "fiona_story_drei",
+        "takeshi_story_horizon"
+      ],
+      "firstClear": "epilogue_shadow_80"
+    },
+    "requiredPartyIds": [
+      "arthur"
+    ],
+    "firstClearRewards": [
+      {
+        "type": "upgrade",
+        "upgradeId": "arthur.ogre_mastery_3"
+      }
+    ],
+    "enemyLevel": 90,
+    "referenceLevel": 1,
+    "fixedEnemyLevel": 90
   }
 ]

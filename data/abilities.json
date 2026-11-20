@@ -92,7 +92,8 @@
       "damage"
     ],
     "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
-    "masteryEligible": false
+    "masteryEligible": false,
+    "masterySource": "story"
   },
   {
     "id": "arthur.ogres_bane_controlled",
@@ -130,7 +131,8 @@
       "damage"
     ],
     "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
-    "masteryEligible": false
+    "masteryEligible": false,
+    "masterySource": "story"
   },
   {
     "id": "arthur.partial_release",
@@ -5749,7 +5751,8 @@
       "stat_buff"
     ],
     "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
-    "masteryEligible": false
+    "masteryEligible": false,
+    "masterySource": "story"
   },
   {
     "id": "arthur.ogres_bane_flash",
@@ -5779,7 +5782,8 @@
       "damage"
     ],
     "rankUnlockFlag": "arthur.ogre_ranks_unlocked",
-    "masteryEligible": false
+    "masteryEligible": false,
+    "masterySource": "story"
   },
   {
     "id": "bandit.advance",

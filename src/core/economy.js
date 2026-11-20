@@ -113,6 +113,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     if (encounter.requires?.firstClears?.some(id=>!campaign.claimedFirstClearRewards?.includes(id))) throw new Error('Hãy hoàn thành đủ các câu chuyện bắt buộc trước khi nhận thưởng chương truyện.');
     if (encounter.requiredPartyIds?.some(id => !battle.actors?.some(actor => actor.team === 'party' && (actor.definitionId ?? actor.id) === id))) throw new Error('Đội tham chiến thiếu nhân vật bắt buộc.');
   }
+  if(encounter?.travelerStory&&encounter.fixedEnemyLevel!==undefined&&battle.enemyLevel!==encounter.fixedEnemyLevel)throw Error('Cấp thử thách không khớp phần thưởng.');
   const settlement=battle.trial?settleTrialReward(campaign,battle,now):null;
   if(settlement?.duplicate){battle.rewardClaimed=true;battle.victoryReward=Object.freeze({});return campaign;}
   const next=structuredClone(settlement?.campaign??campaign);

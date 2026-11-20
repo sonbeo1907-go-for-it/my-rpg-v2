@@ -179,5 +179,68 @@
         }
       }
     ]
+  },
+  {
+    "id": "arthur.ogre_mastery_1",
+    "characterId": "arthur",
+    "name": "Ogre’s Bane · Thông Thạo 1",
+    "order": 23,
+    "requires": {
+      "storyFlag": "arthur.ogre_mastery_1"
+    },
+    "changes": [
+      {
+        "type": "skill_rank_floor",
+        "lineId": "arthur.ogres_bane",
+        "rank": 6
+      },
+      {
+        "type": "skill_rank_floor",
+        "lineId": "arthur.ogres_bane_flash",
+        "rank": 6
+      }
+    ]
+  },
+  {
+    "id": "arthur.ogre_mastery_2",
+    "characterId": "arthur",
+    "name": "Ogre’s Bane · Thông Thạo 2",
+    "order": 24,
+    "requires": {
+      "storyFlag": "arthur.ogre_mastery_2"
+    },
+    "changes": [
+      {
+        "type": "skill_rank_floor",
+        "lineId": "arthur.ogres_bane",
+        "rank": 7
+      },
+      {
+        "type": "skill_rank_floor",
+        "lineId": "arthur.ogres_bane_flash",
+        "rank": 7
+      }
+    ]
+  },
+  {
+    "id": "arthur.ogre_mastery_3",
+    "characterId": "arthur",
+    "name": "Ogre’s Bane · Thông Thạo 3",
+    "order": 25,
+    "requires": {
+      "storyFlag": "arthur.ogre_mastery_3"
+    },
+    "changes": [
+      {
+        "type": "skill_rank_floor",
+        "lineId": "arthur.ogres_bane",
+        "rank": 8
+      },
+      {
+        "type": "skill_rank_floor",
+        "lineId": "arthur.ogres_bane_flash",
+        "rank": 8
+      }
+    ]
   }
 ]

@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Hắc Ảnh Arthur Lv70/80/90 — 20/11/2026
+
+Ba chương cố định nối tiếp Lv60, cùng boss ba phase và BGM ogrebane. Thắng lần đầu cấp thẳng Thông Thạo1/2/3 cho hai dòng Ogre’s Bane, không tốn Original/Coin và không cần Rank5 trước. Raw rank/level giữ nguyên; operation skill_rank_floor suy ra floor/cap trong actor snapshot, quote và resolver. PvP vẫn cap5, không mua vượt mốc. Đọc [SKILL_MASTERY](SKILL_MASTERY.md) và [ARTHUR_COMPLETE_CONTROL](ARTHUR_COMPLETE_CONTROL.md); test/arthur-story-mastery.test.js.
+
 ## Nguyệt Quang Hé Lộ / Aisha — 20/11/2026
 
 Hé Lộ là nâng cấp bổ sung cho Rhett/Gawain/Tywin: mở30 Pure Prisma mỗi người tại Kỹ Năng, bật/tắt miễn phí ngoài chuyến đi, không cấp quyền ghép Chúc Phúc. Save v7 thêm `moonlightRevelations`, thiếu trường mặc định chưa mở; tiến trình tách khỏi nâng cấp truyện. Đọc mục10 [MOONLIGHT_BLESSING](MOONLIGHT_BLESSING.md). Aisha #118 chính thức vào gacha, hỗ trợ Thủy scale ATK, mode tiêu chuẩn5 vòng với aura Thủy/Lôi và pulse đầu vòng, hồi8%MP Thủy/Lôi cuối vòng khi Chúc Phúc còn tồn tại. Không tạo asset toàn bàn mới.

@@ -1,3 +1,4 @@
+import {actorSkillRankLimit} from './story-skill-mastery.js';
 import {formationAbility} from './advanced-combat.js';
 import {applySpecialSkillModifiers} from './exclusive-specials.js';
 import {skillRules,skillLineId,getActorSkillRank,coefficientFactor,statBuffFactor,outputMpFactor,GROWING_STATS,skillGrowthGroups} from './skill-rules.js';
@@ -6,11 +7,11 @@ export function rankedModifiers(modifiers,factor){return Object.fromEntries(Obje
 export function resolveRankedAbility(content,actor,ability,rankOverride){
  let source=typeof ability==='string'?content.abilities[ability]:ability;
  if(!source)return source;
- if(source.rankResolved&&(!(actor?.masteryDisabled||source.masteryEligible===false)||source.skillRank<=5)&&rankOverride===undefined&&source.rankOwnerId===actor?.id&&source.rankTeam===actor?.team&&(!source.formationVariants||source.rankFormationSlot===(actor.formationSlot??0)%2))return source;
+ if(source.rankResolved&&source.skillRank<=actorSkillRankLimit(actor,source)&&rankOverride===undefined&&source.rankOwnerId===actor?.id&&source.rankTeam===actor?.team&&(!source.formationVariants||source.rankFormationSlot===(actor.formationSlot??0)%2))return source;
  const rankSource=source.rankSource??source;source=formationAbility(rankSource,actor);
  const profile=source.id==='$attack'?'basic':source.growthProfile??'fixed';
  const requestedRank=(actor?.team==='enemy'&&actor?.actorKind!=='character')||profile==='fixed'||source.activation==='passive'?1:rankOverride??getActorSkillRank(actor,source);
- const rank=actor?.masteryDisabled||source.masteryEligible===false?Math.min(5,requestedRank):requestedRank;
+ const rank=Math.min(actorSkillRankLimit(actor,source),requestedRank);
  if(!Number.isInteger(rank)||rank<1||rank>((actor?.skillProgression??skillRules(content)).mastery?.maxRank??5))throw Error('Cấp kỹ năng không hợp lệ.');
  const groups=profile==='fixed'?[]:skillGrowthGroups(content,source);
  const rules=actor?.skillProgression??skillRules(content),f10=coefficientFactor(rank,rules),f05=statBuffFactor(rank,rules);
