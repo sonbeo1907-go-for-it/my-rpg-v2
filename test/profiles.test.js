@@ -145,3 +145,24 @@ test("username validation accepts Vietnamese and rejects blank / control / overs
   for (const value of ["", "  ", "a\nb", "a".repeat(33)])
     assert.throws(() => normalizeUsername(value));
 });
+
+test("native split save keeps opaque revisions, validates cross-file equipment refs before IPC and accepts compact JSON", async () => {
+  const state=createGameSave(content),raw=encodeGameSave(state,content),calls=[];
+  let disk={id:1,username:"Arthur",text:raw,backup:null,revision:"split:opaque-1",updatedAt:1},fail=false;
+  const invoke=async(command,args)=>{
+    if(command==="save_directory")return "C:/Test/NorthernPrisma/saves";
+    if(command==="list_profiles")return [disk];
+    if(command==="read_profile")return disk;
+    if(command==="write_profile"){
+      calls.push(args);if(fail)throw Error("Không ghi được bộ save thử nghiệm.");
+      assert.equal(args.revision,disk.revision);
+      disk={...disk,text:JSON.stringify(JSON.parse(args.text)),backup:disk.text,revision:"split:opaque-2"};return disk;
+    }
+    throw Error("Unexpected native command");
+  };
+  const store=createProfileStore({content,storage:storage(),nativeInvoke:invoke});await store.initialize();
+  const invalid=structuredClone(state);invalid.equipment={arthur:["missing-gear-id"]};
+  await assert.rejects(store.save(1,invalid));assert.equal(calls.length,0);assert.equal(store.entries[0].campaign.coins,0);
+  await store.save(1,{...state,coins:42});assert.equal(calls.length,1);assert.equal(store.entries[0].revision,"split:opaque-2");assert.equal(store.entries[0].campaign.coins,42);
+  fail=true;await assert.rejects(store.save(1,{...state,coins:999}));assert.equal(store.entries[0].campaign.coins,42);
+});

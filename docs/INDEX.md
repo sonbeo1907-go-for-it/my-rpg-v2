@@ -4,6 +4,8 @@
 
 ## Bắt đầu / bảo toàn contract
 
+- [Lưu hồ sơ thành nhiều file — nhánh thử test-save](SPLIT_SAVE_STORAGE.md)
+
 - [Hướng dẫn viết cảnh theo tính cách nhân vật](STORY_SCENE_WRITING_GUIDE.md)
 
 - [Bàn giao cho DeepSeek Harness / cộng tác viên](HANDOFF.md)

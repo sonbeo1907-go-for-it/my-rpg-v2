@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Split save — thử nghiệm test-save, 21/11/2026
+
+Tauri tách lưu vật lý thành bảy miền, manifest atomic + SHA-256 và backup object độc lập; campaign/IPC vẫn v7. Migrate ở lần persist hợp lệ đầu, giữ nguyên JSON cũ. Snapshot giải đấu nặng tách riêng; giữ thứ tự khóa JSON lồng nhau và số thực để validator replay không từ chối save. Không tự fallback về mono sau khi có manifest; bản cũ sửa JSON gốc sẽ báo fork. Browser localStorage không đổi. Đọc [SPLIT_SAVE_STORAGE](SPLIT_SAVE_STORAGE.md) và [DESKTOP_SAVES](DESKTOP_SAVES.md) trước khi sửa native/backup. Test chỉ dùng tempdir/bản sao, không migrate save thật khi build.
+
 ## Flynn / Người Giữ Đèn — 20/11/2026
 
 Flynn là High Elf quý tộc phương Bắc, thành viên cấp cao đội tự vệ Lampkeeper (Người Giữ Đèn), dùng kích gắn đèn và chăm sóc nghĩa trang đồng đội. Danh hiệu Người giữ đèn trăm năm. Tên mới: Khơi Lại Ánh Đèn, Hoành Kích Xua Đêm, Vì Những Người Nằm Lại; nội tại Lời Thề Bên Đèn Cũ, mode Đèn Sáng Qua Đêm Dài, tầng Dư Quang. Đã đồng bộ tên buff/log/copy và tài liệu; giữ ID/cân bằng. Lore ở [SHASHTHI_FLYNN](SHASHTHI_FLYNN.md) và [GLOSSARY](GLOSSARY.md).
