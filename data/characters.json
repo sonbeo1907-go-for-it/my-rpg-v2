@@ -5562,5 +5562,65 @@
       "resource": "harvest_credit",
       "amount": 6
     }
+  },
+  {
+    "id": "luna",
+    "releaseId": 122,
+    "name": "Luna",
+    "title": "Thiếu nữ Mặt Trăng",
+    "element": "plain",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "basicDamageType": "magical",
+    "description": "Thiếu nữ bản địa Drageshelmfjall được chọn làm sứ giả Mặt Trăng. Được làng nuôi dưỡng nhưng bị giữ trong nhà trưởng làng, cô hát về tự do.",
+    "stats": {
+      "maxHp": 300,
+      "maxMp": 130,
+      "defense": 20,
+      "resistance": 25,
+      "attack": 10,
+      "magic": 10,
+      "speed": 24
+    },
+    "abilities": [
+      "luna.lament",
+      "luna.promise",
+      "luna.song"
+    ],
+    "passive": {
+      "type": "moonlight_hymn",
+      "name": "Lời Hát Qua Song Cửa",
+      "description": "Cấp quyền gọi mọi Chúc Phúc đã ra mắt. Sát thương mang Nguyệt của phe mình tăng 10% trước khuếch đại.",
+      "allBlessings": true,
+      "moonDamageBonus": 0.1
+    },
+    "combatModes": {
+      "moon_song": {
+        "name": "Khúc Hát Của Trăng Tự Do",
+        "summary": "Địch −20% ATK/MAG · nhận thêm 30% sát thương Nguyệt · đầu vòng giải hiệu ứng và cấp Hộ Ấn.",
+        "lifetime": "rounds",
+        "durationRounds": 5,
+        "baseStatBonuses": {},
+        "exitMpRatio": 0,
+        "presentationScope": "battle",
+        "background": "/art/luna-moonfield.svg",
+        "music": "song_of_the_moon",
+        "allowedAbilities": [
+          "$attack",
+          "$defend",
+          "luna.lament",
+          "luna.promise"
+        ],
+        "moonlightField": {
+          "enemyModifiers": {
+            "attack": -0.2,
+            "magic": -0.2
+          },
+          "moonDamageTaken": 0.3,
+          "roundStartAbility": "luna.renew",
+          "roundEndAbility": "luna.pulse"
+        }
+      }
+    }
   }
 ]

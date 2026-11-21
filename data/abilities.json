@@ -14063,5 +14063,145 @@
       "Mỗi Lộc Nguyệt đã tiêu gọi một đợt 380% MAG của Chúc Phúc, mang Thổ–Nguyệt; hệ số tăng theo Rank.",
       "Không có hạt giống hoặc Lộc Nguyệt: chỉ gây đòn của Bianca."
     ]
+  },
+  {
+    "id": "luna.lament",
+    "name": "Nỗi Buồn Dưới Trăng",
+    "description": "Đánh phép Thường toàn địch theo HP tối đa; giảm 30% DEF và RES trong 3 lượt chính.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "scalingStat": "maxHp",
+        "multiplier": 0.2,
+        "onHitStatus": {
+          "status": "luna_lament",
+          "duration": 3
+        }
+      }
+    ],
+    "skillLineId": "luna.lament",
+    "growthProfile": "damage",
+    "rankable": true
+  },
+  {
+    "id": "luna.promise",
+    "name": "Ước Hẹn Ngoài Song Cửa",
+    "description": "Đánh toàn địch theo HP tối đa; tăng 6 ATK/MAG căn bản toàn đội trong 4 lượt chính, gấp đôi khi có Chúc Phúc.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "scalingStat": "maxHp",
+        "multiplier": 0.2
+      },
+      {
+        "type": "status",
+        "status": "luna_promise",
+        "duration": 4,
+        "to": "all_allies",
+        "baseStatModifiers": {
+          "attack": 6,
+          "magic": 6
+        },
+        "moonlightDouble": true
+      }
+    ],
+    "skillLineId": "luna.promise",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "luna.song",
+    "name": "Khúc Hát Của Trăng Tự Do",
+    "description": "Triển khai khúc hát trong 5 vòng; giải toàn bộ hiệu ứng bất lợi và cấp 1 Hộ Ấn cho mỗi đồng đội.",
+    "target": "self",
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "moon_song"
+      },
+      {
+        "type": "cleanse",
+        "to": "all_allies"
+      },
+      {
+        "type": "status",
+        "status": "effect_ward",
+        "to": "all_allies"
+      }
+    ],
+    "skillLineId": "luna.song",
+    "growthProfile": "damage",
+    "growthAdapter": "mode_command",
+    "rankable": true,
+    "rules": [
+      "Đầu mỗi vòng sau: giải 1 hiệu ứng bất lợi và cấp 1 Hộ Ấn cho mỗi đồng đội.",
+      "Cuối vòng: nếu có Chúc Phúc, đánh toàn địch theo 50% HP tối đa của Luna; loại đòn và hệ theo Chúc Phúc, luôn mang Nguyệt.",
+      "Tăng Rank chỉ tăng sát thương cuối vòng."
+    ]
+  },
+  {
+    "id": "luna.renew",
+    "name": "Lời Ru Đón Bình Minh",
+    "target": "all_allies",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "cleanse",
+        "count": 1,
+        "to": "all_allies"
+      },
+      {
+        "type": "status",
+        "status": "effect_ward",
+        "to": "all_allies"
+      }
+    ],
+    "skillLineId": "luna.renew",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Tự động giải hiệu ứng và cấp Hộ Ấn; không tăng theo Rank."
+  },
+  {
+    "id": "luna.pulse",
+    "name": "Lời Hát Chạm Chân Trời",
+    "target": "all_enemies",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "plain",
+        "scalingStat": "maxHp",
+        "multiplier": 0.5,
+        "moonlightAspect": true
+      }
+    ],
+    "rankFromAbility": "luna.song",
+    "skillLineId": "luna.pulse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Đợt cuối vòng lấy Rank từ Khúc Hát Của Trăng Tự Do."
   }
 ]

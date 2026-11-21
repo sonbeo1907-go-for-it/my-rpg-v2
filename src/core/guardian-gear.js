@@ -2,8 +2,8 @@ import {isAlive} from './actor-life.js';
 export const GUARDIAN_GEAR_TYPES=['shield_team_guard','ally_shield_relay','support_cooldown','full_hp_offense','low_hp_offense','single_skill_echo','debuff_skill_echo','healing_team_resonance'];
 export function* guardianRecipes(actor,type){const groups=new Set();for(const r of actor?.gearEffects??[]){if(r.effect.type!==type||groups.has(r.effectGroup))continue;groups.add(r.effectGroup);yield r;}}
 export function conditionalGearBaseBonus(actor,key){
- let extra=0;for(const r of actor.gearEffects??[]){const e=r.effect;if(!['full_hp_offense','low_hp_offense'].includes(e.type))continue;
- const qualifies=e.type==='full_hp_offense'?actor.hp===undefined||actor.hp>=actor.stats.maxHp:actor.hp!==undefined&&actor.hp/actor.stats.maxHp<e.threshold;
+ let extra=0;for(const r of actor.gearEffects??[]){const e=r.effect;if(!['full_hp_offense','low_hp_offense','moonlit_offense'].includes(e.type))continue;
+ const qualifies=e.type==='moonlit_offense'?actor.moonlightGearActive===true:e.type==='full_hp_offense'?actor.hp===undefined||actor.hp>=actor.stats.maxHp:actor.hp!==undefined&&actor.hp/actor.stats.maxHp<e.threshold;
  if(qualifies)extra+=actor.gearConditionalBonuses?.[r.effectGroup]?.[key]??0;
  }return extra;
 }

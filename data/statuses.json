@@ -2146,5 +2146,21 @@
     "name": "Lời Chào Có Giá",
     "kind": "buff",
     "durationClock": "main_turn"
+  },
+  {
+    "id": "luna_lament",
+    "name": "Nỗi Buồn Dưới Trăng",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.3,
+      "resistance": -0.3
+    }
+  },
+  {
+    "id": "luna_promise",
+    "name": "Ước Hẹn Ngoài Song Cửa",
+    "kind": "buff",
+    "durationClock": "main_turn"
   }
 ]

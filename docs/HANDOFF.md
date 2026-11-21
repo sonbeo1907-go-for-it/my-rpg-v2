@@ -1,5 +1,14 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Song Nguyệt Đồng Tâm — hiệu lệnh Chúc Phúc, 21/11/2026
+
+Gear khuếch đại25% cả sát thương Nguyệt của người mặc lẫn Chúc Phúc Liên kích do người mặc ra lệnh. Commander đi theo context của từng đợt; nguồn sát thương vẫn là Chúc Phúc, không giữ gear/bonus trên sourceActor, không lan sang pulse tự động hoặc phản hồi Noelle. Cùng đường cho Flynn/Bianca/Gawain và hai phe PvP; 99 kiểm thử liên quan đạt. Xem [LUNA](LUNA.md).
+
+## Luna / hai gear Nguyệt — 21/11/2026
+
+Luna #122 chính thức, hỗ trợ Thường scale HP, cấp quyền mọi Chúc Phúc đã đăng ký (hiện chỉ2). Native+10% cơ sở Nguyệt; mode5 vòng có trường−20%ATK/MAG địch,+30% nhận Nguyệt, đầu vòng cleanse1/ward, cuối vòng50%HP theo Chúc Phúc; Rank mode chỉ tăng damage. BGM song_of_the_moon, nền SVG moonfield. Hai gear T4 phổ thông: moonlit_duet, moonlit_covenant (+8 không cộng dồn giữa người mang). Đọc [LUNA](LUNA.md) cho clock/fifth-round expiry/gear/source/PvP; không thêm hai Chúc Phúc chưa triển khai.
+
+
 ## Bianca Valmont — 21/11/2026
 
 Nhân vật chính thức #121, DPS phép Thổ/Valmont, cấp quyền Quang–Thổ. Activation Hạt Giống cấp6 Lộc Nguyệt; chiêu cuối tiêu tối đa3 tầng gọi các hit380%MAG Chúc Phúc lên đúng địch có hạt giống, tăng theo Rank. Buff12 MAG căn bản3 main_turn, đòn60%gắn2 Sơ Hở/cấpExtra. Dùng asset cơ bản; giữ schema/namespace save. Xem [BIANCA](BIANCA.md) cho clock/carry/targeting/nguồn và kiểm thử.

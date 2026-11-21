@@ -20,6 +20,7 @@
 ## Combat và UX
 
 - [Nguyệt Quang Chúc Phúc — khung hệ thống và Noelle Model 4.0](MOONLIGHT_BLESSING.md)
+- [Luna — mode khúc hát và gear Nguyệt](LUNA.md)
 - [Bianca Valmont — hiệu lệnh Hạt Giống](BIANCA.md)
 - [Shashthi / Flynn / Hé Lộ Hạt Giống Bội Thu](SHASHTHI_FLYNN.md)
 - [Hợp đồng vòng đời chiến đấu](COMBAT_LIFECYCLE_CONTRACT.md)

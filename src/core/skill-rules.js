@@ -5,10 +5,11 @@ export const SKILL_PROFILES=['basic','damage','heal','shield','stat_buff','outpu
 export const GROWING_STATS=['attack','magic','defense','resistance','maxMp','maxHp'];
 export const OUTPUT_BUFF_STATS=['damageBonus','attackMultiplier','damageVsShielded'];
 // A skill rank improves every eligible output group. Utility and fixed sources stay authored.
+export function rankedModePulse(content,skill){return skill.effects?.some(e=>e.type==='enter_mode'&&Object.values(content.characters??{}).some(a=>content.abilities[a.combatModes?.[e.mode]?.moonlightField?.roundEndAbility]?.rankFromAbility===skill.id));}
 export function skillGrowthGroups(content,skill){
  if(skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive')return [];
  const groups=new Set();
- if(skill.linkedPassiveGrowth)groups.add('damage');
+ if(skill.linkedPassiveGrowth||rankedModePulse(content,skill))groups.add('damage');
  for(const effect of skill.effects??[]){
   if(effect.type==='damage')groups.add(skill.id==='$attack'?'basic':'damage');
   if(effect.type==='command_moonlight'&&effect.rankScaling===true)groups.add('damage');
@@ -79,7 +80,7 @@ export function validateSkillProgression(content){
   const referenced=skill.effects.flatMap(effect=>[effect.status,...effect.linkedStatuses??[]]).filter(Boolean).map(id=>content.statuses?.[id]);
   const statBuff=skill.effects.some(e=>e.baseStatModifiers&&Object.values(e.baseStatModifiers).some(n=>n>0))||referenced.some(status=>status?.kind==='buff'&&GROWING_STATS.some(key=>(status.modifiers?.[key]??0)>0));
   const outputBuff=referenced.some(status=>status?.kind==='buff'&&OUTPUT_BUFF_STATS.some(key=>(status.modifiers?.[key]??0)>0));
-  if(['damage','heal','shield'].includes(skill.growthProfile)&&!skill.effects.some(effect=>effect.type===skill.growthProfile||skill.growthProfile==='damage'&&(effect.flatSkillScaling||effect.type==='command_moonlight'&&effect.rankScaling===true)))errors.push(skill.id+': profile has no growing effect');
+  if(['damage','heal','shield'].includes(skill.growthProfile)&&!(skill.growthProfile==='damage'&&rankedModePulse(content,skill))&&!skill.effects.some(effect=>effect.type===skill.growthProfile||skill.growthProfile==='damage'&&(effect.flatSkillScaling||effect.type==='command_moonlight'&&effect.rankScaling===true)))errors.push(skill.id+': profile has no growing effect');
   if(skill.growthProfile==='stat_buff'&&!statBuff&&skill.growthAdapter!=='mode_stat_buff'&&skill.rankOnly!==true)errors.push(skill.id+': no eligible positive stat buff');
   if(skill.growthProfile==='output_buff_mp'&&(!(skill.cost?.mp>0)||(!outputBuff&&skill.mpOnlyGrowth!==true)||Math.ceil(skill.cost.mp*outputMpFactor(5))>=skill.cost.mp))errors.push(skill.id+': no MP growth');
   if(skill.growthAdapter!==undefined&&!['mode_stat_buff','mode_command'].includes(skill.growthAdapter))errors.push(skill.id+': unknown growth adapter');

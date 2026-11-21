@@ -2,7 +2,7 @@ import {resourceVariantKey,resourceVariantAbility} from './resource-variants.js'
 import {actorSkillRankLimit} from './story-skill-mastery.js';
 import {formationAbility} from './advanced-combat.js';
 import {applySpecialSkillModifiers} from './exclusive-specials.js';
-import {skillRules,skillLineId,getActorSkillRank,coefficientFactor,statBuffFactor,outputMpFactor,GROWING_STATS,skillGrowthGroups} from './skill-rules.js';
+import {skillRules,skillLineId,getActorSkillRank,coefficientFactor,statBuffFactor,outputMpFactor,GROWING_STATS,skillGrowthGroups,rankedModePulse} from './skill-rules.js';
 
 export function rankedModifiers(modifiers,factor){return Object.fromEntries(Object.entries(modifiers??{}).map(([key,n])=>[key,GROWING_STATS.includes(key)&&n>0?n*factor:n]));}
 export function resolveRankedAbility(content,actor,ability,rankOverride){
@@ -19,6 +19,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
  const resolved={...source,rankSource,rankResourceVariant:resourceVariantKey(actor,source),rankFormationSlot:(actor?.formationSlot??0)%2,rankOwnerId:actor?.id,rankTeam:actor?.team,skillRank:rank,skillLineId:skillLineId(source),growthProfile:profile,growthGroups:groups,rankResolved:true,rankMpMultiplier:groups.includes('output_buff_mp')?outputMpFactor(rank,rules):1};
  resolved.effects=source.effects.map(effect=>{
   let next={...effect};
+  if(effect.type==='enter_mode'&&rankedModePulse(content,source))next.rankDamageFactor=f10;
   if(groups.includes('stat_buff')&&effect.baseStatModifiers)next.baseStatModifiers=rankedModifiers(effect.baseStatModifiers,f05);
   if(groups.includes('damage')&&effect.flatSkillScaling)next.flatSkillScaling={...effect.flatSkillScaling,multiplier:effect.flatSkillScaling.multiplier*f10};
   if((groups.includes('basic')||groups.includes('damage'))&&(effect.type==='damage'||effect.type==='command_moonlight'&&effect.rankScaling===true))next.rankDamageFactor=f10;

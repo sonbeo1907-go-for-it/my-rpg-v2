@@ -1,3 +1,4 @@
+import {moonlightAccess} from './lunar-support.js';
 import {isAlive} from './actor-life.js';
 import {enterCombatMode} from './combat-modes.js';
 
@@ -26,7 +27,7 @@ export function moonlightPotencyMultiplier(battle,team,blessingId){
 }
 
 export function providerBuff(effect,target,content){
- if(!effect.moonlightProviderBonus||!target.moonlightBlessings?.length)return effect;
+ if(!effect.moonlightProviderBonus||!moonlightAccess(target,content).length)return effect;
  const q=effect.moonlightProviderBonus,modifiers=effect.appliedModifiers??content.statuses[effect.status].modifiers;
  return {...effect,duration:effect.duration*q.durationMultiplier,appliedModifiers:Object.fromEntries(Object.entries(modifiers).map(([key,n])=>[key,n*q.modifierMultiplier]))};
 }

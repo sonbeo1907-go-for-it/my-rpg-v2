@@ -1,3 +1,4 @@
+import {moonlightAccess} from './lunar-support.js';
 import {coefficientFactor,skillRules} from './skill-rules.js';
 import {moonlightOffenseMultiplier} from './moonlight-synergy.js';
 import {revelationActive} from './moonlight-revelation.js';
@@ -25,7 +26,7 @@ export function validateMoonlight(content){
 export function initializeMoonlight(battle,previous){
  battle.moonlight={};
  for(const team of new Set(battle.actors.map(a=>a.team))){
-  const allowed=[...new Set(battle.actors.filter(a=>a.team===team).flatMap(a=>a.moonlightBlessings??[]))].sort();
+  const allowed=[...new Set(battle.actors.filter(a=>a.team===team).flatMap(a=>moonlightAccess(a,battle.content)))].sort();
   if(!allowed.length)continue;
   const old=previous?.[team];
   battle.moonlight[team]=old?structuredClone(old):{slots:[],active:null,lastActivatedRound:-1,revision:0};
@@ -66,7 +67,7 @@ export function settleMoonlight(battle,io){
   const d=state.allowed.map(id=>battle.content.moonlightBlessings[id]).find(d=>pairKey(d.elements)===pairKey(state.slots));if(!d)continue;
   state.slots=[];state.lastActivatedRound=battle.round;state.revision++;
   state.active={id:d.id,startedRound:battle.round,expiresAfterRound:battle.round+d.durationRounds-1,pulses:{},targets:d.targetMode==='anchored_enemies'?battle.actors.filter(a=>a.team!==team&&isAlive(a)).map(a=>a.id):[],followUps:{}};
-  io.onActivate?.(battle,team,d);
+  io.onActivate?.(battle,team,d);io.sync?.(battle);
   const source=makeSource(battle,team,d,moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)));
   io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kích hoạt trong 3 vòng.');
   io.emit(battle,{type:'moonlight_enter',sourceId:source.id,team,blessingId:d.id,label:d.name,stat:d.stat,statValue:source.stats[d.stat],targetIds:state.active.targets});
@@ -80,7 +81,7 @@ export function moonlightDamageEffect(battle,source,effect,context){
  return {...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])].filter(e=>e!==effect.element)};
 }
 // All blessing attacks share their guardian reaction path. Only natural pulses own clock slots.
-function performMoonlightAttack(battle,team,phase,io,multiplier){
+function performMoonlightAttack(battle,team,phase,io,multiplier,commander){
  const state=battle.moonlight?.[team],active=state?.active,d=moonlightDefinition(battle,team);
  if(!active||!d||state.attackInProgress||battle.outcome||battle.round>active.expiresAfterRound)return false;
  if(!battle.actors.some(a=>a.team===team&&isAlive(a))||!battle.actors.some(a=>a.team!==team&&isAlive(a)))return false;
@@ -89,7 +90,7 @@ function performMoonlightAttack(battle,team,phase,io,multiplier){
  const amount=moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)),source=makeSource(battle,team,d,amount);
  state.attackInProgress=true;
  try{
-  if(io.pulse(battle,source,d,targets,amount,phase,multiplier)===false)return false;
+  if(io.pulse(battle,source,d,targets,amount,phase,multiplier,commander)===false)return false;
   if(io.outcome(battle))return true;
   for(const owner of battle.actors){
    const p=owner.passive;if(owner.team!==team||!isAlive(owner)||p?.type!=='moonlight_guardian'||p.blessingId!==d.id)continue;
@@ -121,13 +122,13 @@ export function commandMoonlight(battle,actor,blessingId,io,request){
  if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['multiplier','primaryMultiplier','primaryTargetId','rankDamageFactor','targetMode','hits'].includes(k))||['multiplier','primaryMultiplier'].some(k=>options[k]!==undefined&&(!Number.isFinite(options[k])||options[k]<=0||options[k]>10))||options.rankDamageFactor!==undefined&&(!Number.isFinite(options.rankDamageFactor)||options.rankDamageFactor<1||options.rankDamageFactor>maxRankFactor)||options.primaryTargetId!==undefined&&typeof options.primaryTargetId!=='string'||options.targetMode!==undefined&&(options.targetMode!=='selected'||typeof options.primaryTargetId!=='string')||options.hits!==undefined&&(!Number.isInteger(options.hits)||options.hits<1||options.hits>6)))return false;
  if(!canCommandMoonlight(battle,actor,blessingId))return false;
  if(options?.targetMode==='selected'&&moonlightDefinition(battle,actor.team)?.targetMode!=='anchored_enemies')return false;
- return performMoonlightAttack(battle,actor.team,'command',io,options);
+ return performMoonlightAttack(battle,actor.team,'command',io,options,actor);
 }
 
 export function expireMoonlight(battle,io){
  for(const [team,state]of Object.entries(battle.moonlight??{}))if(state.active&&battle.round>=state.active.expiresAfterRound){
   const d=moonlightDefinition(battle,team);state.active=null;state.slots=[];state.revision++;
   io.emit(battle,{type:'moonlight_exit',sourceId:moonlightSourceId(team),team,blessingId:d.id,label:d.name});
-  io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kết thúc.');
+  io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kết thúc.');io.sync?.(battle);
  }
 }

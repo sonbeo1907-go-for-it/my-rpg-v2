@@ -1815,5 +1815,21 @@
       "bianca.opening": 14,
       "bianca.harvest": 24
     }
+  },
+  {
+    "id": "luna",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "luna.song",
+      "luna.promise"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "luna.song": 28,
+      "luna.promise": 18,
+      "luna.lament": 16
+    }
   }
 ]

@@ -210,3 +210,10 @@ command_moonlight có rankScaling:true tùy chọn trong data. Resolver của ng
 ## Hiệu lệnh hạt giống theo mục tiêu — 21/11/2026
 
 Bianca #121 là provider Quang–Thổ thứ hai. `moonlight_activation_resource` cấp tài nguyên cá nhân khi activation thực sự hoàn tất. `command_moonlight` có thể khai `targetMode:selected` (chỉ anchored blessing) và `spendResource:{id,max}`; số tầng trả thành số hit cùng một Liên Kích. Chỉ chọn địch còn sống có anchor của chính phe, không fallback sang địch khác. Pulse tự động vẫn đánh mọi anchor hợp lệ và giữ clock cũ. Runtime tách factor Rank, số hit, targetMode và MAG/ATK của nguồn; không mutate pulse definition. Xem [BIANCA](BIANCA.md).
+
+
+## Luna / quyền toàn tổ hợp — 21/11/2026
+
+Luna #122 dùng native moonlight_hymn/allBlessings: moonlightAccess trả mọi định nghĩa đã đăng ký, không thêm tổ hợp chưa triển khai. Hiện Luna tự cấp quyền Thủy–Lôi/Quang–Thổ, vẫn phải nạp sát thương thật theo hai ô. Shashthi nhận diện Luna là provider để nhân đôi buff. Native10% Nguyệt ảnh hưởng cả nguồn Chúc Phúc; trường và gear của Luna theo phe, không thay định nghĩa pulse hoặc ưu tiên ghép. Xem [LUNA](LUNA.md).
+
+Song Nguyệt Đồng Tâm (21/11/2026): đợt `command_moonlight` giữ nguồn độc lập nhưng nhận 25% khuếch đại Nguyệt từ gear của người ra lệnh, đúng một lần. Context theo cast, không ảnh hưởng pulse tự động/Noelle/hiệu lệnh khác; xem LUNA.md.

@@ -60,3 +60,6 @@ Nhân vật #1–#31 được mở ba mức sau Rank 5, yêu cầu Lv50. Đây l
 
 ## Blessing command opt-in ? 21/11/2026
 command_moonlight effects with rankScaling:true are eligible damage growth. Resolve Rank on the issuing character once, then pass rankDamageFactor to the independent blessing damage source. Do not rescale its ATK or re-resolve the rank against the fifth unit. Applies to both Flynn resource variants and primary/all-other coefficients. Authored coefficients retain the 10? validation bound; runtime factor is validated separately against the common Rank cap. Non-opt-in commands and automatic pulses retain their fixed coefficients.
+
+
+Mode Luna dùng rankedModePulse + rankFromAbility: entry không gây damage vẫn có growthProfile damage hợp lệ vì đòn cuối vòng tham chiếu ngược kỹ năng mode. Resolver đặt factor cho preview; pulse tự tính cùng factor từ Rank chủ nhân, không tăng hai lần hoặc tăng field/ward/duration. Xem LUNA.md.

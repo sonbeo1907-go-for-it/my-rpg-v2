@@ -3019,3 +3019,8 @@ h1[tabindex='-1']:focus { outline: none; }
 .combatant[data-boss-art]>small,.combatant[data-boss-art] .weakness,.combatant[data-boss-art] .combat-bars label{font-size:.75rem}
 
 .yokai-colossus>:not(.target-hitbox):not(.status-list){pointer-events:none}.battle-page .yokai-colossus .status-list{z-index:3;pointer-events:auto}.combatant[data-boss-art] .status-badge{font-size:.75rem}
+
+/* Luna: reference-led moon garden, preserving readable JRPG controls. */
+.mode-scene-moon_song{background-position:center 45%;background-size:cover}.mode-scene-moon_song .summon-eye-halo{inset:8% 20% 20%;background:radial-gradient(ellipse,#79c8ff19,transparent 65%);animation:cosmic-breathe 5s ease-in-out infinite alternate}
+.battle-page[data-combat-mode=moon_song] .battlefield{background:#08172adc;border-color:#82b6d180}.battle-page[data-combat-mode=moon_song] .combatant{background:#091b2bef}.battle-page[data-combat-mode=moon_song] .command-panel{background:#0b1c2aef}.summon-state-moon_song{color:#e1f5ff;background:#10243af0;border-color:#96d2e7}.mode-scene-moon_song:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#06111d88,transparent 55%,#09182e66)}
+@media(prefers-reduced-motion:reduce){.mode-scene-moon_song,.mode-scene-moon_song .summon-eye-halo{animation:none}}

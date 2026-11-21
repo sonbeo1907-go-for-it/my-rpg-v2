@@ -667,5 +667,41 @@
       "status": "gear_healing_guard"
     },
     "oncePerTeamRound": true
+  },
+  {
+    "id": "moonlit_duet",
+    "name": "Song Nguyệt Đồng Tâm",
+    "description": "ATK/MAG +15%; khi có Chúc Phúc cùng phe, tăng thành +30%. Khuếch đại 25% sát thương Nguyệt của người mặc và đòn Chúc Phúc Liên kích do người mặc ra lệnh. Không cộng dồn gear cùng tên.",
+    "costClass": "common",
+    "effectGroup": "gear_moonlit_duet",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "moonlit_offense",
+      "modifiers": {
+        "attack": 0.15,
+        "magic": 0.15
+      },
+      "moonDamageBonus": 0.25
+    }
+  },
+  {
+    "id": "moonlit_covenant",
+    "name": "Nguyệt Ước Chung Lòng",
+    "description": "HP +25%. Khi có Chúc Phúc cùng phe, toàn đội nhận +8 ATK/MAG căn bản. Hào quang không cộng dồn giữa nhiều người mang.",
+    "costClass": "common",
+    "effectGroup": "gear_moonlit_covenant",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "moonlit_vitality",
+      "modifiers": {
+        "maxHp": 0.25
+      },
+      "teamBaseBonuses": {
+        "attack": 8,
+        "magic": 8
+      }
+    }
   }
 ]

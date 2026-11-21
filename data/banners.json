@@ -116,7 +116,8 @@
       "aisha",
       "shashthi",
       "flynn",
-      "bianca"
+      "bianca",
+      "luna"
     ],
     "gearRates": [
       {
@@ -376,6 +377,10 @@
         },
         {
           "id": "bianca",
+          "from": "2026-11-21"
+        },
+        {
+          "id": "luna",
           "from": "2026-11-21"
         }
       ]

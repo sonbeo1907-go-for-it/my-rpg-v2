@@ -243,5 +243,13 @@
       "/bgm/tournament_emergent.mp3"
     ],
     "loop": true
+  },
+  {
+    "id": "song_of_the_moon",
+    "name": "Luna · Khúc Hát Của Trăng Tự Do",
+    "tracks": [
+      "/bgm/song_of_the_moon.mp3"
+    ],
+    "loop": true
   }
 ]

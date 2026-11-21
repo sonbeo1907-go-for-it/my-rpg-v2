@@ -1,3 +1,4 @@
+import {lunarBaseDamageMultiplier,lunarOutgoingAmp,lunarIncomingMultiplier,moonlightEmpoweredBuff,moonlightAspectAbility,lunarRoundStart,lunarRoundEnd} from './lunar-support.js';
 import {moonlightActivated,moonlightPotencyMultiplier,providerBuff} from './moonlight-synergy.js';
 import {revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
 import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
@@ -93,12 +94,12 @@ import {lifeDebt,payLifeDebt,clearLifeDebt,preferredLifeDebtCost,externalHealing
 import { checkCombatMode, enterCombatMode, leaveCombatMode, modeAvailability, spendModeTurn } from "./combat-modes.js";
 import { copyTurnOrderField, orderActorIds, expireTurnOrderField, applyTurnOrderField, skillBaseStatBonuses } from "./turn-order.js";
 import { mpCost, hpCost, resourceCost, debuffTypeCount, debuffDamageBonus, buffTypeCount, buffDamageBonus, lowHpDamageBonus, targetsAsGroup } from "./conditional-combat.js";
-const modeIO = { announce:announcePassive, write, emit: emitEvent, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
+const modeIO = { announce:announcePassive, write, emit:(b,e)=>{emitEvent(b,e);if(['mode_enter','mode_exit'].includes(e.type))syncTeamStatAuras(b);}, restore: gainResource, outcome:checkOutcome, pulse:companionPulse,
   apply:(battle,actor,effects)=>{for(const effect of effects) applyEffect(battle,actor,[actor],effect,0,false);}
 };
 const specialIO={restore:gainResource,heal:healHp,status:applyStatus,stat,emit:emitEvent,write,shield:(b,t,flat,sourceId)=>applyEffect(b,getActor(b,sourceId)??t,[t],{type:'shield',flat},0,false)};
 const teamIO={emit:emitEvent,write,status:applyStatus,announce:announcePassive,restore:gainResource,checkModes:(b,team)=>{for(const a of b.actors.filter(a=>a.team===team))checkCombatMode(b,a,'team_resource_changed',modeIO);}};
-const moonlightIO={onActivate:(b,team,d)=>moonlightActivated(b,team,d,modeIO),stat,emit:emitEvent,write,outcome:checkOutcome,pulse:moonlightPulse,followUp:moonlightFollowUp};
+const moonlightIO={sync:syncTeamStatAuras,onActivate:(b,team,d)=>moonlightActivated(b,team,d,modeIO),stat,emit:emitEvent,write,outcome:checkOutcome,pulse:moonlightPulse,followUp:moonlightFollowUp};
 const gearIO={status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write,shield:(battle,actor,flat)=>applyEffect(battle,actor,[actor],{type:'shield',flat},0,false)};
 const living = isAlive;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -379,6 +380,7 @@ function attackContext(battle, actor) {
 }
 
 function finishAttackContext(battle, actor, context) {
+  syncTeamStatAuras(battle);
   if(context.lifeStealHp>0&&living(actor))healHp(battle,actor,context.lifeStealHp,actor.id,'Hút máu');
   settleDamageBuffs(battle,actor,context,{emit:emitEvent,write});
   finishExposures(battle, context, (target, statusId, remaining) => {
@@ -552,12 +554,12 @@ export function moonlightSnapshot(battle){
  for(const [team,state]of Object.entries(view))if(state.active)state.active.statValue=moonlightStat(battle,team,(a,key)=>stat(battle,a,key));
  return view;
 }
-function moonlightPulse(battle,source,definition,targets,amount,phase,request){
+function moonlightPulse(battle,source,definition,targets,amount,phase,request,commander){
  const options=typeof request==='number'?{multiplier:request}:request??{},base=battle.content.abilities[definition.abilityId];
  const skill={...base,...(options.targetMode==='selected'?{target:'enemy'}:{}),effects:[{...base.effects[0],...(options.hits!==undefined?{hits:options.hits}:{}),...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{}),...(options.rankDamageFactor!==undefined?{rankDamageFactor:options.rankDamageFactor}:{})}]};
  const primary=targets.find(t=>t.id===options.primaryTargetId)??targets[0],potency=moonlightPotencyMultiplier(battle,source.team,definition.id);
  skill.effects[0].multiplier*=potency;if(skill.effects[0].primaryMultiplier!==undefined)skill.effects[0].primaryMultiplier*=potency;
- const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:primary.id};
+ const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:primary.id,...(phase==='command'&&commander?{moonlightCommanderId:commander.id}:{})};
  emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:primary.id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:options.targetMode!=='selected',automaticCast:true,moonlight:true,team:source.team});
  write(battle,source.name+' tấn công · '+(phase==='command'?'theo hiệu lệnh':phase==='start'?'đầu vòng':'cuối vòng')+'.');
  for(let i=0;i<(options.hits??1);i++)for(const target of targets){if(!living(target)||battle.outcome)continue;hit(battle,source,target,primaryDamageEffect({...skill.effects[0],gearPower:amount},target.id===primary.id),i,{area:options.targetMode!=='selected',reaction:true,actionContext:ctx});}
@@ -601,7 +603,7 @@ function startRound(battle) {
   }
   activateRoundGear(battle,{status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write});
   roundSummons(battle,"start",modeIO);
-  moonlightRoundStart(battle,modeIO);
+  moonlightRoundStart(battle,modeIO);lunarRoundStart(battle,modeIO);
   for(const owner of battle.actors){const p=owner.passive;if(!living(owner)||p?.type!=='round_team_resource'||!procAvailable(battle,owner,p.type))continue;
     markProc(battle,owner,p.type);const members=battle.actors.filter(a=>a.team===owner.team&&a.tags?.includes(p.memberTag)).length;
     announcePassive(battle,owner,owner.id);changeTeamResource(battle,owner,p.resource,members>=p.memberThreshold?p.enhancedAmount:p.amount,teamIO);
@@ -719,10 +721,11 @@ function beginActorTurn(battle,actor,delegating=false) {
   for (const status of [...actor.statuses]) {
     const definition = battle.content.statuses[status.id];
     if (!definition.damageOverTime) continue;
-    const requested=Math.floor(status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
+    const periodicSource=getActor(battle,status.sourceId),periodicEffect=moonlightDamageEffect(battle,periodicSource,{element:definition.damageOverTime.element});
+    const lunarPeriodic=lunarBaseDamageMultiplier(battle,periodicSource,periodicEffect)*lunarOutgoingAmp(battle,periodicSource,periodicEffect)*lunarIncomingMultiplier(battle,actor,periodicEffect);
+    const requested=Math.floor(lunarPeriodic*status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
     const periodicCap=applyPvpDamageCap(battle,getActor(battle,status.sourceId),actor,requested,battle.pvpRules?pvpPeriodicContext(battle,getActor(battle,status.sourceId),actor):{},false,modeIO);
     const life=applyLifeDamage(battle,actor,periodicCap.amount>0?periodicCap.amount:status.potency>0&&isInAgony(actor)?1:0,{element:definition.damageOverTime.element,healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
-    const periodicEffect=moonlightDamageEffect(battle,getActor(battle,status.sourceId),{element:definition.damageOverTime.element});
     const amount=life.hpLost+life.maxHpLost;
     maybeEnterContingency(battle,actor,life.hpLost);
     recordMoonlightDamage(battle,getActor(battle,status.sourceId),actor,periodicEffect,amount,moonlightIO);
@@ -1006,7 +1009,7 @@ function finishMainRound(battle) {
   roundSummons(battle,"end",modeIO);
   if (checkOutcome(battle)) return;
   expireRoundSummons(battle,modeIO);
-  for (const actor of battle.actors) checkCombatMode(battle,actor,"round_end",modeIO);
+  for (const actor of battle.actors) if(!actor.combatModes?.[actor.activeMode]?.moonlightField)checkCombatMode(battle,actor,"round_end",modeIO);
   for (const source of battle.actors.filter(living)) {
     const passive = source.passive;
     for(const exclusive of exclusivePassives(source).filter(p=>p.type==='end_round_shielded_mp')){
@@ -1065,6 +1068,8 @@ function finishMainRound(battle) {
   pulseMoonlight(battle,"end",moonlightIO);
   if(checkOutcome(battle))return;
   moonlightRoundEnd(battle,{...modeIO,maxMp:battleMaxMp});
+  lunarRoundEnd(battle,modeIO);if(checkOutcome(battle))return;
+  for(const actor of battle.actors)if(actor.combatModes?.[actor.activeMode]?.moonlightField)checkCombatMode(battle,actor,'round_end',modeIO);
   expireMoonlight(battle,moonlightIO);
   settleMoonlight(battle,moonlightIO);
   emitEvent(battle, { type: "round_end", round: battle.round });
@@ -1493,7 +1498,8 @@ function triggerSupportSkillCounters(battle,caster,skill,context) {
 }
 
 function companionPulse(battle,owner,abilityId,name,phase) {
-  const skill=moonlightPulseRank(battle.content,owner,battle.content.abilities[abilityId]),targets=targetsFor(battle,owner,skill);
+  const source=moonlightAspectAbility(battle,owner,battle.content.abilities[abilityId]);if(!source)return;
+ const skill=moonlightPulseRank(battle.content,owner,source),targets=targetsFor(battle,owner,skill);
   if (!targets.length||!reservePvpAutomatic(battle,owner,modeIO)) return;
   write(battle,name+" "+FOLLOW_UP_LABEL+" "+(phase==="start"?"đầu":"cuối")+" vòng: "+skill.name+".");
   emitEvent(battle,{type:"reaction",kind:"follow_up",label:name+" · "+FOLLOW_UP_LABEL,sourceId:owner.id,targetId:targets[0].id,targetIds:targets.map(target=>target.id),abilityId,area:true,automaticCast:true});
@@ -1694,24 +1700,25 @@ function resolveHit(
   // Hit growth is a base-damage stage, separate from strongest-only skill amplification.
   const hitGrowthMultiplier = actionContext.hitGrowthMultiplier ?? 1;
   const flatSkillBonus=flatMagicSkillHitBonus(battle,attacker,effect,actionContext);
-  const stageMultiplier=performanceDamageMultiplier(battle,attacker,effect,actionContext);
+  const lunarMultiplier=lunarBaseDamageMultiplier(battle,attacker,effect);
+  const stageMultiplier=performanceDamageMultiplier(battle,attacker,effect,actionContext)*lunarOutgoingAmp(battle,attacker,effect,actionContext);
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRawBase=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+flatSkillBonus+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+    Math.max(0,power*multiplier+flatSkillBonus+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*lunarMultiplier*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
   const counterRaw=counterRawBase*stageMultiplier*encounterOffenseMultiplier(battle,attacker,target,actionContext);
   let amount = Math.max(
     1,
     Math.floor(
       Math.max(
         1,
-        power * multiplier + flatSkillBonus +
+        (power * multiplier + flatSkillBonus +
           speedDamageBonus(
             attacker,
             effect.damageType,
             stat(battle, attacker, "speed", actionContext.automatic),
             effect.speedMultiplier ?? 0,
-          ) -
+          )) * lunarMultiplier -
           defense * 0.55,
       ) * hitGrowthMultiplier * stageMultiplier *
         elementalResistance(target,effect) *
@@ -1726,7 +1733,7 @@ function resolveHit(
         (attacker.passive?.type === "hp_difference_damage" ? 1 + Math.min(attacker.passive.cap, Math.abs(attacker.hp / attacker.stats.maxHp - target.hp / target.stats.maxHp)) : 1) *
         (1 - coverGuard) *
 
-        incomingDamageMultiplier(modifier(battle, target, "damageTakenBonus")) *
+        incomingDamageMultiplier(modifier(battle, target, "damageTakenBonus")) * lunarIncomingMultiplier(battle,target,effect) *
         (1 - clamp(reduction, 0, 0.75)),
     ),
   );
@@ -2028,6 +2035,7 @@ function applyEffect(
   area,
   actionContext = attackContext(battle, actor),
 ) {
+  effect=moonlightEmpoweredBuff(battle,actor,effect);
   if(effect.type==='performance_stage'){applyPerformanceStage(battle,actor,effect,{order:orderActorIds,write,emit:emitEvent});return;}
   if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
   if(effect.type==='command_moonlight'){
