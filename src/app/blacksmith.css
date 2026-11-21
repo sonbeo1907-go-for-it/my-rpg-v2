@@ -114,3 +114,77 @@
 .t4-recipe.is-locked .t4-recipe-footer>span:first-child{color:#cdbb9d;}
 .t4-recipe>.prisma-sparkles{z-index:0;}
 @media(max-width:640px){.blacksmith-page .t4-recipe.panel{padding:1rem;min-height:240px}.t4-recipe>.t4-recipe-heading{gap:1rem}.t4-recipe-copy>strong{font-size:1rem}}
+
+/* Forge workbench: the roll's chance and payment share one ledger; no extra decorative panels.
+   In a 900px dialog: 2 equal columns + 24px gap = the inner width. Phone stacks both. */
+.forge-subtabs { display:flex; gap:1.25rem; border-bottom:1px solid var(--line); margin:0 0 1.25rem; }
+.forge-subtabs button { border:0; border-bottom:2px solid transparent; border-radius:0; background:transparent; padding:.75rem .15rem; color:var(--muted); font-size:.9rem; }
+.forge-subtabs button[aria-pressed=true] { border-bottom-color:#edc88b; color:#ffe3af; }
+.forge-list-heading { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.6rem 1rem; margin-bottom:1rem; }
+.forge-list-heading h2 { margin:0; font-size:1.6rem; }
+.forge-list-heading>span,.reforge-material-heading>span { color:var(--muted); font-size:.8rem; }
+.forge-filter-disclosure { margin-bottom:1rem; }
+.forge-filter-disclosure>summary { cursor:pointer; color:#e8cca2; font-size:.85rem; padding:.5rem 0; }
+.forge-quick-pick { display:flex; align-items:end; flex-wrap:wrap; gap:.65rem; }
+.forge-quick-pick label { display:grid; gap:.4rem; font-size:.8rem; }
+.forge-quick-pick input { width:7rem; min-height:42px; font-variant-numeric:tabular-nums; }
+.forge-quick-pick button { min-height:42px; font-size:.8rem; padding:.65rem .8rem; }
+.forge-bulk-controls { padding:1rem!important; margin-bottom:1rem; }
+.forge-bulk-controls .forge-note { margin-bottom:0; }
+.forge-inline-result { padding:.8rem 0; border-bottom:1px solid var(--line); color:#f1d8a6; }
+.forge-selection .forge-note { margin:.7rem 0 0; }
+.forge-batch-breakdown { margin:1.2rem 0; font-size:.9rem; }
+.forge-batch-breakdown>div { display:flex; justify-content:space-between; gap:1rem; padding:.6rem 0; border-bottom:1px solid var(--line); }
+.forge-batch-breakdown dd { margin:0; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.reforge-workbench { width:min(900px,94vw); }
+.reforge-current { display:grid; grid-template-columns:1fr auto; gap:.6rem 1rem; padding:0 0 1.2rem; border-bottom:1px solid var(--line); margin-bottom:.75rem; font-size:.9rem; }
+.reforge-current>span { color:var(--muted); }
+.reforge-current>strong { text-align:right; font-variant-numeric:tabular-nums; }
+.advanced-reforge-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1.5rem; align-items:start; }
+.reforge-inputs>label { display:grid; gap:.5rem; font-size:.85rem; }
+.reforge-material-heading { display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem 1rem; margin:1.2rem 0 .7rem; }
+.reforge-material-summary { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:space-between; align-items:center; font-size:.8rem; }
+.reforge-material-summary button { padding:.5rem .7rem; font-size:.75rem; }
+.reforge-odds { padding:1rem; background:#1d2220; border:1px solid #8f80634d; }
+.reforge-odds>span { color:#d6cab8; font-size:.9rem; }
+.reforge-odds>strong { display:block; font-size:2.5rem; color:#f6d49a; font-weight:600; font-variant-numeric:tabular-nums; margin:.4rem 0 .8rem; }
+.reforge-chance-track { height:8px; background:#3c403b; overflow:hidden; }
+.reforge-chance-track>span { display:block; height:100%; background:#dbb575; }
+.reforge-chance-scale { display:flex; justify-content:space-between; gap:.5rem; margin:.6rem 0; font-size:.75rem; color:#c8c0b4; }
+.reforge-odds p { margin:.8rem 0 0; font-size:.8rem; line-height:1.8; color:#d6cab8; }
+.reforge-payment { border-top:1px solid var(--line); margin-top:1.3rem; padding-top:1rem; font-size:.85rem; }
+.reforge-payment>div { display:flex; gap:.65rem 1.2rem; align-items:center; flex-wrap:wrap; margin-top:.7rem; font-variant-numeric:tabular-nums; }
+.reforge-material-picker { width:min(1000px,94vw); }
+.dismantle-confirm details ul { max-height:260px; overflow:auto; padding-right:.5rem; font-size:.85rem; }
+@media(max-width:700px){
+ .advanced-reforge-layout { grid-template-columns:1fr; gap:1rem; }
+ .reforge-odds { order:-1; }
+ .reforge-odds>strong { font-size:2rem; }
+ .forge-subtabs { gap:1rem; }
+ .forge-subtabs button { font-size:.8rem; }
+ .forge-quick-pick label { width:100%; }
+ .forge-quick-pick input { width:100%; }
+ .forge-quick-pick button { flex:1; }
+ .forge-list-heading h2 { font-size:1.35rem; }
+ .forge-selection { position:static; }
+ .forge-selection .forge-actions>button { flex:1; min-height:44px; font-size:.8rem; }
+}
+
+.reforge-workbench>footer { flex-wrap:wrap; align-items:center; }
+.reforge-workbench>footer .reforge-payment { flex:1; border:0; margin:0; padding:0; min-width:220px; }
+.reforge-workbench>footer .reforge-payment>div { margin-top:.35rem; gap:.4rem .8rem; }
+@media(min-width:1000px){.blacksmith-page .forge-filter-disclosure .filter-bar { grid-template-columns:repeat(4,minmax(0,1fr)); }}
+@media(max-width:900px){
+ .blacksmith-page .shop-layout>.shop-keeper { height:auto; min-height:0; padding:.6rem .7rem; background:#25231de0; display:flex; flex-direction:row; flex-wrap:wrap; gap:.5rem; align-items:center; }
+ .blacksmith-page .shop-keeper .witch-dialogue,.blacksmith-page .shop-keeper .keeper-shift { display:none; }
+ .blacksmith-page .shop-keeper .tobin-interact { min-height:44px; flex:1; padding:0; }
+ .blacksmith-page .shop-keeper .tobin-forge-progress { width:auto; flex:1; min-width:140px; font-size:.7rem; border:0; background:none; padding:.25rem; }
+ .blacksmith-page .shop-keeper .tobin-invite { font-size:.8rem; padding:.6rem; }
+}
+@media(max-width:700px){
+ .reforge-workbench>footer .reforge-payment { flex-basis:100%; }
+ .reforge-workbench>footer>button { flex:1; }
+ .blacksmith-page .forge-wallet { margin-bottom:0; padding:.7rem!important; gap:.7rem; }
+ .blacksmith-page .shop-layout { gap:.85rem; }
+ .forge-filter-disclosure { margin-bottom:.65rem; }
+}

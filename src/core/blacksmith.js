@@ -17,10 +17,11 @@ export function rollExclusiveStat(content,random=Math.random) {
 }
 export function dismantleQuote(campaign,content,ids) {
   const rules=blacksmithRules(content);
-  if(!Array.isArray(ids)||ids.length<1||ids.length>rules.maxDismantle||new Set(ids).size!==ids.length)throw new Error('Chọn từ 1 đến 99 trang bị khác nhau.');
+  if(!Array.isArray(ids)||ids.length<1||ids.length>rules.maxDismantle||new Set(ids).size!==ids.length)throw new Error(`Chọn từ 1 đến ${rules.maxDismantle} trang bị khác nhau.`);
+  const byId=new Map(campaign.gear.map(g=>[g.id,g])),equipped=new Set(Object.values(campaign.equipment??{}).flat());
   const selected=ids.map(id=>{
-    const gear=campaign.gear.find(item=>item.id===id);
-    if(!gear||!validateGear(gear,content)||gearLocation(campaign,id)||campaign.pendingGearReforge?.gearId===id||!Object.hasOwn(rules.dismantleYield,gear.typeId))throw new Error('Có trang bị không tồn tại, đang được sử dụng hoặc không thể phân rã.');
+    const gear=byId.get(id);
+    if(!gear||!validateGear(gear,content)||equipped.has(id)||campaign.pendingGearReforge?.gearId===id||!Object.hasOwn(rules.dismantleYield,gear.typeId))throw new Error('Có trang bị không tồn tại, đang được sử dụng hoặc không thể phân rã.');
     return gear;
   });
   const yields=selected.reduce((sum,item)=>sum+gearDismantleYield(content,item),0);

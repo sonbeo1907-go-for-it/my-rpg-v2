@@ -19,7 +19,9 @@ export function validExclusiveStat(content, key, value) {
 export function validateBlacksmithContent(content) {
   const errors=[], rules=content.blacksmith?.default;
   if (!rules || !content.exclusiveGear || !content.items) return ['Missing blacksmith, exclusiveGear or items'];
-  if (!whole(rules.maxDismantle) || rules.maxDismantle < 1 || rules.maxDismantle > 99) errors.push('blacksmith: invalid dismantle limit');
+  if (!whole(rules.maxDismantle) || rules.maxDismantle < 1 || rules.maxDismantle > 999) errors.push('blacksmith: invalid dismantle limit');
+  const advanced=rules.advancedSecondaryReforge;
+  if(!advanced||!content.encounters[advanced.requiresFirstClear]||!Number.isSafeInteger(advanced.maxMaterials)||advanced.maxMaterials<1||advanced.maxMaterials>20)errors.push('blacksmith: invalid advanced secondary reforge');
   for(const id of ['t1','t2','t3_focused','t3_dual']) if(!whole(rules.dismantleYield?.[id]) || rules.dismantleYield[id]<1) errors.push(`blacksmith: invalid yield ${id}`);
   if(!rules.craftCost || Object.keys(rules.craftCost).length!==4 || FORGE_CURRENCIES.some(key=>!whole(rules.craftCost[key])||rules.craftCost[key]<1)) errors.push('blacksmith: invalid craft cost');
   if(rules.reforgeCurrency!=='recruitmentShards')errors.push('blacksmith: invalid reforge currency');

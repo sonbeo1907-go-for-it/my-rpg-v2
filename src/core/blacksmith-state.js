@@ -38,7 +38,12 @@ export function normalizeBlacksmithState(input, content, campaign) {
   }
   if(input.pendingGearReforge!=null){const p=input.pendingGearReforge,g=campaign.gear.find(g=>g.id===p?.gearId);
     if(!record(p)||state.pendingReforge||!g||g.typeId!=='t4_stats'||!validT4Gear(g,content)||!Number.isSafeInteger(p.id)||p.id<1||p.id>state.blacksmithRevision||g.primaryStat!==p.primaryStat||g.secondaryStat!==p.previousSecondaryStat||!GEAR_STAT_KEYS.includes(p.nextSecondaryStat))throw Error('Kết quả tái rèn dòng phụ không hợp lệ.');
-    state.pendingGearReforge={id:p.id,gearId:p.gearId,primaryStat:p.primaryStat,previousSecondaryStat:p.previousSecondaryStat,nextSecondaryStat:p.nextSecondaryStat};
+    let advanced;
+    if(p.advanced!==undefined){const a=p.advanced,rules=content.blacksmith.default.advancedSecondaryReforge;
+      if(!record(a)||!GEAR_STAT_KEYS.includes(a.targetStat)||!Number.isSafeInteger(a.materialCount)||a.materialCount<1||a.materialCount>rules.maxMaterials||!campaign.claimedFirstClearRewards.includes(rules.requiresFirstClear)||a.materialCount===rules.maxMaterials&&p.nextSecondaryStat!==a.targetStat)throw Error('Kết quả tái rèn nâng cao không hợp lệ.');
+      advanced={targetStat:a.targetStat,materialCount:a.materialCount};
+    }
+    state.pendingGearReforge={id:p.id,gearId:p.gearId,primaryStat:p.primaryStat,previousSecondaryStat:p.previousSecondaryStat,nextSecondaryStat:p.nextSecondaryStat,...(advanced?{advanced}:{})};
   }
   return state;
 }

@@ -2,7 +2,7 @@
 
 ## Bốn tab Thợ Rèn
 
-- Phân rã: chọn theo trang, xem tổng Vụn trước khi xác nhận; không hiện món đang được tái rèn dòng phụ.
+- Phân rã: chọn tối đa 999 món theo toàn bộ kết quả lọc hoặc chọn từng trang, xem tổng Vụn trước khi xác nhận; không hiện món đang được tái rèn dòng phụ.
 - Trấn Phái: cơ chế cũ; giá Vụn chế tạo tăng từ 120 lên **2.400**, giữ 10.000 Coin + 3 Pure Prisma + 1 Original Prisma. Trấn từ Quest vẫn là phần thưởng, không mất phí chế tạo.
 - Rèn Chỉ Số: chọn dòng chính và một Gear T3 chưa sử dụng. Tái rèn dòng phụ nằm trong tab này.
 - Rèn Hiệu Ứng: xem bùa phổ thông/đặc biệt và điều kiện mở công thức.
@@ -63,3 +63,27 @@ Thêm 18 công thức qua năm boss, tổng 22 hiệu ứng. Luật hook, nguồ
 
 ## QoL 06/11/2026
 Sau xác nhận chế tạo và lưu thành công, modal kết quả hiện đúng món vừa rèn (chỉ số chính/phụ hoặc hiệu ứng), có Tiếp tục rèn và Mở Túi đồ. Lưu lỗi không hiện thành công. Không tự trang bị. Tái rèn chỉ số có bộ lọc chỉ số tổng, trạng thái, sắp xếp và dòng chính/dòng phụ riêng; thay bộ lọc về trang 1, vẫn dùng LT/RT.
+
+## QoL sau Orochi — 21/11/2026
+
+Hạ Yamata no Orochi (first clear east_ke_08) mở **Tái rèn nâng cao** cho dòng phụ T4 chỉ số. Tài khoản đã hạ từ trước cũng được mở; không cần đánh lại hoặc sửa save. Không áp dụng cho Trấn Phái hoặc T4 hiệu ứng.
+
+Tại Rèn Chỉ Số có hai bảng Chế tạo Cấp 4 / Tái rèn trang bị. Chọn món cần tái rèn mở một workbench: xem dòng chính/phụ hiện tại, chọn Ngẫu nhiên hoặc Nâng cao, dòng phụ mong muốn và 1–20 T3 chưa trang bị. Chọn nhanh lấy các món cũ nhất; có thể chọn tay và giữ lựa chọn qua nhiều trang. Chi phí hiện cạnh nút xác nhận, kể cả trên điện thoại.
+
+Gọi n là số T3 thêm, xác suất đúng dòng đã chọn là **1/7 + (6/7) × n/20**: 1 món ≈18,6%; 10 món ≈57,1%; 20 món =100%. Tỷ lệ hiển thị làm tròn một chữ số, RNG dùng số chính xác. Nếu không trúng, chọn đều trong sáu dòng còn lại; không roll lại vào cả pool làm sai xác suất. Mỗi nguyên liệu bổ sung đều tăng cơ hội so với ngẫu nhiên thông thường.
+
+Vẫn tốn 450 Vụn và 2.500 Coin/lần. T3 tiêu khi tạo và lưu kết quả, không hoàn khi giữ dòng cũ, không cho Vụn phân rã, không tăng tiến độ chế tạo của Tobin. Có thể chọn dòng phụ trùng dòng chính hoặc dòng phụ cũ. Giữ nguyên giá trị +3 và hệ số HP/MP. Kết quả nâng cao lưu metadata targetStat/materialCount trong pendingGearReforge. Save cũ không có metadata vẫn hợp lệ; không tăng version campaign.
+
+Core kiểm tra quyền mở, 1–20 ID khác nhau, loại T3, đồ chưa sử dụng, số dư và pending chung trước khi giao dịch. Kho, lịch sử gacha, tiền và pending được persist cùng một campaign. UI chỉ hiện kết quả sau persist thành công, khóa nhấp lặp; retry lưu dùng lại RNG của lần xác nhận. Reload tiếp tục giữ cũ/nhận mới như trước.
+
+### Phân rã hàng loạt
+
+- Engine và UI cùng giới hạn **999 món/lần**. Chọn theo bộ lọc lấy trên cả kho theo thứ tự đang sắp xếp, không giới hạn 12 món đang render. Có nhập số lượng chọn nhanh và nút riêng cho cấp thấp/trung.
+- Chọn trang này vẫn cộng thêm vào lựa chọn; đổi trang/sắp xếp giữ lựa chọn. Đổi lọc cấp hoặc chỉ số bỏ lựa chọn để tránh xóa nhầm đồ đang ẩn.
+- Loại đồ đang mặc và món đang chờ tái rèn khỏi danh sách. Backend xác thực lại cả 999 món; một món không hợp lệ thì không phân rã món nào.
+- Xác nhận nêu tổng số, phân bố cấp, tổng Vụn, số dư sau giao dịch và mẫu tối đa 20 món để modal không render 999 hàng. Sau thành công có biên nhận ngay trong bảng, không thêm modal bắt buộc đóng.
+- Mobile thu gọn phần Tobin thành nút tương tác + tiến độ; nội dung tuyển mộ vẫn truy cập qua modal gốc. Bộ lọc có thể mở/đóng, mặc định gọn trên điện thoại. LT/RT vẫn đổi trang, các nút mới dùng đường điều hướng tay cầm chung.
+
+Nguồn: src/components/forge-reforge.tsx, forge-dismantle.tsx, gear-forge.tsx; core gear-forge/blacksmith/blacksmith-state và data/blacksmith.json. Kiểm thử mới: test/forge-qol.test.js, e2e/forge-qol.spec.ts; luồng cũ e2e/t4-forge.spec.ts.
+
+Nghi?m thu QoL: 38 ki?m th? core li?n quan v? 14 Playwright ??t, g?m pad RT/B trong modal l?ng nhau, save l?i r?i retry gi? c?ng roll, reload pending v? b?o v? ?? ?ang m?c khi ph?n r?999. Modal d?ng chung ch?n lan s? ki?n cancel ?? B/Escape ch? ??ng l?p tr?n c?ng. To?n b?1928 test JS:1927 ??t, m?t l?i c? s?n v? m? t? Shashthi qu?160 k? t?. Validate n?i dung/typecheck ??t.

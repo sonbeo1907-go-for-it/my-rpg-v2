@@ -8,7 +8,7 @@ Phạm vi triển khai theo đặc tả ngày 29/10/2026: Thợ Rèn, phân rã,
 - Khung chế tạo/tái rèn và bốn hộp thoại đã có. Mẫu nhiệm vụ dẫn tới quest khi chưa sở hữu; sau khi nhận có thể tái rèn như mẫu khác, không thể chế tạo thêm bản sao.
 - Mặc định thử nghiệm được hiện trong UI: chọn đều 7 loại chỉ số, rồi chọn đều một mức nguyên trong khoảng của loại đó; cho phép trùng stat cũ.
 - Chỉ chế tạo cho nhân vật đã sở hữu, không tự trang bị sau khi chế tạo; có thể tháo và thay mẫu trong ô riêng.
-- Đổi bộ lọc/sắp xếp ở Phân rã sẽ bỏ lựa chọn. Chọn tất cả chỉ chọn các món đang hiển thị, tối đa 99. Mọi lệnh, kể cả một món, đều có xác nhận.
+- Đổi lọc cấp/chỉ số ở Phân rã sẽ bỏ lựa chọn; đổi trang/sắp xếp vẫn giữ. Chọn nhanh theo bộ lọc áp dụng toàn bộ kho, tối đa 999; vẫn có chọn riêng từng trang. Mọi lệnh, kể cả một món, đều có xác nhận.
 
 ## Dữ liệu và giao dịch
 
@@ -40,8 +40,10 @@ Các adapter được khai báo/kiểm tra trong `exclusive-hooks.js`, xử lý 
 
 `MerchantScene` dùng chung cho Tiệm Prisma và Thợ Rèn, SVG thuần vector `/art/blacksmith.svg`, 60/40 desktop và xếp dọc trên cửa sổ nhỏ. Có 4 tab: Phân rã / Trấn Phái / Rèn Chỉ Số / Rèn Hiệu Ứng (xem T4_FORGE.md); Túi đồ có Trang bị/Vật phẩm. LB/RB đổi tab, không đổi nền khi hộp thoại mở. Ô Trấn Phái nằm riêng trên trang chi tiết/trang bị nhân vật, không tăng số ô thường.
 
-Đã kiểm tra core: di trú, giới hạn 99, sở hữu, chi phí, RNG, 2 mẫu cùng nhân vật, % cộng một lần, snapshot trận, pending sau khởi động lại và từ chối stat/save sai. Kiểm tra giao diện thật có Phân rã/hủy/lỗi lưu/thử lại/giới hạn chọn/Vật phẩm/điện thoại/tay cầm. Luồng UI chế tạo/tái rèn với mẫu thật cần kiểm tra lại khi nội tại và mẫu được bổ sung.
+Đã kiểm tra core: di trú, giới hạn 999, sở hữu, chi phí, RNG, 2 mẫu cùng nhân vật, % cộng một lần, snapshot trận, pending sau khởi động lại và từ chối stat/save sai. Kiểm tra giao diện thật có Phân rã/hủy/lỗi lưu/thử lại/giới hạn chọn/Vật phẩm/điện thoại/tay cầm. Luồng UI chế tạo/tái rèn với mẫu thật cần kiểm tra lại khi nội tại và mẫu được bổ sung.
 
 06/11/2026 — Tái rèn Trấn Phái tốn **10 Pure Prisma**, không còn tốn Original. Giữ kết quả pending cũ, không thu phí lại khi chọn giữ/nhận. Chế tạo Trấn Phái vẫn theo craftCost; rèn/tái rèn Gear IV dùng bảng giá riêng. Xem [SKILL_MASTERY](SKILL_MASTERY.md).
 
 Danh mục hiện tại có60 mẫu, gồm13 mẫu mới của [đợt mở rộng 06/11](EXCLUSIVE_BALANCE_2026_11_06.md) và hai mẫu Hồn Kiếm mới. Dùng cùng quy trình Shop mở công thức10 Bản Thiết Kế rồi chế tạo; không tự trang bị.
+
+QoL 21/11/2026: Tái rèn nâng cao sau Yamata no Orochi, feed 1–20 T3 để tăng xác suất đúng dòng phụ đến 100%. Bảng chi phí, cơ chế pending và phân rã toàn kho xem [T4_FORGE](T4_FORGE.md).

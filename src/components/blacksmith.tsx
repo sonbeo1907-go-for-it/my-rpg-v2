@@ -1,8 +1,7 @@
 "use client";
+import {DismantlePanel} from "./forge-dismantle";
 import {TobinRecruitment} from './tobin-recruitment';
 import {GearForgePanel,GearReforgePending} from './gear-forge';
-import {GearPagination,useGearPagination} from './gear-pagination';
-import {gearDismantleYield} from '../core/gear-rules.js';
 import { RulesDisclosure } from "./skill-details";
 
 import Link from "next/link";
@@ -13,7 +12,7 @@ import { MerchantScene } from './merchant-scene';
 import { CurrencyAmount, EquipmentIcon, EmptyState, GearCard, GearFilters, Icon, Modal, PageHeader, fmt } from './ui';
 import { gearCatalog, GEAR_NAMES, STAT_LABELS } from '../core/catalog.js';
 import { blacksmithRules, exclusiveRollRange, FORGE_STATS, exclusiveCraftUnlocked } from '../core/blacksmith-rules.js';
-import { beginReforge, craftExclusive, dismantleGear, dismantleQuote, equipExclusive, finishReforge, unequipExclusive } from '../core/blacksmith.js';
+import { beginReforge, craftExclusive, equipExclusive, finishReforge, unequipExclusive } from '../core/blacksmith.js';
 
 const lines=[
  'Đồ cũ chưa chắc đã vô dụng. Đưa đây, ta lấy lại phần Prisma còn tốt cho cháu.',
@@ -37,30 +36,6 @@ function RollRanges(){
 function CostTable({cost}:{cost:Record<string,number>}) {
  const {campaign,content}=useGame();
  return <table className="forge-cost"><thead><tr><th>Nguyên liệu</th><th>Cần</th><th>Đang có</th><th>Còn lại</th></tr></thead><tbody>{Object.entries(cost).map(([field,amount])=>{const item:any=Object.values(content.items).find((item:any)=>item.field===field),have=campaign[field];return <tr key={field} className={have<amount?'warning':''}><th>{item.name}</th><td>{fmt(amount)}</td><td>{fmt(have)}</td><td>{have<amount?`Thiếu ${fmt(amount-have)}`:fmt(have-amount)}</td></tr>;})}</tbody></table>;
-}
-function DismantlePanel({filters,onChange}:{filters:any;onChange:(filters:any)=>void}) {
- const {content,campaign,busy}=useGame(),save=useSmithTransaction();
- const [selected,setSelected]=useState<string[]>([]),[confirm,setConfirm]=useState<string[]|null>(null);
- const gear=gearCatalog(content,campaign,{...filters,status:'free'}).filter((g:any)=>g.id!==campaign.pendingGearReforge?.gearId),rules=blacksmithRules(content),pager=useGearPagination(gear,filters,onChange);
- useEffect(()=>setSelected([]),[filters.tier,filters.stat,filters.sort,filters.direction]);
- useEffect(()=>setSelected(ids=>ids.filter(id=>campaign.gear.some((item:any)=>item.id===id)&&!Object.values(campaign.equipment).some((slots:any)=>slots.includes(id)))),[campaign]);
- let quote:any=null,error='';try{if(confirm?.length)quote=dismantleQuote(campaign,content,confirm);}catch(failure){error=(failure as Error).message;}
- const fragments=selected.reduce((sum,id)=>sum+gearDismantleYield(content,campaign.gear.find((item:any)=>item.id===id)),0);
- return <>
-  <GearFilters filters={filters} onChange={f=>onChange({...f,page:"1"})} hideStatus/>
-  <div className="forge-selection panel"><div><strong>Đã chọn {selected.length}/{rules.maxDismantle}</strong><span>Nhận được <CurrencyAmount kind="fragments" amount={fragments}/></span></div><div className="forge-actions">
-   <button disabled={busy||!gear.length} onClick={()=>setSelected(ids=>[...new Set([...ids,...pager.items.map((item:any)=>item.id)])].slice(0,rules.maxDismantle))}>Chọn các món đang hiển thị</button>
-   <button disabled={busy||!selected.length} onClick={()=>setSelected([])}>Bỏ chọn</button>
-   <button className="gold" disabled={busy||!selected.length} onClick={()=>setConfirm([...selected])}>Phân rã ({selected.length})</button>
-  </div></div>
-  <p className="forge-note">Chỉ hiện trang bị chưa được sử dụng. Đổi bộ lọc hoặc sắp xếp sẽ bỏ lựa chọn hiện tại.</p>
-  <GearPagination pager={pager}/><div className="gear-grid forge-gear-grid">{pager.items.map((item:any)=><GearCard key={item.id} gear={item} selected={selected.includes(item.id)} disabled={busy||(!selected.includes(item.id)&&selected.length>=rules.maxDismantle)} onClick={()=>setSelected(ids=>ids.includes(item.id)?ids.filter(id=>id!==item.id):ids.length<rules.maxDismantle?[...ids,item.id]:ids)}><small className="forge-yield"><CurrencyAmount kind="fragments" amount={gearDismantleYield(content,item)}/></small></GearCard>)}</div>
-  {!gear.length&&<EmptyState>Không có trang bị chưa sử dụng phù hợp để phân rã.</EmptyState>}
-  {confirm&&<Modal title="Xác nhận phân rã trang bị" onClose={()=>!busy&&setConfirm(null)} footer={<><button disabled={busy} onClick={()=>setConfirm(null)}>Hủy</button><button className="danger" disabled={busy||!quote} onClick={()=>save(current=>dismantleGear(current,content,confirm),'Đã phân rã trang bị và nhận Vụn Prisma.',()=>{setConfirm(null);setSelected([]);})}>{busy?'Đang xử lý…':'Xác nhận phân rã'}</button></>}>
-   <p>Bạn sắp phân rã <strong>{confirm.length} trang bị</strong>. Thao tác này không thể hoàn tác.</p>
-   {quote?<><ul>{Object.entries(quote.groups).filter(([,n])=>Number(n)>0).map(([id,n])=><li key={id}>{(GEAR_NAMES as any)[id]}: {String(n)} món</li>)}</ul><p>Nhận được: <CurrencyAmount kind="fragments" amount={quote.fragments}/></p><p>Vụn Prisma: {fmt(campaign.prismaFragments)} → <strong>{fmt(quote.after)}</strong></p><details><summary>Xem các món sẽ phân rã</summary><ul>{confirm.map(id=>{const item=campaign.gear.find((item:any)=>item.id===id);return <li key={id}>{(GEAR_NAMES as any)[item.typeId]} · {Object.entries(item.stats).map(([key,n])=>stat(key,Number(n))).join(' · ')} · #{id.slice(5)}</li>;})}</ul></details></>:<p className="warning">{error}</p>}
-  </Modal>}
- </>;
 }
 function ExclusiveForge({filters,onChange}:{filters:any;onChange:(filters:any)=>void}) {
  const {campaign,content,busy}=useGame(),save=useSmithTransaction(),rules=blacksmithRules(content);

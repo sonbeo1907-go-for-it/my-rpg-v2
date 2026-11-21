@@ -1,5 +1,10 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## QoL Thợ Rèn — 21/11/2026
+
+Sau first clear east_ke_08 mở Tái rèn nâng cao cho dòng phụ T4 chỉ số: 1–20 T3 chưa sử dụng, tỷ lệ 1/7+(6/7)×n/20, bảo đảm ở20. Phí Coin/Vụn cũ, T3 tiêu khi chốt pending dù giữ dòng cũ. Metadata nâng cao tùy chọn, save v7/split giữ nguyên; không tăng tiến độ Tobin. Phân rã tối đa999, chọn toàn kết quả lọc thay vì chỉ12 món trên trang. Xem [T4_FORGE](T4_FORGE.md), test/forge-qol.test.js và e2e/forge-qol.spec.ts.
+
+
 ## Split save — thử nghiệm test-save, 21/11/2026
 
 Tauri tách lưu vật lý thành bảy miền, manifest atomic + SHA-256 và backup object độc lập; campaign/IPC vẫn v7. Migrate ở lần persist hợp lệ đầu, giữ nguyên JSON cũ. Snapshot giải đấu nặng tách riêng; giữ thứ tự khóa JSON lồng nhau và số thực để validator replay không từ chối save. Không tự fallback về mono sau khi có manifest; bản cũ sửa JSON gốc sẽ báo fork. Browser localStorage không đổi. Đọc [SPLIT_SAVE_STORAGE](SPLIT_SAVE_STORAGE.md) và [DESKTOP_SAVES](DESKTOP_SAVES.md) trước khi sửa native/backup. Test chỉ dùng tempdir/bản sao, không migrate save thật khi build.

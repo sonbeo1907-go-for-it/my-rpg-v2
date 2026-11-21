@@ -44,7 +44,7 @@ test('dismantle rechecks any owner, rejects missing/duplicate/exclusive IDs and 
  for(const ids of [[],['gear_1','gear_1'],['gear_1','missing'],['gear_1','gear_2'],['test-arthur']])assert.throws(()=>dismantleGear(original,c,ids));
  assert.equal(original.gear.length,4);assert.equal(original.prismaFragments,10000);
  const many=funded();many.gear=Array.from({length:100},(_,i)=>({id:`gear_${i+1}`,typeId:'t1',stats:{attack:1}}));many.gacha.totalPulls=100;
- assert.throws(()=>dismantleGear(many,content,many.gear.map(x=>x.id)));
+ assert.equal(dismantleGear(many,content,many.gear.map(x=>x.id)).gear.length,0);
  assert.equal(dismantleGear(many,content,many.gear.slice(0,99).map(x=>x.id)).gear.length,1);
  many.prismaFragments=Number.MAX_SAFE_INTEGER;assert.throws(()=>dismantleGear(many,content,['gear_1']));
 });
@@ -109,5 +109,5 @@ test('v5 validates every new field, ownership, unique templates, cross-character
  assert.deepEqual(decodeGameSave(encodeGameSave(createGameSave(content),content),content).exclusiveGear,[]);
 });
 test('content rejects unsafe costs, unknown resources and unsupported passive adapters before enabling templates',()=>{
- for(const corrupt of [x=>x.blacksmith.default.maxDismantle=100,x=>x.blacksmith.default.craftCost.coins=-1,x=>x.blacksmith.default.rollMaxPoints=3,x=>x.exclusiveGear['test-arthur'].passive.type='unimplemented',x=>x.exclusiveGear['test-arthur'].passive.modifiers={unknown:1},x=>x.items.coin.field='password']){const c=source();corrupt(c);assert.ok(validateContent(c).length);}
+ for(const corrupt of [x=>x.blacksmith.default.maxDismantle=1000,x=>x.blacksmith.default.craftCost.coins=-1,x=>x.blacksmith.default.rollMaxPoints=3,x=>x.exclusiveGear['test-arthur'].passive.type='unimplemented',x=>x.exclusiveGear['test-arthur'].passive.modifiers={unknown:1},x=>x.items.coin.field='password']){const c=source();corrupt(c);assert.ok(validateContent(c).length);}
 });

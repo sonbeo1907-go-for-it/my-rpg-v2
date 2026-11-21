@@ -1,7 +1,7 @@
 [
   {
     "id": "default",
-    "maxDismantle": 99,
+    "maxDismantle": 999,
     "dismantleYield": {
       "t1": 5,
       "t2": 15,
@@ -40,6 +40,10 @@
       "prismaFragments": 450,
       "coins": 2500
     },
-    "reforgeCurrency": "recruitmentShards"
+    "reforgeCurrency": "recruitmentShards",
+    "advancedSecondaryReforge": {
+      "requiresFirstClear": "east_ke_08",
+      "maxMaterials": 20
+    }
   }
 ]
