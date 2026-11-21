@@ -1,3 +1,4 @@
+import {coefficientFactor,skillRules} from './skill-rules.js';
 import {moonlightOffenseMultiplier} from './moonlight-synergy.js';
 import {revelationActive} from './moonlight-revelation.js';
 import {isAlive} from './actor-life.js';
@@ -116,7 +117,8 @@ export function canCommandMoonlight(battle,actor,blessingId){
 }
 export function commandMoonlight(battle,actor,blessingId,io,request){
  const options=typeof request==='number'?{multiplier:request}:request;
- if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['multiplier','primaryMultiplier','primaryTargetId'].includes(k))||['multiplier','primaryMultiplier'].some(k=>options[k]!==undefined&&(!Number.isFinite(options[k])||options[k]<=0||options[k]>10))||options.primaryTargetId!==undefined&&typeof options.primaryTargetId!=='string'))return false;
+ const rules=skillRules(battle.content),maxRankFactor=coefficientFactor(rules.mastery?.maxRank??rules.maxRank,rules);
+ if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['multiplier','primaryMultiplier','primaryTargetId','rankDamageFactor'].includes(k))||['multiplier','primaryMultiplier'].some(k=>options[k]!==undefined&&(!Number.isFinite(options[k])||options[k]<=0||options[k]>10))||options.rankDamageFactor!==undefined&&(!Number.isFinite(options.rankDamageFactor)||options.rankDamageFactor<1||options.rankDamageFactor>maxRankFactor)||options.primaryTargetId!==undefined&&typeof options.primaryTargetId!=='string'))return false;
  if(!canCommandMoonlight(battle,actor,blessingId))return false;
  return performMoonlightAttack(battle,actor.team,'command',io,options);
 }

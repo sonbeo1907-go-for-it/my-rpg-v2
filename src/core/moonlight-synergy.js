@@ -45,7 +45,7 @@ export function validateMoonlightSynergies(content){
    for(const e of variant.effects){
     if(!['damage','command_moonlight'].includes(e.type)||!Number.isFinite(e.multiplier)||e.multiplier<=0||e.multiplier>10||e.primaryMultiplier!==undefined&&(!Number.isFinite(e.primaryMultiplier)||e.primaryMultiplier<=0||e.primaryMultiplier>10))fail(skill.id);
     if(e.type==='damage'&&(!['physical','magical'].includes(e.damageType)||!['light','earth','water','thunder','fire','wind','plain','dark','moon','sword_soul'].includes(e.element)||!['attack','magic'].includes(e.scalingStat)))fail(skill.id);
-    if(e.type==='command_moonlight'&&(!content.moonlightBlessings[e.blessingId]||e.optional!==true))fail(skill.id);
+    if(e.type==='command_moonlight'&&(!content.moonlightBlessings[e.blessingId]||e.optional!==true||e.rankScaling!==undefined&&typeof e.rankScaling!=='boolean'||e.rankScaling===true&&(skill.rankable!==true||skill.growthProfile==='fixed')))fail(skill.id);
    }
   }
  }

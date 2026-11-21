@@ -202,3 +202,6 @@ CD3 theo engine: thi triển R khóa R+1/R+2/R+3, sẵn sàng R+4; mode5 vòng v
 ## 11. Shashthi / Flynn / Hé Lộ Hạt Giống
 
 Đã triển khai chính thức; hợp đồng nhân vật, hệ số, đồng hồ và kiểm chứng nằm tại [SHASHTHI_FLYNN](SHASHTHI_FLYNN.md). command_moonlight có primaryMultiplier cho mục tiêu chính và optional:true cho hiệu lệnh đi kèm đòn cá nhân: thiếu Chúc Phúc vẫn trả chi phí và đánh phần cá nhân, bỏ riêng hiệu lệnh. Không đổi tính bắt buộc của hiệu lệnh thuần cũ.
+
+### Hiệu lệnh Flynn tăng Rank — 21/11/2026
+command_moonlight có rankScaling:true tùy chọn trong data. Resolver của người ra lệnh cấp rankDamageFactor một lần; hiệu lệnh truyền factor sang damage của nguồn Chúc Phúc, trước phòng thủ/soft cap. Hai nhánh Flynn cùng nhận tăng10%/Rank1–5. Pulse tự động và hiệu lệnh không khai opt-in (Gawain) giữ nguyên. Không đổi nguồn ATK, quota Noelle, clock, chi phí, thứ tự chuỗi hoặc carry. Preview/tooltip cùng factor; PvP clamp Rank5 trước khi tạo hiệu lệnh. Không thay definition Chúc Phúc hoặc data gốc.

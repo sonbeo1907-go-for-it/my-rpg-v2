@@ -21,7 +21,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
   let next={...effect};
   if(groups.includes('stat_buff')&&effect.baseStatModifiers)next.baseStatModifiers=rankedModifiers(effect.baseStatModifiers,f05);
   if(groups.includes('damage')&&effect.flatSkillScaling)next.flatSkillScaling={...effect.flatSkillScaling,multiplier:effect.flatSkillScaling.multiplier*f10};
-  if((groups.includes('basic')||groups.includes('damage'))&&effect.type==='damage')next.rankDamageFactor=f10;
+  if((groups.includes('basic')||groups.includes('damage'))&&(effect.type==='damage'||effect.type==='command_moonlight'&&effect.rankScaling===true))next.rankDamageFactor=f10;
   if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat','spentLifeDebtRatio'])if(next[key]!==undefined)next[key]*=f10;
   if(groups.includes('stat_buff')&&['status','toggle_status'].includes(effect.type)){
    const status=content.statuses[effect.status];

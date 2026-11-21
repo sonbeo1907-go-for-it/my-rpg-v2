@@ -48,7 +48,7 @@ DPS vật lí hệ Lôi. HP175 / MP90 / ATK38 / MAG10 / DEF20 / RES18 / SPD18. C
 | Có tầng | 1 Dư Quang,0MP,CD0 | 240% /120% ATK Flynn | 360% /200% ATK Chúc Phúc |
 | Hết tầng | 35MP,CD3 | 360% /200% ATK Flynn | 480% /320% ATK Chúc Phúc |
 
-Đòn Chúc Phúc chỉ xảy ra khi đúng Chúc Phúc đang hoạt động; không có vẫn thi triển được đòn Flynn. Đây là hai nguồn/context sát thương, không mượn Rank hoặc gear Flynn cho hiệu lệnh. Rank chỉ tăng phần Flynn; hệ số hiệu lệnh cố định. “Còn lại” là mọi địch khác, không chỉ hai ô kề. Nếu mục tiêu chính gục bởi đòn Flynn, đợt Chúc Phúc chọn địch còn sống đầu tiên làm chính. Trận đã kết thúc thì dừng chuỗi.
+Đòn Chúc Phúc chỉ xảy ra khi đúng Chúc Phúc đang hoạt động; không có vẫn thi triển được đòn Flynn. Đây là hai nguồn/context sát thương, hiệu lệnh lấy hệ số tăng trưởng theo Rank kỹ năng Flynn nhưng không mượn chỉ số, buff sát thương hoặc gear của Flynn. Rank tăng cả phần Flynn lẫn hiệu lệnh; ATK hiệu lệnh vẫn lấy từ Chúc Phúc. “Còn lại” là mọi địch khác, không chỉ hai ô kề. Nếu mục tiêu chính gục bởi đòn Flynn, đợt Chúc Phúc chọn địch còn sống đầu tiên làm chính. Trận đã kết thúc thì dừng chuỗi.
 
 CD bắt đầu từ nhánh đã thi triển và khóa cả ô lệnh: lấy lại Dư Quang không bỏ qua CD3 đang chạy. Cache resolver chứa nhánh tài nguyên để preview/availability/AI/cost không dùng lại bản35MP khi đã có tầng. `resource-variants.js` là helper thuần, không sửa data gốc hoặc tự tiêu tài nguyên.
 
@@ -69,3 +69,6 @@ Mọi hiệu lệnh Flynn đi qua `performMoonlightAttack`, cùng đường natu
 `test/seed-storm.test.js` kiểm giao dịch/save, gacha, lọc mục tiêu/provider doubling, Phong Ấn,20/50%, pulse/Rank/expiry/KO, hai Hé Lộ, rotation Flynn qua queue thật, cache/cost/CD, nguồn và mục tiêu riêng, Noelle/quota, forecast, Choáng/Extra, carry phòng, PvP hai phe và validator. `e2e/seed-storm.spec.ts` kiểm trang kỹ năng/Hé Lộ, khung hạt giống thật và mode Flynn trên trình duyệt.
 
 `moonlight-synergy.js` giữ activation/multiplier/provider rules và validator mới; `resource-variants.js` được cost/resolver dùng chung; `moonlight-revelation.js` giữ giao dịch và điều kiện nâng cấp. Không dùng component hoặc VFX để thay đổi gameplay.
+
+### S?a Rank hi?u l?nh ? 21/11/2026
+Hai nh?nh l?nh d?ng h? s? t?ng10% m?i Rank c?a V? Nh?ng Ng??i N?m L?i, tr??c DEF/soft cap, ?p ??ng m?t l?n cho c? ch?nh/c?n l?i. Rank5: ti?u D? Quang 527,076% / 292,82%; tr? MP 702,768% / 468,512% ATK Ch?c Ph?c. ??y l? t?ng h? s? l?nh, kh?ng sao ch?p ch? s?/gear Flynn v?o ngu?n th? n?m. Kh?ng th?m ??ng h?: cast ch?nh/ph? h?p l? ??u d?ng c?ng Rank; Cho?ng ho?c l?nh th?t b?i kh?ng t?o ??t; quota Noelle, natural pulses, expiry v? carry nh? tr??c. PvP v?n clamp5; forecast kh?ng mutate tr?n th?t. N?i dung n?y thay ch?nh s?ch c? ??nh h? s? c?.

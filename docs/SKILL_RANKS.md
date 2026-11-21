@@ -57,3 +57,6 @@ This is a synthetic fixed-policy comparison, **not a reproduction** of the user'
 
 ## Thông Thạo — 06/11/2026
 Nhân vật #1–#31 được mở ba mức sau Rank 5, yêu cầu Lv50. Đây là ngoại lệ mới thay cho giới hạn tuyệt đối Rank5 trong các phần trên. Xem [SKILL_MASTERY](SKILL_MASTERY.md) cho phạm vi, chi phí, công thức và save. Các nhánh Ogre’s Bane chỉ mở Rank1–5 sau màn Khó, không mở Thông Thạo. Tám nhân vật bổ sung và phạm vi chỉ PvE xem SKILL_MASTERY.
+
+## Blessing command opt-in ? 21/11/2026
+command_moonlight effects with rankScaling:true are eligible damage growth. Resolve Rank on the issuing character once, then pass rankDamageFactor to the independent blessing damage source. Do not rescale its ATK or re-resolve the rank against the fifth unit. Applies to both Flynn resource variants and primary/all-other coefficients. Authored coefficients retain the 10? validation bound; runtime factor is validated separately against the common Rank cap. Non-opt-in commands and automatic pulses retain their fixed coefficients.

@@ -1,5 +1,10 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Flynn — Rank hiệu lệnh Chúc Phúc, 21/11/2026
+
+Hai nhánh Vì Những Người Nằm Lại tăng cả hệ số hiệu lệnh theo Rank Flynn (10% mỗi Rank, tối đa5 trong PvP). Data command_moonlight opt-in rankScaling:true; factor đi qua resolver/command tới damage nguồn Chúc Phúc đúng một lần. Pulse tự động, Gawain, ATK động Chúc Phúc, Noelle quota và clock giữ nguyên. Thay thế quyết định cố định hệ số trước đây. Xem SHASHTHI_FLYNN/MOONLIGHT_BLESSING và test/seed-storm.test.js.
+
+
 ## QoL Thợ Rèn — 21/11/2026
 
 Sau first clear east_ke_08 mở Tái rèn nâng cao cho dòng phụ T4 chỉ số: 1–20 T3 chưa sử dụng, tỷ lệ 1/7+(6/7)×n/20, bảo đảm ở20. Phí Coin/Vụn cũ, T3 tiêu khi chốt pending dù giữ dòng cũ. Metadata nâng cao tùy chọn, save v7/split giữ nguyên; không tăng tiến độ Tobin. Phân rã tối đa999, chọn toàn kết quả lọc thay vì chỉ12 món trên trang. Xem [T4_FORGE](T4_FORGE.md), test/forge-qol.test.js và e2e/forge-qol.spec.ts.

@@ -554,7 +554,7 @@ export function moonlightSnapshot(battle){
 }
 function moonlightPulse(battle,source,definition,targets,amount,phase,request){
  const options=typeof request==='number'?{multiplier:request}:request??{},base=battle.content.abilities[definition.abilityId];
- const skill={...base,effects:[{...base.effects[0],...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{})}]};
+ const skill={...base,effects:[{...base.effects[0],...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{}),...(options.rankDamageFactor!==undefined?{rankDamageFactor:options.rankDamageFactor}:{})}]};
  const primary=targets.find(t=>t.id===options.primaryTargetId)??targets[0],potency=moonlightPotencyMultiplier(battle,source.team,definition.id);
  skill.effects[0].multiplier*=potency;if(skill.effects[0].primaryMultiplier!==undefined)skill.effects[0].primaryMultiplier*=potency;
  const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:primary.id};
@@ -2030,7 +2030,7 @@ function applyEffect(
 ) {
   if(effect.type==='performance_stage'){applyPerformanceStage(battle,actor,effect,{order:orderActorIds,write,emit:emitEvent});return;}
   if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
-  if(effect.type==='command_moonlight'){commandMoonlight(battle,actor,effect.blessingId,moonlightIO,{...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})});return;}
+  if(effect.type==='command_moonlight'){commandMoonlight(battle,actor,effect.blessingId,moonlightIO,{...(effect.rankDamageFactor!==undefined?{rankDamageFactor:effect.rankDamageFactor}:{}),...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})});return;}
   if(effect.type==='bound_exposure'){applyBoundExposure(battle,actor,targets,effect,actionContext,{status:applyStatus});return;}
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
   if(effect.divideAmongTargets)effect={...effect,multiplier:effect.multiplier/Math.max(1,targets.filter(t=>living(t)).length)};

@@ -13902,7 +13902,8 @@
         "blessingId": "thunder_wrath",
         "optional": true,
         "multiplier": 3.2,
-        "primaryMultiplier": 4.8
+        "primaryMultiplier": 4.8,
+        "rankScaling": true
       }
     ],
     "resourceVariants": {
@@ -13930,7 +13931,8 @@
             "blessingId": "thunder_wrath",
             "optional": true,
             "multiplier": 2,
-            "primaryMultiplier": 3.6
+            "primaryMultiplier": 3.6,
+            "rankScaling": true
           }
         ]
       },
@@ -13953,15 +13955,16 @@
             "blessingId": "thunder_wrath",
             "optional": true,
             "multiplier": 3.2,
-            "primaryMultiplier": 4.8
+            "primaryMultiplier": 4.8,
+            "rankScaling": true
           }
         ]
       }
     },
     "rules": [
-      "Có Dư Quang: 240% ATK mục tiêu chính / 120% mỗi địch khác; tiêu 1 tầng, không tốn MP hoặc hồi chiêu.",
-      "Không có Dư Quang: 360% / 200% ATK; 35 MP, hồi chiêu 3 vòng.",
-      "Lôi Sấm Thịnh Nộ đang tồn tại: đợt riêng dùng ATK Chúc Phúc, 360% / 200% khi tiêu tầng hoặc 480% / 320% khi trả MP."
+      "C? D? Quang: ti?u 1 t?ng, kh?ng t?n MP ho?c h?i chi?u.",
+      "H?t D? Quang: tr? 35 MP, h?i chi?u 3 v?ng.",
+      "Hi?u l?nh ch? x?y ra khi L?i S?m Th?nh N? ?ang t?n t?i v? d?ng ATK c?a Ch?c Ph?c. H? s? ??n Flynn v? hi?u l?nh ??u t?ng theo Rank k? n?ng."
     ],
     "skillLineId": "flynn.burst",
     "growthProfile": "damage",

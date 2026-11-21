@@ -1,3 +1,5 @@
+import {skillPresentation} from '../src/ui/skill-copy.js';
+import {skillScaling} from '../src/ui/skill-presentation.js';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave,encodeGameSave,decodeGameSave} from '../src/core/game-save.js';
@@ -95,9 +97,9 @@ test('mirror teams use independent Flynn commands and Noelle quotas',()=>{
  const id=(team,name)=>b.actors.find(a=>a.team===team&&a.definitionId===name).id;for(const team of ['party','enemy']){const target=id(team==='party'?'enemy':'party','iris');cast(b,id(team,'noelle'),'noelle.thunder',target);cast(b,id(team,'tywin'),'$attack',target);getActor(b,id(team,'flynn')).resourceValues.storm_charge=1;cast(b,id(team,'flynn'),'flynn.burst',target);assert.ok(b.events.some(e=>e.type==='reaction'&&e.sourceId==='moonlight_'+team));assert.equal(b.moonlight[team].active.followUps[id(team,'noelle')].count,1);}
 });
 
-test('Flynn raw cost quotes track layers, and Rank 5 grows his hit but not the commanded coefficient',()=>{
+test('Flynn raw cost quotes track layers, and Rank 5 grows both his hit and the commanded coefficient',()=>{
  const b=setup(['flynn','noelle','tywin','iris']),a=getActor(b,'flynn');assert.equal(mpCost(c.abilities['flynn.burst'],a,b),35);a.resourceValues.storm_charge=1;assert.equal(mpCost(c.abilities['flynn.burst'],a,b),0);assert.equal(resourceCost(c.abilities['flynn.burst'],a).amount,1);
- const skill=resolveRankedAbility(c,a,'flynn.burst',5);assert.equal(skill.effects[0].rankDamageFactor,1.1**4);assert.equal(skill.effects[1].primaryMultiplier,3.6);assert.equal(skill.effects[1].rankDamageFactor,undefined);
+ const skill=resolveRankedAbility(c,a,'flynn.burst',5);assert.equal(skill.effects[0].rankDamageFactor,1.1**4);assert.equal(skill.effects[1].primaryMultiplier,3.6);assert.equal(skill.effects[1].rankDamageFactor,1.1**4);
 });
 test('Flynn commands share Noelle three-per-round quota with pulses and do not consume their clock slots',()=>{
  const b=setup(['flynn','noelle','tywin','iris']);storm(b);const a=getActor(b,'flynn');a.resourceValues.storm_charge=3;const pulseClock=structuredClone(b.moonlight.party.active.pulses);
@@ -112,4 +114,46 @@ test('Flynn mode and Shashthi seed survive a dungeon room without reactivation o
  for(const party of [['flynn','noelle','tywin','iris'],['shashthi','yufina','astraea','iris']]){const run=createDungeonRun(c,account(party),'gold_mine','easy',{random:()=>0,rewardRandom:()=>0,now:new Date('2026-11-20T05:00:00Z')});for(const e of run.battle.actors.filter(a=>a.team==='enemy'))e.hp=e.stats.maxHp=100000;
  if(party[0]==='flynn')storm(run.battle);else{seed(run.battle);cast(run.battle,'shashthi','shashthi.harvest');}const old=structuredClone(run.battle.moonlight.party.active),owner=getActor(run.battle,party[0]),remaining=owner.modeTurnsRemaining,deadline=owner.modeExpiresAfterRound;run.battle.outcome='victory';advanceDungeonWave(c,run);
  assert.equal(run.battle.moonlight.party.active.expiresAfterRound,old.expiresAfterRound);assert.equal(getActor(run.battle,party[0]).activeMode,party[0]==='flynn'?'moon_storm':'harvest');assert.equal(getActor(run.battle,party[0]).modeTurnsRemaining,remaining);assert.equal(getActor(run.battle,party[0]).modeExpiresAfterRound,deadline);assert.ok(!run.battle.events.some(e=>e.type==='mode_enter'||e.type==='moonlight_enter'));}
+});
+
+test('both Flynn branches scale commanded main/other damage once at Rank 5 without changing blessing ATK or Noelle',()=>{
+ for(const charges of [0,1]){
+  const samples=[];
+  for(const rank of [1,5]){const b=setup(['flynn','noelle','tywin','iris']);storm(b);const a=getActor(b,'flynn');a.skillRanks={'flynn.burst':rank};a.resourceValues.storm_charge=charges;
+   const before=structuredClone(b.moonlight.party.active),atk=moonlightSnapshot(b).party.active.statValue;cast(b,a.id,'flynn.burst','enemy_1');
+   samples.push({main:hits(b,'moonlight_party','enemy_1')[0].amount,side:hits(b,'moonlight_party','enemy_0')[0].amount,noelle:hits(b,'noelle','enemy_0')[0].amount,atk});
+   assert.equal(b.moonlight.party.active.expiresAfterRound,before.expiresAfterRound);assert.deepEqual(b.moonlight.party.active.pulses,before.pulses);assert.equal(b.moonlight.party.active.followUps.noelle.count,1);assert.equal(a.resourceValues.storm_charge,0);assert.equal(a.mp,charges?90:55);
+  }
+  for(const key of ['main','side'])assert.ok(Math.abs(samples[1][key]-samples[0][key]*1.1**4)<2,key+' scaled exactly once');
+  assert.equal(samples[0].atk,samples[1].atk);assert.equal(samples[0].noelle,samples[1].noelle);
+ }
+});
+test('ranked Flynn command forecast matches actual execution and leaves real blessing/resource state untouched',()=>{
+ const b=setup(['flynn','noelle','tywin','iris']);storm(b);const a=getActor(b,'flynn');a.skillRanks={'flynn.burst':5};a.resourceValues.storm_charge=1;b.queue=['flynn','iris','noelle','tywin','enemy_0'];b.cursor=0;
+ const old=structuredClone({actor:a,moonlight:b.moonlight}),trial=forecastBattleAction(b,{actorId:a.id,abilityId:'flynn.burst',targetId:'enemy_1'});assert.deepEqual({actor:a,moonlight:b.moonlight},old);
+ cast(b,a.id,'flynn.burst','enemy_1');for(const id of ['enemy_0','enemy_1'])assert.equal(hits(b,'moonlight_party',id)[0].amount,hits(trial,'moonlight_party',id)[0].amount);
+});
+test('ranked commands do not change subsequent natural pulses or Gawain fixed commands',()=>{
+ const pulses=[];for(const rank of [1,5]){const b=setup(['flynn','noelle','tywin','iris']);storm(b);const a=getActor(b,'flynn');a.skillRanks={'flynn.burst':rank};a.resourceValues.storm_charge=1;cast(b,a.id,'flynn.burst');next(b);const amounts=hits(b,'moonlight_party').map(e=>e.amount);assert.ok(amounts.length);pulses.push(amounts);}assert.deepEqual(pulses[0],pulses[1]);
+ const orders=[];for(const rank of [1,5]){const b=setup(['gawain','noelle','tywin','iris']);storm(b);getActor(b,'gawain').skillRanks={'gawain.judgment':rank};cast(b,'gawain','gawain.judgment');orders.push(hits(b,'moonlight_party')[0].amount);}assert.equal(orders[0],orders[1]);
+});
+test('Flynn command Rank is capped at 5 for either PvP side, retaining separate blessing sources and Noelle response',()=>{
+ const b=createArenaBattle(c,account(['flynn','noelle','tywin','iris']),'mirror',89);for(const a of b.actors)a.hp=a.stats.maxHp=100000;
+ const id=(team,name)=>b.actors.find(a=>a.team===team&&a.definitionId===name).id;
+ for(const team of ['party','enemy']){const target=id(team==='party'?'enemy':'party','iris');cast(b,id(team,'noelle'),'noelle.thunder',target);cast(b,id(team,'tywin'),'$attack',target);const a=getActor(b,id(team,'flynn'));a.skillRanks={'flynn.burst':8};a.resourceValues.storm_charge=1;
+  const skill=resolveRankedAbility(c,a,'flynn.burst');assert.equal(skill.skillRank,5);assert.equal(skill.effects[1].rankDamageFactor,1.1**4);cast(b,a.id,'flynn.burst',target);assert.ok(hits(b,'moonlight_'+team,target).length);assert.equal(b.moonlight[team].active.followUps[id(team,'noelle')].count,1);
+ }
+});
+test('command rank scaling is opt-in, validated in every resource variant, and never mutates authored data/cache',()=>{
+ const raw=JSON.stringify(c.abilities['flynn.burst']),b=setup(['flynn','noelle','tywin','iris']),a=getActor(b,'flynn');a.skillRanks={'flynn.burst':5};a.resourceValues.storm_charge=1;
+ const ready=resolveRankedAbility(c,a,'flynn.burst');assert.equal(resolveRankedAbility(c,a,ready),ready);a.resourceValues.storm_charge=0;const empty=resolveRankedAbility(c,a,ready);assert.equal(empty.effects[1].primaryMultiplier,4.8);assert.equal(empty.effects[1].rankDamageFactor,1.1**4);assert.equal(JSON.stringify(c.abilities['flynn.burst']),raw);
+ for(const change of [cc=>cc.abilities['flynn.burst'].effects[1].rankScaling='yes',cc=>cc.abilities['flynn.burst'].resourceVariants.ready.effects[1].rankScaling=1,cc=>cc.abilities['flynn.burst'].resourceVariants.empty.effects[1].rankScaling='yes']){const cc=structuredClone(c);change(cc);assert.ok(validateContent(cc).length);}
+});
+
+test('Flynn tooltips and scaling previews show the same ranked command coefficients as combat',()=>{
+ const b=setup(['flynn','noelle','tywin','iris']),a=getActor(b,'flynn');a.skillRanks={'flynn.burst':5};
+ for(const charges of [0,1]){a.resourceValues.storm_charge=charges;const skill=resolveRankedAbility(c,a,'flynn.burst'),main=charges?'527':'702',side=charges?'292':'468';
+  const facts=skillPresentation(skill,a,c).facts.join(' ');assert.ok(facts.includes(main)&&facts.includes(side),facts);
+  const lines=skillScaling(skill,a,c).join(' ');assert.ok(lines.includes(main)&&lines.includes(side),lines);
+ }
 });
