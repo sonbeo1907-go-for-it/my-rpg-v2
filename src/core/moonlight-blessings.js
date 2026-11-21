@@ -74,7 +74,7 @@ export function settleMoonlight(battle,io){
 }
 export function moonlightDamageEffect(battle,source,effect,context){
  const p=source?.passive,rule=source?.moonlightRevelation;
- const native=(['moonlight_guardian','moonlight_potency'].includes(p?.type)&&battle.moonlight?.[source.team]?.active?.id===p.blessingId)||(p?.type==='moonlight_activation_mode'&&source.activeMode===p.modeId);
+ const native=(['moonlight_guardian','moonlight_potency','moonlight_activation_resource'].includes(p?.type)&&battle.moonlight?.[source.team]?.active?.id===p.blessingId)||(p?.type==='moonlight_activation_mode'&&source.activeMode===p.modeId);
  const revealed=rule&&(rule.allDamagingSkills||rule.followUpOnly)&&revelationActive(battle,source)&&(!rule.requiresMode||source.activeMode===rule.requiresMode)&&(!rule.followUpOnly||context?.skillId===source.passive?.followUpAbility);
  if(!native&&!revealed)return effect;
  return {...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])].filter(e=>e!==effect.element)};
@@ -84,7 +84,7 @@ function performMoonlightAttack(battle,team,phase,io,multiplier){
  const state=battle.moonlight?.[team],active=state?.active,d=moonlightDefinition(battle,team);
  if(!active||!d||state.attackInProgress||battle.outcome||battle.round>active.expiresAfterRound)return false;
  if(!battle.actors.some(a=>a.team===team&&isAlive(a))||!battle.actors.some(a=>a.team!==team&&isAlive(a)))return false;
- const targets=battle.actors.filter(a=>a.team!==team&&isAlive(a)&&(d.targetMode!=='anchored_enemies'||active.targets.includes(a.id)));
+ const targets=battle.actors.filter(a=>a.team!==team&&isAlive(a)&&(d.targetMode!=='anchored_enemies'||active.targets.includes(a.id))&&(multiplier?.targetMode!=='selected'||a.id===multiplier.primaryTargetId));
  if(!targets.length)return false;
  const amount=moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)),source=makeSource(battle,team,d,amount);
  state.attackInProgress=true;
@@ -118,8 +118,9 @@ export function canCommandMoonlight(battle,actor,blessingId){
 export function commandMoonlight(battle,actor,blessingId,io,request){
  const options=typeof request==='number'?{multiplier:request}:request;
  const rules=skillRules(battle.content),maxRankFactor=coefficientFactor(rules.mastery?.maxRank??rules.maxRank,rules);
- if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['multiplier','primaryMultiplier','primaryTargetId','rankDamageFactor'].includes(k))||['multiplier','primaryMultiplier'].some(k=>options[k]!==undefined&&(!Number.isFinite(options[k])||options[k]<=0||options[k]>10))||options.rankDamageFactor!==undefined&&(!Number.isFinite(options.rankDamageFactor)||options.rankDamageFactor<1||options.rankDamageFactor>maxRankFactor)||options.primaryTargetId!==undefined&&typeof options.primaryTargetId!=='string'))return false;
+ if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['multiplier','primaryMultiplier','primaryTargetId','rankDamageFactor','targetMode','hits'].includes(k))||['multiplier','primaryMultiplier'].some(k=>options[k]!==undefined&&(!Number.isFinite(options[k])||options[k]<=0||options[k]>10))||options.rankDamageFactor!==undefined&&(!Number.isFinite(options.rankDamageFactor)||options.rankDamageFactor<1||options.rankDamageFactor>maxRankFactor)||options.primaryTargetId!==undefined&&typeof options.primaryTargetId!=='string'||options.targetMode!==undefined&&(options.targetMode!=='selected'||typeof options.primaryTargetId!=='string')||options.hits!==undefined&&(!Number.isInteger(options.hits)||options.hits<1||options.hits>6)))return false;
  if(!canCommandMoonlight(battle,actor,blessingId))return false;
+ if(options?.targetMode==='selected'&&moonlightDefinition(battle,actor.team)?.targetMode!=='anchored_enemies')return false;
  return performMoonlightAttack(battle,actor.team,'command',io,options);
 }
 

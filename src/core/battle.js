@@ -554,13 +554,13 @@ export function moonlightSnapshot(battle){
 }
 function moonlightPulse(battle,source,definition,targets,amount,phase,request){
  const options=typeof request==='number'?{multiplier:request}:request??{},base=battle.content.abilities[definition.abilityId];
- const skill={...base,effects:[{...base.effects[0],...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{}),...(options.rankDamageFactor!==undefined?{rankDamageFactor:options.rankDamageFactor}:{})}]};
+ const skill={...base,...(options.targetMode==='selected'?{target:'enemy'}:{}),effects:[{...base.effects[0],...(options.hits!==undefined?{hits:options.hits}:{}),...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{}),...(options.rankDamageFactor!==undefined?{rankDamageFactor:options.rankDamageFactor}:{})}]};
  const primary=targets.find(t=>t.id===options.primaryTargetId)??targets[0],potency=moonlightPotencyMultiplier(battle,source.team,definition.id);
  skill.effects[0].multiplier*=potency;if(skill.effects[0].primaryMultiplier!==undefined)skill.effects[0].primaryMultiplier*=potency;
  const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:primary.id};
- emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:primary.id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:true,automaticCast:true,moonlight:true,team:source.team});
+ emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:primary.id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:options.targetMode!=='selected',automaticCast:true,moonlight:true,team:source.team});
  write(battle,source.name+' tấn công · '+(phase==='command'?'theo hiệu lệnh':phase==='start'?'đầu vòng':'cuối vòng')+'.');
- for(const target of targets){if(!living(target))continue;hit(battle,source,target,primaryDamageEffect({...skill.effects[0],gearPower:amount},target.id===primary.id),0,{area:true,reaction:true,actionContext:ctx});}
+ for(let i=0;i<(options.hits??1);i++)for(const target of targets){if(!living(target)||battle.outcome)continue;hit(battle,source,target,primaryDamageEffect({...skill.effects[0],gearPower:amount},target.id===primary.id),i,{area:options.targetMode!=='selected',reaction:true,actionContext:ctx});}
  finishAttackContext(battle,source,ctx);
  transitionBossPhases(battle,{write,restoreMp:gainResource});
  return ctx.pvpDenied!==true;
@@ -2030,7 +2030,20 @@ function applyEffect(
 ) {
   if(effect.type==='performance_stage'){applyPerformanceStage(battle,actor,effect,{order:orderActorIds,write,emit:emitEvent});return;}
   if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
-  if(effect.type==='command_moonlight'){commandMoonlight(battle,actor,effect.blessingId,moonlightIO,{...(effect.rankDamageFactor!==undefined?{rankDamageFactor:effect.rankDamageFactor}:{}),...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})});return;}
+  if(effect.type==='command_moonlight'){
+    const request={...(effect.rankDamageFactor!==undefined?{rankDamageFactor:effect.rankDamageFactor}:{}),...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})};
+    if(effect.targetMode==='selected'){
+      const target=targets.find(t=>t.id===actionContext.primaryTargetId),active=battle.moonlight?.[actor.team]?.active;
+      if(!target||!living(target)||target.team===actor.team||!active?.targets.includes(target.id)||!canCommandMoonlight(battle,actor,effect.blessingId))return;
+      Object.assign(request,{targetMode:'selected',primaryTargetId:target.id});
+    }
+    if(effect.spendResource){
+      const n=Math.min(effect.spendResource.max,actor.resourceValues[effect.spendResource.id]??0);if(n<=0)return;
+      gainResource(battle,actor,effect.spendResource.id,-n);request.hits=n;
+      write(battle,actor.name+': tiêu '+n+' '+actor.resources[effect.spendResource.id].name+'.');
+    }
+    commandMoonlight(battle,actor,effect.blessingId,moonlightIO,request);return;
+  }
   if(effect.type==='bound_exposure'){applyBoundExposure(battle,actor,targets,effect,actionContext,{status:applyStatus});return;}
   if(effect.hitsWhenTeamSpent)effect=spentTeamHits(effect,actionContext.teamResourceSpent?.[effect.hitsWhenTeamSpent.id]??0);
   if(effect.divideAmongTargets)effect={...effect,multiplier:effect.multiplier/Math.max(1,targets.filter(t=>living(t)).length)};

@@ -1,5 +1,10 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Bianca Valmont — 21/11/2026
+
+Nhân vật chính thức #121, DPS phép Thổ/Valmont, cấp quyền Quang–Thổ. Activation Hạt Giống cấp6 Lộc Nguyệt; chiêu cuối tiêu tối đa3 tầng gọi các hit380%MAG Chúc Phúc lên đúng địch có hạt giống, tăng theo Rank. Buff12 MAG căn bản3 main_turn, đòn60%gắn2 Sơ Hở/cấpExtra. Dùng asset cơ bản; giữ schema/namespace save. Xem [BIANCA](BIANCA.md) cho clock/carry/targeting/nguồn và kiểm thử.
+
+
 ## Flynn — Rank hiệu lệnh Chúc Phúc, 21/11/2026
 
 Hai nhánh Vì Những Người Nằm Lại tăng cả hệ số hiệu lệnh theo Rank Flynn (10% mỗi Rank, tối đa5 trong PvP). Data command_moonlight opt-in rankScaling:true; factor đi qua resolver/command tới damage nguồn Chúc Phúc đúng một lần. Pulse tự động, Gawain, ATK động Chúc Phúc, Noelle quota và clock giữ nguyên. Thay thế quyết định cố định hệ số trước đây. Xem SHASHTHI_FLYNN/MOONLIGHT_BLESSING và test/seed-storm.test.js.

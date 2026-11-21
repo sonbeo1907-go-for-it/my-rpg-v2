@@ -5516,5 +5516,51 @@
         ]
       }
     }
+  },
+  {
+    "id": "bianca",
+    "releaseId": 121,
+    "name": "Bianca Valmont",
+    "title": "Nụ cười sau mùa tuyết",
+    "affiliation": "house_valmont",
+    "tags": [
+      "valmont"
+    ],
+    "element": "earth",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "basicDamageType": "magical",
+    "description": "Chị của Seraphine Valmont, rời thủ đô đến thị trấn dưới núi tuyết để buôn bán, tránh con đường săn quái của gia đình. Sau lời chào ngọt ngào là những toan tính khéo léo; cô dần lấy lòng người bản địa.",
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 120,
+      "defense": 18,
+      "resistance": 24,
+      "attack": 8,
+      "magic": 36,
+      "speed": 18
+    },
+    "abilities": [
+      "bianca.bargain",
+      "bianca.opening",
+      "bianca.harvest"
+    ],
+    "resources": {
+      "harvest_credit": {
+        "name": "Lộc Nguyệt",
+        "max": 6
+      }
+    },
+    "moonlightBlessings": [
+      "bountiful_seed"
+    ],
+    "passive": {
+      "type": "moonlight_activation_resource",
+      "name": "Lộc Đến Đúng Hẹn",
+      "description": "Hạt Giống Bội Thu kích hoạt: nhận đủ 6 Lộc Nguyệt. Khi Chúc Phúc hoạt động, sát thương bản thân mang thêm Nguyệt.",
+      "blessingId": "bountiful_seed",
+      "resource": "harvest_credit",
+      "amount": 6
+    }
   }
 ]

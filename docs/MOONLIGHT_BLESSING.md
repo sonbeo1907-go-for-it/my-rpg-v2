@@ -205,3 +205,8 @@ CD3 theo engine: thi triển R khóa R+1/R+2/R+3, sẵn sàng R+4; mode5 vòng v
 
 ### Hiệu lệnh Flynn tăng Rank — 21/11/2026
 command_moonlight có rankScaling:true tùy chọn trong data. Resolver của người ra lệnh cấp rankDamageFactor một lần; hiệu lệnh truyền factor sang damage của nguồn Chúc Phúc, trước phòng thủ/soft cap. Hai nhánh Flynn cùng nhận tăng10%/Rank1–5. Pulse tự động và hiệu lệnh không khai opt-in (Gawain) giữ nguyên. Không đổi nguồn ATK, quota Noelle, clock, chi phí, thứ tự chuỗi hoặc carry. Preview/tooltip cùng factor; PvP clamp Rank5 trước khi tạo hiệu lệnh. Không thay definition Chúc Phúc hoặc data gốc.
+
+
+## Hiệu lệnh hạt giống theo mục tiêu — 21/11/2026
+
+Bianca #121 là provider Quang–Thổ thứ hai. `moonlight_activation_resource` cấp tài nguyên cá nhân khi activation thực sự hoàn tất. `command_moonlight` có thể khai `targetMode:selected` (chỉ anchored blessing) và `spendResource:{id,max}`; số tầng trả thành số hit cùng một Liên Kích. Chỉ chọn địch còn sống có anchor của chính phe, không fallback sang địch khác. Pulse tự động vẫn đánh mọi anchor hợp lệ và giữ clock cũ. Runtime tách factor Rank, số hit, targetMode và MAG/ATK của nguồn; không mutate pulse definition. Xem [BIANCA](BIANCA.md).

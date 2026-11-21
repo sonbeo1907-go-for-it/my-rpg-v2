@@ -3,7 +3,13 @@ import {enterCombatMode} from './combat-modes.js';
 
 export function moonlightActivated(battle,team,definition,io){
  for(const actor of battle.actors){const p=actor.passive;
-  if(actor.team!==team||!isAlive(actor)||p?.type!=='moonlight_activation_mode'||p.blessingId!==definition.id)continue;
+  if(actor.team!==team||!isAlive(actor)||p?.blessingId!==definition.id)continue;
+  if(p.type==='moonlight_activation_resource'){
+   const amount=Math.max(0,p.amount-(actor.resourceValues[p.resource]??0));
+   io.announce?.(battle,actor);io.restore(battle,actor,p.resource,amount);
+   io.write(battle,actor.name+': '+actor.resources[p.resource].name+' '+actor.resourceValues[p.resource]+' / '+actor.resources[p.resource].max+'.');continue;
+  }
+  if(p.type!=='moonlight_activation_mode')continue;
   if(actor.activeMode===p.modeId){actor.modeTurnsRemaining=Math.max(actor.modeTurnsRemaining??0,actor.combatModes[p.modeId].durationTurns);io.emit(battle,{type:'mode_refresh',sourceId:actor.id,mode:p.modeId});io.write(battle,actor.name+': '+actor.combatModes[p.modeId].name+' kéo dài lên 5 lượt chính.');}
   else if(!actor.activeMode)enterCombatMode(battle,actor,p.modeId,io);
  }
@@ -31,6 +37,7 @@ export function validateMoonlightSynergies(content){
   const rule=actor.moonlightRevelation;
   if(rule&&(rule.requiresMode!==undefined&&!actor.combatModes?.[rule.requiresMode]||rule.allDamagingSkills!==undefined&&rule.allDamagingSkills!==true||rule.followUpOnly!==undefined&&(rule.followUpOnly!==true||!actor.passive?.followUpAbility)||rule.modePerRound!==undefined&&(!rule.followUpOnly||!Number.isInteger(rule.modePerRound)||rule.modePerRound<1||rule.modePerRound>5)||rule.bonusScalingStat!==undefined&&!['attack','magic'].includes(rule.bonusScalingStat)))fail(actor.id);
   const p=actor.passive;
+  if(p?.type==='moonlight_activation_resource'&&(!actor.moonlightBlessings?.includes(p.blessingId)||!Number.isInteger(p.amount)||p.amount<1||p.amount!==actor.resources?.[p.resource]?.max))fail(actor.id);
   if(p?.type==='moonlight_potency'&&(!actor.moonlightBlessings?.includes(p.blessingId)||!actor.combatModes?.[p.modeId]||!Number.isFinite(p.ratio)||p.ratio<0||!Number.isFinite(p.modeRatio)||p.modeRatio<p.ratio||p.modeRatio>2))fail(actor.id);
   if(p?.type==='moonlight_activation_mode'&&(!actor.moonlightBlessings?.includes(p.blessingId)||actor.combatModes?.[p.modeId]?.lifetime!=='turns'||actor.combatModes[p.modeId]?.durationClock!=='main_turn'||!Number.isFinite(p.blessingAttackBonus)||p.blessingAttackBonus<0||p.blessingAttackBonus>1))fail(actor.id);
  }

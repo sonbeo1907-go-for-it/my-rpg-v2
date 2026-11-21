@@ -13969,5 +13969,99 @@
     "skillLineId": "flynn.burst",
     "growthProfile": "damage",
     "rankable": true
+  },
+  {
+    "id": "bianca.bargain",
+    "name": "Lời Chào Có Giá",
+    "description": "Tăng 12 MAG căn bản trong 3 lượt chính và giải toàn bộ hiệu ứng bất lợi của bản thân.",
+    "target": "self",
+    "cost": {
+      "mp": 5
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "status",
+        "status": "bianca_acumen",
+        "duration": 3,
+        "baseStatModifiers": {
+          "magic": 12
+        }
+      },
+      {
+        "type": "cleanse"
+      }
+    ],
+    "skillLineId": "bianca.bargain",
+    "growthProfile": "stat_buff",
+    "rankable": true
+  },
+  {
+    "id": "bianca.opening",
+    "name": "Gieo Một Lời Hứa",
+    "description": "Đánh một địch, gắn 2 Sơ Hở Thổ và nhận Lượt Thêm.",
+    "target": "enemy",
+    "cost": {
+      "mp": 5
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "scalingStat": "magic",
+        "multiplier": 0.6,
+        "onHitStatus": {
+          "status": "exposure_earth",
+          "stacks": 2
+        }
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "bianca.opening",
+    "growthProfile": "damage",
+    "rankable": true
+  },
+  {
+    "id": "bianca.harvest",
+    "name": "Thu Lời Dưới Trăng",
+    "description": "Đánh một địch. Nếu địch mang Hạt Giống Nảy Mầm, tiêu tối đa 3 Lộc Nguyệt để hạt giống Liên Kích từng đợt vào địch đó.",
+    "target": "enemy",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "earth",
+        "scalingStat": "magic",
+        "multiplier": 1.2
+      },
+      {
+        "type": "command_moonlight",
+        "blessingId": "bountiful_seed",
+        "multiplier": 3.8,
+        "optional": true,
+        "rankScaling": true,
+        "targetMode": "selected",
+        "spendResource": {
+          "id": "harvest_credit",
+          "max": 3
+        }
+      }
+    ],
+    "skillLineId": "bianca.harvest",
+    "growthProfile": "damage",
+    "rankable": true,
+    "rules": [
+      "Mỗi Lộc Nguyệt đã tiêu gọi một đợt 380% MAG của Chúc Phúc, mang Thổ–Nguyệt; hệ số tăng theo Rank.",
+      "Không có hạt giống hoặc Lộc Nguyệt: chỉ gây đòn của Bianca."
+    ]
   }
 ]

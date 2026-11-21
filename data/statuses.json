@@ -2140,5 +2140,11 @@
     "modifiers": {
       "speed": -0.25
     }
+  },
+  {
+    "id": "bianca_acumen",
+    "name": "Lời Chào Có Giá",
+    "kind": "buff",
+    "durationClock": "main_turn"
   }
 ]

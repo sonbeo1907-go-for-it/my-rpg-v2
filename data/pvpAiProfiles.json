@@ -1798,5 +1798,22 @@
       "flynn.breaker": 8,
       "flynn.burst": 20
     }
+  },
+  {
+    "id": "bianca",
+    "role": "magical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "bianca.bargain"
+    ],
+    "burstAbilities": [
+      "bianca.harvest"
+    ],
+    "skillBias": {
+      "bianca.bargain": 20,
+      "bianca.opening": 14,
+      "bianca.harvest": 24
+    }
   }
 ]
