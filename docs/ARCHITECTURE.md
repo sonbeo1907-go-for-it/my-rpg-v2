@@ -44,7 +44,7 @@ File cụ thể có thể đổi; dùng rg --files trước khi đoán tên. [EN
 
 ## Lưu và phiên
 
-Ứng dụng ghi envelope v7 và key northern-prisma.campaign.v7; serializer nội bộ vẫn có contract v3, không hạ version ứng dụng xuống3. Save thông thường không chứa battle runtime; Chronicle là ngoại lệ có battleSnapshot/RNG qua chronicle-combat.js. Native slot JSON + profiles.json; browser preview dùng localStorage riêng, không giả là AppData.
+Ứng dụng ghi envelope v7 và key northern-prisma.campaign.v7; serializer nội bộ vẫn có contract v3, không hạ version ứng dụng xuống3. Save thông thường không chứa battle runtime; Chronicle là ngoại lệ có battleSnapshot/RNG qua chronicle-combat.js. Native slot dùng manifest + bảy miền JSON có hash, backup độc lập và profiles.json; adapter vẫn ghép envelope v7 cho core. JSON mono cũ được migrate ở lần persist hợp lệ đầu và giữ nguyên bản gốc. Xem SPLIT_SAVE_STORAGE. Browser preview dùng localStorage riêng, không giả là AppData.
 
 Dungeon/truyện nhiều wave giữ actor snapshot theo chế độ. Quyển II có activeSession được lưu: đội/gear khóa, HP/MP giữ xuyên các encounter, trạng thái chiến đấu tạo mới. Ngoài session HP/MP, Chronicle còn checkpoint battleSnapshot/RNG để khôi phục trận event qua chronicle-combat.js; không áp quy tắc này sang Quest/dungeon thường. Arena có chính sách xử thua riêng khi bỏ trận. Xem ENGINE_RULES và FORTRESS_SESSION.
 

@@ -1,3 +1,6 @@
+#[path = "split_saves.rs"]
+mod split;
+
 use serde::{Deserialize, Serialize};
 use std::{
     collections::BTreeMap,
@@ -116,6 +119,17 @@ impl SaveStore {
         }
         Ok(self.saves.join(format!("savedata{id}.json")))
     }
+    fn split_path(&self, id: u32) -> StoreResult<PathBuf> {
+        self.path(id)?;
+        Ok(self.saves.join(format!("savedata{id}")))
+    }
+    fn split_active(&self, id: u32) -> StoreResult<bool> {
+        let dir = self.split_path(id)?;
+        if split::exists(&dir) && split::safe_dir(&dir).is_err() {
+            return Ok(true);
+        }
+        Ok(split::prepared(&dir))
+    }
     fn backup_path(&self, id: u32) -> PathBuf {
         self.saves
             .join("backups")
@@ -141,29 +155,52 @@ impl SaveStore {
         for entry in fs::read_dir(&self.saves).map_err(error)? {
             let entry = entry.map_err(error)?;
             let name = entry.file_name().to_string_lossy().into_owned();
-            if let Some(id) = name
-                .strip_prefix("savedata")
-                .and_then(|s| s.strip_suffix(".json"))
-                .and_then(|s| s.parse::<u32>().ok())
-                .filter(|id| *id > 0)
-            {
-                if name == format!("savedata{id}.json") {
+            let suffix = name.strip_prefix("savedata").unwrap_or("");
+            let number = suffix.strip_suffix(".json").unwrap_or(suffix);
+            if let Ok(id) = number.parse::<u32>() {
+                if id > 0
+                    && (name == format!("savedata{id}.json") || name == format!("savedata{id}"))
+                {
                     ids.push(id);
                 }
             }
         }
         ids.sort_unstable();
+        ids.dedup();
         Ok(ids)
     }
     pub fn read(&self, id: u32) -> StoreResult<SaveEntry> {
-        let path = self.path(id)?;
-        let data = read_text(&path);
+        let legacy_path = self.path(id)?;
+        let modular = self.split_active(id)?;
+        let dir = self.split_path(id)?;
+        let path = if modular {
+            dir.join("manifest.json")
+        } else {
+            legacy_path
+        };
+        let data = if modular {
+            split::load(&dir, id, false).map(|s| s.text)
+        } else {
+            read_text(&path)
+        };
         let (text, issue, rev) = match data {
             Ok(text) => {
-                let rev = revision(text.as_bytes());
+                let rev = if modular {
+                    split::revision(&dir)
+                } else {
+                    revision(text.as_bytes())
+                };
                 (Some(text), None, rev)
             }
-            Err(issue) if path.exists() => (None, Some(issue), "unreadable".into()),
+            Err(issue) if modular || path.exists() => (
+                None,
+                Some(issue),
+                if modular {
+                    split::revision(&dir)
+                } else {
+                    "unreadable".into()
+                },
+            ),
             Err(issue) => return Err(issue),
         };
         let mut meta = self.index().remove(&id).unwrap_or(ProfileMeta {
@@ -178,7 +215,11 @@ impl SaveStore {
                 .unwrap_or_default()
                 .as_millis() as u64;
         }
-        let backup = read_text(&self.backup_path(id)).ok();
+        let backup = if modular {
+            split::load(&dir, id, true).ok().map(|s| s.text)
+        } else {
+            read_text(&self.backup_path(id)).ok()
+        };
         Ok(SaveEntry {
             meta,
             text,
@@ -188,7 +229,16 @@ impl SaveStore {
         })
     }
     pub fn list(&self) -> StoreResult<Vec<SaveEntry>> {
-        self.ids()?.into_iter().map(|id| self.read(id)).collect()
+        self.ids()?
+            .into_iter()
+            .filter(|id| {
+                self.path(*id).is_ok_and(|p| split::exists(&p))
+                    || self
+                        .split_path(*id)
+                        .is_ok_and(|p| split::prepared(&p) || split::safe_dir(&p).is_err())
+            })
+            .map(|id| self.read(id))
+            .collect()
     }
     pub fn create(&self, name: &str, text: &str) -> StoreResult<SaveEntry> {
         let name = username(name)?;
@@ -200,11 +250,7 @@ impl SaveStore {
             .unwrap_or(0)
             .checked_add(1)
             .ok_or("Hết mã hồ sơ.")?;
-        let path = self.path(id)?;
-        let mut temp = tempfile::NamedTempFile::new_in(&self.saves).map_err(error)?;
-        temp.write_all(text.as_bytes()).map_err(error)?;
-        temp.as_file().sync_all().map_err(error)?;
-        temp.persist_noclobber(path).map_err(error)?;
+        split::create(&self.split_path(id)?, id, text)?;
         // Metadata failure never invalidates the already durable campaign file.
         let meta = ProfileMeta {
             id,
@@ -212,22 +258,31 @@ impl SaveStore {
             updated_at: now(),
         };
         if let Err(issue) = self.put_meta(meta) {
-            return Err(format!("Đã tạo savedata{id}.json nhưng chưa lưu được tên: {issue}. Hãy làm mới danh sách, không tạo lại."));
+            return Err(format!("Đã tạo hồ sơ {id} nhưng chưa lưu được tên: {issue}. Hãy làm mới danh sách, không tạo lại."));
         }
         self.read(id)
     }
     pub fn write(&self, id: u32, text: &str, expected: &str) -> StoreResult<SaveEntry> {
         valid_save(text)?;
-        let path = self.path(id)?;
-        let old = read_text(&path)?;
-        if revision(old.as_bytes()) != expected {
+        let current = self.read(id)?;
+        if current.revision != expected {
             return Err("File save đã được thay đổi bên ngoài. Hãy quay lại chọn hồ sơ để tải lại, tránh ghi đè.".into());
         }
+        let old = current
+            .text
+            .ok_or("Không thể ghi đè bộ save đang hỏng. Hãy khôi phục trước.")?;
         valid_save(&old)?;
-        atomic_write(&self.backup_path(id), &old)?;
-        atomic_write(&path, text)?;
+        let modular = self.split_active(id)?;
+        split::write(
+            &self.split_path(id)?,
+            id,
+            text,
+            if modular { None } else { Some(&old) },
+        )?;
+        // Original monolithic save is retained verbatim as the migration/rollback source.
         self.read(id)
     }
+
     pub fn rename(&self, id: u32, name: &str) -> StoreResult<ProfileMeta> {
         let mut meta = self.read(id)?.meta;
         meta.username = username(name)?;
@@ -238,6 +293,15 @@ impl SaveStore {
         let current = self.read(id)?;
         if current.revision != expected {
             return Err("File đã thay đổi. Hãy làm mới danh sách.".into());
+        }
+        if self.split_active(id)? {
+            let backup = current
+                .backup
+                .as_deref()
+                .ok_or("Không có bản sao lưu hợp lệ.")?;
+            valid_save(backup)?;
+            split::restore(&self.split_path(id)?, id)?;
+            return self.read(id);
         }
         let backup = current.backup.ok_or("Không có bản sao lưu.")?;
         valid_save(&backup)?;
@@ -276,16 +340,21 @@ mod tests {
             .write(1, r#"{"version":4,"coins":2}"#, &created.revision)
             .unwrap();
         let bytes = [0xff, 0xfe, 0x80];
-        fs::write(store.path(1).unwrap(), bytes).unwrap();
+        fs::write(store.split_path(1).unwrap().join("manifest.json"), bytes).unwrap();
         let broken = store.read(1).unwrap();
         assert!(broken.error.is_some());
         let restored = store.restore(1, &broken.revision).unwrap();
-        assert_eq!(restored.text.as_deref(), Some(one));
-        let damaged = fs::read_dir(store.saves.join("backups"))
+        assert_eq!(
+            serde_json::from_str::<serde_json::Value>(restored.text.as_deref().unwrap()).unwrap(),
+            serde_json::from_str::<serde_json::Value>(one).unwrap()
+        );
+        let damaged = fs::read_dir(store.split_path(1).unwrap().join("damaged"))
             .unwrap()
-            .map(|entry| entry.unwrap().path())
-            .find(|path| path.to_string_lossy().contains(".damaged-"))
-            .unwrap();
+            .next()
+            .unwrap()
+            .unwrap()
+            .path()
+            .join("manifest.json");
         assert_eq!(fs::read(damaged).unwrap(), bytes);
     }
     #[test]
@@ -301,7 +370,10 @@ mod tests {
             .unwrap();
         assert_eq!(created.meta.id, 8);
         assert_eq!(created.meta.username, "Arthur");
-        assert_eq!(created.text.unwrap(), r#"{"version":4,"coins":20}"#);
+        assert_eq!(
+            serde_json::from_str::<serde_json::Value>(&created.text.unwrap()).unwrap(),
+            serde_json::json!({"version":4,"coins":20})
+        );
     }
     #[test]
     fn backups_recovery_stale_writes_and_rename() {
@@ -311,14 +383,20 @@ mod tests {
         let two = r#"{"version":4,"coins":2}"#;
         let entry = store.create("Arthur", one).unwrap();
         let saved = store.write(1, two, &entry.revision).unwrap();
-        assert_eq!(saved.backup.as_deref(), Some(one));
+        assert_eq!(
+            serde_json::from_str::<serde_json::Value>(saved.backup.as_deref().unwrap()).unwrap(),
+            serde_json::from_str::<serde_json::Value>(one).unwrap()
+        );
         assert!(store.write(1, one, &entry.revision).is_err());
         store.rename(1, "Iris").unwrap();
         assert_eq!(store.read(1).unwrap().meta.username, "Iris");
-        fs::write(store.path(1).unwrap(), "broken").unwrap();
+        fs::write(store.split_path(1).unwrap().join("manifest.json"), "broken").unwrap();
         let broken = store.read(1).unwrap();
         let restored = store.restore(1, &broken.revision).unwrap();
-        assert_eq!(restored.text.as_deref(), Some(one));
+        assert_eq!(
+            serde_json::from_str::<serde_json::Value>(restored.text.as_deref().unwrap()).unwrap(),
+            serde_json::from_str::<serde_json::Value>(one).unwrap()
+        );
         assert!(store.write(1, "broken", &restored.revision).is_err());
         assert!(store.path(0).is_err());
         assert!(store.create("\n", one).is_err());
