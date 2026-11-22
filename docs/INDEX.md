@@ -19,6 +19,8 @@
 
 ## Combat và UX
 
+- [Cảnh nền chờ / Hé Lộ Bài Ca / sửa sát thương Nguyệt](HOME_SCENES_AND_NAMELESS_REVELATIONS.md)
+
 - [Phyllis / Elsavetta — Người Giữ Đèn, Bài Ca Vô Danh](LAMPKEEPERS.md)
 
 - [Nguyệt Quang Chúc Phúc — khung hệ thống và Noelle Model 4.0](MOONLIGHT_BLESSING.md)

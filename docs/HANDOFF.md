@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Cảnh nền chờ / ba Hé Lộ / Nguyệt trừ maxHP — 22/11/2026
+
+Profile đổi homeScene (account split-save, thiếu→tavern). Hai SVG/BGM unlock từ first clear toàn màn east_ke_02/east_ke_05. Filter moonlight gồm provider/nội tại Nguyệt/Hé Lộ không cần đã mua. Elsavetta hồiMP tối đa3 lần/vòng chung, buffATK vẫn kích. Hé Lộ Bài Ca cho Gahallad/Yumia/Chelsea, giá30Pure; Yumia PvE tối thiểu hệ số gốcR5M3, PvP capR5; Chelsea baseSPD→baseATK cap25, bonusDelivery280% cố định. Moon chính/phụ trên groupagony trừmaxHP cả trước Oán Hận, bypassshield nhưng vẫn qua phòng thủ. Xem [đặc tả cập nhật](HOME_SCENES_AND_NAMELESS_REVELATIONS.md).
+
 ## Phyllis / Elsavetta — 22/11/2026
 
 Nhân vật chính thức #123/#124, phe Người Giữ Đèn, hai nguồn cấp Bài Ca Vô Danh. Debuff gắn/kéo dài kích một lần mỗi hành động, kể cả Liên kích riêng; Hộ Ấn chặn không tính. Elsavetta +4 ATK căn bản/tầng Quang/Ám (max3,3main_turn) và3%MP **toàn đội** mỗi lần; Phyllis max3 tầng, chiêu cuối tiêu hết gọi1–3hit120%ATK Chúc Phúc, cả chuỗi tiêu1Sơ Hở/địch. Mode Elsavetta5rounds có start/end pulse, không đổi nền; đòn/khiên vòng5 trước expiry. Xem [LAMPKEEPERS](LAMPKEEPERS.md) cho lifecycle/rank/carry/forecast và quyết định đã chốt.

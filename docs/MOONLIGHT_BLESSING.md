@@ -221,3 +221,8 @@ Song Nguyệt Đồng Tâm (21/11/2026): đợt `command_moonlight` giữ nguồ
 ## Bài Ca Vô Danh — 22/11/2026
 
 Quang–Ám được triển khai chính thức trong khung Chúc Phúc, Luna tự cấp quyền. ATK động50% trung bình Quang/Ám +10 điểm phần trăm mỗi loại debuff cộng qua từng địch còn sống, cap120%. Cuối vòng chung mỗi địch nhận0–3 hit vật lí Ám–Nguyệt theo debuff, cùng context nên chỉ tiêu1 Sơ Hở Ám/địch. Xem [NAMELESS_SONG](NAMELESS_SONG.md) cho đầy đủ clock, snapshot, nguồn, carry và nghiệm thu.
+
+
+### Hé Lộ Bài Ca Vô Danh — 22/11/2026
+
+Bổ sung Gahallad, Yumia và Chelsea, giữ phí30Pure và bật/tắt hiện hữu, không cấp quyền gọi Chúc Phúc. Xem HOME_SCENES_AND_NAMELESS_REVELATIONS.md cho hệ số R5M3/PvP, baseSPD, hit280% và clock debuff. Filter nhân vật dùng nhóm Nguyệt Quang thay lựa chọn hệ damage Nguyệt; engine vẫn giữ damage Nguyệt.

@@ -1791,7 +1791,7 @@
   {
     "id": "drageshelmfjall_lost_lamps",
     "name": "Drageshelmfjall — Những ngọn đèn chưa tắt",
-    "description": "Hai vong hồn chiến sĩ Người giữ đèn còn vương lại trên núi. HP về 0 chỉ khiến chúng hóa Oán Hận đến hết vòng sau: tiếp tục đánh để bào mòn HP tối đa hoặc chờ chúng trở lại yếu hơn. Yếu Nguyệt; hiện chưa có nhân vật hệ này. Ánh trăng sẽ dẫn những người con của Drageshelmfjall về nơi an nghỉ.",
+    "description": "Hai vong hồn Người Giữ Đèn chưa thể yên nghỉ. Sát thương mang Nguyệt trừ thẳng HP tối đa, kể cả trước khi hóa Oán Hận. Đòn thường hạ HP về 0 khiến chúng hóa Oán Hận đến hết vòng sau; tiếp tục đánh để bào mòn HP tối đa.",
     "enemies": [
       "lampkeeper_revenant",
       "lampkeeper_revenant"

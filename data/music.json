@@ -251,5 +251,21 @@
       "/bgm/song_of_the_moon.mp3"
     ],
     "loop": true
+  },
+  {
+    "id": "home_east_town",
+    "name": "Bến Cảng Không Chào Đón",
+    "tracks": [
+      "/bgm/bgm_east_town.mp3"
+    ],
+    "loop": true
+  },
+  {
+    "id": "home_shrine",
+    "name": "Chuông Đền Vang Giữa Vực Sâu",
+    "tracks": [
+      "/bgm/bgm_shrine.mp3"
+    ],
+    "loop": true
   }
 ]

@@ -529,11 +529,11 @@ export function CharacterFilters({
       <label>
         Nguyên tố
         <select
-          value={filters.element === "agony" ? "" : filters.element ?? ""}
+          value={filters.element === "agony" ? "" : filters.element === "moon" ? "moonlight" : filters.element ?? ""}
           onChange={(e) => set("element", e.target.value)}
         >
           <option value="">Tất cả</option>
-          {Object.entries(ELEMENT_NAMES).map(([id, name]) => (
+          {[...Object.entries(ELEMENT_NAMES).filter(([id])=>id!=="moon"),["moonlight","Nguyệt Quang Chúc Phúc"]].map(([id, name]) => (
             <option key={id} value={id}>
               {name}
             </option>
@@ -749,7 +749,7 @@ export function GameShell({ children }: { children: ReactNode }) {
       >
         {path !== "/" && (
           <div className="utility-bar">
-            <Link href="/home" className="brand" aria-label="The Prisma Origin — Về Tavern">
+            <Link href="/home" className="brand" aria-label="The Prisma Origin — Về màn hình chính">
               <BrandLogo compact />
             </Link>
             <div className="utility-wallet" aria-label="Ví tiền">

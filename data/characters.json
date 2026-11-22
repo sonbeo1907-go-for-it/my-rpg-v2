@@ -652,7 +652,18 @@
       "capital_knights",
       "black_knight"
     ],
-    "releaseId": 20
+    "releaseId": 20,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "nameless_song",
+      "abilityId": "gahallad.charge",
+      "allDamagingSkills": true,
+      "onHitStatus": {
+        "status": "shield_fracture",
+        "duration": 3
+      },
+      "description": "Bài Ca Vô Danh hoạt động: mọi sát thương mang thêm Nguyệt. Vạn vó chôn quân gây Rạn Khiên trong 3 lượt chính."
+    }
   },
   {
     "id": "gawain",
@@ -1970,7 +1981,19 @@
       "counterAbility": "yumia.counter",
       "oncePerRound": true
     },
-    "releaseId": 51
+    "releaseId": 51,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "nameless_song",
+      "abilityId": "yumia.counter",
+      "allDamagingSkills": true,
+      "counterRank": 8,
+      "onHitStatus": {
+        "status": "deep_wound",
+        "duration": 3
+      },
+      "description": "Bài Ca Vô Danh hoạt động: mọi sát thương mang thêm Nguyệt. Phản công đạt ít nhất hệ số Rank 5 · Thông Thạo 3 và gây Vết Thương Sâu trong 3 lượt chính; PvP tối đa Rank 5."
+    }
   },
   {
     "id": "chelsea",
@@ -2011,7 +2034,20 @@
         ]
       }
     },
-    "releaseId": 52
+    "releaseId": 52,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "nameless_song",
+      "abilityId": "chelsea.delivery",
+      "allDamagingSkills": true,
+      "baseAttackFromSpeed": {
+        "ratio": 0.25,
+        "cap": 25
+      },
+      "bonusMultiplier": 2.8,
+      "description": "Bài Ca Vô Danh hoạt động: mọi sát thương mang thêm Nguyệt; tăng ATK căn bản bằng 25% SPD căn bản, tối đa 25. Giao Tận Tay đánh thêm một đòn Quang–Nguyệt 280% ATK.",
+      "bonusOnlyAbility": true
+    }
   },
   {
     "id": "tobin",
@@ -5707,7 +5743,8 @@
       "maxStacks": 3,
       "duration": 3,
       "statusId": "elsavetta_courage",
-      "mpRatio": 0.03
+      "mpRatio": 0.03,
+      "mpPerRound": 3
     },
     "combatModes": {
       "keepers_song": {

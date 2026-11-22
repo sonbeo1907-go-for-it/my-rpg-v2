@@ -3,6 +3,7 @@ import { createBattleMusic } from './battle-music.js';
 
 // Separate playback positions, shared controls. Only the current scene can play.
 export function createGameMusic({ content, audioFactory = () => document.createElement('audio'), enabled = true, volume = .35, onChange = () => {}, random = Math.random }) {
+  let homeGroup = "tavern";
   let scene = null, visible = true, override = null, arenaScore = null, arenaSession = null;
   const selected = () => scene === "battle" && override ? "override" : scene;
   let players;
@@ -17,6 +18,9 @@ export function createGameMusic({ content, audioFactory = () => document.createE
     report();
   }
   return {
+    setHomeMusic(group) {
+      const next=group&&content.music[group]?group:"tavern";if(next===homeGroup)return;homeGroup=next;players.tavern.setVisible(false);players.tavern.start(homeGroup);sync();
+    },
     start(group, { preserveOverride = false } = {}) {
       arenaScore = null; arenaSession = null;
       // A room change replaces the backing track while the summon keeps its position.
@@ -54,7 +58,7 @@ export function createGameMusic({ content, audioFactory = () => document.createE
     setRoute(path) {
       scene = path.startsWith('/chronicles/academy')&&content.music.tournament_first_half?'tournament':path.startsWith('/chronicles/unrecorded/')&&content.music.song_menu?'song_menu':path === '/home' ? 'tavern' : path === '/shop' ? 'shop' : path === '/battle' ? 'battle' : (path === '/arena' || path.startsWith('/arena/')) && content.music.arena_menu ? 'arena_menu' : null;
       if(scene==='tournament'&&!players.tournament.state().active)players.tournament.start('tournament_first_half');
-      if ((scene === 'tavern' || scene === 'shop' || scene === 'arena_menu' || scene === 'song_menu') && !players[scene].state().active) players[scene].start(scene);
+      if ((scene === 'tavern' || scene === 'shop' || scene === 'arena_menu' || scene === 'song_menu') && !players[scene].state().active) players[scene].start(scene==='tavern'?homeGroup:scene);
       sync();
     },
     setVisible(value) { visible = Boolean(value); sync(); },

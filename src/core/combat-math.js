@@ -10,7 +10,7 @@ export function mpRestoreAmount(effect, maxMp) {
 }
 
 export function baseStatValue(actor,key){
-  return (actor.baseStats?.[key]??actor.stats[key])+(actor.shieldGuardBaseBonuses?.[key]??0)+(actor.lunarBaseBonuses?.[key]??0)+(actor.passive?.type==='self_buff_offense'?(actor.passive.baseStatBonuses?.[key]??0):0)+(actor.combatModes?.[actor.activeMode]?.baseStatBonuses?.[key]??0)+activeStatuses({...actor,statuses:actor.statuses??[]}).reduce((sum,s)=>sum+(s.baseStatModifiers?.[key]??0),0);
+  return (actor.baseStats?.[key]??actor.stats[key])+(actor.shieldGuardBaseBonuses?.[key]??0)+(actor.lunarBaseBonuses?.[key]??0)+(actor.moonlightBaseBonuses?.[key]??0)+(actor.passive?.type==='self_buff_offense'?(actor.passive.baseStatBonuses?.[key]??0):0)+(actor.combatModes?.[actor.activeMode]?.baseStatBonuses?.[key]??0)+activeStatuses({...actor,statuses:actor.statuses??[]}).reduce((sum,s)=>sum+(s.baseStatModifiers?.[key]??0),0);
 }
 export function defenseAverageBonus(actor, defense=effectiveStat(actor,'defense'), resistance=effectiveStat(actor,'resistance')) {const p=actor.passive;return p?.type==='defense_average_conversion'?Math.min(p.cap,Math.max(0,(defense+resistance)/2)*p.ratio):0;}
 export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) {

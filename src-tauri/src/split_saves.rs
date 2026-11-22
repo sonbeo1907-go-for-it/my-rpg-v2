@@ -132,7 +132,7 @@ fn section_for(key: &str) -> &'static str {
         | "dailyCommissions"
         | "shopDaily"
         | "honor"
-        | "arenaProgress" => "account",
+        | "arenaProgress" | "homeScene" => "account",
         _ => "extensions", // Forward-compatible fields survive a round trip, never silently dropped.
     }
 }

@@ -1,3 +1,4 @@
+import {normalizeHomeScene} from './home-scenes.js';
 import {storySkillRankFloors} from './story-skill-mastery.js';
 import {normalizeRevelations} from './moonlight-revelation.js';
 import {emptyTournamentState,normalizeTournamentState} from './tournament-session.js';
@@ -35,7 +36,7 @@ export function createCampaign(content) {
     honor:0,arenaProgress:emptyArenaProgress(),
     recruitmentTickets:0,xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
     party: ["arthur", "iris", "elaine", "garrek"],
-    moonlightRevelations:{},
+    homeScene:'tavern',moonlightRevelations:{},
     characters: Object.fromEntries(
       Object.keys(content.characters).map((id) => [
         id,
@@ -155,7 +156,7 @@ export function serializeCampaign(campaign) {
     claimedFirstClearRewards = [],
   } = campaign;
   return JSON.stringify({
-    moonlightRevelations:campaign.moonlightRevelations??{},
+    homeScene:normalizeHomeScene(campaign.homeScene),moonlightRevelations:campaign.moonlightRevelations??{},
     recruitmentTickets:campaign.recruitmentTickets??0,xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
     unrecordedLedger:normalizeTrialLedger(campaign.unrecordedLedger),
     honor:campaign.honor??0,arenaProgress:campaign.arenaProgress??emptyArenaProgress(),
@@ -348,6 +349,7 @@ export function deserializeCampaign(raw, content) {
     }
     result.characters[id] = normalizeLevelState(content,{...saved,upgradeIds:[...new Set(saved.upgradeIds)]},{legacy:input.levelProgressionVersion!==1});
   }
+  result.homeScene=normalizeHomeScene(input.homeScene);
   result.moonlightRevelations=normalizeRevelations(input.moonlightRevelations,content,result.unlockedCharacterIds);
   grantEligibleUpgrades(result, content);
   for (const id of claimed)

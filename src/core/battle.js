@@ -1,7 +1,7 @@
 import {debuffBatch,setDebuffBatch,withDebuffBatch,witnessedDebuff,extendHostileDebuffs,lampkeeperRoundEnd} from './lampkeeper.js';
 import {lunarBaseDamageMultiplier,lunarOutgoingAmp,lunarIncomingMultiplier,moonlightEmpoweredBuff,moonlightAspectAbility,lunarRoundStart,lunarRoundEnd} from './lunar-support.js';
 import {moonlightActivated,moonlightPotencyMultiplier,providerBuff} from './moonlight-synergy.js';
-import {revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
+import {revelationDamageEffect,revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
 import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,moonlightTargetHits,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
 import {judgeTournamentLimit} from './tournament-judging.js';
 import {initializeEncounterBosses,observeEncounterBosses,encounterBossRoundStart,prepareBossRitual,observeBossWeakness,encounterHitMultiplier,encounterOffenseMultiplier,beginBossRitualTurn,finishBossRitualTurn,bossIncomingMultiplier,ritualJobAbility,beginRitualAction,finishEncounterBosses} from './encounter-rituals.js';
@@ -731,7 +731,7 @@ function beginActorTurn(battle,actor,delegating=false) {
     const lunarPeriodic=lunarBaseDamageMultiplier(battle,periodicSource,periodicEffect)*lunarOutgoingAmp(battle,periodicSource,periodicEffect)*lunarIncomingMultiplier(battle,actor,periodicEffect);
     const requested=Math.floor(lunarPeriodic*status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
     const periodicCap=applyPvpDamageCap(battle,getActor(battle,status.sourceId),actor,requested,battle.pvpRules?pvpPeriodicContext(battle,getActor(battle,status.sourceId),actor):{},false,modeIO);
-    const life=applyLifeDamage(battle,actor,periodicCap.amount>0?periodicCap.amount:status.potency>0&&isInAgony(actor)?1:0,{element:definition.damageOverTime.element,healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
+    const life=applyLifeDamage(battle,actor,periodicCap.amount>0?periodicCap.amount:status.potency>0&&isInAgony(actor)?1:0,{element:periodicEffect.element,elements:damageElements(periodicEffect),healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
     const amount=life.hpLost+life.maxHpLost;
     maybeEnterContingency(battle,actor,life.hpLost);
     recordMoonlightDamage(battle,getActor(battle,status.sourceId),actor,periodicEffect,amount,moonlightIO);
@@ -1564,6 +1564,7 @@ function resolveHit(
     write(battle, `${target.name} chắn đòn cho ${originalTarget.name}.`);
   effect=exclusiveDamageEffect(attacker,actionContext.skillId,effect);
   effect=attunedDamageEffect(target,effect,actionContext);
+  effect=revelationDamageEffect(battle,attacker,effect,actionContext);
   effect=moonlightDamageEffect(battle,attacker,effect,actionContext);
   if(!actionContext.reaction&&!actionContext.automatic&&actionContext.skillId&&!actionContext.skillId.startsWith('$')&&originalTarget.id===actionContext.primaryTargetId&&[...guardianRecipes(attacker,'single_skill_echo')].length){
     const multiplier=damageMultiplier(effect,{spent,stacks:effect.consumeStatus?(target.statuses.find(s=>s.id===effect.consumeStatus)?.stacks??0):0,hpRatio:attacker.hp/attacker.stats.maxHp,buffs:buffTypeCount(battle.content,target)});
@@ -1746,7 +1747,7 @@ function resolveHit(
   amount=Math.max(1,Math.floor(amount*encounterHitMultiplier(battle,attacker,target,actionContext)));
   const cappedHit=applyPvpDamageCap(battle,attacker,target,amount,actionContext,area,modeIO);amount=cappedHit.amount;
   if (!reaction && attacker.team!==target.team && target.shield>0) actionContext.shieldedAllyHits.add(target.id);
-  const maxHpRoute=routesToMaxHp(target,effect.element);
+  const maxHpRoute=routesToMaxHp(target,damageElements(effect));
   const baseAbsorbed=maxHpRoute?0:Math.min(target.shield,amount);
   const absorbed=Math.min(target.shield,baseAbsorbed+gearShieldExtra(attacker,baseAbsorbed));
   target.shield-=absorbed;
@@ -1757,7 +1758,7 @@ function resolveHit(
   }
   amount-=baseAbsorbed; // Extra shield damage never changes the original HP spill.
   observeTrialHit(battle,attacker,effect,amount+baseAbsorbed);
-  const life=applyLifeDamage(battle,target,amount,{element:effect.element,healthFloor:bossHealthFloor(target)},{write,emit:emitEvent});
+  const life=applyLifeDamage(battle,target,amount,{element:effect.element,elements:damageElements(effect),healthFloor:bossHealthFloor(target)},{write,emit:emitEvent});
   const lostHp=life.hpLost,vitalityDamage=life.hpLost+life.maxHpLost;
   const hpAfter=target.hp;
   recordMoonlightDamage(battle,attacker,target,effect,vitalityDamage+absorbed,moonlightIO);

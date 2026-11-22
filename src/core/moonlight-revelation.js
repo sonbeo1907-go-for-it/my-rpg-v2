@@ -1,3 +1,4 @@
+import {baseStatValue} from './combat-math.js';
 import {isAlive} from './actor-life.js';
 import {coefficientFactor,getActorSkillRank,skillRules} from './skill-rules.js';
 
@@ -29,7 +30,8 @@ export function activeMoonlight(battle,team,id){const a=battle.moonlight?.[team]
 export function revelationActive(battle,actor){return actor.moonlightRevelationEnabled===true&&activeMoonlight(battle,actor.team,actor.moonlightRevelation?.blessingId);}
 export function syncMoonlightAuras(battle){
  for(const actor of battle.actors){
-  actor.moonlightModifiers={};
+  actor.moonlightModifiers={};actor.moonlightBaseBonuses={};
+  if(isAlive(actor)&&revelationActive(battle,actor)&&actor.moonlightRevelation.baseAttackFromSpeed){const r=actor.moonlightRevelation.baseAttackFromSpeed;actor.moonlightBaseBonuses.attack=Math.min(r.cap,Math.max(0,baseStatValue(actor,'speed'))*r.ratio);}
   actor.moonlightRevelationActive=isAlive(actor)&&revelationActive(battle,actor)&&(!actor.moonlightRevelation.requiresMode||actor.activeMode===actor.moonlightRevelation.requiresMode);
   if(isAlive(actor)&&revelationActive(battle,actor))for(const[key,n]of Object.entries(actor.moonlightRevelation.modifiers??{}))actor.moonlightModifiers[key]=n;
   for(const source of battle.actors){
@@ -46,6 +48,8 @@ export function revelationEffects(battle,actor,skill,spent){
  const rule=actor.moonlightRevelation;if(rule.followUpOnly)return skill.effects;
  if(rule.allDamagingSkills?(skill.id.startsWith('$')||!skill.effects.some(e=>e.type==='damage')):skill.id!==rule.abilityId)return skill.effects;
  const effects=skill.effects.map(effect=>effect.type==='damage'&&(!rule.moonAtResource||spent>=rule.moonAtResource)?{...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])]}:effect);
+ if(rule.bonusOnlyAbility&&skill.id!==rule.abilityId)return effects;
+ if(!rule.commandMultiplier&&!rule.bonusMultiplier)return effects;
  if(rule.commandMultiplier)return [...effects,{type:'command_moonlight',blessingId:rule.blessingId,multiplier:rule.commandMultiplier}];
  const count=rule.perSpentResource?spent:1,base=skill.effects.find(e=>e.type==='damage');
  return [...effects,{type:'damage',damageType:base.damageType,element:actor.element,additionalElements:['moon'],scalingStat:rule.bonusScalingStat??'attack',multiplier:rule.bonusMultiplier,hits:count,rankDamageFactor:1,...(base.unavoidable?{unavoidable:true}:{})}];
@@ -70,4 +74,11 @@ export function moonlightPulseRank(content,actor,skill){
  const source=content.abilities[skill.rankFromAbility];
  const factor=coefficientFactor(getActorSkillRank(actor,source),actor.skillProgression??skillRules(content));
  return {...skill,effects:skill.effects.map(e=>e.type==='damage'||e.type==='command_moonlight'&&e.rankScaling?{...e,rankDamageFactor:factor}:['heal','shield'].includes(e.type)?{...e,...Object.fromEntries(['multiplier','primaryMultiplier','flat'].filter(k=>e[k]!==undefined).map(k=>[k,e[k]*factor]))}:e)};
+}
+
+// Runs after signature-gear and ordinary Rank coefficients have resolved. Never mutate authored effects.
+export function revelationDamageEffect(battle,actor,effect,context){
+ const rule=actor?.moonlightRevelation;if(!rule||!revelationActive(battle,actor)||context?.skillId!==rule.abilityId)return effect;
+ let result=effect;if(rule.counterRank){const rank=battle.pvpRules?Math.min(5,rule.counterRank):rule.counterRank,base=battle.content.abilities[rule.abilityId].effects.find(e=>e.type==='damage');result={...result,multiplier:Math.max(result.multiplier,base.multiplier*coefficientFactor(rank,actor.skillProgression??skillRules(battle.content)))};}
+ if(rule.onHitStatus)result={...result,onHitStatus:rule.onHitStatus};return result;
 }

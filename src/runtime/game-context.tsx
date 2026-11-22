@@ -1,4 +1,5 @@
 "use client";
+import {selectedHomeScene} from '../core/home-scenes.js';
 import {moonlightSnapshot} from '../core/battle.js';
 import {createCompetitiveArena} from '../core/arena-ranked.js';
 import {reserveArenaMatch,settleArenaMatch} from '../core/arena-progression.js';
@@ -464,12 +465,13 @@ export function GameProvider({
     };
   }, [content]);
   useEffect(() => {
+    music.current?.setHomeMusic(selectedHomeScene(campaign).music);
     music.current?.setRoute(entered ? path : "/");
     const sync = () => music.current?.setVisible(!document.hidden);
     sync();
     document.addEventListener("visibilitychange", sync);
     return () => document.removeEventListener("visibilitychange", sync);
-  }, [path, entered]);
+  }, [path, entered, campaign?.homeScene, campaign?.claimedFirstClearRewards]);
   async function transact(
     operation: (current: any) => any,
     message = "Đã lưu thay đổi.",

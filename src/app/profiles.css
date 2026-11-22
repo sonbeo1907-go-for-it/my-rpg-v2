@@ -295,3 +295,15 @@ button.home-title-link {
 
 .profile-save-location{display:block;color:#a1b3bc;font-size:.7rem;overflow-wrap:anywhere;line-height:1.6;margin-top:1rem}
 .profile-title-screen .tavern-background { transform: none; }
+.home-scene-background{background-size:cover;background-position:center;transform:none!important}
+.home-scene-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0 8px}
+.home-scene-option{display:flex;flex-direction:column;align-items:stretch;padding:0 0 16px;text-align:left;overflow:hidden;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--text);box-shadow:none;min-width:0}
+.home-scene-option[aria-pressed=true]{border-color:var(--gold);outline:1px solid var(--gold);outline-offset:2px}
+.home-scene-option:disabled{opacity:1;cursor:default}
+.home-scene-option:disabled .home-scene-preview{filter:grayscale(.65) brightness(.65)}
+.home-scene-preview{width:100%;aspect-ratio:16/10;object-fit:cover;border-bottom:1px solid var(--line)}
+.home-scene-name{font-family:"Noto Serif Variable",Georgia,serif;font-size:1.06rem;line-height:1.5;padding:14px 14px 6px}
+.home-scene-state{display:flex;align-items:center;gap:7px;color:var(--gold);font-size:.82rem;padding:0 14px}
+.home-scene-state .icon{width:16px;height:16px}
+.home-scene-option small{padding:10px 14px 0;color:var(--muted);font-weight:400;line-height:1.6;font-size:.78rem}
+@media(max-width:640px){.home-scene-options{grid-template-columns:1fr}.home-scene-preview{aspect-ratio:16/7}.home-scene-option{padding-bottom:14px}}

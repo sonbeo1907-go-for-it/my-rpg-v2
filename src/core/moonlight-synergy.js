@@ -36,6 +36,10 @@ export function validateMoonlightSynergies(content){
  const errors=[],fail=id=>errors.push(id+': invalid moonlight synergy');
  for(const actor of Object.values(content.characters??{})){
   const rule=actor.moonlightRevelation;
+  if(rule?.onHitStatus&&(!content.statuses[rule.onHitStatus.status]||content.statuses[rule.onHitStatus.status].kind!=='debuff'||!Number.isInteger(rule.onHitStatus.duration)||rule.onHitStatus.duration<1||rule.onHitStatus.duration>20))fail(actor.id);
+  if(rule?.counterRank!==undefined&&(!Number.isInteger(rule.counterRank)||rule.counterRank<1||rule.counterRank>8||actor.passive?.counterAbility!==rule.abilityId))fail(actor.id);
+  if(rule?.baseAttackFromSpeed&&(!Number.isFinite(rule.baseAttackFromSpeed.ratio)||rule.baseAttackFromSpeed.ratio<=0||rule.baseAttackFromSpeed.ratio>1||!Number.isFinite(rule.baseAttackFromSpeed.cap)||rule.baseAttackFromSpeed.cap<=0||rule.baseAttackFromSpeed.cap>100))fail(actor.id);
+  if(rule?.bonusOnlyAbility!==undefined&&rule.bonusOnlyAbility!==true)fail(actor.id);
   if(rule&&(rule.requiresMode!==undefined&&!actor.combatModes?.[rule.requiresMode]||rule.allDamagingSkills!==undefined&&rule.allDamagingSkills!==true||rule.followUpOnly!==undefined&&(rule.followUpOnly!==true||!actor.passive?.followUpAbility)||rule.modePerRound!==undefined&&(!rule.followUpOnly||!Number.isInteger(rule.modePerRound)||rule.modePerRound<1||rule.modePerRound>5)||rule.bonusScalingStat!==undefined&&!['attack','magic'].includes(rule.bonusScalingStat)))fail(actor.id);
   const p=actor.passive;
   if(p?.type==='moonlight_activation_resource'&&(!actor.moonlightBlessings?.includes(p.blessingId)||!Number.isInteger(p.amount)||p.amount<1||p.amount!==actor.resources?.[p.resource]?.max))fail(actor.id);

@@ -13,9 +13,11 @@ export function witnessedDebuff(battle,target,io){
   if(!isAlive(owner)||owner.team===target.team||!['debuff_witness_resource','debuff_witness_support'].includes(p?.type)||seen.has(owner.id))continue;
   seen.add(owner.id);io.announce(battle,owner,owner.id);
   if(p.type==='debuff_witness_resource'){io.restore(battle,owner,p.resource,p.amount,owner.id);continue;}
+  const mpState=owner.lampkeeperMpState,mpUses=mpState?.round===battle.round?mpState.uses:0,refund=mpUses<(p.mpPerRound??Infinity);
+  if(refund)owner.lampkeeperMpState={round:battle.round,uses:mpUses+1};
   for(const ally of battle.actors.filter(a=>a.team===owner.team&&isAlive(a))){
    if(p.elements.includes(ally.element)){const old=ally.statuses.find(s=>s.id===p.statusId),stacks=Math.min(p.maxStacks,(old?.stacks??0)+1);io.status(battle,ally,p.statusId,p.duration,owner.id,{baseStatModifiers:{attack:p.baseAttack*stacks}});}
-   io.restore(battle,ally,'mp',Math.ceil(io.maxMp(battle.content,ally)*p.mpRatio),owner.id);
+   if(refund)io.restore(battle,ally,'mp',Math.ceil(io.maxMp(battle.content,ally)*p.mpRatio),owner.id);
   }
  }
 }
@@ -45,7 +47,7 @@ export function lampkeeperRoundEnd(battle,io){
 export function validateLampkeepers(content){
  const errors=[];for(const a of Object.values(content.characters??{})){const p=a.passive;
   if(p?.type==='debuff_witness_resource'&&(!a.moonlightBlessings?.includes(p.blessingId)||!a.resources?.[p.resource]||p.amount!==1))errors.push(a.id+': invalid debuff witness resource');
-  if(p?.type==='debuff_witness_support'&&(!a.moonlightBlessings?.includes(p.blessingId)||JSON.stringify(p.elements)!=='["light","dark"]'||p.baseAttack!==4||p.maxStacks!==3||p.duration!==3||p.mpRatio!==.03||content.statuses[p.statusId]?.maxStacks!==3||content.statuses[p.statusId]?.durationClock!=='main_turn'))errors.push(a.id+': invalid debuff witness support');
+  if(p?.type==='debuff_witness_support'&&(!a.moonlightBlessings?.includes(p.blessingId)||JSON.stringify(p.elements)!=='["light","dark"]'||p.baseAttack!==4||p.maxStacks!==3||p.duration!==3||p.mpRatio!==.03||p.mpPerRound!==3||content.statuses[p.statusId]?.maxStacks!==3||content.statuses[p.statusId]?.durationClock!=='main_turn'))errors.push(a.id+': invalid debuff witness support');
   for(const mode of Object.values(a.combatModes??{})){
    if(mode.debuffAttack&&(mode.debuffAttack.perDebuff!==.08||mode.debuffAttack.cap!==.24))errors.push(a.id+': invalid debuff mode attack');
    if(mode.roundEndAbility&&(!content.abilities[mode.roundEndAbility]||mode.lifetime!=='rounds'))errors.push(a.id+': invalid round-end mode ability');

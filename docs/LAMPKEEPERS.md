@@ -8,7 +8,7 @@ Bài Ca Vô Danh vinh danh những Người Giữ Đèn chiến đấu và hy si
 
 ## Nhịp nội tại chung
 
-Một **hành động** gắn thành công hoặc kéo dài ít nhất một debuff trên địch kích mỗi người một lần. Không tính theo số hit, số địch hoặc số debuff. Một Liên kích/phản công có context riêng là một hành động khác. Làm mới debuff đã có được tính; Hộ Ấn chặn toàn bộ thì không. Không có giới hạn theo vòng. Không cần Chúc Phúc hoạt động để nhận tầng/MP.
+Một **hành động** gắn thành công hoặc kéo dài ít nhất một debuff trên địch kích mỗi người một lần. Không tính theo số hit, số địch hoặc số debuff. Một Liên kích/phản công có context riêng là một hành động khác. Làm mới debuff đã có được tính; Hộ Ấn chặn toàn bộ thì không. Phyllis tạo tầng và buff ATK Elsavetta không có giới hạn theo vòng; từ22/11/2026 riêng hồiMP Elsavetta tối đa3 lần/vòng chung. Không cần Chúc Phúc hoạt động để nhận tầng/MP.
 
 Dấu chống lặp nằm trong context tạm thời của hành động, được giữ bằng WeakMap, không đưa vào save, không dùng chung với forecast. Reserve trước khi cấp buff/hồi MP để không tự kích ngược. Đối tượng phải còn sống và là địch tương đối với người có nội tại; người có nội tại phải còn sống. Khi Bài Ca hoạt động, sát thương của cả hai mang thêm Nguyệt.
 
@@ -27,7 +27,7 @@ Phần cá nhân và hiệu lệnh là hai nguồn/hành động sát thương: 
 
 HP150 / MP120 / ATK38 / MAG9 / DEF20 / RES16 / SPD24. Hỗ trợ tấn công Quang, sát thương vật lí.
 
-- Nội tại: mỗi hành động hợp lệ cấp +4 ATK căn bản/tầng cho đồng đội Quang/Ám còn sống, gồm bản thân, tối đa3 tầng (+12); 3 lượt chính người nhận, tầng mới làm mới thời hạn chung. Đồng thời hồi 3% MP tối đa động cho **toàn đội** còn sống, làm tròn lên theo luật MP. Đủ tầng vẫn hồi MP; không yêu cầu hệ Quang/Ám cho phần hồi MP. Buff có thể bị Phong Ấn chặn, không hủy phần hồi MP.
+- Nội tại: mỗi hành động hợp lệ cấp +4 ATK căn bản/tầng cho đồng đội Quang/Ám còn sống, gồm bản thân, tối đa3 tầng (+12); 3 lượt chính người nhận, tầng mới làm mới thời hạn chung. Đồng thời hồi 3% MP tối đa động cho **toàn đội** còn sống, làm tròn lên theo luật MP. Đủ tầng vẫn hồi MP nếu còn quota3 lần/vòng chung; không yêu cầu hệ Quang/Ám cho phần hồi MP. Buff có thể bị Phong Ấn chặn, không hủy phần hồi MP.
 - Giữ Đèn, Em Sẽ Theo: 18MP, CD3 từ cast; mode5 vòng chung, tính vòng gọi. Vào dạng đánh 120% ATK toàn địch và kéo dài debuff1 lượt. Mỗi loại debuff trên từng địch còn sống cho +8% ATK, tối đa24%, tính động; không nhân theo stack, không tăng theo Rank. Đầu các vòng sau: 120% ATK toàn địch và ra lệnh Bài Ca **một** đòn120% ATK Chúc Phúc. Cuối mỗi vòng: 120% ATK toàn địch và khiên50% ATK toàn đội. Không có Bài Ca: bỏ hiệu lệnh, giữ đòn bản thân.
 - Soi Tỏ Kẽ Nứt: 10MP, CD1. 120% ATK toàn địch; −20% DEF và Rạn Khiên trong4 lượt chính; xóa1 buff mỗi địch.
 - Chớ Để Đêm Nuốt Mất: 10MP, CD1. 120% ATK toàn địch; −5 ATK/MAG **căn bản** trong4 lượt chính và1 Phong Ấn. Giảm căn bản giữ nguyên theo Rank.

@@ -1968,7 +1968,7 @@
     "passive": {
       "type": "agony_revenant",
       "name": "Oán Hận chưa nguôi",
-      "description": "HP về 0: Oán Hận đến hết vòng sau, vẫn hành động và giảm 30% sát thương nhận. Sát thương lúc này trừ HP tối đa; không nhận khiên hay hồi HP. Hết hạn trở lại với HP tối đa còn lại; có thể lặp. HP tối đa về 0 mới chết hẳn."
+      "description": "HP về 0: Oán Hận đến hết vòng sau, giảm 30% sát thương nhận; đòn đánh trừ HP tối đa. Sát thương Nguyệt luôn trừ thẳng HP tối đa. HP tối đa về 0 mới chết hẳn."
     },
     "agony": {
       "roundsAfterTrigger": 1,

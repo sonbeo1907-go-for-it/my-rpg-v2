@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import {selectedHomeScene} from "../core/home-scenes.js";
+import {HomeSceneDialog} from "./home-scenes";
 import { useState } from "react";
 import { useGame } from "../runtime/game-context";
 import { Icon, Modal, fmt } from "./ui";
@@ -88,13 +90,15 @@ export function HomePage() {
     busy,
   } = useGame();
   const [profileMenu,setProfileMenu]=useState(false);
+  const [scenePicker,setScenePicker]=useState(false);
+  const scene=selectedHomeScene(campaign);
   const [renaming, setRenaming] = useState(false);
   const preset = campaign.partyPresets.find(
     (item: any) => item.id === campaign.activePartyPresetId,
   );
   return (
-    <main className="home-screen">
-      <div className="scene-background tavern-background" />
+    <main className="home-screen" data-home-scene={scene.id}>
+      <div className="scene-background home-scene-background" style={{backgroundImage:`url(${scene.art})`}} />
       <div className="home-shade" />
       <button
         className="home-profile"
@@ -141,8 +145,8 @@ export function HomePage() {
           ))}
       </nav>
       <div className="home-caption">
-        <span>QUÁN TRỌ PHƯƠNG BẮC</span>
-        <p>Chưa có cuộc hành trình nào bắt đầu bằng một lời từ biệt.</p>
+        <span>{scene.name}</span>
+        <p>{scene.caption}</p>
       </div>
       {battle && (
         <Link className="continue-battle button gold" href="/battle">
@@ -150,7 +154,8 @@ export function HomePage() {
         </Link>
       )}
       <TavernRecruitment />
-      {profileMenu&&<Modal title="Hồ sơ người chơi" onClose={()=>setProfileMenu(false)}><div className="stack-actions"><button onClick={()=>{setProfileMenu(false);setRenaming(true);}}>Đổi tên người chơi</button><SwitchProfileButton className="button" onLeave={()=>setProfileMenu(false)}/></div></Modal>}
+      {profileMenu&&<Modal title="Hồ sơ người chơi" onClose={()=>setProfileMenu(false)}><div className="stack-actions"><button onClick={()=>{setProfileMenu(false);setScenePicker(true);}}>Đổi cảnh nền và nhạc</button><button onClick={()=>{setProfileMenu(false);setRenaming(true);}}>Đổi tên người chơi</button><SwitchProfileButton className="button" onLeave={()=>setProfileMenu(false)}/></div></Modal>}
+      {scenePicker&&<HomeSceneDialog onClose={()=>setScenePicker(false)}/>}
       {renaming && (
         <ProfileNameDialog
           title="Đổi tên người chơi"

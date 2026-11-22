@@ -43,7 +43,7 @@ export function characterCatalog(content, campaign, filters = {}, ownedOnly = fa
   return Object.values(content.characters).filter(actor => {
     if (actor.developerOnly && !campaign.storyFlags.includes('developer.'+actor.id)) return false;
     const owned = campaign.unlockedCharacterIds.includes(actor.id);
-    return (!ownedOnly || owned) && (!ownershipFilter || owned === (ownershipFilter === 'owned')) && (!element || element==='agony' || actor.element === element || element==='sword_soul' && actor.tags?.includes('sword_soul'))
+    return (!ownedOnly || owned) && (!ownershipFilter || owned === (ownershipFilter === 'owned')) && (!element || element==='agony' || actor.element === element || ['moon','moonlight'].includes(element)&&(Boolean(actor.moonlightRevelation)||Boolean(actor.moonlightBlessings?.length)||Boolean(content.moonlightBlessings?.[actor.passive?.blessingId])||actor.passive?.type==='moonlight_hymn') || element==='sword_soul' && actor.tags?.includes('sword_soul'))
       && availabilityMatches(exclusive,releasedExclusives.has(actor.id))
       && availabilityMatches(mastery,masteryEnabled(content,actor.id))
       && (!role || actor.roleGroup === role || actor.secondaryRoleGroups?.includes(role))
