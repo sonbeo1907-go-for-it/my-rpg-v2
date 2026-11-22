@@ -1831,5 +1831,37 @@
       "luna.promise": 18,
       "luna.lament": 16
     }
+  },
+  {
+    "id": "phyllis",
+    "role": "physical_dps",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "phyllis.advance"
+    ],
+    "burstAbilities": [
+      "phyllis.requiem"
+    ],
+    "skillBias": {
+      "phyllis.advance": 22,
+      "phyllis.beacon": 18,
+      "phyllis.requiem": 25
+    }
+  },
+  {
+    "id": "elsavetta",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.12,
+    "setupAbilities": [
+      "elsavetta.song"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "elsavetta.song": 22,
+      "elsavetta.fracture": 18,
+      "elsavetta.seal": 25
+    }
   }
 ]

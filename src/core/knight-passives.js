@@ -1,3 +1,4 @@
+import {syncLampkeeperAuras} from './lampkeeper.js';
 import {syncLunarAuras} from './lunar-support.js';
 import {syncMoonlightAuras} from './moonlight-revelation.js';
 import {syncShieldGuardAuras} from './shield-guard.js';
@@ -14,7 +15,7 @@ export function preparedTeamAuras(content,campaign){
  return modifiers;
 }
 export function syncTeamStatAuras(battle){
- syncMoonlightAuras(battle);syncLunarAuras(battle);
+ syncMoonlightAuras(battle);syncLunarAuras(battle);syncLampkeeperAuras(battle);
  const teams={};
  for(const source of battle.actors){const p=source.passive;if(!isAlive(source)||p?.type!=='team_stat_aura')continue;
   const modifiers=teams[source.team]??={};for(const [key,ratio]of Object.entries(p.modifiers))modifiers[key]=Math.max(modifiers[key]??0,ratio);

@@ -5408,7 +5408,7 @@
     "role": "Hỗ trợ tấn công",
     "roleGroup": "offensive_support",
     "basicDamageType": "magical",
-    "description": "Nữ tư tế bản địa Drageshelmfjall, kế nhiệm ngôi vị thánh nữ của tín ngưỡng thờ Thần Mặt Trăng. Khi nhiều đồng bào xuống thị trấn tuyết giao thương, cô ở lại gìn giữ nghi lễ đã truyền qua nghìn năm. Dâng lời khấn để tiếp sức cho đồng đội Quang/Thổ và nuôi dưỡng Hạt Giống Bội Thu.",
+    "description": "Nữ tư tế kế nhiệm ngôi vị thánh nữ của tín ngưỡng Mặt Trăng bản địa Drageshelmfjall. Cô gìn giữ nghi lễ nghìn năm khi đồng bào dần xuống thị trấn tuyết.",
     "stats": {
       "maxHp": 180,
       "maxMp": 120,
@@ -5463,7 +5463,7 @@
     "role": "DPS vật lí",
     "roleGroup": "physical_dps",
     "basicDamageType": "physical",
-    "description": "High Elf xuất thân quý tộc phương Bắc, đã sống ở thị trấn dưới núi tuyết suốt vài trăm năm. Thành viên cấp cao của Người Giữ Đèn, dùng cây kích gắn một ngọn đèn nhỏ; chiếc đèn bên người đã rỉ sét theo năm tháng. Anh thường lặng lẽ chăm sóc mộ những đồng đội đã ngã xuống.",
+    "description": "High Elf quý tộc phương Bắc, thành viên kỳ cựu Người Giữ Đèn. Anh dùng cây kích gắn đèn và lặng lẽ chăm sóc phần mộ đồng đội suốt những năm ở thị trấn tuyết.",
     "stats": {
       "maxHp": 175,
       "maxMp": 90,
@@ -5530,7 +5530,7 @@
     "role": "DPS ma pháp",
     "roleGroup": "magical_dps",
     "basicDamageType": "magical",
-    "description": "Chị của Seraphine Valmont, rời thủ đô đến thị trấn dưới núi tuyết để buôn bán, tránh con đường săn quái của gia đình. Sau lời chào ngọt ngào là những toan tính khéo léo; cô dần lấy lòng người bản địa.",
+    "description": "Chị của Seraphine Valmont, rời thủ đô đến thị trấn tuyết buôn bán. Sau lời chào ngọt ngào là những toan tính khéo léo để lấy lòng người bản địa.",
     "stats": {
       "maxHp": 160,
       "maxMp": 120,
@@ -5620,6 +5620,116 @@
           "roundStartAbility": "luna.renew",
           "roundEndAbility": "luna.pulse"
         }
+      }
+    }
+  },
+  {
+    "id": "phyllis",
+    "releaseId": 123,
+    "name": "Phyllis",
+    "title": "Ngọn Đèn Của Đội Mười Hai",
+    "affiliation": "lampkeepers",
+    "element": "dark",
+    "role": "DPS vật lí",
+    "roleGroup": "physical_dps",
+    "basicDamageType": "physical",
+    "description": "Đội trưởng đội mười hai của Người Giữ Đèn, mới hai mươi bốn tuổi. Anh mang nhiệt huyết chống ma vật phương Bắc, giữ đèn cho những người chưa kịp để lại tên.",
+    "stats": {
+      "maxHp": 170,
+      "maxMp": 120,
+      "attack": 36,
+      "magic": 9,
+      "defense": 22,
+      "resistance": 16,
+      "speed": 18
+    },
+    "abilities": [
+      "phyllis.advance",
+      "phyllis.beacon",
+      "phyllis.requiem"
+    ],
+    "resources": {
+      "watch_mark": {
+        "name": "Dấu Canh Gác",
+        "max": 3
+      }
+    },
+    "moonlightBlessings": [
+      "nameless_song"
+    ],
+    "passive": {
+      "type": "debuff_witness_resource",
+      "name": "Lời Thề Của Người Trẻ",
+      "description": "Mỗi hành động gắn hoặc kéo dài hiệu ứng bất lợi trên địch tạo 1 Dấu Canh Gác, tối đa 3. Khi Bài Ca Vô Danh hoạt động, sát thương bản thân mang thêm Nguyệt.",
+      "blessingId": "nameless_song",
+      "resource": "watch_mark",
+      "amount": 1
+    }
+  },
+  {
+    "id": "elsavetta",
+    "releaseId": 124,
+    "name": "Elsavetta",
+    "title": "Ánh Đèn Chưa Tắt",
+    "affiliation": "lampkeepers",
+    "element": "light",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "basicDamageType": "physical",
+    "description": "Tân binh Người Giữ Đèn dưới trướng Phyllis. Còn vụng về và đôi lúc sợ hãi, cô vẫn giữ ngọn đèn của mình như một lời hứa: mọi người luôn có chỗ dựa giữa đêm dài.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 120,
+      "attack": 38,
+      "magic": 9,
+      "defense": 20,
+      "resistance": 16,
+      "speed": 24
+    },
+    "abilities": [
+      "elsavetta.song",
+      "elsavetta.fracture",
+      "elsavetta.seal"
+    ],
+    "moonlightBlessings": [
+      "nameless_song"
+    ],
+    "passive": {
+      "type": "debuff_witness_support",
+      "name": "Ngọn Đèn Chung Lối",
+      "description": "Mỗi hành động gắn hoặc kéo dài hiệu ứng bất lợi trên địch: đồng đội Quang/Ám nhận 4 ATK căn bản trong 3 lượt chính, tối đa 3 tầng; toàn đội hồi 3% MP.",
+      "blessingId": "nameless_song",
+      "elements": [
+        "light",
+        "dark"
+      ],
+      "baseAttack": 4,
+      "maxStacks": 3,
+      "duration": 3,
+      "statusId": "elsavetta_courage",
+      "mpRatio": 0.03
+    },
+    "combatModes": {
+      "keepers_song": {
+        "name": "Bài Ca Cho Người Không Tên",
+        "summary": "Mỗi debuff trên địch: +8% ATK, tối đa 24% · đầu/cuối vòng tấn công · cuối vòng tạo khiên.",
+        "lifetime": "rounds",
+        "durationRounds": 5,
+        "baseStatBonuses": {},
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "allowedAbilities": [
+          "$attack",
+          "$defend",
+          "elsavetta.fracture",
+          "elsavetta.seal"
+        ],
+        "debuffAttack": {
+          "perDebuff": 0.08,
+          "cap": 0.24
+        },
+        "roundStartAbility": "elsavetta.dawn",
+        "roundEndAbility": "elsavetta.shelter"
       }
     }
   }

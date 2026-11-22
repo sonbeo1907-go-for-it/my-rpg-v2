@@ -5,16 +5,17 @@ export const SKILL_PROFILES=['basic','damage','heal','shield','stat_buff','outpu
 export const GROWING_STATS=['attack','magic','defense','resistance','maxMp','maxHp'];
 export const OUTPUT_BUFF_STATS=['damageBonus','attackMultiplier','damageVsShielded'];
 // A skill rank improves every eligible output group. Utility and fixed sources stay authored.
-export function rankedModePulse(content,skill){return skill.effects?.some(e=>e.type==='enter_mode'&&Object.values(content.characters??{}).some(a=>content.abilities[a.combatModes?.[e.mode]?.moonlightField?.roundEndAbility]?.rankFromAbility===skill.id));}
+export function rankedModePulse(content,skill){return skill.effects?.some(e=>e.type==='enter_mode'&&Object.values(content.characters??{}).some(a=>content.abilities[(a.combatModes?.[e.mode]?.moonlightField?.roundEndAbility??a.combatModes?.[e.mode]?.roundEndAbility)]?.rankFromAbility===skill.id));}
 export function skillGrowthGroups(content,skill){
  if(skill.growthProfile==='fixed'||skill.rankable===false||skill.activation==='passive')return [];
  const groups=new Set();
  if(skill.linkedPassiveGrowth||rankedModePulse(content,skill))groups.add('damage');
+ if(rankedModePulse(content,skill))for(const a of Object.values(content.characters??{}))for(const m of Object.values(a.combatModes??{}))for(const id of [m.roundStartAbility,m.roundEndAbility])if(content.abilities[id]?.rankFromAbility===skill.id)for(const e of content.abilities[id].effects)if(['heal','shield'].includes(e.type))groups.add(e.type);
  for(const effect of skill.effects??[]){
   if(effect.type==='damage')groups.add(skill.id==='$attack'?'basic':'damage');
   if(effect.type==='command_moonlight'&&effect.rankScaling===true)groups.add('damage');
   if(effect.flatSkillScaling)groups.add('damage');
-  if(effect.baseStatModifiers)groups.add('stat_buff');
+  if(effect.baseStatModifiers&&Object.values(effect.baseStatModifiers).some(n=>n>0))groups.add('stat_buff');
   if(['heal','shield'].includes(effect.type))groups.add(effect.type);
   for(const id of [effect.status,...effect.linkedStatuses??[]].filter(Boolean)){
    const status=content?.statuses?.[id];if(status?.kind!=='buff')continue;

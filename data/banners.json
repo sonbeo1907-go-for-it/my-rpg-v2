@@ -117,7 +117,9 @@
       "shashthi",
       "flynn",
       "bianca",
-      "luna"
+      "luna",
+      "phyllis",
+      "elsavetta"
     ],
     "gearRates": [
       {
@@ -382,6 +384,14 @@
         {
           "id": "luna",
           "from": "2026-11-21"
+        },
+        {
+          "id": "phyllis",
+          "from": "2026-11-22"
+        },
+        {
+          "id": "elsavetta",
+          "from": "2026-11-22"
         }
       ]
     }

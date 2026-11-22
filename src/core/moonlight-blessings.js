@@ -81,7 +81,7 @@ export function settleMoonlight(battle,io){
 }
 export function moonlightDamageEffect(battle,source,effect,context){
  const p=source?.passive,rule=source?.moonlightRevelation;
- const native=(['moonlight_guardian','moonlight_potency','moonlight_activation_resource'].includes(p?.type)&&battle.moonlight?.[source.team]?.active?.id===p.blessingId)||(p?.type==='moonlight_activation_mode'&&source.activeMode===p.modeId);
+ const native=(['moonlight_guardian','moonlight_potency','moonlight_activation_resource','debuff_witness_resource','debuff_witness_support'].includes(p?.type)&&battle.moonlight?.[source.team]?.active?.id===p.blessingId)||(p?.type==='moonlight_activation_mode'&&source.activeMode===p.modeId);
  const revealed=rule&&(rule.allDamagingSkills||rule.followUpOnly)&&revelationActive(battle,source)&&(!rule.requiresMode||source.activeMode===rule.requiresMode)&&(!rule.followUpOnly||context?.skillId===source.passive?.followUpAbility);
  if(!native&&!revealed)return effect;
  return {...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])].filter(e=>e!==effect.element)};

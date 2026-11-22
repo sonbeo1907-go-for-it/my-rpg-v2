@@ -27,7 +27,7 @@ export function effectiveStat(actor, key, temporaryModifier = 0, baseBonus = 0) 
     ? actor.statuses?.find(status => status.id === actor.passive.statusId) : null;
   const fieldBonus = field ? Math.min(actor.passive.maxStacks, field.growth ?? 0) * actor.passive.ratio : 0;
   const exclusiveModeBonus = specialPassives(actor,'mode_stat_boost').reduce((sum,p)=>sum+(p.stat===key&&p.modeId===actor.activeMode?p.ratio:0),0);
-  return base * Math.max(0.1, 1 + (actor.lunarModifiers?.[key]??0) + (actor.moonlightModifiers?.[key]??0) + (actor.teamAuraModifiers?.[key]??0) + (actor.encounterModifiers?.[key]??0) + (actor.turnFieldModifiers?.[key]??0) + (actor.performanceModifiers?.[key]??0) + permanent + stance + (actor.exclusiveModifiers?.[key] ?? 0) + (actor.exclusiveTeamModifiers?.[key]??0) + resourceBonus + fieldBonus + exclusiveModeBonus + (actor.combatModes?.[actor.activeMode]?.teamAuraElements?0:(actor.modeAppliedModifiers?.[key]??actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0)) + temporaryModifier);
+  return base * Math.max(0.1, 1 + (actor.lunarModifiers?.[key]??0)+(actor.lampkeeperModifiers?.[key]??0) + (actor.moonlightModifiers?.[key]??0) + (actor.teamAuraModifiers?.[key]??0) + (actor.encounterModifiers?.[key]??0) + (actor.turnFieldModifiers?.[key]??0) + (actor.performanceModifiers?.[key]??0) + permanent + stance + (actor.exclusiveModifiers?.[key] ?? 0) + (actor.exclusiveTeamModifiers?.[key]??0) + resourceBonus + fieldBonus + exclusiveModeBonus + (actor.combatModes?.[actor.activeMode]?.teamAuraElements?0:(actor.modeAppliedModifiers?.[key]??actor.combatModes?.[actor.activeMode]?.statModifiers?.[key]??0)) + temporaryModifier);
 }
 
 export function primaryDamageEffect(effect, primary) {

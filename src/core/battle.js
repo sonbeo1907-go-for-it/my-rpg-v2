@@ -1,3 +1,4 @@
+import {debuffBatch,setDebuffBatch,withDebuffBatch,witnessedDebuff,extendHostileDebuffs,lampkeeperRoundEnd} from './lampkeeper.js';
 import {lunarBaseDamageMultiplier,lunarOutgoingAmp,lunarIncomingMultiplier,moonlightEmpoweredBuff,moonlightAspectAbility,lunarRoundStart,lunarRoundEnd} from './lunar-support.js';
 import {moonlightActivated,moonlightPotencyMultiplier,providerBuff} from './moonlight-synergy.js';
 import {revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
@@ -379,7 +380,8 @@ function attackContext(battle, actor) {
   };
 }
 
-function finishAttackContext(battle, actor, context) {
+function finishAttackContext(battle,actor,context){return withDebuffBatch(battle,context,()=>finishAttackContextBody(battle,actor,context));}
+function finishAttackContextBody(battle, actor, context) {
   syncTeamStatAuras(battle);
   if(context.lifeStealHp>0&&living(actor))healHp(battle,actor,context.lifeStealHp,actor.id,'Hút máu');
   settleDamageBuffs(battle,actor,context,{emit:emitEvent,write});
@@ -557,7 +559,7 @@ export function moonlightSnapshot(battle){
 function moonlightPulse(battle,source,definition,targets,amount,phase,request,commander){
  const options=typeof request==='number'?{multiplier:request}:request??{},base=battle.content.abilities[definition.abilityId];
  // Snapshot each target's debuffs once for the complete batch; exposure is spent at batch end.
- const plan=targets.map(target=>({target,hits:moonlightTargetHits(battle.content,definition,target,options.hits??1)})).filter(p=>p.hits>0);
+ const plan=targets.map(target=>({target,hits:options.hits??moonlightTargetHits(battle.content,definition,target,1)})).filter(p=>p.hits>0);
  if(!plan.length)return false;
  targets=plan.map(p=>p.target);const maxHits=Math.max(...plan.map(p=>p.hits));
  const skill={...base,...(options.targetMode==='selected'?{target:'enemy'}:{}),effects:[{...base.effects[0],...(options.hits!==undefined||definition.debuffHits?{hits:maxHits}:{}),...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{}),...(options.rankDamageFactor!==undefined?{rankDamageFactor:options.rankDamageFactor}:{})}]};
@@ -1013,7 +1015,7 @@ function finishMainRound(battle) {
   roundSummons(battle,"end",modeIO);
   if (checkOutcome(battle)) return;
   expireRoundSummons(battle,modeIO);
-  for (const actor of battle.actors) if(!actor.combatModes?.[actor.activeMode]?.moonlightField)checkCombatMode(battle,actor,"round_end",modeIO);
+  for (const actor of battle.actors) if(!actor.combatModes?.[actor.activeMode]?.moonlightField&&!actor.combatModes?.[actor.activeMode]?.roundEndAbility)checkCombatMode(battle,actor,"round_end",modeIO);
   for (const source of battle.actors.filter(living)) {
     const passive = source.passive;
     for(const exclusive of exclusivePassives(source).filter(p=>p.type==='end_round_shielded_mp')){
@@ -1071,9 +1073,9 @@ function finishMainRound(battle) {
   settleMoonlight(battle,moonlightIO);
   pulseMoonlight(battle,"end",moonlightIO);
   if(checkOutcome(battle))return;
-  moonlightRoundEnd(battle,{...modeIO,maxMp:battleMaxMp});
+  moonlightRoundEnd(battle,{...modeIO,maxMp:battleMaxMp});lampkeeperRoundEnd(battle,modeIO);
   lunarRoundEnd(battle,modeIO);if(checkOutcome(battle))return;
-  for(const actor of battle.actors)if(actor.combatModes?.[actor.activeMode]?.moonlightField)checkCombatMode(battle,actor,'round_end',modeIO);
+  for(const actor of battle.actors)if(actor.combatModes?.[actor.activeMode]?.moonlightField||actor.combatModes?.[actor.activeMode]?.roundEndAbility)checkCombatMode(battle,actor,'round_end',modeIO);
   expireMoonlight(battle,moonlightIO);
   settleMoonlight(battle,moonlightIO);
   emitEvent(battle, { type: "round_end", round: battle.round });
@@ -1525,10 +1527,10 @@ function hit(
   const growth=hitGrowthRatio(battle.content,attacker);
   if(growth>0||context.skill?.presentation?.startsWith('iaido_')){context.hitSequences??=new Map();const index=context.hitSequences.get(originalTarget.id)??0;context.hitSequences.set(originalTarget.id,index+1);context.hitIndex=index;context.hitGrowthMultiplier=(1+growth)**index;}
   try {
-    return resolveHit(battle, attacker, originalTarget, effect, spent, {
+    return withDebuffBatch(battle,context,()=>resolveHit(battle, attacker, originalTarget, effect, spent, {
       ...options,
       actionContext: context,
-    });
+    }));
   } finally {
     if (!options.actionContext) finishAttackContext(battle, attacker, context);
   }
@@ -1988,6 +1990,7 @@ function applyStatus(
     applied.potency = periodicPotency(definition,source,key=>stat(battle,source,key));
   }
   target.statuses.push(applied);
+  if(definition.kind==='debuff'&&debuffBatch(battle))witnessedDebuff(battle,target,{...specialIO,announce:announcePassive,maxMp:battleMaxMp});
   if(definition.healingDebt){
     emitEvent(battle,{type:'life_debt_applied',sourceId,targetId:target.id,amount:debtAdded,remaining:lifeDebt(target)});
     write(battle,`${target.name} nhận ${debtAdded} Thế Chấp, tổng ${lifeDebt(target)} HP.`);
@@ -2030,7 +2033,8 @@ function spawnSummonedEnemy(battle,owner,effect){
   return count;
 }
 
-function applyEffect(
+function applyEffect(battle,actor,targets,effect,spent,area,context){const batch=context??debuffBatch(battle);const ctx=batch?.exposures?batch:attackContext(battle,actor);return withDebuffBatch(battle,ctx,()=>applyEffectBody(battle,actor,targets,effect,spent,area,ctx));}
+function applyEffectBody(
   battle,
   actor,
   targets,
@@ -2040,10 +2044,12 @@ function applyEffect(
   actionContext = attackContext(battle, actor),
 ) {
   effect=moonlightEmpoweredBuff(battle,actor,effect);
+  if(effect.type==='extend_debuffs'){extendHostileDebuffs(battle,actor,effect.turns,{...specialIO,announce:announcePassive,maxMp:battleMaxMp});return;}
   if(effect.type==='performance_stage'){applyPerformanceStage(battle,actor,effect,{order:orderActorIds,write,emit:emitEvent});return;}
   if(effect.type==='bind_turns'){bindTurns(battle,actor,targets[0],effect,{status:applyStatus,write,emit:emitEvent});return;}
   if(effect.type==='command_moonlight'){
-    const request={...(effect.rankDamageFactor!==undefined?{rankDamageFactor:effect.rankDamageFactor}:{}),...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})};
+    if(!canCommandMoonlight(battle,actor,effect.blessingId))return;
+    const request={...(effect.hits!==undefined?{hits:effect.hits}:{}),...(effect.rankDamageFactor!==undefined?{rankDamageFactor:effect.rankDamageFactor}:{}),...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})};
     if(effect.targetMode==='selected'){
       const target=targets.find(t=>t.id===actionContext.primaryTargetId),active=battle.moonlight?.[actor.team]?.active;
       if(!target||!living(target)||target.team===actor.team||!active?.targets.includes(target.id)||!canCommandMoonlight(battle,actor,effect.blessingId))return;
@@ -2304,7 +2310,8 @@ function finishStatuses(
   clampBattleMp(battle.content,actor);
 }
 
-function resolveAction(
+function resolveAction(battle,command,options){return withDebuffBatch(battle,{},()=>resolveActionBody(battle,command,options));}
+function resolveActionBody(
   battle,
   { actorId, abilityId, targetId, formulaEdit },
   { endTurn = true, resetEvents = true } = {},
@@ -2370,6 +2377,8 @@ function resolveAction(
   write(battle, `${actor.name} dùng ${skill.name}.`);
   if (skill.cost?.preferResource) write(battle,actor.name+': tiêu '+(selectedResource ? spent+' '+actor.resources[selectedResource.id].name : totalPaidMp+' MP')+'.');
   const actionContext = attackContext(battle, actor);
+  if(debuffBatch(battle)?.lampkeeperWitnesses)actionContext.lampkeeperWitnesses=debuffBatch(battle).lampkeeperWitnesses;
+  setDebuffBatch(battle,actionContext);
   actionContext.spentLifeDebt=spentLifeDebt;
   actionContext.mortgageDamageBonus=mortgageBonusBeforeCost;
   actionContext.teamResourceSpent=teamCost?{[teamCost.id]:paidTeam}:{};

@@ -69,5 +69,5 @@ export function moonlightPulseRank(content,actor,skill){
  if(!skill.rankFromAbility)return skill;
  const source=content.abilities[skill.rankFromAbility];
  const factor=coefficientFactor(getActorSkillRank(actor,source),actor.skillProgression??skillRules(content));
- return {...skill,effects:skill.effects.map(e=>e.type==='damage'?{...e,rankDamageFactor:factor}:e)};
+ return {...skill,effects:skill.effects.map(e=>e.type==='damage'||e.type==='command_moonlight'&&e.rankScaling?{...e,rankDamageFactor:factor}:['heal','shield'].includes(e.type)?{...e,...Object.fromEntries(['multiplier','primaryMultiplier','flat'].filter(k=>e[k]!==undefined).map(k=>[k,e[k]*factor]))}:e)};
 }

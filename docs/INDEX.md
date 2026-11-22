@@ -19,6 +19,8 @@
 
 ## Combat và UX
 
+- [Phyllis / Elsavetta — Người Giữ Đèn, Bài Ca Vô Danh](LAMPKEEPERS.md)
+
 - [Nguyệt Quang Chúc Phúc — khung hệ thống và Noelle Model 4.0](MOONLIGHT_BLESSING.md)
 - [Luna — mode khúc hát và gear Nguyệt](LUNA.md)
 - [Bianca Valmont — hiệu lệnh Hạt Giống](BIANCA.md)

@@ -2162,5 +2162,64 @@
     "name": "Ước Hẹn Ngoài Song Cửa",
     "kind": "buff",
     "durationClock": "main_turn"
+  },
+  {
+    "id": "phyllis_fracture",
+    "name": "Mũi Kích Mở Đường",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.2
+    }
+  },
+  {
+    "id": "phyllis_suppression",
+    "name": "Lửa Canh Gác",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": -0.2,
+      "magic": -0.2
+    }
+  },
+  {
+    "id": "phyllis_resolve",
+    "name": "Lời Thề Tuổi Trẻ",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.35
+    }
+  },
+  {
+    "id": "phyllis_slow",
+    "name": "Sương Bị Xé Tan",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "speed": -0.2
+    }
+  },
+  {
+    "id": "elsavetta_fracture",
+    "name": "Soi Tỏ Kẽ Nứt",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": -0.2
+    }
+  },
+  {
+    "id": "elsavetta_drain",
+    "name": "Đêm Không Nuốt Mất",
+    "kind": "debuff",
+    "durationClock": "main_turn"
+  },
+  {
+    "id": "elsavetta_courage",
+    "name": "Ngọn Đèn Chung Lối",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "maxStacks": 3
   }
 ]

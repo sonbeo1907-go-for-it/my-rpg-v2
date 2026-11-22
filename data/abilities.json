@@ -14231,5 +14231,292 @@
     "activation": "passive",
     "fixedReason": "Hiệu ứng tự động của Nguyệt Quang Chúc Phúc.",
     "presentation": "moonlight_song"
+  },
+  {
+    "id": "phyllis.advance",
+    "name": "Mũi Kích Mở Đường",
+    "description": "Đánh toàn địch, giảm DEF và ATK/MAG trong 3 lượt chính; tăng 35% ATK bản thân trong 3 lượt chính.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 5
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "scalingStat": "attack",
+        "multiplier": 0.4
+      },
+      {
+        "type": "status",
+        "status": "phyllis_fracture",
+        "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "phyllis_suppression",
+        "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "phyllis_resolve",
+        "duration": 3,
+        "to": "self"
+      }
+    ],
+    "skillLineId": "phyllis.advance",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "phyllis.beacon",
+    "name": "Ánh Đèn Xé Sương",
+    "description": "Đánh toàn địch, giảm 20% SPD trong 3 lượt chính, gắn 2 Sơ Hở Ám và nhận Lượt Thêm.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 8
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "scalingStat": "attack",
+        "multiplier": 0.4
+      },
+      {
+        "type": "status",
+        "status": "phyllis_slow",
+        "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "exposure_dark",
+        "stacks": 2
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "phyllis.beacon",
+    "growthProfile": "damage",
+    "rankable": true
+  },
+  {
+    "id": "phyllis.requiem",
+    "name": "Cho Những Tên Chưa Khắc",
+    "description": "Đánh toàn địch hai lần. Tiêu Dấu Canh Gác để gọi Bài Ca Vô Danh Liên kích, rồi kéo dài debuff trên địch thêm 2 lượt.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "scalingStat": "attack",
+        "multiplier": 2.2,
+        "hits": 2
+      },
+      {
+        "type": "command_moonlight",
+        "blessingId": "nameless_song",
+        "multiplier": 1.2,
+        "optional": true,
+        "rankScaling": true,
+        "spendResource": {
+          "id": "watch_mark",
+          "max": 3
+        }
+      },
+      {
+        "type": "extend_debuffs",
+        "turns": 2
+      }
+    ],
+    "skillLineId": "phyllis.requiem",
+    "growthProfile": "damage",
+    "rankable": true,
+    "rules": [
+      "Mỗi tầng gọi một đòn 120% ATK Chúc Phúc; cả chuỗi chỉ tiêu 1 Sơ Hở Ám mỗi địch.",
+      "Chúc Phúc chưa hoạt động: giữ Dấu Canh Gác. Không tăng số lần chặn hoặc tầng debuff khi kéo dài."
+    ]
+  },
+  {
+    "id": "elsavetta.song",
+    "name": "Giữ Đèn, Em Sẽ Theo",
+    "description": "Cất bài ca trong 5 vòng, đánh toàn địch và kéo dài debuff thêm 1 lượt.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 18
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "keepers_song",
+        "to": "self"
+      },
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "extend_debuffs",
+        "turns": 1
+      }
+    ],
+    "skillLineId": "elsavetta.song",
+    "growthProfile": "damage",
+    "rankable": true,
+    "growthGroups": [
+      "damage",
+      "shield"
+    ],
+    "rules": [
+      "Đầu vòng sau: tấn công toàn địch và gọi Bài Ca Vô Danh Liên kích một đòn.",
+      "Cuối vòng: tấn công toàn địch và cấp khiên toàn đội.",
+      "Mỗi debuff trên địch tăng 8% ATK bản thân, tối đa 24%."
+    ],
+    "growthAdapter": "mode_command"
+  },
+  {
+    "id": "elsavetta.fracture",
+    "name": "Soi Tỏ Kẽ Nứt",
+    "description": "Đánh toàn địch, giảm 20% DEF và gây Rạn Khiên trong 4 lượt chính; xóa 1 buff mỗi địch.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "status": "elsavetta_fracture",
+        "duration": 4
+      },
+      {
+        "type": "status",
+        "status": "shield_fracture",
+        "duration": 4
+      },
+      {
+        "type": "dispel",
+        "count": 1
+      }
+    ],
+    "skillLineId": "elsavetta.fracture",
+    "growthProfile": "damage",
+    "rankable": true
+  },
+  {
+    "id": "elsavetta.seal",
+    "name": "Chớ Để Đêm Nuốt Mất",
+    "description": "Đánh toàn địch, giảm 5 ATK/MAG căn bản trong 4 lượt chính và gắn 1 Phong Ấn.",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 10
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "status": "elsavetta_drain",
+        "duration": 4,
+        "baseStatModifiers": {
+          "attack": -5,
+          "magic": -5
+        }
+      },
+      {
+        "type": "status",
+        "status": "buff_seal",
+        "charges": 1
+      }
+    ],
+    "skillLineId": "elsavetta.seal",
+    "growthProfile": "damage",
+    "rankable": true
+  },
+  {
+    "id": "elsavetta.dawn",
+    "name": "Lời Ca Mở Lối",
+    "target": "all_enemies",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "command_moonlight",
+        "blessingId": "nameless_song",
+        "multiplier": 1.2,
+        "optional": true,
+        "rankScaling": true,
+        "hits": 1
+      }
+    ],
+    "rankFromAbility": "elsavetta.song",
+    "skillLineId": "elsavetta.dawn",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Lấy Rank từ Giữ Đèn, Em Sẽ Theo."
+  },
+  {
+    "id": "elsavetta.shelter",
+    "name": "Một Chỗ Dựa Trong Đêm",
+    "target": "all_enemies",
+    "activation": "passive",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "scalingStat": "attack",
+        "multiplier": 1.2
+      },
+      {
+        "type": "shield",
+        "scalingStat": "attack",
+        "multiplier": 0.5,
+        "to": "all_allies"
+      }
+    ],
+    "rankFromAbility": "elsavetta.song",
+    "skillLineId": "elsavetta.shelter",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Lấy Rank từ Giữ Đèn, Em Sẽ Theo."
   }
 ]

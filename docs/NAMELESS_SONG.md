@@ -16,7 +16,7 @@ ATK Chúc Phúc = A × min(1,2; 0,5 + 0,1 × D). Không có thành viên hợp l
 
 Mỗi địch nhận min(3, số loại debuff của địch đó) hit, mỗi hit100% ATK nguồn Chúc Phúc, **vật lí Ám–Nguyệt**. Địch không có debuff nhận0 hit; cả đội địch không có debuff thì không tạo hit/damage giả. Chốt số hit từng địch và ATK một lần trước cả đợt. Dùng một attack context cho toàn đợt: mọi hit lên một địch chỉ reserve/tiêu1 Sơ Hở Ám; không tự consume theo hit. Vẫn qua DEF, khiên, né, điểm yếu, soft cap và phản ứng chuẩn. Mục tiêu đã gục dừng nhận hit.
 
-Luna native/mode, Song Nguyệt Đồng Tâm và các modifier Nguyệt giữ lớp riêng. Nguồn damage độc lập moonlight_<team>, không chiếm slot đội hình hoặc lượt. Cùng đường hiệu lệnh có thể tái dùng về sau; hiện chưa thêm nhân vật có skill ra lệnh cho Bài Ca. Noelle chỉ phản hồi đúng Lôi Sấm Thịnh Nộ, không tự phản hồi Bài Ca.
+Luna native/mode, Song Nguyệt Đồng Tâm và các modifier Nguyệt giữ lớp riêng. Nguồn damage độc lập moonlight_<team>, không chiếm slot đội hình hoặc lượt. Cùng đường hiệu lệnh có thể tái dùng về sau; Phyllis và Elsavetta đã có skill ra lệnh cho Bài Ca (22/11/2026), xem LAMPKEEPERS.md. Hiệu lệnh dùng số hit chỉ định thay vì số debuff; toàn chuỗi vẫn tiêu một Sơ Hở Ám mỗi địch. Noelle chỉ phản hồi đúng Lôi Sấm Thịnh Nộ, không tự phản hồi Bài Ca.
 
 ## UI và nghiệm thu
 

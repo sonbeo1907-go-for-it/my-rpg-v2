@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Phyllis / Elsavetta — 22/11/2026
+
+Nhân vật chính thức #123/#124, phe Người Giữ Đèn, hai nguồn cấp Bài Ca Vô Danh. Debuff gắn/kéo dài kích một lần mỗi hành động, kể cả Liên kích riêng; Hộ Ấn chặn không tính. Elsavetta +4 ATK căn bản/tầng Quang/Ám (max3,3main_turn) và3%MP **toàn đội** mỗi lần; Phyllis max3 tầng, chiêu cuối tiêu hết gọi1–3hit120%ATK Chúc Phúc, cả chuỗi tiêu1Sơ Hở/địch. Mode Elsavetta5rounds có start/end pulse, không đổi nền; đòn/khiên vòng5 trước expiry. Xem [LAMPKEEPERS](LAMPKEEPERS.md) cho lifecycle/rank/carry/forecast và quyết định đã chốt.
+
 ## Luna mở mắt / Bài Ca Vô Danh — 22/11/2026
 
 Quyết định mới thay iris cũ: chỉ mở oval viền mềm trên background, chậm→nhanh; hoa từ mép dưới bay sâu, gần đáy lượn sang hai bên, tất cả ở z0. Hoa thường xuyên z2 từ vùng cạnh trái/trên, góc30°,10/6 cánh. Không che/mask HUD, không có nhịp khép. Reduced-motion tắt hoa/rung. Xem LUNA.md.
