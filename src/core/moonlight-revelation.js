@@ -30,7 +30,7 @@ export function activeMoonlight(battle,team,id){const a=battle.moonlight?.[team]
 export function revelationActive(battle,actor){return actor.moonlightRevelationEnabled===true&&activeMoonlight(battle,actor.team,actor.moonlightRevelation?.blessingId);}
 export function syncMoonlightAuras(battle){
  for(const actor of battle.actors){
-  actor.moonlightModifiers={};actor.moonlightBaseBonuses={};
+  actor.moonlightModifiers={};actor.moonlightBaseBonuses=isAlive(actor)&&revelationActive(battle,actor)?{...actor.moonlightRevelation.baseStatBonuses}:{};
   if(isAlive(actor)&&revelationActive(battle,actor)&&actor.moonlightRevelation.baseAttackFromSpeed){const r=actor.moonlightRevelation.baseAttackFromSpeed;actor.moonlightBaseBonuses.attack=Math.min(r.cap,Math.max(0,baseStatValue(actor,'speed'))*r.ratio);}
   actor.moonlightRevelationActive=isAlive(actor)&&revelationActive(battle,actor)&&(!actor.moonlightRevelation.requiresMode||actor.activeMode===actor.moonlightRevelation.requiresMode);
   if(isAlive(actor)&&revelationActive(battle,actor))for(const[key,n]of Object.entries(actor.moonlightRevelation.modifiers??{}))actor.moonlightModifiers[key]=n;
@@ -50,7 +50,7 @@ export function revelationEffects(battle,actor,skill,spent){
  const effects=skill.effects.map(effect=>effect.type==='damage'&&(!rule.moonAtResource||spent>=rule.moonAtResource)?{...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])]}:effect);
  if(rule.bonusOnlyAbility&&skill.id!==rule.abilityId)return effects;
  if(!rule.commandMultiplier&&!rule.bonusMultiplier)return effects;
- if(rule.commandMultiplier)return [...effects,{type:'command_moonlight',blessingId:rule.blessingId,multiplier:rule.commandMultiplier}];
+ if(rule.commandMultiplier)return [...effects,{type:'command_moonlight',blessingId:rule.blessingId,multiplier:rule.commandMultiplier,...(rule.commandTargetMode?{targetMode:rule.commandTargetMode,hits:1}:{})}];
  const count=rule.perSpentResource?spent:1,base=skill.effects.find(e=>e.type==='damage');
  return [...effects,{type:'damage',damageType:base.damageType,element:actor.element,additionalElements:['moon'],scalingStat:rule.bonusScalingStat??'attack',multiplier:rule.bonusMultiplier,hits:count,rankDamageFactor:1,...(base.unavoidable?{unavoidable:true}:{})}];
 }

@@ -173,7 +173,7 @@ Nguyệt Quang Hé Lộ là nội tại bổ sung của Rhett, Gawain, Tywin, Yu
 
 Save v7 có thêm `moonlightRevelations[id]={unlocked:true,enabled:boolean}`. Save thiếu trường nhận `{}`, không tự mở hoặc thu phí. Resolver chốt `moonlightRevelationEnabled` vào build trận. Roster mượn không tự được nâng cấp tài khoản; PvP dùng snapshot của từng phe và Rank tối đa 5 như trước.
 
-Người có Hé Lộ **không có `moonlightBlessings`**, không tạo bảng/tổ hợp khi đi riêng. Chúc Phúc tương ứng cùng phe đang hoạt động mới mở hiệu quả: Lôi Sấm Thịnh Nộ cho Rhett/Gawain/Tywin; Hạt Giống Bội Thu cho Yufina/Astraea (kèm mode). Hiệu quả mất ngay khi Chúc Phúc kết thúc, không tạo buff status có thể xóa hoặc bị Phong Ấn. Giữ trạng thái mua/bật qua save; hiệu quả trong trận và deadline Chúc Phúc theo cơ chế carry đã có.
+Người có Hé Lộ **không có `moonlightBlessings`**, không tạo bảng/tổ hợp khi đi riêng. Chúc Phúc tương ứng cùng phe đang hoạt động mới mở hiệu quả: Lôi Sấm Thịnh Nộ cho Rhett/Gawain/Tywin; Hạt Giống Bội Thu cho Lisbeth/Astraea (Astraea cần Vườn); Bài Ca Vô Danh cho Yufina (cần Quang quyền bừng sáng). Hiệu quả mất ngay khi Chúc Phúc kết thúc, không tạo buff status có thể xóa hoặc bị Phong Ấn. Giữ trạng thái mua/bật qua save; hiệu quả trong trận và deadline Chúc Phúc theo cơ chế carry đã có.
 
 | Nhân vật | Khi Lôi Sấm Thịnh Nộ đang tồn tại |
 | --- | --- |
@@ -226,3 +226,8 @@ Quang–Ám được triển khai chính thức trong khung Chúc Phúc, Luna t�
 ### Hé Lộ Bài Ca Vô Danh — 22/11/2026
 
 Bổ sung Gahallad, Yumia và Chelsea, giữ phí30Pure và bật/tắt hiện hữu, không cấp quyền gọi Chúc Phúc. Xem HOME_SCENES_AND_NAMELESS_REVELATIONS.md cho hệ số R5M3/PvP, baseSPD, hit280% và clock debuff. Filter nhân vật dùng nhóm Nguyệt Quang thay lựa chọn hệ damage Nguyệt; engine vẫn giữ damage Nguyệt.
+
+
+### Cập nhật Hé Lộ Yufina / Lisbeth — 22/11/2026
+
+Yufina đổi sang Bài Ca Vô Danh và hit thêm120%ATK, vẫn cần mode; tiến trình mở cũ giữ nguyên. Lisbeth nhận+10baseMAG/mọi damage thêmMoon khi Hạt Giống cùng phe tồn tại, riêng Phán quyết gọi1hit350%MAG Chúc Phúc đúng target, hệ số cố định. Trấn thay hoànMP bằng CD−1/+30%MAG riêngPhánQuyết. Xem [hợp đồng cập nhật](YUFINA_LISBETH_REVELATIONS.md).

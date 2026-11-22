@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Yufina / Lisbeth Hé Lộ và Trấn — 22/11/2026
+
+Yufina đổi sang Bài Ca Vô Danh, vẫn cần mode, hit thêm cố định120%ATK thayMAG; giữ unlock cũ. Lisbeth Hé Lộ Hạt Giống +10baseMAG, mọi damage thêmMoon, riêngJudgment gọi1hit350%MAG Chúc Phúc đúng target. Trấn Lisbeth thay hoànMP bằng CD−1 và +30%MAG riêngskill, không tăng stat nguồn Chúc Phúc. [Đặc tả mới](YUFINA_LISBETH_REVELATIONS.md) thay quyết định cũ tương ứng bên dưới.
+
 ## Cảnh nền chờ / ba Hé Lộ / Nguyệt trừ maxHP — 22/11/2026
 
 Profile đổi homeScene (account split-save, thiếu→tavern). Hai SVG/BGM unlock từ first clear toàn màn east_ke_02/east_ke_05. Filter moonlight gồm provider/nội tại Nguyệt/Hé Lộ không cần đã mua. Elsavetta hồiMP tối đa3 lần/vòng chung, buffATK vẫn kích. Hé Lộ Bài Ca cho Gahallad/Yumia/Chelsea, giá30Pure; Yumia PvE tối thiểu hệ số gốcR5M3, PvP capR5; Chelsea baseSPD→baseATK cap25, bonusDelivery280% cố định. Moon chính/phụ trên groupagony trừmaxHP cả trước Oán Hận, bypassshield nhưng vẫn qua phòng thủ. Xem [đặc tả cập nhật](HOME_SCENES_AND_NAMELESS_REVELATIONS.md).

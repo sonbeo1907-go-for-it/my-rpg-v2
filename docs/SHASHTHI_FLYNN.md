@@ -23,7 +23,7 @@ Mode dùng nhãn tiêu chuẩn trên ô Shashthi, không có mặt nạ Selene, 
 
 Mỗi người mở30 Pure Prisma tại tab Kỹ Năng, bật/tắt miễn phí ngoài trận/chuyến đi. Save giữ chung `moonlightRevelations`; dữ liệu cũ không tự mở.
 
-- **Yufina:** cần Hé Lộ đã bật, mode Quang quyền bừng sáng và Chúc Phúc Hạt Giống cùng phe. Mọi sát thương mang thêm Nguyệt; mỗi kỹ năng công kích chủ động đánh thêm một hit120%MAG của Yufina. Hệ số120% cố định, không lấy ATK hoặc Rank, vẫn cùng lần trả chi phí/CD. Đánh thường có Nguyệt nhưng không nhận hit thêm. Khi thiếu một điều kiện, không có phần cộng. Kỹ năng gốc vẫn gây phép dựa trên ATK; phần cộng mới dùng MAG.
+- **Yufina (cập nhật22/11):** chuyển sang **Bài Ca Vô Danh**, vẫn cần Quang quyền bừng sáng và Hé Lộ đã bật. Mọi sát thương mang thêm Nguyệt; mỗi kỹ năng công kích thêm một hit **120% ATK động của Yufina**, cố định theo Rank/Thông Thạo. Đánh thường chỉ thêm Nguyệt, không thêm hit. Hạt Giống không còn kích Hé Lộ Yufina.
 - **Astraea:** cần Hé Lộ đã bật, Vườn Hắc Hoa và Hạt Giống cùng phe. Chỉ Liên kích của nội tại mang thêm Nguyệt; nâng giới hạn trong Vườn từ2 lên **3 lần mỗi vòng toàn cục**, chung Vòng Chính/Vòng Phụ. Không reset quota khi hết Chúc Phúc/rời Vườn trong cùng vòng; không kích từ bản thân, Phòng Thủ hoặc Liên kích. Đòn chủ động không tự thêm Nguyệt.
 
 ## Flynn #120

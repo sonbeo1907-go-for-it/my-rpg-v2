@@ -18,6 +18,7 @@ function setup(party=['shashthi','yufina','astraea','iris']){const b=createBattl
 function cast(b,id,ability,target){b.queue=[id,...b.actors.filter(a=>a.id!==id&&a.hp>0).map(a=>a.id)];b.cursor=0;executeAction(b,{actorId:id,abilityId:ability,targetId:target??b.actors.find(a=>a.team==='enemy'&&a.hp>0).id});return b.events;}
 function next(b){const r=b.round;for(let i=0;i<70&&b.round===r&&!b.outcome;i++){const a=activeActor(b);executeAction(b,{actorId:a.id,abilityId:'$defend',targetId:a.id});}assert.equal(b.round,r+1);}
 function seed(b){cast(b,'shashthi','$attack');cast(b,'astraea','$attack');assert.ok(activeMoonlight(b,'party','bountiful_seed'));}
+function song(b){cast(b,'yufina','$attack');cast(b,'yumia','$attack');assert.ok(activeMoonlight(b,'party','nameless_song'));}
 function storm(b){cast(b,'noelle','noelle.thunder');cast(b,'tywin','$attack');assert.ok(activeMoonlight(b,'party','thunder_wrath'));}
 const hits=(b,id,target='enemy_0')=>b.events.filter(e=>e.type==='damage'&&e.sourceId===id&&e.targetId===target);
 
@@ -48,12 +49,12 @@ test('harvest entry/pulse is MAG, gains Moon while seed is active, rank grows bo
 test('Shashthi death removes her seed boost while the independent blessing remains',()=>{
  const b=setup();seed(b);getActor(b,'shashthi').hp=0;b.queue=b.actors.filter(a=>a.hp>0).map(a=>a.id);b.cursor=0;next(b);assert.ok(activeMoonlight(b,'party','bountiful_seed'));const stat=getActor(b,'moonlight_party').stats.magic;assert.ok(Math.abs(hits(b,'moonlight_party')[0].amount-stat*1.5*.6)<2);
 });
-test('Yufina revelation adds a fixed MAG hit only to active skills; mode basics gain Moon without the extra hit',()=>{
- const extra=[];for(const rank of [1,5]){const b=setup();seed(b);cast(b,'yufina','yufina.ignite');getActor(b,'yufina').skillRanks={'yufina.pierce':rank};cast(b,'yufina','yufina.pierce');const h=hits(b,'yufina');assert.equal(h.length,2);assert.ok(h.every(e=>e.elements.includes('moon')));extra.push(h[1].amount);assert.ok(Math.abs(h[1].amount-getActor(b,'yufina').stats.magic*1.2)<2);const mp=getActor(b,'yufina').mp;cast(b,'yufina','$attack');assert.equal(hits(b,'yufina').length,1);assert.ok(hits(b,'yufina')[0].elements.includes('moon'));assert.equal(getActor(b,'yufina').mp,mp);}
+test('Yufina Song revelation adds a fixed ATK hit only to active skills; mode basics gain Moon without the extra hit',()=>{
+ const extra=[];for(const rank of [1,5]){const b=setup(['luna','yufina','yumia','iris']);song(b);cast(b,'yufina','yufina.ignite');getActor(b,'yufina').skillRanks={'yufina.pierce':rank};cast(b,'yufina','yufina.pierce');const h=hits(b,'yufina');assert.equal(h.length,2);assert.ok(h.every(e=>e.elements.includes('moon')));extra.push(h[1].amount);assert.ok(Math.abs(h[1].amount-battleStat(c,getActor(b,'yufina'),'attack')*1.2*1.1)<2);const mp=getActor(b,'yufina').mp;cast(b,'yufina','$attack');assert.equal(hits(b,'yufina').length,1);assert.ok(hits(b,'yufina')[0].elements.includes('moon'));assert.equal(getActor(b,'yufina').mp,mp);}
  assert.equal(extra[0],extra[1]);
 });
-test('Yufina needs her mode, enabled revelation and same-side seed for extra MAG damage',()=>{
- for(const missing of ['mode','enabled','seed']){const b=setup();if(missing!=='seed')seed(b);if(missing!=='mode')cast(b,'yufina','yufina.ignite');if(missing==='enabled')getActor(b,'yufina').moonlightRevelationEnabled=false;cast(b,'yufina','yufina.pierce');assert.equal(hits(b,'yufina').length,1);assert.equal(hits(b,'yufina')[0].elements,undefined);}
+test('Yufina needs her mode, enabled revelation and same-side Song for extra ATK damage',()=>{
+ for(const missing of ['mode','enabled','song']){const b=setup(['luna','yufina','yumia','iris']);if(missing!=='song')song(b);if(missing!=='mode')cast(b,'yufina','yufina.ignite');if(missing==='enabled')getActor(b,'yufina').moonlightRevelationEnabled=false;cast(b,'yufina','yufina.pierce');assert.equal(hits(b,'yufina').length,1);assert.equal(hits(b,'yufina')[0].elements,undefined);}
 });
 test('Astraea revelation reserves three support follow-ups across Main and Extra; fourth is refused',()=>{
  const b=setup();cast(b,'astraea','astraea.garden','astraea');seed(b);

@@ -510,7 +510,20 @@
       "lisbeth.judgment"
     ],
     "biography": "Tiểu thư nhà Ranoc, dòng quý tộc có tổ tiên lập khế ước với quỷ. Kiêu ngạo và tsundere, cô luôn phủ nhận sự quan tâm dành cho người khác.",
-    "releaseId": 16
+    "releaseId": 16,
+    "moonlightRevelation": {
+      "name": "Nguyệt Quang Hé Lộ",
+      "blessingId": "bountiful_seed",
+      "abilityId": "lisbeth.judgment",
+      "allDamagingSkills": true,
+      "baseStatBonuses": {
+        "magic": 10
+      },
+      "commandMultiplier": 3.5,
+      "commandTargetMode": "selected",
+      "bonusOnlyAbility": true,
+      "description": "Khi Hạt Giống Bội Thu tồn tại: +10 MAG căn bản, mọi sát thương mang thêm Nguyệt. Phán quyết kiêu hãnh ra lệnh cho Hạt Giống Nảy Mầm Liên kích mục tiêu 350% MAG của Chúc Phúc."
+    }
   },
   {
     "id": "kai",
@@ -1863,13 +1876,13 @@
     "releaseId": 48,
     "moonlightRevelation": {
       "name": "Nguyệt Quang Hé Lộ",
-      "blessingId": "bountiful_seed",
+      "blessingId": "nameless_song",
       "abilityId": "yufina.pierce",
       "requiresMode": "radiant_fists",
       "allDamagingSkills": true,
       "bonusMultiplier": 1.2,
-      "bonusScalingStat": "magic",
-      "description": "Hạt Giống Bội Thu tồn tại và Quang quyền bừng sáng đang hoạt động: mọi sát thương mang thêm Nguyệt. Kỹ năng công kích đánh thêm một đòn 120% MAG của Yufina."
+      "bonusScalingStat": "attack",
+      "description": "Bài Ca Vô Danh tồn tại và Quang quyền bừng sáng đang hoạt động: mọi sát thương mang thêm Nguyệt. Kỹ năng công kích đánh thêm một đòn 120% ATK của Yufina."
     }
   },
   {

@@ -66,8 +66,8 @@ test('Rhett Defend restores HP and one Charge; Fran applies stronger, longer deb
 test('Kai RES follows rank explicitly, leaving the shared status definition and original kit untouched',()=>{
  const c=save(['kai','arthur','iris','elaine']);Object.assign(c.characters.kai,{level:50,limitBreakRank:3,skillRanks:{'kai.formation':5}});const actor=resolveCharacter(content,c,'kai'),skill=resolveRankedAbility(content,actor,'kai.formation');const extra=skill.effects.find(e=>e.status==='kai_exclusive_resistance');near(extra.appliedModifiers.resistance,.15*1.05**4);assert.equal(content.abilities['kai.formation'].effects.length,1);assert.match(skillPresentation(skill,actor,content).facts.join(' '),/18,23% RES/);
 });
-test('Lisbeth refunds after casting only when pride existed at cast start',()=>{
- for(const pride of [false,true]){const b=fixture(['lisbeth','arthur','iris','elaine']),l=a(b,'lisbeth');if(pride)use(b,'lisbeth','lisbeth.pride');const before=l.mp;use(b,'lisbeth','lisbeth.judgment','enemy_0');assert.equal(before-l.mp,content.abilities['lisbeth.judgment'].cost.mp-(pride?8:0));}
+test('Lisbeth signature reduces Judgment cooldown, adds skill MAG and replaces the old MP refund',()=>{
+ for(const pride of [false,true]){const b=fixture(['lisbeth','arthur','iris','elaine']),l=a(b,'lisbeth');if(pride)use(b,'lisbeth','lisbeth.pride');const before=l.mp;use(b,'lisbeth','lisbeth.judgment','enemy_0');assert.equal(before-l.mp,content.abilities['lisbeth.judgment'].cost.mp);assert.equal(l.cooldowns['lisbeth.judgment'],2);assert.equal(resolveRankedAbility(content,l,'lisbeth.judgment').cooldown,1);}
 });
 test('Benard adds 25% current SPD per twin-blade hit, only during Gale; Trấn contribution does not grow with Rank',()=>{
  const b=fixture(['benard','arthur','iris','elaine']),g=a(b,'benard');use(b,'benard','benard.gale');const atk=battleStat(content,g,'attack'),speed=battleStat(content,g,'speed'),e=content.abilities['benard.twin_blades'].effects[0];use(b,'benard','benard.twin_blades','enemy_0');for(const hit of damage(b))assert.equal(hit.amount,Math.floor(atk*e.multiplier+speed*((g.passive.ratio??0)+(e.speedMultiplier??0)+.25)));

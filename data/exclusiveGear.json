@@ -551,15 +551,31 @@
       "blueprint": true
     },
     "passive": {
-      "type": "after_skill_mp",
-      "abilityIds": [
-        "lisbeth.judgment"
-      ],
-      "requiresStatus": "ranoc_pride",
-      "amount": 8,
+      "type": "bundle",
       "name": "Quang Trượng Kiêu Hãnh",
-      "description": "Phán quyết kiêu hãnh hoàn lại 8 MP sau khi thi triển nếu đã có Kiêu hãnh Ranoc khi bắt đầu chiêu.",
-      "rules": []
+      "description": "Phán quyết kiêu hãnh giảm 1 vòng hồi chiêu và nhận thêm 30% MAG riêng cho kỹ năng này.",
+      "rules": [],
+      "effects": [
+        {
+          "type": "skill_cooldown_reduction",
+          "abilityIds": [
+            "lisbeth.judgment"
+          ],
+          "amount": 1,
+          "name": "Quang Trượng Kiêu Hãnh",
+          "description": "Phán quyết kiêu hãnh giảm 1 vòng hồi chiêu."
+        },
+        {
+          "type": "skill_stat_bonus",
+          "abilityIds": [
+            "lisbeth.judgment"
+          ],
+          "stat": "magic",
+          "ratio": 0.3,
+          "name": "Quang Trượng Kiêu Hãnh",
+          "description": "Phán quyết kiêu hãnh nhận thêm 30% MAG riêng cho kỹ năng này."
+        }
+      ]
     }
   },
   {

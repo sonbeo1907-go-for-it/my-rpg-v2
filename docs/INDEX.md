@@ -19,6 +19,8 @@
 
 ## Combat và UX
 
+- [Hé Lộ Yufina / Lisbeth và Trấn Lisbeth](YUFINA_LISBETH_REVELATIONS.md)
+
 - [Cảnh nền chờ / Hé Lộ Bài Ca / sửa sát thương Nguyệt](HOME_SCENES_AND_NAMELESS_REVELATIONS.md)
 
 - [Phyllis / Elsavetta — Người Giữ Đèn, Bài Ca Vô Danh](LAMPKEEPERS.md)
