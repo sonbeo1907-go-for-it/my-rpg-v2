@@ -1,5 +1,11 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Luna mở mắt / Bài Ca Vô Danh — 22/11/2026
+
+Quyết định mới thay iris cũ: chỉ mở oval viền mềm trên background, chậm→nhanh; hoa từ mép dưới bay sâu, gần đáy lượn sang hai bên, tất cả ở z0. Hoa thường xuyên z2 từ vùng cạnh trái/trên, góc30°,10/6 cánh. Không che/mask HUD, không có nhịp khép. Reduced-motion tắt hoa/rung. Xem LUNA.md.
+
+nameless_song Quang–Ám đã vào khung, Luna tự cấp quyền. ATK50% +10% mỗi debuff qua từng địch, cap120% trung bình Quang/Ám; cuối vòng mỗi địch0–3 hit100% vật lí Ám–Nguyệt, một context/đợt nên tiêu1 Sơ Hở Ám. Nguyệt Nhật Hỗn Mang còn chưa triển khai. Xem NAMELESS_SONG.md.
+
 ## Song Nguyệt Đồng Tâm — hiệu lệnh Chúc Phúc, 21/11/2026
 
 Gear khuếch đại25% cả sát thương Nguyệt của người mặc lẫn Chúc Phúc Liên kích do người mặc ra lệnh. Commander đi theo context của từng đợt; nguồn sát thương vẫn là Chúc Phúc, không giữ gear/bonus trên sourceActor, không lan sang pulse tự động hoặc phản hồi Noelle. Cùng đường cho Flynn/Bianca/Gawain và hai phe PvP; 99 kiểm thử liên quan đạt. Xem [LUNA](LUNA.md).

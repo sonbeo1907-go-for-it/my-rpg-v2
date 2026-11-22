@@ -22,7 +22,7 @@ const damage=(events,id,target='enemy_0')=>events.filter(e=>e.type==='damage'&&e
 
 test('Luna is official, grants both live recipes, and does not register unfinished blessings',()=>{
  assert.equal(c.characters.luna.releaseId,122);assert.ok(c.banners.standard.characterPool.includes('luna'));assert.deepEqual(c.characters.luna.stats,{maxHp:300,maxMp:130,defense:20,resistance:25,attack:10,magic:10,speed:24});
- assert.deepEqual(moonlightAccess(c.characters.luna,c).sort(),['bountiful_seed','thunder_wrath']);assert.equal(Object.keys(c.moonlightBlessings).length,2);
+ assert.deepEqual(moonlightAccess(c.characters.luna,c).sort(),['bountiful_seed','nameless_song','thunder_wrath']);assert.equal(Object.keys(c.moonlightBlessings).length,3);
  const s=account();assert.deepEqual(decodeGameSave(encodeGameSave(s,c),c),s);
  for(const [party,sequence,wanted]of [[['luna','tywin','iris','garrek'],['garrek','tywin'],'thunder_wrath'],[['luna','arthur','lyon','iris'],['arthur','lyon'],'bountiful_seed']]){
   const b=setup(party);if(wanted==='thunder_wrath'){b.content.characters.garrek.element='thunder';getActor(b,'garrek').element='thunder';}
@@ -84,7 +84,7 @@ test('dungeon carry preserves mode deadline and does not replay entry cleanse or
 });
 test('PvP has symmetric independent fields, access and gear auras and clamps mode Rank to five',()=>{
  const b=createArenaBattle(c,account(undefined,{luna:['moonlit_covenant']}),'mirror',122);for(const a of b.actors){a.hp=a.stats.maxHp=100000;a.stats.defense=a.stats.resistance=0;}const id=(team,name)=>b.actors.find(a=>a.team===team&&a.definitionId===name).id;
- for(const team of ['party','enemy']){const owner=getActor(b,id(team,'luna'));owner.skillRanks={'luna.song':8};assert.equal(resolveRankedAbility(c,owner,'luna.song').skillRank,5);cast(b,owner.id,'luna.song',owner.id);assert.equal(owner.activeMode,'moon_song');assert.deepEqual(b.moonlight[team].allowed,['bountiful_seed','thunder_wrath']);}
+ for(const team of ['party','enemy']){const owner=getActor(b,id(team,'luna'));owner.skillRanks={'luna.song':8};assert.equal(resolveRankedAbility(c,owner,'luna.song').skillRank,5);cast(b,owner.id,'luna.song',owner.id);assert.equal(owner.activeMode,'moon_song');assert.deepEqual(b.moonlight[team].allowed,['bountiful_seed','nameless_song','thunder_wrath']);}
  assert.ok(b.actors.every(a=>a.lunarModifiers.attack===-.2&&a.lunarModifiers.magic===-.2));
 });
 test('copy presents dynamic max HP, supported recipes, fixed field values and ranked end damage',()=>{
@@ -102,7 +102,7 @@ test('periodic Moon damage receives Luna support, lunar gear and hostile field o
  getActor(b,'enemy_0').statuses.push({id:'test_moon_dot',remaining:2,stacks:1,potency:100,sourceId:'noelle'});b.queue=['luna','enemy_0','noelle','shashthi','bianca','enemy_1','enemy_2'];b.cursor=0;executeAction(b,{actorId:'luna',abilityId:'$defend',targetId:'luna'});const tick=damage(b.events,'noelle').find(e=>e.periodic);assert.ok(tick);assert.equal(tick.amount,Math.floor(100*1.1*1.25*1.3));
 });
 test('universal access automatically includes future registered pairs without adding unfinished content today',()=>{
- const content=structuredClone(c);content.moonlightBlessings.nameless_song={id:'nameless_song',elements:['light','dark']};content.moonlightBlessings.chaotic_eclipse={id:'chaotic_eclipse',elements:['water','fire']};assert.equal(moonlightAccess(content.characters.luna,content).length,4);assert.equal(Object.keys(c.moonlightBlessings).length,2);
+ const content=structuredClone(c);content.moonlightBlessings.nameless_song={id:'nameless_song',elements:['light','dark']};content.moonlightBlessings.chaotic_eclipse={id:'chaotic_eclipse',elements:['water','fire']};assert.equal(moonlightAccess(content.characters.luna,content).length,4);assert.equal(Object.keys(c.moonlightBlessings).length,3);
 });
 
 test('native lunar increase also covers flat skill damage supplied by Ariel before amplification',()=>{

@@ -1,3 +1,4 @@
+import {debuffTypeCount} from './conditional-combat.js';
 import {moonlightAccess} from './lunar-support.js';
 import {coefficientFactor,skillRules} from './skill-rules.js';
 import {moonlightOffenseMultiplier} from './moonlight-synergy.js';
@@ -11,6 +12,8 @@ export function validateMoonlight(content){
  const errors=[],defs=content.moonlightBlessings??{};
  for(const d of Object.values(defs)){
   if(!d.name||!d.description||!Array.isArray(d.elements)||d.elements.length!==2||!PAIRS.has(pairKey(d.elements))||!['attack','magic'].includes(d.stat)||!Number.isFinite(d.statRatio)||d.statRatio<=0||d.durationRounds!==3||!['all_enemies','anchored_enemies'].includes(d.targetMode)||!Array.isArray(d.phases)||!d.phases.length||new Set(d.phases).size!==d.phases.length||d.phases.some(p=>!['start','end'].includes(p)))errors.push(d.id+': invalid moonlight definition');
+  if(d.debuffScaling!==undefined&&(!d.debuffScaling||d.stat!=='attack'||!Number.isFinite(d.debuffScaling.perDebuff)||d.debuffScaling.perDebuff<=0||d.debuffScaling.perDebuff>1||!Number.isFinite(d.debuffScaling.maxRatio)||d.debuffScaling.maxRatio<d.statRatio||d.debuffScaling.maxRatio>2||Object.keys(d.debuffScaling).some(k=>!['perDebuff','maxRatio'].includes(k))))errors.push(d.id+': invalid moonlight debuff scaling');
+  if(d.debuffHits!==undefined&&(!d.debuffHits||!Number.isInteger(d.debuffHits.max)||d.debuffHits.max<1||d.debuffHits.max>6||Object.keys(d.debuffHits).some(k=>k!=='max')))errors.push(d.id+': invalid moonlight debuff hits');
   const skill=content.abilities?.[d.abilityId];
   if(!skill||skill.activation!=='passive'||skill.growthProfile!=='fixed'||skill.effects?.length!==1||skill.effects[0].type!=='damage'||skill.effects[0].scalingStat!==d.stat||!damageElements(skill.effects[0]).includes('moon'))errors.push(d.id+': invalid moonlight pulse');
  }
@@ -38,8 +41,11 @@ export function moonlightDefinition(battle,team){const active=battle.moonlight?.
 export function moonlightStat(battle,team,readStat){
  const d=moonlightDefinition(battle,team);if(!d)return 0;
  const members=battle.actors.filter(a=>a.team===team&&isAlive(a)&&battle.content.characters[a.definitionId??a.id]&&d.elements.includes(a.element));
- return members.length?members.reduce((n,a)=>n+readStat(a,d.stat),0)/members.length*d.statRatio*moonlightOffenseMultiplier(battle,team,d.id):0;
+ const debuffs=d.debuffScaling?battle.actors.filter(a=>a.team!==team&&isAlive(a)).reduce((n,a)=>n+debuffTypeCount(battle.content,a),0):0;
+ const ratio=d.debuffScaling?Math.min(d.debuffScaling.maxRatio,d.statRatio+debuffs*d.debuffScaling.perDebuff):d.statRatio;
+ return members.length?members.reduce((n,a)=>n+readStat(a,d.stat),0)/members.length*ratio*moonlightOffenseMultiplier(battle,team,d.id):0;
 }
+export function moonlightTargetHits(content,definition,target,fallback=1){return definition.debuffHits?Math.min(definition.debuffHits.max,debuffTypeCount(content,target)):fallback;}
 // Observe real enemy HP/shield damage; never allow a blessing to fuel itself.
 export function recordMoonlightDamage(battle,source,target,effect,amount,io){
  const state=battle.moonlight?.[source?.team];

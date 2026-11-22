@@ -3024,3 +3024,23 @@ h1[tabindex='-1']:focus { outline: none; }
 .mode-scene-moon_song{background-position:center 45%;background-size:cover}.mode-scene-moon_song .summon-eye-halo{inset:8% 20% 20%;background:radial-gradient(ellipse,#79c8ff19,transparent 65%);animation:cosmic-breathe 5s ease-in-out infinite alternate}
 .battle-page[data-combat-mode=moon_song] .battlefield{background:#08172adc;border-color:#82b6d180}.battle-page[data-combat-mode=moon_song] .combatant{background:#091b2bef}.battle-page[data-combat-mode=moon_song] .command-panel{background:#0b1c2aef}.summon-state-moon_song{color:#e1f5ff;background:#10243af0;border-color:#96d2e7}.mode-scene-moon_song:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#06111d88,transparent 55%,#09182e66)}
 @media(prefers-reduced-motion:reduce){.mode-scene-moon_song,.mode-scene-moon_song .summon-eye-halo{animation:none}}
+
+/* Luna: a soft horizontal eye opens on the BACKGROUND; the HUD is never masked. */
+.mode-scene-moon_song{animation:none}
+.luna-garden-scene:after{display:none}
+.luna-garden{display:block;width:100%;height:100%;overflow:hidden}
+.luna-eye-aperture{rx:1300px;ry:1300px}
+[data-luna-iris=opening] .luna-eye-aperture{animation:luna-eye-open 3200ms linear both}
+@keyframes luna-eye-open{0%{rx:80px;ry:6px}45%{rx:240px;ry:50px}70%{rx:620px;ry:280px}100%{rx:1300px;ry:1300px}}
+.luna-garden-wind{transform-origin:500px 560px}
+[data-luna-bloom=true] .luna-garden-wind{animation:luna-garden-wind 11200ms ease-in-out both}
+@keyframes luna-garden-wind{0%,100%{transform:translate(0,0) scale(1.012)}28%{transform:translate(-3px,1px) scale(1.018)}47%{transform:translate(3px,-2px) scale(1.02)}67%{transform:translate(-2px,1px) scale(1.018)}85%{transform:translate(1px,-1px) scale(1.014)}}
+.luna-bloom-petal{opacity:0;animation:luna-bloom-flight 5s cubic-bezier(.18,.36,.45,1) both;transform-origin:0 0}
+@keyframes luna-bloom-flight{0%{opacity:0;transform:translate(0,0) rotate(var(--petal-turn)) scale(.25)}12%{opacity:.45}52%{opacity:.65;transform:translate(calc(var(--bloom-x)*.8),calc(var(--bloom-y)*.88)) rotate(calc(var(--petal-turn) + 40deg)) scale(1.8)}66%{opacity:.65;transform:translate(var(--bloom-x),var(--bloom-y)) rotate(calc(var(--petal-turn) + 55deg)) scale(2.6)}76%{opacity:.55;transform:translate(calc(var(--bloom-x) + var(--bloom-drift)*.15),calc(var(--bloom-y) - var(--bloom-rise)*.12)) rotate(calc(var(--petal-turn) + 65deg)) scale(2.7)}100%{opacity:0;transform:translate(calc(var(--bloom-x) + var(--bloom-drift)),calc(var(--bloom-y) - var(--bloom-rise))) rotate(calc(var(--petal-turn) + 105deg)) scale(2.2)}}
+.luna-petals{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:2;--petal-travel:max(110vh,140vw)}
+.luna-petal-track{position:absolute;width:21px;height:17px;opacity:0;animation:luna-petal-fall 42s linear infinite;will-change:transform}
+.luna-petal{display:block;width:100%;height:100%;animation:luna-petal-turn 10s ease-in-out infinite alternate;transform:rotate(var(--petal-turn))}
+@keyframes luna-petal-fall{0%{opacity:0;transform:translate3d(0,0,0)}5%{opacity:.55}82%{opacity:.45}100%{opacity:0;transform:translate3d(calc(var(--petal-travel)*.8660254),calc(var(--petal-travel)*.5),0)}}
+@keyframes luna-petal-turn{0%{transform:rotate(var(--petal-turn)) rotateY(0deg)}100%{transform:rotate(calc(var(--petal-turn) + 75deg)) rotateY(55deg)}}
+@media(max-width:600px){.luna-petal-track:nth-child(n+7){display:none}.luna-petal-track{width:16px;height:13px}}
+@media(prefers-reduced-motion:reduce){.luna-petals,.luna-bloom-petals{display:none}.luna-eye-aperture{rx:1300px!important;ry:1300px!important;animation:none!important}.luna-garden-wind,.luna-petal-track,.luna-petal{animation:none!important;transform:none}}

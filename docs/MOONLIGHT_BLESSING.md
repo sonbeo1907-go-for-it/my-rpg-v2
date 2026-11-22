@@ -217,3 +217,7 @@ Bianca #121 là provider Quang–Thổ thứ hai. `moonlight_activation_resource
 Luna #122 dùng native moonlight_hymn/allBlessings: moonlightAccess trả mọi định nghĩa đã đăng ký, không thêm tổ hợp chưa triển khai. Hiện Luna tự cấp quyền Thủy–Lôi/Quang–Thổ, vẫn phải nạp sát thương thật theo hai ô. Shashthi nhận diện Luna là provider để nhân đôi buff. Native10% Nguyệt ảnh hưởng cả nguồn Chúc Phúc; trường và gear của Luna theo phe, không thay định nghĩa pulse hoặc ưu tiên ghép. Xem [LUNA](LUNA.md).
 
 Song Nguyệt Đồng Tâm (21/11/2026): đợt `command_moonlight` giữ nguồn độc lập nhưng nhận 25% khuếch đại Nguyệt từ gear của người ra lệnh, đúng một lần. Context theo cast, không ảnh hưởng pulse tự động/Noelle/hiệu lệnh khác; xem LUNA.md.
+
+## Bài Ca Vô Danh — 22/11/2026
+
+Quang–Ám được triển khai chính thức trong khung Chúc Phúc, Luna tự cấp quyền. ATK động50% trung bình Quang/Ám +10 điểm phần trăm mỗi loại debuff cộng qua từng địch còn sống, cap120%. Cuối vòng chung mỗi địch nhận0–3 hit vật lí Ám–Nguyệt theo debuff, cùng context nên chỉ tiêu1 Sơ Hở Ám/địch. Xem [NAMELESS_SONG](NAMELESS_SONG.md) cho đầy đủ clock, snapshot, nguồn, carry và nghiệm thu.

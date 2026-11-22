@@ -33,5 +33,29 @@
     ],
     "targetMode": "anchored_enemies",
     "abilityId": "moonlight.bountiful_seed"
+  },
+  {
+    "id": "nameless_song",
+    "name": "Bài Ca Vô Danh",
+    "description": "Ghép Quang và Ám, tồn tại 3 vòng. ATK bằng 50% trung bình ATK động Quang/Ám còn sống, tăng 10 điểm phần trăm với mỗi loại debuff trên từng địch còn sống, tối đa 120%. Cuối vòng, mỗi địch nhận 1 đòn vật lí Ám–Nguyệt 100% ATK cho mỗi loại debuff đang mang, tối đa 3 đòn; cả chuỗi chỉ tiêu 1 Sơ Hở Ám.",
+    "elements": [
+      "light",
+      "dark"
+    ],
+    "stat": "attack",
+    "statRatio": 0.5,
+    "debuffScaling": {
+      "perDebuff": 0.1,
+      "maxRatio": 1.2
+    },
+    "debuffHits": {
+      "max": 3
+    },
+    "durationRounds": 3,
+    "phases": [
+      "end"
+    ],
+    "targetMode": "all_enemies",
+    "abilityId": "moonlight.nameless_song"
   }
 ]

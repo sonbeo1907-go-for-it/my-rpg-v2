@@ -14203,5 +14203,33 @@
     "growthProfile": "fixed",
     "rankable": false,
     "fixedReason": "Đợt cuối vòng lấy Rank từ Khúc Hát Của Trăng Tự Do."
+  },
+  {
+    "id": "moonlight.nameless_song",
+    "name": "Bài Ca Vô Danh",
+    "target": "all_enemies",
+    "cost": {
+      "mp": 0
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "dark",
+        "additionalElements": [
+          "moon"
+        ],
+        "scalingStat": "attack",
+        "multiplier": 1
+      }
+    ],
+    "description": "Cuối vòng, đánh mỗi địch theo số loại debuff đang mang, tối đa 3 đòn; mỗi đòn gây 100% ATK vật lí Ám–Nguyệt.",
+    "skillLineId": "moonlight.nameless_song",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "activation": "passive",
+    "fixedReason": "Hiệu ứng tự động của Nguyệt Quang Chúc Phúc.",
+    "presentation": "moonlight_song"
   }
 ]

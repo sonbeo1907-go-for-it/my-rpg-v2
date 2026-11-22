@@ -22,7 +22,7 @@ Hai chiêu công kích tăng sát thương10%/Rank; buff chỉ số của Ước
 
 ## Nội tại và quyền sử dụng Chúc Phúc
 
-- Phe Luna có quyền dùng mọi định nghĩa Chúc Phúc đã đăng ký. Hiện chỉ có Thủy–Lôi và Quang–Thổ; **không thêm Bài Ca Vô Danh hoặc Nguyệt Nhật Hỗn Mang vào dữ liệu phát hành**. Sau này thêm định nghĩa hợp lệ, quyền của Luna tự bao gồm chúng.
+- Phe Luna có quyền dùng mọi định nghĩa Chúc Phúc đã đăng ký. Hiện có Thủy–Lôi, Quang–Thổ và Quang–Ám (Bài Ca Vô Danh, thêm ngày22/11/2026); **Nguyệt Nhật Hỗn Mang chưa triển khai**. Sau này thêm định nghĩa hợp lệ, quyền của Luna tự bao gồm chúng.
 - Quyền khởi tạo theo đội giữ khi nguồn gục, như các provider cũ. Không tự tạo nguyên tố hoặc bỏ điều kiện ghép. Nạp/ưu tiên, một Chúc Phúc cùng lúc và deadline3 vòng giữ luật chung.
 - Khi Luna còn sống, sát thương thực sự mang Nguyệt của cùng phe (gồm Luna và nguồn Chúc Phúc) tăng10% trước khuếch đại. Tăng hệ số cơ sở trước phòng thủ như quy ước potency hạt giống, không thuộc nhóm damage amp từ buff chỉ lấy mạnh nhất. Nhiều bản không cộng dồn.
 - Không tự thêm Nguyệt vào hai chiêu Thường của Luna. DoT vốn có/mang Nguyệt cũng hưởng tăng cơ sở, gear và trường; không biến mọi DoT thành Nguyệt.
@@ -33,7 +33,7 @@ Hai chiêu công kích tăng sát thương10%/Rank; buff chỉ số của Ước
 - Mode là trường theo phe, **không phải debuff**: toàn địch−20% ATK/MAG, nhận thêm30% sát thương từ đòn mang Nguyệt. Không bị Hộ Ấn chặn hoặc giải/xóa bằng status. Nhiều nguồn cùng loại lấy mạnh nhất, không cộng dồn.
 - Entry giải toàn bộ debuff trước, cấp Hộ Ấn sau. Đầu mỗi vòng kế tiếp giải1 debuff/người rồi cấp Hộ Ấn1 charge. Không cộng charge qua các vòng; còn Phong Ấn thì việc cấp buff vẫn chịu quy tắc chặn buff.
 - Choáng không dừng hook đầu/cuối vòng. Lượt Thêm không gọi lại hook, không giảm riêng thời hạn hoặc CD. Hook reserve unit/vòng trước side effect, không lặp do render/restore.
-- Cuối vòng, nếu có Chúc Phúc cùng phe: Luna gây50% HP tối đa lên toàn địch, bằng nguồn Luna. Lôi Sấm Thịnh Nộ→vật lí Lôi–Nguyệt; Hạt Giống→phép Thổ–Nguyệt. Đã có đường chọn khía cạnh cho ID dự kiến `nameless_song`→vật lí Ám–Nguyệt và `chaotic_eclipse`→phép Hỏa–Nguyệt, nhưng không có định nghĩa/quyền kích giả cho nội dung chưa triển khai.
+- Cuối vòng, nếu có Chúc Phúc cùng phe: Luna gây50% HP tối đa lên toàn địch, bằng nguồn Luna. Lôi Sấm Thịnh Nộ→vật lí Lôi–Nguyệt; Hạt Giống→phép Thổ–Nguyệt; Bài Ca Vô Danh→vật lí Ám–Nguyệt. Chỉ `chaotic_eclipse`→phép Hỏa–Nguyệt còn là khía cạnh dự phòng, chưa có định nghĩa/quyền kích.
 - Không có Chúc Phúc thì không có đòn cuối vòng; trường giảm chỉ số và bảo vệ vẫn hoạt động. Đổi Chúc Phúc không chốt cứng loại đòn lúc vào mode.
 - Thứ tự cuối vòng: pulse Chúc Phúc hiện hữu → nội tại hồi MP Chúc Phúc → pulse Luna → mode Luna hết hạn → Chúc Phúc hết hạn. Mode giữ đủ vòng cuối để ảnh hưởng pulse cuối. Không đổi đồng hồ/hook thoát của mode cũ.
 - Nguồn gục hoặc trận thật kết thúc: mode/aura/BGM/nền dừng qua lifecycle chuẩn. Victory còn wave tiếp theo giữ mode/deadline, không phát lại entry. Phase boss cùng trận không reset, không hoàn MP giả. Encounter Chronicle chỉ giữ HP/MP theo adapter nội dung như trước.
@@ -59,3 +59,11 @@ Nền SVG `/art/luna-moonfield.svg`: vòng trăng cuộn trên biển hoa xanh, 
 ### Cập nhật Song Nguyệt Đồng Tâm — 21/11/2026
 
 25% khuếch đại cũng áp dụng cho sát thương Nguyệt từ hiệu lệnh của người mặc (Flynn, Bianca, Gawain Hé Lộ và các `command_moonlight` về sau). Giữ nguồn sát thương Chúc Phúc độc lập; chỉ truyền ID người ra lệnh trong context của đợt đó. Không đổi ATK/MAG của Chúc Phúc, không truyền sang pulse tự động, hiệu lệnh của người khác hoặc Noelle phản hồi. Đòn nhiều hit và từng mục tiêu đều nhận đúng một lần; nội tại Luna và tăng hiệu quả hạt giống vẫn là lớp riêng. Hai phe xử lý tương đối theo người ra lệnh; không lưu bonus lên nguồn Chúc Phúc để tránh rò sang đợt tiếp theo.
+
+### Hoạt ảnh Luna — 22/11/2026 (quyết định mới nhất)
+
+Chỉ **mở mắt** trên lớp background, không phủ đen/khép iris toàn màn hình. Oval ngang có Gaussian blur22 đơn vị SVG; mở3,2s với 45% đầu lim dim rồi tăng tốc. Ảnh giữ cover theo viewport, HUD không bị mask. Không phát lại mỗi action/render; rời mode gỡ nền ngay. Reduced-motion hiện đầy đủ ngay và tắt mọi hoa/rung.
+
+24 cánh hoa nền xuất phát hơi phía trong mép dưới ellipse tại đúng thời điểm mở. Tọa độ emitter dùng cùng keyframe bán kính; bay chậm hơn giai đoạn mở nhanh, scale0,25→2,6 để tạo chiều sâu. Khi tới vùng đáy955–973/1000, giảm tốc, lượn nhẹ lên sang trái/phải rồi tan dần; bay6,5–7,4s, toàn lớp dọn sau11,2s. Camera nền rung3 đơn vị/1000 rất chậm, không rung panel hoặc kéo target. Cả emitter và đoạn chạm đáy/lượn đều nằm trong SVG nền (z0).
+
+Lớp hoa thường xuyên riêng (z2, không nhận pointer):10 cánh desktop/6 mobile, góc30° xuống phải; nguồn ở70% phía trên cạnh trái và50% phía trái cạnh trên, chu kỳ38–46s lệch pha. Lớp này được phép qua thẻ combat, nhẹ và thưa vừa. Timer chỉ của trình bày, hủy khi unmount; không thêm thời gian, lượt, sát thương hoặc sự kiện engine.

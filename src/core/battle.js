@@ -1,7 +1,7 @@
 import {lunarBaseDamageMultiplier,lunarOutgoingAmp,lunarIncomingMultiplier,moonlightEmpoweredBuff,moonlightAspectAbility,lunarRoundStart,lunarRoundEnd} from './lunar-support.js';
 import {moonlightActivated,moonlightPotencyMultiplier,providerBuff} from './moonlight-synergy.js';
 import {revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
-import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
+import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,moonlightTargetHits,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
 import {judgeTournamentLimit} from './tournament-judging.js';
 import {initializeEncounterBosses,observeEncounterBosses,encounterBossRoundStart,prepareBossRitual,observeBossWeakness,encounterHitMultiplier,encounterOffenseMultiplier,beginBossRitualTurn,finishBossRitualTurn,bossIncomingMultiplier,ritualJobAbility,beginRitualAction,finishEncounterBosses} from './encounter-rituals.js';
 import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
@@ -556,13 +556,17 @@ export function moonlightSnapshot(battle){
 }
 function moonlightPulse(battle,source,definition,targets,amount,phase,request,commander){
  const options=typeof request==='number'?{multiplier:request}:request??{},base=battle.content.abilities[definition.abilityId];
- const skill={...base,...(options.targetMode==='selected'?{target:'enemy'}:{}),effects:[{...base.effects[0],...(options.hits!==undefined?{hits:options.hits}:{}),...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{}),...(options.rankDamageFactor!==undefined?{rankDamageFactor:options.rankDamageFactor}:{})}]};
+ // Snapshot each target's debuffs once for the complete batch; exposure is spent at batch end.
+ const plan=targets.map(target=>({target,hits:moonlightTargetHits(battle.content,definition,target,options.hits??1)})).filter(p=>p.hits>0);
+ if(!plan.length)return false;
+ targets=plan.map(p=>p.target);const maxHits=Math.max(...plan.map(p=>p.hits));
+ const skill={...base,...(options.targetMode==='selected'?{target:'enemy'}:{}),effects:[{...base.effects[0],...(options.hits!==undefined||definition.debuffHits?{hits:maxHits}:{}),...(options.multiplier!==undefined?{multiplier:options.multiplier}:{}),...(options.primaryMultiplier!==undefined?{primaryMultiplier:options.primaryMultiplier}:{}),...(options.rankDamageFactor!==undefined?{rankDamageFactor:options.rankDamageFactor}:{})}]};
  const primary=targets.find(t=>t.id===options.primaryTargetId)??targets[0],potency=moonlightPotencyMultiplier(battle,source.team,definition.id);
  skill.effects[0].multiplier*=potency;if(skill.effects[0].primaryMultiplier!==undefined)skill.effects[0].primaryMultiplier*=potency;
  const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:primary.id,...(phase==='command'&&commander?{moonlightCommanderId:commander.id}:{})};
  emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:primary.id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:options.targetMode!=='selected',automaticCast:true,moonlight:true,team:source.team});
  write(battle,source.name+' tấn công · '+(phase==='command'?'theo hiệu lệnh':phase==='start'?'đầu vòng':'cuối vòng')+'.');
- for(let i=0;i<(options.hits??1);i++)for(const target of targets){if(!living(target)||battle.outcome)continue;hit(battle,source,target,primaryDamageEffect({...skill.effects[0],gearPower:amount},target.id===primary.id),i,{area:options.targetMode!=='selected',reaction:true,actionContext:ctx});}
+ for(let i=0;i<maxHits;i++)for(const {target,hits} of plan){if(i>=hits||!living(target)||battle.outcome)continue;hit(battle,source,target,primaryDamageEffect({...skill.effects[0],gearPower:amount},target.id===primary.id),i,{area:options.targetMode!=='selected',reaction:true,actionContext:ctx});}
  finishAttackContext(battle,source,ctx);
  transitionBossPhases(battle,{write,restoreMp:gainResource});
  return ctx.pvpDenied!==true;

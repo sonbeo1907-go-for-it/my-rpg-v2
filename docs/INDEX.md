@@ -208,3 +208,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Shop và thử thách siêu trùm giải học viện](ACADEMY_TOURNAMENT_REWARDS_SPECIALS.md): bước7–8, Huy Hiệu/stock tuần/settlement và bốn boss hiếm.
 
 - Rà soát 18/11: [mô tả từ Patricia và kiểm tra Lượt Thêm từ Belochkin](SKILL_COPY_REVIEW_2026_11_18.md). Sửa crash học viện do Set/mảng ở extraTurnGrants; giữ bộ luật Vòng Phụ.
+
+- [Bài Ca Vô Danh — Chúc Phúc Quang/Ám](NAMELESS_SONG.md)
