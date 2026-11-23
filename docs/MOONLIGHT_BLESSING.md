@@ -230,4 +230,4 @@ Bổ sung Gahallad, Yumia và Chelsea, giữ phí30Pure và bật/tắt hiện h
 
 ### Cập nhật Hé Lộ Yufina / Lisbeth — 22/11/2026
 
-Yufina đổi sang Bài Ca Vô Danh và hit thêm120%ATK, vẫn cần mode; tiến trình mở cũ giữ nguyên. Lisbeth nhận+10baseMAG/mọi damage thêmMoon khi Hạt Giống cùng phe tồn tại, riêng Phán quyết gọi1hit350%MAG Chúc Phúc đúng target, hệ số cố định. Trấn thay hoànMP bằng CD−1/+30%MAG riêngPhánQuyết. Xem [hợp đồng cập nhật](YUFINA_LISBETH_REVELATIONS.md).
+Yufina đổi sang Bài Ca Vô Danh và hit thêm120%ATK, vẫn cần mode; tiến trình mở cũ giữ nguyên. Lisbeth nhận+10baseMAG/mọi damage thêmMoon khi Hạt Giống cùng phe tồn tại, riêng Phán quyết gọi1hit350%MAG Chúc Phúc đúng target, hệ số cố định. Lisbeth có hai Trấn: Kiêu Hãnh giữ hoàn8MP; Phán Quyết là mẫu mới độc lập với CD−1/+30%MAG riêngPhánQuyết (xác nhận23/11). Xem [hợp đồng cập nhật](YUFINA_LISBETH_REVELATIONS.md).

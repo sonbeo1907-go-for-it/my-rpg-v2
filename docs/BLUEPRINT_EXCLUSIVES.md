@@ -34,7 +34,8 @@ Các hiệu ứng dưới đây chỉ hoạt động khi trang bị đúng Trấ
 | Rhett | Lõi Sấm Tái Nạp | Phòng thủ: +1 Điện tích, hồi 5% HP tối đa. |
 | Fran | Tinh Đồ Đêm Không Trăng | Đêm không che chở: hiệu quả giảm DEF/RES ×1,75; thêm 1 lượt; MP ×1,5. Rank1: −35%, 3 lượt, 24 MP. |
 | Kai | Khiên Tập Sự Giữ Làng | Tập giữ hàng thêm RES toàn đội: 15% ở Rank1, nhân 1,05 mỗi Rank kế tiếp. |
-| Lisbeth | Quang Trượng Kiêu Hãnh | Phán quyết kiêu hãnh giảm 1 vòng hồi chiêu và nhận thêm 30% MAG riêng cho kỹ năng. Thay hiệu ứng hoàn MP cũ. |
+| Lisbeth | Quang Trượng Kiêu Hãnh | Phán quyết kiêu hãnh hoàn 8 MP nếu Kiêu hãnh Ranoc còn hiệu lực lúc bắt đầu thi triển. |
+| Lisbeth | Quang Trượng Phán Quyết | Mẫu thứ hai độc lập: Phán quyết giảm 1 vòng CD và nhận thêm 30% MAG riêng kỹ năng. Mở công thức bằng 10 Bản Thiết Kế. |
 | Benard | Song Kiếm Xé Gió | Khi có Nhịp gió: mỗi hit Song kiếm cuồng phong thêm 25% SPD hiện tại trước phòng thủ. |
 | Lanceveil | Hồng Diễm Hộ Quân | Khiên lửa hộ quân: người còn sống có tỷ lệ HP thấp nhất nhận Khiên 100% DEF hiện tại của Lanceveil. Xét cả bản thân. |
 | Gahallad | Hắc Kiếm Nghiền Khiên | Tự đánh vỡ Khiên địch: hồi 5 MP, một lần/vòng; tính cả đòn hạ địch. |

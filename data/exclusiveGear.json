@@ -551,8 +551,29 @@
       "blueprint": true
     },
     "passive": {
-      "type": "bundle",
+      "type": "after_skill_mp",
+      "abilityIds": [
+        "lisbeth.judgment"
+      ],
+      "requiresStatus": "ranoc_pride",
+      "amount": 8,
       "name": "Quang Trượng Kiêu Hãnh",
+      "description": "Phán quyết kiêu hãnh hoàn lại 8 MP sau khi thi triển nếu đã có Kiêu hãnh Ranoc khi bắt đầu chiêu.",
+      "rules": []
+    }
+  },
+  {
+    "id": "lisbeth.judgment_staff",
+    "characterId": "lisbeth",
+    "name": "Quang Trượng Phán Quyết",
+    "description": "Trấn Phái riêng của Lisbeth Ranoc. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "bundle",
+      "name": "Quang Trượng Phán Quyết",
       "description": "Phán quyết kiêu hãnh giảm 1 vòng hồi chiêu và nhận thêm 30% MAG riêng cho kỹ năng này.",
       "rules": [],
       "effects": [
@@ -562,7 +583,7 @@
             "lisbeth.judgment"
           ],
           "amount": 1,
-          "name": "Quang Trượng Kiêu Hãnh",
+          "name": "Quang Trượng Phán Quyết",
           "description": "Phán quyết kiêu hãnh giảm 1 vòng hồi chiêu."
         },
         {
@@ -572,7 +593,7 @@
           ],
           "stat": "magic",
           "ratio": 0.3,
-          "name": "Quang Trượng Kiêu Hãnh",
+          "name": "Quang Trượng Phán Quyết",
           "description": "Phán quyết kiêu hãnh nhận thêm 30% MAG riêng cho kỹ năng này."
         }
       ]

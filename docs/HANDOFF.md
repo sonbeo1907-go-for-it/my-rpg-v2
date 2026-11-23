@@ -2,7 +2,7 @@
 
 ## Yufina / Lisbeth Hé Lộ và Trấn — 22/11/2026
 
-Yufina đổi sang Bài Ca Vô Danh, vẫn cần mode, hit thêm cố định120%ATK thayMAG; giữ unlock cũ. Lisbeth Hé Lộ Hạt Giống +10baseMAG, mọi damage thêmMoon, riêngJudgment gọi1hit350%MAG Chúc Phúc đúng target. Trấn Lisbeth thay hoànMP bằng CD−1 và +30%MAG riêngskill, không tăng stat nguồn Chúc Phúc. [Đặc tả mới](YUFINA_LISBETH_REVELATIONS.md) thay quyết định cũ tương ứng bên dưới.
+Yufina đổi sang Bài Ca Vô Danh, vẫn cần mode, hit thêm cố định120%ATK thayMAG; giữ unlock cũ. Lisbeth Hé Lộ Hạt Giống +10baseMAG, mọi damage thêmMoon, riêngJudgment gọi1hit350%MAG Chúc Phúc đúng target. Xác nhận23/11: Lisbeth có **hai Trấn**. Quang Trượng Kiêu Hãnh giữ hoàn8MP; Quang Trượng Phán Quyết mới (`lisbeth.judgment_staff`) có CD−1/+30%MAG riêngskill, mở riêng10Blueprint. Chỉ một Trấn được trang bị; giữ save/roll/công thức cũ, không cấp món mới miễn phí. Không tăng stat nguồn Chúc Phúc. [Đặc tả mới](YUFINA_LISBETH_REVELATIONS.md) thay quyết định cũ tương ứng bên dưới.
 
 ## Cảnh nền chờ / ba Hé Lộ / Nguyệt trừ maxHP — 22/11/2026
 
