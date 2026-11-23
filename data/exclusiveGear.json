@@ -1574,5 +1574,44 @@
       ],
       "duration": 3
     }
+  },
+  {
+    "id": "tywin.twin_jade",
+    "characterId": "tywin",
+    "name": "Ngọc Bội Song Ảnh",
+    "description": "Trấn Phái riêng của Tywin. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    },
+    "passive": {
+      "type": "skill_extra_effects",
+      "name": "Ngọc Bội Song Ảnh",
+      "description": "Tẩy Trần Song Ảnh đồng thời tăng 30% ATK cho Tywin và đồng đội được chọn trong 4 lượt chính, rồi Tywin nhận Lượt Thêm.",
+      "abilityIds": [
+        "tywin.purify"
+      ],
+      "effects": [
+        {
+          "type": "status",
+          "status": "tywin_twin_resolve",
+          "duration": 4,
+          "to": "self"
+        },
+        {
+          "type": "status",
+          "status": "tywin_twin_resolve",
+          "duration": 4
+        },
+        {
+          "type": "grant_extra_turn",
+          "to": "self"
+        }
+      ],
+      "rules": [
+        "Dùng lại làm mới thời hạn, không cộng dồn.",
+        "Chỉ một Lượt Thêm mỗi nhân vật mỗi vòng; không cấp tiếp trong Vòng Phụ."
+      ]
+    }
   }
 ]

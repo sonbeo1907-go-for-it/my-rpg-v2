@@ -14067,7 +14067,7 @@
   {
     "id": "luna.lament",
     "name": "Nỗi Buồn Dưới Trăng",
-    "description": "Đánh phép Thường toàn địch theo HP tối đa; giảm 30% DEF và RES trong 3 lượt chính.",
+    "description": "Đánh phép Thường toàn địch theo HP tối đa; giảm 15% DEF và RES trong 3 lượt chính, tăng thành 30% nếu Chúc Phúc đang hoạt động.",
     "target": "all_enemies",
     "cost": {
       "mp": 10
@@ -14082,7 +14082,8 @@
         "multiplier": 0.2,
         "onHitStatus": {
           "status": "luna_lament",
-          "duration": 3
+          "duration": 3,
+          "moonlightMultiplier": 2
         }
       }
     ],
@@ -14518,5 +14519,112 @@
     "growthProfile": "fixed",
     "rankable": false,
     "fixedReason": "Lấy Rank từ Giữ Đèn, Em Sẽ Theo."
+  },
+  {
+    "id": "enciodes.trade",
+    "name": "Thương Lộ Rộng Mở",
+    "description": "Vào dạng trong 3 lượt chính, tính cả lượt kích hoạt. Hào quang giảm MP tăng thành 30%; đầu lượt chính hồi MP, đầu và cuối vòng tấn công toàn địch.",
+    "target": "self",
+    "cost": {
+      "mp": 25
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "enter_mode",
+        "mode": "open_trade",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "enciodes.trade",
+    "growthProfile": "damage",
+    "growthAdapter": "mode_command",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "enciodes.collect",
+    "name": "Thu Hồi Công Nợ",
+    "description": "Đánh mục tiêu chính và hai địch kề bên, hút MP từ từng người trúng đòn và gắn 2 Nhiễu Ma Lực.",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 12
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "attack",
+        "primaryMultiplier": 1.5,
+        "multiplier": 1,
+        "mpDrainRatio": 0.05,
+        "onHitStatus": {
+          "status": "mana_disruption",
+          "charges": 2
+        }
+      }
+    ],
+    "skillLineId": "enciodes.collect",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "enciodes.advance",
+    "name": "Trao Vốn Lên Đường",
+    "description": "Tăng ATK và SPD cho một đồng đội khác trong 3 lượt chính, rồi cấp Lượt Thêm cho người đó.",
+    "target": "ally",
+    "excludeSelf": true,
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "enciodes_rally",
+        "duration": 3
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "skillLineId": "enciodes.advance",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "stat_buff"
+    ],
+    "rankable": true
+  },
+  {
+    "id": "enciodes.caravan",
+    "name": "Chuyến Hàng Qua Bão",
+    "description": "Tấn công toàn địch vào đầu và cuối vòng trong Thương Lộ Rộng Mở.",
+    "activation": "passive",
+    "target": "all_enemies",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "water",
+        "scalingStat": "attack",
+        "multiplier": 1.5,
+        "onHitStatus": {
+          "status": "enciodes_sunder",
+          "duration": 3
+        }
+      }
+    ],
+    "rankFromAbility": "enciodes.trade",
+    "skillLineId": "enciodes.caravan",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "fixedReason": "Hiệu ứng tự động nhận hệ số Rank từ Thương Lộ Rộng Mở."
   }
 ]

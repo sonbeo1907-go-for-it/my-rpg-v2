@@ -1,5 +1,13 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Enciodes và Luna — 24/11/2026
+
+Enciodes #125, thương nhân bản địa Drageshelmfjall, hỗ trợ Thủy và vào gacha. Hào quang giảm MP 15%/30% theo mode; mode 3 lượt chính, hồi 5% MP toàn đội ở đầu lượt chính, pulse 150% ATK đầu/cuối vòng. Chiêu 2 hút MP từng địch và gắn Nhiễu 2 lần; chiêu 3 buff/Extra đồng đội khác. Luna giữ sát thương 20% HP, giảm DEF/RES 15% hoặc 30% khi Chúc Phúc cùng phe hoạt động. Đọc [ENCIODES](ENCIODES.md) cho timing, Rank, MP và ranh giới carry.
+
+## Ngọc Bội Song Ảnh — Trấn Tywin,23/11/2026
+
+Mẫu mới tywin.twin_jade, mở10Blueprint. Tẩy Trần Song Ảnh giữ cleanse rồi +30%ATK cho bản thân/mục tiêu4main_turn và Extra cho Tywin; cố định, không nhân Rank. skill_extra_effects adapter clone/validate buff+Extra, cùng đường engine/preview/AI; giữ cap1Extra/người/vòng. Xem [đặc tả](TYWIN_TWIN_JADE.md).
+
 ## Yufina / Lisbeth Hé Lộ và Trấn — 22/11/2026
 
 Yufina đổi sang Bài Ca Vô Danh, vẫn cần mode, hit thêm cố định120%ATK thayMAG; giữ unlock cũ. Lisbeth Hé Lộ Hạt Giống +10baseMAG, mọi damage thêmMoon, riêngJudgment gọi1hit350%MAG Chúc Phúc đúng target. Xác nhận23/11: Lisbeth có **hai Trấn**. Quang Trượng Kiêu Hãnh giữ hoàn8MP; Quang Trượng Phán Quyết mới (`lisbeth.judgment_staff`) có CD−1/+30%MAG riêngskill, mở riêng10Blueprint. Chỉ một Trấn được trang bị; giữ save/roll/công thức cũ, không cấp món mới miễn phí. Không tăng stat nguồn Chúc Phúc. [Đặc tả mới](YUFINA_LISBETH_REVELATIONS.md) thay quyết định cũ tương ứng bên dưới.

@@ -14,7 +14,7 @@ HP300 / MP130 / ATK10 / MAG10 / DEF20 / RES25 / SPD24. Hai chiêu công kích ch
 
 | Kỹ năng | Hiệu ứng | MP / CD |
 | --- | --- | --- |
-| Nỗi Buồn Dưới Trăng | Toàn địch20% HP tối đa; trúng giảm30% DEF/RES trong3 lượt chính mục tiêu | 10 / 0 |
+| Nỗi Buồn Dưới Trăng | Toàn địch20% HP tối đa; trúng giảm15% DEF/RES, tăng thành30% khi Chúc Phúc cùng phe đang hoạt động, trong3 lượt chính mục tiêu | 10 / 0 |
 | Ước Hẹn Ngoài Song Cửa | Toàn địch20% HP tối đa; toàn đội+6 ATK/MAG căn bản trong4 lượt chính từng người; chỉ số cấp gấp đôi nếu Chúc Phúc cùng phe đã hoạt động | 10 / 2 |
 | Khúc Hát Của Trăng Tự Do | Vào mode5 vòng, giải toàn bộ debuff và cấp1 Hộ Ấn cho mỗi đồng đội còn sống | 20 / 3 |
 

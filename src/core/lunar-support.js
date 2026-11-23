@@ -42,8 +42,10 @@ export function lunarIncomingMultiplier(battle,target,effect){
  return 1+ratio;
 }
 export function moonlightEmpoweredBuff(battle,actor,effect){
- if(!effect.moonlightDouble||!anyMoonlight(battle,actor.team))return effect;
- return {...effect,baseStatModifiers:Object.fromEntries(Object.entries(effect.baseStatModifiers).map(([key,n])=>[key,n*2]))};
+ let result=effect;
+ if(effect.moonlightDouble&&anyMoonlight(battle,actor.team))result={...result,baseStatModifiers:Object.fromEntries(Object.entries(effect.baseStatModifiers).map(([key,n])=>[key,n*2]))};
+ const mark=effect.onHitStatus;if(mark?.moonlightMultiplier){const factor=anyMoonlight(battle,actor.team)?mark.moonlightMultiplier:1;result={...result,onHitStatus:{...mark,appliedModifiers:Object.fromEntries(Object.entries(battle.content.statuses[mark.status].modifiers).map(([key,n])=>[key,n*factor]))}};}
+ return result;
 }
 // Damage aspect is selected at the pulse, not at mode entry. Unimplemented recipes stay unreachable.
 export function moonlightAspectAbility(battle,owner,skill){

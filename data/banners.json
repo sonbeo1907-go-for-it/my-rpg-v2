@@ -119,7 +119,8 @@
       "bianca",
       "luna",
       "phyllis",
-      "elsavetta"
+      "elsavetta",
+      "enciodes"
     ],
     "gearRates": [
       {
@@ -392,6 +393,10 @@
         {
           "id": "elsavetta",
           "from": "2026-11-22"
+        },
+        {
+          "id": "enciodes",
+          "from": "2026-11-24"
         }
       ]
     }

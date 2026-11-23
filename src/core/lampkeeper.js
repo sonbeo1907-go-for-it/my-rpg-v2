@@ -50,7 +50,7 @@ export function validateLampkeepers(content){
   if(p?.type==='debuff_witness_support'&&(!a.moonlightBlessings?.includes(p.blessingId)||JSON.stringify(p.elements)!=='["light","dark"]'||p.baseAttack!==4||p.maxStacks!==3||p.duration!==3||p.mpRatio!==.03||p.mpPerRound!==3||content.statuses[p.statusId]?.maxStacks!==3||content.statuses[p.statusId]?.durationClock!=='main_turn'))errors.push(a.id+': invalid debuff witness support');
   for(const mode of Object.values(a.combatModes??{})){
    if(mode.debuffAttack&&(mode.debuffAttack.perDebuff!==.08||mode.debuffAttack.cap!==.24))errors.push(a.id+': invalid debuff mode attack');
-   if(mode.roundEndAbility&&(!content.abilities[mode.roundEndAbility]||mode.lifetime!=='rounds'))errors.push(a.id+': invalid round-end mode ability');
+   if(mode.roundEndAbility&&(!content.abilities[mode.roundEndAbility]||!['rounds','turns'].includes(mode.lifetime)))errors.push(a.id+': invalid round-end mode ability');
   }
  }
  return errors;

@@ -1,3 +1,4 @@
+import {teamMpDiscount} from './merchant-support.js';
 import {resourceVariantAbility} from './resource-variants.js';
 import {selectedTeamCost} from './team-resources.js';
 import {preferredLifeDebtCost} from './life-debt.js';
@@ -20,7 +21,7 @@ export function mpCost(skill,actor,battle) {
   const p=actor?.passive,mode=actor?.combatModes?.[actor.activeMode];
   const native=p?.type==='kill_mp_discount' && (actor.statuses??[]).some(s=>s.id===p.statusId && (s.remaining==null||s.remaining>0)) ? 1-p.ratio : 1;
   const discount=mode?.mpCostReduction && mode.discountAbilityIds.includes(skill.id) ? 1-mode.mpCostReduction : 1;
-  const normal=Math.max(1,Math.ceil(base*native*discount*specialMpMultiplier(actor,skill.id)*(skill.rankMpMultiplier??((skill.growthGroups?.includes('output_buff_mp')||skill.growthProfile==='output_buff_mp')&&actor?.team!=='enemy'?outputMpFactor(getActorSkillRank(actor,skill),actor?.skillProgression):1))));
+  const normal=Math.max(1,Math.ceil(base*native*discount*(1-(battle?teamMpDiscount(battle,actor.team):actor.teamMpCostReduction??0))*specialMpMultiplier(actor,skill.id)*(skill.rankMpMultiplier??((skill.growthGroups?.includes('output_buff_mp')||skill.growthProfile==='output_buff_mp')&&actor?.team!=='enemy'?outputMpFactor(getActorSkillRank(actor,skill),actor?.skillProgression):1))));
   const increase=Math.max(0,...activeStatuses({...actor,statuses:actor?.statuses??[]}).filter(s=>(s.remaining==null||s.remaining>0)&&(s.charges??1)>0).map(s=>s.mpCostIncrease??0));
   return Math.ceil(normal*(1+increase));
 }

@@ -228,6 +228,9 @@ export function skillScaling(skill, actor, content, choices = {}) {
         lines.push(`Hồi ${formula}${amount}; phần theo tỷ lệ làm tròn lên, không vượt MP tối đa.`);
       } else lines.push(`${effect.resource === 'mp' ? 'Hồi' : 'Tạo'} ${effect.amount} ${effect.resource === 'mp' ? 'MP' : actor.resources[effect.resource]?.name ?? effect.resource}${recipient}.`);
     }
+    if(effect.mpDrainRatio)lines.push('Hút '+percent(effect.mpDrainRatio)+' MP tối đa của mỗi địch trúng đòn, không vượt MP đang có.');
+    if(effect.onHitStatus?.charges)lines.push(content.statuses[effect.onHitStatus.status].name+': '+effect.onHitStatus.charges+' lần dùng kỹ năng tiêu MP.');
+    if(effect.onHitStatus?.moonlightMultiplier)lines.push('Có Chúc Phúc hoạt động: '+Object.entries(content.statuses[effect.onHitStatus.status].modifiers).map(([key,n])=>'−'+percent(Math.abs(n)*effect.onHitStatus.moonlightMultiplier)+' '+STAT_LABELS[key]).join(' · ')+'.');
     if(effect.lifeStealRatio)lines.push('Hút máu '+percent(effect.lifeStealRatio)+' sát thương HP thực gây ra; không tính khiên hoặc overkill.');
     if(effect.type==='shield'&&effect.primaryMultiplier!==undefined)lines.push('Mục tiêu chính: '+percent(effect.primaryMultiplier)+' '+scalingLabel(effect,{defense:'DEF',speed:'SPD'})+'; các đồng đội còn lại: '+percent(effect.multiplier)+' cùng chỉ số.');
     if(effect.moonlightDouble)lines.push('Khi có Chúc Phúc cùng phe, chỉ số căn bản được cấp gấp đôi.');
@@ -244,7 +247,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
     if (effect.onHitStatus) {
       const mark=content.statuses[effect.onHitStatus.status];
       if(mark.exposedElement)lines.push('Mỗi hit trúng gắn '+(effect.onHitStatus.stacks??1)+' '+mark.name+', tối đa '+mark.maxStacks+' tầng; duy trì đến khi hết tầng hoặc bị giải.');
-      else lines.push('Mỗi hit trúng gắn 1 ' + mark.name + ', tối đa ' + (mark.maxStacks ?? 1) + ' tầng, trong ' + effect.onHitStatus.duration + ' lượt mục tiêu.');
+      else if(!mark.persistent)lines.push('Mỗi hit trúng gắn 1 ' + mark.name + ', tối đa ' + (mark.maxStacks ?? 1) + ' tầng, trong ' + effect.onHitStatus.duration + ' lượt mục tiêu.');
       if (mark.damageOverTime) lines.push('Độc: '+periodicPotency(mark,actor,valueOf)+' HP mỗi đầu lượt/mỗi tầng, tối đa '+(mark.maxStacks??1)+' tầng. Bỏ qua giáp và khiên; chốt khi gắn độc.');
       if (mark.modifiers && !mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>(n<0?'−':'+')+percent(Math.abs(n))+' '+({attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES',speed:'SPD'}[key]??key)).join(' · '));
       if (mark.modifiersPerStack) lines.push(Object.entries(mark.modifiers).map(([key,n])=>percent(n)+' '+(key==='resistance'?'RES':key)+' mỗi tầng').join(', '));

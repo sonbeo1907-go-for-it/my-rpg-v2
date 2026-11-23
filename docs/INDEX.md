@@ -19,6 +19,10 @@
 
 ## Combat và UX
 
+- [Enciodes và điều chỉnh Luna](ENCIODES.md)
+
+- [Trấn Tywin — Ngọc Bội Song Ảnh](TYWIN_TWIN_JADE.md)
+
 - [Hé Lộ Yufina / Lisbeth và Trấn Lisbeth](YUFINA_LISBETH_REVELATIONS.md)
 
 - [Cảnh nền chờ / Hé Lộ Bài Ca / sửa sát thương Nguyệt](HOME_SCENES_AND_NAMELESS_REVELATIONS.md)

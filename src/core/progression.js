@@ -1,3 +1,4 @@
+import {preparedMpDiscount} from './merchant-support.js';
 import {normalizeHomeScene} from './home-scenes.js';
 import {storySkillRankFloors} from './story-skill-mastery.js';
 import {normalizeRevelations} from './moonlight-revelation.js';
@@ -126,6 +127,7 @@ export function resolveCharacter(content, campaign, characterId) {
   for (const [key, amount] of Object.entries(team.bonuses))
     character.stats[key] += amount;
   applySpecialLoadout(content,campaign,character);
+  character.teamMpCostReduction=preparedMpDiscount(content,campaign,characterId);
   if(campaign.party.includes(characterId))character.teamAuraModifiers=preparedTeamAuras(content,campaign);
   const conditionalStats=character.gearConditionalBonuses?['attack','magic']:[];
   const nativeStats=['mp_stat_conversion','defense_average_conversion'].includes(character.passive?.type)?[character.passive.toStat]:character.passive?.type==='formation_stance'?Object.keys(character.passive[(character.formationSlot%2===0?'odd':'even')].modifiers):[];

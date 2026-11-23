@@ -1,3 +1,4 @@
+import {supportTurnStart,drainHitMp} from './merchant-support.js';
 import {debuffBatch,setDebuffBatch,withDebuffBatch,witnessedDebuff,extendHostileDebuffs,lampkeeperRoundEnd} from './lampkeeper.js';
 import {lunarBaseDamageMultiplier,lunarOutgoingAmp,lunarIncomingMultiplier,moonlightEmpoweredBuff,moonlightAspectAbility,lunarRoundStart,lunarRoundEnd} from './lunar-support.js';
 import {moonlightActivated,moonlightPotencyMultiplier,providerBuff} from './moonlight-synergy.js';
@@ -764,6 +765,7 @@ function beginActorTurn(battle,actor,delegating=false) {
       return false;
     }
   }
+  supportTurnStart(battle,actor,{announce:announcePassive,restore:gainResource,maxMp:battleMaxMp});
   gearMainTurn(battle,actor,gearIO);
   const passive = actor.passive;
   if (
@@ -1766,6 +1768,7 @@ function resolveHit(
     if(!living(target)){actionContext.directDefeats??=new Set();actionContext.directDefeats.add(target.id);}
     for(const owner of battle.actors){const p=owner.passive;if(living(owner)&&owner.team===target.team&&p?.type==='blessed_team_resource'&&activeStatuses(target).some(s=>s.id===p.blessingStatus&&(s.remaining==null||s.remaining>0))){actionContext.blessedResourceOwners??=new Set();actionContext.blessedResourceOwners.add(owner.id);}}
   }
+  if(vitalityDamage+absorbed>0)drainHitMp(battle,attacker,target,effect,actionContext,{restore:gainResource,maxMp:battleMaxMp,emit:emitEvent,write});
   if(effect.lifeStealRatio&&lostHp>0)actionContext.lifeStealHp=(actionContext.lifeStealHp??0)+lostHp*effect.lifeStealRatio;
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0){
     if(counterRaw>0){actionContext.receivedCounterDamage??=new Map();actionContext.receivedCounterDamage.set(target.id,(actionContext.receivedCounterDamage.get(target.id)??0)+counterRaw);}
@@ -1876,12 +1879,12 @@ function resolveHit(
       }
     }
     if (effect.onHitStatus) {
-      const applied = applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:target.id===actionContext.primaryTargetId?(effect.onHitStatus.primaryStacks??effect.onHitStatus.stacks??1):(effect.onHitStatus.stacks??1),chanceScaling:effect.onHitStatus.chanceScaling});
+      const applied = applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:target.id===actionContext.primaryTargetId?(effect.onHitStatus.primaryStacks??effect.onHitStatus.stacks??1):(effect.onHitStatus.stacks??1),chanceScaling:effect.onHitStatus.chanceScaling,charges:effect.onHitStatus.charges,appliedModifiers:effect.onHitStatus.appliedModifiers});
       recordCreatedExposure(battle.content,actionContext,applied);
       if (applied && !actionContext.preMarkedTargets?.has(target.id + ":" + applied.id)) actionContext.newlyMarkedTargets.add(target.id + ":" + applied.id);
     }
   } else if (living(target) && effect.damageType !== "magical" && vitalityDamage + absorbed > 0 && effect.onHitStatus) {
-    recordCreatedExposure(battle.content,actionContext,applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:target.id===actionContext.primaryTargetId?(effect.onHitStatus.primaryStacks??effect.onHitStatus.stacks??1):(effect.onHitStatus.stacks??1),chanceScaling:effect.onHitStatus.chanceScaling}));
+    recordCreatedExposure(battle.content,actionContext,applyStatus(battle,target,effect.onHitStatus.status,effect.onHitStatus.duration,attacker.id,{stacks:target.id===actionContext.primaryTargetId?(effect.onHitStatus.primaryStacks??effect.onHitStatus.stacks??1):(effect.onHitStatus.stacks??1),chanceScaling:effect.onHitStatus.chanceScaling,charges:effect.onHitStatus.charges,appliedModifiers:effect.onHitStatus.appliedModifiers}));
   }
   const exclusiveDispel=specialPassives(attacker,'skill_on_hit_dispel').find(p=>p.abilityIds.includes(actionContext.skillId));
   const dispelCount=effect.onHitDispelCount??exclusiveDispel?.count;

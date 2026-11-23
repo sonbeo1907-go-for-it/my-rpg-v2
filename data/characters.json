@@ -5782,5 +5782,63 @@
         "roundEndAbility": "elsavetta.shelter"
       }
     }
+  },
+  {
+    "id": "enciodes",
+    "releaseId": 125,
+    "name": "Enciodes",
+    "title": "Người Mở Lối Giao Thương",
+    "affiliation": "drageshelmfjall_merchants",
+    "tags": [
+      "drageshelmfjall_merchants"
+    ],
+    "element": "water",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "basicDamageType": "physical",
+    "stats": {
+      "maxHp": 155,
+      "maxMp": 120,
+      "attack": 32,
+      "magic": 10,
+      "defense": 20,
+      "resistance": 18,
+      "speed": 22
+    },
+    "abilities": [
+      "enciodes.trade",
+      "enciodes.collect",
+      "enciodes.advance"
+    ],
+    "description": "Giảm chi phí MP toàn đội, thu hồi ma lực đối phương và tiếp sức cho đồng đội bằng Lượt Thêm.",
+    "biography": "Thương nhân bản địa Drageshelmfjall, cởi mở với những người nhập cư từ phương xa. Enciodes tin rằng một thương lộ bền vững bắt đầu từ việc cả hai phía cùng có lợi.",
+    "passive": {
+      "type": "team_mp_discount",
+      "name": "Đôi Bên Cùng Lợi",
+      "description": "Giảm 15% MP tiêu hao của cả đội, gồm bản thân. Khi Thương Lộ Rộng Mở hoạt động, tăng thành 30%.",
+      "ratio": 0.15
+    },
+    "combatModes": {
+      "open_trade": {
+        "name": "Thương Lộ Rộng Mở",
+        "summary": "Giảm 30% MP tiêu hao toàn đội · đầu lượt chính hồi 5% MP toàn đội · đầu/cuối vòng đánh diện rộng.",
+        "lifetime": "turns",
+        "durationClock": "main_turn",
+        "durationTurns": 3,
+        "baseStatBonuses": {},
+        "exitMpRatio": 0,
+        "presentationScope": "none",
+        "allowedAbilities": [
+          "$attack",
+          "$defend",
+          "enciodes.collect",
+          "enciodes.advance"
+        ],
+        "mpDiscountMultiplier": 2,
+        "mainTurnTeamMpRatio": 0.05,
+        "roundStartAbility": "enciodes.caravan",
+        "roundEndAbility": "enciodes.caravan"
+      }
+    }
   }
 ]
