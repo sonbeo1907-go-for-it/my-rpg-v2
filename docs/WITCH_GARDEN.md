@@ -40,8 +40,8 @@ Full Moon burst có giá gốc **120MP**, trước các điều chỉnh. Hai ngu
 
 ### Đồng hồ Tro Tàn
 
-- Dùng trong Waning: buff50% MAG giữ hết vòng đó, gồm Vòng Phụ, rồi gỡ trước khi vào Full. Dùng khi chưa có Chúc Phúc, Full hoặc Waxing: chờ hết Waning của lần gọi kế tiếp.
-- Runtime status ghi waningCycleStart; khi kích hoạt cycle, bind những buff đang chờ vào startedRound. Chỉ expire ở cuối đúng Waning, sau mọi hành động/pulse hợp lệ. Choáng không giữ buff; Extra không tick hoặc kết thúc sớm.
+- Chu kỳ đã sửa: Trăng Lên (R) → Trăng Tròn (R+1, R+2) → Trăng Tàn (R+3). Dùng trong bất kỳ pha nào của Chúc Phúc đang tồn tại: buff50% MAG giữ đến hết Trăng Tàn của **chính chu kỳ đó**, gồm Vòng Phụ. Chưa có Chúc Phúc: chờ hết Trăng Tàn của lần gọi kế tiếp. Không gỡ buff khi vừa vào Full hoặc vừa vào Waning.
+- Runtime status ghi waningCycleStart của chu kỳ đang tồn tại ngay khi cấp; khi kích hoạt cycle mới, bind những buff đang chờ vào startedRound. Chỉ expire ở cuối đúng Waning, sau mọi hành động/pulse hợp lệ. Choáng không giữ buff; Extra không tick hoặc kết thúc sớm.
 - Buff MAG và buff MP là hai status bình thường có thể bị dispel/Phong Ấn chặn riêng. Dùng lại refresh MAG, cộng tầng MP tối đa3; **không tự hồi MP**. Rank tăng hai stat buff theo5%, không tăng +28 nội tại, thời hạn hoặc số tầng.
 - Kết thúc trận/trận độc lập: không mang status sang. Wave/phòng cùng dungeon và boss phase giữ marker/chỉ số stack theo carry chung; không khởi tạo deadline mới. Chronicle combat độc lập vẫn chỉ mang HP/MP. Forecast clone không đổi live, Arena tách hai phe và cap Rank5, không Thông Thạo.
 

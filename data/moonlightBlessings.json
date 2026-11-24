@@ -61,7 +61,7 @@
   {
     "id": "chaotic_eclipse",
     "name": "Nguyệt Nhật Hỗn Mang",
-    "description": "Ghép Thủy và Hỏa. MAG bằng 150% trung bình MAG động của đồng đội Thủy/Hỏa còn sống. Không tự tấn công; chỉ nhận hiệu lệnh phép Hỏa–Nguyệt đơn mục tiêu. Bốn vòng gồm Trăng Tàn (20%), hai vòng Trăng Tròn (60%), Trăng Lên (20%): khuếch đại sát thương phép Hỏa của nhân vật cùng phe. Chúc Phúc mặc định không tự hưởng.",
+    "description": "Ghép Thủy và Hỏa. MAG bằng 150% trung bình MAG động của đồng đội Thủy/Hỏa còn sống. Không tự tấn công; chỉ nhận hiệu lệnh phép Hỏa–Nguyệt đơn mục tiêu. Bốn vòng gồm Trăng Lên (20%), hai vòng Trăng Tròn (60%), Trăng Tàn (20%): khuếch đại sát thương phép Hỏa của nhân vật cùng phe. Chúc Phúc mặc định không tự hưởng.",
     "elements": [
       "water",
       "fire"
@@ -79,8 +79,8 @@
     },
     "cycle": [
       {
-        "id": "waning",
-        "name": "Trăng Tàn",
+        "id": "waxing",
+        "name": "Trăng Lên",
         "durationRounds": 1,
         "damageAmp": 0.2
       },
@@ -91,8 +91,8 @@
         "damageAmp": 0.6
       },
       {
-        "id": "waxing",
-        "name": "Trăng Lên",
+        "id": "waning",
+        "name": "Trăng Tàn",
         "durationRounds": 1,
         "damageAmp": 0.2
       }

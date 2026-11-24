@@ -41,7 +41,7 @@ export function advanceMoonlightCycles(battle,io){
 export function validMoonlightCycle(d){
  if(d.cycle===undefined)return d.damageAmplification===undefined;
  const rule=d.damageAmplification;
- return Array.isArray(d.cycle)&&d.cycle.length===3&&d.cycle.map(p=>p?.id).join(':')==='waning:full:waxing'
+ return Array.isArray(d.cycle)&&d.cycle.length===3&&d.cycle.map(p=>p?.id).join(':')==='waxing:full:waning'&&d.cycle.map(p=>p.durationRounds).join(':')==='1:2:1'
   &&d.cycle.every(p=>p&&typeof p.name==='string'&&p.name.trim()&&Number.isInteger(p.durationRounds)&&p.durationRounds>0&&p.durationRounds<=6&&Number.isFinite(p.damageAmp)&&p.damageAmp>=0&&p.damageAmp<=1&&Object.keys(p).every(k=>['id','name','durationRounds','damageAmp'].includes(k)))
   &&d.cycle.reduce((n,p)=>n+p.durationRounds,0)===d.durationRounds&&rule?.damageType==='magical'&&rule.element==='fire'&&(rule.includeBlessingDamage===undefined||typeof rule.includeBlessingDamage==='boolean')&&Object.keys(rule).every(k=>['damageType','element','includeBlessingDamage'].includes(k))
   &&d.stat==='magic'&&d.targetMode==='selected'&&Array.isArray(d.phases)&&d.phases.length===0;

@@ -1,4 +1,4 @@
-export function EclipseGlyph({strike=false,phase='waning'}:{strike?:boolean;phase?:string}){
+export function EclipseGlyph({strike=false,phase='waxing'}:{strike?:boolean;phase?:string}){
  return <svg viewBox="0 0 160 160" fill="none" aria-hidden="true">{strike?<>
   <path className="eclipse-gather" d="M15 27Q50 45 80 68Q110 45 145 27M30 13Q49 43 80 68Q111 43 130 13" stroke="#8edcff" strokeWidth="3"/>
   <path className="eclipse-lance" d="m80 9 10 57 9 10-15 69-4 12-4-12-15-69 9-10Z" fill="#ff9d58"/><path d="M80 30v114" stroke="#fff4dc" strokeWidth="4"/>

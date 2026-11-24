@@ -100,3 +100,5 @@ Nguyệt Nhật Hỗn Mang: ngoại lệ Chúc Phúc không auto pulse, vòng k�
 ## Thuật thức theo pha trăng — 24/11/2026
 
 resolveBattleAbility chọn nhánh theo trạng thái trận trước cast rồi mới resolve Rank. Không dùng preview tĩnh để chốt nhánh thật. secondaryAllyTarget yêu cầu allyTargetId hợp lệ cùng phe, kiểm trước trả phí; AI/forecast/UI dùng cùng contract. Kéo dài buff chỉ tăng thời hạn còn hạn, không tăng charges hoặc kéo dài persistent/mode. Status untilMoonlightWaningEnd có marker startedRound riêng, hết cuối đúng Waning sau Vòng Phụ, không tick theo cast/Extra/Choáng. Maria Full +28MAG căn bản và MP×2; Nicole sống mới tăng MAG nguồn25% và mở self-amp. Đọc WITCH_GARDEN.md.
+
+Nguyệt Nhật Hỗn Mang: thứ tự hiện hành **waxing1 → full2 → waning1**; pha cuối là Trăng Tàn. Buff Maria được gắn vào startedRound của Chúc Phúc đang hoạt động dù đang ở Trăng Lên/Trăng Tròn; hết ở cuối Trăng Tàn cùng chu kỳ. Không suy việc “đang không ở Trăng Tàn” thành chờ lần gọi kế tiếp.

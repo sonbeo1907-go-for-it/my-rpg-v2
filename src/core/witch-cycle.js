@@ -45,6 +45,6 @@ export function validateWitchCycle(content){
  return errors;
 }
 
-export function markWaningBuff(battle,actor){const active=battle.moonlight?.[actor.team]?.active;return {waningCycleStart:moonlightCyclePhase(battle,actor.team)?.id==='waning'?active.startedRound:null};}
+export function markWaningBuff(battle,actor){const active=battle.moonlight?.[actor.team]?.active;return {waningCycleStart:moonlightCyclePhase(battle,actor.team)?active.startedRound:null};}
 export function bindWaningBuffs(battle,team){for(const actor of battle.actors.filter(a=>a.team===team))for(const s of actor.statuses)if(battle.content.statuses[s.id]?.untilMoonlightWaningEnd&&s.waningCycleStart==null)s.waningCycleStart=battle.moonlight[team].active.startedRound;}
 export function expireWaningBuffs(battle,io){for(const actor of battle.actors){const active=battle.moonlight?.[actor.team]?.active;if(moonlightCyclePhase(battle,actor.team)?.id!=='waning')continue;actor.statuses=actor.statuses.filter(s=>{if(!battle.content.statuses[s.id]?.untilMoonlightWaningEnd||s.waningCycleStart!==active.startedRound)return true;io.emit(battle,{type:'status_expired',sourceId:s.sourceId,targetId:actor.id,statusId:s.id});io.write(battle,actor.name+': '+battle.content.statuses[s.id].name+' kết thúc cùng Trăng Tàn.');return false;});}}

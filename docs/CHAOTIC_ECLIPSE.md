@@ -14,11 +14,11 @@ Triển khai ngày 24/11/2026. Quyết định người dùng thay mức Trăng 
 
 | Vòng tương đối | Pha | Khuếch đại phép Hỏa |
 | --- | --- | --- |
-| R kích hoạt | Trăng Tàn — Waning Moon | 20% |
+| R kích hoạt | Trăng Lên — Waxing Moon | 20% |
 | R+1, R+2 | Trăng Tròn — Full Moon | 60% |
-| R+3 | Trăng Lên — Waxing Moon | 20% |
+| R+3 | Trăng Tàn — Waning Moon | 20% |
 
-Giữ thứ tự đã chốt Trăng Tàn → Trăng Tròn → Trăng Lên. Tính cả vòng kích hoạt dù gọi muộn; pha suy ra từ `startedRound`, không có timer thứ hai. Chuyển pha ở đầu Vòng Chính trước các đợt đầu vòng. Vòng Phụ, Choáng, vận sức, boss nhiều move không đổi pha. Pha Trăng Tròn có hai vòng; HUD hiển thị số vòng của pha và số vòng tổng còn lại.
+Quyết định sửa ngày 24/11/2026: **Trăng Lên → Trăng Tròn → Trăng Tròn → Trăng Tàn** (waxing1 → full2 → waning1). Tính cả vòng kích hoạt dù gọi muộn; pha suy ra từ `startedRound`, không có timer thứ hai. Chuyển pha ở đầu Vòng Chính trước các đợt đầu vòng. Vòng Phụ, Choáng, vận sức, boss nhiều move không đổi pha. Pha Trăng Tròn có hai vòng; HUD hiển thị số vòng của pha và số vòng tổng còn lại.
 
 Hết cuối R+3 sau các đòn hợp lệ thì hết hiệu lực. Không tự làm mới/gọi lại/đổi loại khi còn tồn tại; không tích nguyên tố khi active. Mỗi vòng vẫn chỉ kích hoạt một lần. Provider gục không xóa thực thể đã gọi. Trận độc lập mới khởi tạo trống; kết quả thật không phát thêm lượt/pulse tương lai.
 
@@ -68,3 +68,7 @@ Kiểm thử mới: damage command cố định qua 20/60/60/20 khi tắt, bật
 ## Cập nhật Khu Vườn Phù Thủy — 24/11/2026
 
 Quyết định mới thay các số/nguồn nhân vật cũ tương ứng: Luna nội tại8%, trường12% damage Nguyệt nhận vào. Nicole và Maria đã ra mắt, đều cấp quyền Nguyệt Nhật Hỗn Mang; Nicole sống mở self-amp theo pha và +25% MAG Chúc Phúc, Maria Full +28MAG căn bản/MP×2. Đọc [WITCH_GARDEN](WITCH_GARDEN.md).
+
+## Tương tác theo pha sau khi sửa thứ tự
+
+Không đổi tổng4 vòng, thời điểm kích hoạt sau chuỗi hành động, tỷ lệ20/60/60/20 hoặc quyền gọi. Nicole hồi phục gấp đôi chỉ ở Trăng Tàn cuối chu kỳ; Trăng Lên đầu chu kỳ dùng lượng hồi thường. Buff MAG Maria được cấp trong Trăng Lên/Trăng Tròn phải giữ qua hai vòng Full rồi hết sau mọi hành động của Trăng Tàn. Marker thuộc cùng startedRound, không chờ nhầm chu kỳ sau. Choáng/Lượt Thêm/đổi phòng không đổi đồng hồ; forecast không sửa live. Validator khóa đúng thứ tự và thời lượng1/2/1.

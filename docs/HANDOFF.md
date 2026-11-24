@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Sửa chu kỳ Nguyệt Nhật — 24/11/2026
+
+Quyết định mới: **Lên → Tròn → Tròn → Tàn**, lần lượt20/60/60/20%, tính cả vòng gọi. Maria buff MAG dùng trong chu kỳ hiện tại hết cuối Trăng Tàn của chính chu kỳ đó; chưa active mới chờ lần gọi kế. Nicole hồi gấp đôi ở Trăng Tàn cuối chu kỳ, không ở Trăng Lên. Validator, HUD, regression vòng thật và tài liệu đã đồng bộ. Xem [CHAOTIC_ECLIPSE](CHAOTIC_ECLIPSE.md), [WITCH_GARDEN](WITCH_GARDEN.md).
+
 ## Hai mục tiêu combat — 24/11/2026
 
 Bỏ dropdown người nhận buff của Nicole: dùng hai khung cam enemy/ally đã có, một dòng xác nhận đủ hai người; command vẫn targetId/allyTargetId và validation trước chi phí. Kỹ năng tương lai tái dùng selector chung, không tạo bảng/modal lặp. Chuột/chạm/tay cầm theo luồng hiện có; xem [COMBAT_MENUS](COMBAT_MENUS.md).
@@ -18,7 +22,7 @@ Nguyệt Nhật Hỗn Mang mặc định không khuếch đại damage chính Ch
 
 ## Nguyệt Nhật Hỗn Mang — 24/11/2026
 
-Chúc Phúc thứ tư Thủy–Hỏa đã đăng ký; Luna tự có quyền, chưa tạo Maria/Nicole của Khu Vườn Phù Thủy. Không auto attack; MAG1,5×trung bình động Thủy/Hỏa; chỉ command phép Hỏa–Nguyệt vào một địch. Chu kỳ Trăng Tàn1vòng20% → Trăng Tròn2vòng60% → Trăng Lên1vòng20%, amp phép Hỏa theo phe riêng với skill-buff amp. Đọc [CHAOTIC_ECLIPSE](CHAOTIC_ECLIPSE.md) cho lifecycle/command/target/deadline/carry và kiểm thử.
+Chúc Phúc thứ tư Thủy–Hỏa đã đăng ký; Luna tự có quyền, chưa tạo Maria/Nicole của Khu Vườn Phù Thủy. Không auto attack; MAG1,5×trung bình động Thủy/Hỏa; chỉ command phép Hỏa–Nguyệt vào một địch. Chu kỳ Trăng Lên1vòng20% → Trăng Tròn2vòng60% → Trăng Tàn1vòng20%, amp phép Hỏa theo phe riêng với skill-buff amp. Đọc [CHAOTIC_ECLIPSE](CHAOTIC_ECLIPSE.md) cho lifecycle/command/target/deadline/carry và kiểm thử.
 
 ## Enciodes và Luna — 24/11/2026
 
