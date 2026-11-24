@@ -103,7 +103,7 @@ Mẫu người máy tân tiến nhất do Aisha chế tác tại khu nghiên c�
 
 | Tên | MP | CD | Tác dụng Rank1 |
 | --- | --- | --- | --- |
-| Mạch Sét Dẫn Lối | 8 | 0 | Vật lí Lôi toàn bộ địch 150% ATK; gắn hai Sơ Hở Lôi, thời hạn ba lượt theo luật status hiện hành |
+| Mạch Sét Dẫn Lối | 8 | 0 | Vật lí Lôi toàn bộ địch 80% ATK; gắn hai Sơ Hở Lôi, thời hạn ba lượt theo luật status hiện hành |
 | Vòng Tay Bảo Hộ | 10 | 1 | Khiên toàn đội 100% ATK; giảm 15% sát thương nhận vào trong ba vòng |
 | Chăm Sóc Tận Tâm | 10 | 1 | Hồi HP một đồng đội 150% ATK |
 

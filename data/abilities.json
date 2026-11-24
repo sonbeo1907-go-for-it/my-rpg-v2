@@ -13491,7 +13491,7 @@
         "damageType": "physical",
         "element": "thunder",
         "scalingStat": "attack",
-        "multiplier": 1.5
+        "multiplier": 0.8
       },
       {
         "type": "status",
