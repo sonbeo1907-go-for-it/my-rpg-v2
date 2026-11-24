@@ -13,7 +13,7 @@ import {SwordSoulBoard} from './sword-soul';
 import {EvidenceBoard,GunpowderBoard,LocalCombatMode} from './vertosse';
 import {isAlive,isInAgony} from "../core/actor-life.js";
 
-import {resolveRankedAbility} from '../core/skill-resolver.js';
+import {resolveRankedAbility,resolveBattleAbility} from '../core/skill-resolver.js';
 import {BattleResult} from "./battle-result";
 import {isBattleFinished} from "../ui/battle-result-model.js";
 import {commandAbilityIds} from '../core/combat-modes.js';
@@ -501,7 +501,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
   const actor = battle?.actors.find((item: any) => item.id === battle.activeId);
   const commandActor = actor?.team === "party" ? actor : null;
   const skills = commandActor
-    ? commandAbilityIds(commandActor).map((id:string)=>resolveRankedAbility(content,commandActor,id==="$attack"?basicAbility(commandActor):id==="$defend"?DEFEND:content.abilities[id]))
+    ? commandAbilityIds(commandActor).map((id:string)=>resolveBattleAbility({...battle,content},commandActor,id==="$attack"?basicAbility(commandActor):id==="$defend"?DEFEND:content.abilities[id]))
     : [];
   const skill =
     skills.find((item: any) => item.id === battleUI.skillId) ??
@@ -731,7 +731,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
         }
         hovered={hovered === item.id}
         selectable={!busy && !battle.outcome}
-        legal={targets?.legalIds.includes(item.id) ?? false}
+        legal={(targets?.legalIds.includes(item.id) ?? false)||Boolean(skill?.secondaryAllyTarget&&item.team==='party'&&isAlive(item))}
         onSelect={() => selectTarget(item)}
       />
     );
@@ -748,6 +748,9 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
   const targetLabel = skill?.target === "adjacent_allies" ? targetsFor({...battle,content},commandActor,skill).map((item:any)=>item.name).join(" · ") || "Không có đồng đội ở ô kề" : skill?.target === "random_enemies" ? randomTargetLabel(skill) : skill?.target.startsWith("all_")
     ? (TARGET_NAMES as any)[skill.target] + (skill.effects.some((effect:any)=>effect.primaryMultiplier!==undefined||effect.to==='primary') ? ` · Chính: ${target?.name ?? ""}` : "")
     : (target?.name ?? "");
+  const secondaryAlly = skill?.secondaryAllyTarget ? battle.actors.find((item:any)=>item.id===targets.allyId&&item.team===actor?.team&&isAlive(item)) : null;
+  const secondaryEffectLabel = [...new Set((skill?.effects??[]).filter((effect:any)=>effect.to==='selected_ally').map((effect:any)=>content.statuses[effect.status]?.name).filter(Boolean))].join(' / ') || 'Hỗ trợ';
+  const executionTargetLabel = skill?.secondaryAllyTarget ? `Đánh: ${targetLabel} · ${secondaryEffectLabel}: ${secondaryAlly?.name??'Chưa chọn đồng đội'}` : targetLabel;
   if(battle.tournament&&isBattleFinished(battle)&&!busy)return <main className="page battle-page"><PageHeader title={battle.outcome==='victory'?'Tỷ thí kết thúc · Chiến thắng':'Tỷ thí kết thúc · Thất bại'} back="/chronicles/academy"/><section className="panel">{tournamentResult}</section><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · {battle.arena.matchType==="ranked"?"Đấu Hạng với AI":battle.arena.mode==="match"?"Đấu Thường với AI":"Luyện Tập"}</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(isBattleFinished(battle)&&!busy&&!farm?.enabled)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel,battle.trial?.selection)}/><FarmPanel/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
@@ -940,7 +943,8 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
                   <FormulaForecast battle={{...battle,content}} actor={actor} skill={skill}/>
                   <div className="target-summary" aria-live="polite">
                     <span>MỤC TIÊU THỰC THI</span>
-                    <strong>{targetLabel}</strong>
+                    <strong data-dual-target-summary={skill.secondaryAllyTarget||undefined}>{executionTargetLabel}</strong>
+                    {skill.cycleBaseId&&<small>{({inactive:"Chúc Phúc chưa hoạt động",waning:"Trăng Tàn",full:"Trăng Tròn",waxing:"Trăng Lên"} as any)[skill.cyclePhase]}</small>}
                     {skill.effects.some((effect:any)=>effect.type==="grant_extra_turn") && <small>{battle.phase==="extra" ? "Vòng Phụ: hiệu ứng cấp Lượt Thêm bị bỏ qua; vẫn tiêu MP và hồi chiêu." : hasExtraTurnGrant(battle.extraTurnGrants,targets.targetId) ? "Mục tiêu đã có Lượt Thêm trong vòng này; không cộng thêm lượt." : "Lượt Thêm sẽ thực hiện sau lượt chính, theo SPD ở đầu Vòng Phụ."}</small>}
                     {skill.target === "adjacent_allies" && <small>Hai ô kề cố định · nối vòng ô 1 ↔ 4. Ô trống và người đã gục bị bỏ qua.</small>}
                     {skill.target === "enemy_splash" && <small>{targets.affectedIds.length} mục tiêu · chính và hai ô kề, không nối vòng.</small>}
@@ -954,13 +958,14 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
                   </div>
                   <button
                     className="gold execute"
-                    aria-label={`Thực hiện: ${skill.name} → ${targetLabel}`}
-                    disabled={busy || Boolean(farm?.enabled) || !available.ok || !targets.targetId}
+                    aria-label={`Thực hiện: ${skill.name} → ${executionTargetLabel}`}
+                    disabled={busy || Boolean(farm?.enabled) || !available.ok || !targets.targetId || Boolean(skill.secondaryAllyTarget&&!secondaryAlly)}
                     onClick={() =>
                       runBattle({
                         actorId: actor.id,
                         abilityId: skill.id,
                         targetId: targets.targetId,
+                        ...(skill.secondaryAllyTarget?{allyTargetId:targets.allyId}:{}),
                         ...(skill.effects.some((effect:any)=>effect.type==='edit_formula') ? {formulaEdit} : {}),
                       })
                     }

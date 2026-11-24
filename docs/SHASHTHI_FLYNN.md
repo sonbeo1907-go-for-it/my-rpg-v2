@@ -17,7 +17,7 @@ Hỗ trợ tấn công hệ Quang, đòn phép dùng MAG. HP180 / MP120 / ATK8 /
 - **Đại Lễ Đón Trăng:** 20MP, CD3. Vào mode5 vòng toàn cục tính cả vòng gọi, đánh phép Quang50%MAG toàn địch ngay; đầu mỗi vòng sau đánh thêm một đợt50%MAG. Cả đòn vào dạng và đợt đầu vòng tăng theo Rank kỹ năng. Không đánh lặp đầu lượt hoặc đầu Vòng Phụ. Hết sau cuối vòng thứ5; không thi triển lại khi dạng còn tồn tại.
 - **Nguyệt Thần Chở Che:** 10MP, CD3. Toàn đội nhận25%DEF/RES trong3 vòng toàn cục; buff chỉ số tăng theo Rank thường.
 
-Mode dùng nhãn tiêu chuẩn trên ô Shashthi, không có mặt nạ Selene, cảnh toàn bàn hoặc BGM riêng. Khung Chúc Phúc dùng hình hạt giống sẵn có; mỗi địch được đánh dấu lúc kích hoạt, đợt cuối vòng phép Thổ–Nguyệt dùng1,5 lần MAG trung bình động của đồng đội Quang/Thổ còn sống. Không thêm địch mới vào các mỏ neo giữa chừng.
+Mode dùng nhãn tiêu chuẩn trên ô Shashthi, không có mặt nạ Selene, cảnh toàn bàn hoặc BGM riêng. Khung Chúc Phúc dùng hình hạt giống sẵn có; mỗi địch được đánh dấu lúc kích hoạt, đợt cuối vòng phép Thổ–Nguyệt dùng1,2 lần MAG trung bình động của đồng đội Quang/Thổ còn sống. Không thêm địch mới vào các mỏ neo giữa chừng.
 
 ## Hé Lộ cho Hạt Giống Bội Thu
 
@@ -72,3 +72,8 @@ Mọi hiệu lệnh Flynn đi qua `performMoonlightAttack`, cùng đường natu
 
 ### S?a Rank hi?u l?nh ? 21/11/2026
 Hai nh?nh l?nh d?ng h? s? t?ng10% m?i Rank c?a V? Nh?ng Ng??i N?m L?i, tr??c DEF/soft cap, ?p ??ng m?t l?n cho c? ch?nh/c?n l?i. Rank5: ti?u D? Quang 527,076% / 292,82%; tr? MP 702,768% / 468,512% ATK Ch?c Ph?c. ??y l? t?ng h? s? l?nh, kh?ng sao ch?p ch? s?/gear Flynn v?o ngu?n th? n?m. Kh?ng th?m ??ng h?: cast ch?nh/ph? h?p l? ??u d?ng c?ng Rank; Cho?ng ho?c l?nh th?t b?i kh?ng t?o ??t; quota Noelle, natural pulses, expiry v? carry nh? tr??c. PvP v?n clamp5; forecast kh?ng mutate tr?n th?t. N?i dung n?y thay ch?nh s?ch c? ??nh h? s? c?.
+
+
+## Điều chỉnh 24/11/2026
+
+Hạt Giống Bội Thu lấy 120% trung bình MAG động của đồng đội Quang/Thổ còn sống (không đổi phạm vi sang cả đội); pulse cuối vòng180% MAG. Hiệu lệnh Thu Lời Dưới Trăng của Bianca từ380% xuống300% MAG ở Rank1, Rank5 còn439,23%/hit. Giữ hạn mức/timing/nguồn và một Sơ Hở cho cả chuỗi. Các hiệu lệnh khác giữ hệ số nhưng chịu MAG nguồn mới. Xem [báo cáo max-build](SEED_BALANCE_2026_11_24.md).

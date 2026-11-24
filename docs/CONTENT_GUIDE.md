@@ -93,3 +93,5 @@ Tournaments/tournamentTeams/tournamentBuilds/tournamentScenes/tournamentRewards 
 ## Viết cảnh truyện
 
 Đọc [Hướng dẫn viết cảnh theo tính cách nhân vật](STORY_SCENE_WRITING_GUIDE.md) trước khi bổ sung lời kể hoặc thoại. Cảnh giải học viện đã có bản nháp mở rộng cho sáu thành viên; giữ draft/data_only và hook hiện có. Cảnh dùng chung không giả định kết quả trận trước hay đội hình ra sân.
+
+Kỹ năng chọn đồng thời địch và đồng đội: tái dùng hai khung mục tiêu cam, không thêm dropdown/modal. Xem [quy tắc chọn hai mục tiêu](COMBAT_MENUS.md#chọn-hai-mục-tiêu-bằng-khung-cam--24112026).

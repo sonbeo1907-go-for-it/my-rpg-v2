@@ -1880,5 +1880,37 @@
       "enciodes.collect": 10,
       "enciodes.advance": 20
     }
+  },
+  {
+    "id": "nicole",
+    "role": "sorcerer",
+    "healBelow": 0.55,
+    "reserveMpRatio": 0.18,
+    "setupAbilities": [
+      "nicole.pages"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "nicole.pages": 12,
+      "nicole.tale": 10,
+      "nicole.again": 16
+    }
+  },
+  {
+    "id": "maria",
+    "role": "magical_dps",
+    "healBelow": 0.3,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "maria.ashes"
+    ],
+    "burstAbilities": [
+      "maria.judgment"
+    ],
+    "skillBias": {
+      "maria.ashes": 18,
+      "maria.judgment": 20,
+      "maria.scar": 8
+    }
   }
 ]

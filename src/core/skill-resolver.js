@@ -1,3 +1,4 @@
+import {cycleAbility} from './witch-cycle.js';
 import {resourceVariantKey,resourceVariantAbility} from './resource-variants.js';
 import {actorSkillRankLimit} from './story-skill-mastery.js';
 import {formationAbility} from './advanced-combat.js';
@@ -23,7 +24,7 @@ export function resolveRankedAbility(content,actor,ability,rankOverride){
   if(groups.includes('stat_buff')&&effect.baseStatModifiers)next.baseStatModifiers=rankedModifiers(effect.baseStatModifiers,f05);
   if(groups.includes('damage')&&effect.flatSkillScaling)next.flatSkillScaling={...effect.flatSkillScaling,multiplier:effect.flatSkillScaling.multiplier*f10};
   if((groups.includes('basic')||groups.includes('damage'))&&(effect.type==='damage'||effect.type==='command_moonlight'&&effect.rankScaling===true))next.rankDamageFactor=f10;
-  if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat','spentLifeDebtRatio'])if(next[key]!==undefined)next[key]*=f10;
+  if(groups.includes(effect.type)&&['heal','shield'].includes(effect.type))for(const key of ['multiplier','primaryMultiplier','flat','spentLifeDebtRatio','targetMaxHpRatio'])if(next[key]!==undefined)next[key]*=f10;
   if(groups.includes('stat_buff')&&['status','toggle_status'].includes(effect.type)){
    const status=content.statuses[effect.status];
    if(status?.kind==='buff'&&!status.fixedModifiers)next.appliedModifiers=rankedModifiers(status.modifiers,f05);
@@ -42,3 +43,5 @@ export function modeModifiersForPreview(content,actor,mode){
  const cast=(actor.abilities??[]).map(id=>content.abilities[id]).find(skill=>skill?.effects.some(effect=>effect.type==='enter_mode'&&actor.combatModes?.[effect.mode]===mode));
  return cast?resolveRankedAbility(content,actor,cast).effects.find(effect=>effect.type==='enter_mode')?.modeAppliedModifiers??mode.statModifiers??{}:mode.statModifiers??{};
 }
+
+export function resolveBattleAbility(battle,actor,ability){return resolveRankedAbility(battle.content,actor,cycleAbility(battle,actor,ability));}

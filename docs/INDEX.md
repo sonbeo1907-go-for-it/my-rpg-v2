@@ -1,5 +1,7 @@
 # Mục lục tài liệu
 
+- [Nicole / Maria — Khu Vườn Phù Thủy, giảm Luna](WITCH_GARDEN.md)
+
 Điểm vào: [HANDOFF](HANDOFF.md). Cập nhật rà soát03/11/2026. Không cần đọc tuần tự toàn bộ. Yêu cầu mới nhất xác định ý định; JSON + handler + test xác định hành vi đang chạy. Tài liệu lịch sử không tự ghi đè quyết định mới.
 
 ## Bắt đầu / bảo toàn contract
@@ -18,6 +20,10 @@
 - [Rà soát tài liệu và giới hạn nghiệm thu](DOCUMENTATION_AUDIT.md)
 
 ## Combat và UX
+
+- [Balance Hạt Giống / Bianca — so sánh max-build](SEED_BALANCE_2026_11_24.md)
+
+- [Nguyệt Nhật Hỗn Mang — chu kỳ và hiệu lệnh đơn mục tiêu](CHAOTIC_ECLIPSE.md)
 
 - [Enciodes và điều chỉnh Luna](ENCIODES.md)
 

@@ -1,0 +1,5303 @@
+{
+  "description": "Same legal Lv50 builds, ranks and six-round script before/after. Three core new units R5; Lisbeth R5M3 + MAG10 signature + Harvest revelation. Six legal T4 slots. Optimize source MAG among registered MAG-effect subsets, hold winners fixed across versions. Controlled targets with actual Miraebolis Lv90 RES, not boss clear or win-rate test. Also RES0 and low-HP peak controls.",
+  "party": [
+    "shashthi",
+    "luna",
+    "bianca",
+    "lisbeth"
+  ],
+  "versions": {
+    "before": {
+      "statRatio": 1.5,
+      "pulse": 1.5,
+      "bianca": 3.8
+    },
+    "after": {
+      "statRatio": 1.2,
+      "pulse": 1.8,
+      "bianca": 3
+    }
+  },
+  "optimizations": {
+    "fullHp": {
+      "loadouts": {
+        "shashthi": [
+          "unbroken_crest",
+          "desperate_crest",
+          "moonlit_duet",
+          "magic",
+          "magic",
+          "magic"
+        ],
+        "luna": [
+          "moonlit_covenant",
+          "moonlit_duet",
+          "vitality_chalice",
+          "shelter_relay",
+          "restoration_clock",
+          "maxHp"
+        ],
+        "bianca": [
+          "unbroken_crest",
+          "desperate_crest",
+          "moonlit_duet",
+          "magic",
+          "magic",
+          "magic"
+        ],
+        "lisbeth": [
+          "unbroken_crest",
+          "desperate_crest",
+          "moonlit_duet",
+          "magic",
+          "magic",
+          "magic"
+        ]
+      },
+      "candidates": 614,
+      "pool": [
+        "mana_magic_conversion",
+        "soul_forge_sigil",
+        "unbroken_crest",
+        "desperate_crest",
+        "echoing_edge",
+        "affliction_prism",
+        "healers_chorus",
+        "moonlit_duet"
+      ]
+    },
+    "lowHp": {
+      "loadouts": {
+        "shashthi": [
+          "desperate_crest",
+          "moonlit_duet",
+          "magic",
+          "magic",
+          "magic",
+          "magic"
+        ],
+        "luna": [
+          "moonlit_covenant",
+          "moonlit_duet",
+          "vitality_chalice",
+          "shelter_relay",
+          "restoration_clock",
+          "maxHp"
+        ],
+        "bianca": [
+          "desperate_crest",
+          "moonlit_duet",
+          "magic",
+          "magic",
+          "magic",
+          "magic"
+        ],
+        "lisbeth": [
+          "desperate_crest",
+          "healers_chorus",
+          "moonlit_duet",
+          "magic",
+          "magic",
+          "magic"
+        ]
+      },
+      "candidates": 614,
+      "pool": [
+        "mana_magic_conversion",
+        "soul_forge_sigil",
+        "unbroken_crest",
+        "desperate_crest",
+        "echoing_edge",
+        "affliction_prism",
+        "healers_chorus",
+        "moonlit_duet"
+      ]
+    }
+  },
+  "rows": [
+    {
+      "build": "all_stat",
+      "targets": 1,
+      "resistance": 0,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 418.7112779138795,
+        "beforeStacks": 3,
+        "biancaOwn": 1090,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7495
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7495
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7495
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 903
+          }
+        ],
+        "commandDamage": 22485,
+        "pulseDamage": 903,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1347
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 334.9690223311036,
+        "beforeStacks": 3,
+        "biancaOwn": 1090,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 4733
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4733
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4733
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 867
+          }
+        ],
+        "commandDamage": 14199,
+        "pulseDamage": 867,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1293
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 5780,
+        "lisbeth": 5829,
+        "shashthi": 1475,
+        "bianca": 4039,
+        "moonlight_party": 78460
+      },
+      "damage6RoundsAfter": {
+        "luna": 5780,
+        "lisbeth": 5829,
+        "shashthi": 1475,
+        "bianca": 4039,
+        "moonlight_party": 52772
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 0,
+        "targets": 1,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "all_stat",
+      "targets": 1,
+      "resistance": 44,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 418.7112779138795,
+        "beforeStacks": 3,
+        "biancaOwn": 1057,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7462
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7462
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7462
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 881
+          }
+        ],
+        "commandDamage": 22386,
+        "pulseDamage": 881,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1325
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 334.9690223311036,
+        "beforeStacks": 3,
+        "biancaOwn": 1057,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 4700
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4700
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4700
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 845
+          }
+        ],
+        "commandDamage": 14100,
+        "pulseDamage": 845,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1271
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 5520,
+        "lisbeth": 5755,
+        "shashthi": 1337,
+        "bianca": 3797,
+        "moonlight_party": 77872
+      },
+      "damage6RoundsAfter": {
+        "luna": 5520,
+        "lisbeth": 5755,
+        "shashthi": 1337,
+        "bianca": 3797,
+        "moonlight_party": 52184
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 44,
+        "targets": 1,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "all_stat",
+      "targets": 3,
+      "resistance": 0,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 418.7112779138795,
+        "beforeStacks": 3,
+        "biancaOwn": 1090,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7495
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7495
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7495
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 903
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 903
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 903
+          }
+        ],
+        "commandDamage": 22485,
+        "pulseDamage": 2709,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 4041
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 334.9690223311036,
+        "beforeStacks": 3,
+        "biancaOwn": 1090,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 4733
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4733
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4733
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 867
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 867
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 867
+          }
+        ],
+        "commandDamage": 14199,
+        "pulseDamage": 2601,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 3879
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 17340,
+        "lisbeth": 5829,
+        "shashthi": 3717,
+        "bianca": 4039,
+        "moonlight_party": 89480
+      },
+      "damage6RoundsAfter": {
+        "luna": 17340,
+        "lisbeth": 5829,
+        "shashthi": 3717,
+        "bianca": 4039,
+        "moonlight_party": 63350
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 0,
+        "targets": 3,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "all_stat",
+      "targets": 3,
+      "resistance": 44,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 418.7112779138795,
+        "beforeStacks": 3,
+        "biancaOwn": 1057,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7462
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7462
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7462
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 881
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 881
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 881
+          }
+        ],
+        "commandDamage": 22386,
+        "pulseDamage": 2643,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 3975
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 258.78375691792195,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 289.3263507108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 289.31244819899325,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 334.9690223311036,
+        "beforeStacks": 3,
+        "biancaOwn": 1057,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 4700
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4700
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 4700
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 845
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 845
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 845
+          }
+        ],
+        "commandDamage": 14100,
+        "pulseDamage": 2535,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 3813
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 16560,
+        "lisbeth": 5755,
+        "shashthi": 3337,
+        "bianca": 3797,
+        "moonlight_party": 88642
+      },
+      "damage6RoundsAfter": {
+        "luna": 16560,
+        "lisbeth": 5755,
+        "shashthi": 3337,
+        "bianca": 3797,
+        "moonlight_party": 62512
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 44,
+        "targets": 3,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_full_hp",
+      "targets": 1,
+      "resistance": 0,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 546.182995944642,
+        "beforeStacks": 3,
+        "biancaOwn": 1733,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12221
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12221
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12221
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1178
+          }
+        ],
+        "commandDamage": 36663,
+        "pulseDamage": 1178,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1757
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 436.9463967557136,
+        "beforeStacks": 3,
+        "biancaOwn": 1733,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7718
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7718
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7718
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1131
+          }
+        ],
+        "commandDamage": 23154,
+        "pulseDamage": 1131,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1687
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 5780,
+        "lisbeth": 9679,
+        "shashthi": 2139,
+        "bianca": 6310,
+        "moonlight_party": 127111
+      },
+      "damage6RoundsAfter": {
+        "luna": 5780,
+        "lisbeth": 9679,
+        "shashthi": 2139,
+        "bianca": 6310,
+        "moonlight_party": 84972
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 0,
+        "targets": 1,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_full_hp",
+      "targets": 1,
+      "resistance": 44,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 546.182995944642,
+        "beforeStacks": 3,
+        "biancaOwn": 1692,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12180
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12180
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12180
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1156
+          }
+        ],
+        "commandDamage": 36540,
+        "pulseDamage": 1156,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1735
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 436.9463967557136,
+        "beforeStacks": 3,
+        "biancaOwn": 1692,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7677
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7677
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7677
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1109
+          }
+        ],
+        "commandDamage": 23031,
+        "pulseDamage": 1109,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1665
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 5520,
+        "lisbeth": 9595,
+        "shashthi": 1982,
+        "bianca": 6020,
+        "moonlight_party": 126414
+      },
+      "damage6RoundsAfter": {
+        "luna": 5520,
+        "lisbeth": 9595,
+        "shashthi": 1982,
+        "bianca": 6020,
+        "moonlight_party": 84270
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 44,
+        "targets": 1,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_full_hp",
+      "targets": 3,
+      "resistance": 0,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 546.182995944642,
+        "beforeStacks": 3,
+        "biancaOwn": 1733,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12221
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12221
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12221
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1178
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1178
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1178
+          }
+        ],
+        "commandDamage": 36663,
+        "pulseDamage": 3534,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 5271
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 436.9463967557136,
+        "beforeStacks": 3,
+        "biancaOwn": 1733,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7718
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7718
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7718
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1131
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1131
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1131
+          }
+        ],
+        "commandDamage": 23154,
+        "pulseDamage": 3393,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 5061
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 17340,
+        "lisbeth": 9679,
+        "shashthi": 5549,
+        "bianca": 6310,
+        "moonlight_party": 141579
+      },
+      "damage6RoundsAfter": {
+        "luna": 17340,
+        "lisbeth": 9679,
+        "shashthi": 5549,
+        "bianca": 6310,
+        "moonlight_party": 98860
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 0,
+        "targets": 3,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_full_hp",
+      "targets": 3,
+      "resistance": 44,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "unbroken_crest",
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 546.182995944642,
+        "beforeStacks": 3,
+        "biancaOwn": 1692,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12180
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12180
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12180
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1156
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1156
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1156
+          }
+        ],
+        "commandDamage": 36540,
+        "pulseDamage": 3468,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 5205
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 337.5164884179219,
+            "HP": 255,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 722.5,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 368.0590822108438,
+            "HP": 235,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 386.79042126051826,
+            "HP": 185,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 436.9463967557136,
+        "beforeStacks": 3,
+        "biancaOwn": 1692,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7677
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7677
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7677
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1109
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1109
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1109
+          }
+        ],
+        "commandDamage": 23031,
+        "pulseDamage": 3327,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 4995
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 16560,
+        "lisbeth": 9595,
+        "shashthi": 5112,
+        "bianca": 6020,
+        "moonlight_party": 140630
+      },
+      "damage6RoundsAfter": {
+        "luna": 16560,
+        "lisbeth": 9595,
+        "shashthi": 5112,
+        "bianca": 6020,
+        "moonlight_party": 97908
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 44,
+        "targets": 3,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_low_hp",
+      "targets": 1,
+      "resistance": 0,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "desperate_crest",
+            "healers_chorus",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 563.034085865635,
+        "beforeStacks": 3,
+        "biancaOwn": 1792,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12598
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12598
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12598
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1214
+          }
+        ],
+        "commandDamage": 37794,
+        "pulseDamage": 1214,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1811
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 450.427268692508,
+        "beforeStacks": 3,
+        "biancaOwn": 1792,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7956
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7956
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7956
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1165
+          }
+        ],
+        "commandDamage": 23868,
+        "pulseDamage": 1165,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1739
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 5780,
+        "lisbeth": 9911,
+        "shashthi": 2216,
+        "bianca": 6526,
+        "moonlight_party": 131100
+      },
+      "damage6RoundsAfter": {
+        "luna": 5780,
+        "lisbeth": 9911,
+        "shashthi": 2216,
+        "bianca": 6526,
+        "moonlight_party": 87635
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 0,
+        "targets": 1,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_low_hp",
+      "targets": 1,
+      "resistance": 44,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "desperate_crest",
+            "healers_chorus",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 563.034085865635,
+        "beforeStacks": 3,
+        "biancaOwn": 1750,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12557
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12557
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12557
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1191
+          }
+        ],
+        "commandDamage": 37671,
+        "pulseDamage": 1191,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1789
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 450.427268692508,
+        "beforeStacks": 3,
+        "biancaOwn": 1750,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7915
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7915
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7915
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1143
+          }
+        ],
+        "commandDamage": 23745,
+        "pulseDamage": 1143,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 1717
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 5520,
+        "lisbeth": 9825,
+        "shashthi": 2058,
+        "bianca": 6233,
+        "moonlight_party": 130402
+      },
+      "damage6RoundsAfter": {
+        "luna": 5520,
+        "lisbeth": 9825,
+        "shashthi": 2058,
+        "bianca": 6233,
+        "moonlight_party": 86940
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 44,
+        "targets": 1,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_low_hp",
+      "targets": 3,
+      "resistance": 0,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "desperate_crest",
+            "healers_chorus",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 563.034085865635,
+        "beforeStacks": 3,
+        "biancaOwn": 1792,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12598
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12598
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12598
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1214
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1214
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1214
+          }
+        ],
+        "commandDamage": 37794,
+        "pulseDamage": 3642,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 5433
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 450.427268692508,
+        "beforeStacks": 3,
+        "biancaOwn": 1792,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7956
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7956
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7956
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1165
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1165
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1165
+          }
+        ],
+        "commandDamage": 23868,
+        "pulseDamage": 3495,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 5217
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 17340,
+        "lisbeth": 9911,
+        "shashthi": 5752,
+        "bianca": 6526,
+        "moonlight_party": 146016
+      },
+      "damage6RoundsAfter": {
+        "luna": 17340,
+        "lisbeth": 9911,
+        "shashthi": 5752,
+        "bianca": 6526,
+        "moonlight_party": 101957
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 0,
+        "targets": 3,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    },
+    {
+      "build": "mixed_low_hp",
+      "targets": 3,
+      "resistance": 44,
+      "builds": {
+        "shashthi": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "shashthi.gift": 5,
+            "shashthi.harvest": 5,
+            "shashthi.guard": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "luna": {
+          "level": 50,
+          "allocations": {
+            "maxHp": 17,
+            "maxMp": 17,
+            "defense": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "luna.lament": 5,
+            "luna.promise": 5,
+            "luna.song": 5
+          },
+          "gear": [
+            "moonlit_covenant",
+            "moonlit_duet",
+            "vitality_chalice",
+            "shelter_relay",
+            "restoration_clock",
+            "maxHp"
+          ],
+          "exclusive": null
+        },
+        "bianca": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 5,
+            "bianca.bargain": 5,
+            "bianca.opening": 5,
+            "bianca.harvest": 5
+          },
+          "gear": [
+            "desperate_crest",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": null
+        },
+        "lisbeth": {
+          "level": 50,
+          "allocations": {
+            "magic": 17,
+            "maxMp": 17,
+            "maxHp": 15
+          },
+          "ranks": {
+            "basic": 8,
+            "lisbeth.pride": 8,
+            "lisbeth.lance": 8,
+            "lisbeth.judgment": 8
+          },
+          "gear": [
+            "desperate_crest",
+            "healers_chorus",
+            "moonlit_duet",
+            "magic",
+            "magic",
+            "magic"
+          ],
+          "exclusive": {
+            "id": "lisbeth.judgment_staff",
+            "magic": 10
+          }
+        }
+      },
+      "before": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 563.034085865635,
+        "beforeStacks": 3,
+        "biancaOwn": 1750,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 12557
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12557
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 12557
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1191
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1191
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1191
+          }
+        ],
+        "commandDamage": 37671,
+        "pulseDamage": 3573,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 5367
+        }
+      },
+      "after": {
+        "stats": {
+          "shashthi": {
+            "MAG": 349.87082660542194,
+            "HP": 175,
+            "maxHp": 255,
+            "MP": 108,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "shashthi.gift": 5,
+              "shashthi.harvest": 5,
+              "shashthi.guard": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 1
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "guard",
+                "remaining": 1
+              }
+            ]
+          },
+          "luna": {
+            "MAG": 35.586075,
+            "HP": 498,
+            "maxHp": 722.5,
+            "MP": 94,
+            "maxMp": 164,
+            "rank": {
+              "basic": 5,
+              "luna.lament": 5,
+              "luna.promise": 5,
+              "luna.song": 5
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 2
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "bianca": {
+            "MAG": 380.4134203983439,
+            "HP": 162,
+            "maxHp": 235,
+            "MP": 94,
+            "maxMp": 154,
+            "rank": {
+              "basic": 5,
+              "bianca.bargain": 5,
+              "bianca.opening": 5,
+              "bianca.harvest": 5
+            },
+            "statuses": [
+              {
+                "id": "shashthi_magic",
+                "remaining": 4
+              },
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "bianca_acumen",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              }
+            ]
+          },
+          "lisbeth": {
+            "MAG": 395.7839247275042,
+            "HP": 127,
+            "maxHp": 185,
+            "MP": 51,
+            "maxMp": 124,
+            "rank": {
+              "basic": 8,
+              "lisbeth.pride": 8,
+              "lisbeth.lance": 8,
+              "lisbeth.judgment": 8
+            },
+            "statuses": [
+              {
+                "id": "luna_promise",
+                "remaining": 1
+              },
+              {
+                "id": "effect_ward",
+                "remaining": null
+              },
+              {
+                "id": "ranoc_pride",
+                "remaining": 3
+              }
+            ]
+          }
+        },
+        "blessingMag": 450.427268692508,
+        "beforeStacks": 3,
+        "biancaOwn": 1750,
+        "commandHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 7915
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7915
+          },
+          {
+            "targetId": "enemy_0",
+            "amount": 7915
+          }
+        ],
+        "pulseHits": [
+          {
+            "targetId": "enemy_0",
+            "amount": 1143
+          },
+          {
+            "targetId": "bench_enemy_1",
+            "amount": 1143
+          },
+          {
+            "targetId": "bench_enemy_2",
+            "amount": 1143
+          }
+        ],
+        "commandDamage": 23745,
+        "pulseDamage": 3429,
+        "afterStacks": 0,
+        "bestPulse": {
+          "round": 4,
+          "damage": 5151
+        }
+      },
+      "damage6RoundsBefore": {
+        "luna": 16560,
+        "lisbeth": 9825,
+        "shashthi": 5312,
+        "bianca": 6233,
+        "moonlight_party": 145070
+      },
+      "damage6RoundsAfter": {
+        "luna": 16560,
+        "lisbeth": 9825,
+        "shashthi": 5312,
+        "bianca": 6233,
+        "moonlight_party": 101014
+      },
+      "targetInfo": {
+        "sourceEncounter": "miraebolis_superboss",
+        "level": 90,
+        "originalStats": {
+          "maxHp": 21049,
+          "maxMp": 1134,
+          "attack": 96,
+          "magic": 84,
+          "defense": 40,
+          "resistance": 44,
+          "speed": 20
+        },
+        "measuredResistance": 44,
+        "targets": 3,
+        "changes": "Stationary damage target: boss scripts, HP gates, natural weaknesses and resistances removed; HP 1e9 prevents clipping. Real scaled RES retained unless zero-RES control. No boss AI or win-rate claim."
+      }
+    }
+  ]
+}

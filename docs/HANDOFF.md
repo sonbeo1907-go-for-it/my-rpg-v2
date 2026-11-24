@@ -1,5 +1,25 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Hai mục tiêu combat — 24/11/2026
+
+Bỏ dropdown người nhận buff của Nicole: dùng hai khung cam enemy/ally đã có, một dòng xác nhận đủ hai người; command vẫn targetId/allyTargetId và validation trước chi phí. Kỹ năng tương lai tái dùng selector chung, không tạo bảng/modal lặp. Chuột/chạm/tay cầm theo luồng hiện có; xem [COMBAT_MENUS](COMBAT_MENUS.md).
+
+## Khu Vườn Phù Thủy / giảm Luna — 24/11/2026
+
+Nicole #126 và Maria #127 chính thức/gacha, hai nguồn cấp Nguyệt Nhật Hỗn Mang. Nicole +25% MAG nguồn, mở self-amp theo pha khi còn sống; skill Full chọn riêng enemy+ally. Maria Full +28 baseMAG/MP×2, burst chỉ Full; buff50% MAG đếm hết Waning đang có/kế tiếp, MPcap30% max3 không refill. Luna8% Moon preamp, field12% Moon taken. Đọc [WITCH_GARDEN](WITCH_GARDEN.md) cho lifecycle, Rank, AI/forecast và carry.
+
+## Balance Hạt Giống / Bianca — 24/11/2026
+
+MAG nguồn120% trung bình Quang/Thổ còn sống (người dùng chốt giữ phạm vi), natural pulse180%, Bianca command300%R1/439,23%R5. Script seed-balance.mjs so cùng buildLv50/R5/R5M3 Lisbeth,6T4 và các buff qua queue thật6vòng; giữ build trước/sau, cóbiaRES44 từMira90, không giả clearboss. Xem [báo cáo](SEED_BALANCE_2026_11_24.md).
+
+## Tự khuếch đại Chúc Phúc — 24/11/2026
+
+Nguyệt Nhật Hỗn Mang mặc định không khuếch đại damage chính Chúc Phúc, kể cả hiệu lệnh. includeBlessingDamage:false; hook setMoonlightSelfAmplification theo phe/active instance để Nicole dùng sau. Đòn riêng phép Hỏa của nhân vật vẫn hưởng; không đổi amp Nguyệt khác. Xem CHAOTIC_ECLIPSE.md.
+
+## Nguyệt Nhật Hỗn Mang — 24/11/2026
+
+Chúc Phúc thứ tư Thủy–Hỏa đã đăng ký; Luna tự có quyền, chưa tạo Maria/Nicole của Khu Vườn Phù Thủy. Không auto attack; MAG1,5×trung bình động Thủy/Hỏa; chỉ command phép Hỏa–Nguyệt vào một địch. Chu kỳ Trăng Tàn1vòng20% → Trăng Tròn2vòng60% → Trăng Lên1vòng20%, amp phép Hỏa theo phe riêng với skill-buff amp. Đọc [CHAOTIC_ECLIPSE](CHAOTIC_ECLIPSE.md) cho lifecycle/command/target/deadline/carry và kiểm thử.
+
 ## Enciodes và Luna — 24/11/2026
 
 Enciodes #125, thương nhân bản địa Drageshelmfjall, hỗ trợ Thủy và vào gacha. Hào quang giảm MP 15%/30% theo mode; mode 3 lượt chính, hồi 5% MP toàn đội ở đầu lượt chính, pulse 150% ATK đầu/cuối vòng. Chiêu 2 hút MP từng địch và gắn Nhiễu 2 lần; chiêu 3 buff/Extra đồng đội khác. Luna giữ sát thương 20% HP, giảm DEF/RES 15% hoặc 30% khi Chúc Phúc cùng phe hoạt động. Đọc [ENCIODES](ENCIODES.md) cho timing, Rank, MP và ranh giới carry.

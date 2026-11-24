@@ -61,8 +61,8 @@ test('both mirror teams have independent sockets and sources, never five formati
 });
 test('seed formula, per-target pulse, fixed anchors and earth/moon elements',()=>{
  const cc=structuredClone(c);cc.characters.iris.moonlightBlessings=['bountiful_seed'];cc.characters.iris.element='light';cc.characters.iris.basicAttack=[{type:'damage',damageType:'magical',element:'light',multiplier:1}];
- const b=fresh(cc,save(cc,['iris','garrek']));getActor(b,'iris').stats.magic=40;getActor(b,'garrek').stats.magic=20;cast(b,'iris','$attack');cast(b,'garrek','$attack');assert.equal(b.moonlight.party.active.id,'bountiful_seed');assert.equal(moonlightStat(b,'party',(a,k)=>battleStat(cc,a,k)),45);
- round(b);const hits=b.events.filter(e=>e.type==='damage'&&e.sourceId==='moonlight_party');assert.equal(hits.length,3);assert.ok(hits.every(e=>e.amount===Math.floor(45*1.5*.6)&&e.damageType==='magical'&&e.elements.includes('earth')&&e.elements.includes('moon')),JSON.stringify(hits));
+ const b=fresh(cc,save(cc,['iris','garrek']));getActor(b,'iris').stats.magic=40;getActor(b,'garrek').stats.magic=20;cast(b,'iris','$attack');cast(b,'garrek','$attack');assert.equal(b.moonlight.party.active.id,'bountiful_seed');assert.equal(moonlightStat(b,'party',(a,k)=>battleStat(cc,a,k)),36);
+ round(b);const hits=b.events.filter(e=>e.type==='damage'&&e.sourceId==='moonlight_party');assert.equal(hits.length,3);assert.ok(hits.every(e=>e.amount===Math.floor(36*1.8*.6)&&e.damageType==='magical'&&e.elements.includes('earth')&&e.elements.includes('moon')),JSON.stringify(hits));
  assert.equal(b.events.filter(e=>e.type==='ability_cast'&&e.abilityId==='moonlight.bountiful_seed').length,1);assert.ok(b.moonlight.party.active.targets.includes('enemy_0'));
 });
 test('shelter and repair use ATK, cooldowns and round-duration reduction',()=>{

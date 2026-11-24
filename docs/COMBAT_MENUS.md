@@ -35,3 +35,18 @@ Chọn độ khó chuyển vào góc trên ảnh, nơi trước đây chứa dan
 Màu viền theo độ khó: Rất dễ xanh lá; Dễ xanh dương; Trung bình tím; Khó hổ phách; Rất khó đỏ hồng. Luôn giữ tên độ khó và Level, không dùng riêng màu để truyền đạt.
 
 Các phần dùng lại: `WideTabs`, `CharacterTabs`, `BattleResult`, `isBattleFinished`, `xpResultProgress`. Không thay hệ số chiến đấu hoặc phần thưởng ở lượt cập nhật giao diện này.
+
+## Chọn hai mục tiêu bằng khung cam — 24/11/2026
+
+Quy tắc chung cho kỹ năng đồng thời nhắm một địch và hỗ trợ một đồng đội, ví dụ Nét Mực Còn Hy Vọng của Nicole ở Trăng Tròn:
+
+- Dùng **hai con trỏ đang có**: khung cam phía địch chọn người bị đánh, khung cam phía mình chọn người nhận hiệu ứng hỗ trợ. Không thêm dropdown, bảng chọn, modal hoặc bước chọn lại cùng hai đối tượng.
+- Chuột/chạm: bấm trực tiếp vào khung địch hoặc đồng đội. Đổi một phía giữ lựa chọn phía kia. Đổi kỹ năng rồi quay lại giữ hai lựa chọn đang còn hợp lệ; không tự đổi buff sang người thi triển.
+- Tay cầm: giữ luồng Chọn kỹ năng → Chọn mục tiêu hiện có. Các khung hợp lệ của cả hai phe đều nhận điều hướng; tới khung nào cập nhật con trỏ phía đó. A thi triển với **cả hai mục tiêu hiện tại**, B về chọn kỹ năng; không tạo một bước xác nhận riêng cho người nhận buff.
+- Chỉ một dòng thông tin xác nhận gọn, ví dụ **Đánh: Quỷ lùn · Khai phá điểm yếu: Iris**. Tên hiệu ứng lấy từ dữ liệu của kỹ năng; không hardcode tên Nicole/Khai Phá Điểm Yếu cho mọi kỹ năng tương lai. Dòng được phép xuống hàng theo màn hình hẹp, không cắt mất tên. Nhãn truy cập của nút thi triển cũng nêu đủ hai người.
+- Nếu người đã chọn gục/biến mất, resolver dùng quy tắc dự phòng mục tiêu hợp lệ của phe đó và cập nhật khung cam/dòng xác nhận cùng nhau. Không có lựa chọn hợp lệ thì khóa thi triển. Engine vẫn phải từ chối target sai/khác phe/đã gục **trước MP/CD và mọi effect**; UI không thay thế validation.
+- Command hiện hành giữ targetId (địch) và allyTargetId (đồng đội). Chỉ kỹ năng đã khai secondaryAllyTarget mới truyền người nhận thứ hai. AI/forecast dùng cùng contract; skill đổi nhánh phải dựa vào nhánh đã resolve cho trận.
+
+Kỹ năng tương lai cần hành vi này phải tái dùng resolveCombatTargets + khung chọn chung và tóm tắt mục tiêu, không tạo selector riêng trong component nhân vật. Những luật mục tiêu khác (tự chọn, cả đội, hai ô kề, người ít HP nhất) không tự chuyển thành lựa chọn tay hai mục tiêu.
+
+Nghiệm thu tối thiểu: đổi địch không đổi đồng đội và ngược lại; giữ lựa chọn qua đổi skill; chuột/chạm và tay cầm A/B; có đúng hai khung cam; 390/768/1440px không tràn; thi triển thật áp buff đúng người; target không hợp lệ không mất chi phí. Không chỉ kiểm tra nội dung chữ hoặc ảnh chụp.

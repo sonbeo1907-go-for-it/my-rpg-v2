@@ -5639,14 +5639,14 @@
     "passive": {
       "type": "moonlight_hymn",
       "name": "Lời Hát Qua Song Cửa",
-      "description": "Cấp quyền gọi mọi Chúc Phúc đã ra mắt. Sát thương mang Nguyệt của phe mình tăng 10% trước khuếch đại.",
+      "description": "Cấp quyền gọi mọi Chúc Phúc đã ra mắt. Sát thương mang Nguyệt của phe mình tăng 8% trước khuếch đại.",
       "allBlessings": true,
-      "moonDamageBonus": 0.1
+      "moonDamageBonus": 0.08
     },
     "combatModes": {
       "moon_song": {
         "name": "Khúc Hát Của Trăng Tự Do",
-        "summary": "Địch −20% ATK/MAG · nhận thêm 30% sát thương Nguyệt · đầu vòng giải hiệu ứng và cấp Hộ Ấn.",
+        "summary": "Địch −20% ATK/MAG · nhận thêm 12% sát thương Nguyệt · đầu vòng giải hiệu ứng và cấp Hộ Ấn.",
         "lifetime": "rounds",
         "durationRounds": 5,
         "baseStatBonuses": {},
@@ -5665,7 +5665,7 @@
             "attack": -0.2,
             "magic": -0.2
           },
-          "moonDamageTaken": 0.3,
+          "moonDamageTaken": 0.12,
           "roundStartAbility": "luna.renew",
           "roundEndAbility": "luna.pulse"
         }
@@ -5839,6 +5839,88 @@
         "roundStartAbility": "enciodes.caravan",
         "roundEndAbility": "enciodes.caravan"
       }
+    }
+  },
+  {
+    "id": "nicole",
+    "releaseId": 126,
+    "name": "Nicole",
+    "title": "Phù Thủy Vườn Cổ Tích",
+    "element": "water",
+    "role": "Thuật Sư",
+    "roleGroup": "sorcerer",
+    "affiliation": "witch_garden",
+    "tags": [
+      "witch_garden"
+    ],
+    "basicDamageType": "magical",
+    "description": "Đổi thuật thức theo pha trăng, che chở đồng đội và tiếp sức cho Nguyệt Nhật Hỗn Mang.",
+    "biography": "Gần một nghìn năm sống tại Drageshelmfjall khiến Nicole không còn tin vào con người. Trong Vườn Cổ Tích, cô vẫn níu giữ một chút hy vọng nhỏ nhoi.",
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 180,
+      "attack": 8,
+      "magic": 36,
+      "defense": 15,
+      "resistance": 22,
+      "speed": 20
+    },
+    "abilities": [
+      "nicole.pages",
+      "nicole.tale",
+      "nicole.again"
+    ],
+    "moonlightBlessings": [
+      "chaotic_eclipse"
+    ],
+    "passive": {
+      "type": "moonlight_cycle_sage",
+      "name": "Cổ Tích Chưa Khép Lại",
+      "description": "Khi Nguyệt Nhật Hỗn Mang hoạt động, sát thương Nicole mang thêm Nguyệt; MAG Chúc Phúc tăng 25% và hiệu lệnh của nó hưởng khuếch đại theo pha trăng.",
+      "blessingId": "chaotic_eclipse",
+      "blessingMagicBonus": 0.25,
+      "selfAmplification": true
+    }
+  },
+  {
+    "id": "maria",
+    "releaseId": 127,
+    "name": "Maria",
+    "title": "Phù Thủy Của Tội Lỗi",
+    "affiliation": "witch_garden",
+    "tags": [
+      "witch_garden"
+    ],
+    "element": "fire",
+    "role": "DPS ma pháp",
+    "roleGroup": "magical_dps",
+    "basicDamageType": "magical",
+    "description": "Dồn ma lực vào Trăng Tròn, tung hỏa thuật và ra lệnh cho Nguyệt Nhật Hỗn Mang.",
+    "biography": "Tội lỗi dày vò Maria, cuốn đi lý trí và niềm tin vào cuộc sống. Giữa Khu Vườn Phù Thủy, cô vẫn chưa tìm thấy lời tha thứ cho chính mình.",
+    "stats": {
+      "maxHp": 130,
+      "maxMp": 240,
+      "attack": 8,
+      "magic": 32,
+      "defense": 16,
+      "resistance": 26,
+      "speed": 14
+    },
+    "abilities": [
+      "maria.scar",
+      "maria.ashes",
+      "maria.judgment"
+    ],
+    "moonlightBlessings": [
+      "chaotic_eclipse"
+    ],
+    "passive": {
+      "type": "moonlight_full_sinner",
+      "name": "Tội Lỗi Dưới Trăng Tròn",
+      "description": "Khi Nguyệt Nhật Hỗn Mang hoạt động, sát thương Maria mang thêm Nguyệt. Trong Trăng Tròn: +28 MAG căn bản, kỹ năng tiêu gấp đôi MP.",
+      "blessingId": "chaotic_eclipse",
+      "fullMoonBaseMagic": 28,
+      "fullMoonMpMultiplier": 2
     }
   }
 ]

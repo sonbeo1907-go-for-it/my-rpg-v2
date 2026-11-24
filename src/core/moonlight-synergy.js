@@ -1,8 +1,10 @@
+import {bindWaningBuffs} from './witch-cycle.js';
 import {moonlightAccess} from './lunar-support.js';
 import {isAlive} from './actor-life.js';
 import {enterCombatMode} from './combat-modes.js';
 
 export function moonlightActivated(battle,team,definition,io){
+ if(definition.id==='chaotic_eclipse')bindWaningBuffs(battle,team);
  for(const actor of battle.actors){const p=actor.passive;
   if(actor.team!==team||!isAlive(actor)||p?.blessingId!==definition.id)continue;
   if(p.type==='moonlight_activation_resource'){
@@ -18,6 +20,7 @@ export function moonlightActivated(battle,team,definition,io){
 export function moonlightOffenseMultiplier(battle,team,blessingId){
  let ratio=0;
  for(const actor of battle.actors){const p=actor.passive;if(actor.team===team&&isAlive(actor)&&p?.type==='moonlight_activation_mode'&&p.blessingId===blessingId&&actor.activeMode===p.modeId)ratio=Math.max(ratio,p.blessingAttackBonus??0);}
+ for(const actor of battle.actors){const p=actor.passive;if(actor.team===team&&isAlive(actor)&&p?.type==='moonlight_cycle_sage'&&p.blessingId===blessingId)ratio=Math.max(ratio,p.blessingMagicBonus);}
  return 1+ratio;
 }
 export function moonlightPotencyMultiplier(battle,team,blessingId){
@@ -42,7 +45,7 @@ export function validateMoonlightSynergies(content){
   if(rule?.bonusOnlyAbility!==undefined&&rule.bonusOnlyAbility!==true)fail(actor.id);
   if(rule&&(rule.requiresMode!==undefined&&!actor.combatModes?.[rule.requiresMode]||rule.allDamagingSkills!==undefined&&rule.allDamagingSkills!==true||rule.followUpOnly!==undefined&&(rule.followUpOnly!==true||!actor.passive?.followUpAbility)||rule.modePerRound!==undefined&&(!rule.followUpOnly||!Number.isInteger(rule.modePerRound)||rule.modePerRound<1||rule.modePerRound>5)||rule.bonusScalingStat!==undefined&&!['attack','magic'].includes(rule.bonusScalingStat)))fail(actor.id);
   if(rule?.baseStatBonuses&&(!Object.keys(rule.baseStatBonuses).length||Object.entries(rule.baseStatBonuses).some(([key,n])=>!['attack','magic','defense','resistance','speed'].includes(key)||!Number.isFinite(n)||n<=0||n>100)))fail(actor.id);
-  if(rule?.commandTargetMode!==undefined&&(rule.commandTargetMode!=='selected'||!rule.commandMultiplier||content.moonlightBlessings[rule.blessingId]?.targetMode!=='anchored_enemies'))fail(actor.id);
+  if(rule?.commandTargetMode!==undefined&&(rule.commandTargetMode!=='selected'||!rule.commandMultiplier||!['anchored_enemies','selected'].includes(content.moonlightBlessings[rule.blessingId]?.targetMode)))fail(actor.id);
   const p=actor.passive;
   if(p?.type==='moonlight_activation_resource'&&(!actor.moonlightBlessings?.includes(p.blessingId)||!Number.isInteger(p.amount)||p.amount<1||p.amount!==actor.resources?.[p.resource]?.max))fail(actor.id);
   if(p?.type==='moonlight_potency'&&(!actor.moonlightBlessings?.includes(p.blessingId)||!actor.combatModes?.[p.modeId]||!Number.isFinite(p.ratio)||p.ratio<0||!Number.isFinite(p.modeRatio)||p.modeRatio<p.ratio||p.modeRatio>2))fail(actor.id);

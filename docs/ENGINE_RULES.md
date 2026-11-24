@@ -93,3 +93,10 @@ Voodoo/Rotary: queue giữ chủ ô gốc, activeActor là người thực hiệ
 - [Clark](CLARK.md): `full_hp_heal_cleanse` xét HP sau hồi trực tiếp, kể cả actual heal0 khi đã đầy. Regen đánh dấu periodic và không kích. Không biến mọi hồi0 thành native trigger: yêu cầu hồi dương, nguồn/cùng phe còn sống, không bị chặn.
 
 - [Mariel](MARIEL.md): hào quang chỉ cho người có khiên, +RES căn bản trước %, tắt khi hết khiên/nguồn gục. Hit phá khiên còn hưởng; hit kế tiếp xét lại. `snapshotScaling:true` chỉ chốt scaling cho effect heal/shield khai opt-in; `cleanse.count` giới hạn số debuff mỗi người, không khai giữ giải toàn bộ.
+
+
+Nguyệt Nhật Hỗn Mang: ngoại lệ Chúc Phúc không auto pulse, vòng kích hoạt20% → hai vòng60% → vòng cuối20% phép Hỏa. Chu kỳ suy từ common round, Extra/Choáng không tick riêng. Hiệu lệnh luôn selected enemy, một Sơ Hở cho cả chuỗi; không retarget khi gục. Không gộp hào quang vào strongest-only buff amp. Đọc CHAOTIC_ECLIPSE.md.
+
+## Thuật thức theo pha trăng — 24/11/2026
+
+resolveBattleAbility chọn nhánh theo trạng thái trận trước cast rồi mới resolve Rank. Không dùng preview tĩnh để chốt nhánh thật. secondaryAllyTarget yêu cầu allyTargetId hợp lệ cùng phe, kiểm trước trả phí; AI/forecast/UI dùng cùng contract. Kéo dài buff chỉ tăng thời hạn còn hạn, không tăng charges hoặc kéo dài persistent/mode. Status untilMoonlightWaningEnd có marker startedRound riêng, hết cuối đúng Waning sau Vòng Phụ, không tick theo cast/Extra/Choáng. Maria Full +28MAG căn bản và MP×2; Nicole sống mới tăng MAG nguồn25% và mở self-amp. Đọc WITCH_GARDEN.md.

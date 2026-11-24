@@ -1,6 +1,6 @@
 // Pure presentation plan. Reads resolved outcomes; never rolls RNG or changes combat.
 export const COMBAT_COLORS={plain:'#e4d5b0',fire:'#ff9861',water:'#69caff',earth:'#c4b17b',wind:'#8ce4bc',thunder:'#d8a3ff',light:'#fff0a3',dark:'#bf91ed',moon:'#d5edff',sword_soul:'#83caff'};
-const custom=skill=>/^(cosmic|academic|hero|nature|edict|iaido|angelica|anabel|moonlight)_/.test(skill?.presentation??'');
+const custom=skill=>/^(cosmic|academic|hero|nature|edict|iaido|angelica|anabel|moonlight|fairytale)_/.test(skill?.presentation??'');
 // Presentation clocks only: hit feedback and its cut share exactly one timestamp.
 export function iaidoHitDelay(presentation,index,speed='normal',reduced=false){
  if(reduced)return 0;
@@ -26,6 +26,7 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
    }
    if(action.presentation==='anabel_command'){add(event,'signature',start+lead,{presentation:action.presentation,custom:true,area:false,targetId:action.presentation==='anabel_command'?event.sourceId:event.targetId,contactDelay:anabelHitDelay(action.presentation,speed,reduced)});frames.at(-1).duration=reduced?80:speed==='fast'?340:660;}
    if(action.presentation==='iaido_awaken'){add(event,'signature',start+lead,{presentation:action.presentation,area:false,custom:true,targetId:event.sourceId});frames.at(-1).duration=reduced?80:speed==='fast'?420:900;}
+   if(action.presentation?.startsWith('fairytale_')){add(event,'signature',start+lead,{presentation:action.presentation,area:false,custom:true,targetId:event.sourceId});frames.at(-1).duration=reduced?80:speed==='fast'?220:650;}
    if(action.presentation==='edict_interdict'){
     const targets=[...new Set(event.targetIds??(event.targetId?[event.targetId]:[]))];
     if(targets.length){
@@ -50,7 +51,7 @@ export function combatTimeline(events,content,{speed='normal',reduced=false}={})
   if((event.type==='damage'||event.type==='dodge')&&action?.presentation==='anabel_dawn'&&!action.signature){action.signature=true;const contactDelay=anabelHitDelay(action.presentation,speed,reduced);add(event,'signature',at-contactDelay,{presentation:action.presentation,area:false,custom:true,contactDelay});frames.at(-1).duration=reduced?80:speed==='fast'?340:660;}
   if((event.type==='damage'||event.type==='dodge')&&['anabel_slash','anabel_cleave'].includes(action?.presentation)&&!action.signature){action.signature=true;add(event,'signature',at,{presentation:action.presentation,area:false,custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?180:action.presentation==='anabel_cleave'?430:320;}
   if((event.type==='damage'||event.type==='dodge')&&action?.presentation?.startsWith('moonlight_')){
-   action.moonlightTargets??=new Set();const seed=action.presentation==='moonlight_seed',key=seed?event.targetId:'area';
+   action.moonlightTargets??=new Set();const seed=['moonlight_seed','moonlight_eclipse'].includes(action.presentation),key=seed?event.targetId:'area';
    if(!action.moonlightTargets.has(key)){action.moonlightTargets.add(key);add(event,'signature',at,{presentation:action.presentation,area:!seed,custom:true});frames.at(-1).duration=reduced?80:speed==='fast'?240:620;}
   }
   if(event.type==='damage'||event.type==='dodge')lastImpact=Math.max(lastImpact,at);

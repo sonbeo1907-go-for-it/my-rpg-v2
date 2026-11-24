@@ -68,3 +68,5 @@ Nếu thêm field dữ liệu: bổ sung validator, runtime, preview/chi phí, A
 6. Chạy skill-copy test, regression cơ chế liên quan và kiểm tra UI. Không thay đổi damage/chi phí vì biên tập văn.
 
 Đợt05/11 đã rà toàn roster, rút gọn52 mô tả kỹ năng và8 giới thiệu cũ; bổ sung2 nhân vật và presentation mới. Chi tiết trong SKILL_COPY_REVIEW_2026_11_05.md. Quy chuẩn cũ có catalog32 nhân vật đã được thay bằng báo cáo tạo từ roster hiện hành, tránh dùng số cũ làm nguồn thứ hai.
+
+Kỹ năng hai mục tiêu dùng hai khung cam và một dòng xác nhận đủ hai người; không thêm bảng chọn lặp. Quy tắc triển khai và nghiệm thu: [COMBAT_MENUS](COMBAT_MENUS.md).

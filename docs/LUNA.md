@@ -22,18 +22,18 @@ Hai chiêu công kích tăng sát thương10%/Rank; buff chỉ số của Ước
 
 ## Nội tại và quyền sử dụng Chúc Phúc
 
-- Phe Luna có quyền dùng mọi định nghĩa Chúc Phúc đã đăng ký. Hiện có Thủy–Lôi, Quang–Thổ và Quang–Ám (Bài Ca Vô Danh, thêm ngày22/11/2026); **Nguyệt Nhật Hỗn Mang chưa triển khai**. Sau này thêm định nghĩa hợp lệ, quyền của Luna tự bao gồm chúng.
+- Phe Luna có quyền dùng mọi định nghĩa Chúc Phúc đã đăng ký. Hiện có Thủy–Lôi, Quang–Thổ, Quang–Ám và Thủy–Hỏa (Nguyệt Nhật Hỗn Mang). Sau này thêm định nghĩa hợp lệ, quyền của Luna tự bao gồm chúng.
 - Quyền khởi tạo theo đội giữ khi nguồn gục, như các provider cũ. Không tự tạo nguyên tố hoặc bỏ điều kiện ghép. Nạp/ưu tiên, một Chúc Phúc cùng lúc và deadline3 vòng giữ luật chung.
-- Khi Luna còn sống, sát thương thực sự mang Nguyệt của cùng phe (gồm Luna và nguồn Chúc Phúc) tăng10% trước khuếch đại. Tăng hệ số cơ sở trước phòng thủ như quy ước potency hạt giống, không thuộc nhóm damage amp từ buff chỉ lấy mạnh nhất. Nhiều bản không cộng dồn.
+- Khi Luna còn sống, sát thương thực sự mang Nguyệt của cùng phe (gồm Luna và nguồn Chúc Phúc) tăng8% trước khuếch đại. Tăng hệ số cơ sở trước phòng thủ như quy ước potency hạt giống, không thuộc nhóm damage amp từ buff chỉ lấy mạnh nhất. Nhiều bản không cộng dồn.
 - Không tự thêm Nguyệt vào hai chiêu Thường của Luna. DoT vốn có/mang Nguyệt cũng hưởng tăng cơ sở, gear và trường; không biến mọi DoT thành Nguyệt.
 
 ## Hợp đồng mode
 
 - Mode `moon_song`, clock vòng toàn cục, deadline R+4 khi dùng ởR; tính cả vòng gọi. CD3 bắt đầu khi cast, sẵn sàng từR+4 nhưng không dùng lại trong dạng; nếu không bị kết thúc sớm thì dùng lại từR+5.
-- Mode là trường theo phe, **không phải debuff**: toàn địch−20% ATK/MAG, nhận thêm30% sát thương từ đòn mang Nguyệt. Không bị Hộ Ấn chặn hoặc giải/xóa bằng status. Nhiều nguồn cùng loại lấy mạnh nhất, không cộng dồn.
+- Mode là trường theo phe, **không phải debuff**: toàn địch−20% ATK/MAG, nhận thêm12% sát thương từ đòn mang Nguyệt. Không bị Hộ Ấn chặn hoặc giải/xóa bằng status. Nhiều nguồn cùng loại lấy mạnh nhất, không cộng dồn.
 - Entry giải toàn bộ debuff trước, cấp Hộ Ấn sau. Đầu mỗi vòng kế tiếp giải1 debuff/người rồi cấp Hộ Ấn1 charge. Không cộng charge qua các vòng; còn Phong Ấn thì việc cấp buff vẫn chịu quy tắc chặn buff.
 - Choáng không dừng hook đầu/cuối vòng. Lượt Thêm không gọi lại hook, không giảm riêng thời hạn hoặc CD. Hook reserve unit/vòng trước side effect, không lặp do render/restore.
-- Cuối vòng, nếu có Chúc Phúc cùng phe: Luna gây50% HP tối đa lên toàn địch, bằng nguồn Luna. Lôi Sấm Thịnh Nộ→vật lí Lôi–Nguyệt; Hạt Giống→phép Thổ–Nguyệt; Bài Ca Vô Danh→vật lí Ám–Nguyệt. Chỉ `chaotic_eclipse`→phép Hỏa–Nguyệt còn là khía cạnh dự phòng, chưa có định nghĩa/quyền kích.
+- Cuối vòng, nếu có Chúc Phúc cùng phe: Luna gây50% HP tối đa lên toàn địch, bằng nguồn Luna. Lôi Sấm Thịnh Nộ→vật lí Lôi–Nguyệt; Hạt Giống→phép Thổ–Nguyệt; Bài Ca Vô Danh→vật lí Ám–Nguyệt. Nguyệt Nhật Hỗn Mang→phép Hỏa–Nguyệt; đòn cuối vòng này là đòn của Luna, không phải tự động tấn công của Chúc Phúc.
 - Không có Chúc Phúc thì không có đòn cuối vòng; trường giảm chỉ số và bảo vệ vẫn hoạt động. Đổi Chúc Phúc không chốt cứng loại đòn lúc vào mode.
 - Thứ tự cuối vòng: pulse Chúc Phúc hiện hữu → nội tại hồi MP Chúc Phúc → pulse Luna → mode Luna hết hạn → Chúc Phúc hết hạn. Mode giữ đủ vòng cuối để ảnh hưởng pulse cuối. Không đổi đồng hồ/hook thoát của mode cũ.
 - Nguồn gục hoặc trận thật kết thúc: mode/aura/BGM/nền dừng qua lifecycle chuẩn. Victory còn wave tiếp theo giữ mode/deadline, không phát lại entry. Phase boss cùng trận không reset, không hoàn MP giả. Encounter Chronicle chỉ giữ HP/MP theo adapter nội dung như trước.
@@ -67,3 +67,12 @@ Chỉ **mở mắt** trên lớp background, không phủ đen/khép iris toàn 
 24 cánh hoa nền xuất phát hơi phía trong mép dưới ellipse tại đúng thời điểm mở. Tọa độ emitter dùng cùng keyframe bán kính; bay chậm hơn giai đoạn mở nhanh, scale0,25→2,6 để tạo chiều sâu. Khi tới vùng đáy955–973/1000, giảm tốc, lượn nhẹ lên sang trái/phải rồi tan dần; bay6,5–7,4s, toàn lớp dọn sau11,2s. Camera nền rung3 đơn vị/1000 rất chậm, không rung panel hoặc kéo target. Cả emitter và đoạn chạm đáy/lượn đều nằm trong SVG nền (z0).
 
 Lớp hoa thường xuyên riêng (z2, không nhận pointer):10 cánh desktop/6 mobile, góc30° xuống phải; nguồn ở70% phía trên cạnh trái và50% phía trái cạnh trên, chu kỳ38–46s lệch pha. Lớp này được phép qua thẻ combat, nhẹ và thưa vừa. Timer chỉ của trình bày, hủy khi unmount; không thêm thời gian, lượt, sát thương hoặc sự kiện engine.
+
+
+## Công thức thứ tư — 24/11/2026
+
+Nguyệt Nhật Hỗn Mang đã đăng ký; Luna tự cấp quyền theo allBlessings. Cuối vòng trong Khúc Hát dùng phép Hỏa–Nguyệt khi công thức này active và hưởng hào quang pha. Đây vẫn là đòn riêng của Luna, không biến Chúc Phúc thành tự đánh. Xem CHAOTIC_ECLIPSE.md.
+
+## Cập nhật Khu Vườn Phù Thủy — 24/11/2026
+
+Quyết định mới thay các số/nguồn nhân vật cũ tương ứng: Luna nội tại8%, trường12% damage Nguyệt nhận vào. Nicole và Maria đã ra mắt, đều cấp quyền Nguyệt Nhật Hỗn Mang; Nicole sống mở self-amp theo pha và +25% MAG Chúc Phúc, Maria Full +28MAG căn bản/MP×2. Đọc [WITCH_GARDEN](WITCH_GARDEN.md).

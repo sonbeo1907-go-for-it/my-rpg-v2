@@ -38,7 +38,7 @@ test('no seed, no anchor, or dead original target never spends layers or retarge
  cast(b,a.id,'bianca.harvest');assert.equal(a.resourceValues.harvest_credit,6);assert.equal(hits(b).length,0);assert.equal(hits(b,'moonlight_party','enemy_1').length,0);assert.equal(a.mp,110);
  }});
 test('each command hit grows with burst Rank once, using blessing MAG and Shashthi potency',()=>{
- const samples=[];for(const rank of [1,5]){const b=setup();seed(b);const a=getActor(b,'bianca');a.skillRanks={'bianca.harvest':rank};const power=moonlightSnapshot(b).party.active.statValue;cast(b,a.id,'bianca.harvest');const h=hits(b);assert.equal(h.length,3);assert.ok(h.every(x=>Math.abs(x.amount-power*3.8*1.2*1.1**(rank-1))<2));samples.push(h.map(x=>x.amount));assert.equal(getActor(b,'moonlight_party').stats.magic,power);}
+ const samples=[];for(const rank of [1,5]){const b=setup();seed(b);const a=getActor(b,'bianca');a.skillRanks={'bianca.harvest':rank};const power=moonlightSnapshot(b).party.active.statValue;cast(b,a.id,'bianca.harvest');const h=hits(b);assert.equal(h.length,3);assert.ok(h.every(x=>Math.abs(x.amount-power*3*1.2*1.1**(rank-1))<2));samples.push(h.map(x=>x.amount));assert.equal(getActor(b,'moonlight_party').stats.magic,power);}
  for(let i=0;i<3;i++)assert.ok(Math.abs(samples[1][i]-samples[0][i]*1.1**4)<2);
 });
 test('forecasts are repeatable, match execution, and do not consume live layers, MP or blessing duration',()=>{
@@ -77,7 +77,7 @@ test('targeted commands and activation resource schema reject invalid authoring;
 });
 test('structured and legacy skill previews show MAG, layered command costs and Rank coefficients',()=>{
  const b=setup(),a=getActor(b,'bianca');a.skillRanks={'bianca.harvest':5};const skill=resolveRankedAbility(c,a,'bianca.harvest'),copy=JSON.stringify(skillPresentation(skill,a,c)),legacy=skillScaling(skill,a,c).join(' ');
- for(const value of [copy,legacy]){assert.ok(value.includes('MAG'));assert.ok(!value.includes('ATK'));assert.ok(value.includes('556'));assert.ok(value.includes('3'));assert.ok(value.includes('Lộc Nguyệt'));}assert.ok(JSON.stringify(passivePresentation(a,c)).includes('6'));
+ for(const value of [copy,legacy]){assert.ok(value.includes('MAG'));assert.ok(!value.includes('ATK'));assert.ok(value.includes('439'));assert.ok(value.includes('3'));assert.ok(value.includes('Lộc Nguyệt'));}assert.ok(JSON.stringify(passivePresentation(a,c)).includes('6'));
 });
 test('unaffordable actions and stun do not spend layers or issue commands',()=>{
  const b=setup();seed(b);const a=getActor(b,'bianca');a.mp=9;assert.equal(abilityAvailability(b,a,c.abilities['bianca.harvest']).ok,false);assert.throws(()=>cast(b,a.id,'bianca.harvest'));assert.equal(a.resourceValues.harvest_credit,6);a.mp=120;a.statuses.push({id:'stunned',remaining:1,stacks:1,sourceId:'enemy_0'});b.queue=['iris','bianca','lyon','shashthi','enemy_0'];b.cursor=0;executeAction(b,{actorId:'iris',abilityId:'$defend',targetId:'iris'});assert.equal(a.resourceValues.harvest_credit,6);assert.equal(hits(b).length,0);

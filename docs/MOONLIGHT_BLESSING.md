@@ -2,6 +2,10 @@
 
 Cập nhật **20/11/2026**, giờ Việt Nam. Trạng thái: **Noelle đã phát hành chính thức từ 20/11/2026**. Tài liệu này thay đặc tả nháp 0.1 và tên cũ “Không Nguyệt Chúc Phúc”.
 
+## Cập nhật 24/11/2026
+
+Đủ bốn công thức đã đăng ký. Nguyệt Nhật Hỗn Mang là ngoại lệ không auto attack, bốn vòng1–2–1; Luna tự cấp quyền. Xem [CHAOTIC_ECLIPSE](CHAOTIC_ECLIPSE.md). Quy tắc ba vòng và đợt tự động bên dưới chỉ áp ba công thức trước. Maria/Nicole chưa triển khai.
+
 ## Quyết định mới nhất
 
 - Tên chính thức: **Nguyệt Quang Chúc Phúc**, concept Moonlight Blessing.
@@ -51,7 +55,7 @@ Chiêu làm đủ nguyên tố **chưa hưởng hiệu ứng mới**. Ví dụ N
 | Tổ hợp | Chỉ số thực thể | Đợt đánh |
 | --- | --- | --- |
 | Lôi Sấm Thịnh Nộ | Trung bình ATK động của thành viên Lôi/Thủy còn sống | 100% ATK, vật lí Lôi–Nguyệt, toàn bộ địch |
-| Hạt Giống Bội Thu | 150% trung bình MAG động của thành viên Quang/Thổ còn sống | 150% MAG, phép Thổ–Nguyệt, mỗi mục tiêu có hạt |
+| Hạt Giống Bội Thu | 120% trung bình MAG động của thành viên Quang/Thổ còn sống | 180% MAG, phép Thổ–Nguyệt, mỗi mục tiêu có hạt |
 
 Tập lấy mẫu chỉ gồm nhân vật còn sống thuộc phe trong đội hình thực; không gồm chính thực thể, quái hoặc nguồn đã rời đội. Tính lại trước mỗi đợt đánh, chốt một giá trị cho toàn bộ đợt để phản ứng giữa các mục tiêu không thay sức mạnh trong cùng đợt. Nếu không còn thành viên hợp lệ, chỉ số bằng 0, không tự lấy chỉ số Noelle làm dự phòng. Phần làm tròn/minimum damage đi theo resolver chung.
 
@@ -112,7 +116,7 @@ Noelle có trong banner thường; được thêm vào lịch rate-up qua `roste
 Đã có định nghĩa Quang–Thổ nhưng chưa có provider chính thức; không thể truy cập bằng đội hình game hiện tại. Test cấp quyền trên fixture riêng, không sửa roster phát hành.
 
 - Khi kích hoạt, ghi ID của mỗi địch còn sống làm điểm neo hạt. Đây là **một Chúc Phúc có nhiều điểm neo**, không phải N nhân vật mới.
-- Cuối mỗi vòng, mỗi mục tiêu còn sống thuộc tập neo nhận một hit 150% MAG. Mỗi hạt không gây AoE thêm lần nữa; N địch tương ứng N hit, không N×N.
+- Cuối mỗi vòng, mỗi mục tiêu còn sống thuộc tập neo nhận một hit 180% MAG. Mỗi hạt không gây AoE thêm lần nữa; N địch tương ứng N hit, không N×N.
 - Tất cả hạt dùng cùng MAG động đã chốt cho đợt. Tổng hệ số trước phòng thủ tương đương 225% MAG trung bình Quang/Thổ trên mỗi mục tiêu mỗi cuối vòng.
 - Neo theo ID, không theo vị trí. Địch mới được triệu hồi không có hạt; người gục không nhận hit. Nếu cùng ID trở lại sống trước khi Chúc Phúc hết hạn, điểm neo vẫn tồn tại và được xét lại. Không chuyển hạt sang người khác hoặc sang địch của wave mới.
 - Sát thương phép Thổ–Nguyệt có VFX nảy mầm riêng; mục tiêu sống có dấu hạt trên khung.
@@ -231,3 +235,8 @@ Bổ sung Gahallad, Yumia và Chelsea, giữ phí30Pure và bật/tắt hiện h
 ### Cập nhật Hé Lộ Yufina / Lisbeth — 22/11/2026
 
 Yufina đổi sang Bài Ca Vô Danh và hit thêm120%ATK, vẫn cần mode; tiến trình mở cũ giữ nguyên. Lisbeth nhận+10baseMAG/mọi damage thêmMoon khi Hạt Giống cùng phe tồn tại, riêng Phán quyết gọi1hit350%MAG Chúc Phúc đúng target, hệ số cố định. Lisbeth có hai Trấn: Kiêu Hãnh giữ hoàn8MP; Phán Quyết là mẫu mới độc lập với CD−1/+30%MAG riêngPhánQuyết (xác nhận23/11). Xem [hợp đồng cập nhật](YUFINA_LISBETH_REVELATIONS.md).
+
+
+## Điều chỉnh 24/11/2026
+
+Hạt Giống Bội Thu lấy 120% trung bình MAG động của đồng đội Quang/Thổ còn sống (không đổi phạm vi sang cả đội); pulse cuối vòng180% MAG. Hiệu lệnh Thu Lời Dưới Trăng của Bianca từ380% xuống300% MAG ở Rank1, Rank5 còn439,23%/hit. Giữ hạn mức/timing/nguồn và một Sơ Hở cho cả chuỗi. Các hiệu lệnh khác giữ hệ số nhưng chịu MAG nguồn mới. Xem [báo cáo max-build](SEED_BALANCE_2026_11_24.md).

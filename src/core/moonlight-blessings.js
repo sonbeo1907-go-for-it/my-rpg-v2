@@ -1,3 +1,4 @@
+import {moonlightCyclePhase,validMoonlightCycle} from './moonlight-cycle.js';
 import {debuffTypeCount} from './conditional-combat.js';
 import {moonlightAccess} from './lunar-support.js';
 import {coefficientFactor,skillRules} from './skill-rules.js';
@@ -11,11 +12,11 @@ const PAIRS=new Set([['water','thunder'],['water','fire'],['light','earth'],['li
 export function validateMoonlight(content){
  const errors=[],defs=content.moonlightBlessings??{};
  for(const d of Object.values(defs)){
-  if(!d.name||!d.description||!Array.isArray(d.elements)||d.elements.length!==2||!PAIRS.has(pairKey(d.elements))||!['attack','magic'].includes(d.stat)||!Number.isFinite(d.statRatio)||d.statRatio<=0||d.durationRounds!==3||!['all_enemies','anchored_enemies'].includes(d.targetMode)||!Array.isArray(d.phases)||!d.phases.length||new Set(d.phases).size!==d.phases.length||d.phases.some(p=>!['start','end'].includes(p)))errors.push(d.id+': invalid moonlight definition');
+  if(!d.name||!d.description||!Array.isArray(d.elements)||d.elements.length!==2||!PAIRS.has(pairKey(d.elements))||!['attack','magic'].includes(d.stat)||!Number.isFinite(d.statRatio)||d.statRatio<=0||!(d.cycle?Number.isInteger(d.durationRounds)&&d.durationRounds>=3&&d.durationRounds<=12:d.durationRounds===3)||!['all_enemies','anchored_enemies','selected'].includes(d.targetMode)||!validMoonlightCycle(d)||(!d.cycle&&d.targetMode==='selected')||!Array.isArray(d.phases)||(!d.cycle&&!d.phases.length)||new Set(d.phases).size!==d.phases.length||d.phases.some(p=>!['start','end'].includes(p)))errors.push(d.id+': invalid moonlight definition');
   if(d.debuffScaling!==undefined&&(!d.debuffScaling||d.stat!=='attack'||!Number.isFinite(d.debuffScaling.perDebuff)||d.debuffScaling.perDebuff<=0||d.debuffScaling.perDebuff>1||!Number.isFinite(d.debuffScaling.maxRatio)||d.debuffScaling.maxRatio<d.statRatio||d.debuffScaling.maxRatio>2||Object.keys(d.debuffScaling).some(k=>!['perDebuff','maxRatio'].includes(k))))errors.push(d.id+': invalid moonlight debuff scaling');
   if(d.debuffHits!==undefined&&(!d.debuffHits||!Number.isInteger(d.debuffHits.max)||d.debuffHits.max<1||d.debuffHits.max>6||Object.keys(d.debuffHits).some(k=>k!=='max')))errors.push(d.id+': invalid moonlight debuff hits');
   const skill=content.abilities?.[d.abilityId];
-  if(!skill||skill.activation!=='passive'||skill.growthProfile!=='fixed'||skill.effects?.length!==1||skill.effects[0].type!=='damage'||skill.effects[0].scalingStat!==d.stat||!damageElements(skill.effects[0]).includes('moon'))errors.push(d.id+': invalid moonlight pulse');
+  if(!skill||skill.activation!=='passive'||skill.growthProfile!=='fixed'||skill.effects?.length!==1||skill.effects[0].type!=='damage'||skill.effects[0].scalingStat!==d.stat||(d.targetMode==='selected'&&skill.target!=='enemy')||!damageElements(skill.effects[0]).includes('moon'))errors.push(d.id+': invalid moonlight pulse');
  }
  for(const a of [...Object.values(content.characters??{}),...Object.values(content.enemies??{})]){
   if(a.moonlightBlessings!==undefined&&(!Array.isArray(a.moonlightBlessings)||!a.moonlightBlessings.length||new Set(a.moonlightBlessings).size!==a.moonlightBlessings.length||a.moonlightBlessings.some(id=>!defs[id])))errors.push(a.id+': invalid moonlight access');
@@ -73,15 +74,16 @@ export function settleMoonlight(battle,io){
   const d=state.allowed.map(id=>battle.content.moonlightBlessings[id]).find(d=>pairKey(d.elements)===pairKey(state.slots));if(!d)continue;
   state.slots=[];state.lastActivatedRound=battle.round;state.revision++;
   state.active={id:d.id,startedRound:battle.round,expiresAfterRound:battle.round+d.durationRounds-1,pulses:{},targets:d.targetMode==='anchored_enemies'?battle.actors.filter(a=>a.team!==team&&isAlive(a)).map(a=>a.id):[],followUps:{}};
+  const cycle=moonlightCyclePhase(battle,team);if(cycle)state.active.cyclePhaseId=cycle.id;
   io.onActivate?.(battle,team,d);io.sync?.(battle);
   const source=makeSource(battle,team,d,moonlightStat(battle,team,(a,key)=>io.stat(battle,a,key)));
-  io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kích hoạt trong 3 vòng.');
+  io.write(battle,'Nguyệt Quang Chúc Phúc — '+d.name+' kích hoạt trong '+d.durationRounds+' vòng.');
   io.emit(battle,{type:'moonlight_enter',sourceId:source.id,team,blessingId:d.id,label:d.name,stat:d.stat,statValue:source.stats[d.stat],targetIds:state.active.targets});
  }
 }
 export function moonlightDamageEffect(battle,source,effect,context){
  const p=source?.passive,rule=source?.moonlightRevelation;
- const native=(['moonlight_guardian','moonlight_potency','moonlight_activation_resource','debuff_witness_resource','debuff_witness_support'].includes(p?.type)&&battle.moonlight?.[source.team]?.active?.id===p.blessingId)||(p?.type==='moonlight_activation_mode'&&source.activeMode===p.modeId);
+ const native=(['moonlight_full_sinner','moonlight_cycle_sage','moonlight_guardian','moonlight_potency','moonlight_activation_resource','debuff_witness_resource','debuff_witness_support'].includes(p?.type)&&battle.moonlight?.[source.team]?.active?.id===p.blessingId)||(p?.type==='moonlight_activation_mode'&&source.activeMode===p.modeId);
  const revealed=rule&&(rule.allDamagingSkills||rule.followUpOnly)&&revelationActive(battle,source)&&(!rule.requiresMode||source.activeMode===rule.requiresMode)&&(!rule.followUpOnly||context?.skillId===source.passive?.followUpAbility);
  if(!native&&!revealed)return effect;
  return {...effect,additionalElements:[...new Set([...(effect.additionalElements??[]),'moon'])].filter(e=>e!==effect.element)};
@@ -127,7 +129,9 @@ export function commandMoonlight(battle,actor,blessingId,io,request){
  const rules=skillRules(battle.content),maxRankFactor=coefficientFactor(rules.mastery?.maxRank??rules.maxRank,rules);
  if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['multiplier','primaryMultiplier','primaryTargetId','rankDamageFactor','targetMode','hits'].includes(k))||['multiplier','primaryMultiplier'].some(k=>options[k]!==undefined&&(!Number.isFinite(options[k])||options[k]<=0||options[k]>10))||options.rankDamageFactor!==undefined&&(!Number.isFinite(options.rankDamageFactor)||options.rankDamageFactor<1||options.rankDamageFactor>maxRankFactor)||options.primaryTargetId!==undefined&&typeof options.primaryTargetId!=='string'||options.targetMode!==undefined&&(options.targetMode!=='selected'||typeof options.primaryTargetId!=='string')||options.hits!==undefined&&(!Number.isInteger(options.hits)||options.hits<1||options.hits>6)))return false;
  if(!canCommandMoonlight(battle,actor,blessingId))return false;
- if(options?.targetMode==='selected'&&moonlightDefinition(battle,actor.team)?.targetMode!=='anchored_enemies')return false;
+ const d=moonlightDefinition(battle,actor.team);
+ if(options?.targetMode==='selected'&&!['anchored_enemies','selected'].includes(d?.targetMode))return false;
+ if(d?.targetMode==='selected'&&(options?.targetMode!=='selected'||options.primaryMultiplier!==undefined||!battle.actors.some(a=>a.id===options.primaryTargetId&&a.team!==actor.team&&isAlive(a))))return false;
  return performMoonlightAttack(battle,actor.team,'command',io,options,actor);
 }
 

@@ -52,6 +52,7 @@ export function liveSkillChoices(skill, actor, target, battle) {
 }
 export function compactSkillScaling(skill, actor, target, content, battle) {
   skill=resolveRankedAbility(content,actor,skill);
+  if(skill.effects.some(e=>e.targetMaxHpRatio!==undefined))return 'Hồi '+percent(skill.effects.find(e=>e.targetMaxHpRatio!==undefined).targetMaxHpRatio)+' HP tối đa · hồi MP · kéo dài buff';
   if(actor.passive?.type==='support_charge_followup'&&actor.passive.followUpAbility===skill.id)skill=rankedSupportFollowup(content,actor);
   const choices = liveSkillChoices(skill, actor, target, battle ? {...battle,content} : undefined);
   const parts = [];

@@ -1,7 +1,7 @@
 import {livePerformanceStage} from './performance-stage.js';
 import {boundAlly} from './turn-delegation.js';
 import {lifeDebt} from './life-debt.js';
-import {resolveRankedAbility} from './skill-resolver.js';
+import {resolveRankedAbility,resolveBattleAbility} from './skill-resolver.js';
 import {activeStatuses} from './status-state.js';
 import {defaultFormulaEdit,activeFormula,editedFormulaEntries,formulaCounts} from './formula-field.js';
 import {commandAbilityIds} from './combat-modes.js';
@@ -85,10 +85,11 @@ export function chooseBattleAction(b,actor,io){
  for(const id of new Set([...commandAbilityIds(actor),'$attack','$defend'])){
   const raw=id==='$attack'?io.basicAbility(actor):id==='$defend'?{id:'$defend',name:'Phòng thủ',target:'self',effects:[]} : b.content.abilities[id];
   if(!raw||raw.activation==='passive')continue;
-  const skill=resolveRankedAbility(b.content,actor,raw);if(!io.abilityAvailability(b,actor,skill).ok)continue;
+  const skill=resolveBattleAbility(b,actor,raw);if(!io.abilityAvailability(b,actor,skill).ok)continue;
   const edit=skill.effects.some(e=>e.type==='edit_formula')?bestEdit(b,actor,skill):undefined;if(edit===null)continue;
   let targets=io.targetsFor(b,actor,skill);if(['self','all_allies','all_enemies','adjacent_allies','random_enemies'].includes(skill.target)&&!skill.effects.some(e=>e.primaryMultiplier!==undefined||e.to==='primary'))targets=targets.slice(0,1);
-  for(const target of targets)candidates.push({skill,score:cheapScore(b,actor,skill,target,p),command:{actorId:actor.id,abilityId:id,targetId:target.id,...(edit?{formulaEdit:edit}:{})}});
+  const allies=skill.secondaryAllyTarget?b.actors.filter(a=>a.team===actor.team&&isAlive(a)):[null];
+  for(const target of targets)for(const ally of allies)candidates.push({skill,score:cheapScore(b,actor,skill,target,p),command:{actorId:actor.id,abilityId:id,targetId:target.id,...(ally?{allyTargetId:ally.id}:{}),...(edit?{formulaEdit:edit}:{})}});
  }
  candidates.sort((a,b)=>b.score-a.score);
  const shortlist=candidates.slice(0,b.pvpRules?.ai.maxCandidates??12),threats=Object.fromEntries(b.actors.filter(a=>a.team===actor.team).map(a=>[a.id,threat(b,a,io)]));

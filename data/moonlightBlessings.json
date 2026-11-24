@@ -20,13 +20,13 @@
   {
     "id": "bountiful_seed",
     "name": "Hạt Giống Bội Thu",
-    "description": "Ghép Quang và Thổ. Gieo hạt tại mỗi địch trong 3 vòng; cuối vòng gây sát thương phép Thổ–Nguyệt. MAG của hạt bằng 150% trung bình MAG động của các thành viên Quang/Thổ còn sống.",
+    "description": "Ghép Quang và Thổ. Gieo hạt tại mỗi địch trong 3 vòng; cuối vòng gây sát thương phép Thổ–Nguyệt bằng 180% MAG. MAG của hạt bằng 120% trung bình MAG động của các thành viên Quang/Thổ còn sống.",
     "elements": [
       "light",
       "earth"
     ],
     "stat": "magic",
-    "statRatio": 1.5,
+    "statRatio": 1.2,
     "durationRounds": 3,
     "phases": [
       "end"
@@ -57,5 +57,45 @@
     ],
     "targetMode": "all_enemies",
     "abilityId": "moonlight.nameless_song"
+  },
+  {
+    "id": "chaotic_eclipse",
+    "name": "Nguyệt Nhật Hỗn Mang",
+    "description": "Ghép Thủy và Hỏa. MAG bằng 150% trung bình MAG động của đồng đội Thủy/Hỏa còn sống. Không tự tấn công; chỉ nhận hiệu lệnh phép Hỏa–Nguyệt đơn mục tiêu. Bốn vòng gồm Trăng Tàn (20%), hai vòng Trăng Tròn (60%), Trăng Lên (20%): khuếch đại sát thương phép Hỏa của nhân vật cùng phe. Chúc Phúc mặc định không tự hưởng.",
+    "elements": [
+      "water",
+      "fire"
+    ],
+    "stat": "magic",
+    "statRatio": 1.5,
+    "durationRounds": 4,
+    "phases": [],
+    "targetMode": "selected",
+    "abilityId": "moonlight.chaotic_eclipse",
+    "damageAmplification": {
+      "damageType": "magical",
+      "element": "fire",
+      "includeBlessingDamage": false
+    },
+    "cycle": [
+      {
+        "id": "waning",
+        "name": "Trăng Tàn",
+        "durationRounds": 1,
+        "damageAmp": 0.2
+      },
+      {
+        "id": "full",
+        "name": "Trăng Tròn",
+        "durationRounds": 2,
+        "damageAmp": 0.6
+      },
+      {
+        "id": "waxing",
+        "name": "Trăng Lên",
+        "durationRounds": 1,
+        "damageAmp": 0.2
+      }
+    ]
   }
 ]

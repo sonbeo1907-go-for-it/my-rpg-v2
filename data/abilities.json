@@ -13596,7 +13596,7 @@
           "moon"
         ],
         "scalingStat": "magic",
-        "multiplier": 1.5
+        "multiplier": 1.8
       }
     ],
     "description": "Hạt Giống Bội Thu",
@@ -14046,7 +14046,7 @@
       {
         "type": "command_moonlight",
         "blessingId": "bountiful_seed",
-        "multiplier": 3.8,
+        "multiplier": 3,
         "optional": true,
         "rankScaling": true,
         "targetMode": "selected",
@@ -14060,7 +14060,7 @@
     "growthProfile": "damage",
     "rankable": true,
     "rules": [
-      "Mỗi Lộc Nguyệt đã tiêu gọi một đợt 380% MAG của Chúc Phúc, mang Thổ–Nguyệt; hệ số tăng theo Rank.",
+      "Mỗi Lộc Nguyệt đã tiêu gọi một đợt 300% MAG của Chúc Phúc, mang Thổ–Nguyệt; hệ số tăng theo Rank.",
       "Không có hạt giống hoặc Lộc Nguyệt: chỉ gây đòn của Bianca."
     ]
   },
@@ -14626,5 +14626,308 @@
     "growthProfile": "fixed",
     "rankable": false,
     "fixedReason": "Hiệu ứng tự động nhận hệ số Rank từ Thương Lộ Rộng Mở."
+  },
+  {
+    "id": "moonlight.chaotic_eclipse",
+    "name": "Nguyệt Nhật Hỗn Mang",
+    "description": "Theo hiệu lệnh, tập trung hỏa quang vào một kẻ địch. Hệ số và số đòn do kỹ năng ra lệnh quy định.",
+    "target": "enemy",
+    "cost": {
+      "mp": 0
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "additionalElements": [
+          "moon"
+        ],
+        "scalingStat": "magic",
+        "multiplier": 1
+      }
+    ],
+    "skillLineId": "moonlight.chaotic_eclipse",
+    "growthProfile": "fixed",
+    "rankable": false,
+    "activation": "passive",
+    "fixedReason": "Chỉ thi triển theo hiệu lệnh Chúc Phúc.",
+    "presentation": "moonlight_eclipse"
+  },
+  {
+    "id": "nicole.pages",
+    "name": "Dưới Mái Vòm Cổ Tích",
+    "description": "Tạo khiên toàn đội. Trăng Tàn/Lên: tăng DEF và RES toàn đội; Trăng Tròn: gắn Sơ Hở Hỏa và giảm RES địch được chọn.",
+    "target": "enemy",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "magic",
+        "multiplier": 1.2,
+        "to": "all_allies"
+      },
+      {
+        "type": "status",
+        "status": "nicole_shelter",
+        "duration": 3,
+        "to": "all_allies"
+      }
+    ],
+    "skillLineId": "nicole.pages",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "moonlightFullAbility": "nicole.pages.full",
+    "presentation": "fairytale_shelter",
+    "rules": [
+      "Chưa có Nguyệt Nhật Hỗn Mang: dùng hiệu ứng Trăng Tàn.",
+      "Trăng Tròn: 2 Sơ Hở Hỏa và giảm 35% RES trong 3 lượt chính."
+    ],
+    "growthGroups": [
+      "shield",
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "nicole.pages.full",
+    "name": "Dưới Mái Vòm Cổ Tích",
+    "description": "",
+    "target": "enemy",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "shield",
+        "scalingStat": "magic",
+        "multiplier": 1.2,
+        "to": "all_allies"
+      },
+      {
+        "type": "status",
+        "status": "exposure_fire",
+        "stacks": 2
+      },
+      {
+        "type": "status",
+        "status": "nicole_res_down",
+        "duration": 3,
+        "to": "targets"
+      }
+    ],
+    "skillLineId": "nicole.pages",
+    "growthProfile": "shield",
+    "rankable": true,
+    "presentation": "fairytale_shelter"
+  },
+  {
+    "id": "nicole.tale",
+    "name": "Nét Mực Còn Hy Vọng",
+    "description": "Đánh phép Thủy một địch. Trăng Tàn/Lên: tăng MAG đồng đội Thủy/Hỏa; Trăng Tròn: gắn Sơ Hở Hỏa lên địch và cấp Khai Phá Điểm Yếu cho một đồng đội.",
+    "target": "enemy",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "scalingStat": "magic",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "status": "nicole_magic",
+        "duration": 3,
+        "to": "all_allies",
+        "recipientElements": [
+          "water",
+          "fire"
+        ]
+      }
+    ],
+    "skillLineId": "nicole.tale",
+    "growthProfile": "damage",
+    "rankable": true,
+    "moonlightFullAbility": "nicole.tale.full",
+    "presentation": "fairytale_ink",
+    "rules": [
+      "Chưa có Nguyệt Nhật Hỗn Mang: dùng hiệu ứng Trăng Tàn.",
+      "Trăng Tròn: 2 Sơ Hở Hỏa; đồng đội được chọn nhận Khai Phá Điểm Yếu trong 3 lượt chính."
+    ],
+    "growthGroups": [
+      "damage",
+      "stat_buff"
+    ]
+  },
+  {
+    "id": "nicole.tale.full",
+    "name": "Nét Mực Còn Hy Vọng",
+    "description": "",
+    "target": "enemy",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 1,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "water",
+        "scalingStat": "magic",
+        "multiplier": 1.2
+      },
+      {
+        "type": "status",
+        "status": "exposure_fire",
+        "stacks": 2
+      },
+      {
+        "type": "status",
+        "status": "weakness_exploitation",
+        "duration": 3,
+        "to": "selected_ally"
+      }
+    ],
+    "skillLineId": "nicole.tale",
+    "growthProfile": "damage",
+    "rankable": true,
+    "secondaryAllyTarget": true,
+    "presentation": "fairytale_ink"
+  },
+  {
+    "id": "nicole.again",
+    "name": "Xin Kể Thêm Một Lần",
+    "description": "Giải toàn bộ hiệu ứng bất lợi, hồi 30% HP và MP tối đa, kéo dài buff còn thời hạn thêm 1 lượt. Ở Trăng Tàn, lượng hồi và thời gian kéo dài gấp đôi.",
+    "target": "all_allies",
+    "cost": {
+      "mp": 40
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "cleanse"
+      },
+      {
+        "type": "heal",
+        "targetMaxHpRatio": 0.3
+      },
+      {
+        "type": "resource",
+        "resource": "mp",
+        "maxMpRatio": 0.3
+      },
+      {
+        "type": "extend_buffs",
+        "turns": 1
+      }
+    ],
+    "skillLineId": "nicole.again",
+    "growthProfile": "heal",
+    "rankable": true,
+    "moonlightWaningDouble": true,
+    "presentation": "fairytale_renew",
+    "rules": [
+      "Chỉ tăng gấp đôi khi Nguyệt Nhật Hỗn Mang đang ở Trăng Tàn.",
+      "Không kéo dài Hộ Ấn, hiệu ứng theo số lần dùng, dạng chiến đấu hoặc Chúc Phúc."
+    ]
+  },
+  {
+    "id": "maria.scar",
+    "name": "Vết Cháy Không Phai",
+    "description": "Đánh phép Hỏa một địch và nhận Lượt Thêm.",
+    "target": "enemy",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 2
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      }
+    ],
+    "skillLineId": "maria.scar",
+    "growthProfile": "damage",
+    "rankable": true,
+    "presentation": "fairytale_sin"
+  },
+  {
+    "id": "maria.ashes",
+    "name": "Tro Tàn Của Lời Nguyện",
+    "description": "Tăng 50% MAG đến hết Trăng Tàn kế tiếp. Mỗi lần dùng tăng 30% MP tối đa đến hết trận, tối đa 3 tầng.",
+    "target": "self",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "status": "maria_last_hope"
+      },
+      {
+        "type": "status",
+        "status": "maria_vessel"
+      }
+    ],
+    "skillLineId": "maria.ashes",
+    "growthProfile": "stat_buff",
+    "rankable": true,
+    "presentation": "fairytale_sin",
+    "rules": [
+      "Nếu đang ở Trăng Tàn: buff MAG kết thúc vào cuối vòng này. Ngoài pha đó: chờ hết Trăng Tàn kế tiếp.",
+      "Tăng MP tối đa không hồi MP hiện tại.",
+      "Hai buff có thể bị xóa; dùng lại làm mới buff MAG và thêm một tầng MP tối đa."
+    ]
+  },
+  {
+    "id": "maria.judgment",
+    "name": "Xin Thiêu Hết Tội Lỗi Này",
+    "description": "Chỉ dùng trong Trăng Tròn: đánh phép Hỏa một địch, rồi gọi Nguyệt Nhật Hỗn Mang Liên kích cùng mục tiêu.",
+    "target": "enemy",
+    "cost": {
+      "mp": 60
+    },
+    "cooldown": 0,
+    "requiresMoonlightPhase": "full",
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "magical",
+        "element": "fire",
+        "scalingStat": "magic",
+        "multiplier": 4.5
+      },
+      {
+        "type": "command_moonlight",
+        "blessingId": "chaotic_eclipse",
+        "targetMode": "selected",
+        "multiplier": 4,
+        "rankScaling": true
+      }
+    ],
+    "skillLineId": "maria.judgment",
+    "growthProfile": "damage",
+    "rankable": true,
+    "presentation": "fairytale_sin",
+    "rules": [
+      "Hiệu lệnh gây 400% MAG của Chúc Phúc, cùng tăng theo Rank.",
+      "Trăng Tròn: chi phí gốc 120 MP trước các điều chỉnh. Mục tiêu gục sau đòn đầu: dừng hiệu lệnh."
+    ]
   }
 ]

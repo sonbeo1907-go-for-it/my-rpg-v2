@@ -2249,5 +2249,54 @@
     "modifiers": {
       "defense": -0.25
     }
+  },
+  {
+    "id": "nicole_shelter",
+    "name": "Mái Vòm Cổ Tích",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "defense": 0.25,
+      "resistance": 0.25
+    }
+  },
+  {
+    "id": "nicole_magic",
+    "name": "Nét Mực Hy Vọng",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "magic": 0.45
+    }
+  },
+  {
+    "id": "nicole_res_down",
+    "name": "Trang Sách Cháy Dở",
+    "kind": "debuff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "resistance": -0.35
+    }
+  },
+  {
+    "id": "maria_last_hope",
+    "name": "Tro Tàn Chưa Nguội",
+    "kind": "buff",
+    "persistent": true,
+    "untilMoonlightWaningEnd": true,
+    "modifiers": {
+      "magic": 0.5
+    }
+  },
+  {
+    "id": "maria_vessel",
+    "name": "Vết Hằn Ma Lực",
+    "kind": "buff",
+    "persistent": true,
+    "modifiersPerStack": true,
+    "maxStacks": 3,
+    "modifiers": {
+      "maxMp": 0.3
+    }
   }
 ]

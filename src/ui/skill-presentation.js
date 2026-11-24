@@ -205,6 +205,7 @@ export function skillScaling(skill, actor, content, choices = {}) {
       if (effect.unavoidable) lines.push('Hội Tâm: bỏ qua né tránh.');
     }
     if(effect.spentLifeDebtRatio!==undefined){lines.push('Bản thân hồi '+percent(effect.spentLifeDebtRatio)+' khoản Thế Chấp vừa tiêu. Xóa nợ trước khi hồi; Vết Thương Sâu vẫn giảm hồi.');continue;}
+    if(effect.targetMaxHpRatio!==undefined){lines.push('Hồi '+percent(effect.targetMaxHpRatio)+' HP tối đa của người nhận.');continue;}
     if (effect.type === 'heal' || effect.type === 'shield') {
       const label = scalingLabel(effect,{attack:'ATK',magic:'MAG',defense:'DEF',resistance:'RES'});
       const value = scalingValue(effect,valueOf);

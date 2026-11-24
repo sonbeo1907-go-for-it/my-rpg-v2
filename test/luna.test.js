@@ -20,9 +20,9 @@ function next(b){const r=b.round,events=[];for(let i=0;i<80&&b.round===r&&!b.out
 function activate(b,id='bountiful_seed'){if(id==='bountiful_seed'){cast(b,'shashthi','$attack');cast(b,'bianca','$attack');}else{cast(b,'noelle','noelle.thunder');cast(b,b.actors.find(a=>a.element==='water'&&a.team==='party').id,'$attack');}assert.equal(b.moonlight.party.active.id,id);}
 const damage=(events,id,target='enemy_0')=>events.filter(e=>e.type==='damage'&&e.sourceId===id&&e.targetId===target);
 
-test('Luna is official, grants both live recipes, and does not register unfinished blessings',()=>{
+test('Luna is official, grants all four registered recipes',()=>{
  assert.equal(c.characters.luna.releaseId,122);assert.ok(c.banners.standard.characterPool.includes('luna'));assert.deepEqual(c.characters.luna.stats,{maxHp:300,maxMp:130,defense:20,resistance:25,attack:10,magic:10,speed:24});
- assert.deepEqual(moonlightAccess(c.characters.luna,c).sort(),['bountiful_seed','nameless_song','thunder_wrath']);assert.equal(Object.keys(c.moonlightBlessings).length,3);
+ assert.deepEqual(moonlightAccess(c.characters.luna,c).sort(),['bountiful_seed','chaotic_eclipse','nameless_song','thunder_wrath']);assert.equal(Object.keys(c.moonlightBlessings).length,4);
  const s=account();assert.deepEqual(decodeGameSave(encodeGameSave(s,c),c),s);
  for(const [party,sequence,wanted]of [[['luna','tywin','iris','garrek'],['garrek','tywin'],'thunder_wrath'],[['luna','arthur','lyon','iris'],['arthur','lyon'],'bountiful_seed']]){
   const b=setup(party);if(wanted==='thunder_wrath'){b.content.characters.garrek.element='thunder';getActor(b,'garrek').element='thunder';}
@@ -53,19 +53,19 @@ test('mode start/end hooks use global rounds, keep fifth-round effect, then rest
  activate(b);const fifth=next(b);assert.ok(damage(fifth,owner.id).some(e=>e.abilityId==='luna.pulse'));assert.equal(owner.activeMode,undefined);near(battleStat(c,enemy,'attack'),100);assert.equal(battlePresentation(b.actors),null);assert.equal(abilityAvailability(b,owner,c.abilities['luna.song']).ok,true);
 });
 test('end pulse matches currently active blessing: physical Thunder-Moon or magical Earth-Moon',()=>{
- for(const id of ['thunder_wrath','bountiful_seed']){const b=setup(id==='thunder_wrath'?['luna','noelle','tywin','iris']:undefined);activate(b,id);cast(b,'luna','luna.song','luna');const events=next(b),hit=damage(events,'luna').find(e=>e.abilityId==='luna.pulse');assert.ok(hit);assert.equal(hit.damageType,id==='thunder_wrath'?'physical':'magical');assert.ok(hit.elements.includes('moon'));assert.ok(hit.elements.includes(id==='thunder_wrath'?'thunder':'earth'));assert.equal(hit.amount,Math.floor(300*.5*1.1*1.3*.6*hit.weaknessMultiplier));}
+ for(const id of ['thunder_wrath','bountiful_seed']){const b=setup(id==='thunder_wrath'?['luna','noelle','tywin','iris']:undefined);activate(b,id);cast(b,'luna','luna.song','luna');const events=next(b),hit=damage(events,'luna').find(e=>e.abilityId==='luna.pulse');assert.ok(hit);assert.equal(hit.damageType,id==='thunder_wrath'?'physical':'magical');assert.ok(hit.elements.includes('moon'));assert.ok(hit.elements.includes(id==='thunder_wrath'?'thunder':'earth'));assert.equal(hit.amount,Math.floor(300*.5*1.08*1.12*.6*hit.weaknessMultiplier));}
  const b=setup();cast(b,'luna','luna.song','luna');assert.equal(damage(next(b),'luna').filter(e=>e.abilityId==='luna.pulse').length,0);
 });
 test('mode Rank grows only end-pulse damage, not field, wards, duration, MP or debuff removal',()=>{
- const samples=[];for(const rank of [1,5]){const b=setup();activate(b);const a=getActor(b,'luna');a.skillRanks={'luna.song':rank};const skill=resolveRankedAbility(c,a,'luna.song');assert.deepEqual(skill.growthGroups,['damage']);cast(b,a.id,skill.id,a.id);assert.equal(a.mp,110);assert.equal(a.modeExpiresAfterRound,5);assert.equal(a.combatModes.moon_song.moonlightField.moonDamageTaken,.3);samples.push(damage(next(b),a.id).find(e=>e.abilityId==='luna.pulse').amount);}
+ const samples=[];for(const rank of [1,5]){const b=setup();activate(b);const a=getActor(b,'luna');a.skillRanks={'luna.song':rank};const skill=resolveRankedAbility(c,a,'luna.song');assert.deepEqual(skill.growthGroups,['damage']);cast(b,a.id,skill.id,a.id);assert.equal(a.mp,110);assert.equal(a.modeExpiresAfterRound,5);assert.equal(a.combatModes.moon_song.moonlightField.moonDamageTaken,.12);samples.push(damage(next(b),a.id).find(e=>e.abilityId==='luna.pulse').amount);}
  near(samples[1],samples[0]*1.1**4,2);
 });
-test('native 10% applies to allied Moon hits and blessing sources, never non-Moon or opposing hits',()=>{
- for(const ownerAlive of [true,false]){const b=setup();activate(b);const a=getActor(b,'luna');if(!ownerAlive)a.hp=0;const before=structuredClone(b.moonlight.party.active);cast(b,'bianca','bianca.harvest','enemy_1');const hit=damage(b.events,'moonlight_party','enemy_1')[0];const power=getActor(b,'moonlight_party').stats.magic;near(hit.amount,Math.floor(power*3.8*1.2*(ownerAlive?1.1:1)),1);assert.equal(b.moonlight.party.active.expiresAfterRound,before.expiresAfterRound);assert.equal(lunarBaseDamageMultiplier(b,getActor(b,'enemy_0'),{element:'moon'}),1);assert.equal(lunarBaseDamageMultiplier(b,a,{element:'plain'}),1);}
+test('native 8% applies to allied Moon hits and blessing sources, never non-Moon or opposing hits',()=>{
+ for(const ownerAlive of [true,false]){const b=setup();activate(b);const a=getActor(b,'luna');if(!ownerAlive)a.hp=0;const before=structuredClone(b.moonlight.party.active);cast(b,'bianca','bianca.harvest','enemy_1');const hit=damage(b.events,'moonlight_party','enemy_1')[0];const power=getActor(b,'moonlight_party').stats.magic;near(hit.amount,Math.floor(power*3*1.2*(ownerAlive?1.08:1)),1);assert.equal(b.moonlight.party.active.expiresAfterRound,before.expiresAfterRound);assert.equal(lunarBaseDamageMultiplier(b,getActor(b,'enemy_0'),{element:'moon'}),1);assert.equal(lunarBaseDamageMultiplier(b,a,{element:'plain'}),1);}
 });
 test('moonlit gear static stats, conditional doubling and lunar amp are exact and reversible',()=>{
  const s=account(undefined,{bianca:['moonlit_duet'],luna:['moonlit_covenant']});assert.deepEqual(decodeGameSave(encodeGameSave(s,c),c),s);near(resolveCharacter(c,s,'bianca').stats.magic,36*1.15);assert.equal(resolveCharacter(c,s,'luna').stats.maxHp,375);
- const b=setup(undefined,{bianca:['moonlit_duet']});const a=getActor(b,'bianca');near(battleStat(c,a,'magic'),36*1.15);activate(b);near(battleStat(c,a,'magic'),36*1.3);cast(b,a.id,'bianca.harvest','enemy_1');const own=damage(b.events,a.id,'enemy_1')[0];near(own.amount,Math.floor(36*1.3*1.2*1.1*1.25),1);while(b.round<4)next(b);near(battleStat(c,a,'magic'),36*1.15);
+ const b=setup(undefined,{bianca:['moonlit_duet']});const a=getActor(b,'bianca');near(battleStat(c,a,'magic'),36*1.15);activate(b);near(battleStat(c,a,'magic'),36*1.3);cast(b,a.id,'bianca.harvest','enemy_1');const own=damage(b.events,a.id,'enemy_1')[0];near(own.amount,Math.floor(36*1.3*1.2*1.08*1.25),1);while(b.round<4)next(b);near(battleStat(c,a,'magic'),36*1.15);
 });
 test('team +8 aura does not stack across wearers, is applied before skill buffs, and stops when no living wearer remains',()=>{
  const b=setup(undefined,{luna:['moonlit_covenant'],noelle:['moonlit_covenant']}),a=getActor(b,'bianca');activate(b);near(battleStat(c,a,'magic'),44);cast(b,'shashthi','shashthi.gift',a.id);near(battleStat(c,a,'magic'),44*1.9);getActor(b,'luna').hp=0;syncTeamStatAuras(b);near(battleStat(c,a,'magic'),44*1.9);getActor(b,'noelle').hp=0;syncTeamStatAuras(b);near(battleStat(c,a,'magic'),36*1.9);
@@ -84,11 +84,11 @@ test('dungeon carry preserves mode deadline and does not replay entry cleanse or
 });
 test('PvP has symmetric independent fields, access and gear auras and clamps mode Rank to five',()=>{
  const b=createArenaBattle(c,account(undefined,{luna:['moonlit_covenant']}),'mirror',122);for(const a of b.actors){a.hp=a.stats.maxHp=100000;a.stats.defense=a.stats.resistance=0;}const id=(team,name)=>b.actors.find(a=>a.team===team&&a.definitionId===name).id;
- for(const team of ['party','enemy']){const owner=getActor(b,id(team,'luna'));owner.skillRanks={'luna.song':8};assert.equal(resolveRankedAbility(c,owner,'luna.song').skillRank,5);cast(b,owner.id,'luna.song',owner.id);assert.equal(owner.activeMode,'moon_song');assert.deepEqual(b.moonlight[team].allowed,['bountiful_seed','nameless_song','thunder_wrath']);}
+ for(const team of ['party','enemy']){const owner=getActor(b,id(team,'luna'));owner.skillRanks={'luna.song':8};assert.equal(resolveRankedAbility(c,owner,'luna.song').skillRank,5);cast(b,owner.id,'luna.song',owner.id);assert.equal(owner.activeMode,'moon_song');assert.deepEqual(b.moonlight[team].allowed,['bountiful_seed','chaotic_eclipse','nameless_song','thunder_wrath']);}
  assert.ok(b.actors.every(a=>a.lunarModifiers.attack===-.2&&a.lunarModifiers.magic===-.2));
 });
 test('copy presents dynamic max HP, supported recipes, fixed field values and ranked end damage',()=>{
- const a=getActor(setup(),'luna');a.skillRanks={'luna.song':5};const facts=skillPresentation(c.abilities['luna.song'],a,c).facts.join(' ');assert.ok(facts.includes('73,21% HP'));assert.ok(facts.includes('30%'));assert.ok(facts.includes('5 vòng'));assert.ok(JSON.stringify(passivePresentation(a,c)).includes('10%'));assert.equal(moonlightAspectAbility(setup(),a,c.abilities['luna.pulse']),null);
+ const a=getActor(setup(),'luna');a.skillRanks={'luna.song':5};const facts=skillPresentation(c.abilities['luna.song'],a,c).facts.join(' ');assert.ok(facts.includes('73,21% HP'));assert.ok(facts.includes('12%'));assert.ok(facts.includes('5 vòng'));assert.ok(JSON.stringify(passivePresentation(a,c)).includes('8%'));assert.equal(moonlightAspectAbility(setup(),a,c.abilities['luna.pulse']),null);
 });
 
 test('stun skips Luna active turn but never stops global mode hooks, and Extra Turns never duplicate them',()=>{
@@ -99,14 +99,14 @@ test('stun skips Luna active turn but never stops global mode hooks, and Extra T
 });
 test('periodic Moon damage receives Luna support, lunar gear and hostile field once each',()=>{
  const b=setup(undefined,{noelle:['moonlit_duet']});activate(b);cast(b,'luna','luna.song','luna');b.content.statuses.test_moon_dot={id:'test_moon_dot',name:'Độc nguyệt thử nghiệm',kind:'debuff',damageOverTime:{element:'moon'}};
- getActor(b,'enemy_0').statuses.push({id:'test_moon_dot',remaining:2,stacks:1,potency:100,sourceId:'noelle'});b.queue=['luna','enemy_0','noelle','shashthi','bianca','enemy_1','enemy_2'];b.cursor=0;executeAction(b,{actorId:'luna',abilityId:'$defend',targetId:'luna'});const tick=damage(b.events,'noelle').find(e=>e.periodic);assert.ok(tick);assert.equal(tick.amount,Math.floor(100*1.1*1.25*1.3));
+ getActor(b,'enemy_0').statuses.push({id:'test_moon_dot',remaining:2,stacks:1,potency:100,sourceId:'noelle'});b.queue=['luna','enemy_0','noelle','shashthi','bianca','enemy_1','enemy_2'];b.cursor=0;executeAction(b,{actorId:'luna',abilityId:'$defend',targetId:'luna'});const tick=damage(b.events,'noelle').find(e=>e.periodic);assert.ok(tick);assert.equal(tick.amount,Math.floor(100*1.08*1.25*1.12));
 });
-test('universal access automatically includes future registered pairs without adding unfinished content today',()=>{
- const content=structuredClone(c);content.moonlightBlessings.nameless_song={id:'nameless_song',elements:['light','dark']};content.moonlightBlessings.chaotic_eclipse={id:'chaotic_eclipse',elements:['water','fire']};assert.equal(moonlightAccess(content.characters.luna,content).length,4);assert.equal(Object.keys(c.moonlightBlessings).length,3);
+test('universal access follows the registered recipes without a hardcoded access list',()=>{
+ const content=structuredClone(c);delete content.moonlightBlessings.chaotic_eclipse;assert.equal(moonlightAccess(content.characters.luna,content).length,3);content.moonlightBlessings.chaotic_eclipse=structuredClone(c.moonlightBlessings.chaotic_eclipse);assert.equal(moonlightAccess(content.characters.luna,content).length,4);assert.equal(Object.keys(c.moonlightBlessings).length,4);
 });
 
 test('native lunar increase also covers flat skill damage supplied by Ariel before amplification',()=>{
- const amounts=[];for(const alive of [true,false]){const b=setup(['luna','shashthi','bianca','ariel']);activate(b);cast(b,'ariel','ariel.spotlight','bianca');assert.ok(getActor(b,'bianca').statuses.some(s=>s.flatSkillBonus>0));if(!alive)getActor(b,'luna').hp=0;cast(b,'bianca','bianca.opening');amounts.push(damage(b.events,'bianca')[0].amount);}near(amounts[0],amounts[1]*1.1,2);
+ const amounts=[];for(const alive of [true,false]){const b=setup(['luna','shashthi','bianca','ariel']);activate(b);cast(b,'ariel','ariel.spotlight','bianca');assert.ok(getActor(b,'bianca').statuses.some(s=>s.flatSkillBonus>0));if(!alive)getActor(b,'luna').hp=0;cast(b,'bianca','bianca.opening');amounts.push(damage(b.events,'bianca')[0].amount);}near(amounts[0],amounts[1]*1.08,2);
 });
 ﻿
 test('Song Nguyet boosts every commanded seed hit exactly once while keeping its independent source and rank',()=>{
@@ -115,18 +115,18 @@ test('Song Nguyet boosts every commanded seed hit exactly once while keeping its
  const before=structuredClone(b.moonlight),trial=forecastBattleAction(b,{actorId:'bianca',abilityId:'bianca.harvest',targetId:'enemy_1'});assert.deepEqual(b.moonlight,before);
  cast(b,'bianca','bianca.harvest','enemy_1');assert.deepEqual(damage(trial.events,'moonlight_party','enemy_1').map(h=>h.amount),damage(b.events,'moonlight_party','enemy_1').map(h=>h.amount));
  const commanded=damage(b.events,'moonlight_party','enemy_1'),power=getActor(b,'moonlight_party').stats.magic;
- assert.equal(commanded.length,3);for(const h of commanded)near(h.amount,Math.floor(power*3.8*1.1**4*1.2*1.1*1.25),1);
+ assert.equal(commanded.length,3);for(const h of commanded)near(h.amount,Math.floor(power*3*1.1**4*1.2*1.08*1.25),1);
  assert.ok(b.events.some(e=>e.type==='reaction'&&e.sourceId==='moonlight_party'));assert.equal(getActor(b,'moonlight_party').gearEffects,undefined);
- const natural=damage(next(b),'moonlight_party','enemy_1');assert.equal(natural.length,1);near(natural[0].amount,Math.floor(getActor(b,'moonlight_party').stats.magic*1.5*1.2*1.1*.6),1);
+ const natural=damage(next(b),'moonlight_party','enemy_1');assert.equal(natural.length,1);near(natural[0].amount,Math.floor(getActor(b,'moonlight_party').stats.magic*1.8*1.2*1.08*.6),1);
 });
 
 test('commanded thunder borrows only the commander amp, never leaks it into Noelle response or another order',()=>{
  const b=setup(['luna','noelle','tywin','flynn'],{flynn:['moonlit_duet']});activate(b,'thunder_wrath');for(const e of b.actors.filter(a=>a.team==='enemy'))e.statuses=[];
  const a=getActor(b,'flynn');a.resourceValues[Object.keys(a.resources)[0]]=2;cast(b,'flynn','flynn.burst','enemy_0');let power=getActor(b,'moonlight_party').stats.attack;
- near(damage(b.events,'moonlight_party')[0].amount,Math.floor(power*3.6*1.1*1.25),1);
- const noelle=damage(b.events,'noelle')[0];near(noelle.amount,Math.floor(battleStat(c,getActor(b,'noelle'),'attack')*1.5*1.1),1);
+ near(damage(b.events,'moonlight_party')[0].amount,Math.floor(power*3.6*1.08*1.25),1);
+ const noelle=damage(b.events,'noelle')[0];near(noelle.amount,Math.floor(battleStat(c,getActor(b,'noelle'),'attack')*1.5*1.08),1);
  a.gearEffects=[];for(const e of b.actors.filter(a=>a.team==='enemy'))e.statuses=[];cast(b,'flynn','flynn.burst','enemy_0');power=getActor(b,'moonlight_party').stats.attack;
- near(damage(b.events,'moonlight_party')[0].amount,Math.floor(power*3.6*1.1),1);
+ near(damage(b.events,'moonlight_party')[0].amount,Math.floor(power*3.6*1.08),1);
 });
 
 test('lunar command gear chooses same-side commander, preserves ordinary Moon hits, and ignores non-Moon effects',()=>{

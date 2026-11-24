@@ -12,7 +12,7 @@ HP160 / MP120 / ATK8 / MAG36 / DEF18 / RES24 / SPD18. Đánh thường phép Th�
 | --- | --- | --- |
 | Lời Chào Có Giá | +12 MAG căn bản trong 3 lượt chính bản thân, giải toàn bộ debuff bản thân | 5 / 0 |
 | Gieo Một Lời Hứa | Một địch 60% MAG Thổ, trúng gắn 2 Sơ Hở Thổ, cấp bản thân Lượt Thêm | 5 / 0 |
-| Thu Lời Dưới Trăng | Một địch 120% MAG Thổ. Nếu mục tiêu còn sống và có hạt giống cùng phe, tiêu tối đa 3 Lộc Nguyệt; mỗi tầng gọi một hit 380% MAG Chúc Phúc vào đúng mục tiêu | 10 / 0 |
+| Thu Lời Dưới Trăng | Một địch 120% MAG Thổ. Nếu mục tiêu còn sống và có hạt giống cùng phe, tiêu tối đa 3 Lộc Nguyệt; mỗi tầng gọi một hit 300% MAG Chúc Phúc vào đúng mục tiêu | 10 / 0 |
 
 Nội tại cấp quyền ghép Quang–Thổ. Sau khi chuỗi hành động kết toán và Hạt Giống Bội Thu thực sự kích hoạt, Bianca còn sống nhận đủ 6 Lộc Nguyệt (cap6, không cộng vượt trần). Lúc Chúc Phúc hoạt động, mọi sát thương Bianca mang thêm Nguyệt; sau khi Chúc Phúc hết, phần Nguyệt tắt. Tầng chưa tiêu không tự mất khi Chúc Phúc hết; lần kích hoạt mới đưa về6.
 
@@ -51,3 +51,8 @@ Chiêu cuối có hai nguồn: Bianca và thực thể Chúc Phúc. Hit Chúc Ph
 Hai hiệu lệnh gây tổng6 hit vào đúng mục tiêu; hai pulse cuốiR1/R2 được đếm riêng, không hoàn/nạp tầng. Deadline Chúc Phúc vẫn cuốiR3. Chiêu R3 giải debuff và tăng12 MAG căn bản ởRank1 (MAG36→48), hoặc14,586075 ởRank5 (36→50,586075). Kết quả này xác nhận vận hành/chi phí/lượt, không phải kiểm thử cân bằng boss.
 
 Sau lần tiêu3 tầng thứ hai, tài nguyên phải là0; ghi “còn3” ởR2 là sai phép trừ nếu không có lần kích hoạt Chúc Phúc mới. Hồi quy nằm cuối test/bianca.test.js.
+
+
+## Điều chỉnh 24/11/2026
+
+Hạt Giống Bội Thu lấy 120% trung bình MAG động của đồng đội Quang/Thổ còn sống (không đổi phạm vi sang cả đội); pulse cuối vòng180% MAG. Hiệu lệnh Thu Lời Dưới Trăng của Bianca từ380% xuống300% MAG ở Rank1, Rank5 còn439,23%/hit. Giữ hạn mức/timing/nguồn và một Sơ Hở cho cả chuỗi. Các hiệu lệnh khác giữ hệ số nhưng chịu MAG nguồn mới. Xem [báo cáo max-build](SEED_BALANCE_2026_11_24.md).

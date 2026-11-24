@@ -13,3 +13,23 @@
 
 .moonlight-revelation{margin:1rem 0;padding:1.2rem;border:1px solid #2b3d48;border-left:3px solid #b9b7df;background:rgba(23,37,49,.7)}
 .moonlight-revelation h3{margin:0}.moonlight-revelation .section-heading{gap:1rem;flex-wrap:wrap}.moonlight-revelation p{line-height:1.65}.revelation-switch{display:flex;align-items:center;gap:.7rem;min-height:44px;cursor:pointer}.revelation-switch input{width:22px;height:22px;accent-color:#b9b7df}
+
+/* Four round clock: one named phase per column, the middle phase spans two rounds. */
+.moonlight-board[data-blessing="chaotic_eclipse"]{background:#18232d;border-color:#a79277;box-shadow:none;padding-top:18px;padding-bottom:16px}
+.moonlight-board[data-blessing="chaotic_eclipse"] .moonlight-sky{background:url('/art/moonlight-eclipse.svg') center/cover;opacity:.6}
+.moonlight-board[data-blessing="chaotic_eclipse"] .moonlight-emblem{top:46px;filter:none;animation:none}
+.eclipse-amplification{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:10px 0!important;font-size:.9rem;color:#f1e9df}
+.eclipse-amplification strong{font-size:1.4rem;font-variant-numeric:tabular-nums;color:#ffce94}
+.eclipse-cycle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0;margin:14px 0 0;list-style:none;max-width:510px}
+.eclipse-cycle li{display:grid;gap:3px;padding-top:8px;border-top:1px solid #617281;color:#c0cad6;font-size:.8rem;min-width:0}
+.eclipse-cycle li[aria-current="step"]{border-top-color:#ffcd92;color:#fff3e1}
+.eclipse-cycle li[data-cycle-state="past"]{color:#aab8c7}
+.eclipse-cycle b{font-size:1rem;font-weight:600;font-variant-numeric:tabular-nums}.eclipse-cycle small{font-size:.75rem;white-space:nowrap}
+.moonlight-board[data-moonlight-phase="full"] .eclipse-fire-ring{animation:eclipse-ring 3s ease-in-out infinite;transform-origin:83px 70px}
+.shared-combat-fx[data-fx-presentation="moonlight_eclipse"] svg{filter:none;animation:eclipse-pierce var(--vfx-duration) ease-out both}
+.shared-combat-fx[data-fx-presentation="moonlight_eclipse"] .eclipse-gather{animation:eclipse-gather var(--vfx-duration) ease-out both}
+@keyframes eclipse-ring{50%{transform:scale(1.05)}}
+@keyframes eclipse-pierce{0%{opacity:0;transform:translateY(-20px) scaleY(.45)}25%{opacity:1;transform:translateY(0) scaleY(1)}75%{opacity:.9}100%{opacity:0;transform:translateY(10px) scaleY(1.1)}}
+@keyframes eclipse-gather{0%{opacity:0;transform:scale(1.3)}35%{opacity:1;transform:scale(1)}100%{opacity:0}}
+@media(max-width:600px){.moonlight-board[data-blessing="chaotic_eclipse"]{padding-left:94px}.moonlight-board[data-blessing="chaotic_eclipse"] .moonlight-emblem{top:48px}.eclipse-cycle{gap:7px}.eclipse-cycle li{font-size:.75rem}.eclipse-cycle b{font-size:.95rem}.eclipse-amplification{gap:6px;font-size:.8rem}.eclipse-amplification strong{font-size:1.25rem}}
+@media(prefers-reduced-motion:reduce){.eclipse-fire-ring,.eclipse-gather{animation:none!important}}

@@ -1,9 +1,11 @@
+import {chosenAlly,extendBeneficial,markWaningBuff,expireWaningBuffs} from './witch-cycle.js';
 import {supportTurnStart,drainHitMp} from './merchant-support.js';
 import {debuffBatch,setDebuffBatch,withDebuffBatch,witnessedDebuff,extendHostileDebuffs,lampkeeperRoundEnd} from './lampkeeper.js';
+import {moonlightCyclePhase,moonlightMagicAmplification,advanceMoonlightCycles} from './moonlight-cycle.js';
 import {lunarBaseDamageMultiplier,lunarOutgoingAmp,lunarIncomingMultiplier,moonlightEmpoweredBuff,moonlightAspectAbility,lunarRoundStart,lunarRoundEnd} from './lunar-support.js';
 import {moonlightActivated,moonlightPotencyMultiplier,providerBuff} from './moonlight-synergy.js';
 import {revelationDamageEffect,revelationEffects,moonlightRoundStart,moonlightRoundEnd,moonlightPulseRank} from './moonlight-revelation.js';
-import {initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,moonlightTargetHits,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
+import {moonlightDefinition as moonlightDefinitionForTarget,initializeMoonlight,recordMoonlightDamage,settleMoonlight,pulseMoonlight,expireMoonlight,moonlightDamageEffect,moonlightStat,moonlightTargetHits,commandMoonlight,canCommandMoonlight} from './moonlight-blessings.js';
 import {judgeTournamentLimit} from './tournament-judging.js';
 import {initializeEncounterBosses,observeEncounterBosses,encounterBossRoundStart,prepareBossRitual,observeBossWeakness,encounterHitMultiplier,encounterOffenseMultiplier,beginBossRitualTurn,finishBossRitualTurn,bossIncomingMultiplier,ritualJobAbility,beginRitualAction,finishEncounterBosses} from './encounter-rituals.js';
 import {syncTeamStatAuras,selfBuffOffense} from './knight-passives.js';
@@ -37,7 +39,7 @@ import {isAlive,isInAgony,routesToMaxHp,agonyReduction,applyLifeDamage,maybeGran
 import {supportFollowupReady,supportFollowupBonus} from './support-followup.js';
 import {initializeExclusiveResources,exclusiveBasicResourceChance,exclusiveResourceChanged,exclusiveAttackResourceChance,exclusiveHealBonus,exclusiveAfterSkill,exclusiveShieldBreak,exclusiveAutomaticHit,exclusiveWardBlocked,exclusiveEnemyStatusApplied,exclusiveResourceBonus} from './exclusive-runtime.js';
 import {specialPassives,specialSkillStatBonuses,specialHitStatBonus,specialResourcePenetration,specialResourceKeepChance} from './exclusive-specials.js';
-import {resolveRankedAbility} from './skill-resolver.js';
+import {resolveRankedAbility,resolveBattleAbility} from './skill-resolver.js';
 import {questDifficulty} from './quest-difficulty.js';
 import {shieldedDamageBonus} from './exclusive-field.js';
 import {evasionChance,hasTrueStrike} from './evasion.js';
@@ -608,6 +610,7 @@ function startRound(battle) {
     markProc(battle,owner,p.type);const state=teamResourceState(battle,owner,p.resource),spent=state?.spentRound===battle.round-1?state.spent:0,ratio=Math.min(p.cap,spent*p.perStack);
     if(ratio>0){announcePassive(battle,owner,owner.id);applyStatus(battle,owner,p.statusId,1,owner.id,{appliedModifiers:{[p.stat]:ratio}});}
   }
+  advanceMoonlightCycles(battle,moonlightIO);
   activateRoundGear(battle,{status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write});
   roundSummons(battle,"start",modeIO);
   moonlightRoundStart(battle,modeIO);lunarRoundStart(battle,modeIO);
@@ -1078,6 +1081,7 @@ function finishMainRound(battle) {
   moonlightRoundEnd(battle,{...modeIO,maxMp:battleMaxMp});lampkeeperRoundEnd(battle,modeIO);
   lunarRoundEnd(battle,modeIO);if(checkOutcome(battle))return;
   for(const actor of battle.actors)if(actor.combatModes?.[actor.activeMode]?.moonlightField||actor.combatModes?.[actor.activeMode]?.roundEndAbility)checkCombatMode(battle,actor,'round_end',modeIO);
+  expireWaningBuffs(battle,{emit:emitEvent,write});
   expireMoonlight(battle,moonlightIO);
   settleMoonlight(battle,moonlightIO);
   emitEvent(battle, { type: "round_end", round: battle.round });
@@ -1119,10 +1123,11 @@ export function selectedTargets(battle,actor,skill,targetId) {
 }
 
 export function abilityAvailability(battle, actor, skill) {
-  if(actor&&skill.resourceVariants)skill=resolveRankedAbility(battle.content,actor,skill);
+  if(actor&&skill)skill=resolveBattleAbility(battle,actor,skill);
   if(actor&&(skill.targetElements||skill.targetElement||skill.targetTag||skill.excludeSelf)&&!targetsFor(battle,actor,skill).length)return {ok:false,reason:"Không có đồng đội phù hợp để nhận kỹ năng."};
   if (!actor || !living(actor))
     return { ok: false, reason: "Không thể hành động." };
+  if(skill.requiresMoonlightPhase&&moonlightCyclePhase(battle,actor.team)?.id!==skill.requiresMoonlightPhase)return {ok:false,reason:'Chỉ có thể dùng khi Nguyệt Nhật Hỗn Mang ở Trăng Tròn.'};
   if(skill.requiresLifeDebt&&lifeDebt(actor)<=0)return {ok:false,reason:'Cần có Thế Chấp để tất toán.'};
   if(skill.requiresHpBelow!==undefined && actor.hp/actor.stats.maxHp>=skill.requiresHpBelow) return {ok:false,reason:"HP chưa đủ thấp để dùng chiêu này."};
   if(skill.maxSelfStatus&&(actor.statuses.find(s=>s.id===skill.maxSelfStatus)?.stacks??0)>=battle.content.statuses[skill.maxSelfStatus].maxStacks)return {ok:false,reason:'Đã đạt tối đa '+battle.content.statuses[skill.maxSelfStatus].maxStacks+' tầng.'};
@@ -1710,7 +1715,7 @@ function resolveHit(
   const hitGrowthMultiplier = actionContext.hitGrowthMultiplier ?? 1;
   const flatSkillBonus=flatMagicSkillHitBonus(battle,attacker,effect,actionContext);
   const lunarMultiplier=lunarBaseDamageMultiplier(battle,attacker,effect);
-  const stageMultiplier=performanceDamageMultiplier(battle,attacker,effect,actionContext)*lunarOutgoingAmp(battle,attacker,effect,actionContext);
+  const stageMultiplier=performanceDamageMultiplier(battle,attacker,effect,actionContext)*lunarOutgoingAmp(battle,attacker,effect,actionContext)*moonlightMagicAmplification(battle,attacker,effect);
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRawBase=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
@@ -1979,6 +1984,7 @@ function applyStatus(
     ...(flatSkillBonus!==undefined?{flatSkillBonus}:{}),
     ...(appliedModifiers?{appliedModifiers:{...appliedModifiers}}:{}),
     ...(linkedAppliedModifiers?{linkedAppliedModifiers:structuredClone(linkedAppliedModifiers)}:{}),
+    ...(definition.untilMoonlightWaningEnd?markWaningBuff(battle,target):{}),
     remaining: duration ?? (definition.persistent ? null : duration),
     sourceId,
     stacks: Math.min(definition.maxStacks ?? 1, previousStacks + stacks),
@@ -2056,7 +2062,7 @@ function applyEffectBody(
     const request={...(effect.hits!==undefined?{hits:effect.hits}:{}),...(effect.rankDamageFactor!==undefined?{rankDamageFactor:effect.rankDamageFactor}:{}),...(effect.multiplier!==undefined?{multiplier:effect.multiplier}:{}),...(effect.primaryMultiplier!==undefined?{primaryMultiplier:effect.primaryMultiplier,primaryTargetId:actionContext.primaryTargetId}:{})};
     if(effect.targetMode==='selected'){
       const target=targets.find(t=>t.id===actionContext.primaryTargetId),active=battle.moonlight?.[actor.team]?.active;
-      if(!target||!living(target)||target.team===actor.team||!active?.targets.includes(target.id)||!canCommandMoonlight(battle,actor,effect.blessingId))return;
+      if(!target||!living(target)||target.team===actor.team||(moonlightDefinitionForTarget(battle,actor.team)?.targetMode==='anchored_enemies'&&!active?.targets.includes(target.id))||!canCommandMoonlight(battle,actor,effect.blessingId))return;
       Object.assign(request,{targetMode:'selected',primaryTargetId:target.id});
     }
     if(effect.spendResource){
@@ -2091,7 +2097,7 @@ function applyEffectBody(
   }
   if(battle.pvpRules&&effect.type==='damage'&&!actionContext.pvpDamage)actionContext.pvpTargetSnapshot=targets.filter(t=>t.team!==actor.team).map(t=>t.id);
   const selectedAlly=effect.selectAlly?priorityTaggedAlly(battle,actor,effect.selectAlly):null;
-  const recipients = effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : effect.to==='primary'?targets.filter(t=>t.id===actionContext.primaryTargetId):effect.to==='all_allies'?battle.actors.filter(t=>t.team===actor.team&&living(t)):targets;
+  const recipients = (effect.to==='selected_ally'?[chosenAlly(battle,actor,actionContext.allyTargetId)].filter(Boolean):effect.selectAlly ? (selectedAlly?[selectedAlly]:[]) : effect.to === "self" ? [actor] : effect.to==='primary'?targets.filter(t=>t.id===actionContext.primaryTargetId):effect.to==='all_allies'?battle.actors.filter(t=>t.team===actor.team&&living(t)):targets).filter(t=>!effect.recipientElements||effect.recipientElements.includes(t.element));
   const supportSnapshot=effect.snapshotScaling?scalingValue(effect,key=>stat(battle,actor,key)):undefined;
   for (const target of recipients) {
     if (!living(target)) continue;
@@ -2148,8 +2154,9 @@ function applyEffectBody(
     if (effect.type === "prepare_mode") prepareCombatMode(battle,target,effect.mode,modeIO);
     if (effect.type === "summon_companion") prepareCompanion(battle,target,effect.companion,modeIO);
     if(effect.type==='steal_base_stat')stealBaseStat(battle,actor,target,effect,{status:applyStatus,emit:emitEvent,write});
+    if(effect.type==='extend_buffs'){extendBeneficial(battle,actor,target,effect.turns,{emit:emitEvent,write});continue;}
     if (effect.type === "heal") {
-      const rawRequested=effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,supportSnapshot??scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
+      const rawRequested=effect.targetMaxHpRatio!==undefined?Math.round(target.stats.maxHp*effect.targetMaxHpRatio):effect.spentLifeDebtRatio!==undefined?Math.round((actionContext.spentLifeDebt??0)*effect.spentLifeDebtRatio):supportAmount(effect,supportSnapshot??scalingValue(effect,key=>stat(battle,actor,key)),target.hp / target.stats.maxHp <= EMERGENCY_HP_THRESHOLD)+exclusiveHealBonus(battle,actor,target,actionContext.skill,specialIO);
       const requested=Math.round(rawRequested*(actionContext.reaction||actionContext.automatic?1:gearSupportMultiplier(actor,'heal',actionContext.skill)));
       const blocked=externalHealingBlocked(target,actor.id);
       const healed=healHp(battle,target,requested,actor.id,"",actionContext);
@@ -2317,14 +2324,14 @@ function finishStatuses(
 function resolveAction(battle,command,options){return withDebuffBatch(battle,{},()=>resolveActionBody(battle,command,options));}
 function resolveActionBody(
   battle,
-  { actorId, abilityId, targetId, formulaEdit },
+  { actorId, abilityId, targetId, allyTargetId, formulaEdit },
   { endTurn = true, resetEvents = true } = {},
 ) {
   if (battle.outcome) throw new Error("Trận đấu đã kết thúc.");
   const actor = activeActor(battle);
   if (!actor || actor.id !== actorId)
     throw new Error("Chưa đến lượt nhân vật này.");
-  const skill = resolveRankedAbility(battle.content,actor,
+  const skill = resolveBattleAbility(battle,actor,
     abilityId === "$attack"
       ? basicAbility(actor)
       : abilityId === "$defend"
@@ -2335,6 +2342,7 @@ function resolveActionBody(
     (!abilityId.startsWith("$") && !actor.abilities.includes(abilityId))
   )
     throw new Error("Nhân vật chưa có kỹ năng này.");
+  if(skill.secondaryAllyTarget&&!chosenAlly(battle,actor,allyTargetId))throw new Error("Hãy chọn một đồng đội còn sống nhận Khai Phá Điểm Yếu.");
   const availability = abilityAvailability(battle, actor, skill);
   if (!availability.ok) throw new Error(availability.reason);
   const legal = targetsFor(battle, actor, skill);
@@ -2392,6 +2400,7 @@ function resolveActionBody(
   actionContext.formula = theorem;
   actionContext.formulaEdit = formulaEdit;
   actionContext.primaryTargetId = targetId;
+  actionContext.allyTargetId = allyTargetId;
   actionContext.initialResources=initialResources;
   prepareExposureAttunement(actor,targets,actionContext);
   prepareGearHealing(battle,actor,targets,skill,actionContext);
@@ -2680,5 +2689,3 @@ export function executeEnemyTurn(battle,plannedCommand) {
   }
   executeAction(battle,{actorId:actor.id,abilityId:skill.id,targetId:target?.id});
 }
-
-

@@ -1,3 +1,4 @@
+import {moonlightCyclePhase} from './moonlight-cycle.js';
 import {isAlive} from './actor-life.js';
 import {damageElements} from './elements.js';
 
@@ -19,6 +20,8 @@ export function syncLunarAuras(battle){
  }
  for(const actor of battle.actors){
   actor.lunarBaseBonuses={...(flats[actor.team]??{})};actor.lunarModifiers={};
+  actor.lunarCyclePhase=moonlightCyclePhase(battle,actor.team)?.id??null;
+  if(isAlive(actor)&&actor.passive?.type==='moonlight_full_sinner'&&actor.lunarCyclePhase==='full')actor.lunarBaseBonuses.magic=(actor.lunarBaseBonuses.magic??0)+actor.passive.fullMoonBaseMagic;
   for(const owner of battle.actors){const f=field(owner);if(!f||owner.team===actor.team)continue;
    for(const[key,n]of Object.entries(f.enemyModifiers))actor.lunarModifiers[key]=Math.min(actor.lunarModifiers[key]??0,n);
   }

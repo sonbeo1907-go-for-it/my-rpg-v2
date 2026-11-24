@@ -120,7 +120,9 @@
       "luna",
       "phyllis",
       "elsavetta",
-      "enciodes"
+      "enciodes",
+      "nicole",
+      "maria"
     ],
     "gearRates": [
       {
@@ -396,6 +398,14 @@
         },
         {
           "id": "enciodes",
+          "from": "2026-11-24"
+        },
+        {
+          "id": "nicole",
+          "from": "2026-11-24"
+        },
+        {
+          "id": "maria",
           "from": "2026-11-24"
         }
       ]
