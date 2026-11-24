@@ -14,6 +14,7 @@ import {prepareExposureAttunement,attunedDamageEffect,recordCreatedExposure,fini
 import {boundAlly,cleanupTurnDelegations,delegatedTurnActor,turnOrderEntries,bindTurns,applyBoundExposure,grantDelegationExtraTurns} from './turn-delegation.js';
 import {initializeTrial,observeTrialDefeat,observeTrialHit,trialRoundEnd,trialOffenseBonus,trialAfterAction} from './unrecorded-trials.js';
 import {baseStatValue} from './combat-math.js';
+import {recordContribution} from './combat-contributions.js';
 import {takeDebuffs} from './shield-guard.js';
 import {supportChargeEligible,supportChargeFollowupEligible,rankedSupportFollowup} from './support-charge.js';
 import {applyPerformanceStage,flatMagicSkillHitBonus,performanceDamageMultiplier} from './performance-stage.js';
@@ -221,6 +222,8 @@ export function createBattle(
   const battle = {
     content,
     encounterId,
+    training:options.training?structuredClone(options.training):null,
+    contributions:{rows:{},events:0},
     tournament:options.tournament?structuredClone(options.tournament):null,
     arena:opponent&&!options.tournament?{prototype:true,opponentName:options.opponentName??'Đội mô phỏng',maxRounds:options.pvpRules?.maxRounds??40,rulesetVersion:options.pvpRules?.rulesetVersion}:null,
     pvpRules:options.pvpRules,
@@ -247,6 +250,7 @@ export function createBattle(
     events: [],
     actionCount: 0,
   };
+  if(battle.training)for(const actor of actors.filter(a=>a.trainingDummy)){actor.shield=actor.trainingShield;actor.shieldSourceId=actor.shield?actor.id:null;}
   for(const actor of actors)for(const initial of actor.initialStatuses??[])applyStatus(battle,actor,initial.status,initial.duration,actor.id,{stacks:initial.stacks??1,silent:true});
   initializeEncounterBosses(battle);
   initializeTrial(battle,campaign,options.trial,{status:applyStatus,write});
@@ -284,6 +288,7 @@ function write(battle, message) {
 // They contain only the most recent action, including reactions and next-turn regen.
 function emitEvent(battle, event) {
   if(battle.tournament&&event.tournamentDirect){const source=getActor(battle,event.sourceId),target=battle.actors.find(a=>a.id===event.targetId);if(source&&target&&source.team!==target.team)battle.tournament.directHpDamage[source.team]+=event.amount;}
+  recordContribution(battle,event);
   battle.events.push(event);
 }
 
@@ -569,8 +574,8 @@ function moonlightPulse(battle,source,definition,targets,amount,phase,request,co
  const primary=targets.find(t=>t.id===options.primaryTargetId)??targets[0],potency=moonlightPotencyMultiplier(battle,source.team,definition.id);
  skill.effects[0].multiplier*=potency;if(skill.effects[0].primaryMultiplier!==undefined)skill.effects[0].primaryMultiplier*=potency;
  const ctx={...attackContext(battle,source),skill,skillId:skill.id,reaction:true,reactionKind:'follow_up',automatic:true,primaryTargetId:primary.id,...(phase==='command'&&commander?{moonlightCommanderId:commander.id}:{})};
- emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,targetId:primary.id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:options.targetMode!=='selected',automaticCast:true,moonlight:true,team:source.team});
- write(battle,source.name+' tấn công · '+(phase==='command'?'theo hiệu lệnh':phase==='start'?'đầu vòng':'cuối vòng')+'.');
+ emitEvent(battle,{type:phase==='command'?'reaction':'ability_cast',...(phase==='command'?{kind:'follow_up',label:FOLLOW_UP_LABEL}:{}),sourceId:source.id,...(phase==='command'&&commander?{commanderId:commander.id}:{}),targetId:primary.id,targetIds:targets.map(a=>a.id),abilityId:skill.id,presentation:skill.presentation,area:options.targetMode!=='selected',automaticCast:true,moonlight:true,team:source.team});
+ write(battle,phase==='command'&&commander?commander.name+' ra lệnh cho '+source.name+' Liên kích.':source.name+' tấn công · '+(phase==='start'?'đầu vòng':'cuối vòng')+'.');
  for(let i=0;i<maxHits;i++)for(const {target,hits} of plan){if(i>=hits||!living(target)||battle.outcome)continue;hit(battle,source,target,primaryDamageEffect({...skill.effects[0],gearPower:amount},target.id===primary.id),i,{area:options.targetMode!=='selected',reaction:true,actionContext:ctx});}
  finishAttackContext(battle,source,ctx);
  transitionBossPhases(battle,{write,restoreMp:gainResource});
@@ -1755,6 +1760,7 @@ function resolveHit(
   const cappedHit=applyPvpDamageCap(battle,attacker,target,amount,actionContext,area,modeIO);amount=cappedHit.amount;
   if (!reaction && attacker.team!==target.team && target.shield>0) actionContext.shieldedAllyHits.add(target.id);
   const maxHpRoute=routesToMaxHp(target,damageElements(effect));
+  const hitShieldSourceId=target.shieldSourceId;
   const baseAbsorbed=maxHpRoute?0:Math.min(target.shield,amount);
   const absorbed=Math.min(target.shield,baseAbsorbed+gearShieldExtra(attacker,baseAbsorbed));
   target.shield-=absorbed;
@@ -1802,6 +1808,8 @@ function resolveHit(
     type: "damage",
     targetId: target.id,
     sourceId: attacker.id,
+    ...(actionContext.moonlightCommanderId?{commanderId:actionContext.moonlightCommanderId}:{}),
+    ...(absorbed>0&&hitShieldSourceId?{shieldSourceId:hitShieldSourceId}:{}),
     amount: vitalityDamage,
     ...(battle.tournament?{tournamentDirect:true}:{}),
     ...(cappedHit.info?{pvpDamage:cappedHit.info}:{}),
@@ -1818,7 +1826,7 @@ function resolveHit(
   });
   write(
     battle,
-    `${attacker.name} → ${target.name}: ${vitalityDamage} sát thương${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
+    `${attacker.name}${actionContext.moonlightCommanderId?" (hiệu lệnh của "+getActor(battle,actionContext.moonlightCommanderId)?.name+")":""} → ${target.name}: ${vitalityDamage} sát thương${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
   );
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeElementAllies(battle,attacker,actionContext,damageElements(effect));
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeMagicSkillAllies(battle,attacker,effect,actionContext);
@@ -2172,6 +2180,7 @@ function applyEffectBody(
       )),"shieldReceivedReduction");
       // Shields do not stack; a weaker shield cannot overwrite a stronger one.
       if (amount > target.shield) {
+        const added=amount-target.shield;
         target.shield = amount;
         chargeSupportModes(battle,actor,actionContext);
         target.shieldSourceId = actor.id;
@@ -2184,7 +2193,7 @@ function applyEffectBody(
           type: "shield",
           targetId: target.id,
           sourceId: actor.id,
-          amount,
+          amount,added,
         });
       }
       write(battle, `${target.name} có ${target.shield} khiên.`);
@@ -2247,7 +2256,7 @@ function applyEffectBody(
     }
     if (effect.type === "cleanse") {
       const removed=takeDebuffs(battle.content,target,effect.count);
-      if(removed.length)emitEvent(battle,{type:'cleanse',sourceId:actor.id,targetId:target.id,...(effect.count!==undefined?{amount:removed.length,statusIds:removed.map(s=>s.id)}:{})});
+      if(removed.length)emitEvent(battle,{type:'cleanse',sourceId:actor.id,targetId:target.id,amount:removed.length,statusIds:removed.map(s=>s.id)});
       write(battle,effect.count!==undefined?target.name+': giải '+removed.length+' hiệu ứng bất lợi.':`${target.name} được giải hiệu ứng bất lợi.`);
     }
     clampBattleMp(battle.content,target);
@@ -2636,6 +2645,7 @@ export function planArenaEnemyTurn(battle){
 export function executeEnemyTurn(battle,plannedCommand) {
   const actor = activeActor(battle);
   if (!actor || actor.team !== "enemy") return;
+  if(battle.training&&actor.trainingDummy&&actor.trainingBehavior!=='skills'){executeAction(battle,{actorId:actor.id,abilityId:actor.trainingBehavior==='basic'?'$attack':'training.wait',targetId:actor.trainingBehavior==='basic'?battle.actors.find(a=>a.team!==actor.team&&living(a))?.id:actor.id});return;}
   if(battle.arena||battle.tournament&&!battle.tournament.specialEncounter){
     const command=plannedCommand??planArenaEnemyTurn(battle);
     executeAction(battle,command);

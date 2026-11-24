@@ -1,4 +1,5 @@
 "use client";
+import {TrainingControls,TrainingFinished} from "./training-ground";
 import {MoonlightBoard,MoonlightSeedMark} from './moonlight-board';
 import {hasExtraTurnGrant} from '../ui/combat-presentation.js';
 import {GreatYokaiNotices} from './great-yokai';
@@ -186,7 +187,7 @@ export function CombatantCard({
       <div className="combat-bars">
         <label>
           <span>
-            HP {actor.hp} / {actor.stats.maxHp}
+            {actor.trainingInfiniteHp?'HP ∞ · Vô hạn':'HP '+actor.hp+' / '+actor.stats.maxHp}
           </span>
           <progress
             className="hp-bar"
@@ -751,6 +752,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
   const secondaryAlly = skill?.secondaryAllyTarget ? battle.actors.find((item:any)=>item.id===targets.allyId&&item.team===actor?.team&&isAlive(item)) : null;
   const secondaryEffectLabel = [...new Set((skill?.effects??[]).filter((effect:any)=>effect.to==='selected_ally').map((effect:any)=>content.statuses[effect.status]?.name).filter(Boolean))].join(' / ') || 'Hỗ trợ';
   const executionTargetLabel = skill?.secondaryAllyTarget ? `Đánh: ${targetLabel} · ${secondaryEffectLabel}: ${secondaryAlly?.name??'Chưa chọn đồng đội'}` : targetLabel;
+  if(battle.training&&battle.outcome&&!busy)return <TrainingFinished/>;
   if(battle.tournament&&isBattleFinished(battle)&&!busy)return <main className="page battle-page"><PageHeader title={battle.outcome==='victory'?'Tỷ thí kết thúc · Chiến thắng':'Tỷ thí kết thúc · Thất bại'} back="/chronicles/academy"/><section className="panel">{tournamentResult}</section><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(battle.arena&&isBattleFinished(battle)&&!busy)return <main className="page battle-page battle-results-page"><PageHeader title="Kết quả Đấu Trường" subtitle={battle.arena.opponentName} back="/arena"/><section className="panel arena-result"><h2>{battle.outcome==='victory'?'Chiến thắng':battle.outcome==='defeat'?'Thất bại':'Hòa'}</h2><p>{battle.round} vòng · {battle.arena.matchType==="ranked"?"Đấu Hạng với AI":battle.arena.mode==="match"?"Đấu Thường với AI":"Luyện Tập"}</p><BattleResultControls/></section><details className="result-team-review"><summary>Xem lại hai đội sau trận</summary>{['party','enemy'].map(team=><div className="ally-grid" key={team}>{battle.actors.filter((a:any)=>a.team===team).map(renderActor)}</div>)}</details>{preferences.battleLogs&&<BattleLog/>}</main>;
   if(isBattleFinished(battle)&&!busy&&!farm?.enabled)return <main className="page battle-page battle-results-page" data-dungeon-wave={battle.dungeon?battle.dungeon.waveIndex+1:undefined}><PageHeader title="Kết quả chiến đấu" subtitle={battle.dungeon?content.dungeons[battle.dungeon.typeId].name:content.encounters[battle.encounterId].name} back={battle.dungeon?`/dungeon/${battle.dungeon.typeId}?selected=${battle.dungeon.difficultyId}`:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel,battle.trial?.selection)}/><FarmPanel/><BattleResult>{battle.chronicle?<ChronicleResultControls/>:<BattleResultControls/>}</BattleResult><details className="result-team-review"><summary>Xem lại đội hình sau trận</summary><div className="ally-grid">{battle.actors.filter((a:any)=>a.team==='party').map(renderActor)}</div></details>{preferences.battleLogs&&<BattleLog/>}</main>;
@@ -782,6 +784,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
             : battle.tournament?"/chronicles/academy":battle.arena?"/arena":encounterReturnPath(content, battle.encounterId,battle.questDifficulty,battle.enemyLevel,battle.trial?.selection)
         }
       >
+        {battle.training&&<span data-training-controls><TrainingControls/></span>}
         {!battle.arena&&!battle.tournament&&!battle.chronicle&&!battle.outcome&&<button className="auto-battle-toggle" aria-pressed={Boolean(farm?.enabled)} disabled={busy&&!farm?.enabled} onClick={toggleAutoBattle}>Tự động: {farm?.enabled?'Bật':'Tắt'}</button>}
         {battle.arena&&<Link className="button arena-exit" href="/arena">Rời trận · Xử thua</Link>}
         <div className="combat-speed" role="group" aria-label="Tốc độ hiệu ứng">

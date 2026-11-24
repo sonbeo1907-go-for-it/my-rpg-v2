@@ -33,6 +33,7 @@ export function assertEncounterParty(encounter, campaign, content) {
     throw new Error(`Trận này bắt buộc có ${encounter.requiredPartyIds.map(id => content.characters[id].name).join(', ')} trong đội hình.`);
 }
 export function encounterReturnPath(content, id,difficultyId,enemyLevel,selection) {
+  if(content.encounters[id]?.category==='training')return '/chronicles/training';
   if(content.encounters[id]?.trialId){const query=new URLSearchParams();if(selection){query.set('level',String(selection.level));for(const[k,n]of Object.entries(selection.conditions))query.set(k,String(n));}return '/chronicles/unrecorded/'+content.encounters[id].trialId+(query.size?'?'+query:'');}
   if(content.encounters[id]?.category==='chronicle'){const e=content.chronicleEvents[content.encounters[id].chronicleEventId];return e.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+e.locationId+'&scene=1';}
   if(content.encounters[id]?.superLevels)return '/quests?tab='+(content.encounters[id].category==='east_super'?'east':'sinister')+'&selected='+id+'&superLevel='+(content.encounters[id].superLevels.includes(enemyLevel)?enemyLevel:60);

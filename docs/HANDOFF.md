@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Khu Luyện Tập và đóng góp — 24/11/2026
+
+Biên Niên Ký mới /chronicles/training: 1–12 bù nhìn tùy chỉnh, HP vô hạn, giữ build tài khoản, không thưởng/EXP/cờ. Ledger từ event phân biệt sát thương cá nhân, Chúc Phúc tự đánh và hiệu lệnh (commanderId, giữ sourceId gốc); log hiệu lệnh ghi tên người gọi, Noelle giữ đóng góp riêng. Tổng kết trong trận và sau tập, reset có xác nhận. Xem [TRAINING_GROUND](TRAINING_GROUND.md).
+
 ## Sửa chu kỳ Nguyệt Nhật — 24/11/2026
 
 Quyết định mới: **Lên → Tròn → Tròn → Tàn**, lần lượt20/60/60/20%, tính cả vòng gọi. Maria buff MAG dùng trong chu kỳ hiện tại hết cuối Trăng Tàn của chính chu kỳ đó; chưa active mới chờ lần gọi kế. Nicole hồi gấp đôi ở Trăng Tàn cuối chu kỳ, không ở Trăng Lên. Validator, HUD, regression vòng thật và tài liệu đã đồng bộ. Xem [CHAOTIC_ECLIPSE](CHAOTIC_ECLIPSE.md), [WITCH_GARDEN](WITCH_GARDEN.md).

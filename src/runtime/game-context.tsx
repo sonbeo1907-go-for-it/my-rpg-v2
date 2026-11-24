@@ -1,4 +1,5 @@
 "use client";
+import {createTrainingBattle} from '../core/training-ground.js';
 import {selectedHomeScene} from '../core/home-scenes.js';
 import {moonlightSnapshot} from '../core/battle.js';
 import {createCompetitiveArena} from '../core/arena-ranked.js';
@@ -60,6 +61,9 @@ const isFinalRun=(run:any)=>run.kind==='story'?isFinalStoryWave(run):isFinalDung
 const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(content,run):advanceDungeonWave(content,run);
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 type GameContextValue = {
+  startTraining:(config:any)=>boolean;
+  finishTraining:()=>void;
+  resetTraining:()=>boolean;
   farm:any;
   startFarming:(target:any,limit:number)=>boolean;
   stopFarming:()=>void;
@@ -242,6 +246,9 @@ export function GameProvider({
             moonlight:moonlightSnapshot(current),
             linkedBossState:structuredClone(current.linkedBossState??null),
             encounterId: current.encounterId,
+            training:structuredClone(current.training??null),
+            contributions:structuredClone(current.contributions??null),
+            actionCount:current.actionCount,
             arena:structuredClone(current.arena??null),
             chronicle:structuredClone(current.chronicle??null),
             trial:structuredClone(current.trial??null),
@@ -551,6 +558,7 @@ export function GameProvider({
   }
 
   async function claimReward() {
+    if(runtime.current?.training)return;
     if(runtime.current?.arena){await settleCompetition();return;}
     if(runtime.current?.chronicle){await claimChronicleFight();return;}
     if (
@@ -679,6 +687,7 @@ export function GameProvider({
         }
         break;
       }
+      if(runtime.current.training&&runtime.current.outcome)stopFarming('Buổi tập kết thúc.');
       if (runtime.current.outcome === "victory") {
         if (music.current?.state().group !== "victory") music.current?.start("victory");
         await claimReward();
@@ -869,7 +878,20 @@ export function GameProvider({
     return true;
   }
   const inAdventure=()=>Boolean(campaignRef.current?.arenaProgress?.pending)||Boolean(runtime.current&&(!runtime.current.outcome||runtime.current.outcome==="victory"&&(!runtime.current.rewardClaimed||dungeonRun.current&&!isFinalRun(dungeonRun.current))));
+  function startTraining(config:any){
+    if(lock.current||saveLock.current||activeProfileId.current===null)return false;
+    const current=runtime.current;
+    if(current&&!current.training&&(!current.outcome||current.outcome==='victory'&&!current.rewardClaimed)){notify('Hãy kết thúc trận trước và nhận thưởng.');return false;}
+    try{
+      const candidate=createTrainingBattle(content,campaignRef.current,config,crypto.getRandomValues(new Uint32Array(1))[0]);
+      farmRef.current=null;setFarm(null);dungeonRun.current=null;runtime.current=candidate;battleSerial.current++;
+      setBattleUI({allyId:'',enemyId:'',skillId:'$attack'});publish();music.current?.start('normal');notify('');return true;
+    }catch(error){notify((error as Error).message);return false;}
+  }
+  function finishTraining(){if(lock.current||saveLock.current||!runtime.current?.training)return;stopFarming();runtime.current.outcome='training_complete';runtime.current.rewardClaimed=true;publish();}
+  function resetTraining(){return runtime.current?.training?startTraining(runtime.current.training.config):false;}
   const value: GameContextValue = {
+    startTraining,finishTraining,resetTraining,
     tournamentAudio:group=>{music.current?.setTournament(group);},
     farm,startFarming,stopFarming:()=>stopFarming(),toggleAutoBattle,
     sweepResult,dismissSweepResult:()=>setSweepResult(null),
@@ -889,7 +911,7 @@ export function GameProvider({
     dailyNow,refreshCommissions,
     claimCommissions: keys=>transact(current=>claimDailyCommissions(current,keys),"Đã nhận thưởng Ủy Thác Hằng Ngày."),
     startArena,reserveCompetition,beginCompetition,settleCompetition,abandonCompetition,
-    content:path==='/battle'&&runtime.current?.arena?runtime.current.content:content,
+    content:path==='/battle'&&(runtime.current?.arena||runtime.current?.training)?runtime.current.content:content,
     profiles,
     saveDirectory,
     activeProfile,

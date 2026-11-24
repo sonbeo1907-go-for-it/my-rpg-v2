@@ -226,3 +226,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - Rà soát 18/11: [mô tả từ Patricia và kiểm tra Lượt Thêm từ Belochkin](SKILL_COPY_REVIEW_2026_11_18.md). Sửa crash học viện do Set/mảng ở extraTurnGrants; giữ bộ luật Vòng Phụ.
 
 - [Bài Ca Vô Danh — Chúc Phúc Quang/Ám](NAMELESS_SONG.md)
+
+- [Khu Luyện Tập và thống kê đóng góp](TRAINING_GROUND.md) — bù nhìn, số liệu thực, attribution hiệu lệnh.

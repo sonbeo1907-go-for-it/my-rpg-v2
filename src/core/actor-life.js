@@ -20,6 +20,7 @@ export function maybeGrantLowHpImmortality(battle,target,hpAfter,io){applyLowHpI
 export function applyLifeDamage(battle,target,amount,{element,elements=[],healthFloor=0}={},io){
  const result={hpLost:0,maxHpLost:0,entered:false};if(!isAlive(target)||!Number.isFinite(amount)||amount<=0)return result;
  amount=Math.max(0,Math.floor(amount));
+ if(battle.training&&target.trainingDummy&&target.trainingInfiniteHp){result.hpLost=amount;return result;}
  if(routesToMaxHp(target,[element,...elements])){
   result.maxHpLost=Math.min(target.stats.maxHp,amount);target.stats.maxHp-=result.maxHpLost;
   if(target.baseStats?.maxHp!==undefined)target.baseStats.maxHp=target.stats.maxHp;
