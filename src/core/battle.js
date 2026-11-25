@@ -1,4 +1,4 @@
-import {damageFlags} from './damage-kind.js';
+import {damageFlags,copyDamageFlags} from './damage-kind.js';
 import {normalGearBaseMultiplier} from './normal-damage-gear.js';
 import {chosenAlly,extendBeneficial,markWaningBuff,expireWaningBuffs} from './witch-cycle.js';
 import {supportTurnStart,drainHitMp} from './merchant-support.js';
@@ -441,7 +441,7 @@ function triggerGearEchoes(battle,actor,context){
   if(actor.gearEffectProcRounds?.[r.effectGroup]===battle.round)continue;
   const primary=getActor(battle,context.primaryTargetId),slot=primary?.formationSlot??0;
   const targets=battle.actors.filter(t=>living(t)&&t.team!==actor.team&&t.id!==context.primaryTargetId).sort((a,b)=>Math.abs((a.formationSlot??0)-slot)-Math.abs((b.formationSlot??0)-slot)||(a.formationSlot??0)-(b.formationSlot??0)).slice(0,r.effect.maxTargets);
-  const packets=(context.gearEchoPackets??[]).map(e=>({...e,multiplier:e.multiplier*r.effect.ratio}));
+  const packets=(context.gearEchoPackets??[]).map(e=>({...e,...copyDamageFlags(e),multiplier:e.multiplier*r.effect.ratio}));
   if(!targets.length||!packets.length)continue;
   (actor.gearEffectProcRounds??={})[r.effectGroup]=battle.round;
   if(!send(r,targets,packets))delete actor.gearEffectProcRounds[r.effectGroup];
@@ -449,7 +449,7 @@ function triggerGearEchoes(battle,actor,context){
  for(const r of guardianRecipes(actor,'debuff_skill_echo')){
   const seen=new Set();for(const h of context.gearImpacts??[]){const target=h.target;if(seen.has(target.id)||!living(target))continue;seen.add(target.id);
    const count=debuffTypeCount(battle.content,target);if(count<r.effect.threshold)continue;
-   const packet={type:'damage',scalingStat:'magic',damageType:h.damageType,element:h.element,...(h.elements?.length>1?{additionalElements:h.elements.filter(e=>e!==h.element)}:{}),multiplier:count>=r.effect.highThreshold?r.effect.highRatio:r.effect.ratio};
+   const packet={type:'damage',...copyDamageFlags(h),scalingStat:'magic',damageType:h.damageType,element:h.element,...(h.elements?.length>1?{additionalElements:h.elements.filter(e=>e!==h.element)}:{}),multiplier:count>=r.effect.highThreshold?r.effect.highRatio:r.effect.ratio};
    send(r,[target],[packet]);
   }
  }
@@ -1584,7 +1584,7 @@ function resolveHit(
   effect={...effect,...damageFlags(effect),damageFlags:damageFlags(effect)};
   if(!actionContext.reaction&&!actionContext.automatic&&actionContext.skillId&&!actionContext.skillId.startsWith('$')&&originalTarget.id===actionContext.primaryTargetId&&[...guardianRecipes(attacker,'single_skill_echo')].length){
     const multiplier=damageMultiplier(effect,{spent,stacks:effect.consumeStatus?(target.statuses.find(s=>s.id===effect.consumeStatus)?.stacks??0):0,hpRatio:attacker.hp/attacker.stats.maxHp,buffs:buffTypeCount(battle.content,target)});
-    (actionContext.gearEchoPackets??=[]).push({type:'damage',damageType:effect.damageType,element:effect.element,...(effect.additionalElements?{additionalElements:[...effect.additionalElements]}:{}),gearPower:resolvedHitPower(battle,attacker,target,effect,actionContext),multiplier,penetration:effect.penetration??0});
+    (actionContext.gearEchoPackets??=[]).push({type:'damage',...copyDamageFlags(effect),damageType:effect.damageType,element:effect.element,...(effect.additionalElements?{additionalElements:[...effect.additionalElements]}:{}),gearPower:resolvedHitPower(battle,attacker,target,effect,actionContext),multiplier,penetration:effect.penetration??0});
   }
   const evasion=hasTrueStrike(battle.content,attacker)?0:evasionChance(target,effect,modifier(battle,target,"evasion"));
   if (evasion > 0 && battle.random() < evasion) {
@@ -1790,7 +1790,7 @@ function resolveHit(
     if(counterRaw>0){actionContext.receivedCounterDamage??=new Map();actionContext.receivedCounterDamage.set(target.id,(actionContext.receivedCounterDamage.get(target.id)??0)+counterRaw);}
   }
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)actionContext.dealtDirectDamage=true;
-  if(attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.gearImpacts.push({target,lostHp,absorbed,damageType:effect.damageType,element:effect.element,elements:damageElements(effect),elementWeakness,weakness});
+  if(attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.gearImpacts.push({target,lostHp,absorbed,...copyDamageFlags(effect),damageType:effect.damageType,element:effect.element,elements:damageElements(effect),elementWeakness,weakness});
   if (vitalityDamage + absorbed > 0) {for(const element of damageElements(effect))reserveExposure(target, element, actionContext);}
   if(!reaction && attacker.team!==target.team && vitalityDamage+absorbed>0) actionContext.damagedAllyHits.add(target.id);
   // Reserve before nested reactions; settle after the whole attack so a later

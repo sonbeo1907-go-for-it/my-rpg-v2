@@ -9,7 +9,7 @@ Tám công thức phổ thông mở sẵn ở Rèn Hiệu Ứng, giá 2.400 Vụ
 | Đồng Hồ Tái Thiết | HP+15% | Đầu lượt chính: giảm1 CD của chiêu hồiHP/tạoKhiên có CD còn lại dài nhất |
 | Huy Hiệu Toàn Vẹn | ATK/MAG+15% | ĐầyHP: tổng tăng30% |
 | Huy Hiệu Quyết Tử | ATK/MAG+20% | Dưới70%HP: tổng tăng40% |
-| Lưỡi Cắt Dư Âm | ATK/MAG+12% | Chiêu đơn mục tiêu: Liên kích85% sức mạnh chiêu vào tối đa2 địch khác, 1 lần/vòng |
+| Lưỡi Cắt Dư Âm | ATK/MAG+12% | Chiêu đơn mục tiêu: Liên kích20% sức mạnh chiêu vào tối đa2 địch khác, 1 lần/vòng |
 | Lăng Kính Ách Nạn | MAG+15% | Liên kích90%MAG vào địch có2 loại debuff; từ4 loại là180%MAG |
 | Khúc Hòa Ca Hồi Sinh | MAG+15% | HồiHP thực bằng kỹ năng/nội tại:6MP toàn đội, người được hồi giảm10% sát thương hết vòng;1 lần/phe/vòng |
 
@@ -29,7 +29,7 @@ Di Vật xét Khiên thực bị địch đưa về0 sau hit, người nhận ph
 
 Lưỡi Cắt kích khi thi triển kỹ năng chủ động đơn mục tiêu có damage, kể cả đòn gốc bị né; Ách Nạn cần mục tiêu thực nhận sát thươngHP hoặc Khiên; không từ Đánh thường, Độc, Phòng thủ, phản công, Liên kích hoặc xung tự động. Liên kích gear là ngoại lệ tự truy kích theo trang bị, không thay predicate FuA từ đồng đội. Reserve hạn mức trước hit; dùng PvP automatic budget và soft cap phản ứng như nguồn khác, không tự tạo lượt/thu tài nguyên/MP/CD.
 
-Lưỡi Cắt chụp phần damage đã resolve Rank/nguồn scale/tài nguyên của từng hit mục tiêu chính. Gói thuần damage dùng85% hệ số, kế thừa loại sát thương, nguyên tố (gồm đa hệ) và xuyên đã có trên damageeffect. Không copy debuff, buff, giải/xóa buff, hồi/tài nguyên, triệu hồi hay utility. Không copy sát thương cuối sau DEF/RES, giảm sát thương hoặc overkill. Tối đa2 địch khác còn sống gần ô mục tiêu chính nhất, hòa theo thứ tự ô, không nối vòng, không thêm RNG. Có thể kích sau khi mục tiêu chính gục; không có địch khác thì không tiêu hạn mức. Một chiêu nhiều hit chỉ tạo một đợt Liên kích, chứa gói damage từng hit; mỗi địch tự tính DEF/RES/né/điểm yếu/Khiên. Không đệ quy.
+Lưỡi Cắt chụp phần damage đã resolve Rank/nguồn scale/tài nguyên của từng hit mục tiêu chính. Gói thuần damage dùng20% hệ số, kế thừa loại sát thương, nguyên tố (gồm đa hệ) và xuyên đã có trên damageeffect. Sao chép toàn bộ damageFlags của hit gốc, gồm normalDamage/effectDamage và cờ tương lai; Lăng Kính Ách Nạn cũng giữ bộ cờ này từ từng impact. Không rửa sát thương đặc biệt thành sát thương thường. Không copy debuff, buff, giải/xóa buff, hồi/tài nguyên, triệu hồi hay utility. Không copy sát thương cuối sau DEF/RES, giảm sát thương hoặc overkill. Tối đa2 địch khác còn sống gần ô mục tiêu chính nhất, hòa theo thứ tự ô, không nối vòng, không thêm RNG. Có thể kích sau khi mục tiêu chính gục; không có địch khác thì không tiêu hạn mức. Một chiêu nhiều hit chỉ tạo một đợt Liên kích, chứa gói damage từng hit; mỗi địch tự tính DEF/RES/né/điểm yếu/Khiên. Không đệ quy.
 
 Ách Nạn xét từng địch còn sống thực nhận damage, sau chiêu gốc. Đếm **loại** debuff khác nhau, không đếm stack, xét cả debuff vừa gắn; chiêu nhiều hit chỉ một Liên kích/địch. Có2–3 loại:90%MAG; từ4:180%MAG. Loại sát thương và hệ lấy từ hit đầu hợp lệ trên địch đó, luôn scaleMAG. Không có hạn mức vòng ngoài chống lặp/PvP chung; không nhân Rank vì đây là hệ số gear cố định. Hai gear có thể cùng kích từ một chiêu, không kích lẫn nhau.
 

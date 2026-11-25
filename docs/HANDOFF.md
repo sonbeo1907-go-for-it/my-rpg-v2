@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Gear Liên kích — 25/11/2026
+
+Lưỡi Cắt Dư Âm còn20% sức mạnh. Cả echoing_edge và affliction_prism sao chép toàn bộ namespace damageFlags từ hit gốc, kể cả cờ tương lai; không rửa đòn đặc biệt thành normalDamage. Xem [đặc tả](GRAND_ADJUSTMENT_2026_11_25.md).
+
 ## Điều chỉnh lớn — 25/11/2026
 
 Đính chính: hai gear Ấn Võ Tâm/Thuật Tâm chỉ kích khi duy nhất normalDamage bật; mọi cờ sát thương khác chặn, không ngoại lệ theo nhân vật. Chỉ số +20% giữ nguyên. CD Chiyoko/Nikita/Cyrus/Charlotte giảm; Quân Lệnh Anabel 6 lượt chính phủ Phán Quyết R2/R6. Damage phân loại effectDamage khi mang Nguyệt, normalDamage còn lại; hai gear IV Ấn Võ Tâm/Thuật Tâm tăng cơ sở theo xác suất chỉ số căn bản, không phải amp. Siesta tự nối chiêu bỏ CD/MP, giữ limiter từng mắt xích. Xem [đặc tả](GRAND_ADJUSTMENT_2026_11_25.md).

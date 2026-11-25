@@ -56,7 +56,7 @@ export function validGuardianRecipe(r,c){
  case 'support_cooldown':return e.amount===1;
  case 'full_hp_offense':return true;
  case 'low_hp_offense':return e.threshold===.7;
- case 'single_skill_echo':return e.ratio===.85&&e.maxTargets===2;
+ case 'single_skill_echo':return e.ratio===.2&&e.maxTargets===2;
  case 'debuff_skill_echo':return e.threshold===2&&e.highThreshold===4&&e.ratio===.9&&e.highRatio===1.8;
  case 'healing_team_resonance':return e.amount===6&&c.statuses[e.status]?.modifiers?.damageReduction===.1&&c.statuses[e.status]?.durationClock==='round';
  }return false;

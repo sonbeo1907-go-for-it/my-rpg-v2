@@ -49,3 +49,15 @@ Flynn/Bianca không có ngoại lệ riêng: phần đánh thực mang Nguyệt 
 Test normal-damage-flags.test.js thay bộ test khóa theo tên nhân vật: kiểm đòn thường/Nguyệt thực tế Flynn/Bianca, cả hai phe mirror, cờ đặc biệt tương lai, nhiều cờ đồng thời, forecast và giữ chỉ số trang bị.
 
 Nghiệm thu quy tắc theo cờ: 2.127/2.127 kiểm thử engine qua, gồm cờ tương lai và packet nhiều cờ; validate và TypeScript qua. Không build lại EXE trong lượt này.
+
+## Gear Liên kích — 25/11/2026
+
+Lưỡi Cắt Dư Âm (echoing_edge) giảm từ85% xuống20% sức mạnh kỹ năng gốc; vẫn giữ chỉ số +12% ATK/MAG, hai mục tiêu khác và1 lần/vòng. Không đổi Rank, quota, chi phí hoặc cho phản ứng tự nối tiếp.
+
+Hai gear sinh đòn Liên kích hiện có là Lưỡi Cắt Dư Âm và Lăng Kính Ách Nạn (affliction_prism). Chúng copy toàn bộ damageFlags đã được chốt trên hit gốc (normalDamage/effectDamage/cờ khác và cờ tương lai), giữ vật lí/phép cùng nguyên tố. Không suy lại chỉ từ hệ rồi làm mất effectDamage khai rõ trên đòn không có Moon. Packet đa hit/mixed giữ cờ riêng từng phần; target/source của bản sao mới không được mutate cờ gốc. Khi hit gốc bị đổi sang Nguyệt bởi mode/Hé Lộ/attunement, bản sao cũng mang Nguyệt. Gear proc tăng cơ sở chỉ hoạt động nếu bản sao thuần normalDamage, như mọi nguồn sát thương.
+
+Đòn Lăng Kính vẫn dùng90%/180% MAG theo số loại debuff; không copy hệ số đòn gốc. Hai phe PvP, forecast và bộ đếm phản ứng giữ đường engine hiện hữu; không thêm hành động chủ động hoặc đồng hồ mới. Gear không sinh damage (hồi/khiên/MP) không có cờ damage để sao chép.
+
+Nghiệm thu gear Liên kích: 2.133/2.133 kiểm thử engine, 2/2 Playwright desktop/mobile, validate và TypeScript qua; sáu regression mới kiểm tra đầy đủ cờ gốc/đa hit/Rank/forecast/hai phe. Bản frontend export trong gói Windows đã cập nhật.
+
+Đã đóng gói thành công EXE và NSIS 2.0.0 ngày25/11/2026; build gồm các bản vá trước đó về CD, normalDamage/effectDamage và hai gear tăng sát thương cơ sở. Log và SHA256 lưu local ở .taste-skill/gear-echo-flags/. Không chạy EXE với save thật khi nghiệm thu.

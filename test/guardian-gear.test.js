@@ -37,7 +37,7 @@ test('support clock selects longest remaining heal/shield CD, excludes utility a
 });
 test('single-target echo inherits two hit strength/type/element, hits only other enemies once per round, no utility copying',()=>{
  const {b,a,e}=fixture();attach(a,'echoing_edge');const id=skill(b,a,'test.dual',[{type:'damage',damageType:'physical',element:'wind',scalingStat:'attack',multiplier:2,hits:2,onHitStatus:{status:'deep_wound',duration:2}}]);cast(b,a,id,e.id);
- const hits=b.events.filter(x=>x.type==='damage');assert.equal(reactions(b).length,1);assert.equal(hits.length,6);assert.equal(hits.filter(x=>x.reaction&&x.targetId===e.id).length,0);assert.ok(hits.filter(x=>x.reaction).every(x=>x.damageType==='physical'&&x.element==='wind'));for(const x of hits.filter(x=>x.reaction))assert.ok(Math.abs(x.amount-hits[0].amount*.85)<=1);
+ const hits=b.events.filter(x=>x.type==='damage');assert.equal(reactions(b).length,1);assert.equal(hits.length,6);assert.equal(hits.filter(x=>x.reaction&&x.targetId===e.id).length,0);assert.ok(hits.filter(x=>x.reaction).every(x=>x.damageType==='physical'&&x.element==='wind'));for(const x of hits.filter(x=>x.reaction))assert.ok(Math.abs(x.amount-hits[0].amount*.2)<=1);
  cast(b,a,id,e.id);assert.equal(reactions(b).length,0);
 });
 test('debuff echo counts distinct types, not stacks, at 2/4 thresholds, follows damage type, never recurses',()=>{

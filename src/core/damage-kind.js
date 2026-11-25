@@ -15,3 +15,9 @@ export function isOnlyNormalDamage(effect) {
  const flags=damageFlags(effect);
  return flags.normalDamage===true&&!Object.entries(flags).some(([key,value])=>key!=='normalDamage'&&value===true);
 }
+
+// Copy the entire namespace so future damage kinds survive generated follow-up packets.
+export function copyDamageFlags(source) {
+ const flags=damageFlags(source);
+ return {...flags,damageFlags:{...flags}};
+}

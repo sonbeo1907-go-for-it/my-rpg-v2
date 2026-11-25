@@ -615,7 +615,7 @@
   {
     "id": "echoing_edge",
     "name": "Lưỡi Cắt Dư Âm",
-    "description": "ATK/MAG +12%. Kỹ năng tấn công đơn mục tiêu gây Liên kích lên tối đa 2 địch khác bằng 85% sức mạnh chiêu, cùng loại sát thương và hệ; 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "ATK/MAG +12%. Kỹ năng tấn công đơn mục tiêu gây Liên kích lên tối đa 2 địch khác bằng 20% sức mạnh chiêu, cùng loại sát thương và hệ; 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
     "costClass": "common",
     "effectGroup": "gear_echoing_edge",
     "cooldownRounds": 0,
@@ -626,7 +626,7 @@
         "attack": 0.12,
         "magic": 0.12
       },
-      "ratio": 0.85,
+      "ratio": 0.2,
       "maxTargets": 2
     },
     "oncePerRound": true
