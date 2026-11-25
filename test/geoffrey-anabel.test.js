@@ -68,11 +68,11 @@ test('mirror teams retain separate aura sources and repeat quotas, use full skil
  g.hp=0;syncTeamStatAuras(b);near(battleStat(b.content,player,'defense'),player.baseStats.defense);near(battleStat(b.content,a,'defense'),a.baseStats.defense*1.35);assert.ok(enemyG.hp>0);
  cast(b,a,'anabel.advance',player.id);assert.equal(damage(b,a.id).length,2);assert.ok(damage(b,a.id).every(e=>e.pvpDamage));assert.equal(player.procRounds?.['surviving_repeat:anabel.advance'],undefined);
 });
-test('Anabel command is ready with two buff turns remaining; Extra Turns do not shorten its five main turns',()=>{
+test('Anabel command is ready with three buff turns remaining; Extra Turns do not shorten its six main turns',()=>{
  const {b,a}=fixture();for(const x of b.actors){x.hp=x.stats.maxHp=100000;x.mp=x.stats.maxMp=10000;}
  function step(){const x=activeActor(b);if(x.team==='enemy')executeEnemyTurn(b);else executeAction(b,{actorId:x.id,abilityId:'$defend',targetId:x.id});}
  function seek(phase='main'){let n=0;while((activeActor(b)?.id!==a.id||b.phase!==phase)&&n++<200)step();assert.ok(n<200);}
- seek();executeAction(b,{actorId:a.id,abilityId:'anabel.command',targetId:a.id});assert.equal(a.statuses.find(s=>s.id==='anabel_command').remaining,5);
- b.extraTurnGrants.add(a.id);b.extraPhaseRequired=true;seek('extra');step();assert.equal(a.statuses.find(s=>s.id==='anabel_command').remaining,5);
- for(let i=0;i<3;i++){seek();step();}seek();assert.equal(a.statuses.find(s=>s.id==='anabel_command').remaining,2);assert.equal(a.cooldowns['anabel.command'],0);
+ seek();executeAction(b,{actorId:a.id,abilityId:'anabel.command',targetId:a.id});assert.equal(a.statuses.find(s=>s.id==='anabel_command').remaining,6);
+ b.extraTurnGrants.add(a.id);b.extraPhaseRequired=true;seek('extra');step();assert.equal(a.statuses.find(s=>s.id==='anabel_command').remaining,6);
+ for(let i=0;i<3;i++){seek();step();}seek();assert.equal(a.statuses.find(s=>s.id==='anabel_command').remaining,3);assert.equal(a.cooldowns['anabel.command'],0);
 });

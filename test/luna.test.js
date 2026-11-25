@@ -124,7 +124,7 @@ test('commanded thunder borrows only the commander amp, never leaks it into Noel
  const b=setup(['luna','noelle','tywin','flynn'],{flynn:['moonlit_duet']});activate(b,'thunder_wrath');for(const e of b.actors.filter(a=>a.team==='enemy'))e.statuses=[];
  const a=getActor(b,'flynn');a.resourceValues[Object.keys(a.resources)[0]]=2;cast(b,'flynn','flynn.burst','enemy_0');let power=getActor(b,'moonlight_party').stats.attack;
  near(damage(b.events,'moonlight_party')[0].amount,Math.floor(power*3.6*1.08*1.25),1);
- const noelle=damage(b.events,'noelle')[0];near(noelle.amount,Math.floor(battleStat(c,getActor(b,'noelle'),'attack')*1.5*1.08),1);
+ const noelle=damage(b.events,'noelle')[0];near(noelle.amount,Math.floor(battleStat(c,getActor(b,'noelle'),'attack')*c.abilities['noelle.thunder'].effects[0].multiplier*1.08),1);
  a.gearEffects=[];for(const e of b.actors.filter(a=>a.team==='enemy'))e.statuses=[];cast(b,'flynn','flynn.burst','enemy_0');power=getActor(b,'moonlight_party').stats.attack;
  near(damage(b.events,'moonlight_party')[0].amount,Math.floor(power*3.6*1.08),1);
 });

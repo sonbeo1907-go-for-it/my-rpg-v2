@@ -1,5 +1,7 @@
 # Charlotte — Ánh chớp tranh ngôi
 
+> Cập nhật 25/11/2026: Hào Quang Thuộc Về Chúng Ta! CD3. Xem [điều chỉnh](GRAND_ADJUSTMENT_2026_11_25.md).
+
 Triển khai 17/11/2026. Nhân vật Hỗ trợ tấn công hệ Lôi thuộc Học viện Ma pháp, lớp 7A (`magic_academy`, `class_7a`), release #114. Chỉ thêm dữ liệu, chưa mở nguồn nhận; không có trong gacha, rate-up hoặc đổi vé. Save cũ tự bổ sung tiến trình khóa, không cấp sở hữu. Không thêm Trấn/Thông Thạo.
 
 ## Bộ kỹ năng và cấu hình playtest
@@ -10,9 +12,9 @@ HP160, MP120, ATK10, MAG32, DEF15, RES23, SPD24. Đánh thường phép Lôi the
 | --- | --- | --- |
 | Màn Chào Sấm Sét | 10 / 0 | 120% MAG Lôi toàn địch, giảm25% RES trong3 lượt chính người nhận; tạo2 Tham Vọng |
 | Tài Năng Không Thể Lu Mờ | 14 / 3 | Đồng đội ngoài hệ Quang/Ám, gồm bản thân: +8 ATK/MAG căn bản trong4 lượt chính; tạo3 Tham Vọng |
-| Hào Quang Thuộc Về Chúng Ta! | 28 / 4 | Bản thân và một đồng đội khác ngoài Quang/Ám: +35% sát thương phép cho2 lần gây sát thương, cả hai nhận Lượt Thêm |
+| Hào Quang Thuộc Về Chúng Ta! | 28 / 3 | Bản thân và một đồng đội khác ngoài Quang/Ám: +35% sát thương phép cho2 lần gây sát thương, cả hai nhận Lượt Thêm |
 
-MP/CD và các chỉ số không được người dùng chỉ định là cấu hình playtest. CD3 dùng ở vòngR sẵn sàngR+4, CD4 ởR+5. Kỹ năng gán Lượt Thêm tuân thủ hàng đợi Vòng Phụ, tối đa1/người/vòng, không cấp tiếp trong Vòng Phụ. Không có mục tiêu hợp lệ thì từ chối nguyên hành động, không cấp nửa buff cho bản thân.
+MP/CD và các chỉ số không được người dùng chỉ định là cấu hình playtest. CD3 dùng ở vòngR sẵn sàngR+4. Kỹ năng gán Lượt Thêm tuân thủ hàng đợi Vòng Phụ, tối đa1/người/vòng, không cấp tiếp trong Vòng Phụ. Không có mục tiêu hợp lệ thì từ chối nguyên hành động, không cấp nửa buff cho bản thân.
 
 ## Nội tại — Đến Lượt Tôi Tỏa Sáng!
 

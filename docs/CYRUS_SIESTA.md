@@ -1,5 +1,7 @@
 ﻿# Cyrus và Siesta — cấu hình playtest 13/11/2026
 
+> Cập nhật 25/11/2026: Gió Xé Kết Giới không CD; kiểm chứng lại chuỗi Siesta bỏ CD/MP ở các bước tự động. Xem [điều chỉnh](GRAND_ADJUSTMENT_2026_11_25.md).
+
 Nhân vật chính thức #108/#109, `capital_knights`. Cyrus mang tag `archive_librarian`, Siesta `wolf_knight`; không dùng chung tag danh xưng độc nhất của Sandra. Có trong banner thường, lịch phe nhận rosterAdditions từ13/11/2026; không tự mở miễn phí, không thêm Thông Thạo. Siesta có Trấn Phái bổ sung ở mục cuối tài liệu. UI dùng card/icon vai trò và VFX hệ Phong có sẵn.
 
 ## Cyrus — Người Giữ Thư Khố Gió
@@ -11,7 +13,7 @@ Chỉ số Lv1 playtest: HP165, MP125, ATK10, MAG32, DEF17, RES25, SPD21.
 | Kỹ năng | Rank1 | Chi phí playtest |
 | --- | --- | --- |
 | Phong Điển — Trang Sách Đồng Hành | Đồng đội Phong +30%ATK/MAG,4 lượt chính |16MP/CD3|
-| Lật Trang — Gió Xé Kết Giới | Toàn địch50%MAG Phong,2 Sơ Hở Phong và−20%DEF/RES trong3 lượt chính |18MP/CD2|
+| Lật Trang — Gió Xé Kết Giới | Toàn địch50%MAG Phong,2 Sơ Hở Phong và−20%DEF/RES trong3 lượt chính |18MP/CD0|
 | Dấu Sách — Lối Gió Trở Về | Đồng đội Phong hồi60%MAG HP và Khai Phá Điểm Yếu3 lượt chính |18MP/CD2|
 
 Nội tại Hơi Thở Giữa Trang Sách dùng `defend_element_mp`: khi thực sự thi triển Phòng thủ, thành viên Phong cùng phe còn sống hồi5%MP tối đa hiện tại, làm tròn lên, kể cả Cyrus. Độc lập với5%MP vốn có của Phòng thủ; Cyrus thường nhận cả hai. Vòng Phụ vẫn kích, Choáng bỏ hành động/được cấp buff Phòng thủ không kích. Không tiêu hạn mức vòng vì thiết kế không có. MP đầy vẫn cap, không hồi sinh.

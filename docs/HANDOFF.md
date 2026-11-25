@@ -1,5 +1,9 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Điều chỉnh lớn — 25/11/2026
+
+Đính chính: hai gear Ấn Võ Tâm/Thuật Tâm chỉ kích khi duy nhất normalDamage bật; mọi cờ sát thương khác chặn, không ngoại lệ theo nhân vật. Chỉ số +20% giữ nguyên. CD Chiyoko/Nikita/Cyrus/Charlotte giảm; Quân Lệnh Anabel 6 lượt chính phủ Phán Quyết R2/R6. Damage phân loại effectDamage khi mang Nguyệt, normalDamage còn lại; hai gear IV Ấn Võ Tâm/Thuật Tâm tăng cơ sở theo xác suất chỉ số căn bản, không phải amp. Siesta tự nối chiêu bỏ CD/MP, giữ limiter từng mắt xích. Xem [đặc tả](GRAND_ADJUSTMENT_2026_11_25.md).
+
 ## Khu Luyện Tập và đóng góp — 24/11/2026
 
 Biên Niên Ký mới /chronicles/training: 1–12 bù nhìn tùy chỉnh, HP vô hạn, giữ build tài khoản, không thưởng/EXP/cờ. Ledger từ event phân biệt sát thương cá nhân, Chúc Phúc tự đánh và hiệu lệnh (commanderId, giữ sourceId gốc); log hiệu lệnh ghi tên người gọi, Noelle giữ đóng góp riêng. Tổng kết trong trận và sau tập, reset có xác nhận. Xem [TRAINING_GROUND](TRAINING_GROUND.md).

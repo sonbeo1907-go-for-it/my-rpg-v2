@@ -59,6 +59,10 @@ Sơ hở tài nguyên riêng của Takeshi và Sơ Hở nguyên tố là hai cơ
 
 Magnamut: kết thúc ở resource 0 tại đầu lượt/ cuối vòng; đầu lượt không skip action. Hoàn tất toàn cast trước exit check. Refund 35% MP gắn **sự kiện rời dạng đúng một lần**, không gắn render/cuối vòng/đổi phòng. Phòng dungeon giữa giữ dạng+rifts, phase Miraebolis không rời dạng. Trận thật kết thúc/gục xử lý lifecycle theo combat-modes.
 
+## Phân loại sát thương — 25/11/2026
+
+Hit/event mang Nguyệt chính/phụ có effectDamage:true và normalDamage:false; đòn không có cờ đặc biệt mặc định normalDamage. Giữ cờ phân loại mới qua hit/event; gear chỉ kích khi duy nhất normalDamage bật, không khóa theo nhân vật. Phân loại sau mode/Hé Lộ/đổi hệ, không suy theo tên nhân vật hoặc nguồn Chúc Phúc. Hai gear normal_damage_chance tăng cơ sở trước DEF/RES và amp, dùng một phép thử theo hành động, không hưởng ở phần Nguyệt. Xem [đặc tả](GRAND_ADJUSTMENT_2026_11_25.md).
+
 ## Presentation và giao dịch
 
 VFX đọc event, không sửa combat. Phân biệt nguồn đang act, hit, status badge và mode. VFX dấu Phong Ấn biến mất sau cast; debuff vẫn tồn tại. Cleanup timer/portal khi hết timeline, đổi session/unmount; reduced-motion không đổi kết quả.

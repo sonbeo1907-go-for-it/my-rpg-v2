@@ -11081,7 +11081,7 @@
     ],
     "rankable": true,
     "presentation": "iaido_twin",
-    "cooldown": 2
+    "cooldown": 1
   },
   {
     "id": "chiyoko.awaken",
@@ -11105,7 +11105,8 @@
     "growthProfile": "fixed",
     "growthGroups": [],
     "rankable": false,
-    "fixedReason": "Biến hình và nội tại cố định, không tăng theo Rank."
+    "fixedReason": "Biến hình và nội tại cố định, không tăng theo Rank.",
+    "cooldown": 2
   },
   {
     "id": "chiyoko.finale",
@@ -11152,7 +11153,7 @@
     "rankable": true,
     "presentation": "iaido_eclipse",
     "requiresMode": "ancestral_edge",
-    "cooldown": 3
+    "cooldown": 2
   },
   {
     "id": "patricia.bedrock",
@@ -12493,7 +12494,7 @@
       {
         "type": "status",
         "status": "anabel_command",
-        "duration": 5
+        "duration": 6
       }
     ],
     "skillLineId": "anabel.command",
@@ -12645,7 +12646,7 @@
         "min": 4
       }
     },
-    "cooldown": 3,
+    "cooldown": 2,
     "effects": [
       {
         "type": "damage",
@@ -12693,7 +12694,7 @@
     "cost": {
       "mp": 18
     },
-    "cooldown": 2,
+    "cooldown": 0,
     "effects": [
       {
         "type": "damage",
@@ -13278,7 +13279,7 @@
     "cost": {
       "mp": 28
     },
-    "cooldown": 4,
+    "cooldown": 3,
     "effects": [
       {
         "type": "status",

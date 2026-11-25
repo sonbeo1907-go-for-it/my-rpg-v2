@@ -3,6 +3,7 @@ const HOOKS={direct_reduction:'before_direct_hit',impact_shield:'after_direct_hi
 export function validGearEffect(recipe,content){
  const e=recipe.effect,ratio=n=>Number.isFinite(n)&&n>0&&n<=1,whole=n=>Number.isSafeInteger(n)&&n>0;
  if(!e)return false;
+ if(e.type==='normal_damage_chance')return recipe.cooldownRounds===0&&recipe.hook===undefined&&recipe.condition===undefined&&recipe.oncePerRound===undefined&&recipe.oncePerEncounter===undefined&&recipe.oncePerTeamRound===undefined&&['attack','magic'].includes(e.stat)&&e.atStat===150&&e.ratio===.5&&e.modifiers&&Object.keys(e.modifiers).length===1&&e.modifiers[e.stat]===.2&&e.excludedCharacterIds===undefined;
  if(['moonlit_offense','moonlit_vitality'].includes(e.type)){
   if(recipe.cooldownRounds!==0||recipe.hook!==undefined||recipe.condition!==undefined||recipe.oncePerRound!==undefined||recipe.oncePerEncounter!==undefined||recipe.oncePerTeamRound!==undefined)return false;
   if(e.type==='moonlit_offense')return JSON.stringify(e.modifiers)===JSON.stringify({attack:.15,magic:.15})&&e.moonDamageBonus===.25;
@@ -43,6 +44,6 @@ export function validGearEffect(recipe,content){
  if(['ally_buff_mp','emergency_heal','healed_mp','ally_weakness_shield'].includes(e.type)&&recipe.oncePerRound!==true)return false;
  return true;
 }
-export function gearEffectTiming(recipe){if(recipe.oncePerTeamRound)return '1 lần / vòng / đội';if(['moonlit_offense','moonlit_vitality','paid_mp_damage','skill_shield_boost','skill_heal_boost','full_hp_offense','low_hp_offense'].includes(recipe.effect?.type))return 'Luôn hoạt động';return ['soul_creation_mp','soul_spend_damage'].includes(recipe.effect?.type)||recipe.hook==='base_stats'?'Luôn hoạt động':recipe.oncePerEncounter?'1 lần / trận':recipe.oncePerRound?'1 lần / vòng':recipe.cooldownRounds?`${recipe.cooldownRounds} vòng`:'Không hồi chiêu';}
+export function gearEffectTiming(recipe){if(recipe.oncePerTeamRound)return '1 lần / vòng / đội';if(['normal_damage_chance','moonlit_offense','moonlit_vitality','paid_mp_damage','skill_shield_boost','skill_heal_boost','full_hp_offense','low_hp_offense'].includes(recipe.effect?.type))return 'Luôn hoạt động';return ['soul_creation_mp','soul_spend_damage'].includes(recipe.effect?.type)||recipe.hook==='base_stats'?'Luôn hoạt động':recipe.oncePerEncounter?'1 lần / trận':recipe.oncePerRound?'1 lần / vòng':recipe.cooldownRounds?`${recipe.cooldownRounds} vòng`:'Không hồi chiêu';}
 export function gearRecipeRequirement(content,recipe){return recipe.requires?.firstClear?`Thắng ${content.encounters[recipe.requires.firstClear]?.name??'Truy Nã'} lần đầu để mở.`:recipe.requires?.storyFlag?'Hoàn thành vĩ thanh Arthur để mở công thức.':'Công thức đã sẵn sàng.';}
 export function gearRecipeSource(recipe){return recipe.requires?.firstClear?`/quests?tab=bounty&selected=${recipe.requires.firstClear}`:'/stories/epilogue';}

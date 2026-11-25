@@ -1,5 +1,7 @@
 # Shimoe Eri và Chiyoko
 
+> Cập nhật 25/11/2026: Đoạn Không CD1; Hợp Mạch và Tuyệt Thức CD2. Xem [điều chỉnh](GRAND_ADJUSTMENT_2026_11_25.md).
+
 Chốt triển khai 05/11/2026. Hai nhân vật chính thức có trong pool Chiêu Mộ; không thay đổi trạng thái thử nghiệm của Astoria. Đợt banner đang chạy giữ nguyên, hai ID tham gia chọn rate-up từ 09/11/2026. Đây là cấu hình playtest, chưa phải kết luận cân bằng.
 
 ## Shimoe Eri — Nét vẽ mang linh hồn
@@ -22,9 +24,9 @@ DPS ma pháp Ám dùng Tachi và scale ATK; **sát thương qua RES**, không qu
 | --- | --- | --- |
 | Đánh thường | Hai đòn ×80% ATK, phép Ám + Hồn Kiếm | 0 MP |
 | Nhất Thức — Ảnh Trảm | Một địch, 220% ATK | 6 MP / không CD |
-| Nhị Thức — Đoạn Không | Hai đòn: mỗi đòn 250% ATK mục tiêu chính, 175% hai địch kề bên; không nối vòng; tạo trực tiếp1 Hồn Kiếm | 16 MP / CD2 |
-| Tổ Kiếm — Hợp Mạch | Vào dạng đến hết trận; thay chính lệnh này bằng Tuyệt Thức | Bắt buộc6 Hồn Kiếm, không dùng MP thay thế; tốn một hành động |
-| Tuyệt Thức — Vạn Ảnh Quy Kiếm | Năm đòn diện rộng ×120% ATK, sau đó một đòn180% ATK chỉ vào mục tiêu chính; đòn cuối xuyên100% RES | Ưu tiên6 Hồn Kiếm, thiếu dùng28 MP / CD3; chỉ trong dạng |
+| Nhị Thức — Đoạn Không | Hai đòn: mỗi đòn 250% ATK mục tiêu chính, 175% hai địch kề bên; không nối vòng; tạo trực tiếp1 Hồn Kiếm | 16 MP / CD1 |
+| Tổ Kiếm — Hợp Mạch | Vào dạng đến hết trận; thay chính lệnh này bằng Tuyệt Thức | Bắt buộc6 Hồn Kiếm, không dùng MP thay thế; CD2; tốn một hành động |
+| Tuyệt Thức — Vạn Ảnh Quy Kiếm | Năm đòn diện rộng ×120% ATK, sau đó một đòn180% ATK chỉ vào mục tiêu chính; đòn cuối xuyên100% RES | Ưu tiên6 Hồn Kiếm, thiếu dùng28 MP / CD2; chỉ trong dạng |
 
 Mọi đòn gây sát thương, kể cả đánh thường, mang Ám + Hồn Kiếm. Trong dạng: +10 ATK căn bản, +30% ATK và xuyên25% RES với sát thương phép, đồng thời duy trì Thăng Tiến. Tổng xuyên không quá100%; đòn cuối không thành125%. Nếu mục tiêu chính đã gục trước đòn thứ sáu, bỏ đòn cuối, không đổi mục tiêu. Chọn sai mục tiêu không trả chi phí.
 

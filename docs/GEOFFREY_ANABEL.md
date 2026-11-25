@@ -1,5 +1,7 @@
 # Geoffrey, Anabel và bản sửa Remulia — 11/11/2026
 
+> Cập nhật 25/11/2026: Quân Lệnh Anabel kéo dài6 lượt chính, đủ phủ Phán Quyết R2/R6. Xem [điều chỉnh](GRAND_ADJUSTMENT_2026_11_25.md).
+
 Yêu cầu người dùng là nguồn thiết kế. ID mới: Geoffrey `geoffrey`/release105; Anabel `anabel`/release106. Cả hai dùng asset vai trò/kỹ năng chung, vào pool Chiêu Mộ thường ngay; tham gia lịch rate-up từ12/11 để không viết lại lịch cũ. Không có Trấn riêng hoặc Thông Thạo trong bản này.
 
 ## Geoffrey — Vương Thuẫn Hoàng Gia
@@ -30,13 +32,13 @@ Chỉ số thô Lv1: HP180 / MP95 / ATK35 / MAG8 / DEF22 / RES18 / SPD18. Native
 
 | Kỹ năng | MP/CD | Rank1 |
 | --- | --- | --- |
-| Quân Lệnh — Ánh Dương Dẫn Lối | 14/3 | +50% ATK bản thân5 lượt chính |
+| Quân Lệnh — Ánh Dương Dẫn Lối | 14/3 | +50% ATK bản thân6 lượt chính |
 | Tiên Phong — Trảm Quang | 6/0 | 180% ATK một địch; địch còn sống thì tái kích cùng chiêu |
 | Phán Quyết — Bình Minh Viễn Chinh | 20/3 | 600% ATK một địch; địch còn sống thì tái kích cùng chiêu |
 
 14MP cho tự buff là cấu hình playtest vì yêu cầu chưa chỉ định chi phí. Buff tăng5% tương đối/Rank, sát thương10%/Rank. Không nâng lượng15 ATK hay cap30% từ Rank.
 
-Buff tự cấp không mất lượt ngay khi cast: sau ba lượt chính tiếp theo còn2 lượt; đầu vòng kế đó CD đã0. Vòng Phụ không trừ buff hoặc CD. Refresh về5, không cộng thời gian.
+Buff tự cấp không mất lượt ngay khi cast: sau ba lượt chính tiếp theo còn3 lượt; đầu vòng kế đó CD đã0. Buff đủ cho Phán Quyết ởR2 vàR6 sau khi cấp ởR1. Vòng Phụ không trừ buff hoặc CD. Refresh về6, không cộng thời gian.
 
 ## Cơ chế tái sử dụng và vòng đời
 

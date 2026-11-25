@@ -21,6 +21,8 @@
 
 ## Combat và UX
 
+- [Điều chỉnh kỹ năng / hai gear sát thương thường — 25/11/2026](GRAND_ADJUSTMENT_2026_11_25.md)
+
 - [Balance Hạt Giống / Bianca — so sánh max-build](SEED_BALANCE_2026_11_24.md)
 
 - [Nguyệt Nhật Hỗn Mang — chu kỳ và hiệu lệnh đơn mục tiêu](CHAOTIC_ECLIPSE.md)

@@ -33,7 +33,7 @@ test('passive changes actual damage and does not mutate Kanade or shared definit
 test('four charges cap, burst costs no MP, forecast is isolated, failure spends nothing',()=>{
  const {b,a,e}=fixture();for(let i=0;i<5;i++)cast(b,a,'nikita.dagger',e.id);assert.equal(a.resourceValues.shadow_wind,4);const mp=a.mp;
  b.queue=[a.id,e.id];b.cursor=0;const preview=forecastBattleAction(b,{actorId:a.id,abilityId:'nikita.execution',targetId:e.id});assert.equal(preview.actors.find(x=>x.id===a.id).resourceValues.shadow_wind,0);assert.equal(a.resourceValues.shadow_wind,4);
- cast(b,a,'nikita.execution',e.id);assert.equal(a.mp,mp);assert.equal(a.resourceValues.shadow_wind,0);assert.equal(a.cooldowns['nikita.execution'],4);
+ cast(b,a,'nikita.execution',e.id);assert.equal(a.mp,mp);assert.equal(a.resourceValues.shadow_wind,0);assert.equal(a.cooldowns['nikita.execution'],3);
  a.cooldowns['nikita.execution']=0;a.resourceValues.shadow_wind=3;b.queue=[a.id,e.id];b.cursor=0;assert.throws(()=>executeAction(b,{actorId:a.id,abilityId:'nikita.execution',targetId:e.id}));assert.equal(a.resourceValues.shadow_wind,3);assert.equal(a.mp,mp);
 });
 test('veil buffs after damage and remains available at expiry; Extra does not tick it, main stun does',()=>{

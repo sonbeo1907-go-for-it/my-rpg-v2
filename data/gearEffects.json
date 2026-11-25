@@ -703,5 +703,41 @@
         "magic": 8
       }
     }
+  },
+  {
+    "id": "martial_insight",
+    "name": "Ấn Võ Tâm",
+    "description": "ATK +20%. Đòn thuần sát thương thường có cơ hội tăng 50% sát thương cơ sở, đạt 100% cơ hội ở 150 ATK căn bản. Không kích khi đòn mang Nguyệt hoặc loại sát thương đặc biệt khác. Xét một lần mỗi hành động, dùng chung cho mọi hit và mục tiêu. Không cộng dồn gear cùng tên.",
+    "costClass": "common",
+    "effectGroup": "gear_martial_insight",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "normal_damage_chance",
+      "modifiers": {
+        "attack": 0.2
+      },
+      "stat": "attack",
+      "atStat": 150,
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "arcane_insight",
+    "name": "Ấn Thuật Tâm",
+    "description": "MAG +20%. Đòn thuần sát thương thường có cơ hội tăng 50% sát thương cơ sở, đạt 100% cơ hội ở 150 MAG căn bản. Không kích khi đòn mang Nguyệt hoặc loại sát thương đặc biệt khác. Xét một lần mỗi hành động, dùng chung cho mọi hit và mục tiêu. Không cộng dồn gear cùng tên.",
+    "costClass": "common",
+    "effectGroup": "gear_arcane_insight",
+    "cooldownRounds": 0,
+    "dismantleYield": 240,
+    "effect": {
+      "type": "normal_damage_chance",
+      "modifiers": {
+        "magic": 0.2
+      },
+      "stat": "magic",
+      "atStat": 150,
+      "ratio": 0.5
+    }
   }
 ]
