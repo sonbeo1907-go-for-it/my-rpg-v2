@@ -21,6 +21,8 @@
 
 ## Combat và UX
 
+- [Bạo Kích / phân loại sát thương hiện hành](CRITICAL_DAMAGE.md)
+
 - [Điều chỉnh kỹ năng / hai gear sát thương thường — 25/11/2026](GRAND_ADJUSTMENT_2026_11_25.md)
 
 - [Balance Hạt Giống / Bianca — so sánh max-build](SEED_BALANCE_2026_11_24.md)

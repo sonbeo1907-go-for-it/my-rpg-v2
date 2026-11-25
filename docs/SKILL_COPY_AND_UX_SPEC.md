@@ -70,3 +70,7 @@ Nếu thêm field dữ liệu: bổ sung validator, runtime, preview/chi phí, A
 Đợt05/11 đã rà toàn roster, rút gọn52 mô tả kỹ năng và8 giới thiệu cũ; bổ sung2 nhân vật và presentation mới. Chi tiết trong SKILL_COPY_REVIEW_2026_11_05.md. Quy chuẩn cũ có catalog32 nhân vật đã được thay bằng báo cáo tạo từ roster hiện hành, tránh dùng số cũ làm nguồn thứ hai.
 
 Kỹ năng hai mục tiêu dùng hai khung cam và một dòng xác nhận đủ hai người; không thêm bảng chọn lặp. Quy tắc triển khai và nghiệm thu: [COMBAT_MENUS](COMBAT_MENUS.md).
+
+## Bạo Kích và chú thích gear — 25/11/2026
+
+Dùng “sát thương thường” cho đòn không mang Nguyệt, “sát thương hiệu ứng” cho đòn mang Nguyệt. Tooltip Ấn chỉ cần chỉ số, “Bạo Kích (+50% sát thương)” và mốc150 chỉ số căn bản; quy tắc chung ở Quy ước chiến đấu. Không lặp tên gear, loại cờ, cache, thứ tự tính hoặc giải thích không cộng dồn trên mọi kỹ năng. Giữ giới hạn theo phe và điều kiện thực tế khi chúng ảnh hưởng lựa chọn. Xem [CRITICAL_DAMAGE](CRITICAL_DAMAGE.md).

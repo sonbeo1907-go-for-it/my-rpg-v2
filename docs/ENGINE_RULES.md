@@ -61,7 +61,7 @@ Magnamut: kết thúc ở resource 0 tại đầu lượt/ cuối vòng; đầu 
 
 ## Phân loại sát thương — 25/11/2026
 
-Hit/event mang Nguyệt chính/phụ có effectDamage:true và normalDamage:false; đòn không có cờ đặc biệt mặc định normalDamage. Giữ cờ phân loại mới qua hit/event; gear chỉ kích khi duy nhất normalDamage bật, không khóa theo nhân vật. Phân loại sau mode/Hé Lộ/đổi hệ, không suy theo tên nhân vật hoặc nguồn Chúc Phúc. Hai gear normal_damage_chance tăng cơ sở trước DEF/RES và amp, dùng một phép thử theo hành động, không hưởng ở phần Nguyệt. Xem [đặc tả](GRAND_ADJUSTMENT_2026_11_25.md).
+Đòn mang Nguyệt chính/phụ là effectDamage; mọi đòn khác là normalDamage, kể cả Hồn Kiếm. Chuẩn hóa sau mọi đổi hệ, độc lập metadata/cờ phụ. Hai Ấn dùng lớp Bạo Kích ×1,5 chỉ cho sát thương thường, sau phòng thủ/khuếch đại và trước soft cap PvP; nếu mang cả hai lấy tỷ lệ cao hơn, không nhân chồng. Xem [quy tắc hiện hành](CRITICAL_DAMAGE.md).
 
 ## Presentation và giao dịch
 

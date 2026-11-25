@@ -17,6 +17,7 @@ test('normal-damage recipes can be found, previewed, forged and persisted using 
  await expect(page.getByRole('dialog')).toContainText('150 ATK căn bản');
  await page.getByRole('button',{name:'Xác nhận chế tạo',exact:true}).click();
  await expect(page.getByRole('dialog')).toContainText('Ấn Võ Tâm');
+ await expect(page.getByRole('dialog').getByText(c.gearEffects.martial_insight.description,{exact:true})).toHaveCount(1);
  const raw=await page.evaluate(()=>JSON.parse(JSON.parse(localStorage.getItem('northern-prisma.profiles.v1')!).entries[0].text));
  expect(raw.gear.some((g:any)=>g.effectId==='martial_insight')).toBe(true);
  await page.setViewportSize({width:390,height:844});await page.reload();

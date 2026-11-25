@@ -386,7 +386,7 @@
   {
     "id": "mana_attack_conversion",
     "name": "Chiến Ấn Mạch Nguồn",
-    "description": "Luôn hoạt động: +1 ATK căn bản mỗi 20 MP tối đa, tối đa +25 tại 500 MP. Không phụ thuộc MP còn lại.",
+    "description": "+1 ATK căn bản mỗi 20 MP tối đa, tối đa +25 tại 500 MP.",
     "costClass": "common",
     "effectGroup": "gear_mana_attack",
     "hook": "base_stats",
@@ -402,7 +402,7 @@
   {
     "id": "mana_magic_conversion",
     "name": "Pháp Ấn Mạch Nguồn",
-    "description": "Luôn hoạt động: +1 MAG căn bản mỗi 20 MP tối đa, tối đa +25 tại 500 MP. Không phụ thuộc MP còn lại.",
+    "description": "+1 MAG căn bản mỗi 20 MP tối đa, tối đa +25 tại 500 MP.",
     "costClass": "common",
     "effectGroup": "gear_mana_magic",
     "hook": "base_stats",
@@ -433,7 +433,7 @@
   {
     "id": "soul_wellspring",
     "name": "Giếng Hồn Kiếm",
-    "description": "MP của người trang bị tăng 20%. Khi người trang bị trực tiếp tạo Hồn Kiếm bằng hiệu ứng kỹ năng, hồi 3% MP tối đa cho cả đội. Không cộng dồn với trang bị cùng tên trên người trang bị.",
+    "description": "MP +20%. Khi trực tiếp tạo Hồn Kiếm bằng hiệu ứng kỹ năng, hồi 3% MP tối đa cho toàn đội.",
     "costClass": "common",
     "effectGroup": "gear_soul_wellspring",
     "cooldownRounds": 0,
@@ -449,7 +449,7 @@
   {
     "id": "soul_forge_sigil",
     "name": "Ấn Lò Hồn Kiếm",
-    "description": "ATK và MAG của người trang bị tăng 15%. Khi người trang bị tiêu thụ Hồn Kiếm bằng kỹ năng, khuếch đại sát thương thêm 8% cho mỗi Hồn Kiếm đã tiêu. Không cộng dồn với trang bị cùng tên trên người trang bị.",
+    "description": "ATK/MAG +15%. Kỹ năng tiêu Hồn Kiếm được khuếch đại 8% sát thương mỗi tầng đã tiêu.",
     "costClass": "common",
     "effectGroup": "gear_soul_forge",
     "cooldownRounds": 0,
@@ -466,7 +466,7 @@
   {
     "id": "mana_overdrive",
     "name": "Lăng Kính Dồn Ma Lực",
-    "description": "MP tối đa +10%. Kỹ năng tấn công gây thêm 6% sát thương với mỗi 5 MP thực tiêu, tối đa 30% mỗi chiêu. Không cộng dồn với gear cùng tên trên người mặc.",
+    "description": "MP tối đa +10%. Kỹ năng tấn công gây thêm 6% sát thương với mỗi 5 MP thực tiêu, tối đa 30% mỗi chiêu.",
     "costClass": "common",
     "effectGroup": "gear_mana_overdrive",
     "cooldownRounds": 0,
@@ -484,7 +484,7 @@
   {
     "id": "aegis_weave",
     "name": "Dải Lụa Dệt Khiên",
-    "description": "SPD +15%. Kỹ năng tạo Khiên tăng 30% lượng Khiên tạo ra; không cộng dồn cùng tên.",
+    "description": "SPD +15%. Kỹ năng tạo Khiên tăng 30% lượng Khiên tạo ra.",
     "costClass": "common",
     "effectGroup": "gear_aegis_weave",
     "cooldownRounds": 0,
@@ -500,7 +500,7 @@
   {
     "id": "vitality_chalice",
     "name": "Chén Sinh Khí",
-    "description": "HP tối đa +15%. Kỹ năng hồi HP tăng 18% lượng hồi; không cộng dồn cùng tên.",
+    "description": "HP tối đa +15%. Kỹ năng hồi HP tăng 18% lượng hồi.",
     "costClass": "common",
     "effectGroup": "gear_vitality_chalice",
     "cooldownRounds": 0,
@@ -516,7 +516,7 @@
   {
     "id": "shared_respite",
     "name": "Chuông Đồng Tâm",
-    "description": "MP tối đa +10%. Sau Phòng thủ, các đồng đội khác còn sống hồi MP bằng lượng bản thân thực nhận từ hành động đó. Cả đội chỉ kích hoạt một lần mỗi vòng; không cộng dồn cùng tên.",
+    "description": "MP +10%. Phòng thủ hồi MP cho đồng đội khác bằng lượng bản thân thực nhận. 1 lần/vòng/đội.",
     "costClass": "common",
     "effectGroup": "gear_shared_respite",
     "cooldownRounds": 0,
@@ -532,7 +532,7 @@
   {
     "id": "aegis_covenant",
     "name": "Ấn Ước Thành Lũy",
-    "description": "DEF/RES +15%. Sau kỹ năng tạo Khiên, toàn đội giảm 15% sát thương trực tiếp đến hết vòng sau. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "DEF/RES +15%. Sau kỹ năng tạo Khiên, toàn đội giảm 15% sát thương trực tiếp đến hết vòng sau.",
     "costClass": "common",
     "effectGroup": "gear_aegis_covenant",
     "cooldownRounds": 0,
@@ -549,7 +549,7 @@
   {
     "id": "shelter_relay",
     "name": "Di Vật Tiếp Khiên",
-    "description": "HP +15%. Khi Khiên của đồng đội bị địch phá, cấp Khiên bằng 35% HP tối đa của người mặc; 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "HP +15%. Khi Khiên của đồng đội bị địch phá, cấp Khiên bằng 35% HP tối đa của người mặc; 1 lần/vòng.",
     "costClass": "common",
     "effectGroup": "gear_shelter_relay",
     "cooldownRounds": 0,
@@ -566,7 +566,7 @@
   {
     "id": "restoration_clock",
     "name": "Đồng Hồ Tái Thiết",
-    "description": "HP +15%. Đầu lượt chính, giảm 1 vòng hồi chiêu của kỹ năng hồi HP hoặc tạo Khiên có hồi chiêu còn lại dài nhất. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "HP +15%. Đầu lượt chính, giảm 1 vòng hồi chiêu của kỹ năng hồi HP hoặc tạo Khiên có hồi chiêu còn lại dài nhất.",
     "costClass": "common",
     "effectGroup": "gear_restoration_clock",
     "cooldownRounds": 0,
@@ -582,7 +582,7 @@
   {
     "id": "unbroken_crest",
     "name": "Huy Hiệu Toàn Vẹn",
-    "description": "ATK/MAG +15%; khi đầy HP tăng thành +30%. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "ATK/MAG +15%; khi đầy HP tăng thành +30%.",
     "costClass": "common",
     "effectGroup": "gear_unbroken_crest",
     "cooldownRounds": 0,
@@ -598,7 +598,7 @@
   {
     "id": "desperate_crest",
     "name": "Huy Hiệu Quyết Tử",
-    "description": "ATK/MAG +20%; khi dưới 70% HP tăng thành +40%. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "ATK/MAG +20%; khi dưới 70% HP tăng thành +40%.",
     "costClass": "common",
     "effectGroup": "gear_desperate_crest",
     "cooldownRounds": 0,
@@ -615,7 +615,7 @@
   {
     "id": "echoing_edge",
     "name": "Lưỡi Cắt Dư Âm",
-    "description": "ATK/MAG +12%. Kỹ năng tấn công đơn mục tiêu gây Liên kích lên tối đa 2 địch khác bằng 20% sức mạnh chiêu, cùng loại sát thương và hệ; 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "ATK/MAG +12%. Chiêu đơn mục tiêu Liên kích lên tối đa 2 địch khác với 20% sức mạnh chiêu, giữ loại sát thương và hệ. 1 lần/vòng.",
     "costClass": "common",
     "effectGroup": "gear_echoing_edge",
     "cooldownRounds": 0,
@@ -634,7 +634,7 @@
   {
     "id": "affliction_prism",
     "name": "Lăng Kính Ách Nạn",
-    "description": "MAG +15%. Sau kỹ năng gây sát thương, Liên kích lên địch có ít nhất 2 loại debuff bằng 90% MAG; từ 4 loại là 180% MAG, cùng loại sát thương và hệ. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "MAG +15%. Sau chiêu gây sát thương, Liên kích 90% MAG vào địch có từ 2 loại debuff; từ 4 loại: 180% MAG. Giữ loại sát thương và hệ.",
     "costClass": "common",
     "effectGroup": "gear_affliction_prism",
     "cooldownRounds": 0,
@@ -653,7 +653,7 @@
   {
     "id": "healers_chorus",
     "name": "Khúc Hòa Ca Hồi Sinh",
-    "description": "MAG +15%. Kỹ năng hoặc nội tại thực hồi HP: hồi 6 MP toàn đội; người được hồi HP giảm 10% sát thương đến hết vòng. Cả phe 1 lần/vòng. Không cộng dồn gear cùng tên trên người mặc.",
+    "description": "MAG +15%. Kỹ năng hoặc nội tại thực hồi HP: hồi 6 MP toàn đội; người được hồi HP giảm 10% sát thương đến hết vòng. Cả phe 1 lần/vòng.",
     "costClass": "common",
     "effectGroup": "gear_healers_chorus",
     "cooldownRounds": 0,
@@ -671,7 +671,7 @@
   {
     "id": "moonlit_duet",
     "name": "Song Nguyệt Đồng Tâm",
-    "description": "ATK/MAG +15%; khi có Chúc Phúc cùng phe, tăng thành +30%. Khuếch đại 25% sát thương Nguyệt của người mặc và đòn Chúc Phúc Liên kích do người mặc ra lệnh. Không cộng dồn gear cùng tên.",
+    "description": "ATK/MAG +15%, tăng thành +30% khi có Chúc Phúc. Khuếch đại 25% sát thương Nguyệt bản thân và hiệu lệnh Chúc Phúc.",
     "costClass": "common",
     "effectGroup": "gear_moonlit_duet",
     "cooldownRounds": 0,
@@ -707,13 +707,13 @@
   {
     "id": "martial_insight",
     "name": "Ấn Võ Tâm",
-    "description": "ATK +20%. Đòn thuần sát thương thường có cơ hội tăng 50% sát thương cơ sở, đạt 100% cơ hội ở 150 ATK căn bản. Không kích khi đòn mang Nguyệt hoặc loại sát thương đặc biệt khác. Xét một lần mỗi hành động, dùng chung cho mọi hit và mục tiêu. Không cộng dồn gear cùng tên.",
+    "description": "ATK +20%. Sát thương thường có thể Bạo Kích (+50% sát thương). Tỷ lệ đạt 100% tại 150 ATK căn bản.",
     "costClass": "common",
     "effectGroup": "gear_martial_insight",
     "cooldownRounds": 0,
     "dismantleYield": 240,
     "effect": {
-      "type": "normal_damage_chance",
+      "type": "critical_chance",
       "modifiers": {
         "attack": 0.2
       },
@@ -725,13 +725,13 @@
   {
     "id": "arcane_insight",
     "name": "Ấn Thuật Tâm",
-    "description": "MAG +20%. Đòn thuần sát thương thường có cơ hội tăng 50% sát thương cơ sở, đạt 100% cơ hội ở 150 MAG căn bản. Không kích khi đòn mang Nguyệt hoặc loại sát thương đặc biệt khác. Xét một lần mỗi hành động, dùng chung cho mọi hit và mục tiêu. Không cộng dồn gear cùng tên.",
+    "description": "MAG +20%. Sát thương thường có thể Bạo Kích (+50% sát thương). Tỷ lệ đạt 100% tại 150 MAG căn bản.",
     "costClass": "common",
     "effectGroup": "gear_arcane_insight",
     "cooldownRounds": 0,
     "dismantleYield": 240,
     "effect": {
-      "type": "normal_damage_chance",
+      "type": "critical_chance",
       "modifiers": {
         "magic": 0.2
       },

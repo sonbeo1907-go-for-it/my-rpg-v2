@@ -24,16 +24,16 @@ for(const recipe of ['echoing_edge','affliction_prism'])test(`${recipe}: follow-
 test('mixed two-hit packets copy their own flags for every echoed target, with one shared recipe limit',()=>{
  const {b,a,id,t}=setup('echoing_edge');b.content.abilities[id].effects=[packet({normalDamage:true}),packet({effectDamage:true}),packet({damageFlags:{futureRune:true},hits:2})];use(b,a,id,t);
  const hits=damage(b,a),originals=hits.filter(h=>!h.reaction),echoes=hits.filter(h=>h.reaction);assert.equal(originals.length,4);assert.equal(echoes.length,8);assert.equal(b.events.filter(e=>e.type==='reaction'&&e.gearEffectId==='echoing_edge').length,1);
- for(const targetId of new Set(echoes.map(e=>e.targetId))){const group=echoes.filter(e=>e.targetId===targetId);assert.deepEqual(group.map(e=>e.damageFlags),originals.map(e=>e.damageFlags));assert.deepEqual(group.map(e=>e.amount),[45,30,30,30]);}
+ for(const targetId of new Set(echoes.map(e=>e.targetId))){const group=echoes.filter(e=>e.targetId===targetId);assert.deepEqual(group.map(e=>e.damageFlags),originals.map(e=>e.damageFlags));assert.deepEqual(group.map(e=>e.amount),[45,45,45,45]);}
 });
 test('gear echoes keep rank-resolved power at twenty percent, forecast leaves live limiter intact',()=>{
  const {b,a,id,t}=setup('echoing_edge',{normalDamage:true});b.content.abilities[id].growthProfile='damage';b.content.abilities[id].growthGroups=['damage'];b.content.abilities[id].rankable=true;a.skillRanks[id]=5;b.queue=[a.id,t.id];b.cursor=0;
- const f=forecastBattleAction(b,{actorId:a.id,abilityId:id,targetId:t.id});assert.equal(a.gearEffectProcRounds?.gear_echoing_edge,undefined);assert.ok(f.events.some(e=>e.abilityId==='$gear.echoing_edge'));use(b,a,id,t);const echo=damage(b,a).find(e=>e.abilityId==='$gear.echoing_edge');assert.equal(echo.amount,Math.floor(150*1.1**4*.2*1.5));assert.equal(a.gearEffectProcRounds.gear_echoing_edge,b.round);
+ const f=forecastBattleAction(b,{actorId:a.id,abilityId:id,targetId:t.id});assert.equal(a.gearEffectProcRounds?.gear_echoing_edge,undefined);assert.ok(f.events.some(e=>e.abilityId==='$gear.echoing_edge'));use(b,a,id,t);const echo=damage(b,a).find(e=>e.abilityId==='$gear.echoing_edge');assert.equal(echo.amount,Math.floor(Math.floor(150*1.1**4*.2)*1.5));assert.equal(a.gearEffectProcRounds.gear_echoing_edge,b.round);
 });
 test('both gear recipes preserve special flags on either side in Arena',()=>{
  for(const recipe of ['echoing_edge','affliction_prism'])for(const team of ['party','enemy']){
   const content=structuredClone(c),abilityId='arthur.light_slash';content.abilities[abilityId].effects=[packet({normalDamage:true,effectDamage:true,damageFlags:{futureRune:true}})];
   const s=account(content);s.party[0]='arthur';s.partyPresets[0].slots=[...s.party];const b=createArenaBattle(content,s,'mirror',993);prepare(b);const a=b.actors.find(x=>x.team===team&&x.characterId==='arthur'),t=b.actors.find(x=>x.team!==team);a.gearEffects=[structuredClone(c.gearEffects[recipe]),structuredClone(c.gearEffects.martial_insight)];for(const target of b.actors.filter(x=>x.team!==team))target.statuses=['deep_wound','gear_defense_crack'].map(id=>({id,remaining:10,stacks:1}));
-  use(b,a,abilityId,t);const echoes=damage(b,a).filter(e=>e.abilityId==='$gear.'+recipe);assert.ok(echoes.length);for(const e of echoes){assert.equal(e.effectDamage,true);assert.equal(e.damageFlags.futureRune,true);assert.equal(isOnlyNormalDamage(e),false);assert.ok(e.pvpDamage);}
+  use(b,a,abilityId,t);const echoes=damage(b,a).filter(e=>e.abilityId==='$gear.'+recipe);assert.ok(echoes.length);for(const e of echoes){assert.equal(e.effectDamage,false);assert.equal(e.damageFlags.futureRune,true);assert.equal(isOnlyNormalDamage(e),true);assert.ok(e.pvpDamage);}
  }
 });

@@ -1,5 +1,5 @@
 import {damageFlags,copyDamageFlags} from './damage-kind.js';
-import {normalGearBaseMultiplier} from './normal-damage-gear.js';
+import {resolveCritical} from './critical.js';
 import {chosenAlly,extendBeneficial,markWaningBuff,expireWaningBuffs} from './witch-cycle.js';
 import {supportTurnStart,drainHitMp} from './merchant-support.js';
 import {debuffBatch,setDebuffBatch,withDebuffBatch,witnessedDebuff,extendHostileDebuffs,lampkeeperRoundEnd} from './lampkeeper.js';
@@ -741,7 +741,8 @@ function beginActorTurn(battle,actor,delegating=false) {
     if (!definition.damageOverTime) continue;
     const periodicSource=getActor(battle,status.sourceId),periodicEffect=moonlightDamageEffect(battle,periodicSource,{...definition.damageOverTime});
     const lunarPeriodic=lunarBaseDamageMultiplier(battle,periodicSource,periodicEffect)*lunarOutgoingAmp(battle,periodicSource,periodicEffect)*lunarIncomingMultiplier(battle,actor,periodicEffect);
-    const requested=Math.floor(normalGearBaseMultiplier(battle,periodicSource,periodicEffect,{})*lunarPeriodic*status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)));
+    const critical=resolveCritical(battle,periodicSource,periodicEffect,{});
+    const requested=Math.floor(Math.floor(lunarPeriodic*status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)))*critical.multiplier);
     const periodicCap=applyPvpDamageCap(battle,getActor(battle,status.sourceId),actor,requested,battle.pvpRules?pvpPeriodicContext(battle,getActor(battle,status.sourceId),actor):{},false,modeIO);
     const life=applyLifeDamage(battle,actor,periodicCap.amount>0?periodicCap.amount:status.potency>0&&isInAgony(actor)?1:0,{element:periodicEffect.element,elements:damageElements(periodicEffect),healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
     const amount=life.hpLost+life.maxHpLost;
@@ -755,12 +756,13 @@ function beginActorTurn(battle,actor,delegating=false) {
       amount,
       absorbed: 0,
       weakness: false,
+      ...(critical.critical?{critical:true,criticalMultiplier:critical.multiplier}:{}),
       periodic: true, ...damageFlags(periodicEffect), damageFlags:damageFlags(periodicEffect),
       element:periodicEffect.element, ...(periodicEffect.additionalElements?{elements:damageElements(periodicEffect)}:{}),
       ...(periodicCap.info?{pvpDamage:periodicCap.info}:{}),
       ...(life.maxHpLost?{maxHpDamage:life.maxHpLost}:{}),
     });
-    write(battle, `${actor.name} mất ${amount} ${life.maxHpLost?"HP tối đa":"HP"} vì ${definition.name}.`);
+    write(battle, `${actor.name} mất ${amount} ${life.maxHpLost?"HP tối đa":"HP"} vì ${definition.name}${critical.critical?" (Bạo Kích)":""}.`);
     if(amount>0) gearHpLoss(battle,actor,actor.hp,gearIO);
     transitionBossPhases(battle, { write, restoreMp: gainResource });
     if (status.remaining <= 0)
@@ -1724,13 +1726,13 @@ function resolveHit(
   const hitGrowthMultiplier = actionContext.hitGrowthMultiplier ?? 1;
   const flatSkillBonus=flatMagicSkillHitBonus(battle,attacker,effect,actionContext);
   const lunarMultiplier=lunarBaseDamageMultiplier(battle,attacker,effect);
-  const normalMultiplier=normalGearBaseMultiplier(battle,attacker,effect,actionContext);
+  const critical=resolveCritical(battle,attacker,effect,actionContext);
   const stageMultiplier=performanceDamageMultiplier(battle,attacker,effect,actionContext)*lunarOutgoingAmp(battle,attacker,effect,actionContext)*moonlightMagicAmplification(battle,attacker,effect);
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
   const counterRawBase=!reaction&&target.passive?.type==='received_damage_counter'&&attacker.team!==target.team?
-    Math.max(0,power*multiplier+flatSkillBonus+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*lunarMultiplier*normalMultiplier*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
-  const counterRaw=counterRawBase*stageMultiplier*encounterOffenseMultiplier(battle,attacker,target,actionContext);
+    Math.max(0,power*multiplier+flatSkillBonus+speedDamageBonus(attacker,effect.damageType,stat(battle,attacker,'speed',actionContext.automatic),effect.speedMultiplier??0))*lunarMultiplier*hitGrowthMultiplier*weaknessMultiplier*gearOutgoingMultiplier(battle,attacker,target,actionContext)*(1+trialOffenseBonus(battle,attacker))*bossFireMultiplier(attacker,effect)*(attacker.boss?.phases[attacker.bossState.phase-1].damageMultiplier??1)*Math.max(.1,1+skillDamageBonus(battle.content,attacker,target,actionContext.automatic,effect.damageType)+alteredDefenseBonus(battle.content,attacker,target)+(actionContext.sharedDamageBonus??0)+(effect.spentResourceDamageBonus??0)+exposureBonus+skillWeaknessDamageBonus+shieldedDamageBonus(battle,attacker)+debuffDamageBonus(attacker.passive,debuffTypeCount(battle.content,target))+buffDamageBonus(attacker.passive,buffTypeCount(battle.content,target))+intrinsic.damage+lowHpDamageBonus(attacker.passive,attacker.hp/attacker.stats.maxHp)+(actionContext.mortgageDamageBonus??0))*(actionContext.multiplier??1)*(attacker.passive?.type==='hp_difference_damage'?1+Math.min(attacker.passive.cap,Math.abs(attacker.hp/attacker.stats.maxHp-target.hp/target.stats.maxHp)):1):0;
+  const counterRaw=counterRawBase*stageMultiplier*encounterOffenseMultiplier(battle,attacker,target,actionContext)*critical.multiplier;
   let amount = Math.max(
     1,
     Math.floor(
@@ -1742,7 +1744,7 @@ function resolveHit(
             effect.damageType,
             stat(battle, attacker, "speed", actionContext.automatic),
             effect.speedMultiplier ?? 0,
-          )) * lunarMultiplier * normalMultiplier -
+          )) * lunarMultiplier  -
           defense * 0.55,
       ) * hitGrowthMultiplier * stageMultiplier *
         elementalResistance(target,effect) *
@@ -1762,6 +1764,7 @@ function resolveHit(
     ),
   );
   amount=Math.max(1,Math.floor(amount*encounterHitMultiplier(battle,attacker,target,actionContext)));
+  amount=Math.floor(amount*critical.multiplier);
   const cappedHit=applyPvpDamageCap(battle,attacker,target,amount,actionContext,area,modeIO);amount=cappedHit.amount;
   if (!reaction && attacker.team!==target.team && target.shield>0) actionContext.shieldedAllyHits.add(target.id);
   const maxHpRoute=routesToMaxHp(target,damageElements(effect));
@@ -1824,6 +1827,7 @@ function resolveHit(
     element: effect.element, ...(effect.additionalElements?{elements:damageElements(effect)}:{}),
     weakness,
     weaknessMultiplier,
+    ...(critical.critical?{critical:true,criticalMultiplier:critical.multiplier}:{}),
     damageType: effect.damageType,
     abilityId: actionContext.skillId ?? actionContext.skill?.id,
     area, reaction, hitIndex: actionContext.hitIndex ?? 0, ...(effect.to==='primary'?{primaryOnly:true}:{}),
@@ -1832,7 +1836,7 @@ function resolveHit(
   });
   write(
     battle,
-    `${attacker.name}${actionContext.moonlightCommanderId?" (hiệu lệnh của "+getActor(battle,actionContext.moonlightCommanderId)?.name+")":""} → ${target.name}: ${vitalityDamage} sát thương${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
+    `${attacker.name}${actionContext.moonlightCommanderId?" (hiệu lệnh của "+getActor(battle,actionContext.moonlightCommanderId)?.name+")":""} → ${target.name}: ${vitalityDamage} sát thương${critical.critical?", Bạo Kích":""}${life.maxHpLost ? ", trừ HP tối đa" : ""}${actionContext.hybrid ? ` ${DAMAGE_TYPE_NAMES[effect.damageType]}` : ""}${absorbed ? `, khiên chặn ${absorbed}` : ""}${weakness ? `, yếu ${weaknessReason} (+${Math.round((weaknessMultiplier - 1) * 100)}%)` : ""}.`,
   );
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeElementAllies(battle,attacker,actionContext,damageElements(effect));
   if(attacker.team!==target.team&&vitalityDamage+absorbed>0)chargeMagicSkillAllies(battle,attacker,effect,actionContext);

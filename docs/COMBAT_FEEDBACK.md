@@ -2,6 +2,10 @@
 
 Kết quả chiến đấu do engine giải quyết như trước. UI đọc sự kiện có cấu trúc, không phân tích battle log, không chọn mục tiêu lại, không dùng RNG. Không thay đổi save.
 
+## Bạo Kích
+
+Đọc critical từ damage event: số lớn hơn và “BẠO KÍCH!” ở trên, cả khi khiên chặn toàn bộ. Không thêm RNG, không lặp crit sang heal/né. Giảm chuyển động giữ số và nhãn rõ ràng. Xem [CRITICAL_DAMAGE](CRITICAL_DAMAGE.md).
+
 ## Nhịp hành động
 
 - Kỹ năng/đánh thường hiện tên trên người thi triển. Tấn công tiến 7px về phía đối phương; hỗ trợ nhấc 3px. Dùng `translate`, không thay bố cục.

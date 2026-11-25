@@ -7,7 +7,7 @@ import {createArenaBattle} from '../src/core/arena.js';
 import {resolveCharacter} from '../src/core/progression.js';
 import {craftGear} from '../src/core/gear-forge.js';
 import {damageFlags} from '../src/core/damage-kind.js';
-import {normalGearBaseMultiplier} from '../src/core/normal-damage-gear.js';
+import {criticalMultiplier} from '../src/core/critical.js';
 import {seededRandom} from '../src/core/random.js';
 import {validateContent} from '../src/core/content.js';
 const content=await loadContent();
@@ -32,17 +32,17 @@ test('recipes validate, forge with existing costs and T3, survive save/load and 
 });
 test('chance uses base stat, caps at 150, shares one roll per group/action and excludes Moon without rolling',()=>{
  const {b,a}=setup();attach(a,'martial_insight');let rolls=0;b.random=()=>{rolls++;return .4;};a.baseStats.attack=75;
- const ctx={};assert.equal(normalGearBaseMultiplier(b,a,hit(),ctx),1.5);assert.equal(normalGearBaseMultiplier(b,a,hit(),ctx),1.5);assert.equal(rolls,1);
- a.statuses=[{id:'anabel_command',stacks:1,remaining:6}];assert.equal(normalGearBaseMultiplier({...b,random:()=>.6},a,hit(),{}),1);
- a.baseStats.attack=150;assert.equal(normalGearBaseMultiplier(b,a,hit(),{}),1.5);assert.equal(rolls,1);
- a.baseStats.attack=1000;assert.equal(normalGearBaseMultiplier(b,a,hit(),{}),1.5);
- assert.equal(normalGearBaseMultiplier(b,a,hit({additionalElements:['moon']}),{}),1);assert.equal(rolls,1);
- a.baseStats.attack=0;assert.equal(normalGearBaseMultiplier(b,a,hit(),{}),1);assert.equal(rolls,1);
+ const ctx={};assert.equal(criticalMultiplier(b,a,hit(),ctx),1.5);assert.equal(criticalMultiplier(b,a,hit(),ctx),1.5);assert.equal(rolls,1);
+ a.statuses=[{id:'anabel_command',stacks:1,remaining:6}];assert.equal(criticalMultiplier({...b,random:()=>.6},a,hit(),{}),1);
+ a.baseStats.attack=150;assert.equal(criticalMultiplier(b,a,hit(),{}),1.5);assert.equal(rolls,1);
+ a.baseStats.attack=1000;assert.equal(criticalMultiplier(b,a,hit(),{}),1.5);
+ assert.equal(criticalMultiplier(b,a,hit({additionalElements:['moon']}),{}),1);assert.equal(rolls,1);
+ a.baseStats.attack=0;assert.equal(criticalMultiplier(b,a,hit(),{}),1);assert.equal(rolls,1);
 });
-test('new gear boosts before defense and coexists with strongest-only charged skill amp',()=>{
+test('critical multiplies after defense and charged amp as an independent stage',()=>{
  const {b,c,a,t}=setup();attach(a,'martial_insight');a.baseStats.attack=150;t.stats.defense=t.baseStats.defense=100;
  c.statuses.test_amp={id:'test_amp',name:'Thử',kind:'buff',persistent:true,damageUses:2,modifiers:{damageBonus:.3}};a.statuses=[{id:'test_amp',charges:2,remaining:null,stacks:1}];
- const id=skill(c,a,{effects:[hit()]});use(b,a,id,t);assert.equal(hits(b,a)[0].amount,Math.floor((150*1.5-55)*1.3));assert.equal(a.statuses.find(s=>s.id==='test_amp').charges,1);
+ const id=skill(c,a,{effects:[hit()]});use(b,a,id,t);assert.equal(hits(b,a)[0].amount,Math.floor(Math.floor((150-55)*1.3)*1.5));assert.equal(a.statuses.find(s=>s.id==='test_amp').charges,1);
 });
 test('AoE/multi-hit use one roll, while a second action rolls again; flags persist on shield hits',()=>{
  const {b,c,a,t}=setup();attach(a,'martial_insight');a.baseStats.attack=75;let count=0;b.random=()=>{count++;return count===1?.1:.9;};t.shield=10000;
@@ -53,8 +53,8 @@ test('mixed-affinity action classifies each hit and only the non-Moon packet rec
  const {b,c,a,t}=setup();attach(a,'martial_insight');a.baseStats.attack=150;const id=skill(c,a,{effects:[hit(),hit({additionalElements:['moon']})]});use(b,a,id,t);
  assert.deepEqual(hits(b,a).map(e=>[e.amount,e.normalDamage,e.effectDamage]),[[225,true,false],[150,false,true]]);
 });
-test('two different insights add base bonus; duplicate group cannot proc twice; MAG gear also works on ATK-scaled damage',()=>{
- const {b,c,a,t}=setup();a.baseStats.attack=a.baseStats.magic=150;attach(a,'martial_insight');attach(a,'martial_insight');attach(a,'arcane_insight');const id=skill(c,a,{effects:[hit()]});use(b,a,id,t);assert.equal(hits(b,a)[0].amount,300);
+test('two critical gears never double the multiplier; MAG chance also applies to ATK-scaled normal damage',()=>{
+ const {b,c,a,t}=setup();a.baseStats.attack=a.baseStats.magic=150;attach(a,'martial_insight');attach(a,'martial_insight');attach(a,'arcane_insight');const id=skill(c,a,{effects:[hit()]});use(b,a,id,t);assert.equal(hits(b,a)[0].amount,225);
  const broken=structuredClone(c);broken.gearEffects.arcane_insight.effect.atStat=0;assert.ok(validateContent(broken).some(s=>s.includes('arcane_insight')));
 });
 test('Moon conversion in an actual active blessing is classified after conversion and does not roll gear',()=>{
@@ -65,7 +65,7 @@ test('Moon conversion in an actual active blessing is classified after conversio
 });
 test('forecast never consumes live RNG or stores a live proc; rejected cast cannot roll or spend MP',()=>{
  const {b,c,a,t}=setup();attach(a,'martial_insight');a.baseStats.attack=75;const id=skill(c,a,{effects:[hit()],cost:{mp:10}});b.queue=[a.id,t.id];b.cursor=0;const state=b.random.getState(),mp=a.mp;
- const f=forecastBattleAction(b,{actorId:a.id,abilityId:id,targetId:t.id});assert.equal(b.random.getState(),state);assert.equal(a.mp,mp);assert.ok(f.events.some(e=>e.normalDamage));assert.equal(a.normalGearChecks,undefined);
+ const f=forecastBattleAction(b,{actorId:a.id,abilityId:id,targetId:t.id});assert.equal(b.random.getState(),state);assert.equal(a.mp,mp);assert.ok(f.events.some(e=>e.normalDamage));assert.equal(a.criticalChecks,undefined);
  a.mp=0;assert.throws(()=>executeAction(b,{actorId:a.id,abilityId:id,targetId:t.id}));assert.equal(b.random.getState(),state);
 });
 test('normal periodic damage gets base bonus per tick, keeps source potency snapshot and receives classification',()=>{

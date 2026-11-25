@@ -4,7 +4,7 @@ import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave} from '../src/core/game-save.js';
 import {createBattle,executeAction,getActor,forecastBattleAction} from '../src/core/battle.js';
 import {createArenaBattle} from '../src/core/arena.js';
-import {normalGearBaseMultiplier} from '../src/core/normal-damage-gear.js';
+import {criticalMultiplier} from '../src/core/critical.js';
 import {resolveCharacter} from '../src/core/progression.js';
 import {validateContent} from '../src/core/content.js';
 import {skillPresentation} from '../src/ui/skill-copy.js';
@@ -40,9 +40,9 @@ test('both Arena sides use the same flag policy, with no character exclusions or
    for(const gearId of gearIds)a.gearEffects.push(structuredClone(c.gearEffects[gearId]));
    a.baseStats={...a.stats,attack:75,magic:75};let rolls=0;const ctx={};
    const probe={...b,random:()=>{rolls++;return 0;}};
-   assert.equal(normalGearBaseMultiplier(probe,a,{element:'plain',normalDamage:true,effectDamage:true},ctx),1);
-   assert.equal(rolls,0);assert.equal(ctx.normalGearChecks,undefined);
-   assert.equal(normalGearBaseMultiplier(probe,a,{element:'plain',normalDamage:true},{}),2);assert.equal(rolls,2);
+   assert.equal(criticalMultiplier(probe,a,{element:'plain',additionalElements:['moon']},ctx),1);
+   assert.equal(rolls,0);assert.equal(ctx.criticalChecks,undefined);
+   assert.equal(criticalMultiplier(probe,a,{element:'plain',normalDamage:true},{}),1.5);assert.equal(rolls,1);
   }
  }
 });
@@ -50,28 +50,21 @@ test('forecast honors Moon flags; unconditional +20 percent stat remains an ordi
  for(const id of ['flynn','bianca'])for(const gearId of gearIds){
   const b=fixture(id,gearId,true),a=getActor(b,id);b.queue=[id,'enemy_0'];b.cursor=0;
   const f=forecastBattleAction(b,{actorId:id,abilityId:'$attack',targetId:'enemy_0'}),control=fixture(id,null,true);cast(control,id,'$attack');assert.deepEqual(sample(f,id),sample(control,id));
-  const copy=skillPresentation(c.abilities[id==='flynn'?'flynn.burst':'bianca.harvest'],a,c);assert.ok(copy.facts.some(s=>s.includes('chỉ đòn thuần sát thương thường')));
+  const copy=skillPresentation(c.abilities[id==='flynn'?'flynn.burst':'bianca.harvest'],a,c);assert.ok(!copy.facts.some(s=>s.includes('Ấn Võ Tâm')||s.includes('Ấn Thuật Tâm')));
   const s=save(id),key=gearId==='martial_insight'?'attack':'magic';const before=resolveCharacter(c,s,id).stats[key];s.craftedGearSerial=1;s.gear.push({id:'rune_1',typeId:'t4_effect',effectId:gearId,stats:{}});s.equipment[id]=['rune_1',null,null];assert.ok(Math.abs(resolveCharacter(c,s,id).stats[key]-before*1.2)<1e-8);
  }
 });
 test('ordinary eligible characters still proc; recipes cannot reintroduce a character blocklist',()=>{
- const a={id:'arthur',characterId:'arthur',stats:{attack:150,magic:150},gearEffects:[structuredClone(c.gearEffects.martial_insight)]};assert.equal(normalGearBaseMultiplier({random:()=>0},a,{element:'plain'},{}),1.5);
+ const a={id:'arthur',characterId:'arthur',stats:{attack:150,magic:150},gearEffects:[structuredClone(c.gearEffects.martial_insight)]};assert.equal(criticalMultiplier({random:()=>0},a,{element:'plain'},{}),1.5);
  for(const ids of [['missing_character'],['flynn','flynn']]){const bad=structuredClone(c);bad.gearEffects.martial_insight.effect.excludedCharacterIds=ids;assert.ok(validateContent(bad).some(s=>s.includes('martial_insight')));}
 });
 
-test('any other active damage flag blocks proc, including future flags and conflicting normalDamage=true',()=>{
+test('Moon alone classifies effect damage; stale or future annotations cannot create another category',()=>{
  const a={id:'future_unit',stats:{attack:150,magic:150},gearEffects:gearIds.map(id=>structuredClone(c.gearEffects[id]))};
  let rolls=0;const b={random:()=>{rolls++;return 0;}};
- for(const packet of [
-  {normalDamage:true,effectDamage:true},
-  {normalDamage:true,futureDamage:true},
-  {normalDamage:true,damageFlags:{otherKind:true}},
-  {damageFlags:{normalDamage:true,trueDamage:true}},
-  {normalDamage:false},
-  {element:'plain',additionalElements:['moon'],normalDamage:true},
- ]){assert.equal(isOnlyNormalDamage(packet),false);const ctx={};assert.equal(normalGearBaseMultiplier(b,a,packet,ctx),1);assert.equal(ctx.normalGearChecks,undefined);}
+ for(const packet of [{element:'moon'},{element:'plain',additionalElements:['moon'],normalDamage:true}]){assert.equal(isOnlyNormalDamage(packet),false);const ctx={};assert.equal(criticalMultiplier(b,a,packet,ctx),1);assert.equal(ctx.criticalChecks,undefined);}
  assert.equal(rolls,0);
- for(const packet of [{element:'plain'}, {normalDamage:true,effectDamage:false,futureDamage:false},{normalDamage:true,area:true,reaction:true,automatic:true}])assert.equal(normalGearBaseMultiplier(b,a,packet,{}),2);
+ for(const packet of [{element:'plain'},{normalDamage:true,effectDamage:true},{normalDamage:true,futureDamage:true},{normalDamage:false},{normalDamage:true,damageFlags:{otherKind:true}},{normalDamage:true,area:true,reaction:true,automatic:true}])assert.equal(criticalMultiplier(b,a,packet,{}),1.5);
  assert.deepEqual(damageFlags({normalDamage:true,futureDamage:true}),{normalDamage:true,futureDamage:true,effectDamage:false});
 });
 
@@ -83,5 +76,5 @@ test('engine preserves explicit and future damage flags through hit and event, i
   {type:'damage',damageType:'magical',element:'earth',scalingStat:'magic',multiplier:1,normalDamage:true,effectDamage:true},
   {type:'damage',damageType:'magical',element:'earth',scalingStat:'magic',multiplier:1,normalDamage:true,damageFlags:{futureKind:true}}
  ]};a.abilities.push(id);cast(b,'bianca',id);
- const hits=b.events.filter(e=>e.type==='damage'&&e.sourceId===a.id);assert.deepEqual(hits.map(h=>h.amount),[225,150,150]);assert.equal(hits[1].effectDamage,true);assert.equal(hits[2].futureKind,true);assert.equal(hits[2].damageFlags.futureKind,true);assert.equal(isOnlyNormalDamage(hits[2]),false);
+ const hits=b.events.filter(e=>e.type==='damage'&&e.sourceId===a.id);assert.deepEqual(hits.map(h=>h.amount),[225,225,225]);assert.equal(hits[1].effectDamage,false);assert.equal(hits[2].futureKind,true);assert.equal(hits[2].damageFlags.futureKind,true);assert.equal(isOnlyNormalDamage(hits[2]),true);
 });

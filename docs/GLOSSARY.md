@@ -27,6 +27,8 @@ Lampkeeper = **Người Giữ Đèn**, đội dân quân tự vệ tự phong c�
 | Hồi sinh | effect `revive` trên toàn đội: người đã gục trở lại đầy HP/MP và **sạch toàn bộ status** (kể cả Vết Thương Sâu); người còn sống chỉ được xóa Kế Ước Thế Chấp, giữ Vết Thương Sâu; không hành động trong vòng hiện tại; VFX dùng chung |
 | Phòng thủ | $defend: giảm 40% damage theo status và hồi 5% maxMP bản thân, ceil/capped |
 | Lượt Thêm / Vòng Phụ | quyền một người / pha extra của vòng; không phải đẩy ngay lên đầu queue |
+| Sát thương thường / sát thương hiệu ứng | normalDamage / effectDamage: đòn không mang Nguyệt / đòn mang Nguyệt ở hệ chính hoặc phụ |
+| Bạo Kích (CRIT) | lớp nhân1,5 dành cho sát thương thường; tỷ lệ theo ATK/MAG căn bản từ hai Ấn, không phải Hội Tâm hoặc nhóm damage amp lấy lớn nhất; xem [đặc tả](CRITICAL_DAMAGE.md) |
 | Hội Tâm | true strike / bypassEvasion / unavoidable: bỏ né, không phải chí mạng |
 | Khai Phá Điểm Yếu | weakness_exploitation: thay× 1,5 thành× 2 khi thật sự đánh điểm yếu |
 | Sơ Hở nguyên tố | exposure_*: debuff tạo weakness và tiêu stack theo cast |

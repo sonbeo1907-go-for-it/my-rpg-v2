@@ -296,7 +296,6 @@ export function skillPresentation(skill,actor,content,choices={}) {
   if(skill.requiresResource)facts.push('Cần '+skill.requiresResource.min+' '+resourceName(actor,skill.requiresResource.id)+' · không tiêu tầng');
   if(skill.requiresMode)rules.push('Chỉ dùng khi '+actor.combatModes[skill.requiresMode].name+' hiện diện.');
   for(const gear of actor.gearEffects??[]){const t=gear.effect.type;
-    if(t==='normal_damage_chance'&&skill.effects.some(e=>e.type==='damage'))facts.push(gear.name+': chỉ đòn thuần sát thương thường có cơ hội +50% sát thương cơ sở · đạt 100% ở 150 '+(gear.effect.stat==='attack'?'ATK':'MAG')+' căn bản');
     if(t==='paid_mp_damage'&&!skill.id.startsWith('$')&&skill.effects.some(e=>e.type==='damage'))facts.push(gear.name+': +'+pct(gear.effect.ratio)+' sát thương mỗi '+gear.effect.perMp+' MP thực tiêu · tối đa '+pct(gear.effect.cap)+'/chiêu');
     if(t==='defend_mp_share'&&skill.id==='$defend')facts.push(gear.name+': chia lượng MP thực hồi cho đồng đội khác · 1 lần/vòng/đội');
   }

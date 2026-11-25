@@ -1,5 +1,7 @@
 # Điều chỉnh kỹ năng và sát thương — 25/11/2026
 
+> Lịch sử: phần phân loại, quy tắc cờ phụ và hai Ấn đã được thay bằng [CRITICAL_DAMAGE](CRITICAL_DAMAGE.md) ngày25/11/2026. Không dùng các mô tả tăng cơ sở/cộng hai Ấn dưới đây làm luật hiện hành.
+
 ## Kỹ năng và đồng hồ
 
 | Kỹ năng | CD mới |

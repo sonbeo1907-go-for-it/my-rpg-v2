@@ -510,3 +510,7 @@
 @keyframes anabel-radiance{0%{opacity:0;scale:.55}32%{opacity:1;scale:1}70%{opacity:.8}100%{opacity:0;scale:1.15}}
 @keyframes anabel-contact{0%{opacity:1;scale:.45}60%{opacity:.7}100%{opacity:0;scale:1.6}}
 @media(prefers-reduced-motion:reduce){.anabel-glyph *{animation:none!important;filter:none!important;translate:none!important;scale:1!important}.anabel-contact{opacity:.5}.anabel-aura{opacity:.2}}
+
+/* Critical is a resolved outcome: one gold label above a larger number. */
+.shared-combat-fx.critical-hit .vfx-number{font-size:clamp(1.15rem,2.5vw,2.05rem);line-height:1.05;color:#ffe09a}
+.critical-label{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);margin-bottom:.3rem;font-family:var(--font-sans,Arial,sans-serif);font-size:.7rem;line-height:1.2;font-weight:800;letter-spacing:.025em;color:#ffe9b6}
