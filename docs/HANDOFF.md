@@ -307,3 +307,5 @@ Năm file tournament_* mới đã gắn: menu/luật/shop vòng bảng dùng fir
 - 26/11/2026: [Thảo Phạt Phương Bắc](NORTH_HUNTS.md) — hai nhiệm vụ Lv50 sau Orochi, cảnh nền tuyết; [nguồn gear](GEAR_EFFECT_UNLOCK_PLAN_2026_11_26.md) đã áp: Truy Nã/Senya/Khúc Ca 12 điểm/Phương Bắc.
 
 - BGM Phương Bắc đã sửa: north_ke_01 dùng drageshelmfjall (bt1/bt2), north_ke_02 dùng drageshelmfjall_boss. Cảnh chờ vẫn dùng home_snow_town.
+
+- 27/11/2026 — Sửa Nicole: Xin Kể Thêm Một Lần hồi MP tăng cùng hệ số hồi HP theo Rank; R5 là43,923% MP tối đa, gấp đôi thành87,846% ở Trăng Tàn. Resolver áp vào resource MP theo maxMpRatio trong kỹ năng có nhóm tăng trưởng heal; nguồn MP cố định khác giữ nguyên. Không đổi thời hạn/CD. Theo yêu cầu người dùng: không chạy test, không build.

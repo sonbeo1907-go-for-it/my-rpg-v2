@@ -18,7 +18,7 @@ Nội tại Cổ Tích Chưa Khép Lại: khi Nguyệt Nhật Hỗn Mang hoạt 
 | Nét Mực Còn Hy Vọng |15MP/CD1| Đánh Thủy120% MAG một địch; đồng đội Thủy/Hỏa +45% MAG3 lượt chính | Cùng đòn; địch chọn nhận2 Sơ Hở Hỏa; **chọn riêng một đồng đội** nhận Khai Phá Điểm Yếu3 lượt chính |
 | Xin Kể Thêm Một Lần |40MP/CD3| Giải toàn bộ debuff, hồi30% HP tối đa/30% MP tối đa, kéo dài buff còn thời hạn1 lượt | Như bình thường |
 
-Riêng hồi phục ở **Trăng Tàn đang hoạt động**: HP/MP thành60%, kéo dài2 lượt. Không nhân đôi chỉ vì chưa có Chúc Phúc. Heal qua hệ giảm hồi/nợ HP/gear bình thường; lượng MP không tăng theo Rank. Heal và khiên +10% mỗi Rank; stat buff +5%; utility không tăng. Khi chọn sai/đã gục người nhận thứ hai, từ chối trước mọi chi phí và effect. AI và forecast dùng cùng command allyTargetId; không đoán người nhận hộ người chơi. Có thể chọn bản thân.
+Riêng hồi phục ở **Trăng Tàn đang hoạt động**: HP/MP thành60%, kéo dài2 lượt. Không nhân đôi chỉ vì chưa có Chúc Phúc. Heal qua hệ giảm hồi/nợ HP/gear bình thường; lượng MP hồi của Xin Kể Thêm Một Lần tăng cùng hệ số hồi HP theo Rank (R5:43,923%, Trăng Tàn87,846%). Hồi HP/MP và khiên +10% mỗi Rank; stat buff +5%; utility không tăng. Khi chọn sai/đã gục người nhận thứ hai, từ chối trước mọi chi phí và effect. AI và forecast dùng cùng command allyTargetId; không đoán người nhận hộ người chơi. Có thể chọn bản thân.
 
 Kéo dài buff không thêm charge, không kéo dài Hộ Ấn, buff theo số đòn, status persistent, mode, Sân Khấu, Chúc Phúc hoặc đồng hồ Trăng Tàn của Maria. Với status đếm vòng, dịch cả remaining và deadline; đồng hồ lượt chính/mọi lượt giữ loại gốc. Không hồi sinh người gục. Phong Ấn chặn buff riêng; Hộ Ấn chặn từng debuff theo engine.
 
