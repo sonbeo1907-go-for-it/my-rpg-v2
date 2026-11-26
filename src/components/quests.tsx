@@ -36,6 +36,7 @@ export function QuestPage() {
   const [filters, setFilters] = useRouteFilters();
   const tab = questCategory(filters);
   const sinisterLocked = tab === "sinister" && !campaign.storyFlags.includes(SINISTER_UNLOCK_FLAG)&&!campaign.chronicles?.aliceFirstEncounterCleared&&!campaign.chronicles?.books?.book2?.finaleCleared;
+  const northLocked=tab==='north'&&!campaign.claimedFirstClearRewards.includes('east_ke_08');
   const bountyLocked=tab==="bounty"&&!bountyUnlocked(campaign);
   const encounters: any[] = questCatalog(content, campaign, filters);
   const hasGreatYokai=tab==='east'&&eastSuperUnlocked(campaign);
@@ -43,7 +44,7 @@ export function QuestPage() {
     encounters.find((encounter) => encounter.id === filters.selected) ??
     encounters[0];
   const fixedDifficulty=Boolean(selected?.fixedEnemyLevel);
-  const difficultyScope=fixedDifficulty?[selected.defaultDifficulty]:(selected?.allowedDifficulties??Object.keys(content.progressionRules.default.questDifficulties).filter((key)=>!key.startsWith('east_')));
+  const difficultyScope=fixedDifficulty?[selected.defaultDifficulty]:(selected?.allowedDifficulties??Object.keys(content.progressionRules.default.questDifficulties).filter((key)=>!/^(east|north)_/.test(key)));
   const difficultyId=Object.hasOwn(content.progressionRules.default.questDifficulties,filters.difficulty)&&difficultyScope.includes(filters.difficulty)?filters.difficulty:selected?.defaultDifficulty;
   let difficulty:any=null;
   if(selected){
@@ -83,11 +84,11 @@ export function QuestPage() {
           →
         </Link>
       )}
-      <WideTabs className="quest-category-tabs" label="Danh mục nhiệm vụ" active={tab} tabs={[{id:'extermination',label:'Thảo Phạt'},{id:'bounty',label:'Truy Nã'},{id:'east',label:'Thảo Phạt Phương Đông'},{id:'sinister',label:'Hiểm Ác'},{id:'trial',label:'Khúc Ca Ngoài Sử Sách'}]} onChange={changeTab}/>
+      <WideTabs className="quest-category-tabs" label="Danh mục nhiệm vụ" active={tab} tabs={[{id:'extermination',label:'Thảo Phạt'},{id:'bounty',label:'Truy Nã'},{id:'east',label:'Thảo Phạt Phương Đông'},{id:'north',label:'Thảo Phạt Phương Bắc'},{id:'sinister',label:'Hiểm Ác'},{id:'trial',label:'Khúc Ca Ngoài Sử Sách'}]} onChange={changeTab}/>
       <QuestLayout>
         <QuestIllustration
-          art={selected?.category==='east_super'?`/art/yokai-${content.enemies[selected.enemies[0]].bossArt==='thunder'?'twins':content.enemies[selected.enemies[0]].bossArt}.svg`:tab === "trial" ? (selected ? "/art/song-"+selected.trialId+".svg" : "/art/song-chimera.svg") : tab === "east" ? "/art/quest-east.svg" : tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
-          header={selected?.trialId?<span className="quest-fixed-difficulty">Biên Niên Ký · Ba siêu trùm · Điều kiện tùy chọn</span>:selected?.superLevels?<section className="quest-difficulty-selector" aria-label="Cấp thử thách"><strong>Cấp thử thách</strong><div className="quest-difficulty-buttons">{selected.superLevels.map((level:number)=><button key={level} aria-pressed={selectedLevel===level} className={selectedLevel===level?'active':''} onClick={()=>setFilters({...filters,superLevel:String(level)})}>Level {level}</button>)}</div><p>{selected.rewardPolicy==='none'?'Thử thách tùy chọn · Không cấp tiền tệ hoặc EXP.':'Các cấp thử thách dùng chung phần thưởng.'}</p></section>:fixedDifficulty?<section className="quest-difficulty-selector" aria-label="Cấp cố định"><strong>Cấp cố định · Level {selectedLevel}</strong><p>Key Event Phương Đông không cho chọn độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty?.id)}/></section>:difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{difficultyOptions.map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
+          art={tab==='north'?(selected?.id==='north_ke_02'?'/art/home-snow-town.svg':'/art/quest-north.svg'):selected?.category==='east_super'?`/art/yokai-${content.enemies[selected.enemies[0]].bossArt==='thunder'?'twins':content.enemies[selected.enemies[0]].bossArt}.svg`:tab === "trial" ? (selected ? "/art/song-"+selected.trialId+".svg" : "/art/song-chimera.svg") : tab === "east" ? "/art/quest-east.svg" : tab === "bounty" ? "/art/quest-bounty.svg" : tab === "sinister" ? "/art/quest-sinister.svg" : "/art/quest-extermination.svg"}
+          header={selected?.trialId?<span className="quest-fixed-difficulty">Biên Niên Ký · Ba siêu trùm · Điều kiện tùy chọn</span>:selected?.superLevels?<section className="quest-difficulty-selector" aria-label="Cấp thử thách"><strong>Cấp thử thách</strong><div className="quest-difficulty-buttons">{selected.superLevels.map((level:number)=><button key={level} aria-pressed={selectedLevel===level} className={selectedLevel===level?'active':''} onClick={()=>setFilters({...filters,superLevel:String(level)})}>Level {level}</button>)}</div><p>{selected.rewardPolicy==='none'?'Thử thách tùy chọn · Không cấp tiền tệ hoặc EXP.':'Các cấp thử thách dùng chung phần thưởng.'}</p></section>:fixedDifficulty?<section className="quest-difficulty-selector" aria-label="Cấp cố định"><strong>Cấp cố định · Level {selectedLevel}</strong><p>Nhiệm vụ chính dùng cấp cố định.</p><XpCapWarning amount={questExperience(content,selected,difficulty?.id)}/></section>:difficulty?<section className="quest-difficulty-selector" aria-label="Độ khó nhiệm vụ"><div><strong>Độ khó · Level {difficulty.level}</strong><span>+{questExperience(content,selected,difficulty.id)} XP / người tham chiến</span></div><div className="quest-difficulty-buttons">{difficultyOptions.map(([key,d]:any)=><button key={key} aria-pressed={difficulty.id===key} className={difficulty.id===key?"active":""} onClick={()=>setFilters({...filters,difficulty:key})}>{d.name}<small>Level {d.level}</small></button>)}</div><p>Thưởng lần đầu dùng chung giữa mọi độ khó.</p><XpCapWarning amount={questExperience(content,selected,difficulty.id)}/></section>:<span className="quest-fixed-difficulty">Thử thách đặc biệt</span>}
         >
           <span className="eyebrow">{tab === "bounty" ? "NHỮNG KHẾ ƯỚC TRÊN BẢNG TRUY NÃ" : tab === "sinister" ? "SAU CÁNH CỬA KHÔNG ÁNH SÁNG" : tab === "east" ? "NHỮNG BẾN BỜ PHƯƠNG ĐÔNG" : "NHỮNG NẺO ĐƯỜNG PHƯƠNG BẮC"}</span>
           <h2>{selected?.name ?? (bountyLocked ? "Lời mời của Hội Thợ Săn" : sinisterLocked ? "Cánh cửa chưa thức giấc" : "Những miền đất chưa biết")}</h2>
@@ -107,12 +108,12 @@ export function QuestPage() {
           )}
         </QuestIllustration>
         <section className="quest-board">
-          {sinisterLocked || bountyLocked ? (
+          {sinisterLocked || bountyLocked || northLocked ? (
             <div className="quest-locked" role="status">
               <span className="quest-locked-seal"><Icon name="door" /></span>
               <span className="eyebrow">CHƯA KHAI MỞ</span>
-              <h2>{bountyLocked?"Chưa nhận khế ước truy nã":"Hiểm họa chưa khai mở"}</h2>
-              {bountyLocked?<><p>Hoàn thành toàn bộ câu chuyện lữ hành của Iris, Takeshi và Fiona để mở Truy Nã.</p><Link href="/stories">Đến Câu Chuyện Lữ Hành →</Link></>:<p>Điều kiện mở khóa sẽ được bổ sung trong bản cập nhật sau.</p>}
+              <h2>{northLocked?"Đường lên miền tuyết chưa mở":bountyLocked?"Chưa nhận khế ước truy nã":"Hiểm họa chưa khai mở"}</h2>
+              {northLocked?<><p>Đánh bại Yamata no Orochi để mở hành trình đến Drageshelmfjall.</p><Link href="/quests?tab=east&selected=east_ke_08">Đến Thảo Phạt Phương Đông →</Link></>:bountyLocked?<><p>Hoàn thành toàn bộ câu chuyện lữ hành của Iris, Takeshi và Fiona để mở Truy Nã.</p><Link href="/stories">Đến Câu Chuyện Lữ Hành →</Link></>:<p>Điều kiện mở khóa sẽ được bổ sung trong bản cập nhật sau.</p>}
             </div>
           ) : <>
 
@@ -171,7 +172,7 @@ export function QuestPage() {
                 <span className="quest-card-icon">
                   <Icon
                     name={
-                      encounter.category === "east_key"
+                      ["east_key","north_key"].includes(encounter.category)
                         ? "key"
                         : encounterTier(encounter) === "super"
                           ? "skull"
@@ -204,14 +205,14 @@ export function QuestPage() {
           </div>
           {selected && (
             <div className="quest-details">
-              <h3>Đối thủ</h3>
+              <h3>Đối thủ</h3>{selected.category==='north_key'&&<p className="muted">{selected.waves.length} đợt · Giữ HP và MP giữa các đợt.{selected.id==='north_ke_02'&&' Thưởng lần đầu: thêm cảnh nền Thị Trấn Dưới Tuyết.'}</p>}
               <div className="quest-enemies">
                 {selected.enemies.map((id: string, index: number) => {
                   const template=content.enemies[id],enemy={...template,stats:levelScaledEnemyStats(template,selectedLevel,content,1,selected)};
                   return (
                     <div key={`${id}-${index}`}>
                       <ElementBadge element={enemy.element} />
-                      <strong>{enemy.name}</strong>
+                      <strong>{enemy.name}</strong>{enemy.damageKindMultipliers&&<small>Nhận 70% sát thương thường · 110% sát thương hiệu ứng</small>}
                       <small>
                         Level {selectedLevel} · HP {enemy.stats.maxHp} · Yếu:{" "}
                         {[...(enemy.weaknesses??[]).map((element:string)=>(ELEMENT_NAMES as any)[element]),...(enemy.damageTypeWeaknesses??[]).map((type:string)=>(DAMAGE_TYPE_NAMES as any)[type])].join(", ") ||

@@ -13,3 +13,5 @@ export function copyDamageFlags(source) {
  const flags=damageFlags(source);
  return {...flags,damageFlags:{...flags}};
 }
+
+export function incomingDamageKindMultiplier(target,effect){return target.damageKindMultipliers?.[damageFlags(effect).effectDamage?'effectDamage':'normalDamage']??1;}

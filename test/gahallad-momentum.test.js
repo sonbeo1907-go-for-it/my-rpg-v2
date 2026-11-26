@@ -94,7 +94,8 @@ test('a reaction can spend the next-attack multiplier once without changing ordi
   battle.random = () => 0;
   use(battle, actor.id, 'takeshi.stance');
   use(battle, 'enemy_0', '$attack', actor.id);
-  assert.equal(battle.events.find(event => event.sourceId === actor.id && event.type === 'damage').amount, 64);
+  assert.equal(battle.events.find(event => event.sourceId === actor.id && event.type === 'damage').amount, 96);
+  assert.equal(battle.events.find(event => event.sourceId === actor.id && event.type === 'damage').critical, true);
   assert.equal(ready(battle, actor.id).length, 0);
   assert.equal(actor.resourceValues.opening, 1);
 });

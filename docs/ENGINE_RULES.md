@@ -61,7 +61,7 @@ Magnamut: kết thúc ở resource 0 tại đầu lượt/ cuối vòng; đầu 
 
 ## Phân loại sát thương — 25/11/2026
 
-Đòn mang Nguyệt chính/phụ là effectDamage; mọi đòn khác là normalDamage, kể cả Hồn Kiếm. Chuẩn hóa sau mọi đổi hệ, độc lập metadata/cờ phụ. Hai Ấn dùng lớp Bạo Kích ×1,5 chỉ cho sát thương thường, sau phòng thủ/khuếch đại và trước soft cap PvP; nếu mang cả hai lấy tỷ lệ cao hơn, không nhân chồng. Xem [quy tắc hiện hành](CRITICAL_DAMAGE.md).
+Đòn mang Nguyệt chính/phụ là effectDamage; mọi đòn khác là normalDamage, kể cả Hồn Kiếm. Chuẩn hóa sau mọi đổi hệ, độc lập metadata/cờ phụ. Sát thương thường trúng điểm yếu cộng 15% tỷ lệ Crit (tổng tối đa 100%); cache chung roll, kết quả theo từng hit/mục tiêu. Hai Ấn dùng lớp Bạo Kích ×1,5 chỉ cho sát thương thường, sau phòng thủ/khuếch đại và trước soft cap PvP; nếu mang cả hai lấy tỷ lệ cao hơn, không nhân chồng. Xem [quy tắc hiện hành](CRITICAL_DAMAGE.md).
 
 ## Presentation và giao dịch
 
@@ -110,3 +110,13 @@ Nguyệt Nhật Hỗn Mang: thứ tự hiện hành **waxing1 → full2 → wani
 ## Thống kê đóng góp / Khu Luyện Tập
 
 Đòn Chúc Phúc được ra lệnh giữ sourceId nguồn Chúc Phúc và thêm commanderId ở event/context. Log phải ghi người ra lệnh; chỉ attribution thống kê đổi sang commander, không đổi nguồn combat/gear/passive. Pulse tự động không thừa hưởng commander. Đếm từ event thực, không parse log hay cộng phần hiệu lệnh hai lần. Giữ snapshot nguồn khiên trước phản ứng phá khiên. Xem [TRAINING_GROUND](TRAINING_GROUND.md).
+
+## Chỉ số trang nhân vật — 26/11/2026
+
+Tổng Quan và Cấp Độ dùng helper UI characterBaseStats với nền gốc + phân bổ + dòng gear flat. Tổng sau hiệu ứng ở trong ngoặc cạnh số chính, chi tiết nguồn ở mục mở rộng. So sánh trang bị, tooltip kỹ năng và chiến đấu tiếp tục dùng resolveCharacter; không đổi baseStatValue hay công thức Crit. Xem quy tắc hiển thị cập nhật bên dưới.
+
+### Phương Bắc và nguồn công thức (26/11/2026)
+`north_key` dùng cùng story-wave carry/reward protocol như `east_key`, nhưng thuộc tab riêng. Hai nhiệm vụ đầu cố định Lv50, mở sau Orochi. `damageKindMultipliers` là hệ số nhận normalDamage/effectDamage độc lập damageType, dùng sau phòng thủ trước Crit/cap. Công thức có thể yêu cầu `anyBounty:true` hoặc `trialScore:{encounterId,minimum:12}`; kiểm tra trên thành tích lưu, không xóa đồ đã rèn. Xem NORTH_HUNTS.md và GEAR_EFFECT_UNLOCK_PLAN_2026_11_26.md.
+
+### Hiển thị chỉ số nhân vật — cập nhật 26/11/2026
+Số chính ở Tổng Quan và preview phân bổ = chỉ số gốc + điểm phân bổ + dòng flat của gear đang trang bị (bao gồm roll flat Trấn). Số sau hiệu ứng ở ngoặc là kết quả resolveCharacter đang chuẩn bị; không cộng lại vào số chính. Không lấy actor.gearBonuses làm tổng flat vì field đó còn chứa đóng góp gear %. Không đổi baseStatValue, resolver hay công thức combat.

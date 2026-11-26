@@ -1,3 +1,4 @@
+import {northAbilities,northEnemies,northEncounters,northMusic} from '../core/north-campaign.js';
 import moonlightBlessings from '../../data/moonlightBlessings.json';
 import {eastSuperAbilities,eastSuperEnemies,eastSuperEncounters,eastSuperStatuses,eastSuperMusic} from '../core/east-superbosses.js';
 import trials from '../../data/trials.json';
@@ -35,15 +36,15 @@ export function getContent(): any {
     tournaments,tournamentTeams,tournamentBuilds,tournamentScenes,tournamentRewards,
     progressionRules,
     characters,
-    abilities:[...abilities,...eastBossAbilities,...eastSuperAbilities],
+    abilities:[...northAbilities, ...abilities,...eastBossAbilities,...eastSuperAbilities],
     statuses:[...statuses,...eastSuperStatuses],
     upgrades,
-    enemies:[...enemies,...eastEnemies,...eastSuperEnemies],
-    encounters:[...encounters,...eastEncounters,...eastSuperEncounters],
+    enemies:[...northEnemies, ...enemies,...eastEnemies,...eastSuperEnemies],
+    encounters:[...northEncounters, ...encounters,...eastEncounters,...eastSuperEncounters],
     economy,
     gearTypes,
     banners,
-    music:[...music,...eastMusic,...eastSuperMusic],
+    music:[...northMusic, ...music,...eastMusic,...eastSuperMusic],
     dungeons,
     blacksmith,
     exclusiveGear,

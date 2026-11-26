@@ -34,7 +34,7 @@ test('one roll covers all normal multi-hit AoE targets; Moon packets never inher
  const hits=b.events.filter(e=>e.type==='damage');assert.equal(hits.length,9);assert.ok(hits.filter(e=>e.normalDamage).every(e=>e.critical&&e.amount===112));assert.ok(hits.filter(e=>e.effectDamage).every(e=>!e.critical&&e.amount===75));assert.equal(rolls,1);
 });
 test('Moon skips critical RNG; normal reactions and magic can use either chance source',()=>{
- const {b,a}=setup();attach(a,'arcane_insight');a.baseStats.magic=75;let rolls=0;const probe={...b,random:()=>{rolls++;return 0;}},ctx={};assert.equal(resolveCritical(probe,a,hit({additionalElements:['moon']}),ctx).critical,false);assert.equal(rolls,0);assert.equal(ctx.criticalChecks,undefined);
+ const {b,a}=setup();attach(a,'arcane_insight');a.baseStats.magic=75;let rolls=0;const probe={...b,random:()=>{rolls++;return 0;}},ctx={};assert.equal(resolveCritical(probe,a,hit({additionalElements:['moon']}),ctx).critical,false);assert.equal(rolls,0);assert.equal(ctx.criticalRolls,undefined);
  assert.equal(resolveCritical(probe,a,hit({damageType:'magical'}),{}).critical,true);assert.equal(resolveCritical(probe,a,hit(),{reaction:true}).critical,true);assert.equal(rolls,2);
 });
 test('shield-only critical impacts retain the label and timeline metadata; no fake HP damage is added',()=>{

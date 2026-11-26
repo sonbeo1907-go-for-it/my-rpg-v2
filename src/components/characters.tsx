@@ -14,6 +14,7 @@ import {FortressPartyPage} from './fortress-party';
 import { ExclusiveSlot } from "./exclusive-equipment";
 import { characterCatalog, affiliationLabel } from "../core/catalog.js";
 import { resolveCharacter } from "../core/progression.js";
+import {characterBaseStats} from "../ui/character-base-stats.js";
 import {
   selectPreset,
   changePresetSlot,
@@ -198,12 +199,11 @@ export function CharacterDetail({ id }: { id: string }) {
           <p className="muted">{affiliationLabel(actor.affiliation)}</p>
           <p>{actor.description}</p>
           {actor.biography && <RulesDisclosure title="Bối cảnh nhân vật"><p>{actor.biography}</p></RulesDisclosure>}
-          <StatGrid actor={actor} showGearBonuses />
+          <h3>Chỉ số căn bản</h3>
+          <div data-character-base-stats><StatGrid actor={{stats:characterBaseStats(content,id,campaign.characters[id],campaign),levelBonuses:actor.levelBonuses}} adjustedStats={actor.stats} showAllocationBonuses /></div>
+          <p className="stat-breakdown-note">Đã gồm phân bổ và chỉ số cộng thẳng từ trang bị. Trong ngoặc: chỉ số sau hiệu ứng.</p>
+          <RulesDisclosure title="Chỉ số sau trang bị và nội tại"><div data-character-prepared-stats><StatGrid actor={actor} showGearBonuses /></div></RulesDisclosure>
           <ExclusiveSlot characterId={id}/>
-          <p className="stat-breakdown-note">
-            Chỉ số trên đã bao gồm trang bị, đội hình và nội tại. Phần cộng từ
-            trang bị hiển thị trước các hiệu ứng tăng theo phần trăm.
-          </p>
           <PassiveBody actor={actor} content={content}/>
           {actor.teamBonusSources?.length > 0 && (
             <p className="muted">
@@ -231,7 +231,7 @@ export function CharacterDetail({ id }: { id: string }) {
         </div>
         <p>Hệ số theo tiến trình và chỉ số chuẩn bị hiện tại.</p>
       </div>
-      <RulesDisclosure title="Quy ước chiến đấu"><div className="character-copy-guide"><p>ATK/MAG quyết định sức mạnh; đòn vật lí tính DEF, phép tính RES. Hệ số sát thương hiển thị trước phòng thủ và điểm yếu.</p><p>Đòn mang Nguyệt là sát thương hiệu ứng; các đòn khác là sát thương thường. Bạo Kích tăng 50% sát thương thường.</p><p>Lượt chính là lượt chính của người mang hiệu ứng; Lượt Thêm không giảm thời hạn này. Hiệu ứng ghi “lượt” có thể tính cả Lượt Thêm. Vòng gồm Vòng Chính và Vòng Phụ; giới hạn mỗi vòng dùng chung cả hai.</p><p>Hồi HP/MP không vượt tối đa; hồi MP theo tỷ lệ làm tròn lên. Khiên không cộng dồn, giữ khiên mạnh hơn. Hiệu ứng cùng tên làm mới; chỉ cộng tầng khi có ghi rõ. Buff khuếch đại sát thương lấy mức cao nhất đủ điều kiện; các lần dùng hợp lệ vẫn tiêu.</p></div></RulesDisclosure>
+      <RulesDisclosure title="Quy ước chiến đấu"><div className="character-copy-guide"><p>ATK/MAG quyết định sức mạnh; đòn vật lí tính DEF, phép tính RES. Hệ số sát thương hiển thị trước phòng thủ và điểm yếu.</p><p>Đòn mang Nguyệt là sát thương hiệu ứng; các đòn khác là sát thương thường. Bạo Kích tăng 50% sát thương thường. Đánh trúng điểm yếu cộng 15% tỷ lệ Bạo Kích, tối đa 100%.</p><p>Lượt chính là lượt chính của người mang hiệu ứng; Lượt Thêm không giảm thời hạn này. Hiệu ứng ghi “lượt” có thể tính cả Lượt Thêm. Vòng gồm Vòng Chính và Vòng Phụ; giới hạn mỗi vòng dùng chung cả hai.</p><p>Hồi HP/MP không vượt tối đa; hồi MP theo tỷ lệ làm tròn lên. Khiên không cộng dồn, giữ khiên mạnh hơn. Hiệu ứng cùng tên làm mới; chỉ cộng tầng khi có ghi rõ. Buff khuếch đại sát thương lấy mức cao nhất đủ điều kiện; các lần dùng hợp lệ vẫn tiêu.</p></div></RulesDisclosure>
       <div className="skill-grid">
         {skills.map((skill: any) => (
           <SkillCard key={skill.id} skill={skill} actor={actor} />

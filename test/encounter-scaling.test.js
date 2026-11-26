@@ -111,8 +111,8 @@ test('all authored encounters and five selectable difficulties wire the same imm
  for(const encounter of Object.values(content.encounters).filter(e=>e.category!=='chronicle')){
   save.party=encounter.requiredPartyIds?.length?[...encounter.requiredPartyIds]:['arthur','iris','elaine','garrek'];
   const selectable=!encounter.travelerStory&&encounter.rewardTier!=='super';
-  const east=['east_key','east_hunt'].includes(encounter.category);
-  for(const difficulty of selectable?(east?encounter.allowedDifficulties:Object.keys(content.progressionRules.default.questDifficulties).filter(key=>!key.startsWith('east_'))):['medium']){
+  const east=['east_key','east_hunt','north_key'].includes(encounter.category);
+  for(const difficulty of selectable?(east?encounter.allowedDifficulties:Object.keys(content.progressionRules.default.questDifficulties).filter(key=>!/^(east|north)_/.test(key))):['medium']){
    const battle=createBattle(content,save,encounter.id,()=>.99,{questDifficulty:difficulty});
    const level=selectable?content.progressionRules.default.questDifficulties[difficulty].level:encounter.enemyLevel;
    for(const actor of battle.actors.filter(a=>a.team==='enemy'))assert.deepEqual(actor.stats,levelScaledEnemyStats(content.enemies[actor.definitionId],level,content,1,encounter),encounter.id+'/'+difficulty);
@@ -131,7 +131,7 @@ test('Superboss HP extension is available to 90 and new authored Arthur chapters
 test('every non-story Boss and Bounty uses encounter reference 1 for all seven stats without affecting shared normal/story enemies',()=>{
  const save=createGameSave(content);save.claimedFirstClearRewards=Object.keys(content.encounters);
  const before=JSON.stringify(content.enemies);
- for(const e of Object.values(content.encounters).filter(e=>e.rewardTier==='boss'&&!e.travelerStory&&e.category!=='chronicle'&&!['east_key','east_hunt'].includes(e.category))){
+ for(const e of Object.values(content.encounters).filter(e=>e.rewardTier==='boss'&&!e.travelerStory&&e.category!=='chronicle'&&!['east_key','east_hunt','north_key'].includes(e.category))){
   assert.equal(e.referenceLevel,1,e.id);
   const raw=createBattle(content,save,e.id,()=>.99,{enemyLevel:1});
   for(const actor of raw.actors.filter(a=>a.team==='enemy')){assert.equal(actor.referenceLevel,1);assert.deepEqual(actor.stats,content.enemies[actor.definitionId].stats);}

@@ -11,6 +11,9 @@
     "effect": {
       "type": "status",
       "status": "effect_ward"
+    },
+    "requires": {
+      "anyBounty": true
     }
   },
   {
@@ -25,6 +28,9 @@
     "effect": {
       "type": "heal",
       "ratio": 0.05
+    },
+    "requires": {
+      "anyBounty": true
     }
   },
   {
@@ -39,6 +45,9 @@
     "effect": {
       "type": "mp",
       "ratio": 0.05
+    },
+    "requires": {
+      "anyBounty": true
     }
   },
   {
@@ -397,7 +406,10 @@
       "ratio": 0.05,
       "cap": 25
     },
-    "cooldownRounds": 0
+    "cooldownRounds": 0,
+    "requires": {
+      "anyBounty": true
+    }
   },
   {
     "id": "mana_magic_conversion",
@@ -413,7 +425,10 @@
       "ratio": 0.05,
       "cap": 25
     },
-    "cooldownRounds": 0
+    "cooldownRounds": 0,
+    "requires": {
+      "anyBounty": true
+    }
   },
   {
     "id": "unerring_signet",
@@ -428,6 +443,9 @@
       "type": "status",
       "status": "true_strike_round",
       "duration": 1
+    },
+    "requires": {
+      "anyBounty": true
     }
   },
   {
@@ -444,6 +462,9 @@
         "maxMp": 0.2
       },
       "ratio": 0.03
+    },
+    "requires": {
+      "firstClear": "east_ke_03"
     }
   },
   {
@@ -461,6 +482,9 @@
         "magic": 0.15
       },
       "perSpent": 0.08
+    },
+    "requires": {
+      "firstClear": "east_ke_03"
     }
   },
   {
@@ -479,6 +503,12 @@
       "perMp": 5,
       "ratio": 0.06,
       "cap": 0.3
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_ego",
+        "minimum": 12
+      }
     }
   },
   {
@@ -495,6 +525,9 @@
         "speed": 0.15
       },
       "ratio": 0.3
+    },
+    "requires": {
+      "anyBounty": true
     }
   },
   {
@@ -511,6 +544,9 @@
         "maxHp": 0.15
       },
       "ratio": 0.18
+    },
+    "requires": {
+      "anyBounty": true
     }
   },
   {
@@ -527,7 +563,13 @@
         "maxMp": 0.1
       }
     },
-    "oncePerTeamRound": true
+    "oncePerTeamRound": true,
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_calamity",
+        "minimum": 12
+      }
+    }
   },
   {
     "id": "aegis_covenant",
@@ -544,6 +586,12 @@
         "resistance": 0.15
       },
       "status": "gear_direct_guard"
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_calamity",
+        "minimum": 12
+      }
     }
   },
   {
@@ -561,7 +609,13 @@
       },
       "ratio": 0.35
     },
-    "oncePerRound": true
+    "oncePerRound": true,
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_calamity",
+        "minimum": 12
+      }
+    }
   },
   {
     "id": "restoration_clock",
@@ -577,6 +631,12 @@
         "maxHp": 0.15
       },
       "amount": 1
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_ego",
+        "minimum": 12
+      }
     }
   },
   {
@@ -592,6 +652,12 @@
       "modifiers": {
         "attack": 0.15,
         "magic": 0.15
+      }
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_chimera",
+        "minimum": 12
       }
     }
   },
@@ -610,6 +676,12 @@
         "magic": 0.2
       },
       "threshold": 0.7
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_chimera",
+        "minimum": 12
+      }
     }
   },
   {
@@ -629,7 +701,13 @@
       "ratio": 0.2,
       "maxTargets": 2
     },
-    "oncePerRound": true
+    "oncePerRound": true,
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_chimera",
+        "minimum": 12
+      }
+    }
   },
   {
     "id": "affliction_prism",
@@ -648,6 +726,12 @@
       "highThreshold": 4,
       "ratio": 0.9,
       "highRatio": 1.8
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_ego",
+        "minimum": 12
+      }
     }
   },
   {
@@ -666,7 +750,13 @@
       "amount": 6,
       "status": "gear_healing_guard"
     },
-    "oncePerTeamRound": true
+    "oncePerTeamRound": true,
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_calamity",
+        "minimum": 12
+      }
+    }
   },
   {
     "id": "moonlit_duet",
@@ -683,6 +773,9 @@
         "magic": 0.15
       },
       "moonDamageBonus": 0.25
+    },
+    "requires": {
+      "firstClear": "north_ke_02"
     }
   },
   {
@@ -702,12 +795,15 @@
         "attack": 8,
         "magic": 8
       }
+    },
+    "requires": {
+      "firstClear": "north_ke_02"
     }
   },
   {
     "id": "martial_insight",
     "name": "Ấn Võ Tâm",
-    "description": "ATK +20%. Sát thương thường có thể Bạo Kích (+50% sát thương). Tỷ lệ đạt 100% tại 150 ATK căn bản.",
+    "description": "ATK +20%. Sát thương thường có thể Bạo Kích (+50% sát thương). Tỷ lệ từ Ấn đạt 100% tại 150 ATK căn bản.",
     "costClass": "common",
     "effectGroup": "gear_martial_insight",
     "cooldownRounds": 0,
@@ -720,12 +816,18 @@
       "stat": "attack",
       "atStat": 150,
       "ratio": 0.5
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_chimera",
+        "minimum": 12
+      }
     }
   },
   {
     "id": "arcane_insight",
     "name": "Ấn Thuật Tâm",
-    "description": "MAG +20%. Sát thương thường có thể Bạo Kích (+50% sát thương). Tỷ lệ đạt 100% tại 150 MAG căn bản.",
+    "description": "MAG +20%. Sát thương thường có thể Bạo Kích (+50% sát thương). Tỷ lệ từ Ấn đạt 100% tại 150 MAG căn bản.",
     "costClass": "common",
     "effectGroup": "gear_arcane_insight",
     "cooldownRounds": 0,
@@ -738,6 +840,12 @@
       "stat": "magic",
       "atStat": 150,
       "ratio": 0.5
+    },
+    "requires": {
+      "trialScore": {
+        "encounterId": "song_ego",
+        "minimum": 12
+      }
     }
   }
 ]

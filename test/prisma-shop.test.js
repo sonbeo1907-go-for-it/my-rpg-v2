@@ -55,7 +55,7 @@ test('every encounter pays its data-driven tier once, independent of BGM and fir
     const campaign=createGameSave(content);
     if(encounter.travelerStory)campaign.claimedFirstClearRewards=withoutMusic.travelerStories[encounter.travelerStory].chapters.slice(0,withoutMusic.travelerStories[encounter.travelerStory].chapters.indexOf(encounter.id));
     campaign.claimedFirstClearRewards.push(...(encounter.requires?.firstClears??[]));
-    if(['east_key','east_hunt'].includes(encounter.category))campaign.claimedFirstClearRewards.push(...Object.keys(withoutMusic.encounters));
+    if(['east_key','east_hunt','north_key'].includes(encounter.category))campaign.claimedFirstClearRewards.push(...Object.keys(withoutMusic.encounters));
     const next = claimBattleReward(campaign, battle, withoutMusic);
     assert.equal(next.coins, Math.round(base*questRewardMultiplier(content,encounter,encounter.defaultDifficulty))+(encounter.firstClearRewards??[]).filter(r=>r.type==='currency'&&r.currency==='coins').reduce((n,r)=>n+r.amount,0), encounter.id);
     assert.equal(claimBattleReward(next, battle, withoutMusic), next);

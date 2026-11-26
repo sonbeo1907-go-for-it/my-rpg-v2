@@ -117,6 +117,14 @@
     "loop": true
   },
   {
+    "id": "drageshelmfjall_boss",
+    "name": "Drageshelmfjall · Đêm không yên",
+    "tracks": [
+      "/bgm/boss_drageshelmfjall.mp3"
+    ],
+    "loop": true
+  },
+  {
     "id": "arena_menu",
     "name": "Đấu Trường · Chuẩn bị",
     "tracks": [

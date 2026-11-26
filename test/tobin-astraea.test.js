@@ -16,7 +16,7 @@ import {checkCombatMode} from '../src/core/combat-modes.js';
 import {combatTimeline} from '../src/ui/combat-timeline.js';
 const content=await loadContent();
 function cleared(s=createGameSave(content)){s.chronicles.firstClearIds=content.chronicles.book1.locations.map(l=>l.introId);return s;}
-function funds(s=createGameSave(content)){s.coins=1e7;s.prismaFragments=1e6;s.gear=Array.from({length:40},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));s.gacha.totalPulls=40;return s;}
+function funds(s=createGameSave(content)){s.claimedFirstClearRewards.push('bounty_bell_lock_guardian');s.coins=1e7;s.prismaFragments=1e6;s.gear=Array.from({length:40},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));s.gacha.totalPulls=40;return s;}
 function forge(s,effect=false){return craftGear(s,content,{materialId:s.gear.find(g=>g.typeId==='t3_focused').id,...effect?{effectId:'guardian_talisman'}:{primaryStat:'attack'}},()=>0);}
 function setup(party=['astraea','iris','elaine','tobin']){const c=structuredClone(content),s=createGameSave(c);s.party=party;s.partyPresets[0].slots=[...s.party];s.unlockedCharacterIds=[...new Set([...s.unlockedCharacterIds,...party])];const b=createBattle(c,s,'forest_patrol',seededRandom(7));for(const e of b.actors.filter(a=>a.team==='enemy')){e.hp=e.stats.maxHp=100000;e.stats.attack=e.stats.magic=1;e.stats.resistance=e.stats.defense=0;e.weaknesses=[];e.resistances={};}return {b,c,s};}
 function cast(b,id,ability,target=id,roundEnd=false){b.queue=roundEnd?[id]:[id,b.actors.find(a=>a.id!==id&&a.hp>0).id];b.cursor=0;executeAction(b,{actorId:id,abilityId:ability,targetId:target});}

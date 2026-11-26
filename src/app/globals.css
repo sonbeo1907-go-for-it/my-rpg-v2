@@ -3044,3 +3044,10 @@ h1[tabindex='-1']:focus { outline: none; }
 @keyframes luna-petal-turn{0%{transform:rotate(var(--petal-turn)) rotateY(0deg)}100%{transform:rotate(calc(var(--petal-turn) + 75deg)) rotateY(55deg)}}
 @media(max-width:600px){.luna-petal-track:nth-child(n+7){display:none}.luna-petal-track{width:16px;height:13px}}
 @media(prefers-reduced-motion:reduce){.luna-petals,.luna-bloom-petals{display:none}.luna-eye-aperture{rx:1300px!important;ry:1300px!important;animation:none!important}.luna-garden-wind,.luna-petal-track,.luna-petal{animation:none!important;transform:none}}
+
+/* Six equal regional quest tabs: readable controller targets on narrow screens. */
+@media(max-width:900px){.quest-category-tabs.page-wide-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}.quest-category-tabs a,.quest-category-tabs button{min-height:52px;white-space:normal;font-size:.8rem}}
+@media(max-width:450px){.quest-category-tabs.page-wide-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.quest-category-north .quest-board{border-color:#7396a5}.quest-category-north .quest-card.selected{border-color:#c5dde7}
+
+.stat-grid dd .stat-adjusted-total{font-size:.85em;font-weight:400;color:var(--gold);white-space:nowrap}.stat-grid dd .stat-level-bonus{display:block;margin-top:.25rem;font-size:.65rem;color:var(--muted)}

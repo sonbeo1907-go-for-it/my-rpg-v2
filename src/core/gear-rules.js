@@ -1,3 +1,4 @@
+export const BOUNTY_ENCOUNTERS=Object.freeze(["bounty_bell_lock_guardian","bounty_ash_cloaked_swordsman","bounty_salt_marsh_witch","bounty_slag_iron_bull","bounty_black_script_cleric"]);
 import {validGearEffect} from './gear-effect-schema.js';
 export const GEAR_STAT_KEYS=['maxHp','maxMp','attack','magic','defense','resistance','speed'];
 export const isT4=gear=>['t4_stats','t4_effect'].includes(gear?.typeId);
@@ -12,7 +13,7 @@ export function validT4Gear(gear,content){
   const expected=t4Stats(content,gear.primaryStat,gear.secondaryStat);
   return Object.keys(gear.stats).length===Object.keys(expected).length&&Object.entries(expected).every(([key,n])=>gear.stats[key]===n);
 }
-export function gearRecipeUnlocked(campaign,recipe){return (!recipe.requires?.storyFlag||campaign.storyFlags.includes(recipe.requires.storyFlag))&&(!recipe.requires?.firstClear||campaign.claimedFirstClearRewards.includes(recipe.requires.firstClear));}
+export function gearRecipeUnlocked(campaign,recipe){return (!recipe.requires?.anyBounty||(campaign.claimedFirstClearRewards??[]).some(id=>BOUNTY_ENCOUNTERS.includes(id)))&&(!recipe.requires?.trialScore||(campaign.unrecordedLedger?.best?.[recipe.requires.trialScore.encounterId]??-1)>=recipe.requires.trialScore.minimum)&& (!recipe.requires?.storyFlag||campaign.storyFlags.includes(recipe.requires.storyFlag))&&(!recipe.requires?.firstClear||campaign.claimedFirstClearRewards.includes(recipe.requires.firstClear));}
 export function gearDismantleYield(content,gear){return gear?.effectId?content.gearEffects[gear.effectId].dismantleYield:content.blacksmith.default.dismantleYield[gear?.typeId]??0;}
 export function validateT4Content(content){
  const errors=[],r=content.blacksmith?.default,whole=n=>Number.isSafeInteger(n)&&n>0;
@@ -24,7 +25,10 @@ export function validateT4Content(content){
   if(!t.name?.trim()||!t.description?.trim()||!['common','special'].includes(t.costClass)||typeof t.effectGroup!=='string'||!t.effectGroup.trim()||!Number.isSafeInteger(t.cooldownRounds)||t.cooldownRounds<0||!whole(t.dismantleYield)||!validGearEffect(t,content)||['oncePerRound','oncePerEncounter'].some(key=>t[key]!==undefined&&typeof t[key]!=='boolean'))errors.push('gearEffects: invalid recipe '+t.id);
   if(t.requires?.storyFlag&&!Object.values(content.upgrades).some(u=>u.requires?.storyFlag===t.requires.storyFlag))errors.push('gearEffects: invalid story unlock '+t.id);
   if(t.requires?.firstClear&&!content.encounters[t.requires.firstClear]?.firstClearRewards?.some(r=>r.type==='gear_recipe'&&r.recipeId===t.id))errors.push('gearEffects: invalid boss unlock '+t.id);
-  if(t.costClass==='special'&&!t.requires?.storyFlag&&!t.requires?.firstClear)errors.push('gearEffects: missing special unlock '+t.id);
+  if(t.requires?.anyBounty!==undefined&&t.requires.anyBounty!==true)errors.push('gearEffects: invalid bounty unlock '+t.id);
+  if(t.requires?.trialScore&&(!content.encounters[t.requires.trialScore.encounterId]?.trialId||t.requires.trialScore.minimum!==12))errors.push('gearEffects: invalid trial unlock '+t.id);
+  if(t.requires&&Object.keys(t.requires).some(k=>!['storyFlag','firstClear','anyBounty','trialScore'].includes(k)))errors.push('gearEffects: unknown unlock '+t.id);
+  if(t.costClass==='special'&&!t.requires?.storyFlag&&!t.requires?.firstClear&&!t.requires?.anyBounty&&!t.requires?.trialScore)errors.push('gearEffects: missing special unlock '+t.id);
  }
  return errors;
 }

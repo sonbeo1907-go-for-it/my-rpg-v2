@@ -25,7 +25,7 @@ test('damage classes are complementary, include additional Moon, and do not conf
 test('recipes validate, forge with existing costs and T3, survive save/load and grant exact permanent stats',()=>{
  assert.deepEqual(validateContent(content),[]);
  for(const [id,key] of [['martial_insight','attack'],['arcane_insight','magic']]){
-  const s=save();s.coins=50000;s.prismaFragments=10000;s.gear=[{id:'gear_1',typeId:'t3_focused',stats:{attack:5}}];s.gacha.totalPulls=1;
+  const s=save();s.unrecordedLedger.best={song_chimera:12,song_ego:12};s.coins=50000;s.prismaFragments=10000;s.gear=[{id:'gear_1',typeId:'t3_focused',stats:{attack:5}}];s.gacha.totalPulls=1;
   const n=craftGear(s,content,{effectId:id,materialId:'gear_1'}),g=n.gear.at(-1);assert.equal(g.effectId,id);assert.equal(n.coins,38000);assert.equal(n.prismaFragments,7600);assert.equal(s.coins,50000);
   const baseline=resolveCharacter(content,n,'arthur').stats[key];n.equipment.arthur=[g.id,null,null];const r=decodeGameSave(encodeGameSave(n,content),content);assert.ok(Math.abs(resolveCharacter(content,r,'arthur').stats[key]-baseline*1.2)<1e-8);
  }
@@ -65,7 +65,7 @@ test('Moon conversion in an actual active blessing is classified after conversio
 });
 test('forecast never consumes live RNG or stores a live proc; rejected cast cannot roll or spend MP',()=>{
  const {b,c,a,t}=setup();attach(a,'martial_insight');a.baseStats.attack=75;const id=skill(c,a,{effects:[hit()],cost:{mp:10}});b.queue=[a.id,t.id];b.cursor=0;const state=b.random.getState(),mp=a.mp;
- const f=forecastBattleAction(b,{actorId:a.id,abilityId:id,targetId:t.id});assert.equal(b.random.getState(),state);assert.equal(a.mp,mp);assert.ok(f.events.some(e=>e.normalDamage));assert.equal(a.criticalChecks,undefined);
+ const f=forecastBattleAction(b,{actorId:a.id,abilityId:id,targetId:t.id});assert.equal(b.random.getState(),state);assert.equal(a.mp,mp);assert.ok(f.events.some(e=>e.normalDamage));assert.equal(a.criticalRolls,undefined);
  a.mp=0;assert.throws(()=>executeAction(b,{actorId:a.id,abilityId:id,targetId:t.id}));assert.equal(b.random.getState(),state);
 });
 test('normal periodic damage gets base bonus per tick, keeps source potency snapshot and receives classification',()=>{

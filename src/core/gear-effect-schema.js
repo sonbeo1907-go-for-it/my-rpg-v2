@@ -45,5 +45,14 @@ export function validGearEffect(recipe,content){
  return true;
 }
 export function gearEffectTiming(recipe){if(recipe.oncePerTeamRound)return '1 lần / vòng / đội';if(['critical_chance','moonlit_offense','moonlit_vitality','paid_mp_damage','skill_shield_boost','skill_heal_boost','full_hp_offense','low_hp_offense'].includes(recipe.effect?.type))return 'Luôn hoạt động';return ['soul_creation_mp','soul_spend_damage'].includes(recipe.effect?.type)||recipe.hook==='base_stats'?'Luôn hoạt động':recipe.oncePerEncounter?'1 lần / trận':recipe.oncePerRound?'1 lần / vòng':recipe.cooldownRounds?`${recipe.cooldownRounds} vòng`:'Không hồi chiêu';}
-export function gearRecipeRequirement(content,recipe){return recipe.requires?.firstClear?`Thắng ${content.encounters[recipe.requires.firstClear]?.name??'Truy Nã'} lần đầu để mở.`:recipe.requires?.storyFlag?'Hoàn thành vĩ thanh Arthur để mở công thức.':'Công thức đã sẵn sàng.';}
-export function gearRecipeSource(recipe){return recipe.requires?.firstClear?`/quests?tab=bounty&selected=${recipe.requires.firstClear}`:'/stories/epilogue';}
+export function gearRecipeRequirement(content,recipe){
+ if(recipe.requires?.anyBounty)return 'Chiến thắng một Truy Nã bất kỳ để mở.';
+ if(recipe.requires?.trialScore)return 'Đạt 12 điểm tại '+content.encounters[recipe.requires.trialScore.encounterId].name+' để mở.';
+ return recipe.requires?.firstClear?'Hoàn thành '+(content.encounters[recipe.requires.firstClear]?.name??'nhiệm vụ yêu cầu')+' để mở.':recipe.requires?.storyFlag?'Hoàn thành vĩ thanh Arthur để mở công thức.':'Công thức đã sẵn sàng.';
+}
+export function gearRecipeSource(recipe){
+ if(recipe.requires?.anyBounty)return '/quests?tab=bounty';
+ if(recipe.requires?.trialScore)return '/chronicles/unrecorded/'+recipe.requires.trialScore.encounterId.replace('song_','');
+ const id=recipe.requires?.firstClear;
+ return id?'/quests?tab='+(id.startsWith('north_')?'north':id.startsWith('east_')?'east':'bounty')+'&selected='+id:'/stories/epilogue';
+}

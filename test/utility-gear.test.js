@@ -14,7 +14,7 @@ function cast(b,a,id,target=a.id){b.queue=[a.id,...b.actors.filter(x=>x.id!==a.i
 function skill(b,a,id,effects,cost=0,target='enemy'){b.content.abilities[id]={id,name:'Kiểm thử',target,cost:{mp:cost},effects};a.abilities.push(id);return id;}
 const damage=b=>b.events.filter(x=>x.type==='damage').map(x=>x.amount);
 test('four recipes craft-ready, stat bonuses and duplicate prevention survive save',()=>{
- assert.deepEqual(validateContent(c),[]);const s=createGameSave(c);const cases=[['mana_overdrive','maxMp',1.1],['aegis_weave','speed',1.15],['vitality_chalice','maxHp',1.15],['shared_respite','maxMp',1.1]];
+ assert.deepEqual(validateContent(c),[]);const s=createGameSave(c);s.claimedFirstClearRewards.push('bounty_bell_lock_guardian');s.unrecordedLedger.best={song_ego:12,song_calamity:12};const cases=[['mana_overdrive','maxMp',1.1],['aegis_weave','speed',1.15],['vitality_chalice','maxHp',1.15],['shared_respite','maxMp',1.1]];
  for(const [id,key,factor] of cases){assert.ok(gearRecipeUnlocked(s,c.gearEffects[id]));const copy=structuredClone(s);copy.craftedGearSerial=2;copy.gear.push({id:'rune_1',typeId:'t4_effect',effectId:id,stats:{}});copy.equipment.arthur=['rune_1'];const a=resolveCharacter(c,copy,'arthur');assert.ok(Math.abs(a.stats[key]-c.characters.arthur.stats[key]*factor)<1e-8);copy.gear.push({id:'rune_2',typeId:'t4_effect',effectId:id,stats:{}});copy.equipment.arthur.push('rune_2');assert.throws(()=>assertValidEquipment(copy,c));copy.equipment.arthur.pop();assert.equal(decodeGameSave(encodeGameSave(copy,c),c).gear.length,2);}
 });
 test('paid MP damage counts full five-MP steps, every hit and AoE once, not refunds or duplicate items',()=>{

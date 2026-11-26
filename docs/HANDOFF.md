@@ -1,8 +1,12 @@
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
+## Trang nhân vật và kế hoạch công thức — 26/11/2026
+
+Tổng Quan hiện chỉ số gốc + phân bổ + roll flat trên gear/Trấn ở số chính; chỉ số sau hiệu ứng hiện trong ngoặc cạnh đó nếu khác. Giữ dòng phân bổ. Không đưa gear % hay nội tại/đội hình vào số chính. Cấp Độ preview dùng cùng nền flat, không thay công thức chiến đấu. Không sửa resolveCharacter, công thức chiến đấu hoặc baseStatValue của Crit. helper UI: character-base-stats.js. 24 nguồn công thức đã áp theo [GEAR_EFFECT_UNLOCK_PLAN_2026_11_26](GEAR_EFFECT_UNLOCK_PLAN_2026_11_26.md): Truy Nã bất kỳ, Senya, Khúc Ca 12 điểm và hai nhiệm vụ Phương Bắc.
+
 ## Bạo Kích và phân loại sát thương — 25/11/2026
 
-Quy tắc mới nhất: mang Nguyệt = sát thương hiệu ứng; tất cả còn lại = sát thương thường. Hai Ấn chuyển sang Bạo Kích ×1,5 sau DEF/RES và amp, trước soft cap; xác suất theo chỉ số căn bản/150, hai Ấn lấy cao hơn. Cờ phụ không chặn đòn thường. Số crit lớn hơn kèm “BẠO KÍCH!”. Tooltip gear đã rút gọn và bỏ chú thích lặp trên kỹ năng. Đọc [CRITICAL_DAMAGE](CRITICAL_DAMAGE.md), thay cho quy tắc cũ trong GRAND_ADJUSTMENT.
+Quy tắc mới nhất: sát thương thường trúng điểm yếu cộng 15% tỷ lệ Bạo Kích, gồm tự nhiên/Sơ Hở/yếu vật lí-phép, tối đa 100% sau cộng gear. Cache lưu roll, mỗi hit/mục tiêu xét điểm yếu riêng; Nguyệt vẫn không Crit. Đòn mang Nguyệt = sát thương hiệu ứng; tất cả còn lại = sát thương thường. Hai Ấn chuyển sang Bạo Kích ×1,5 sau DEF/RES và amp, trước soft cap; xác suất theo chỉ số căn bản/150, hai Ấn lấy cao hơn. Cờ phụ không chặn đòn thường. Số crit lớn hơn kèm “BẠO KÍCH!”. Tooltip gear đã rút gọn và bỏ chú thích lặp trên kỹ năng. Đọc [CRITICAL_DAMAGE](CRITICAL_DAMAGE.md), thay cho quy tắc cũ trong GRAND_ADJUSTMENT.
 
 Lưỡi Cắt Dư Âm vẫn20% sức mạnh; gear Liên kích giữ nguyên tố và metadata của hit gốc, chuẩn hóa normal/effect theo Nguyệt, tự xét crit riêng. CD Chiyoko/Nikita/Cyrus/Charlotte và Quân Lệnh Anabel6 lượt giữ bản điều chỉnh trước; Siesta nối chuỗi bỏCD/MP, giữ limiter mỗi mắt xích.
 
@@ -299,3 +303,7 @@ Ba encounter category `east_super` ở Phương Đông, mở bởi `east_campaig
 
 ## BGM học viện — 18/11/2026
 Năm file tournament_* mới đã gắn: menu/luật/shop vòng bảng dùng first_half, từ tứ kết dùng second_half; trận tương ứng dùng battle_first_half/battle_sec_half. Lời mời/đấu siêu trùm dùng emergent, thắng dùng victory. Player tournament riêng, không ép route /battle hoặc dừng toàn bộ player. Route thật sở hữu pause/resume; cập nhật campaign không restart nhạc. Luật/mute/volume/tab ẩn dùng bộ điều khiển chung. Xem src/ui/academy-music.js và src/components/use-academy-music.ts.
+
+- 26/11/2026: [Thảo Phạt Phương Bắc](NORTH_HUNTS.md) — hai nhiệm vụ Lv50 sau Orochi, cảnh nền tuyết; [nguồn gear](GEAR_EFFECT_UNLOCK_PLAN_2026_11_26.md) đã áp: Truy Nã/Senya/Khúc Ca 12 điểm/Phương Bắc.
+
+- BGM Phương Bắc đã sửa: north_ke_01 dùng drageshelmfjall (bt1/bt2), north_ke_02 dùng drageshelmfjall_boss. Cảnh chờ vẫn dùng home_snow_town.

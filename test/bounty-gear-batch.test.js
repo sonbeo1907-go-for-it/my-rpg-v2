@@ -20,7 +20,7 @@ const hits=b=>b.events.filter(e=>e.type==='damage'&&!e.periodic);
 function finishStories(){let c=createGameSave(content);for(const story of Object.values(content.travelerStories).filter(s=>['iris','fiona','takeshi'].includes(s.id))){for(const id of story.chapters){const e=content.encounters[id];c=claimBattleReward(c,{encounterId:id,outcome:'victory',rewardRandom:()=>0,actors:(e.requiredPartyIds??[]).map(id=>({id,team:'party'})),...(e.waves?{storyWave:{waveIndex:e.waves.length-1,totalWaves:e.waves.length}}:{})},content);}}return c;}
 
 test('five bounty bosses and 18 recipes validate, stay out of ordinary board/dungeon pools and require all three stories',()=>{
- assert.deepEqual(validateContent(content),[]);assert.equal(bounties.length,5);assert.equal(Object.values(content.gearEffects).filter(r=>r.requires?.firstClear).length,18);
+ assert.deepEqual(validateContent(content),[]);assert.equal(bounties.length,5);assert.equal(Object.values(content.gearEffects).filter(r=>content.encounters[r.requires?.firstClear]?.category==='bounty').length,18);
  const c=createGameSave(content);for(const id of BOUNTY_PREREQUISITES){assert.equal(questCatalog(content,c,{tab:'bounty'}).length,0);assert.throws(()=>createBattle(content,c,bounties[0].id));c.claimedFirstClearRewards.push(id);}
  assert.equal(questCatalog(content,c,{tab:'bounty'}).length,5);
  assert.equal(questCatalog(content,c,{tab:'bounty',type:'normal'}).length,5);
@@ -31,7 +31,7 @@ test('five bounty bosses and 18 recipes validate, stay out of ordinary board/dun
 test('boss first clear unlocks only assigned recipes, survives save and failed persistence, replay never repeats unlocks',()=>{
  let c=finishStories();assert.ok(BOUNTY_PREREQUISITES.every(id=>c.claimedFirstClearRewards.includes(id)));
  for(const e of bounties){const b={questDifficulty:'very_easy',encounterId:e.id,outcome:'victory',rewardRandom:()=>0};assert.throws(()=>claimBattleReward(c,b,content,()=>{throw Error('disk');}));assert.equal(b.rewardClaimed,undefined);assert.ok(e.firstClearRewards.every(r=>!gearRecipeUnlocked(c,content.gearEffects[r.recipeId])));
-  c=claimBattleReward(c,b,content);assert.equal(b.firstClearRewards.length,e.firstClearRewards.length);c=decodeGameSave(encodeGameSave(c,content),content);assert.ok(e.firstClearRewards.every(r=>gearRecipeUnlocked(c,content.gearEffects[r.recipeId])));
+  c=claimBattleReward(c,b,content);assert.equal(b.firstClearRewards.length,e.firstClearRewards.length+(e.id===bounties[0].id?8:0));c=decodeGameSave(encodeGameSave(c,content),content);assert.ok(e.firstClearRewards.every(r=>gearRecipeUnlocked(c,content.gearEffects[r.recipeId])));
   const replay={questDifficulty:'very_easy',encounterId:e.id,outcome:'victory',rewardRandom:()=>0};const coins=c.coins;c=claimBattleReward(c,replay,content);assert.equal(c.coins,coins+150);assert.deepEqual(replay.firstClearRewards,[]);
  }
  const fresh=createGameSave(content);assert.throws(()=>claimBattleReward(fresh,{encounterId:bounties[0].id,outcome:'victory'},content));
@@ -102,7 +102,7 @@ test('photometer restores once per cast at weakness, includes shield damage and 
  const b=fixture(),a=gear(b,'photometer');const t=actor(b,'enemy_0');t.weaknesses=['plain'];t.shield=1000;attack(b,'arthur','enemy_0',.2,'physical',{hits:2});assert.equal(a.mp,53);attack(b);assert.equal(a.mp,53);b.round+=2;attack(b);assert.equal(a.mp,56);
 });
 test('compass rolls once after multi-hit damage, cannot buff its own cast, respects existing weakness and ward',()=>{
- const b=fixture();const a=gear(b,'weakness_compass');let rolls=0;b.random=()=>{rolls++;return .1;};attack(b,'arthur','enemy_0',.1,'physical',{hits:2,element:'fire'});assert.deepEqual(hits(b).map(h=>h.amount),[10,10]);assert.equal(rolls,1);assert.equal(actor(b,'enemy_0').statuses.find(s=>s.id==='exposure_fire').stacks,1);attack(b,'arthur','enemy_0',.1,'physical',{element:'fire'});assert.equal(hits(b)[0].amount,15);
+ const b=fixture();const a=gear(b,'weakness_compass');let rolls=0;b.random=()=>{rolls++;return .1;};attack(b,'arthur','enemy_0',.1,'physical',{hits:2,element:'fire'});assert.deepEqual(hits(b).map(h=>h.amount),[10,10]);assert.equal(rolls,1);assert.equal(actor(b,'enemy_0').statuses.find(s=>s.id==='exposure_fire').stacks,1);attack(b,'arthur','enemy_0',.1,'physical',{element:'fire'});assert.equal(hits(b)[0].amount,22);assert.equal(hits(b)[0].critical,true);
  const c=fixture();gear(c,'weakness_compass');c.random=()=>.1;const t=actor(c,'enemy_0');t.statuses=[{id:'effect_ward',remaining:null,charges:1,stacks:1,sourceId:t.id}];attack(c,'arthur','enemy_0',.1);assert.equal(t.statuses.length,0);assert.equal(actor(c).gearEffectReadyRounds,undefined);t.weaknesses=['plain'];attack(c,'arthur','enemy_0',.1);assert.equal(actor(c).gearEffectReadyRounds,undefined);
 });
 test('observer medal includes wearer and any ally weakness, only once per round and never replaces stronger shield',()=>{

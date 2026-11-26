@@ -5,7 +5,7 @@ import {equipGear} from '../src/core/equipment.js';import {craftGear,beginGearRe
 import {dismantleGear,craftExclusive,beginReforge} from '../src/core/blacksmith.js';import {validateGear,claimBattleReward,pullGacha} from '../src/core/economy.js';
 import {validateContent} from '../src/core/content.js';import {dailyCommissionView} from '../src/core/daily-commissions.js';import {prepareVictoryReward} from '../src/core/quest-rewards.js';
 const content=await loadContent();
-function funded(){const c=createGameSave(content);Object.assign(c,{coins:200000,prismaFragments:50000,originalPrisma:20,recruitmentShards:100});c.party=['arthur','iris',null,null];c.partyPresets[0].slots=[...c.party];c.gear=Array.from({length:10},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));c.gacha.totalPulls=10;return c;}
+function funded(){const c=createGameSave(content);c.claimedFirstClearRewards.push('bounty_bell_lock_guardian');Object.assign(c,{coins:200000,prismaFragments:50000,originalPrisma:20,recruitmentShards:100});c.party=['arthur','iris',null,null];c.partyPresets[0].slots=[...c.party];c.gear=Array.from({length:10},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));c.gacha.totalPulls=10;return c;}
 function stats(c=funded(),primaryStat='attack',random=()=>2/7){return craftGear(c,content,{materialId:c.gear.find(g=>g.typeId==='t3_focused').id,primaryStat,effectId:undefined},random);}
 function effect(id='guardian_talisman',c=funded()){return craftGear(c,content,{effectId:id,primaryStat:undefined,materialId:c.gear.find(g=>g.typeId==='t3_focused').id});}
 function battle(c){const b=createBattle(content,c,'forest_patrol',()=>.99);for(const a of b.actors.filter(a=>a.team==='enemy'))a.hp=a.stats.maxHp=10000;return b;}

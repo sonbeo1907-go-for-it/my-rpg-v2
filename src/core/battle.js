@@ -1,4 +1,4 @@
-import {damageFlags,copyDamageFlags} from './damage-kind.js';
+import {damageFlags,copyDamageFlags,incomingDamageKindMultiplier} from './damage-kind.js';
 import {resolveCritical} from './critical.js';
 import {chosenAlly,extendBeneficial,markWaningBuff,expireWaningBuffs} from './witch-cycle.js';
 import {supportTurnStart,drainHitMp} from './merchant-support.js';
@@ -142,11 +142,11 @@ export function createBattle(
   }
   const scale = enemyStatMultipliers(options.enemyScale ?? 1);
   const difficulty=questDifficulty(content,encounter,options.questDifficulty);
-  if(['east_key','east_hunt'].includes(encounter.category)){
+  if(['east_key','east_hunt','north_key'].includes(encounter.category)){
     const chosen=options.questDifficulty??encounter.defaultDifficulty;
-    if(encounter.allowedDifficulties&&!encounter.allowedDifficulties.includes(chosen))throw Error('Độ khó Phương Đông không hợp lệ.');
-    if(encounter.fixedEnemyLevel!==undefined&&difficulty?.level!==encounter.fixedEnemyLevel)throw Error('Key Event Phương Đông dùng cấp cố định.');
-    if(options.enemyLevel!==undefined&&options.enemyLevel!==difficulty?.level)throw Error('Cấp đối thủ Phương Đông không khớp độ khó.');
+    if(encounter.allowedDifficulties&&!encounter.allowedDifficulties.includes(chosen))throw Error('Độ khó nhiệm vụ không hợp lệ.');
+    if(encounter.fixedEnemyLevel!==undefined&&difficulty?.level!==encounter.fixedEnemyLevel)throw Error('Nhiệm vụ chính dùng cấp cố định.');
+    if(options.enemyLevel!==undefined&&options.enemyLevel!==difficulty?.level)throw Error('Cấp đối thủ không khớp độ khó.');
   }
   const requestedLevel=difficulty?(Object.hasOwn(options,"enemyLevel")?options.enemyLevel:difficulty.level):encounter.superLevels?(options.enemyLevel??encounter.superLevels[0]):encounter.category==='chronicle'?options.enemyLevel:encounter.enemyLevel;
   if (
@@ -742,7 +742,7 @@ function beginActorTurn(battle,actor,delegating=false) {
     const periodicSource=getActor(battle,status.sourceId),periodicEffect=moonlightDamageEffect(battle,periodicSource,{...definition.damageOverTime});
     const lunarPeriodic=lunarBaseDamageMultiplier(battle,periodicSource,periodicEffect)*lunarOutgoingAmp(battle,periodicSource,periodicEffect)*lunarIncomingMultiplier(battle,actor,periodicEffect);
     const critical=resolveCritical(battle,periodicSource,periodicEffect,{});
-    const requested=Math.floor(Math.floor(lunarPeriodic*status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)))*critical.multiplier);
+    const requested=Math.floor(Math.floor(incomingDamageKindMultiplier(actor,periodicEffect)*lunarPeriodic*status.potency*(status.stacks??1)*bossIncomingMultiplier(actor)*incomingDamageMultiplier(modifier(battle,actor,"damageTakenBonus"))*(1-agonyReduction(actor)))*critical.multiplier);
     const periodicCap=applyPvpDamageCap(battle,getActor(battle,status.sourceId),actor,requested,battle.pvpRules?pvpPeriodicContext(battle,getActor(battle,status.sourceId),actor):{},false,modeIO);
     const life=applyLifeDamage(battle,actor,periodicCap.amount>0?periodicCap.amount:status.potency>0&&isInAgony(actor)?1:0,{element:periodicEffect.element,elements:damageElements(periodicEffect),healthFloor:bossHealthFloor(actor)},{write,emit:emitEvent});
     const amount=life.hpLost+life.maxHpLost;
@@ -1726,7 +1726,7 @@ function resolveHit(
   const hitGrowthMultiplier = actionContext.hitGrowthMultiplier ?? 1;
   const flatSkillBonus=flatMagicSkillHitBonus(battle,attacker,effect,actionContext);
   const lunarMultiplier=lunarBaseDamageMultiplier(battle,attacker,effect);
-  const critical=resolveCritical(battle,attacker,effect,actionContext);
+  const critical=resolveCritical(battle,attacker,effect,actionContext,weakness);
   const stageMultiplier=performanceDamageMultiplier(battle,attacker,effect,actionContext)*lunarOutgoingAmp(battle,attacker,effect,actionContext)*moonlightMagicAmplification(battle,attacker,effect);
   // Offense snapshot for retaliation excludes DEF/RES, elemental resistance,
   // reduction, cover reduction, incoming gear and shield. Weakness and attacker bonuses remain.
@@ -1763,7 +1763,7 @@ function resolveHit(
         (1 - clamp(reduction, 0, 0.75)),
     ),
   );
-  amount=Math.max(1,Math.floor(amount*encounterHitMultiplier(battle,attacker,target,actionContext)));
+  amount=Math.max(1,Math.floor(amount*encounterHitMultiplier(battle,attacker,target,actionContext)*incomingDamageKindMultiplier(target,effect)));
   amount=Math.floor(amount*critical.multiplier);
   const cappedHit=applyPvpDamageCap(battle,attacker,target,amount,actionContext,area,modeIO);amount=cappedHit.amount;
   if (!reaction && attacker.team!==target.team && target.shield>0) actionContext.shieldedAllyHits.add(target.id);

@@ -3,7 +3,7 @@ import {loadContent} from '../scripts/load-content.mjs';
 import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
 const c:any=await loadContent();
 test('normal-damage recipes can be found, previewed, forged and persisted using the shared workbench',async({page})=>{
- const s=createGameSave(c);s.coins=100000;s.prismaFragments=50000;s.gear=Array.from({length:2},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));s.gacha.totalPulls=2;
+ const s=createGameSave(c);s.unrecordedLedger.best={song_chimera:12,song_ego:12};s.coins=100000;s.prismaFragments=50000;s.gear=Array.from({length:2},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));s.gacha.totalPulls=2;
  await page.addInitScript(raw=>{if(!localStorage.getItem('northern-prisma.campaign.v7'))localStorage.setItem('northern-prisma.campaign.v7',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false,controlMode:'mouse'}));},encodeGameSave(s,c));
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('/blacksmith?tab=effects');

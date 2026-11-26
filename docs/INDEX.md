@@ -21,6 +21,8 @@
 
 ## Combat và UX
 
+- [Kiểm kê24 gear hiệu ứng mở sẵn và kế hoạch nguồn công thức](GEAR_EFFECT_UNLOCK_PLAN_2026_11_26.md)
+
 - [Bạo Kích / phân loại sát thương hiện hành](CRITICAL_DAMAGE.md)
 
 - [Điều chỉnh kỹ năng / hai gear sát thương thường — 25/11/2026](GRAND_ADJUSTMENT_2026_11_25.md)
@@ -232,3 +234,5 @@ Các file nguồn đính kèm/link bên ngoài là dữ liệu tham khảo, khô
 - [Bài Ca Vô Danh — Chúc Phúc Quang/Ám](NAMELESS_SONG.md)
 
 - [Khu Luyện Tập và thống kê đóng góp](TRAINING_GROUND.md) — bù nhìn, số liệu thực, attribution hiệu lệnh.
+
+- 26/11/2026: [Thảo Phạt Phương Bắc](NORTH_HUNTS.md) — hai nhiệm vụ Lv50 sau Orochi, cảnh nền tuyết; [nguồn gear](GEAR_EFFECT_UNLOCK_PLAN_2026_11_26.md) đã áp: Truy Nã/Senya/Khúc Ca 12 điểm/Phương Bắc.

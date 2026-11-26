@@ -11,7 +11,7 @@ export function HomeSceneDialog({onClose}:{onClose:()=>void}){
   <div className="home-scene-options" aria-label="Cảnh nền màn hình chờ">{HOME_SCENES.map(scene=>{const unlocked=homeSceneUnlocked(campaign,scene);return <button key={scene.id} type="button" className="home-scene-option" data-home-option={scene.id} aria-pressed={selected===scene.id} disabled={!unlocked||busy} onClick={()=>setSelected(scene.id)}>
    <img src={scene.art} alt="" className="home-scene-preview"/><span className="home-scene-name">{scene.name}</span>
    <span className="home-scene-state">{!unlocked?<><Icon name="lock"/> Chưa mở khóa</>:current.id===scene.id?<><Icon name="check"/> Đang sử dụng</>:selected===scene.id?'Đã chọn':'Có thể sử dụng'}</span>
-   {!unlocked&&<small>Hoàn thành toàn bộ “{scene.name}” trong Thảo Phạt Phương Đông.</small>}
+   {!unlocked&&<small>Hoàn thành toàn bộ “{scene.name}” {scene.id==='snow_town'?'sau hai nhiệm vụ Thảo Phạt Phương Bắc.':'trong Thảo Phạt Phương Đông.'}</small>}
   </button>;})}</div>
  </Modal>;
 }

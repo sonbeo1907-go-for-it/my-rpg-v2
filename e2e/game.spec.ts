@@ -51,7 +51,9 @@ test('equipment filters sort both directions, equips and persists; inventory is 
   await page.reload(); await expect(page.locator('.equipment-slots button').first()).toContainText('ATK +5');
   await page.getByRole('link', { name: 'Trở về', exact: true }).click();
   await expect(page).toHaveURL(/characters\/arthur/);
-  await expect(page.locator('.stat-grid [data-stat=attack] .stat-total')).toHaveText('39');
+  await expect(page.locator('[data-character-base-stats] [data-stat=attack] .stat-total')).toHaveText('34');
+  await page.getByText('Chỉ số sau trang bị và nội tại',{exact:true}).click();
+  await expect(page.locator('[data-character-prepared-stats] [data-stat=attack] .stat-total')).toHaveText('39');
   await expect(page.locator('.stat-grid [data-stat=attack] .stat-gear-bonus')).toHaveText('Trang bị: +5');
   await expect(page.locator('.stat-grid [data-stat=magic] .stat-gear-bonus')).toHaveText('Trang bị: +0');
   await page.goto('/inventory'); await expect(page.locator('.gear-card')).toHaveCount(4);

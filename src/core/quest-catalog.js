@@ -37,12 +37,14 @@ export function encounterReturnPath(content, id,difficultyId,enemyLevel,selectio
   if(content.encounters[id]?.trialId){const query=new URLSearchParams();if(selection){query.set('level',String(selection.level));for(const[k,n]of Object.entries(selection.conditions))query.set(k,String(n));}return '/chronicles/unrecorded/'+content.encounters[id].trialId+(query.size?'?'+query:'');}
   if(content.encounters[id]?.category==='chronicle'){const e=content.chronicleEvents[content.encounters[id].chronicleEventId];return e.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+e.locationId+'&scene=1';}
   if(content.encounters[id]?.superLevels)return '/quests?tab='+(content.encounters[id].category==='east_super'?'east':'sinister')+'&selected='+id+'&superLevel='+(content.encounters[id].superLevels.includes(enemyLevel)?enemyLevel:60);
+  if(content.encounters[id]?.category==='north_key')return '/quests?tab=north&selected='+id;
   const story = content.encounters[id]?.travelerStory;
   const east = ['east_key','east_hunt','east_super'].includes(content.encounters[id]?.category);
   return story ? `/stories/${story}?selected=${id}` : east?`/quests?tab=east&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:content.encounters[id]?.category==='bounty'?`/quests?tab=bounty&selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`:`/quests?selected=${id}${difficultyId?"&difficulty="+encodeURIComponent(difficultyId):""}`;
 }
 export function questCategory(filters = {}) {
   if(filters.tab==='trial')return 'trial';
+  if(filters.tab==='north')return 'north';
   if(filters.tab==='east')return 'east';
   if(filters.tab==='bounty')return 'bounty';
   if (filters.tab === 'extermination') return 'extermination';
@@ -58,12 +60,12 @@ export function questCatalog(content, campaign, filters = {}) {
       return isQuestUnlocked(encounter, campaign)
         && encounter.category!=='academy_special'
         && !encounter.travelerStory
-        && (category==='trial'?Boolean(encounter.trialId):!encounter.trialId&&(category==='east'?east:category === 'bounty' ? encounter.category==='bounty' : !east && encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super')))
+        && (category==='trial'?Boolean(encounter.trialId):!encounter.trialId&&(category==='north'?encounter.category==='north_key':encounter.category!=='north_key'&&(category==='east'?east:category === 'bounty' ? encounter.category==='bounty' : !east && encounter.category!=='bounty' && (category === 'sinister' ? tier === 'super' : tier !== 'super'))))
         && (!query || encounter.name.toLocaleLowerCase('vi').includes(query))
         && (category !== 'extermination' || !['normal', 'boss'].includes(filters.type) || tier === filters.type);
     })
     // East uses its unlock route as the default order; legacy tabs keep reward-group order.
-    .sort((a, b) => category === 'east'
+    .sort((a, b) => category==='north'?(a.northOrder??999)-(b.northOrder??999):category === 'east'
       ? (a.eastOrder ?? 999) - (b.eastOrder ?? 999)
       : victoryCoinReward(content, a.id) - victoryCoinReward(content, b.id));
 }

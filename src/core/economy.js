@@ -4,7 +4,7 @@ import {pruneRateUpPity,resolveRecruitmentBanner,rateUpPityKey,drawBannerCharact
 import {grantPartyXp} from './leveling.js';
 import {questExperience} from './quest-difficulty.js';
 import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
-import {validT4Gear} from './gear-rules.js';
+import {validT4Gear,gearRecipeUnlocked} from './gear-rules.js';
 import {prepareVictoryReward} from './quest-rewards.js';
 import {recordDailyClear} from './daily-commissions.js';
 import { grantQuestExclusive } from './exclusive-rewards.js';
@@ -109,12 +109,12 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
   if (battle.outcome !== 'victory' || battle.rewardClaimed) return campaign;
   const encounter = content.encounters[battle.encounterId];
   if (encounter?.waves && (battle.storyWave?.totalWaves!==encounter.waves.length || battle.storyWave?.waveIndex!==encounter.waves.length-1)) return campaign;
-  if (encounter?.travelerStory || encounter?.category==='bounty') {
+  if (encounter?.travelerStory || encounter?.category==='bounty' || encounter?.category==='north_key') {
     if (encounter.requires?.firstClear && !campaign.claimedFirstClearRewards?.includes(encounter.requires.firstClear)) throw new Error('Chương truyện trước chưa hoàn thành.');
     if (encounter.requires?.firstClears?.some(id=>!campaign.claimedFirstClearRewards?.includes(id))) throw new Error('Hãy hoàn thành đủ các câu chuyện bắt buộc trước khi nhận thưởng chương truyện.');
     if (encounter.requiredPartyIds?.some(id => !battle.actors?.some(actor => actor.team === 'party' && (actor.definitionId ?? actor.id) === id))) throw new Error('Đội tham chiến thiếu nhân vật bắt buộc.');
   }
-  if(encounter?.travelerStory&&encounter.fixedEnemyLevel!==undefined&&battle.enemyLevel!==encounter.fixedEnemyLevel)throw Error('Cấp thử thách không khớp phần thưởng.');
+  if((encounter?.travelerStory||encounter?.category==='north_key')&&encounter.fixedEnemyLevel!==undefined&&battle.enemyLevel!==encounter.fixedEnemyLevel)throw Error('Cấp thử thách không khớp phần thưởng.');
   const settlement=battle.trial?settleTrialReward(campaign,battle,now):null;
   if(settlement?.duplicate){battle.rewardClaimed=true;battle.victoryReward=Object.freeze({});return campaign;}
   const next=structuredClone(settlement?.campaign??campaign);
@@ -144,7 +144,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     next.claimedFirstClearRewards.push(battle.encounterId);
   }
   if(encounter?.category==='bounty'&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
-  if(['east_key','east_hunt','east_super'].includes(encounter?.category)&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
+  if(['east_key','east_hunt','east_super','north_key'].includes(encounter?.category)&&!next.claimedFirstClearRewards.includes(encounter.id))next.claimedFirstClearRewards.push(encounter.id);
   next.storyFlags??=[];
   const partyIds=new Set((battle.actors??[]).filter(a=>a.team==='party').map(a=>a.definitionId??a.id));
   for(const rule of encounter?.partyClearFlags??[]){
@@ -163,6 +163,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
   const amount=questExperience(content,encounter,battle.questDifficulty);
   const recipients=battle.actors?.filter(a=>a.team==="party").map(a=>a.definitionId??a.id)??campaign.party.filter(Boolean);
   const xpAwards=amount?grantPartyXp(next,content,recipients,amount):[];
+  for(const recipe of Object.values(content.gearEffects))if(!gearRecipeUnlocked(campaign,recipe)&&gearRecipeUnlocked(next,recipe)&&!granted.some(r=>r.type==='gear_recipe'&&r.recipeId===recipe.id))granted.push({type:'gear_recipe',recipeId:recipe.id});
   persist(next);
   if(settlement)battle.victoryReward=Object.freeze(reward);
   battle.xpAwards=xpAwards;

@@ -64,7 +64,7 @@ test('same element adds up to three; different element replaces it and preserves
 
 test('one multi-hit cast consumes one charge, including physical/magical hits and repeated random targets',()=>{
   for(const type of ['physical','magical'])for(const target of ['enemy','random_enemies']){
-    const b=setup();b.random=()=>0;expose(b,'enemy_0','fire',3);const hits=cast(b,{type,target,hits:4});assert.equal(hits.length,4);assert.ok(hits.every(h=>h.amount===60));assert.equal(exposure(b).stacks,2);assert.equal(b.events.filter(e=>e.type==='status_consumed').length,1);
+    const b=setup();b.random=()=>0;expose(b,'enemy_0','fire',3);const hits=cast(b,{type,target,hits:4});assert.equal(hits.length,4);assert.ok(hits.every(h=>h.amount===90&&h.critical));assert.equal(exposure(b).stacks,2);assert.equal(b.events.filter(e=>e.type==='status_consumed').length,1);
   }
 });
 
@@ -93,7 +93,7 @@ test('natural matching weakness still spends exposure; shield damage counts',()=
 
 test('fully dodged physical casts spend no charges; magic is not subject to physical evasion',()=>{
   const b=setup(['arthur','iris'],'forest_patrol',()=>0);expose(b);getActor(b,'enemy_0').statuses.push({id:'evasive',remaining:2,stacks:1,sourceId:'enemy_0'});b.content.statuses.evasive={id:'evasive',name:'Test',kind:'buff',modifiers:{evasion:.85}};
-  assert.equal(cast(b,{hits:4}).length,0);assert.equal(exposure(b).stacks,3);assert.equal(cast(b,{type:'magical'})[0].amount,60);assert.equal(exposure(b).stacks,2);
+  assert.equal(cast(b,{hits:4}).length,0);assert.equal(exposure(b).stacks,3);const [hit]=cast(b,{type:'magical'});assert.equal(hit.amount,90);assert.equal(hit.critical,true);assert.equal(exposure(b).stacks,2);
 });
 
 test('new exposure on hit benefits the next cast, not later hits of the applying cast',()=>{

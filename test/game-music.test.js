@@ -70,3 +70,12 @@ test('unrecorded chronicle menu pauses in battle, resumes across stages and neve
  music.setRoute('/chronicles/unrecorded/ego');await flush();assert.equal(menu.currentTime,15);music.start('song_ego');music.setRoute('/battle');await flush();assert.equal(menu.playing,false);assert.equal(audios[0].src,'/bgm/bgm_sp_song_ego.mp3');assert.equal(audios[0].playing,true);
  music.setRoute('/chronicles/unrecorded/ego');await flush();assert.equal(menu.currentTime,15);assert.equal(menu.playing,true);assert.equal(audios[0].playing,false);music.setVisible(false);assert.equal(menu.playing,false);music.stop();
 });
+
+test('Northern key quests use regional combat and boss BGM while snowy home keeps its own track',async()=>{
+ assert.equal(content.encounters.north_ke_01.bgm,'drageshelmfjall');assert.equal(content.encounters.north_ke_02.bgm,'drageshelmfjall_boss');
+ assert.deepEqual(content.music.drageshelmfjall.tracks,['/bgm/bt1_drageshelmfjall.mp3','/bgm/bt2_drageshelmfjall.mp3']);
+ assert.deepEqual(content.music.drageshelmfjall_boss.tracks,['/bgm/boss_drageshelmfjall.mp3']);
+ const {music,battle,tavern}=fixture();music.start(content.encounters.north_ke_01.bgm);music.setRoute('/battle');await flush();assert.ok(content.music.drageshelmfjall.tracks.includes(battle.src));assert.equal(battle.loop,true);
+ music.start(content.encounters.north_ke_02.bgm);await flush();assert.equal(battle.src,'/bgm/boss_drageshelmfjall.mp3');assert.equal(battle.loop,true);
+ music.setHomeMusic('home_snow_town');music.setRoute('/home');await flush();assert.equal(tavern.src,'/bgm/bgm_snow_town.mp3');assert.equal(battle.playing,false);music.stop();
+});

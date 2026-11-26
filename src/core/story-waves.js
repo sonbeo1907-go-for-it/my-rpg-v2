@@ -16,7 +16,7 @@ function makeWave(content,run,previous=null) {
 }
 export function createStoryRun(content,campaign,encounterId,random,options={}) {
   const encounter=content.encounters[encounterId];
-  if (!encounter?.waves || (!encounter.travelerStory && !['east_key','east_hunt'].includes(encounter.category))) throw new Error('Chương không có chuỗi đợt quái.');
+  if (!encounter?.waves || (!encounter.travelerStory && !['east_key','east_hunt','north_key'].includes(encounter.category))) throw new Error('Chương không có chuỗi đợt quái.');
   const run={kind:'story',encounterId,waveIndex:0,waveCount:encounter.waves.length,partyCampaign:structuredClone(campaign),random,questDifficulty:options.questDifficulty,claimed:false,battle:null};
   run.battle=makeWave(content,run);return run;
 }

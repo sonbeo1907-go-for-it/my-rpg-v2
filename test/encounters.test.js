@@ -17,7 +17,7 @@ function setup(encounter, party = ['arthur'], random = () => .99) {
     campaign.claimedFirstClearRewards.push(...(content.encounters[encounter].requires?.firstClears??[]));
   }
   if(content.encounters[encounter].category==='bounty')campaign.claimedFirstClearRewards.push(...content.encounters[encounter].requires.firstClears);
-  const east=['east_key','east_hunt'].includes(content.encounters[encounter].category);if(east){campaign.claimedFirstClearRewards=[...Object.keys(content.encounters)];campaign.storyFlags.push('eastern_hunts_unlocked');}
+  const east=['east_key','east_hunt','north_key'].includes(content.encounters[encounter].category);if(east){campaign.claimedFirstClearRewards=[...Object.keys(content.encounters)];campaign.storyFlags.push('eastern_hunts_unlocked');}
   campaign.unlockedCharacterIds = Object.keys(content.characters);
   return createBattle(content, campaign, encounter, random,east?{}:{enemyLevel:content.encounters[encounter].fixedEnemyLevel??content.encounters[encounter].superLevels?.[0]??content.encounters[encounter].referenceLevel??content.encounters[encounter].enemyLevel});
 }
@@ -96,7 +96,8 @@ test('type weakness applies to area spells, dodge counters and ally follow-ups',
   getActor(counter, 'enemy_0').stats.defense = 0;
   executeAction(counter, { actorId: 'takeshi', abilityId: 'takeshi.stance' });
   executeAction(counter, { actorId: 'enemy_0', abilityId: 'enemy.wyvern_bite', targetId: 'takeshi' });
-  assert.equal(counter.events.find(event => event.type === 'damage').amount, 42);
+  assert.equal(counter.events.find(event => event.type === 'damage').amount, 63);
+  assert.equal(counter.events.find(event => event.type === 'damage').critical, true);
   const follow = setup('wyvern_trial_9', ['fiona', 'aurora']);
   getActor(follow, 'enemy_0').stats.resistance = 0;
   executeAction(follow, { actorId: 'aurora', abilityId: '$defend', targetId: 'aurora' });

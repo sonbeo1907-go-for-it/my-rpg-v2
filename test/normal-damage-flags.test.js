@@ -41,7 +41,7 @@ test('both Arena sides use the same flag policy, with no character exclusions or
    a.baseStats={...a.stats,attack:75,magic:75};let rolls=0;const ctx={};
    const probe={...b,random:()=>{rolls++;return 0;}};
    assert.equal(criticalMultiplier(probe,a,{element:'plain',additionalElements:['moon']},ctx),1);
-   assert.equal(rolls,0);assert.equal(ctx.criticalChecks,undefined);
+   assert.equal(rolls,0);assert.equal(ctx.criticalRolls,undefined);
    assert.equal(criticalMultiplier(probe,a,{element:'plain',normalDamage:true},{}),1.5);assert.equal(rolls,1);
   }
  }
@@ -62,7 +62,7 @@ test('ordinary eligible characters still proc; recipes cannot reintroduce a char
 test('Moon alone classifies effect damage; stale or future annotations cannot create another category',()=>{
  const a={id:'future_unit',stats:{attack:150,magic:150},gearEffects:gearIds.map(id=>structuredClone(c.gearEffects[id]))};
  let rolls=0;const b={random:()=>{rolls++;return 0;}};
- for(const packet of [{element:'moon'},{element:'plain',additionalElements:['moon'],normalDamage:true}]){assert.equal(isOnlyNormalDamage(packet),false);const ctx={};assert.equal(criticalMultiplier(b,a,packet,ctx),1);assert.equal(ctx.criticalChecks,undefined);}
+ for(const packet of [{element:'moon'},{element:'plain',additionalElements:['moon'],normalDamage:true}]){assert.equal(isOnlyNormalDamage(packet),false);const ctx={};assert.equal(criticalMultiplier(b,a,packet,ctx),1);assert.equal(ctx.criticalRolls,undefined);}
  assert.equal(rolls,0);
  for(const packet of [{element:'plain'},{normalDamage:true,effectDamage:true},{normalDamage:true,futureDamage:true},{normalDamage:false},{normalDamage:true,damageFlags:{otherKind:true}},{normalDamage:true,area:true,reaction:true,automatic:true}])assert.equal(criticalMultiplier(b,a,packet,{}),1.5);
  assert.deepEqual(damageFlags({normalDamage:true,futureDamage:true}),{normalDamage:true,futureDamage:true,effectDamage:false});

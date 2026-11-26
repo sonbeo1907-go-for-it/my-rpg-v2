@@ -267,10 +267,14 @@ export function StatGrid({
   actor,
   compact = false,
   showGearBonuses = false,
+  showAllocationBonuses = false,
+  adjustedStats,
 }: {
   actor: any;
   compact?: boolean;
   showGearBonuses?: boolean;
+  showAllocationBonuses?: boolean;
+  adjustedStats?: Record<string,number>;
 }) {
   return (
     <dl className={`stat-grid ${compact ? "compact" : ""}`}>
@@ -281,6 +285,7 @@ export function StatGrid({
             <dt>{label}</dt>
             <dd>
               <span className="stat-total">{fmt(actor.stats[key])}</span>
+              {adjustedStats&&Math.abs(adjustedStats[key]-actor.stats[key])>1e-8&&<span className="stat-adjusted-total" title="Sau các hiệu ứng" aria-label={`Sau các hiệu ứng: ${fmt(adjustedStats[key])}`}> ({fmt(adjustedStats[key])})</span>}
               {showGearBonuses && (
                 <small
                   className={`stat-gear-bonus ${actor.gearBonuses?.[key] ? "has-bonus" : ""}`}
@@ -288,7 +293,7 @@ export function StatGrid({
                   Trang bị: +{fmt(actor.gearBonuses?.[key] ?? 0)}
                 </small>
               )}
-              {showGearBonuses&&actor.levelBonuses?.[key]?<small className="stat-level-bonus">Phân bổ: +{fmt(actor.levelBonuses[key])}</small>:null}
+              {(showGearBonuses||showAllocationBonuses)&&actor.levelBonuses?.[key]?<small className="stat-level-bonus">Phân bổ: +{fmt(actor.levelBonuses[key])}</small>:null}
               {showGearBonuses && actor.exclusiveBonuses?.[key] ? <small className="stat-exclusive-bonus">Trấn Phái: +{fmt(actor.exclusiveBonuses[key])}</small> : null}
               {actor.teamBonuses?.[key] ? (
                 <small> +{actor.teamBonuses[key]} đội</small>

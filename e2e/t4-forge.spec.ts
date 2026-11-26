@@ -2,7 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 import {loadContent} from '../scripts/load-content.mjs';import {createGameSave,encodeGameSave} from '../src/core/game-save.js';import {craftGear} from '../src/core/gear-forge.js';
 const content:any=await loadContent();
 async function seed(page:Page,{effect=false,gamepad=false,strong=false}={}){
- let c=createGameSave(content);Object.assign(c,{coins:200000,prismaFragments:10000,originalPrisma:10,recruitmentShards:50});c.gear=Array.from({length:30},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));c.gacha.totalPulls=30;
+ let c=createGameSave(content);c.claimedFirstClearRewards.push('bounty_bell_lock_guardian');Object.assign(c,{coins:200000,prismaFragments:10000,originalPrisma:10,recruitmentShards:50});c.gear=Array.from({length:30},(_,i)=>({id:'gear_'+(i+1),typeId:'t3_focused',stats:{attack:5}}));c.gacha.totalPulls=30;
  if(effect)c=craftGear(c,content,{materialId:'gear_1',effectId:'guardian_talisman',primaryStat:undefined});
  if(strong){c.party=['arthur',null,null,null];c.partyPresets[0].slots=[...c.party];c.extraGearSlots.arthur=3;c.equipment.arthur=c.gear.slice(0,6).map((g:any)=>g.id);}
  await page.addInitScript(({raw,gamepad})=>{if(!localStorage.getItem('northern-prisma.campaign.v6'))localStorage.setItem('northern-prisma.campaign.v6',raw);sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false,controlMode:gamepad?'gamepad':'mouse'}));localStorage.setItem('northern-prisma.combat.speed','fast');

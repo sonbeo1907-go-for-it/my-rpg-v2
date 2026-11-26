@@ -320,7 +320,7 @@ export function deserializeCampaign(raw, content) {
         const encounter = content.encounters[id];
         return !encounter.firstClearRewards?.length
           && id !== 'alice_superboss'
-          && !['east_key','east_hunt','east_super'].includes(encounter.category);
+          && !['east_key','east_hunt','east_super','north_key'].includes(encounter.category);
       },
     )
   )

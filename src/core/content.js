@@ -73,6 +73,8 @@ export function validateContent(content) {
   }
   errors.push(...validateSkillProgression(content));
   for (const [id, actor] of Object.entries({ ...content.characters, ...content.enemies })) {
+    if(actor.damageKindMultipliers!==undefined){const m=actor.damageKindMultipliers;if(content.enemies[id]!==actor||!m||Array.isArray(m)||Object.keys(m).length!==2||!['normalDamage','effectDamage'].every(k=>Number.isFinite(m[k])&&m[k]>0&&m[k]<=5))fail(id+': invalid damage kind multipliers');}
+
     if(content.enemies[id]===actor&&(!Number.isInteger(actor.referenceLevel)||actor.referenceLevel<1||actor.referenceLevel>99))fail(id+': invalid reference level');
     if(content.enemies[id]===actor&&actor.hpReferenceLevel!==undefined&&(!Number.isInteger(actor.hpReferenceLevel)||actor.hpReferenceLevel<1||actor.hpReferenceLevel>99))fail(id+': invalid HP reference level');
     if(actor.basicAttack?.some(e=>e.additionalElements!==undefined&&(!Array.isArray(e.additionalElements)||e.additionalElements.length!==1||e.additionalElements.some(v=>!ELEMENTS.includes(v)||v===e.element))))fail(id+': invalid basic additional element');
@@ -503,7 +505,7 @@ export function validateContent(content) {
     if (encounter.requires?.firstClears!==undefined && (!Array.isArray(encounter.requires.firstClears)||!encounter.requires.firstClears.length||new Set(encounter.requires.firstClears).size!==encounter.requires.firstClears.length||encounter.requires.firstClears.some(key=>key===id||!content.encounters[key]))) fail(id+': invalid prerequisite chapters');
     if (encounter.requiredPartyIds !== undefined && (!Array.isArray(encounter.requiredPartyIds) || !encounter.requiredPartyIds.length || new Set(encounter.requiredPartyIds).size !== encounter.requiredPartyIds.length || encounter.requiredPartyIds.some(characterId=>!content.characters[characterId]))) fail(`${id}: invalid required party`);
     if (encounter.waves !== undefined) {
-      if ((!encounter.travelerStory && !['chronicle','east_key','east_hunt'].includes(encounter.category)) || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
+      if ((!encounter.travelerStory && !['chronicle','east_key','east_hunt','north_key'].includes(encounter.category)) || !Array.isArray(encounter.waves) || encounter.waves.length<2 || encounter.waves.length>20 || JSON.stringify(encounter.enemies)!==JSON.stringify(encounter.waves[0])) fail(id+': invalid story waves');
       else for(const wave of encounter.waves) {
         if (!Array.isArray(wave) || !wave.length || wave.length>4 || wave.some(enemy=>!content.enemies[enemy]) || (wave.length!==1 && wave.some(enemy=>content.enemies[enemy]?.boss))) fail(id+': invalid story wave enemies');
       }
@@ -514,7 +516,7 @@ export function validateContent(content) {
     if (encounter.enemies?.some(enemy => content.enemies[enemy]?.boss) && encounter.enemies.length !== 1 && encounter.bossEncounter?.type!=='linked_bosses') fail(`${id}: scripted boss requires a solo encounter`);
     if(encounter.rewardTier==='super'&&encounter.enemies?.length===1){const boss=content.enemies[encounter.enemies[0]];if(boss&&!boss.boss&&!boss.controlImmunities?.includes('stun'))fail(id+': superboss requires stun immunity');}
     exists('music', encounter.bgm ?? 'normal', id);
-    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt','east_super','trial','academy_special'].includes(encounter.category)) fail(id+': invalid quest category');
+    if(encounter.category!==undefined&&!['bounty','chronicle','east_key','east_hunt','east_super','north_key','trial','academy_special'].includes(encounter.category)) fail(id+': invalid quest category');
     if(encounter.rewardPolicy!==undefined&&!['none'].includes(encounter.rewardPolicy))fail(id+': invalid reward policy');
     if(encounter.superLevels!==undefined&&(encounter.rewardTier!=='super'||!encounter.enemies?.every(key=>content.enemies[key]?.boss||content.enemies[key]?.controlImmunities?.includes('stun'))||JSON.stringify(encounter.superLevels)!=='[60,70,80,90]'))fail(id+': invalid super level selection');
     if(encounter.category==='bounty'&&(encounter.rewardTier!=='boss'||encounter.travelerStory||!encounter.requires?.firstClears?.length)) fail(id+': invalid bounty');

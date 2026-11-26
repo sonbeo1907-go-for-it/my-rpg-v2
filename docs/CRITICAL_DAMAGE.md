@@ -10,12 +10,16 @@ Hai boolean luôn được chuẩn hóa từ nguyên tố thực tế. Metadata/
 
 ## Lớp Bạo Kích
 
+Sát thương thường trúng điểm yếu được cộng 15 điểm phần trăm tỷ lệ Bạo Kích, kể cả không mang gear. Cộng với tỷ lệ gear cao nhất, tổng tối đa 100%; Bạo Kích vẫn nhân 1,5 một lần. Điểm yếu tự nhiên, Sơ Hở và điểm yếu vật lí/phép theo resolveWeakness đều tính, chỉ cộng 15% một lần dù khớp nhiều loại. Khai Phá Điểm Yếu không tăng thêm tỷ lệ. Đòn mang Nguyệt vẫn không Bạo Kích. Khoảng 127,5 chỉ số căn bản cùng gear đã đạt trần khi trúng điểm yếu.
+
+Cache lưu giá trị roll theo nguồn/hành động, không lưu boolean. Mỗi hit/mục tiêu so cùng roll với tỷ lệ của chính nó sau đổi hệ và xác định điểm yếu; thứ tự mục tiêu không làm lây bonus sang mục tiêu khác. Tỷ lệ 0/100% không cần roll; nếu hit kế tiếp có tỷ lệ trung gian thì mới tạo roll dùng chung. Định kỳ giữ đường cũ không xét điểm yếu, không tự nhận 15%; không tạo thêm vòng đời/buff/status.
+
 - Ấn Võ Tâm giữ ATK +20%; tỷ lệ Bạo Kích = clamp(ATK căn bản / 150, 0, 1).
 - Ấn Thuật Tâm giữ MAG +20%; tỷ lệ Bạo Kích = clamp(MAG căn bản / 150, 0, 1).
 - Cả hai áp dụng cho mọi sát thương thường của người mang, không giới hạn vật lí/phép hay chỉ số scale. Sát thương hiệu ứng không xét tỷ lệ, không tiêu RNG và không hưởng kết quả của hit thường cùng chiêu.
 - Bạo Kích nhân 1,5 sau DEF/RES, khuếch đại và giảm sát thương hiện có, trước soft cap PvP và chia khiên/HP. Làm tròn sát thương trước và sau lớp này. Không thuộc nhóm damage amp lấy lớn nhất, không cộng 50% vào hệ số cơ sở.
 - Nếu mang cả hai Ấn, lấy tỷ lệ cao hơn và chỉ nhân 1,5 một lần. Tỷ lệ dùng baseStatValue hiện hành (trang bị, phân bổ và cộng phẳng căn bản); buff phần trăm trong trận không tăng tỷ lệ.
-- Một phép thử trên nguồn/hành động ở hit thường đầu tiên trúng, dùng chung cho đa hit, lan, AoE và ngẫu nhiên. Liên kích/phản công dùng hành động riêng; sát thương định kỳ xét mỗi tick. Forecast không tiêu RNG thật. Không tăng heal, khiên hoặc chi phí tự mất HP.
+- Một phép thử trên nguồn/hành động ở hit thường đầu tiên có tỷ lệ trung gian, dùng chung giá trị roll cho đa hit, lan, AoE và ngẫu nhiên. Mỗi hit xét điểm yếu riêng, nên kết quả Crit có thể khác nhau. Liên kích/phản công dùng hành động riêng; sát thương định kỳ xét mỗi tick. Forecast không tiêu RNG thật. Không tăng heal, khiên hoặc chi phí tự mất HP.
 - Gear sinh Liên kích sao chép loại sát thương/nguyên tố, không sao chép kết quả critical. Bản sao xét Bạo Kích theo nguồn của nó. Lưỡi Cắt Dư Âm vẫn 20% sức mạnh.
 
 ## Trình bày

@@ -81,7 +81,8 @@ test('AoE and counterattacks use each actual target’s innate weakness', () => 
   executeAction(counter, { actorId: 'enemy_0', abilityId: 'enemy.slash', targetId: 'takeshi' });
   const retaliation = counter.events.find(event => event.type === 'damage');
   assert.equal(retaliation.targetId, 'enemy_0');
-  assert.equal(retaliation.amount, 32);
+  assert.equal(retaliation.amount, 48);
+  assert.equal(retaliation.critical, true);
   assert.equal(retaliation.weakness, true);
 });
 
