@@ -27,7 +27,7 @@ CD2 của engine bỏ qua hai vòng sau thi triển, sẵn sàng ở R+3; đủ 
 ## Trấn Phái — 28/11/2026
 
 - **Mặt Nạ Dạ Nguyệt (Selene):** +20 điểm phần trăm tỷ lệ Bạo Kích, cộng với gear và điểm yếu, tối đa 100%; không cho sát thương hiệu ứng Bạo Kích. Lunarmare nhận thêm 8 ATK căn bản, tổng +18; rời dạng mất phần cộng này.
-- **Hồ Sơ Bất Khả Bác Bỏ (Simon):** Thế Cờ Đã Định và Đối Chất Đến Cùng từ CD2 còn CD1. Luận Cứ Không Thể Bác Bỏ gắn 3 Sơ Hở Thủy khi trúng; không đổi hệ số Liên kích.
+- **Hồ Sơ Bất Khả Bác Bỏ (Simon):** Thế Cờ Đã Định và Đối Chất Đến Cùng từ CD2 còn CD1. Luận Cứ Không Thể Bác Bỏ đạt sát thương tương đương R5M3 và gắn 3 Sơ Hở Thủy khi trúng. Hệ số PvE hiện tại: 160% × 1,1⁴ × 1,12² × 1,15 = 337,92833536% ATK. PvP chặn phần Thông Thạo, tương đương R5: 234,256% ATK. Đây là hiệu ứng Trấn, không mua hay ghi Rank cho kỹ năng nội tại; tính một lần qua công thức Rank chung.
 - **Chìa Khóa Dạ Yến (Genevieve):** đầu mỗi vòng thật, kể cả vòng 1, tạo 1 Bằng Chứng và cấp +6 DEF/RES căn bản cho đồng đội còn sống đến hết vòng đó. Nguồn phải còn sống; Choáng không chặn nội tại đầu vòng. Không kích lại hay hết hạn ở Vòng Phụ. Status có thể bị xóa/chặn như buff thông thường; Bằng Chứng vẫn theo luật đầy kho ghi nhận tạo. Không thay thế nội tại hồi MP cuối vòng.
 
 Ba công thức dùng quy trình Shop/rèn/lưu chung, mỗi công thức 10 Bản Thiết Kế. Áp dụng đối xứng PvE/PvP, theo phe người mang. Snapshot giữ trạng thái và deadline, phase không tái kích; wave bắt đầu vòng mới thì kích một lần cho vòng mới. Trận mới khởi tạo lại. Bộ kit không trang bị Trấn giữ nguyên.

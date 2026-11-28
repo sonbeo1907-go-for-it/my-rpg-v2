@@ -1,3 +1,5 @@
+import {coefficientFactor,skillRules} from '../src/core/skill-rules.js';
+import {exclusiveDamageEffect,validateExclusivePassive} from '../src/core/exclusive-hooks.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadContent} from '../scripts/load-content.mjs';
@@ -114,4 +116,26 @@ test('Miraebolis phase change neither reapplies Genevieve round buff nor duplica
  const campaign=save();campaign.storyFlags.push('illusion.sinister_unlocked');const b=createBattle(c,campaign,'miraebolis_superboss',seededRandom(66)),enemy=b.actors.find(a=>a.team==='enemy'),s=getActor(b,'selene'),g=getActor(b,'genevieve');
  cast(b,s,'selene.masquerade');const pool=teamResourceState(b,s,'evidence').value,round=b.round,before=structuredClone(guard(g));enemy.hp=Math.ceil(enemy.stats.maxHp*enemy.boss.phases[1].atHpRatio)+1;cast(b,s,'selene.execution',enemy.id);
  assert.equal(enemy.bossState.phase,2);assert.equal(b.round,round);assert.equal(teamResourceState(b,s,'evidence').value,pool-1);assert.deepEqual(guard(g),before);near(baseStatValue(g,'defense'),26);assert.equal(g.statuses.filter(s=>s.id==='vertosse_round_guard').length,1);
+});
+
+test('Simon signature raises real PvE follow-up to R5M3 without gear changing the original 160 percent',()=>{
+ for(const equipped of [true,false]){
+  const b=fixture(equipped?['simon.signature']:[]),a=getActor(b,'selene'),s=getActor(b,'simon'),target=getActor(b,'enemy_2');target.hp=target.stats.maxHp=1000000;target.stats.defense=0;target.weaknesses=[];target.damageTypeWeaknesses=[];target.resistances={};
+  cast(b,a,'selene.masquerade');cast(b,a,'selene.execution','enemy_0');const hit=b.events.find(e=>e.type==='damage'&&e.sourceId===s.id);assert.ok(hit);assert.equal(hit.targetId,target.id);assert.equal(hit.amount,Math.floor(s.stats.attack*1.6*(equipped?coefficientFactor(8,skillRules(c)):1)));assert.equal(target.statuses.find(s=>s.id==='exposure_water').stacks,equipped?3:2);
+  assert.equal(resolveRankedAbility(c,s,'simon.objection').skillRank,1);assert.equal(c.abilities['simon.objection'].effects[0].multiplier,1.6);if(equipped)assert.match(passivePresentation(s,c).facts.join(' '),/337,93% ATK/);
+ }
+});
+
+test('Simon signature damage respects PvP R5 ceiling on either mirror side',()=>{
+ for(const side of ['party','enemy']){
+  const b=createArenaBattle(c,save(['simon.signature']),'mirror',72);for(const a of b.actors){a.hp=a.stats.maxHp=100000;a.mp=a.stats.maxMp=10000;a.stats.defense=0;a.weaknesses=[];a.damageTypeWeaknesses=[];a.resistances={};}
+  const a=b.actors.find(a=>a.team===side&&a.definitionId==='selene'),s=b.actors.find(a=>a.team===side&&a.definitionId==='simon'),target=b.actors.find(a=>a.team!==side);cast(b,a,'selene.masquerade');cast(b,a,'selene.execution',target.id);
+  const hit=b.events.find(e=>e.type==='damage'&&e.sourceId===s.id);assert.ok(hit);assert.equal(hit.pvpDamage.before,Math.floor(s.stats.attack*1.6*coefficientFactor(5,skillRules(c))));assert.match(passivePresentation(s,b.content).facts.join(' '),/234,26% ATK/);
+ }
+});
+
+test('rank-equivalent signature uses shared progression once and validates authored rank',()=>{
+ const actor=resolveCharacter(c,save(['simon.signature']),'simon'),raw=resolveRankedAbility(c,actor,'simon.objection').effects[0],copy=structuredClone(raw),resolved=exclusiveDamageEffect(actor,'simon.objection',raw);near(resolved.multiplier,3.3792833536000013);assert.deepEqual(raw,copy);assert.deepEqual(exclusiveDamageEffect(actor,'simon.objection',resolved),resolved);
+ actor.skillProgression={...actor.skillProgression,coefficientGrowthPerRank:1.2};near(exclusiveDamageEffect(actor,'simon.objection',raw).multiplier,1.6*coefficientFactor(8,actor.skillProgression));
+ const p=c.exclusiveGear['simon.signature'].passive.effects.find(p=>p.type==='skill_scaling_override');for(const rank of [0,8.5,9,Infinity])assert.equal(validateExclusivePassive({...p,equivalentRank:rank},c),false);assert.equal(validateExclusivePassive(p,c),true);
 });

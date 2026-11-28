@@ -37,3 +37,11 @@ Chạy validate, typecheck, toàn bộ npm test, desktop:check và desktop:build
 - 2/2 test giao diện trên static export qua, gồm desktop/mobile và modal mở công thức.
 - Desktop build thành công; giữ bản cũ tại E:\MyRPG\vertosse-release. Manifest/hash: E:\MyRPG\vertosse-release\manifest.json.
 - EXE: src-tauri/target/release/northern-prisma.exe; bộ cài: src-tauri/target/release/bundle/nsis/The Prisma Origin_2.0.0_x64-setup.exe. Không mở bản đóng gói vào hồ sơ người chơi để smoke; phần frontend được kiểm tra qua static export, phần native qua test store riêng.
+
+## Bổ sung sát thương Trấn Simon — 28/11/2026
+
+- VT14: Liên kích thực trong PvE đạt 337,92833536% ATK, vẫn gắn 3 Sơ Hở Thủy; không Trấn giữ 160%/2 Sơ Hở.
+- VT15: PvP mirror áp đối xứng tương đương R5 (234,256% ATK), không nhận phần Thông Thạo.
+- VT16: công thức đọc cấu hình Rank, áp một lần, không đổi kỹ năng gốc hoặc Rank đã lưu; validator từ chối Rank sai.
+- Tooltip nội tại lấy hệ số sau Trấn. Kết quả build/hash ở phần trước thuộc bản trước bổ sung này.
+Kết quả bổ sung: 16/16 test case Vertosse và toàn bộ 2.185/2.185 unit test qua; validate và typecheck qua. Chưa build lại EXE sau cập nhật sát thương Simon.

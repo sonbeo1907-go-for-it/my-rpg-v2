@@ -1,3 +1,4 @@
+import {coefficientFactor,skillRules} from './skill-rules.js';
 import {validateSpecialPassive,SPECIAL_EXCLUSIVE_TYPES,specialPassives,hasLiveStatus} from './exclusive-specials.js';
 export function exclusivePassives(actor){const p=actor.exclusiveGear?.template?.passive;return p?.type==='bundle'?p.effects:p?[p]:[];}
 export function exclusiveStatModifiers(actor){const mods={};for(const p of exclusivePassives(actor).filter(p=>p.type==='stat_boost'))for(const[k,n]of Object.entries(p.modifiers))mods[k]=(mods[k]??0)+n;return mods;}
@@ -25,6 +26,7 @@ export function validateExclusivePassive(passive,content) {
   if(passive.type==='field_stat_boost'&&(!passive.modifiers||!Object.keys(passive.modifiers).length||Object.entries(passive.modifiers).some(([k,n])=>!['attack','magic','defense','resistance','speed'].includes(k)||!Number.isFinite(n)||n<=0||n>1)))return false;
   if(passive.type==='shield_break_restore_hp'&&(!Number.isFinite(passive.multiplier)||passive.multiplier<=0||passive.multiplier>1||!Array.isArray(passive.scalingStats)||JSON.stringify(passive.scalingStats)!=='["defense","resistance"]'))return false;
   if(passive.type==='skill_scaling_override'&&(!Number.isFinite(passive.multiplier)||passive.multiplier<=0||passive.multiplier>10))return false;
+  if(passive.equivalentRank!==undefined&&(passive.type!=='skill_scaling_override'||!Number.isInteger(passive.equivalentRank)||passive.equivalentRank<1||passive.equivalentRank>(skillRules(content).mastery?.maxRank??5)||passive.abilityIds.some(id=>content.abilities[id].activation!=='passive')))return false;
   if (['skill_damage','skill_penetration','dodge_heal','shield_break_heal_bonus','cover_damage_reduction','next_turn_heal'].includes(passive.type) && (!Number.isFinite(passive.ratio) || passive.ratio <= 0 || passive.ratio > 1)) return false;
   if (['after_skill_status','fresh_mark_bonus','consumed_targets_mp','skill_status_duration'].includes(passive.type) && !content.statuses[passive.statusId]) return false;
   if (passive.type==='after_skill_status' && !content.statuses[passive.statusId].persistent && (!Number.isInteger(passive.duration) || passive.duration < 1)) return false;
@@ -41,8 +43,9 @@ export function validateExclusivePassive(passive,content) {
 export function exclusiveDamageEffect(actor,skillId,effect){
  if(effect.type!=='damage'||effect.rankDamageApplied)return effect;
  const p=exclusivePassive(actor,'skill_scaling_override',skillId),result=p?{...effect,multiplier:p.multiplier}:{...effect};
- if(effect.rankDamageFactor!==undefined){
-  for(const key of ['multiplier','primaryMultiplier','perResource','primaryPerResource','perStack','lowHpBonus','perTargetBuff','speedMultiplier'])if(result[key]!==undefined)result[key]*=effect.rankDamageFactor;
+ const rankFactor=p?.equivalentRank!==undefined?coefficientFactor(actor.masteryDisabled?Math.min(5,p.equivalentRank):p.equivalentRank,actor.skillProgression):effect.rankDamageFactor;
+ if(rankFactor!==undefined){
+  for(const key of ['multiplier','primaryMultiplier','perResource','primaryPerResource','perStack','lowHpBonus','perTargetBuff','speedMultiplier'])if(result[key]!==undefined)result[key]*=rankFactor;
   result.rankDamageApplied=true;
  }
  const speed=specialPassives(actor,'skill_speed_damage').find(p=>p.abilityIds.includes(skillId)&&hasLiveStatus(actor,p.requiresStatus));

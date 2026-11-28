@@ -1653,7 +1653,7 @@
     "passive": {
       "type": "bundle",
       "name": "Hồ Sơ Bất Khả Bác Bỏ",
-      "description": "Thế Cờ Đã Định và Đối Chất Đến Cùng giảm 1 vòng hồi chiêu. Liên kích Luận Cứ Không Thể Bác Bỏ gắn 3 Sơ Hở Thủy.",
+      "description": "Thế Cờ Đã Định và Đối Chất Đến Cùng giảm 1 vòng hồi chiêu. Luận Cứ Không Thể Bác Bỏ đạt sát thương tương đương Rank 5 · Thông Thạo 3 và gắn 3 Sơ Hở Thủy.",
       "effects": [
         {
           "type": "skill_cooldown_reduction",
@@ -1673,6 +1673,16 @@
             "simon.objection"
           ],
           "amount": 1
+        },
+        {
+          "type": "skill_scaling_override",
+          "name": "Hồ Sơ Bất Khả Bác Bỏ",
+          "description": "Liên kích đạt sát thương tương đương Rank 5 · Thông Thạo 3.",
+          "abilityIds": [
+            "simon.objection"
+          ],
+          "multiplier": 1.6,
+          "equivalentRank": 8
         }
       ]
     },
