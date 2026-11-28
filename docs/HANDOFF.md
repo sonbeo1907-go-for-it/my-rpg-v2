@@ -1,3 +1,7 @@
+## Trấn Phái Vertosse — 28/11/2026
+
+Đã thêm Trấn Selene (+20% tỷ lệ Bạo Kích, +8 ATK căn bản riêng Lunarmare), Simon (hai CD −1, Liên kích 3 Sơ Hở Thủy), Genevieve (đầu vòng tạo1 Bằng Chứng và +6 DEF/RES căn bản toàn đội đến hết vòng). Công thức mở bằng10 Bản Thiết Kế tại Shop; xem [VERTOSSE](VERTOSSE.md). Hook Liên kích tiêu tài nguyên dùng resolver chung để nhận hiệu ứng Trấn.
+
 # Bàn giao cho DeepSeek Harness / cộng tác viên
 
 ## Trang nhân vật và kế hoạch công thức — 26/11/2026

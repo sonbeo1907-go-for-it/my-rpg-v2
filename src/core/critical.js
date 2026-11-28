@@ -1,4 +1,5 @@
 import {baseStatValue} from './combat-math.js';
+import {specialPassives} from './exclusive-specials.js';
 import {damageFlags} from './damage-kind.js';
 
 export const CRITICAL_MULTIPLIER=1.5;
@@ -8,7 +9,8 @@ export function criticalChance(actor,weakness=false) {
  for(const recipe of actor?.gearEffects??[]){const e=recipe.effect;if(!['critical_chance','normal_damage_chance'].includes(e.type))continue; // Legacy encounter snapshots.
   gearChance=Math.max(gearChance,Math.min(1,Math.max(0,baseStatValue(actor,e.stat)/e.atStat)));
  }
- return Math.min(1,gearChance+(weakness?WEAKNESS_CRITICAL_CHANCE:0));
+ const exclusiveChance=specialPassives(actor,'critical_chance_bonus').reduce((sum,p)=>sum+p.ratio,0);
+ return Math.min(1,gearChance+exclusiveChance+(weakness?WEAKNESS_CRITICAL_CHANCE:0));
 }
 
 // Share the roll, not the result: weakness can differ across targets/hits.

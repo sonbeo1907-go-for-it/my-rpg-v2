@@ -1,5 +1,7 @@
 # Trấn Phái và Bản Thiết Kế
 
+Ba Trấn Vertosse bổ sung ngày 28/11/2026: Mặt Nạ Dạ Nguyệt (Selene), Hồ Sơ Bất Khả Bác Bỏ (Simon), Chìa Khóa Dạ Yến (Genevieve). Mỗi công thức mở bằng 10 Bản Thiết Kế; hiệu ứng tại [VERTOSSE](VERTOSSE.md).
+
 ## Nguồn mở công thức
 
 - Sáu nhân vật khởi đầu giữ nguồn mở hiện tại.

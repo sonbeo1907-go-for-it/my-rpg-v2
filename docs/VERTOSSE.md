@@ -2,7 +2,7 @@
 
 > **Ghi chú phiên bản:** tài liệu chuyên đề theo đợt triển khai. Các con số trận mẫu là ảnh chụp, không tự áp lên mọi Level/Rank. Luật chung hiện hành ở [ENGINE_RULES](ENGINE_RULES.md), thông số thô ở JSON/[catalog](CHARACTER_CATALOG.md); thay đổi mới hơn được ưu tiên. Save ứng dụng hiện v7. Không triển khai lại tính năng đã gỡ từ mô tả lịch sử.
 
-Bốn nhân vật gacha: Selene (Thủy, DPS vật lí), Simon (Thủy, hỗ trợ tấn công), Genevieve (Ám, hỗ trợ phòng thủ theo ATK), Noctis (Ám, DPS vật lí; xem NOCTIS.md). Không thêm nội dung truyện hoặc công thức Trấn.
+Bốn nhân vật gacha: Selene (Thủy, DPS vật lí), Simon (Thủy, hỗ trợ tấn công), Genevieve (Ám, hỗ trợ phòng thủ theo ATK), Noctis (Ám, DPS vật lí; xem NOCTIS.md). Không thêm nội dung truyện mới. Ba công thức Trấn Selene, Simon và Genevieve mở bằng Bản Thiết Kế tại Shop.
 
 Simon chỉ mang tên Simon; affiliation và tag Vertosse thể hiện phe phái, không phải họ của anh.
 
@@ -23,3 +23,11 @@ Genevieve cuối vòng hồi 4% MP/Bằng Chứng thực tiêu cùng vòng, tố
 - Genevieve: HP170 MP120 ATK28 MAG12 DEF20 RES26 SPD17. Khiên toàn đội (120%+15% mỗi Bằng Chứng) ATK, tạo1, 14 MP/CD2. Hồi HP toàn đội (100%+15% mỗi Bằng Chứng) ATK, tạo1, 16 MP/CD2. DEF/RES toàn đội (20%+2,5% mỗi Bằng Chứng), 3 lượt chính, 12 MP/CD2.
 
 CD2 của engine bỏ qua hai vòng sau thi triển, sẵn sàng ở R+3; đủ duy trì buff 3 lượt chính trong thứ tự ổn định. Rank tăng damage/heal/shield 10% tương đối, stat buff 5% (SPD giữ nguyên); phần hệ số tăng theo Bằng Chứng của Genevieve cũng tăng theo nhóm tương ứng. Khuếch đại giữ nguyên, Rank giảm MP. Khai Phá Điểm Yếu dùng chung status main_turn để mô tả Kính Săn Điểm Yếu và hiệu lực Simon thống nhất.
+
+## Trấn Phái — 28/11/2026
+
+- **Mặt Nạ Dạ Nguyệt (Selene):** +20 điểm phần trăm tỷ lệ Bạo Kích, cộng với gear và điểm yếu, tối đa 100%; không cho sát thương hiệu ứng Bạo Kích. Lunarmare nhận thêm 8 ATK căn bản, tổng +18; rời dạng mất phần cộng này.
+- **Hồ Sơ Bất Khả Bác Bỏ (Simon):** Thế Cờ Đã Định và Đối Chất Đến Cùng từ CD2 còn CD1. Luận Cứ Không Thể Bác Bỏ gắn 3 Sơ Hở Thủy khi trúng; không đổi hệ số Liên kích.
+- **Chìa Khóa Dạ Yến (Genevieve):** đầu mỗi vòng thật, kể cả vòng 1, tạo 1 Bằng Chứng và cấp +6 DEF/RES căn bản cho đồng đội còn sống đến hết vòng đó. Nguồn phải còn sống; Choáng không chặn nội tại đầu vòng. Không kích lại hay hết hạn ở Vòng Phụ. Status có thể bị xóa/chặn như buff thông thường; Bằng Chứng vẫn theo luật đầy kho ghi nhận tạo. Không thay thế nội tại hồi MP cuối vòng.
+
+Ba công thức dùng quy trình Shop/rèn/lưu chung, mỗi công thức 10 Bản Thiết Kế. Áp dụng đối xứng PvE/PvP, theo phe người mang. Snapshot giữ trạng thái và deadline, phase không tái kích; wave bắt đầu vòng mới thì kích một lần cho vòng mới. Trận mới khởi tạo lại. Bộ kit không trang bị Trấn giữ nguyên.

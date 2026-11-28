@@ -2298,5 +2298,13 @@
     "modifiers": {
       "maxMp": 0.3
     }
+  },
+  {
+    "id": "vertosse_round_guard",
+    "name": "Chìa Khóa Dạ Yến",
+    "kind": "buff",
+    "durationClock": "round",
+    "modifiers": {},
+    "description": "+6 DEF và RES căn bản đến hết vòng."
   }
 ]

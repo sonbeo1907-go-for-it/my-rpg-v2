@@ -1613,5 +1613,96 @@
         "Chỉ một Lượt Thêm mỗi nhân vật mỗi vòng; không cấp tiếp trong Vòng Phụ."
       ]
     }
+  },
+  {
+    "id": "selene.signature",
+    "characterId": "selene",
+    "name": "Mặt Nạ Dạ Nguyệt",
+    "passive": {
+      "type": "bundle",
+      "name": "Mặt Nạ Dạ Nguyệt",
+      "description": "Tăng 20% tỷ lệ Bạo Kích. Trong Lunarmare, nhận thêm 8 ATK căn bản.",
+      "effects": [
+        {
+          "type": "critical_chance_bonus",
+          "name": "Mặt Nạ Dạ Nguyệt",
+          "description": "Tăng 20% tỷ lệ Bạo Kích.",
+          "ratio": 0.2
+        },
+        {
+          "type": "mode_base_stat_bonus",
+          "name": "Mặt Nạ Dạ Nguyệt",
+          "description": "Trong Lunarmare, nhận thêm 8 ATK căn bản.",
+          "modeId": "lunarmare",
+          "stat": "attack",
+          "amount": 8,
+          "modeSummary": "+18 ATK căn bản · tiêu Bằng Chứng để tấn công"
+        }
+      ]
+    },
+    "description": "Trấn Phái riêng của Selene. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    }
+  },
+  {
+    "id": "simon.signature",
+    "characterId": "simon",
+    "name": "Hồ Sơ Bất Khả Bác Bỏ",
+    "passive": {
+      "type": "bundle",
+      "name": "Hồ Sơ Bất Khả Bác Bỏ",
+      "description": "Thế Cờ Đã Định và Đối Chất Đến Cùng giảm 1 vòng hồi chiêu. Liên kích Luận Cứ Không Thể Bác Bỏ gắn 3 Sơ Hở Thủy.",
+      "effects": [
+        {
+          "type": "skill_cooldown_reduction",
+          "name": "Hồ Sơ Bất Khả Bác Bỏ",
+          "description": "Hai kỹ năng hỗ trợ giảm 1 vòng hồi chiêu.",
+          "abilityIds": [
+            "simon.strategy",
+            "simon.cross_examine"
+          ],
+          "amount": 1
+        },
+        {
+          "type": "exposure_stack_bonus",
+          "name": "Hồ Sơ Bất Khả Bác Bỏ",
+          "description": "Liên kích gắn 3 Sơ Hở Thủy.",
+          "abilityIds": [
+            "simon.objection"
+          ],
+          "amount": 1
+        }
+      ]
+    },
+    "description": "Trấn Phái riêng của Simon. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    }
+  },
+  {
+    "id": "genevieve.signature",
+    "characterId": "genevieve",
+    "name": "Chìa Khóa Dạ Yến",
+    "passive": {
+      "type": "round_team_resource_status",
+      "name": "Chìa Khóa Dạ Yến",
+      "description": "Đầu vòng, tạo 1 Bằng Chứng và tăng 6 DEF, RES căn bản cho toàn đội đến hết vòng.",
+      "teamResourceId": "evidence",
+      "amount": 1,
+      "statusId": "vertosse_round_guard",
+      "duration": 1,
+      "baseStatModifiers": {
+        "defense": 6,
+        "resistance": 6
+      }
+    },
+    "description": "Trấn Phái riêng của Genevieve. Mở công thức bằng Bản Thiết Kế tại Shop.",
+    "enabled": true,
+    "requires": {
+      "blueprint": true
+    }
   }
 ]

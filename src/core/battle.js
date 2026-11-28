@@ -1,3 +1,4 @@
+import {activateRoundExclusiveEffects} from './exclusive-round-effects.js';
 import {damageFlags,copyDamageFlags,incomingDamageKindMultiplier} from './damage-kind.js';
 import {resolveCritical} from './critical.js';
 import {chosenAlly,extendBeneficial,markWaningBuff,expireWaningBuffs} from './witch-cycle.js';
@@ -618,6 +619,7 @@ function startRound(battle) {
     markProc(battle,owner,p.type);const state=teamResourceState(battle,owner,p.resource),spent=state?.spentRound===battle.round-1?state.spent:0,ratio=Math.min(p.cap,spent*p.perStack);
     if(ratio>0){announcePassive(battle,owner,owner.id);applyStatus(battle,owner,p.statusId,1,owner.id,{appliedModifiers:{[p.stat]:ratio}});}
   }
+  activateRoundExclusiveEffects(battle,teamIO);
   advanceMoonlightCycles(battle,moonlightIO);
   activateRoundGear(battle,{status:applyStatus,heal:healHp,restore:gainResource,emit:emitEvent,write});
   roundSummons(battle,"start",modeIO);
@@ -1467,7 +1469,7 @@ function chargeSupportModes(battle,source,context){
 function triggerSpentResourceFollowups(battle,source,cost){
  for(const owner of battle.actors){const p=owner.passive;if(p?.type!=='spent_resource_followup'||p.resource!==cost.id||!living(owner))continue;
   const target=battle.actors.filter(t=>canTriggerFollowUp(owner,source,t)).sort((a,b)=>b.hp-a.hp||(a.formationSlot??0)-(b.formationSlot??0))[0];if(!target||!reservePvpAutomatic(battle,owner,modeIO))continue;
-  const skill=battle.content.abilities[p.followUpAbility],context={...attackContext(battle,owner),pvpRegistered:true,skillId:skill.id,skill,reaction:true,reactionKind:'follow_up'};
+  const skill=resolveRankedAbility(battle.content,owner,p.followUpAbility),context={...attackContext(battle,owner),pvpRegistered:true,skillId:skill.id,skill,reaction:true,reactionKind:'follow_up'};
   announcePassive(battle,owner,source.id);write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+skill.name+'.');emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:target.id,abilityId:skill.id});
   for(const effect of skill.effects)applyEffect(battle,owner,[target],effect,0,false,context);
   finishAttackContext(battle,owner,context);transitionBossPhases(battle,{write,restoreMp:gainResource});

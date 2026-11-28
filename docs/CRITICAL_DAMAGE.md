@@ -10,7 +10,7 @@ Hai boolean luôn được chuẩn hóa từ nguyên tố thực tế. Metadata/
 
 ## Lớp Bạo Kích
 
-Sát thương thường trúng điểm yếu được cộng 15 điểm phần trăm tỷ lệ Bạo Kích, kể cả không mang gear. Cộng với tỷ lệ gear cao nhất, tổng tối đa 100%; Bạo Kích vẫn nhân 1,5 một lần. Điểm yếu tự nhiên, Sơ Hở và điểm yếu vật lí/phép theo resolveWeakness đều tính, chỉ cộng 15% một lần dù khớp nhiều loại. Khai Phá Điểm Yếu không tăng thêm tỷ lệ. Đòn mang Nguyệt vẫn không Bạo Kích. Khoảng 127,5 chỉ số căn bản cùng gear đã đạt trần khi trúng điểm yếu.
+Sát thương thường trúng điểm yếu được cộng 15 điểm phần trăm tỷ lệ Bạo Kích, kể cả không mang gear. Cộng với tỷ lệ gear cao nhất và tỷ lệ cộng từ Trấn Phái (Selene +20 điểm phần trăm), tổng tối đa 100%; Bạo Kích vẫn nhân 1,5 một lần. Điểm yếu tự nhiên, Sơ Hở và điểm yếu vật lí/phép theo resolveWeakness đều tính, chỉ cộng 15% một lần dù khớp nhiều loại. Khai Phá Điểm Yếu không tăng thêm tỷ lệ. Đòn mang Nguyệt vẫn không Bạo Kích. Khoảng 127,5 chỉ số căn bản cùng gear đã đạt trần khi trúng điểm yếu.
 
 Cache lưu giá trị roll theo nguồn/hành động, không lưu boolean. Mỗi hit/mục tiêu so cùng roll với tỷ lệ của chính nó sau đổi hệ và xác định điểm yếu; thứ tự mục tiêu không làm lây bonus sang mục tiêu khác. Tỷ lệ 0/100% không cần roll; nếu hit kế tiếp có tỷ lệ trung gian thì mới tạo roll dùng chung. Định kỳ giữ đường cũ không xét điểm yếu, không tự nhận 15%; không tạo thêm vòng đời/buff/status.
 
