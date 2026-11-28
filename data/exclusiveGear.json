@@ -63,6 +63,41 @@
     }
   },
   {
+    "id": "arthur.lamplight",
+    "characterId": "arthur",
+    "name": "Ánh Đèn Qua Đêm Dài",
+    "description": "Ánh lửa còn sáng sau đêm tuyết dài.",
+    "enabled": true,
+    "passive": {
+      "type": "bundle",
+      "name": "Ánh Đèn Qua Đêm Dài",
+      "description": "Tăng 10% tỷ lệ Bạo Kích và 20% sát thương Bạo Kích.",
+      "effects": [
+        {
+          "type": "critical_chance_bonus",
+          "name": "Đốm Lửa Dẫn Đường",
+          "description": "Tăng 10% tỷ lệ Bạo Kích.",
+          "ratio": 0.1
+        },
+        {
+          "type": "critical_damage_bonus",
+          "name": "Lưỡi Kiếm Qua Đêm",
+          "description": "Tăng 20% sát thương Bạo Kích.",
+          "ratio": 0.2
+        }
+      ]
+    },
+    "source": {
+      "type": "quest",
+      "encounterId": "north_ke_02",
+      "statKey": "attack",
+      "statValue": 10,
+      "requiredPartyIds": [
+        "arthur"
+      ]
+    }
+  },
+  {
     "id": "iris.notebook",
     "characterId": "iris",
     "name": "Bút ký vạn tượng",

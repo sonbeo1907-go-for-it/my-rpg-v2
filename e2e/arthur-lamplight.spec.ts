@@ -1,0 +1,12 @@
+import {test,expect} from '@playwright/test';
+import {loadContent} from '../scripts/load-content.mjs';
+import {createGameSave,encodeGameSave} from '../src/core/game-save.js';
+const content:any=await loadContent();
+async function seed(page:any,owned=false){const s=createGameSave(content);s.claimedFirstClearRewards=['east_ke_08','north_ke_01','north_ke_02'];if(owned)s.exclusiveGear.push({templateId:'arthur.lamplight',statKey:'attack',statValue:10});await page.addInitScript(raw=>{if(!sessionStorage.getItem('arthur-lamplight-fixture')){sessionStorage.setItem('arthur-lamplight-fixture','1');localStorage.setItem('northern-prisma.campaign.v7',raw);}sessionStorage.setItem('northern-prisma.entered','1');localStorage.setItem('northern-prisma.settings.v1',JSON.stringify({musicEnabled:false,controlMode:'mouse'}));},encodeGameSave(s,content));}
+test('quest shows conditional signature after an earlier clear and forge links to the Northern tab',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page);await page.goto('/quests?tab=north&selected=north_ke_02');await expect(page.locator('.first-clear').filter({hasText:'Ánh Đèn Qua Đêm Dài'})).toContainText('Chiến thắng cùng Arthur');
+ await page.goto('/blacksmith?tab=exclusive&character=arthur');const card=page.locator('.exclusive-card').filter({has:page.getByRole('heading',{name:'Ánh Đèn Qua Đêm Dài',exact:true})});await expect(card).toContainText('10% tỷ lệ Bạo Kích');await expect(card).toContainText('20% sát thương Bạo Kích');await expect(card).toContainText('ATK +10');await card.getByRole('link',{name:'Đến nhiệm vụ',exact:true}).click();await expect(page).toHaveURL(/quests\?tab=north&selected=north_ke_02$/);expect(errors).toEqual([]);
+});
+test('ready signature can be equipped without crafting and stays owned after reload',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await seed(page,true);await page.goto('/blacksmith?tab=exclusive&character=arthur');const card=page.locator('.exclusive-card').filter({has:page.getByRole('heading',{name:'Ánh Đèn Qua Đêm Dài',exact:true})});await expect(card).toContainText('Đã sở hữu');await card.getByRole('button',{name:'Trang bị',exact:true}).click();await expect(card.getByRole('button',{name:'Tháo',exact:true})).toBeVisible();await page.reload();await expect(card.getByRole('button',{name:'Tháo',exact:true})).toBeVisible();await page.screenshot({path:'test-results/arthur-lamplight-equipped.png',fullPage:true});expect(errors).toEqual([]);
+});

@@ -32,7 +32,7 @@ const number=n=>new Intl.NumberFormat('vi-VN',{maximumFractionDigits:2}).format(
 const pct=n=>number(n*100)+'%';
 const unique=lines=>[...new Set(lines.filter(Boolean))];
 const signed=n=>(n<0?'−':'+')+pct(Math.abs(n));
-const statName=key=>key==='maxHp'?'HP tối đa':key==='maxMp'?'MP tối đa':STAT_LABELS[key]??({damageBonus:'sát thương',damageReduction:'giảm sát thương nhận',evasion:'né vật lí'}[key]??key);
+const statName=key=>key==='maxHp'?'HP tối đa':key==='maxMp'?'MP tối đa':STAT_LABELS[key]??({criticalDamageBonus:'sát thương Bạo Kích',damageBonus:'sát thương',damageReduction:'giảm sát thương nhận',evasion:'né vật lí'}[key]??key);
 const resourceName=(actor,id)=>id==='mp'?'MP':actor.resources?.[id]?.name??id;
 
 // Public copy is built from mechanical values. Prose states intent; facts own numbers and timing.

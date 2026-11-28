@@ -1,3 +1,7 @@
+## Trấn Arthur và trần sát thương Bạo Kích — 28/11/2026
+
+Trấn mới arthur.lamplight, Ánh Đèn Qua Đêm Dài: nhận trực tiếp +10 ATK khi thắng north_ke_02 có Arthur trong đội trận; có thể đánh lại nếu đã clear trước. +10% tỷ lệ Bạo Kích, +20% sát thương Bạo Kích. stackCriticalDamageBonuses cộng nguồn trước trần tổng200%; criticalDamageMultiplier gom Trấn và buff criticalDamageBonus, không dùng luật chỉ lấy damage amp lớn nhất. Tỷ lệ/cách roll Crit không đổi. Xem [ARTHUR_LAMPLIGHT](ARTHUR_LAMPLIGHT.md), [CRITICAL_DAMAGE](CRITICAL_DAMAGE.md).
+
 ## Bách Khoa và menu trận — 28/11/2026
 
 Đã giảm riêng Bóng Đen Bám Đèn (ATK gốc36, cắn140%); boss giữ đòn cũ. Bách Khoa ghi quái thực sự gặp và tra stat theo cấp/encounter, trường bestiary nằm trong progression split-save; save cũ khôi phục từ biên nhận first-clear. Nút trở về trong combat mở Tiếp tục/Tạm thoát/Thoát trận; tạm thoát PvE thường chỉ giữ trong phiên đang mở, Arena không được tạm thoát và rời trận vẫn xử thua. Sửa allowlist đội hình cho Khu Luyện Tập và ba màn Khúc Ca. Xem [BESTIARY_AND_BATTLE_MENU](BESTIARY_AND_BATTLE_MENU.md).

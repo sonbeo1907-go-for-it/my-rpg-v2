@@ -1,5 +1,7 @@
 # Mục lục tài liệu
 
+- [Trấn Arthur: Ánh Đèn Qua Đêm Dài và trần sát thương Bạo Kích](ARTHUR_LAMPLIGHT.md)
+
 - [Bách Khoa, menu trận và đường về đội hình](BESTIARY_AND_BATTLE_MENU.md)
 
 - [Nicole / Maria — Khu Vườn Phù Thủy, giảm Luna](WITCH_GARDEN.md)

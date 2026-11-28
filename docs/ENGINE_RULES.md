@@ -61,7 +61,7 @@ Magnamut: kết thúc ở resource 0 tại đầu lượt/ cuối vòng; đầu 
 
 ## Phân loại sát thương — 25/11/2026
 
-Đòn mang Nguyệt chính/phụ là effectDamage; mọi đòn khác là normalDamage, kể cả Hồn Kiếm. Chuẩn hóa sau mọi đổi hệ, độc lập metadata/cờ phụ. Sát thương thường trúng điểm yếu cộng 15% tỷ lệ Crit (tổng tối đa 100%); cache chung roll, kết quả theo từng hit/mục tiêu. Hai Ấn dùng lớp Bạo Kích ×1,5 chỉ cho sát thương thường, sau phòng thủ/khuếch đại và trước soft cap PvP; nếu mang cả hai lấy tỷ lệ cao hơn, không nhân chồng. Xem [quy tắc hiện hành](CRITICAL_DAMAGE.md).
+Đòn mang Nguyệt chính/phụ là effectDamage; mọi đòn khác là normalDamage, kể cả Hồn Kiếm. Chuẩn hóa sau mọi đổi hệ, độc lập metadata/cờ phụ. Sát thương thường trúng điểm yếu cộng 15% tỷ lệ Crit (tổng tối đa 100%); cache chung roll, kết quả theo từng hit/mục tiêu. Hai Ấn dùng lớp Bạo Kích mặc định ×1,5 chỉ cho sát thương thường (buff sát thương Bạo Kích cộng dồn qua hàm chung, tổng tối đa ×2,0), sau phòng thủ/khuếch đại và trước soft cap PvP; nếu mang cả hai lấy tỷ lệ cao hơn, không nhân chồng. Xem [quy tắc hiện hành](CRITICAL_DAMAGE.md).
 
 ## Presentation và giao dịch
 

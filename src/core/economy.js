@@ -7,7 +7,7 @@ import {FIRST_CLEAR_CURRENCIES} from './first-clear-labels.js';
 import {validT4Gear,gearRecipeUnlocked} from './gear-rules.js';
 import {prepareVictoryReward} from './quest-rewards.js';
 import {recordDailyClear} from './daily-commissions.js';
-import { grantQuestExclusive } from './exclusive-rewards.js';
+import { grantQuestExclusive,grantPartyQuestExclusives } from './exclusive-rewards.js';
 import { ownsCharacter, unlockCharacter } from './ownership.js';
 import { gearSlotCapacity, unlockDuplicateSlot } from './gear-slots.js';
 import { completeStoryEvent } from './story-events.js';
@@ -159,6 +159,7 @@ export function claimBattleReward(campaign, battle, content, persist = () => {},
     }
   }
   if(encounter?.id==='east_ke_08'){next.storyFlags??=[];if(!next.storyFlags.includes('east_campaign_completed'))next.storyFlags.push('east_campaign_completed');}
+  granted.push(...grantPartyQuestExclusives(next,battle,content));
   granted.push(...grantTrialMilestones(next,content));
   const amount=questExperience(content,encounter,battle.questDifficulty);
   const recipients=battle.actors?.filter(a=>a.team==="party").map(a=>a.definitionId??a.id)??campaign.party.filter(Boolean);

@@ -1,4 +1,5 @@
 "use client";
+import {partyQuestExclusiveTemplates} from "../core/exclusive-rewards.js";
 import {FarmLaunch} from './farm';
 import {questDifficulty,questExperience} from "../core/quest-difficulty.js";
 import {levelScaledEnemyStats} from "../core/enemy-scaling.js";
@@ -106,6 +107,7 @@ export function QuestPage() {
                 : `Thưởng lần đầu: ${rewardNames(content, selected)}`}
             </p>
           )}
+          {partyQuestExclusiveTemplates(content,selected?.id).map((template:any)=><p className="first-clear" key={template.id}>{campaign.exclusiveGear?.some((item:any)=>item.templateId===template.id)?'✓ Đã nhận '+template.name:'Chiến thắng cùng '+template.source.requiredPartyIds.map((id:string)=>content.characters[id].name).join(', ')+': '+template.name+' · ATK +'+template.source.statValue}</p>)}
         </QuestIllustration>
         <section className="quest-board">
           {sinisterLocked || bountyLocked || northLocked ? (

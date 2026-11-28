@@ -47,3 +47,7 @@ Các adapter được khai báo/kiểm tra trong `exclusive-hooks.js`, xử lý 
 Danh mục hiện tại có60 mẫu, gồm13 mẫu mới của [đợt mở rộng 06/11](EXCLUSIVE_BALANCE_2026_11_06.md) và hai mẫu Hồn Kiếm mới. Dùng cùng quy trình Shop mở công thức10 Bản Thiết Kế rồi chế tạo; không tự trang bị.
 
 QoL 21/11/2026: Tái rèn nâng cao sau Yamata no Orochi, feed 1–20 T3 để tăng xác suất đúng dòng phụ đến 100%. Bảng chi phí, cơ chế pending và phân rã toàn kho xem [T4_FORGE](T4_FORGE.md).
+
+## Thưởng Trấn theo đội tham chiến — 28/11/2026
+
+Nguồn quest có source.requiredPartyIds được xét ở chiến thắng cuối lượt chạy, độc lập với thưởng first-clear. Trấn arthur.lamplight trao sẵn10 ATK khi thắng north_ke_02 có Arthur; có thể đánh lại để nhận, không tự trang bị và không cấp trùng/đặt lại roll. Xem [ARTHUR_LAMPLIGHT](ARTHUR_LAMPLIGHT.md).
