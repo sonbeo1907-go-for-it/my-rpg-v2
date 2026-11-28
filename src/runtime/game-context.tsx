@@ -1,4 +1,5 @@
 "use client";
+import {battleDiscoveries,mergeBestiary} from "../core/bestiary.js";
 import {createTrainingBattle} from '../core/training-ground.js';
 import {selectedHomeScene} from '../core/home-scenes.js';
 import {moonlightSnapshot} from '../core/battle.js';
@@ -61,6 +62,7 @@ const isFinalRun=(run:any)=>run.kind==='story'?isFinalStoryWave(run):isFinalDung
 const advanceRun=(content:any,run:any)=>run.kind==='story'?advanceStoryWave(content,run):advanceDungeonWave(content,run);
 import { battlePresentation, isContinuingVictory } from "../core/combat-modes.js";
 type GameContextValue = {
+  abandonBattle:()=>Promise<boolean>;
   startTraining:(config:any)=>boolean;
   finishTraining:()=>void;
   resetTraining:()=>boolean;
@@ -176,6 +178,7 @@ export function GameProvider({
   const [saveDirectory, setSaveDirectory] = useState("");
   const [activeProfile, setActiveProfile] = useState<any>(null);
   const runtime = useRef<any>(null);
+  const discoveries=useRef<any[]>([]),discoveryAttempt=useRef("");
   const dungeonRun = useRef<any>(null);
   const scouting = useRef<ReturnType<typeof createDungeonPreviewCache> | null>(
     null,
@@ -218,12 +221,16 @@ export function GameProvider({
   const persist = async (next: any) => {
     if (!store.current || activeProfileId.current === null)
       throw new Error("Hãy chọn hồ sơ trước khi lưu.");
-    const saved = await store.current.save(activeProfileId.current, next);
+    const bestiary=mergeBestiary(next.bestiary,discoveries.current,content);
+    const saved = await store.current.save(activeProfileId.current, {...next,bestiary});
+    // Publish discovery only after the profile write commits successfully.
+    next.bestiary=bestiary;
     setActiveProfile(saved);
     syncProfiles();
   };
   const publish = () => {
     const current = runtime.current;
+    discoveries.current=mergeBestiary(discoveries.current,battleDiscoveries(current,content),content);
     if(current?.arena){try{saveArenaSession(localStorage,activeProfileId.current,current);}catch{}}
     const turn = current
       ? `${battleSerial.current}-${current.round}-${current.phase}-${current.cursor}-${activeActor(current)?.id}`
@@ -504,6 +511,13 @@ export function GameProvider({
       if (!lock.current) setBusy(false);
     }
   }
+  useEffect(()=>{
+    if(!ready||!entered||busy||saveLock.current||lock.current||!campaign||campaign.arenaProgress?.pending)return;
+    const merged=mergeBestiary(campaign.bestiary,discoveries.current,content),key=JSON.stringify(merged);
+    if(key===JSON.stringify(campaign.bestiary??[])||discoveryAttempt.current===key)return;
+    discoveryAttempt.current=key;
+    void transact(current=>({...current,bestiary:mergeBestiary(current.bestiary,discoveries.current,content)}),'');
+  },[battle,campaign,busy,ready,entered]);
   async function refreshCommissions(){
     if(!campaignRef.current||!needsDailyVisit(campaignRef.current))return true;
     return transact(current=>visitDailyCommissions(current),"");
@@ -817,6 +831,15 @@ export function GameProvider({
       return false;
     }
   }
+  async function abandonBattle(){
+    if(lock.current||saveLock.current||!runtime.current)return false;
+    stopFarming();
+    if(runtime.current.arena){
+      forfeitArenaBattle(runtime.current);publish();
+      if(!await settleCompetition())return false;
+    }else if(runtime.current.chronicle)return retreatChronicleFight();
+    clearRuntime();return true;
+  }
   function clearRuntime() {
     forfeitArena();
     farmRef.current=null;setFarm(null);setSweepResult(null);
@@ -847,6 +870,7 @@ export function GameProvider({
   }
   function activate(profile: any) {
     clearRuntime();
+    discoveries.current=[];discoveryAttempt.current="";
     activeProfileId.current = profile.id;
     campaignRef.current = profile.campaign;
     setCampaign(profile.campaign);
@@ -891,7 +915,7 @@ export function GameProvider({
   function finishTraining(){if(lock.current||saveLock.current||!runtime.current?.training)return;stopFarming();runtime.current.outcome='training_complete';runtime.current.rewardClaimed=true;publish();}
   function resetTraining(){return runtime.current?.training?startTraining(runtime.current.training.config):false;}
   const value: GameContextValue = {
-    startTraining,finishTraining,resetTraining,
+    abandonBattle,startTraining,finishTraining,resetTraining,
     tournamentAudio:group=>{music.current?.setTournament(group);},
     farm,startFarming,stopFarming:()=>stopFarming(),toggleAutoBattle,
     sweepResult,dismissSweepResult:()=>setSweepResult(null),

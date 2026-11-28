@@ -1,3 +1,4 @@
+import {recordBattleDiscovery} from './bestiary.js';
 import {checkpointAcademySpecial,academySpecialAvailable} from './academy-special.js';
 import {createBattle,executeAction,executeEnemyTurn,activeActor} from './battle.js';
 import {createGameSave} from './game-save.js';
@@ -27,7 +28,7 @@ export function createTournamentBattle(content,campaign,{special=false}={}){
  for(const a of b.actors){const t=run.snapshot.teams[a.team==='party'?player:enemy],m=t.members.find(m=>run.snapshot.builds[m.buildId].templateCharacterId===a.definitionId);a.name=m.name;a.characterName=m.name;}
  b.log=['— Tỷ thí học viện · Vòng Chính 1 —'];return b;
 }
-export function saveTournamentBattle(campaign,battle){if(battle.tournament?.specialEncounter)return checkpointAcademySpecial(campaign,{runId:battle.tournament.runId,revision:campaign.tournaments.revision,checkpoint:snapshotChronicleBattle(battle),outcome:battle.outcome});const run=campaign.tournaments.activeRun,args={runId:run.runId,revision:campaign.tournaments.revision,matchId:battle.tournament.matchId};const data={...snapshotChronicleBattle(battle),matchId:args.matchId};let next=checkpointTournament(campaign,{...args,checkpoint:data});
+export function saveTournamentBattle(campaign,battle){campaign=recordBattleDiscovery(campaign,battle,battle.content);if(battle.tournament?.specialEncounter)return checkpointAcademySpecial(campaign,{runId:battle.tournament.runId,revision:campaign.tournaments.revision,checkpoint:snapshotChronicleBattle(battle),outcome:battle.outcome});const run=campaign.tournaments.activeRun,args={runId:run.runId,revision:campaign.tournaments.revision,matchId:battle.tournament.matchId};const data={...snapshotChronicleBattle(battle),matchId:args.matchId};let next=checkpointTournament(campaign,{...args,checkpoint:data});
  if(battle.outcome){const player=run.snapshot.definition.playerTeamId,winnerId=battle.outcome==='victory'?player:battle.tournament.enemyTeamId,match=run.fixtures.find(m=>m.id===args.matchId),survivors=match.teams.map(id=>battle.actors.filter(a=>a.team===(id===player?'party':'enemy')&&a.hp>0).length);next=proposeTournamentResult(next,{...args,revision:next.tournaments.revision,winnerId,survivors});}return next;}
 export function stepTournamentBattle(content,campaign,command,{special=false}={}){const b=createTournamentBattle(content,campaign,{special});if(activeActor(b)?.team==='enemy')executeEnemyTurn(b);else if(command)executeAction(b,command);else throw Error('Hãy chọn kỹ năng.');return {battle:b,campaign:saveTournamentBattle(campaign,b)};}
 

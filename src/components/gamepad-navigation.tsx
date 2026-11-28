@@ -140,7 +140,7 @@ function hintList(
   if (path === "/battle" && root.querySelector(".abilities")) {
     const result:[string,string][] = root.getAttribute("data-gamepad-phase") === "target"
       ? [["D-pad","Mục tiêu"],["A","Thực hiện"],["B","Chọn lại chiêu"],["Y","Chi tiết chiêu"]]
-      : [["D-pad","Kỹ năng"],["A","Chọn chiêu"],["Y","Chi tiết"],["☰","Settings"]];
+      : [["D-pad","Kỹ năng"],["A","Chọn chiêu"],["B","Menu trận"],["Y","Chi tiết"],["☰","Settings"]];
     if(root.querySelector('.formula-edit-open'))result.splice(2,0,["X","Hiệu chỉnh"]);
     return result;
   }

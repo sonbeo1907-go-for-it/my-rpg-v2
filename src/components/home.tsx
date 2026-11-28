@@ -28,6 +28,7 @@ export function TitlePage() {
   );
 }
 const menu = [
+  {href:"/bestiary",name:"Bách Khoa Quái Vật",sub:"Ghi chép những kẻ thù đã gặp",icon:"book",side:"left"},
   {
     href: "/quests",
     name: "Quest",
@@ -118,6 +119,7 @@ export function HomePage() {
         </div>
       </button>
       <DailyCommissions />
+      {!battle&&campaign.tournaments?.activeRun&&(campaign.tournaments.activeRun.battleCheckpoint||campaign.tournaments.activeRun.specialEncounter?.checkpoint)&&<Link className="continue-battle button gold" href="/chronicles/academy">Tiếp tục trận tự thí →</Link>}
       <nav className="home-nav home-nav-left" aria-label="Chuẩn bị hành trình">
         {menu
           .filter((item) => item.side === "left")

@@ -6,6 +6,7 @@ export const northAbilities=[
  skill('north.volley','Loạt Tên Qua Đèo','all_enemies',[damage(.8,'wind')]),
  skill('north.frost','Hơi Lạnh Cắt Da','all_enemies',[damage(.85,'water','magical')]),
  skill('north.crush','Đèo Tuyết Sụp Đổ','all_enemies',[damage(1.65)],{mp:18,cooldown:3,bossHeavy:true,windup:{rounds:1,message:'Thủ lĩnh giương búa: đòn đánh toàn đội sắp tới. Hãy dựng khiên hoặc Phòng Thủ!'}}),
+ skill('north.shade_snap','Vết Cắn Bám Đèn','enemy',[damage(1.4,'dark')]),
  skill('north.shade_bite','Cơn Đói Sau Cửa Kính','enemy',[damage(1.8,'dark')]),
  skill('north.shade_wave','Tiếng Gào Dưới Mái Trọ','all_enemies',[damage(1.5,'dark','magical')],{mp:18,cooldown:3,bossHeavy:true,windup:{rounds:1,message:'Bóng đen tụ lại dưới mái trọ: một đợt sóng ma lực sẽ quét toàn đội ở lượt kế tiếp!'}}),
 ];
@@ -17,7 +18,7 @@ export const northEnemies=[
  unit('north_archer','Xạ Thủ Bên Vách Núi','wind',380,34,14,22,24,23,['earth','thunder'],['north.volley','north.cleave']),
  unit('north_mage','Pháp Sư Cướp Đường','water',400,15,36,20,28,20,['fire','earth'],['north.frost']),
  unit('north_chief','Hagen — Kẻ Thu Phí Đường Núi','earth',2550,58,32,34,30,20,['water','wind'],['enemy.east_basic','north.cleave','north.volley','north.crush'],{controlImmunities:['stun'],boss:phases(['north.cleave','north.volley','north.crush'],['north.volley','north.crush','north.cleave'])}),
- unit('north_tavern_shade','Bóng Đen Bám Đèn','dark',530,45,43,26,28,21,['light','fire'],['north.shade_bite','north.frost'],{damageKindMultipliers:veil}),
+ unit('north_tavern_shade','Bóng Đen Bám Đèn','dark',530,36,43,26,28,21,['light','fire'],['north.shade_snap','north.frost'],{damageKindMultipliers:veil}),
  unit('north_tavern_horror','Kẻ Gõ Cửa Sau Nửa Đêm','dark',3150,60,54,34,34,22,['light','earth'],['enemy.east_basic','north.shade_bite','north.frost','north.shade_wave'],{damageKindMultipliers:veil,controlImmunities:['stun'],boss:phases(['north.shade_bite','north.frost','north.shade_wave'],['north.frost','north.shade_wave','north.shade_bite'])}),
 ];
 const quest=(id,name,description,order,waves,requires,extra={})=>({id,name,description,category:'north_key',northOrder:order,enemyLevel:50,referenceLevel:1,fixedEnemyLevel:50,defaultDifficulty:'north_50',allowedDifficulties:['north_50'],fixed:true,rewardTier:'boss',hpScalingProfile:'boss',enemies:waves[0],waves,requires,bgm:order===1?'drageshelmfjall':'drageshelmfjall_boss',...extra});

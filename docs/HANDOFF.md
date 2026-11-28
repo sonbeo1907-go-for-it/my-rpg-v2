@@ -1,3 +1,7 @@
+## Bách Khoa và menu trận — 28/11/2026
+
+Đã giảm riêng Bóng Đen Bám Đèn (ATK gốc36, cắn140%); boss giữ đòn cũ. Bách Khoa ghi quái thực sự gặp và tra stat theo cấp/encounter, trường bestiary nằm trong progression split-save; save cũ khôi phục từ biên nhận first-clear. Nút trở về trong combat mở Tiếp tục/Tạm thoát/Thoát trận; tạm thoát PvE thường chỉ giữ trong phiên đang mở, Arena không được tạm thoát và rời trận vẫn xử thua. Sửa allowlist đội hình cho Khu Luyện Tập và ba màn Khúc Ca. Xem [BESTIARY_AND_BATTLE_MENU](BESTIARY_AND_BATTLE_MENU.md).
+
 ## Trấn Phái Vertosse — 28/11/2026
 
 Đã thêm Trấn Selene (+20% tỷ lệ Bạo Kích, +8 ATK căn bản riêng Lunarmare), Simon (hai CD −1, Liên kích tương đương R5M3 và 3 Sơ Hở Thủy; PvP dừng ở R5), Genevieve (đầu vòng tạo1 Bằng Chứng và +6 DEF/RES căn bản toàn đội đến hết vòng). Công thức mở bằng10 Bản Thiết Kế tại Shop; xem [VERTOSSE](VERTOSSE.md). Hook Liên kích tiêu tài nguyên dùng resolver chung để nhận hiệu ứng Trấn.

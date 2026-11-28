@@ -481,11 +481,14 @@ export function PageHeader({
   title,
   subtitle,
   back = "/home",
+  onBack,backDisabled=false,
   children,
 }: {
   title: string;
   subtitle?: string;
   back?: string;
+  onBack?:()=>void;
+  backDisabled?:boolean;
   children?: ReactNode;
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -494,9 +497,7 @@ export function PageHeader({
   }, [title]);
   return (
     <header className="page-header">
-      <Link className="back-button" href={back} aria-label="Trở về">
-        <Icon name="arrow" />
-      </Link>
+      {onBack?<button className="back-button" disabled={backDisabled} onClick={onBack} aria-label="Menu trận đấu"><Icon name="arrow"/></button>:<Link className="back-button" href={back} aria-label="Trở về"><Icon name="arrow" /></Link>}
       <div>
         <span className="eyebrow">THE PRISMA ORIGIN</span>
         <h1 ref={heading} tabIndex={-1}>

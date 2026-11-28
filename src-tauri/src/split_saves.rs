@@ -109,7 +109,7 @@ fn section_for(key: &str) -> &'static str {
         | "victories"
         | "claimedFirstClearRewards"
         | "dungeonClearedDifficulties"
-        | "unrecordedLedger" => "progression",
+        | "unrecordedLedger" | "bestiary" => "progression",
         "chronicles" | "tournaments" | "illusion" => "sessions",
         "version"
         | "levelProgressionVersion"
@@ -776,4 +776,10 @@ mod tests {
         assert_ne!(before.sections["account"], after.sections["account"]);
         println!("Real fixture: {} bytes -> {} compact bytes; coin-only commit changed {changed}/{} sections",raw.len(),restored.len(),SECTIONS.len());
     }
+}
+
+#[cfg(test)]
+#[test]
+fn bestiary_belongs_to_progression_section() {
+    assert_eq!(section_for("bestiary"), "progression");
 }

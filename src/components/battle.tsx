@@ -50,7 +50,7 @@ import {
   liveSkillChoices,
   compactNumber,
 } from "../ui/combat-presentation.js";
-import { ElementBadge, EmptyState, Icon, PageHeader } from "./ui";
+import { ElementBadge, EmptyState, Icon, PageHeader, Modal } from "./ui";
 import { SkillBody } from "./skill-details";
 import { CombatPopover } from "./combat-popover";
 import {victoryRewardText} from '../core/quest-rewards.js';
@@ -390,7 +390,6 @@ function BattleLog() {
 }
 
 function ChronicleResultControls(){const {battle,content,busy,claimReward,startChronicleFight}=useGame();const router=useRouter();return <div className="stack-actions result-actions">{battle.outcome==='victory'?<>{!battle.rewardClaimed?<button className="gold" disabled={busy} onClick={claimReward}>Lưu tiến trình trận chiến</button>:<Link className="button gold" href={encounterReturnPath(content,battle.encounterId)}>Tiếp tục câu chuyện →</Link>}</>:<button className="gold" disabled={busy} onClick={async()=>{if(await startChronicleFight(battle.chronicle.locationId,battle.chronicle.instanceId))router.push('/battle');}}>Thử lại trận chiến</button>}<Link className="button" href={encounterReturnPath(content,battle.encounterId)}>Trở về địa điểm</Link></div>;}
-function ChronicleRetreat(){const {battle,busy,retreatChronicleFight}=useGame();const router=useRouter();return <button className="button chronicle-retreat" disabled={busy} onClick={async()=>{const path=battle.chronicle.bookId==='book2'?'/chronicles/book2':'/chronicles/book1?location='+battle.chronicle.locationId+'&scene=1';if(await retreatChronicleFight())router.push(path);}}>Rút về địa điểm</button>;}
 function BattleResultControls() {
   const {
     battle,
@@ -486,7 +485,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
     battle,
     busy,
     runBattle,
-    farm,toggleAutoBattle,
+    farm,toggleAutoBattle,stopFarming,abandonBattle,
     battleUI,
     updateBattleUI,
     animationSpeed,
@@ -494,6 +493,13 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
     events,
     notify,
   } = useGame();
+  const router=useRouter();
+  const [menuOpen,setMenuOpen]=useState(false),[confirmExit,setConfirmExit]=useState(false);
+  const openBattleMenu=()=>{if(!busy){stopFarming();setConfirmExit(false);setMenuOpen(true);}};
+  useEffect(()=>{
+    const escape=(event:KeyboardEvent)=>{if(event.key==='Escape'&&!event.defaultPrevented&&!document.querySelector('dialog[open], [role="dialog"]')&&battle&&!battle.outcome&&!busy){event.preventDefault();openBattleMenu();}};
+    document.addEventListener('keydown',escape);return()=>document.removeEventListener('keydown',escape);
+  },[battle?.sessionId,battle?.outcome,busy]);
   const [hovered, setHovered] = useState("");
   const [visualAction,setVisualAction]=useState<any>(null);
   const visualName=battle?.actors.find((item:any)=>item.id===visualAction?.sourceId)?.name;
@@ -536,9 +542,9 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
     battleUI.enemyId,
   ]);
   useEffect(() => {
-    if (battle && !busy && !battle.outcome && actor?.team === "enemy")
+    if (battle && !busy && !menuOpen && !battle.outcome && actor?.team === "enemy")
       void runBattle();
-  }, [battle?.sessionId, battle?.activeId, battle?.round, busy]);
+  }, [battle?.sessionId, battle?.activeId, battle?.round, busy,menuOpen]);
   useEffect(
     () => setGamepadPhase("skill"),
     [battle?.sessionId, battle?.activeId, battle?.round],
@@ -584,6 +590,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
         !commandActor
       )
         return;
+      if(document.querySelector("dialog[open]"))return;
       const action = (event as CustomEvent).detail;
       if (busy) {
         if (["a", "up", "down", "left", "right", "lb", "rb"].includes(action))
@@ -768,6 +775,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
       }
     >
       <PageHeader
+        onBack={openBattleMenu} backDisabled={busy}
         title={
           battle.dungeon
             ? `${content.dungeons[battle.dungeon.typeId].name} · ${content.dungeons[battle.dungeon.typeId].difficulties.find((item: any) => item.id === battle.dungeon.difficultyId).name}`
@@ -786,7 +794,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
       >
         {battle.training&&<span data-training-controls><TrainingControls/></span>}
         {!battle.arena&&!battle.tournament&&!battle.chronicle&&!battle.outcome&&<button className="auto-battle-toggle" aria-pressed={Boolean(farm?.enabled)} disabled={busy&&!farm?.enabled} onClick={toggleAutoBattle}>Tự động: {farm?.enabled?'Bật':'Tắt'}</button>}
-        {battle.arena&&<Link className="button arena-exit" href="/arena">Rời trận · Xử thua</Link>}
+        {battle.arena&&<button className="button arena-exit" disabled={busy} onClick={openBattleMenu}>Rời trận · Xử thua</button>}
         <div className="combat-speed" role="group" aria-label="Tốc độ hiệu ứng">
           <button
             aria-pressed={animationSpeed === "normal"}
@@ -802,6 +810,9 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
           </button>
         </div>
       </PageHeader>
+      {menuOpen&&<Modal title={confirmExit?'Thoát trận?':'Menu trận đấu'} onClose={()=>{if(!busy){setMenuOpen(false);setConfirmExit(false);}}} className="battle-pause-menu">
+        {confirmExit?<><p>{battle.arena?'Rời Đấu Trường được tính là thua.':'Kết thúc trận đang dở và bỏ phần thưởng chưa nhận.'}</p><div className="stack-actions"><button className="danger" disabled={busy} onClick={async()=>{const destination=battle.training?'/chronicles/training':battle.tournament?'/chronicles/academy':battle.arena?'/arena':battle.dungeon?'/dungeon/'+battle.dungeon.typeId:encounterReturnPath(content,battle.encounterId,battle.questDifficulty,battle.enemyLevel,battle.trial?.selection);if(await abandonBattle()){setMenuOpen(false);router.push(destination);}}}>Xác nhận thoát trận</button><button disabled={busy} onClick={()=>setConfirmExit(false)}>Quay lại menu</button></div></>:<div className="stack-actions"><button className="gold" onClick={()=>setMenuOpen(false)}>Tiếp tục</button><button disabled={Boolean(battle.arena)} onClick={()=>router.push('/home')}>Tạm thoát</button><p className="muted">{battle.arena?'Đấu Trường không hỗ trợ tạm thoát. Rời trận được tính là thua.':'Về màn hình chờ. Trận được giữ khi phiên game này còn mở.'}</p><button className="danger" onClick={()=>setConfirmExit(true)}>Thoát trận</button></div>}
+      </Modal>}
       <TrialCombatNotice/><FarmPanel/>
       {battle.storyWave && <section className="dungeon-wave-progress" aria-label="Tiến độ chương truyện"><div aria-live="polite"><strong>Đợt {battle.storyWave.waveIndex+1}/{battle.storyWave.totalWaves}</strong><span>Giữ HP, MP và trạng thái qua các đợt · Thắng toàn chương mới nhận thưởng</span></div></section>}
       {battle.dungeon && (
@@ -848,7 +859,7 @@ export function BattlePage({tournamentResult}:{tournamentResult?:React.ReactNode
       <AcademicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed}/>
       <CosmicEffects events={events} sessionId={battle.sessionId} speed={animationSpeed} arena={Boolean(battle.arena)}/>
 
-      {battle.encounterSupport&&(battle.encounterSupport.cannon||battle.encounterSupport.supply)&&<div className="fortress-support-battle">Hỗ trợ pháo đài · ATK +{Math.round(battle.encounterSupport.modifiers.attack*100)}% · MAG +{Math.round(battle.encounterSupport.modifiers.magic*100)}% · RES +{Math.round(battle.encounterSupport.modifiers.resistance*100)}%</div>}{battle.chronicle&&<ChronicleRetreat/>}<div className="battle-layout">
+      {battle.encounterSupport&&(battle.encounterSupport.cannon||battle.encounterSupport.supply)&&<div className="fortress-support-battle">Hỗ trợ pháo đài · ATK +{Math.round(battle.encounterSupport.modifiers.attack*100)}% · MAG +{Math.round(battle.encounterSupport.modifiers.magic*100)}% · RES +{Math.round(battle.encounterSupport.modifiers.resistance*100)}%</div>}<div className="battle-layout">
         <section className={`battlefield panel ${hasFormulaField?"has-academic-field":""}`}>
           {!battle.arena&&<FormulaScene battle={{...battle,content}} content={content}/>}
           <div className="battle-reactions" aria-live="polite">

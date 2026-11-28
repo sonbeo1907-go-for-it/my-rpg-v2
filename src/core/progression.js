@@ -1,3 +1,4 @@
+import {normalizeBestiary,legacyBestiary} from './bestiary.js';
 import {preparedMpDiscount} from './merchant-support.js';
 import {normalizeHomeScene} from './home-scenes.js';
 import {storySkillRankFloors} from './story-skill-mastery.js';
@@ -33,6 +34,7 @@ export const SAVE_VERSION = 3;
 export function createCampaign(content) {
   return {
     version: SAVE_VERSION,
+    bestiary:[],
     unrecordedLedger:normalizeTrialLedger(),
     honor:0,arenaProgress:emptyArenaProgress(),
     recruitmentTickets:0,xpBooksGreen:0,xpBooksBlue:0,xpBooksPurple:0,levelProgressionVersion:1,limitBreakStones:0,sweepTickets:0,trainingCharges:{charges:9,lastSlot:null},dungeonClearedDifficulties:{},
@@ -158,6 +160,7 @@ export function serializeCampaign(campaign) {
     claimedFirstClearRewards = [],
   } = campaign;
   return JSON.stringify({
+    bestiary:campaign.bestiary??[],
     homeScene:normalizeHomeScene(campaign.homeScene),moonlightRevelations:campaign.moonlightRevelations??{},
     recruitmentTickets:campaign.recruitmentTickets??0,xpBooksGreen:campaign.xpBooksGreen??0,xpBooksBlue:campaign.xpBooksBlue??0,xpBooksPurple:campaign.xpBooksPurple??0,levelProgressionVersion:1,limitBreakStones:campaign.limitBreakStones??0,sweepTickets:campaign.sweepTickets??0,trainingCharges:campaign.trainingCharges??{charges:9,lastSlot:null},dungeonClearedDifficulties:campaign.dungeonClearedDifficulties??{},
     unrecordedLedger:normalizeTrialLedger(campaign.unrecordedLedger),
@@ -378,6 +381,7 @@ export function deserializeCampaign(raw, content) {
   Object.assign(result, normalizeBlacksmithState(input, content, result));
   result.chronicles=normalizeChronicleState(input.chronicles,content,result);
   result.tournaments=normalizeTournamentState(input.tournaments);
+  result.bestiary=input.bestiary===undefined?legacyBestiary(result,content):normalizeBestiary(input.bestiary,content);
   for(const id of Object.keys(result.characters)) result.characters[id].skillRanks=validateCharacterSkillRanks(content,result,id);
   grantTrialMilestones(result,content);
   return result;

@@ -1,5 +1,7 @@
 # Mục lục tài liệu
 
+- [Bách Khoa, menu trận và đường về đội hình](BESTIARY_AND_BATTLE_MENU.md)
+
 - [Nicole / Maria — Khu Vườn Phù Thủy, giảm Luna](WITCH_GARDEN.md)
 
 Điểm vào: [HANDOFF](HANDOFF.md). Cập nhật rà soát03/11/2026. Không cần đọc tuần tự toàn bộ. Yêu cầu mới nhất xác định ý định; JSON + handler + test xác định hành vi đang chạy. Tài liệu lịch sử không tự ghi đè quyết định mới.

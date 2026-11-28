@@ -7,6 +7,7 @@ import { GameShell } from "@/components/ui";
 import { getContent } from "@/runtime/content";
 import "@fontsource-variable/noto-serif";
 import "./globals.css";
+import "./bestiary.css";
 import "./arena.css";
 import "./farm.css";
 import "./combat.css";
