@@ -35,3 +35,5 @@ critical.js quản lý tỷ lệ/lớp nhân; damage-kind.js chuẩn hóa phân 
 ## Cộng dồn sát thương Bạo Kích — 28/11/2026
 
 stackCriticalDamageBonuses nhận danh sách mức tăng (0,2 =20 điểm phần trăm), cộng vào1,5 rồi chặn tổng ở2,0. criticalDamageMultiplier là adapter gom nguồn Trấn critical_damage_bonus và buff modifiers.criticalDamageBonus. Các buff khác nhau cộng dồn, kể cả cùng modifierGroup; cùng ID vẫn theo refresh/stack hiện hành. appliedModifiers thay giá trị mẫu; modifiersPerStack nhân số tầng. Chỉ xét buff còn hiệu lực, gồm linkedStatuses. Quy tắc tỷ lệ Bạo Kích và cache RNG không đổi. Trấn Arthur Ánh Đèn Qua Đêm Dài cấp10% tỷ lệ và20% sát thương, nhận bằng chiến thắng north_ke_02 với Arthur. Xem [ARTHUR_LAMPLIGHT](ARTHUR_LAMPLIGHT.md).
+
+Clara cấp buff criticalChanceBonus theo lượt chính. criticalChance(actor,weakness,content) đọc instance modifiers rồi cộng với tỷ lệ từ gear/Trấn/điểm yếu, cap100%; không thay đổi quy tắc sát thương Nguyệt không Crit. Xem CLARA.md.

@@ -177,7 +177,7 @@ export function CharacterDetail({ id }: { id: string }) {
   ];
   if(actor.passive?.type==='ally_skill_counter')skills.push(content.abilities[actor.passive.counterAbility]);
   if(actor.passive?.type==='enemy_support_counter')skills.push(content.abilities[actor.passive.counterAbility]);
-  if (actor.passive?.followUpAbility)
+  if (actor.passive?.followUpAbility && !skills.some(skill=>skill.id===actor.passive.followUpAbility))
     skills.push(content.abilities[actor.passive.followUpAbility]);
   if (actor.passive?.type === "field_growth")
     skills.push(

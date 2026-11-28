@@ -1,5 +1,10 @@
 # Quy tắc engine cần bảo toàn
 
+## Hỗ trợ theo hệ đồng đội được chọn
+
+selectedAllyBuffBonus chỉ nhân buff dựa trên hệ mục tiêu đồng đội, áp dụng cho cả self và target; không nhân Lượt Thêm. Buff criticalChanceBonus cộng vào tỷ lệ (cap100%); criticalDamageBonus dùng trần tổng200%. damageUses cho phép override charges, vẫn tiêu theo hành động. Chi tiết và lifecycle: [CLARA](CLARA.md).
+
+
 Đối chiếu source ngày 03/11/2026. Đây là bản tóm tắt contract; cơ chế riêng vẫn phải đọc dữ liệu/handler và test tương ứng. Không suy rộng một ngoại lệ thành luật toàn game.
 
 Đặc tả clock, các nhánh không cast và ma trận nghiệm thu: [COMBAT_LIFECYCLE_CONTRACT](COMBAT_LIFECYCLE_CONTRACT.md).

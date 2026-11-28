@@ -514,3 +514,6 @@
 /* Critical is a resolved outcome: one gold label above a larger number. */
 .shared-combat-fx.critical-hit .vfx-number{font-size:clamp(1.15rem,2.5vw,2.05rem);line-height:1.05;color:#ffe09a}
 .critical-label{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);margin-bottom:.3rem;font-family:var(--font-sans,Arial,sans-serif);font-size:.7rem;line-height:1.2;font-weight:800;letter-spacing:.025em;color:#ffe9b6}
+
+@font-face{font-family:"Prisma Moon";src:url('/fonts/grenze-gotisch/GrenzeGotisch.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+.vfx-number>.moon-damage-number{font-family:"Prisma Moon",Georgia,serif;font-weight:700;font-size:1.18em;font-variant-numeric:lining-nums;color:#d5edff}

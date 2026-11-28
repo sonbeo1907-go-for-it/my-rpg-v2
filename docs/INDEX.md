@@ -1,5 +1,8 @@
 # Mục lục tài liệu
 
+- [Clara và font số sát thương Nguyệt](CLARA.md)
+
+
 - [Trấn Arthur: Ánh Đèn Qua Đêm Dài và trần sát thương Bạo Kích](ARTHUR_LAMPLIGHT.md)
 
 - [Bách Khoa, menu trận và đường về đội hình](BESTIARY_AND_BATTLE_MENU.md)

@@ -14930,5 +14930,124 @@
       "Hiệu lệnh gây 400% MAG của Chúc Phúc, cùng tăng theo Rank.",
       "Trăng Tròn: chi phí gốc 120 MP trước các điều chỉnh. Mục tiêu gục sau đòn đầu: dừng hiệu lệnh."
     ]
+  },
+  {
+    "id": "clara.traces",
+    "name": "Theo Dấu Sinh Vật",
+    "target": "enemy_splash",
+    "cost": {
+      "mp": 15
+    },
+    "cooldown": 0,
+    "effects": [
+      {
+        "type": "damage",
+        "damageType": "physical",
+        "element": "light",
+        "multiplier": 0.7,
+        "primaryMultiplier": 1.2
+      }
+    ],
+    "description": "Tấn công một địch và hai ô kề.",
+    "growthProfile": "damage",
+    "growthGroups": [
+      "damage"
+    ],
+    "rankable": true,
+    "skillLineId": "clara.traces"
+  },
+  {
+    "id": "clara.focus",
+    "name": "Quan Sát Điểm Quyết Định",
+    "target": "ally",
+    "excludeSelf": true,
+    "cost": {
+      "mp": 20
+    },
+    "cooldown": 2,
+    "effects": [
+      {
+        "type": "status",
+        "to": "self",
+        "status": "clara_focus",
+        "duration": 2
+      },
+      {
+        "type": "status",
+        "status": "clara_focus",
+        "duration": 2
+      }
+    ],
+    "selectedAllyBuffBonus": {
+      "elements": [
+        "light",
+        "dark"
+      ],
+      "multiplier": 2
+    },
+    "description": "Bản thân và một đồng đội nhận thêm tỷ lệ và sát thương Bạo Kích. Chọn đồng đội Quang/Ám: hiệu quả và thời hạn của cả hai gấp đôi.",
+    "growthProfile": "output_buff_mp",
+    "growthGroups": [
+      "output_buff_mp"
+    ],
+    "mpOnlyGrowth": true,
+    "rankable": true,
+    "skillLineId": "clara.focus"
+  },
+  {
+    "id": "clara.expedition",
+    "name": "Cùng Nhau Theo Ánh Đèn",
+    "target": "ally",
+    "excludeSelf": true,
+    "cost": {
+      "mp": 32
+    },
+    "cooldown": 3,
+    "effects": [
+      {
+        "type": "status",
+        "to": "self",
+        "status": "clara_expedition_amp",
+        "charges": 2
+      },
+      {
+        "type": "status",
+        "status": "clara_expedition_amp",
+        "charges": 2
+      },
+      {
+        "type": "status",
+        "to": "self",
+        "status": "clara_expedition_stats",
+        "duration": 3
+      },
+      {
+        "type": "status",
+        "status": "clara_expedition_stats",
+        "duration": 3
+      },
+      {
+        "type": "grant_extra_turn",
+        "to": "self"
+      },
+      {
+        "type": "grant_extra_turn"
+      }
+    ],
+    "selectedAllyBuffBonus": {
+      "elements": [
+        "light",
+        "dark"
+      ],
+      "multiplier": 2
+    },
+    "description": "Bản thân và một đồng đội tăng ATK, MAG, khuếch đại sát thương và nhận Lượt Thêm. Chọn đồng đội Quang/Ám: hiệu quả, số lần và thời hạn buff của cả hai gấp đôi.",
+    "growthProfile": "stat_buff",
+    "growthGroups": [
+      "output_buff_mp",
+      "stat_buff"
+    ],
+    "rankable": true,
+    "skillLineId": "clara.expedition"
   }
 ]

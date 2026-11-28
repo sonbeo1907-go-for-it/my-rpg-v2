@@ -2306,5 +2306,36 @@
     "durationClock": "round",
     "modifiers": {},
     "description": "+6 DEF và RES căn bản đến hết vòng."
+  },
+  {
+    "id": "clara_focus",
+    "name": "Điểm Quyết Định",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "fixedModifiers": true,
+    "modifiers": {
+      "criticalChanceBonus": 0.06,
+      "criticalDamageBonus": 0.12
+    }
+  },
+  {
+    "id": "clara_expedition_amp",
+    "name": "Ánh Đèn Đồng Hành",
+    "kind": "buff",
+    "persistent": true,
+    "damageUses": 2,
+    "modifiers": {
+      "damageBonus": 0.15
+    }
+  },
+  {
+    "id": "clara_expedition_stats",
+    "name": "Nhịp Bước Đồng Hành",
+    "kind": "buff",
+    "durationClock": "main_turn",
+    "modifiers": {
+      "attack": 0.18,
+      "magic": 0.18
+    }
   }
 ]

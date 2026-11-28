@@ -1,5 +1,10 @@
 ## Trấn Arthur và trần sát thương Bạo Kích — 28/11/2026
 
+## Clara và font sát thương Nguyệt — 28/11/2026
+
+Clara #128 đã vào Chiêu Mộ: Liên kích Quang/Ám từ kỹ năng đồng đội khác tối đa2/vòng, hồi6%MP; hai chiêu hỗ trợ gấp đôi cho cả hai khi chọn Quang/Ám. Thêm buff tỷ lệ Bạo Kích theo thời hạn và số charge linh hoạt cho amp. Font số Nguyệt dùng Grenze Gotisch local, giữ nguyên số thường. Xem [CLARA](CLARA.md).
+
+
 Trấn mới arthur.lamplight, Ánh Đèn Qua Đêm Dài: nhận trực tiếp +10 ATK khi thắng north_ke_02 có Arthur trong đội trận; có thể đánh lại nếu đã clear trước. +10% tỷ lệ Bạo Kích, +20% sát thương Bạo Kích. stackCriticalDamageBonuses cộng nguồn trước trần tổng200%; criticalDamageMultiplier gom Trấn và buff criticalDamageBonus, không dùng luật chỉ lấy damage amp lớn nhất. Tỷ lệ/cách roll Crit không đổi. Xem [ARTHUR_LAMPLIGHT](ARTHUR_LAMPLIGHT.md), [CRITICAL_DAMAGE](CRITICAL_DAMAGE.md).
 
 ## Bách Khoa và menu trận — 28/11/2026

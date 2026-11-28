@@ -55,6 +55,7 @@ import {prepareCombatMode,prepareCompanion,roundSummons,expireRoundSummons} from
 import {periodicPotency} from './periodic-damage.js';
 import { activeFormula, formulaAvailability, formulaSnapshot, formulaDamage, validateFormulaEdit, editedFormulaEntries, openFormula, closeFormula, expireFormulaFields, recordFormulaAction } from "./formula-field.js";
 import { expireRoundEffects } from "./round-effects.js";
+import {selectedAllyStatusEffect} from "./ally-observation.js";
 import { scalingValue, adjacentAllies, splashEnemies } from "./scaling.js";
 import { statusModifier } from "./stat-values.js";
 import { exclusivePassive, exclusivePassives, exclusiveDamageEffect, procAvailable, markProc } from "./exclusive-hooks.js";
@@ -1254,6 +1255,32 @@ function triggerElementSupports(battle,source,skill,context){
  }
 }
 
+// One observation per completed active cast, never per hit or reaction.
+function triggerElementObservations(battle,source,skill,context){
+ if(context.reaction||context.automatic||skill.activation==='passive'||skill.id.startsWith('$'))return;
+ for(const owner of battle.actors){
+  const p=owner.passive;
+  if(p?.type!=='element_skill_observation'||owner.team!==source.team||owner.id===source.id||!living(owner))continue;
+  const element=context.gearImpacts.flatMap(h=>h.elements??[h.element]).find(e=>p.elements.includes(e));
+  if(!element)continue;
+  const state=owner.elementObservationState;
+  if(state?.round===battle.round&&state.count>=p.perRound)continue;
+  const pool=battle.actors.filter(t=>canTriggerFollowUp(owner,source,t));
+  if(!pool.length||!reservePvpAutomatic(battle,owner,modeIO))continue;
+  owner.elementObservationState={round:battle.round,count:(state?.round===battle.round?state.count:0)+1};
+  const roll=battle.random();if(!Number.isFinite(roll)||roll<0||roll>=1)throw Error('Nguồn chọn mục tiêu không hợp lệ.');
+  const anchor=pool[Math.floor(roll*pool.length)],targets=splashEnemies(battle,owner,anchor.id);
+  const echo=resolveRankedAbility(battle.content,owner,p.followUpAbility);
+  const reaction={...attackContext(battle,owner),pvpRegistered:true,skill:echo,skillId:echo.id,reaction:true,reactionKind:'follow_up',primaryTargetId:anchor.id};
+  announcePassive(battle,owner,source.id);
+  emitEvent(battle,{type:'reaction',kind:'follow_up',label:FOLLOW_UP_LABEL,sourceId:owner.id,targetId:anchor.id,targetIds:targets.map(t=>t.id),abilityId:echo.id,area:true});
+  write(battle,owner.name+' '+FOLLOW_UP_LABEL+' bằng '+echo.name+'.');
+  for(const effect of echo.effects)applyEffect(battle,owner,targets,effect.type==='damage'?{...effect,onHitStatus:{status:'exposure_'+element,stacks:p.exposureStacks,primaryStacks:p.primaryExposureStacks}}:effect,0,true,reaction);
+  finishAttackContext(battle,owner,reaction);
+  for(const ally of battle.actors.filter(a=>a.team===owner.team&&living(a)))gainResource(battle,ally,'mp',mpRestoreAmount({maxMpRatio:p.teamMpRatio},battleMaxMp(battle.content,ally)),owner.id);
+ }
+}
+
 // Echo a ranked active skill without paying its MP/CD; never execute another active cast.
 function triggerElementSkillEchoes(battle,source,skill,context){
  if(context.reaction||context.automatic||skill.activation==='passive'||skill.id.startsWith('$'))return;
@@ -2013,7 +2040,7 @@ function applyStatus(
   if (definition.durationClock === "round") applied.expiresAfterRound=battle.round+duration-1;
   if (definition.effectImmunity)
     applied.charges = definition.effectImmunity.charges;
-  if (definition.damageUses) applied.charges=definition.damageUses;
+  if (definition.damageUses) applied.charges=charges??definition.damageUses;
   if(definition.buffRejection||definition.consumeOnPaidSkill)applied.charges=charges??definition.buffRejection?.charges??definition.charges??1;
   if(definition.mpCostIncrease)applied.mpCostIncrease=definition.mpCostIncrease;
   if (definition.damageOverTime) {
@@ -2063,7 +2090,7 @@ function spawnSummonedEnemy(battle,owner,effect){
   return count;
 }
 
-function applyEffect(battle,actor,targets,effect,spent,area,context){const batch=context??debuffBatch(battle);const ctx=batch?.exposures?batch:attackContext(battle,actor);return withDebuffBatch(battle,ctx,()=>applyEffectBody(battle,actor,targets,effect,spent,area,ctx));}
+function applyEffect(battle,actor,targets,effect,spent,area,context){effect=selectedAllyStatusEffect(context?.skill,effect,battle.actors.find(a=>a.id===context?.primaryTargetId),battle.content);const batch=context??debuffBatch(battle);const ctx=batch?.exposures?batch:attackContext(battle,actor);return withDebuffBatch(battle,ctx,()=>applyEffectBody(battle,actor,targets,effect,spent,area,ctx));}
 function applyEffectBody(
   battle,
   actor,
@@ -2566,6 +2593,7 @@ function resolveActionBody(
   triggerCreationSupport(battle,actor,skill,actionContext);
   triggerElementSupports(battle,actor,skill,actionContext);
   triggerElementSkillEchoes(battle,actor,skill,actionContext);
+  triggerElementObservations(battle,actor,skill,actionContext);
   triggerOwnModeFollowup(battle,actor,skill,actionContext);
   triggerPowderFollowups(battle,actor,skill,actionContext);
   battle.actionCount += 1;

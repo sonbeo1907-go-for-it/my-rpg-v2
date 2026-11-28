@@ -1912,5 +1912,21 @@
       "maria.judgment": 20,
       "maria.scar": 8
     }
+  },
+  {
+    "id": "clara",
+    "role": "offensive_support",
+    "healBelow": 0.4,
+    "reserveMpRatio": 0.15,
+    "setupAbilities": [
+      "clara.focus",
+      "clara.expedition"
+    ],
+    "burstAbilities": [],
+    "skillBias": {
+      "clara.traces": 9,
+      "clara.focus": 12,
+      "clara.expedition": 20
+    }
   }
 ]

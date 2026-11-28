@@ -122,7 +122,8 @@
       "elsavetta",
       "enciodes",
       "nicole",
-      "maria"
+      "maria",
+      "clara"
     ],
     "gearRates": [
       {
@@ -407,6 +408,10 @@
         {
           "id": "maria",
           "from": "2026-11-24"
+        },
+        {
+          "id": "clara",
+          "from": "2026-11-28"
         }
       ]
     }

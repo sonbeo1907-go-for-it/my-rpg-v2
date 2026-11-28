@@ -5922,5 +5922,49 @@
       "fullMoonBaseMagic": 28,
       "fullMoonMpMultiplier": 2
     }
+  },
+  {
+    "id": "clara",
+    "releaseId": 128,
+    "name": "Clara",
+    "title": "Người Đọc Dấu Vết",
+    "affiliation": "hunters_guild",
+    "tags": [
+      "hunters_guild"
+    ],
+    "element": "light",
+    "role": "Hỗ trợ tấn công",
+    "roleGroup": "offensive_support",
+    "basicDamageType": "physical",
+    "description": "Theo dấu đòn Quang, Ám để Liên kích và tiếp MP; hỗ trợ Bạo Kích và Lượt Thêm cho đồng đội.",
+    "biography": "Một thợ săn kiêm nhà sinh vật học của Hội Thợ Săn Thủ Đô. Clara đến Drageshelmfjall để nghiên cứu những sinh vật phương Bắc, mang theo sự tò mò và thói quen ghi chép mọi dấu vết.",
+    "stats": {
+      "maxHp": 165,
+      "maxMp": 100,
+      "attack": 30,
+      "magic": 12,
+      "defense": 16,
+      "resistance": 22,
+      "speed": 22
+    },
+    "abilities": [
+      "clara.traces",
+      "clara.focus",
+      "clara.expedition"
+    ],
+    "passive": {
+      "type": "element_skill_observation",
+      "name": "Ghi Chép Dưới Đèn",
+      "description": "Đồng đội khác gây sát thương Quang hoặc Ám bằng kỹ năng: Liên kích Theo Dấu Sinh Vật vào một địch ngẫu nhiên, gắn Sơ Hở cùng hệ kích hoạt và hồi 6% MP toàn đội. Tối đa 2 lần/vòng.",
+      "elements": [
+        "light",
+        "dark"
+      ],
+      "followUpAbility": "clara.traces",
+      "perRound": 2,
+      "teamMpRatio": 0.06,
+      "primaryExposureStacks": 3,
+      "exposureStacks": 2
+    }
   }
 ]

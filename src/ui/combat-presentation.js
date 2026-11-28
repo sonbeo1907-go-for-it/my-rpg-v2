@@ -23,7 +23,7 @@ import { skillScaling } from './skill-presentation.js';
 
 export const compactNumber = value => new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 2 }).format(value);
 const percent = value => `${compactNumber(value * 100)}%`;
-const statNames = { criticalDamageBonus:'sát thương Bạo Kích', maxHp:'HP tối đa', maxMp:'MP tối đa', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD', evasion: 'né vật lí', damageBonus: 'sát thương', damageReduction: 'giảm sát thương' };
+const statNames = { criticalChanceBonus:'tỷ lệ Bạo Kích',criticalDamageBonus:'sát thương Bạo Kích', maxHp:'HP tối đa', maxMp:'MP tối đa', attack: 'ATK', magic: 'MAG', defense: 'DEF', resistance: 'RES', speed: 'SPD', evasion: 'né vật lí', damageBonus: 'sát thương', damageReduction: 'giảm sát thương' };
 
 export function resolveCombatTargets(battle, actor, skill, selection = {}) {
   const allies = battle.actors.filter(item => item.team === 'party' && isAlive(item));
